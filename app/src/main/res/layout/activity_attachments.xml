@@ -1,0 +1,135 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.project.detail.AttachmentsActivity">
+
+    <RelativeLayout
+        android:id="@+id/uploadLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="#babbbd"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/uploadStatusProgress"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="80"
+                android:background="#3abd79" />
+
+            <ImageView
+                android:id="@+id/uploadStatusProgressRemain"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="20"
+                android:background="@android:color/transparent" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/uploadStatusLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/uploadLeftHint"
+                style="@style/AttachmentUploadInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在上传1项" />
+
+            <TextView
+                android:id="@+id/uploadRightHint"
+                style="@style/AttachmentUploadInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="127.1KB/S" />
+
+            <TextView
+                android:id="@+id/uploadMiddleHint"
+                style="@style/AttachmentUploadInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="55%" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/uploadDoneLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/uploadDoneHint"
+                style="@style/AttachmentUploadInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_progress_bar_done"
+                android:drawablePadding="4dp"
+                android:text="上传完成，本次共上传1个文件"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:id="@+id/uploadCloseBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_progress_bar_close"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/uploadFailureLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="#FF5846">
+
+            <TextView
+                android:id="@+id/uploadFailureHint"
+                style="@style/AttachmentUploadInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上传失败，请重新上传~"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:id="@+id/uploadFailureCloseBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_progress_bar_close"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/uploadLayout"
+        android:footerDividersEnabled="false"
+        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"
+        android:id="@+id/listView" />
+
+</RelativeLayout>

@@ -1,0 +1,106 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
+        <item name="android:windowBackground">@color/stand_bg</item>
+        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
+        <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
+    </style>
+
+
+    <style name="MyGreenSpinner" parent="android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_layout_head_bg</item>
+    </style>
+
+    <style name="SpinnerDropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:divider">@color/spinner_divider</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="ActionbarSpannerTheme" parent="AppTheme">
+        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+
+    </style>
+
+
+    <style name="ActionbarSpannerNoIconTheme" parent="ActionbarSpannerTheme">
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <!-- ActionBar styles -->
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/gray_drawable</item>
+        <item name="background">@drawable/gray_drawable</item>
+    </style>
+
+
+    <style name="ActionBarStyle" parent="MyActionBar">
+        <item name="android:displayOptions">showTitle</item>
+    </style>
+
+    <style name="ActionbarNoIcon" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <style name="ThemeHoloLightDialogAlert" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitleHoloLight</item>
+    </style>
+
+
+    <style name="DialogWindowTitleHoloLight">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/TextAppearanceHoloLightDialogWindowTitle</item>
+    </style>
+
+    <style name="TextAppearanceHoloLightDialogWindowTitle" parent="@android:style/TextAppearance.Holo">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/font_green</item>
+    </style>
+
+    <!--<style name="WidgetHoloNumberPicker" parent="@android:style/Widget.Holo.NumberPicker">
+        <item name="internalLayout">@android:layout/number_picker</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:fadingEdge">vertical</item>
+        <item name="android:fadingEdgeLength">50dip</item>
+
+        <item name="selectionDivider">@drawable/line_green</item>
+    </style>-->
+
+    <style name="AttachmentUploadInfo">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="PopupMenu.ListPopupWindow" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <!--<item name="android:popupBackground">@color/menu_dropdown_panel_dark</item>-->
+        <item name="android:popupBackground">#313843</item>
+    </style>
+
+    <style name="MyPopupMenu">
+        <item name="android:textColor">@drawable/menu_item_text</item>
+    </style>
+
+    <style name="MyPopupMenu.Large">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MyPopupMenu.Small">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/secondary_text_light</item>
+    </style>
+
+</resources>

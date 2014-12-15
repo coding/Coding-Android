@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity">
+    <item
+        android:id="@+id/action_all"
+        android:title="@string/action_all"
+        android:showAsAction="withText|ifRoom" />
+
+    <item
+        android:id="@+id/action_inverse"
+        android:title="@string/action_inverse"
+        android:showAsAction="withText|ifRoom" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        android:icon="@drawable/ic_attachment_btn_delete"
+        android:showAsAction="withText|always" />
+
+</menu>

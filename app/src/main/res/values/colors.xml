@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="green" type="color">#FF3BBD79</item>
+    <item name="gray" type="color">#FF323A45</item>
+    <item name="gray_drawable" type="drawable">#FF323A45</item>
+
+    <item name="drawer_bg_color_normal" type="color">#00ffffff</item>
+    <item name="drawer_bg_color_press" type="color">#ffeeeeee</item>
+    <item name="drawer_bg_color_white" type="color">#ff2d353f</item>
+    <item name="drawer_bg_color_divide" type="color">#ff243040</item>
+    <item name="drawer_bg_color_bottom" type="color">#ff1e2733</item>
+
+
+    <item name="line_green" type="drawable">#ff3bbd79</item>
+    <item name="line_gray" type="drawable">#ffc7cacc</item>
+    <color name="background_tab_pressed">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="font_black">#010101</color>
+
+    <color name="divide_line_color">#dddddd</color>
+
+    <color name="font_green_1">#09b058</color>
+    <color name="font_green">#3bbd79</color>
+    <color name="font_black_0">#000000</color>
+    <color name="font_black_content">#222222</color>
+    <color name="font_black_content_disabled">#cacaca</color>
+    <color name="font_black_comment">#666666</color>
+    <color name="font_gray">#999999</color>
+
+    <color name="bg_maopao_comment">#e6e6e6</color>
+    <color name="divide">#e3e5e7</color>
+    <color name="stand_bg">#f6f6f6</color>
+    <color name="stand_tab_bg">#ffffff</color>
+
+    <color name="spinner_black">#ff313743</color>
+    <color name="spinner_divider">#ff252b37</color>
+
+    <color name="transparent">#00000000</color>
+
+    <!-- user info tags -->
+    <color name="user_info_tags_bg_1">#EBEBEB</color>
+    <color name="user_info_tags_font_1">#999999</color>
+    <color name="user_info_tags_bg_2">#3BBD79</color>
+    <color name="user_info_tags_font_2">#FFFFFF</color>
+    <!-- user info tags end -->
+    <color name="commom_loading_font">#28303B</color>
+
+    <color name="attachment_btn_layout">#E2E2E2</color>
+    <color name="attachment_btn_color">#A5A5A5</color>
+
+    <color name="task_list_head">#e6e6e6</color>
+
+    <color name="emoji_line">#ffcbc9ca</color>
+
+    <color name="menu_item_text_disable">#84878c</color>
+
+</resources>

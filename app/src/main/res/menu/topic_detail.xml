@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="删除讨论"
+        android:icon="@drawable/ic_attachment_btn_delete"
+        android:showAsAction="always" />
+</menu>

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.project.detail.TopicCreateActivity">
+    <item
+        android:id="@+id/action_add_maopao"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="发冒泡"
+        android:showAsAction="always" />
+</menu>

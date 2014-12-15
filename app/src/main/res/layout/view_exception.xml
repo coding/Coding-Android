@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visibility="invisible"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="加载失败，请检查下网络"
+        android:textColor="@color/font_gray"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/icon"
+        android:layout_width="143dp"
+        android:layout_height="143dp"
+        android:layout_above="@id/message"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_exception_no_network" />
+
+    <Button
+        android:layout_width="163dp"
+        android:layout_height="49dp"
+        android:text="点击重试"
+        android:id="@+id/btnRetry"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/message"
+        android:background="@drawable/button_retry"
+        android:textColor="@color/font_gray"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

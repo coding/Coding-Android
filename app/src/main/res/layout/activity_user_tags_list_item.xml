@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/name"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:text="Medium Text"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textSize="16sp"
+    android:gravity="center"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:padding="5dp"
+    android:textColor="@drawable/user_info_tag_text"
+    android:background="@drawable/user_info_tag_bg" />

@@ -1,0 +1,320 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    tools:context="net.coding.program.maopao.AddMaopaoActivity">
+
+
+    <!--<EditText-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/message"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:background="@drawable/edit"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true" />-->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:minHeight="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:id="@+id/emojiLayout">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_select"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/comment"
+                android:layout_width="0dp"
+                android:maxHeight="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="3dp"
+                android:layout_weight="1"
+                android:background="@null" />
+
+            <CheckBox
+                android:id="@+id/popEmoji"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@null"
+                android:button="@drawable/checkbox_pop_emoji" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="54dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:layout_marginRight="2dp">
+
+            <ImageButton
+                android:id="@+id/send"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/message_button_add"
+
+                android:padding="5dp" />
+
+
+            <TextView
+                android:id="@+id/sendText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/edit_send_green"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:text="发送" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/linearlayout2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@drawable/message_edit_layout"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/edit_select"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/comment"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:hint="来，发个冒泡吧~"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@null" />-->
+
+    <!--<CheckBox-->
+    <!--android:id="@+id/popEmoji"-->
+    <!--android:layout_width="24dp"-->
+    <!--android:layout_height="24dp"-->
+    <!--android:background="@null"-->
+    <!--android:button="@drawable/checkbox_pop_emoji" />-->
+    <!--</LinearLayout>-->
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="42dp"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:layout_marginRight="5dp"-->
+    <!--android:visibility="gone">-->
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/send"-->
+    <!--android:layout_width="32dp"-->
+    <!--android:layout_height="32dp"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:background="@drawable/message_button_add"-->
+    <!--android:padding="5dp" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/sendText"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:background="@drawable/edit_send_green"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="5dp"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:text="发送"-->
+    <!--android:visibility="gone" />-->
+    <!--</RelativeLayout>-->
+    <!--</LinearLayout>-->
+
+
+    <GridView
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="@dimen/image_add_maopao_width"
+        android:numColumns="4"
+        android:layout_below="@id/emojiLayout"
+        android:horizontalSpacing="8dp"
+        android:verticalSpacing="8dp"
+        android:stretchMode="none"
+        android:gravity="center" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/emojiKeyboardLayout"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="@color/emoji_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="7.5dp"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <LinearLayout
+                android:layout_marginTop="7.5dp"
+                android:id="@+id/emojiKeyboardIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:orientation="horizontal"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/emoji_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:id="@+id/selectEmoji"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:drawablePadding="3dp"
+                android:drawableLeft="@drawable/ic_emoji_small"
+                android:textColor="@color/font_black_comment"
+                android:text="经典"
+                android:paddingLeft="30dp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/emoji_line" />
+
+            <TextView
+                android:id="@+id/selectMonkey"
+                android:layout_width="120dp"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:drawablePadding="3dp"
+                android:textColor="@color/font_black_comment"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_emoji_monkey"
+                android:text="洋葱猴"
+                android:paddingLeft="15dp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/emoji_line" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_alignParentBottom="true">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--android:id="@+id/emojiKeyboardLayout"-->
+    <!--android:focusable="true"-->
+    <!--android:clickable="true"-->
+    <!--android:visibility="gone">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<android.support.v4.view.ViewPager-->
+    <!--android:id="@+id/viewPager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="120dp" />-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/emojiKeyboardIndicator"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="14dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:gravity="center" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="120dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:id="@+id/selectEmoji"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:textSize="16sp"-->
+    <!--android:drawableLeft="@drawable/ic_emoji_small"-->
+    <!--android:textColor="@color/font_black_comment"-->
+    <!--android:text="经典"-->
+    <!--android:paddingLeft="30dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/selectMonkey"-->
+    <!--android:layout_width="120dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:textColor="@color/font_black_comment"-->
+    <!--android:textSize="16sp"-->
+    <!--android:drawableLeft="@drawable/ic_emoji_monkey"-->
+    <!--android:text="洋葱猴"-->
+    <!--android:paddingLeft="15dp" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+</RelativeLayout>

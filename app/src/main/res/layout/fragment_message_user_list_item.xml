@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/icon"
+        android:singleLine="true"
+        android:layout_toRightOf="@+id/icon"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/font_black_content"
+        android:layout_toLeftOf="@+id/time"
+        android:layout_toStartOf="@+id/time" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/name"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:singleLine="true"
+        android:text="New Text"
+        android:textColor="@color/font_gray" />
+
+    <com.readystatesoftware.viewbadger.BadgeView
+        android:id="@+id/badge"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_notify_txt"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:layout_marginRight="12dp"
+        android:layout_below="@id/time"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical|right" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/title"
+        android:singleLine="true"
+        android:layout_alignStart="@+id/title"
+        android:layout_below="@+id/title"
+        android:text="Medium Text"
+        android:textColor="@color/font_gray"
+        android:textSize="16sp"
+        android:layout_toLeftOf="@+id/badge"
+        android:layout_toStartOf="@+id/badge" />
+
+
+</RelativeLayout>

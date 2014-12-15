@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity">
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="@string/action_edit"
+        android:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_new_folder"
+        android:icon="@drawable/ic_menu_folder"
+        android:title="@string/action_new_folder"
+        android:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_upload"
+        android:icon="@drawable/ic_menu_upload"
+        android:title="@string/action_upload"
+        android:showAsAction="always" />
+
+    <!--<item android:id="@+id/action_add"
+        android:title="@string/action_add"
+        android:icon="@drawable/ic_menu_add"
+        android:orderInCategory="100"
+        android:showAsAction="withText|ifRoom" />-->
+
+</menu>

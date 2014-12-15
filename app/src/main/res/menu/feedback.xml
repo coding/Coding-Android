@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.user.FeedbackActivity">
+    <item
+        android:id="@+id/action_finish"
+        android:title="发送"
+        android:icon="@drawable/ic_menu_ok"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>

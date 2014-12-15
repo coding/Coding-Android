@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/commonEnterRoot"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/message_edit_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/edit_select"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="3dp"
+                android:maxLines="4"
+                android:layout_weight="1"
+                android:background="@null" />
+
+            <CheckBox
+                android:id="@+id/popEmoji"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@null"
+                android:button="@drawable/checkbox_pop_emoji"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="54dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp">
+
+            <ImageButton
+                android:id="@+id/send"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/message_button_add"
+
+                android:padding="5dp" />
+
+
+            <TextView
+                android:id="@+id/sendText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/edit_send_green"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:text="发送" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/emojiKeyboardLayout"
+        android:focusable="true"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="7.5dp"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <LinearLayout
+                android:layout_marginTop="7.5dp"
+                android:id="@+id/emojiKeyboardIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:orientation="horizontal"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/emoji_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:id="@+id/selectEmoji"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:drawablePadding="3dp"
+                android:drawableLeft="@drawable/ic_emoji_small"
+                android:textColor="@color/font_black_comment"
+                android:text="经典"
+                android:paddingLeft="30dp" />
+
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/emoji_line" />
+
+            <TextView
+                android:id="@+id/selectMonkey"
+                android:layout_width="120dp"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:drawablePadding="3dp"
+                android:textColor="@color/font_black_comment"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_emoji_monkey"
+                android:text="洋葱猴"
+                android:paddingLeft="15dp" />
+
+            <View
+                android:id="@+id/selectMonkeyDivideLine"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/emoji_line" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

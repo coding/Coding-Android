@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity">
+    <item
+        android:id="@+id/action_info"
+        android:icon="@drawable/ic_menu_info"
+        android:title="@string/action_info"
+        android:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_more"
+        android:title="@string/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        android:showAsAction="withText|always" />
+
+    <!--<item android:id="@+id/action_download"
+        android:icon="@drawable/ic_menu_download"
+        android:title="@string/action_save"
+        android:showAsAction="withText|never" />
+
+    <item android:id="@+id/action_delete"
+        android:icon="@drawable/ic_menu_delete_selector"
+        android:title="@string/action_delete"
+        android:showAsAction="withText|never" />-->
+
+
+</menu>

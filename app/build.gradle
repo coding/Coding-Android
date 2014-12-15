@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
+
+    defaultConfig {
+        applicationId "net.coding.program"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java', 'build/generated/source/apt/${variant.dirName}']
+//            resources.srcDirs = ['src/main/resources']
+//            res.srcDirs = ['src/main/res']
+//            assets.srcDirs = ['src/main/assets']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:19.0.0'
+    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile 'se.emilsjolander:stickylistheaders:2.5.1'
+    compile 'de.hdodenhof:circleimageview:1.2.0'
+    compile project(':photolibrary')
+    compile 'com.github.rampo.updatechecker:library:2.1.4'
+    compile files('libs/android-viewbadger.jar')
+    compile 'com.belerweb:pinyin4j:2.5.0'
+    compile files('libs/umeng-analytics-v5.2.4.jar')
+    compile 'com.daimajia.swipelayout:library:1.1.7@aar'
+    compile files('libs/mid-sdk-2.10.jar')
+    compile files('libs/Xg_sdk_v2.35.jar')
+    compile files('libs/wup-1.0.0-SNAPSHOT.jar')
+    compile 'com.melnykov:floatingactionbutton:1.1.0'
+}
+
+//################
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.+'
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+apply plugin: 'android'
+apply plugin: 'android-apt'
+def AAVersion = '3.2'
+
+dependencies {
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        resourcePackageName 'net.coding.program'
+    }
+}
+

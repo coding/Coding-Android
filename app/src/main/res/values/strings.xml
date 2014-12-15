@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Coding</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_my_activity2">MyActivity2</string>
+    <string name="title_activity_project">项目</string>
+    <string name="title_activity_task_add">添加任务</string>
+    <string name="title_activity_members">项目成员列表</string>
+    <string name="title_activity_attachment">项目文档列表</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_setting">设置</string>
+    <string name="title_activity_user_info">个人信息</string>
+    <string name="title_activity_set_password">密码设置</string>
+    <string name="title_activity_feedback">用户反馈</string>
+    <string name="title_activity_about">关于我们</string>
+    <string name="title_activity_topic_comment">讨论</string>
+    <string name="title_activity_topic_create">创建讨论</string>
+    <string name="title_activity_make_maopao">发冒泡</string>
+    <string name="title_activity_send_message">反馈</string>
+    <string name="title_activity_users">用户列表</string>
+    <string name="title_activity_add_follow">添加关注</string>
+    <string name="title_activity_user_detail">好友详情</string>
+    <string name="title_activity_message_list">消息</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test_activity2">TestActivity2</string>
+    <string name="title_activity_friend">选择好友</string>
+    <string name="empty"></string>
+    <string name="title_activity_like_users_list">点赞的用户</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_maopao_detail">冒泡详情</string>
+    <string name="title_activity_user_maopao">所有冒泡</string>
+    <string name="btn_dialog_done">完成</string>
+    <string name="btn_dialog_cancel">取消</string>
+    <string name="hint_loading">正在加载中…</string>
+    <string name="title_activity_picker_images">PickerImagesActivity</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_new">新建</string>
+    <string name="action_all">全选</string>
+    <string name="action_inverse">反选</string>
+    <string name="action_upload">上传</string>
+    <string name="action_download">下载</string>
+    <string name="action_save">保存</string>
+    <string name="action_move">移动</string>
+    <string name="action_add">添加</string>
+    <string name="action_delete">删除</string>
+    <string name="action_new_folder">创建文件夹</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_info">信息</string>
+    <string name="action_more">更多</string>
+    <string name="title_activity_user_dynamic">UserDynamicActivity</string>
+    <string name="title_activity_photo_pick_detail">PhotoPickDetailActivity</string>
+    <string name="title_activity_git_tree">项目代码</string>
+    <string name="title_activity_attachment_folder_selector">选择文件夹</string>
+    <string name="title_activity_notify_setting">通知栏设置</string>
+    <string name="title_activity_members_select">选择项目成员</string>
+
+</resources>

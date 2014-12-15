@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.project.detail.AttachmentsActivity">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:footerDividersEnabled="false"
+        android:layout_above="@+id/rl_btn_layout"
+        android:id="@+id/listView" />
+
+    <LinearLayout
+        android:id="@+id/rl_btn_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#EEEEEE">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:id="@+id/bottomLine"
+            android:layout_alignParentBottom="true"
+            android:background="@color/font_black_content_disabled" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="?android:textAppearanceButton"
+                android:id="@+id/btnLeft"
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:background="@drawable/login_button"
+                android:textStyle="bold"
+                android:text="新建文件夹" />
+
+
+            <Button
+                style="?android:textAppearanceButton"
+                android:id="@+id/btnRight"
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:background="@drawable/login_button"
+                android:textStyle="bold"
+                android:text="移动" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

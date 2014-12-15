@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawer_title">
+        <item>我的项目</item>
+        <item>我的任务</item>
+        <item>冒泡</item>
+        <item>@string/title_activity_message_list</item>
+        <item>设置</item>
+    </string-array>
+
+    <string-array name="program_title">
+        <item>全部项目</item>
+        <item>我参与的</item>
+        <item>我创建的</item>
+    </string-array>
+
+    <string-array name="maopao_action_types">
+        <item>冒泡广场</item>
+        <item>好友圈</item>
+        <item>热门冒泡</item>
+        <item>我的冒泡</item>
+    </string-array>
+
+    <string-array name="setting_list_items">
+        <item>推送设置</item>
+        <item>密码设置</item>
+        <item>反馈</item>
+        <item>下载路径设置</item>
+        <item>去评分</item>
+        <item>检查更新</item>
+        <item>关于coding</item>
+    </string-array>
+
+    <string-array name="sexs">
+        <item>男</item>
+        <item>女</item>
+        <item>未知</item>
+    </string-array>
+
+    <string-array name="task_titles">
+        <item>进行中</item>
+        <item>已完成</item>
+    </string-array>
+
+    <string-array name="dynamic_type">
+        <item>全部</item>
+        <item>任务</item>
+        <item>讨论</item>
+        <item>文档</item>
+        <item>代码</item>
+        <item>其它</item>
+    </string-array>
+
+    <string-array name="strings_priority">
+        <item>有空再看</item>
+        <item>正常处理</item>
+        <item>优先处理</item>
+        <item>十万火急</item>
+    </string-array>
+
+    <string-array name="strings_priority_inverse">
+        <item>十万火急</item>
+        <item>优先处理</item>
+        <item>正常处理</item>
+        <item>有空再看</item>
+    </string-array>
+
+    <string-array name="topic_type">
+        <item>所有讨论</item>
+        <item>我参与的</item>
+    </string-array>
+
+    <string-array name="user_info_list_first">
+        <item>昵称</item>
+        <item>性别</item>
+        <item>生日</item>
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>公司</item>
+        <item>职位</item>
+        <item>个性标签</item>
+    </string-array>
+
+    <string-array name="user_detail_list_first">
+        <item>加入时间</item>
+        <item>最后活动</item>
+        <item>个性后缀</item>
+        <item>公司</item>
+        <item>工作</item>
+        <item>地区</item>
+        <item>个性标签</item>
+    </string-array>
+
+
+    <string-array name="camera_gallery">
+        <item>相机</item>
+        <item>图片</item>
+    </string-array>
+
+    <string-array name="task_status">
+        <item>未完成</item>
+        <item>已完成</item>
+    </string-array>
+
+    <string-array name="message_action_text">
+        <item>复制</item>
+        <item>删除</item>
+    </string-array>
+
+    <string-array name="message_action_image">
+        <item>删除</item>
+    </string-array>
+
+</resources>

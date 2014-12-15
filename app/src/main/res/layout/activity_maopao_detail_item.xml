@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Commentlayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_margin="12dp"
+        android:src="@drawable/ic_default_user" />
+
+
+    <!--<TextView-->
+    <!--android:layout_alignTop="@id/icon"-->
+    <!--android:id="@+id/comment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="5dp"-->
+    <!--android:layout_marginTop="6dp"-->
+    <!--android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"-->
+    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+    <!--android:textColor="@color/font_black_content"-->
+    <!--android:textSize="15sp"-->
+    <!--android:layout_toRightOf="@+id/icon" />-->
+
+    <LinearLayout
+        android:id="@+id/layoutContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/icon"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/icon">
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.1"
+            android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/font_black_content"
+            android:textIsSelectable="true"
+            android:textSize="15sp" />
+
+
+        <ImageView
+            android:id="@+id/imageSingle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/image_single_width"
+            android:layout_alignLeft="@id/comment"
+            android:layout_below="@id/comment"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:scaleType="centerInside" />
+
+        <LinearLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/imagesLayout0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/image0"
+                    android:layout_width="@dimen/image_square_width"
+                    android:layout_height="@dimen/image_square_width"
+                    android:layout_margin="3dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/aa1" />
+
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="@dimen/image_square_width"
+                    android:layout_height="@dimen/image_square_width"
+                    android:layout_margin="3dp"
+                    android:scaleType="centerCrop"
+
+                    android:src="@drawable/aa3" />
+
+                <ImageView
+                    android:id="@+id/image2"
+                    android:layout_width="@dimen/image_square_width"
+                    android:layout_height="@dimen/image_square_width"
+                    android:layout_margin="3dp"
+                    android:scaleType="centerCrop"
+
+                    android:src="@drawable/aa2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/imagesLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/image3"
+                    android:layout_width="@dimen/image_square_width"
+                    android:layout_height="@dimen/image_square_width"
+                    android:layout_margin="3dp"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/image4"
+                    android:layout_width="@dimen/image_square_width"
+                    android:layout_height="@dimen/image_square_width"
+                    android:layout_margin="3dp"
+                    android:scaleType="centerCrop" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/layoutContent"
+        android:layout_below="@id/layoutContent"
+        android:layout_marginTop="10dp"
+        android:text="超级小胖纸"
+        android:textColor="@color/font_black_comment"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/name"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/name"
+        android:drawableLeft="@drawable/ic_clock"
+        android:drawablePadding="5dp"
+
+        android:text="3分钟前"
+        android:textColor="@color/font_gray"
+        android:textSize="12sp" />
+
+    <!--<View--><!--android:layout_marginTop="10dp"--><!--android:layout_below="@id/name"--><!--android:layout_width="match_parent"--><!--android:layout_height="1dp"--><!--android:background="@drawable/maopao_comment_divide" />-->
+
+</RelativeLayout>

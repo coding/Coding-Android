@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:id="@+id/icon"
+        android:layout_margin="10dp" />
+
+    <!--4.1下必须这样布局才正常-->
+    <RelativeLayout
+        android:id="@+id/con"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical">
+
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_gray"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:text="(创建者)"
+            android:singleLine="true"
+            android:id="@+id/desc"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/name"
+            android:gravity="center_vertical"
+            android:visibility="gone"/>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_centerVertical="true"
+            android:text="Medium Text"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:id="@+id/name" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_project_creator"
+            android:layout_toRightOf="@id/name"
+            android:id="@+id/ic"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:visibility="invisible" />
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_send_message"
+        android:id="@+id/btn"
+        android:layout_margin="10dp"
+        android:visibility="invisible" />
+
+</LinearLayout>
