@@ -52,7 +52,8 @@
                 android:singleLine="true"
                 android:textSize="12sp"
                 android:layout_marginBottom="0dp"
-                android:id="@+id/comment" />
+                android:id="@+id/comment"
+                android:layout_marginTop="3dp" />
 
         </LinearLayout>
 

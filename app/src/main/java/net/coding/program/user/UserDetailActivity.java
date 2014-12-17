@@ -169,6 +169,7 @@ public class UserDetailActivity extends BaseActivity {
             UsersListActivity_
                     .intent(UserDetailActivity.this)
                     .mUserParam(userParams)
+                    .type(UsersListActivity.Friend.Fans)
                     .start();
         }
     };
@@ -182,6 +183,7 @@ public class UserDetailActivity extends BaseActivity {
             UsersListActivity_
                     .intent(UserDetailActivity.this)
                     .mUserParam(userParams)
+                    .type(UsersListActivity.Friend.Follow)
                     .start();
         }
     };

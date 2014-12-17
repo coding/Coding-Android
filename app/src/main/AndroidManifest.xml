@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
     android:versionCode="20"
-    android:versionName="1.8.3" >
+    android:versionName="1.8.3">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -105,17 +105,6 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="XG_V2_ACCESS_ID"
-            android:value="2222222222" />
-        <meta-data
-            android:name="XG_V2_ACCESS_KEY"
-            android:value="AAAAAAAAAAAA" />
-
-        <!-- 友盟标示 -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="555555555555555555555555" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Channel" />

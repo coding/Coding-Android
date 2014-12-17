@@ -13,7 +13,9 @@ import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.Global;
 import net.coding.program.R;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
+import net.coding.program.user.UsersListActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 //@OptionsMenu(R.menu.friend)
 public class FollowUsersActivity extends BaseActivity implements FootUpdate.LoadMore {
 
-    final String HOST_FOLLOWS = Global.HOST + "/api/user/friends?pageSize=20";
+    final String HOST_FOLLOWS = Global.HOST + "/api/user/friends?pageSize=1000";
 
     ArrayList<UserObject> mData = new ArrayList<UserObject>();
 
@@ -44,6 +46,11 @@ public class FollowUsersActivity extends BaseActivity implements FootUpdate.Load
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mData = AccountInfo.loadFriends(this, UsersListActivity.Friend.Follow);
+        if (mData.isEmpty()) {
+            showDialogLoading();
+        }
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
@@ -74,9 +81,13 @@ public class FollowUsersActivity extends BaseActivity implements FootUpdate.Load
                     UserObject user = new UserObject(array.getJSONObject(i));
                     mData.add(user);
                 }
+                AccountInfo.saveFriends(this, mData, UsersListActivity.Friend.Follow);
+
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            hideProgressDialog();
 
             adapter.notifyDataSetChanged();
         }

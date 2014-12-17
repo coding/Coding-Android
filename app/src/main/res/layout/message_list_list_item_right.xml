@@ -38,7 +38,7 @@
         android:layout_marginRight="5dp"
         android:gravity="right"
         android:visibility="visible"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="57dp"
         android:layout_below="@+id/time"
         android:layout_toLeftOf="@+id/icon"
         android:id="@+id/linearLayout">

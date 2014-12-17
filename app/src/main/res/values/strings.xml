@@ -17,7 +17,6 @@
     <string name="title_activity_topic_comment">讨论</string>
     <string name="title_activity_topic_create">创建讨论</string>
     <string name="title_activity_make_maopao">发冒泡</string>
-    <string name="title_activity_send_message">反馈</string>
     <string name="title_activity_users">用户列表</string>
     <string name="title_activity_add_follow">添加关注</string>
     <string name="title_activity_user_detail">好友详情</string>

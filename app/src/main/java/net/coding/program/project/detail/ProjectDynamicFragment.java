@@ -174,15 +174,6 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
         if (code == 0) {
             JSONArray array = respanse.getJSONArray("data");
-            if (array.length() == 0) {
-                mFootUpdate.dismiss();
-                mNoMore = true;
-
-                return;
-            } else {
-
-                mFootUpdate.showLoading();
-            }
 
             for (int i = 0; i < array.length(); ++i) {
                 JSONObject json = array.getJSONObject(i);
@@ -238,6 +229,16 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
                 }
 
                 mData.add(baseObject);
+            }
+
+
+            if (array.length() == 0) {
+                mFootUpdate.dismiss();
+                mNoMore = true;
+
+            } else {
+
+                mFootUpdate.showLoading();
             }
 
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);

@@ -44,9 +44,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
 
     public static enum Friend {
         Follow, Fans
-    }
-
-    ;
+    };
 
     @Extra
     Friend type;

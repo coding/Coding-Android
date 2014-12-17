@@ -19,7 +19,7 @@
         android:layout_below="@id/icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:text="coding-让开发更简单"
+        android:text="Coding-让开发更简单"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -40,6 +40,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
@@ -71,7 +72,7 @@
             android:id="@+id/wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="微信：扣钉Coding"
+            android:text="微信：扣钉 Coding"
             android:textColor="#000000"
             android:textSize="11sp" />
 

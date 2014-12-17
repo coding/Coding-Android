@@ -24,9 +24,9 @@
     <string-array name="setting_list_items">
         <item>推送设置</item>
         <item>密码设置</item>
-        <item>反馈</item>
+        <item>意见反馈</item>
         <item>下载路径设置</item>
-        <item>去评分</item>
+        <item>给 Coding 打分</item>
         <item>检查更新</item>
         <item>关于coding</item>
     </string-array>

@@ -36,7 +36,7 @@
         android:orientation="vertical"
         android:background="@drawable/message_list_item_left"
         android:visibility="visible"
-        android:layout_marginRight="50dp"
+        android:layout_marginRight="57dp"
         android:paddingLeft="17dp"
         android:paddingTop="12dp"
         android:paddingRight="12dp"
