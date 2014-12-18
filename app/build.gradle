@@ -25,6 +25,10 @@ android {
 //            assets.srcDirs = ['src/main/assets']
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
