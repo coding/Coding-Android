@@ -122,7 +122,7 @@ public class Global {
     public static String replaceUrl(JSONObject json, String name) throws JSONException {
         String s = json.optString(name);
         if (s.indexOf("/static") == 0) {
-            return Global.HOST + "" + s;
+            return Global.HOST + s;
         }
 
         return s;
