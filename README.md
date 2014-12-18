@@ -1,7 +1,7 @@
 ### Coding Android客户端代码说明
 
 ##编译环境
-Android Studio 1.0.1，用gradle引用的许多第三方库，第一次加载会有点慢，加载完毕后要build一下。
+Android Studio 1.0.1，用gradle引用的许多第三方库，第一次加载会有点慢，加载完毕后要build一下（因为用了gradle，所以**不支持eclipse**）。
 
 ##包说明
 >common 基类和工具类  
