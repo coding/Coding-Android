@@ -50,6 +50,7 @@ dependencies {
     compile files('libs/Xg_sdk_v2.35.jar')
     compile files('libs/wup-1.0.0-SNAPSHOT.jar')
     compile 'com.melnykov:floatingactionbutton:1.1.0'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
 }
 
 //################

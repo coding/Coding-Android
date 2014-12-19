@@ -1,6 +1,7 @@
 package net.coding.program.project.detail;
 
 
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -350,7 +351,13 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
             DynamicObject.DynamicBaseObject data = (DynamicObject.DynamicBaseObject) getItem(position);
             holder.mTitle.setText(data.title());
-            holder.mContent.setText(data.content(myImageGetter));
+            Spanned contentSpanned = data.content(myImageGetter);
+            if (contentSpanned.length() == 0) {
+                holder.mContent.setVisibility(View.GONE);
+            } else {
+                holder.mContent.setVisibility(View.VISIBLE);
+                holder.mContent.setText(data.content(myImageGetter));
+            }
             holder.mTime.setText(mDataDyanmicItem.format(data.created_at));
 
             holder.mLayoutClick.setTag(data.jump());

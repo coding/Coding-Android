@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
     android:versionCode="20"
-    android:versionName="1.8.3">
+    android:versionName="1.8.3" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -108,6 +108,7 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Channel" />
+
         <activity
             android:name=".common.photopick.PhotoPickActivity"
             android:label="@string/app_name"
@@ -193,14 +194,6 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_attachment"
             android:screenOrientation="portrait" />
-
-        <!--
-            <activity
-            android:name=".setting.SettingActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_setting"
-            android:screenOrientation="portrait" />
-        -->
         <activity
             android:name=".UserInfoActivity_"
             android:icon="@drawable/ic_lancher"
@@ -356,9 +349,12 @@
         <activity
             android:name=".project.detail.MembersSelectActivity_"
             android:icon="@drawable/ic_lancher"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_members_select" >
-        </activity>
+            android:label="@string/title_activity_members_select"
+            android:screenOrientation="portrait" />
+        <activity android:name=".project.detail.AttachmentsDetailBaseActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_attachment"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

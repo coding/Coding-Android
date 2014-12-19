@@ -73,7 +73,7 @@
                 android:layout_height="@dimen/image_single_width"
                 android:layout_alignLeft="@id/comment"
                 android:layout_below="@id/comment"
-                android:scaleType="centerInside"
+                android:scaleType="fitStart"
                 android:layout_marginTop="5dp" />
 
             <LinearLayout

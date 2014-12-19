@@ -111,7 +111,6 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
         client = MyAsyncHttpClient.createClient(AttachmentsDetailBaseActivity.this);
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.name);
-
     }
 
     @Override

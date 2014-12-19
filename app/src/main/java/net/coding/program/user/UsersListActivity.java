@@ -283,6 +283,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             if (code == 0) {
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
 
+                mData.clear();
                 for (int i = 0; i < array.length(); ++i) {
                     UserObject user = new UserObject(array.getJSONObject(i));
                     mData.add(user);

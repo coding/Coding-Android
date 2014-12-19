@@ -8,8 +8,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -32,6 +36,7 @@ import org.apache.http.Header;
 
 import java.io.File;
 
+import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -41,14 +46,16 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
 
-    @ViewById
-    PhotoView image;
+    @FragmentArg
+    String uri;
 
     @ViewById
     ProgressBar loading;
 
-    @FragmentArg
-    String uri;
+    @ViewById
+    ViewGroup rootLayout;
+
+    ImageView image;
 
     File mFile;
 
@@ -68,108 +75,137 @@ public class ImagePagerFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        image.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-            @Override
-            public void onPhotoTap(View view, float x, float y) {
-                getActivity().onBackPressed();
-            }
-        });
+        if (isGif(uri)) {
+            GifImageView gifView = (GifImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
+            image = gifView;
 
-        image.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                getActivity().onBackPressed();
-            }
-        });
+            rootLayout.addView(image);
 
-        getImageLoad().imageLoader.displayImage(uri, image, optionsImage, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                loading.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                String message;
-                switch (failReason.getType()) {
-                    case IO_ERROR:
-                        message = "IO错误";
-                        break;
-                    case DECODING_ERROR:
-                        message = "图片编码错误";
-                        break;
-                    case NETWORK_DENIED:
-                        message = "载入图片超时";
-                        break;
-                    case OUT_OF_MEMORY:
-                        message = "内存不足";
-                        break;
-                    case UNKNOWN:
-                        message = "未知错误";
-                        break;
-                    default:
-                        message = "未知错误";
-                        break;
+        } else {
+            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+                @Override
+                public void onPhotoTap(View view, float x, float y) {
+                    getActivity().onBackPressed();
                 }
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            });
 
-                loading.setVisibility(View.GONE);
-            }
+            photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                @Override
+                public void onViewTap(View view, float x, float y) {
+                    getActivity().onBackPressed();
+                }
+            });
 
-            @Override
-            public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
-                loading.setVisibility(View.GONE);
+            image = photoView;
+            rootLayout.addView(image);
+        }
 
-                image.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        new AlertDialog.Builder(getActivity())
-                                .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (which == 0) {
-                                            if (client == null) {
-                                                client = MyAsyncHttpClient.createClient(getActivity());
-                                                client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+            getImageLoad().imageLoader.displayImage(uri, image, optionsImage, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    loading.setVisibility(View.VISIBLE);
+                }
 
-                                                    @Override
-                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                                        Log.d("", "ddd ff");
-                                                        client = null;
-                                                        showButtomToast("保存失败");
-                                                    }
-
-                                                    @Override
-                                                    public void onSuccess(int statusCode, Header[] headers, File file) {
-                                                        Log.d("", "ddd ss");
-                                                        client = null;
-                                                        showButtomToast("图片已保存到:" + file.getPath());
-                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
-                                                    }
-                                                });
-                                            }
-
-                                        }
-                                    }
-                                })
-                                .show();
-
-                        return true;
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    String message;
+                    switch (failReason.getType()) {
+                        case IO_ERROR:
+                            message = "IO错误";
+                            break;
+                        case DECODING_ERROR:
+                            message = "图片编码错误";
+                            break;
+                        case NETWORK_DENIED:
+                            message = "载入图片超时";
+                            break;
+                        case OUT_OF_MEMORY:
+                            message = "内存不足";
+                            break;
+                        case UNKNOWN:
+                            message = "未知错误";
+                            break;
+                        default:
+                            message = "未知错误";
+                            break;
                     }
-                });
-            }
-        });
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
+                    loading.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
+                    loading.setVisibility(View.GONE);
+
+                    image.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            new AlertDialog.Builder(getActivity())
+                                    .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (which == 0) {
+                                                if (client == null) {
+                                                    client = MyAsyncHttpClient.createClient(getActivity());
+                                                    client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+
+                                                        @Override
+                                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                                                            Log.d("", "ddd ff");
+                                                            client = null;
+                                                            showButtomToast("保存失败");
+                                                        }
+
+                                                        @Override
+                                                        public void onSuccess(int statusCode, Header[] headers, File file) {
+                                                            Log.d("", "ddd ss");
+                                                            client = null;
+                                                            showButtomToast("图片已保存到:" + file.getPath());
+                                                            getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
+                                                        }
+                                                    });
+                                                }
+
+                                            }
+                                        }
+                                    })
+                                    .show();
+
+                            return true;
+                        }
+                    });
+
+                    if (image instanceof GifImageView) {
+                        File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                        image.setImageURI(Uri.fromFile(file));
+
+//                        new Handler() {
+//                            @Override
+//                            public void handleMessage(Message msg) {
+//                                File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+//                                image.setImageURI(Uri.parse(file.getAbsolutePath()));
+//                            }
+//                        }.sendEmptyMessageDelayed(0, 1000);
+                    }
+
+                }
+
+
+            });
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
+    }
+
+    private boolean isGif(String uri) {
+        return uri.toLowerCase().endsWith(".gif");
     }
 
     private AsyncHttpClient client;
 
     @Override
     public void onDestroy() {
-        Log.d("", "ddd des " + getActivity());
-
-
         if (client != null) {
             client.cancelRequests(getActivity(), true);
             client = null;

@@ -1,5 +1,6 @@
 package net.coding.program.model;
 
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 
@@ -293,13 +294,31 @@ public class DynamicObject {
         }
     }
 
-    public static class ProjectWatcher extends DynamicBaseObject implements Serializable {
+    public static class ProjectNoContent extends DynamicBaseObject implements Serializable {
+        public ProjectNoContent(JSONObject json) throws JSONException {
+            super(json);
+        }
+
+        @Override
+        public Spanned title() {
+            final String format = "%s %s 项目";
+            String title = String.format(format, user.getHtml(), action_msg);
+            return Global.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return new SpannableString("");
+        }
+    }
+
+    public static class ProjectWatcher extends ProjectNoContent implements Serializable {
         public ProjectWatcher(JSONObject json) throws JSONException {
             super(json);
         }
     }
 
-    public static class ProjectStar extends DynamicBaseObject implements Serializable {
+    public static class ProjectStar extends ProjectNoContent implements Serializable {
         public ProjectStar(JSONObject json) throws JSONException {
             super(json);
         }

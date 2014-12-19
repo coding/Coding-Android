@@ -35,9 +35,25 @@ public class ProjectDynamicParentFragment extends BaseFragment {
     @StringArrayRes
     String[] dynamic_type;
 
+    @StringArrayRes
+    String[] dynamic_type_params;
+
+    @StringArrayRes
+    String[] dynamic_type_public;
+
+    @StringArrayRes
+    String[] dynamic_type_public_params;
+
     @AfterViews
     protected void init() {
-        DynamicPagerAdapter adapter = new DynamicPagerAdapter(getChildFragmentManager());
+        String[] title = dynamic_type;
+        String[] titleParams = dynamic_type_params;
+        if (mProjectObject.is_public) {
+            title = dynamic_type_public;
+            titleParams = dynamic_type_public_params;
+        }
+
+        DynamicPagerAdapter adapter = new DynamicPagerAdapter(getChildFragmentManager(), title, titleParams);
         pager.setAdapter(adapter);
 
         int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
@@ -76,42 +92,33 @@ public class ProjectDynamicParentFragment extends BaseFragment {
 
     class DynamicPagerAdapter extends FragmentStatePagerAdapter {
 
-        final String[] type = new String[]{
-                "all",
-                "task",
-                "topic",
-                "file",
-                "code",
-                "other"
-        };
+        String[] mTitles;
+        String[] mParams;
 
-        DynamicPagerAdapter(FragmentManager fm) {
+        DynamicPagerAdapter(FragmentManager fm, String[] titles, String[] params) {
             super(fm);
+            mTitles = titles;
+            mParams = params;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return dynamic_type[position];
+            return mTitles[position];
         }
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            ProjectDynamicFragment_ fragment = new ProjectDynamicFragment_();
-
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("mProjectObject", mProjectObject);
-            bundle.putString("mType", type[position]);
-            fragment.setArguments(bundle);
-
-            return fragment;
+            return ProjectDynamicFragment_.builder()
+                        .mProjectObject(mProjectObject)
+                        .mType(mParams[position])
+                        .build();
         }
 
         @Override
         public int getCount() {
-            return type.length;
+            return mParams.length;
         }
     }
 
     ;
-
 }

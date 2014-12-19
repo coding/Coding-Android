@@ -51,6 +51,29 @@
         <item>其它</item>
     </string-array>
 
+    <string-array name="dynamic_type_params">
+        <item>all</item>
+        <item>task</item>
+        <item>topic</item>
+        <item>file</item>
+        <item>code</item>
+        <item>other</item>
+    </string-array>
+
+    <string-array name="dynamic_type_public">
+        <item>全部</item>
+        <item>讨论</item>
+        <item>代码</item>
+        <item>其它</item>
+    </string-array>
+
+    <string-array name="dynamic_type_public_params">
+        <item>all</item>
+        <item>topic</item>
+        <item>code</item>
+        <item>other</item>
+    </string-array>
+
     <string-array name="strings_priority">
         <item>有空再看</item>
         <item>正常处理</item>

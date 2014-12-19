@@ -75,8 +75,8 @@ public class FollowUsersActivity extends BaseActivity implements FootUpdate.Load
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_FOLLOWS)) {
             if (code == 0) {
+                mData.clear();
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
-
                 for (int i = 0; i < array.length(); ++i) {
                     UserObject user = new UserObject(array.getJSONObject(i));
                     mData.add(user);
@@ -92,7 +92,6 @@ public class FollowUsersActivity extends BaseActivity implements FootUpdate.Load
             adapter.notifyDataSetChanged();
         }
     }
-
 
     BaseAdapter adapter = new BaseAdapter() {
         @Override

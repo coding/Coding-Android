@@ -89,6 +89,8 @@ public class UserInfoActivity extends BaseFragmentActivity {
 
     String[] user_jobs;
 
+    final String HOST_USER = Global.HOST + "/api/user/key/%s";
+
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,6 +113,8 @@ public class UserInfoActivity extends BaseFragmentActivity {
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(itemClickListener);
+
+        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
     }
 
     void getUserInfoRows() {
@@ -201,7 +205,7 @@ public class UserInfoActivity extends BaseFragmentActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_USERINFO)) {
+        if (tag.equals(HOST_USERINFO) || tag.equals(HOST_USER)) {
             if (code == 0) {
                 user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
@@ -400,16 +404,9 @@ public class UserInfoActivity extends BaseFragmentActivity {
         dialogTitleLineColor(dialog);
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         private UserInfoActivity mActivity;
-
-        private int year;
-        private int month;
-        private int day;
-
-        private boolean isConfirm = false;
 
         @Override
         public void onAttach(Activity activity) {
@@ -424,38 +421,12 @@ public class UserInfoActivity extends BaseFragmentActivity {
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             c.setTimeInMillis(getArguments().getLong("date"));
-            year = c.get(Calendar.YEAR);
-            month = c.get(Calendar.MONTH);
-            day = c.get(Calendar.DAY_OF_MONTH);
-            isConfirm = false;
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
             DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            datePickerDialog.setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.btn_dialog_cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Log.d("datePickerDialog", "BUTTON_NEGATIVE");
-                    isConfirm = false;
-                }
-            });
-            /*datePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    Log.d("datePickerDialog", "setOnDismissListener");
-                }
-            });
-            datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    Log.d("datePickerDialog", "setOnCancelListener");
-                }
-            });*/
-            datePickerDialog.setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.btn_dialog_done), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    isConfirm = true;
-                }
-            });
             LinearLayout layoutParent = (LinearLayout) datePickerDialog.getDatePicker().getChildAt(0);
             LinearLayout layout = (LinearLayout) layoutParent.getChildAt(0);
             for (int i = 0; i < layout.getChildCount(); i++) {
@@ -467,19 +438,13 @@ public class UserInfoActivity extends BaseFragmentActivity {
             return datePickerDialog;
         }
 
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            if (!isConfirm)
-                return;
-
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             final Calendar c = Calendar.getInstance();
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, day);
+            c.set(year, monthOfYear, dayOfMonth);
             if (mActivity != null) {
                 mActivity.setUserinfoBirthday(c.getTimeInMillis());
             }
-            //Log.d("datePickerDialog", "onDateSet");
         }
 
         public void setNumberPicker(NumberPicker spindle) {

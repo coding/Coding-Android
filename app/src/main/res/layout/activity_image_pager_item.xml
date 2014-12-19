@@ -2,15 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000000">
+    android:background="#000000"
+    android:id="@+id/rootLayout">
 
-    <uk.co.senab.photoview.PhotoView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:contentDescription="photo" />
 
     <ProgressBar
         android:id="@+id/loading"

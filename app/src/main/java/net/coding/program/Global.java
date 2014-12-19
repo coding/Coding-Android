@@ -140,7 +140,7 @@ public class Global {
     public static Html.TagHandler tagHandler = new Html.TagHandler() {
         @Override
         public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
-//            Log.d("", "ddd handletag " + tag);
+            Log.d("", "ddd handletag " + tag);
         }
     };
 

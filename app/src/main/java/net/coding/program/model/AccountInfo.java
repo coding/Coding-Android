@@ -18,12 +18,10 @@ public class AccountInfo {
     private static final String ACCOUNT = "ACCOUNT";
 
     public static void loginOut(Context ctx) {
-        String data[] = new String[]{
-                ACCOUNT, PROJECTS
-        };
-
-        for (String item : data) {
-            File file = new File(ctx.getFilesDir(), item);
+        File dir = ctx.getFilesDir();
+        String[] fileNameList = dir.list();
+        for (String item : fileNameList) {
+            File file = new File(dir, item);
             if (file.exists()) {
                 file.delete();
             }
