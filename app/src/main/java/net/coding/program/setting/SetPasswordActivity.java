@@ -3,6 +3,7 @@ package net.coding.program.setting;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -50,13 +51,42 @@ public class SetPasswordActivity extends BaseActivity {
     void submit() {
         RequestParams params = new RequestParams();
         try {
-            params.put("current_password", Global.sha1(oldPassword.getText().toString()));
-            params.put("password", Global.sha1(newPassword.getText().toString()));
-            params.put("confirm_password", Global.sha1(confirmPassword.getText().toString()));
+            String oldPwd = oldPassword.getText().toString();
+            String newPwd = newPassword.getText().toString();
+            String confirmPwd = confirmPassword.getText().toString();
+            if (checkPassword(oldPwd, newPwd, confirmPwd))
+                return;
+            params.put("current_password", Global.sha1(oldPwd));
+            params.put("password", Global.sha1(newPwd));
+            params.put("confirm_password", Global.sha1(confirmPwd));
             postNetwork(Url, params, "");
         } catch (Exception e) {
             showMiddleToast(e.toString());
         }
+    }
+
+    boolean checkPassword(String oldPwd, String newPwd, String confirmPwd) {
+        if (TextUtils.isEmpty(oldPwd)) {
+            showMiddleToast("当前密码不能为空");
+            return true;
+        }
+        if (TextUtils.isEmpty(newPwd)) {
+            showMiddleToast("新密码不能为空");
+            return true;
+        }
+        if (TextUtils.isEmpty(confirmPwd)) {
+            showMiddleToast("确认密码不能为空");
+            return true;
+        }
+        if (!newPwd.equals(confirmPwd)) {
+            showMiddleToast("两次密码输入不一致");
+            return true;
+        }
+        if (newPwd.length() < 6) {
+            showMiddleToast("密码不能少于6位");
+            return true;
+        }
+        return false;
     }
 
     @Override

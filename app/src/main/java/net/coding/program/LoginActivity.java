@@ -90,6 +90,16 @@ public class LoginActivity extends BaseActivity {
             String password = editPassword.getText().toString();
             String captcha = editValify.getText().toString();
 
+            if (name.isEmpty()) {
+                showMiddleToast("邮箱或个性后缀不能为空");
+                return;
+            }
+
+            if (password.isEmpty()) {
+                showMiddleToast("密码不能为空");
+                return;
+            }
+
             RequestParams params = new RequestParams();
             params.put("email", name);
             params.put("password", Global.sha1(password));
