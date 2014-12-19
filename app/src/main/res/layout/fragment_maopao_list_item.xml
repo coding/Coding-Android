@@ -70,11 +70,14 @@
             <ImageView
                 android:id="@+id/imageSingle"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/image_single_width"
+                android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/comment"
                 android:layout_below="@id/comment"
                 android:scaleType="fitStart"
-                android:layout_marginTop="5dp" />
+                android:adjustViewBounds="true"
+                android:layout_marginTop="5dp"
+                android:maxWidth="@dimen/image_single_width"
+                android:longClickable="true" />
 
             <LinearLayout
                 android:id="@+id/imageLayout"

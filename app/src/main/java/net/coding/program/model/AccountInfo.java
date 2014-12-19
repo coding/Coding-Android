@@ -267,50 +267,6 @@ public class AccountInfo {
         return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
     }
 
-//    private static String KEY_RECEIVE_PUSH = "KEY_RECEIVE_PUSH";
-//    private static String FILE_RECEIVE_PUSH = "FILE_RECEIVE_PUSH";
-//
-//    public static boolean getReceivePush(Context ctx) {
-//        SharedPreferences sp = ctx.getSharedPreferences(FILE_RECEIVE_PUSH, Context.MODE_PRIVATE);
-//        return sp.getBoolean(KEY_RECEIVE_PUSH, false);
-//    }
-//
-//    public static void setReceivePush(Context ctx, boolean push) {
-//        SharedPreferences sp = ctx.getSharedPreferences(FILE_RECEIVE_PUSH, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.putBoolean(KEY_RECEIVE_PUSH, push);
-//        editor.commit();
-//    }
-//
-//    public static void removeReceiverPush(Context ctx) {
-//        SharedPreferences sp = ctx.getSharedPreferences(FILE_RECEIVE_PUSH, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.remove(KEY_RECEIVE_PUSH);
-//        editor.commit();
-//    }
-//
-//    private static String KEY_NOTIFY_SETTING = "KEY_NOTIFY_SETTING";
-//
-//    public static boolean getNotifySetting(Context ctx) {
-//        SharedPreferences sp = ctx.getSharedPreferences(FILE_RECEIVE_PUSH, Context.MODE_PRIVATE);
-//        return sp.getBoolean(KEY_NOTIFY_SETTING, true);
-//    }
-//
-//    public static void setNotifySetting(Context ctx, boolean push) {
-//        SharedPreferences sp = ctx.getSharedPreferences(FILE_RECEIVE_PUSH, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.putBoolean(KEY_NOTIFY_SETTING, push);
-//        editor.commit();
-//    }
-//
-//    public static void removeNotifySetting(Context ctx) {
-//        SharedPreferences sp = ctx.getSharedPreferences(FILE_RECEIVE_PUSH, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.remove(KEY_NOTIFY_SETTING);
-//        editor.commit();
-//    }
-
-
     private static String FILE_PUSH = "FILE_PUSH";
     private static String KEY_NEED_PUSH = "KEY_NEED_PUSH";
 
@@ -326,5 +282,12 @@ public class AccountInfo {
         editor.commit();
     }
 
+    private static final String USER_MAOPAO = "USER_MAOPAO";
+    public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, String id) {
+        new DataCache<Maopao.MaopaoObject>().save(ctx, data, USER_MAOPAO + type + id);
+    }
 
+    public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, String id) {
+        return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
+    }
 }

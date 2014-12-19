@@ -140,7 +140,9 @@ public class Global {
     public static Html.TagHandler tagHandler = new Html.TagHandler() {
         @Override
         public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
-            Log.d("", "ddd handletag " + tag);
+            if (tag.toLowerCase().equals("code") && !opening) {
+                output.append("\n\n");
+            }
         }
     };
 
@@ -152,6 +154,11 @@ public class Global {
             String width = intToString(lp.width);
             String height = intToString(lp.height);
 
+            // 如果初始化的时候没有长宽，默认取高度为120dp缩略图
+            if (width.isEmpty() && height.isEmpty()) {
+                height = String.valueOf(Global.dpToPx(120));
+
+            }
             String smallImageUrl = String.format("?imageMogr2/thumbnail/!%sx%s", width, height);
             return realUrl + smallImageUrl;
         } else {

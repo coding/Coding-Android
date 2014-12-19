@@ -102,7 +102,13 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     @AfterViews
     protected void init() {
         super.init();
-        showDialogLoading();
+
+        mData = AccountInfo.loadMaopao(getActivity(), mType ,userId);
+        if (mData.isEmpty()) {
+            showDialogLoading();
+        } else {
+            setRefreshing(true);
+        }
 
         myImageGetter = new MyImageGetter(getActivity());
 
@@ -340,6 +346,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(jsonArray.getJSONObject(i));
                     mData.add(item);
                 }
+
+                AccountInfo.saveMaopao(getActivity(), mData, mType, userId);
 
                 if (jsonArray.length() == 0) {
                     mNoMore = true;

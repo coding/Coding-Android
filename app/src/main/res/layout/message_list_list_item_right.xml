@@ -59,7 +59,8 @@
             android:layout_below="@id/comment"
             android:focusable="false"
             android:visibility="visible"
-            android:scaleType="centerInside" />
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true" />
 
 
         <LinearLayout
