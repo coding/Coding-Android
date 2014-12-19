@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+def AAVersion = '3.2'
 
 android {
     compileSdkVersion 21
@@ -12,17 +14,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-            manifest.srcFile 'src/main/AndroidManifest.xml'
-            java.srcDirs = ['src/main/java', 'build/generated/source/apt/${variant.dirName}']
-//            resources.srcDirs = ['src/main/resources']
-//            res.srcDirs = ['src/main/res']
-//            assets.srcDirs = ['src/main/assets']
         }
     }
 
@@ -40,17 +31,13 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'se.emilsjolander:stickylistheaders:2.5.1'
     compile 'de.hdodenhof:circleimageview:1.2.0'
-    compile project(':photolibrary')
     compile 'com.github.rampo.updatechecker:library:2.1.4'
-    compile files('libs/android-viewbadger.jar')
     compile 'com.belerweb:pinyin4j:2.5.0'
-    compile files('libs/umeng-analytics-v5.2.4.jar')
     compile 'com.daimajia.swipelayout:library:1.1.7@aar'
-    compile files('libs/mid-sdk-2.10.jar')
-    compile files('libs/Xg_sdk_v2.35.jar')
-    compile files('libs/wup-1.0.0-SNAPSHOT.jar')
+    compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+    compile project(':photolibrary')
 }
 
 //################
@@ -65,13 +52,9 @@ buildscript {
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
 }
-
-apply plugin: 'android'
-apply plugin: 'android-apt'
-def AAVersion = '3.2'
 
 dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
