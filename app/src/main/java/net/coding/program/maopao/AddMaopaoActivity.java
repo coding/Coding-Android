@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.Global;
 import net.coding.program.ImagePagerActivity_;
+import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ListModify;
@@ -32,6 +34,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
 
@@ -53,6 +56,8 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
     final int PHOTO_MAX_COUNT = 5;
 
     final String sendUrl = Global.HOST + "/api/tweet";
+
+    String mIntentExtraString = null;
 
     @ViewById
     GridView gridView;
@@ -81,6 +86,9 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
 
         mEnterLayout = new EnterEmojiLayout(this, null);
         message = mEnterLayout.content;
+        if (mIntentExtraString != null) {
+            message.setText(mIntentExtraString);
+        }
 
         gridView.setAdapter(adapter);
 
@@ -374,5 +382,55 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         }
 
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        String mGlobalKey = AccountInfo.loadAccount(this).global_key;
+        if (mGlobalKey.isEmpty()) {
+            Intent intent = new Intent(this, LoginActivity_.class);
+            this.startActivity(intent);
+        }
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    File outputFile = null;
+                    try {
+                        outputFile = photoOperate.scal(imageUri);
+                        mData.add(mData.size(), new AddMaopaoActivity.PhotoData(outputFile));
+                        adapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        showMiddleToast("缩放图片失败");
+                        Global.errorLog(e);
+                    }
+                }
+                mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
+            } else if (type.startsWith("text/")) {
+                mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                ArrayList<Uri> imagesUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                if (imagesUris != null) {
+                    try {
+                        for (Uri uri : imagesUris) {
+                            File outputFile = photoOperate.scal(uri);
+                            mData.add(new AddMaopaoActivity.PhotoData(outputFile));
+                        }
+                    } catch (Exception e) {
+                        showMiddleToast("缩放图片失败");
+                        Global.errorLog(e);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
+        }
+    }
 
 }
