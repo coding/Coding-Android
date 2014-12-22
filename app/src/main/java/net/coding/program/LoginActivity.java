@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     void register() {
-        Uri uri = Uri.parse(Global.HOST + "");
+        Uri uri = Uri.parse(Global.HOST);
         Intent it = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(it);
     }
