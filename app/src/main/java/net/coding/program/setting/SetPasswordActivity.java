@@ -54,8 +54,9 @@ public class SetPasswordActivity extends BaseActivity {
             String oldPwd = oldPassword.getText().toString();
             String newPwd = newPassword.getText().toString();
             String confirmPwd = confirmPassword.getText().toString();
-            if (checkPassword(oldPwd, newPwd, confirmPwd))
+            if (passwordFormatError(oldPwd, newPwd, confirmPwd)) {
                 return;
+            }
             params.put("current_password", Global.sha1(oldPwd));
             params.put("password", Global.sha1(newPwd));
             params.put("confirm_password", Global.sha1(confirmPwd));
@@ -65,27 +66,32 @@ public class SetPasswordActivity extends BaseActivity {
         }
     }
 
-    boolean checkPassword(String oldPwd, String newPwd, String confirmPwd) {
+    boolean passwordFormatError(String oldPwd, String newPwd, String confirmPwd) {
         if (TextUtils.isEmpty(oldPwd)) {
             showMiddleToast("当前密码不能为空");
             return true;
-        }
-        if (TextUtils.isEmpty(newPwd)) {
+
+        } else if (TextUtils.isEmpty(newPwd)) {
             showMiddleToast("新密码不能为空");
             return true;
-        }
-        if (TextUtils.isEmpty(confirmPwd)) {
+
+        } else if (TextUtils.isEmpty(confirmPwd)) {
             showMiddleToast("确认密码不能为空");
             return true;
-        }
-        if (!newPwd.equals(confirmPwd)) {
+
+        } else if (!newPwd.equals(confirmPwd)) {
             showMiddleToast("两次密码输入不一致");
             return true;
-        }
-        if (newPwd.length() < 6) {
+
+        } else if (newPwd.length() < 6) {
             showMiddleToast("密码不能少于6位");
             return true;
+
+        } else if (newPwd.length() > 64) {
+            showMiddleToast("密码不能大于64位");
+            return true;
         }
+
         return false;
     }
 
