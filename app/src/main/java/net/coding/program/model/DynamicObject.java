@@ -1,6 +1,5 @@
 package net.coding.program.model;
 
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 
@@ -108,7 +107,7 @@ public class DynamicObject {
         @Override
         public Spanned title() {
             final String format = "%s %s 项目%s的 Pull Request";
-            String title = String.format(format, user.name, action_msg, depot.getHtml());
+            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml());
             return Global.changeHyperlinkColor(title);
         }
 
@@ -218,7 +217,7 @@ public class DynamicObject {
         @Override
         public Spanned title() {
             final String format = "%s %s 项目%s中的 Merge Request %s";
-            String title = String.format(format, user.name, action_msg, depot.getHtml(), merge_request_title);
+            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml(), merge_request_title);
             return Global.changeHyperlinkColor(title);
         }
 
@@ -250,7 +249,7 @@ public class DynamicObject {
         @Override
         public Spanned title() {
             final String format = "%s %s 项目%s的 Pull Request";
-            String title = String.format(format, user.name, action_msg, depot.getHtml());
+            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml());
             return Global.changeHyperlinkColor(title);
         }
 
@@ -294,31 +293,37 @@ public class DynamicObject {
         }
     }
 
-    public static class ProjectNoContent extends DynamicBaseObject implements Serializable {
-        public ProjectNoContent(JSONObject json) throws JSONException {
+    public static class ProjectBase extends DynamicBaseObject implements Serializable {
+        private Project project = new Project();
+
+        public ProjectBase(JSONObject json) throws JSONException {
             super(json);
+
+            if (json.has("project")) {
+                project = new Project(json.optJSONObject("project"));
+            }
         }
 
         @Override
         public Spanned title() {
-            final String format = "%s %s 项目";
-            String title = String.format(format, user.getHtml(), action_msg);
+            final String format = "%s %s 项目 %s";
+            String title = String.format(format, user.getHtml(), action_msg, project.getHtml());
             return Global.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return new SpannableString("");
+            return Global.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
         }
     }
 
-    public static class ProjectWatcher extends ProjectNoContent implements Serializable {
+    public static class ProjectWatcher extends ProjectBase implements Serializable {
         public ProjectWatcher(JSONObject json) throws JSONException {
             super(json);
         }
     }
 
-    public static class ProjectStar extends ProjectNoContent implements Serializable {
+    public static class ProjectStar extends ProjectBase implements Serializable {
         public ProjectStar(JSONObject json) throws JSONException {
             super(json);
         }

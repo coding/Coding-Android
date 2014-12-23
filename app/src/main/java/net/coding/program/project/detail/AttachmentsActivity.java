@@ -420,7 +420,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
 
             isUploading = true;
 
-            showUploadStatus(UPLOAD_STATUS_UPLOADING);
+            showUploadStatus(UploadStatus.Uploading);
 
             AsyncHttpClient client = MyAsyncHttpClient.createClient(AttachmentsActivity.this);
 
@@ -441,7 +441,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                             mFilesArray.add(mAttachmentFolderObject.sub_folders.size(), newFile);
                             adapter.notifyDataSetChanged();
                             setResult(Activity.RESULT_OK);
-                            showUploadStatus(UPLOAD_STATUS_FINISH);
+                            showUploadStatus(UploadStatus.Finish);
                         } else {
                             showErrorMsg(code, response);
                         }
@@ -455,7 +455,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                     Log.v(TAG, "onFailure");
                     try {
                         showErrorMsg(NetworkImpl.NETWORK_ERROR, errorResponse);
-                        showUploadStatus(UPLOAD_STATUS_FAILURE);
+                        showUploadStatus(UploadStatus.Failure);
                     } catch (Exception e) {
                         Global.errorLog(e);
                     }
@@ -474,6 +474,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 }
             };
             client.post(urlUpload, params, jsonHttpResponseHandler);
+            client.setTimeout(60 * 60 * 1000); // 超时设为60分钟
 
         } catch (FileNotFoundException e) {
             showButtomToast("文件未找到");
@@ -481,17 +482,15 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
 
     }
 
-
-    private final int UPLOAD_STATUS_UPLOADING = 0;
-    private final int UPLOAD_STATUS_FINISH = 1;
-    private final int UPLOAD_STATUS_CLOSE = 2;
-    private final int UPLOAD_STATUS_FAILURE = 3;
+    private enum UploadStatus {
+        Uploading, Finish, Close, Failure
+    }
 
     private long uploadStartTime = 0l;
 
-    private void showUploadStatus(int status) {
+    private void showUploadStatus(UploadStatus status) {
         switch (status) {
-            case UPLOAD_STATUS_UPLOADING:
+            case Uploading:
                 uploadFailureLayout.setVisibility(View.GONE);
                 barParams.weight = 0;
                 uploadStatusProgress.requestLayout();
@@ -503,7 +502,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 uploadLayout.setVisibility(View.VISIBLE);
                 uploadStartTime = System.currentTimeMillis();
                 break;
-            case UPLOAD_STATUS_FINISH:
+            case Finish:
                 uploadFailureLayout.setVisibility(View.GONE);
                 uploadDoneLayout.setVisibility(View.VISIBLE);
                 uploadStatusLayout.setVisibility(View.GONE);
@@ -513,7 +512,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 barParamsRemain.weight = 0;
                 uploadStatusProgressRemain.requestLayout();
                 break;
-            case UPLOAD_STATUS_FAILURE:
+            case Failure:
                 uploadFailureLayout.setVisibility(View.VISIBLE);
                 uploadDoneLayout.setVisibility(View.GONE);
                 uploadStatusLayout.setVisibility(View.GONE);
@@ -523,7 +522,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 barParamsRemain.weight = 0;
                 uploadStatusProgressRemain.requestLayout();
                 break;
-            case UPLOAD_STATUS_CLOSE:
+            case Close:
                 uploadLayout.setVisibility(View.GONE);
                 break;
 
@@ -532,7 +531,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
 
     @Click({R.id.uploadCloseBtn, R.id.uploadFailureCloseBtn})
     void closeUploadBar() {
-        showUploadStatus(UPLOAD_STATUS_CLOSE);
+        showUploadStatus(UploadStatus.Close);
     }
 
     private void setUploadStatus(int bytesWritten, int totalSize) {

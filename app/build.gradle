@@ -37,7 +37,7 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
-    compile project(':photolibrary')
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
 }
 
 //################

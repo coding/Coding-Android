@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by chaochen on 14-9-19.
  */
-public class ContentArea {
+public class ContentArea extends ContentAreaBase {
 
     private static final int[] itemImages = new int[]{
             R.id.image0,
@@ -35,7 +35,6 @@ public class ContentArea {
 
     private static final int itemImagesMaxCount = itemImages.length;
 
-    private TextView content;
     private ImageView imageSingle;
     private View imageLayout0;
     private View imageLayout1;
@@ -43,7 +42,6 @@ public class ContentArea {
 
     private int contentMarginBottom = 0;
 
-    Html.ImageGetter imageGetter;
     ImageLoadTool imageLoad;
 
     DisplayImageOptions imageOptions = new DisplayImageOptions
@@ -58,10 +56,7 @@ public class ContentArea {
             .build();
 
     public ContentArea(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams) {
-
-        content = (TextView) convertView.findViewById(R.id.comment);
-        content.setMovementMethod(LinkMovementMethod.getInstance());
-        content.setOnClickListener(onClickContent);
+        super(convertView, onClickContent, imageGetterParamer);
 
         imageSingle = (ImageView) convertView.findViewById(R.id.imageSingle);
         imageSingle.setOnClickListener(onclickImage);
@@ -77,7 +72,6 @@ public class ContentArea {
             images[i].setLongClickable(true);
         }
 
-        imageGetter = imageGetterParamer;
         imageLoad = loadParams;
 
         contentMarginBottom = convertView.getResources().getDimensionPixelSize(R.dimen.message_text_margin_bottom);
@@ -111,28 +105,7 @@ public class ContentArea {
         setImageUrl(maopaoData.uris);
     }
 
-    public void setData(TaskObject.TaskComment comment) {
-        String data = comment.content;
-        Global.MessageParse maopaoData = HtmlContent.parseTaskComment(data);
 
-        if (maopaoData.text.isEmpty()) {
-            content.setVisibility(View.GONE);
-        } else {
-            content.setTag(comment);
-            content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
-
-            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) content.getLayoutParams();
-            if (maopaoData.uris.size() > 0) {
-                lp.bottomMargin = contentMarginBottom;
-            } else {
-                lp.bottomMargin = 0;
-            }
-            content.setLayoutParams(lp);
-        }
-
-        setImageUrl(maopaoData.uris);
-    }
 
     public void setData(String data, Type type) {
         Global.MessageParse maopaoData;

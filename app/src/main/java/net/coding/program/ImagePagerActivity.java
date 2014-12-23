@@ -188,11 +188,9 @@ public class ImagePagerActivity extends UmengFragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
-            ImagePagerFragment_ fragment = new ImagePagerFragment_();
-            Bundle bundle = new Bundle();
-            bundle.putString("uri", mArrayUri.get(i));
-            fragment.setArguments(bundle);
-            return fragment;
+            return ImagePagerFragment_.builder()
+                    .uri(mArrayUri.get(i))
+                    .build();
         }
 
         @Override

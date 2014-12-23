@@ -25,10 +25,10 @@ import android.widget.ProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.AttachmentImagePagerFragment;
-import net.coding.program.AttachmentImagePagerFragment_;
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.Global;
+import net.coding.program.ImagePagerFragment;
+import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
@@ -296,17 +296,15 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
-            AttachmentImagePagerFragment_ fragment = new AttachmentImagePagerFragment_();
-            Bundle bundle = new Bundle();
-            bundle.putString("fileId", fileIds.get(i));
-            bundle.putString("mProjectObjectId", mProjectObjectId);
-            fragment.setArguments(bundle);
-            return fragment;
+            return ImagePagerFragment_.builder()
+                    .fileId(fileIds.get(i))
+                    .mProjectObjectId(mProjectObjectId)
+                    .build();
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            AttachmentImagePagerFragment fragment = (AttachmentImagePagerFragment) super.instantiateItem(container, position);
+            ImagePagerFragment fragment = (ImagePagerFragment) super.instantiateItem(container, position);
             fragment.setData(fileIds.get(position), mProjectObjectId);
             return fragment;
         }
