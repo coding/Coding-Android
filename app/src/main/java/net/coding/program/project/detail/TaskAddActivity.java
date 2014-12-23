@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,13 +26,17 @@ import net.coding.program.BaseActivity;
 import net.coding.program.Global;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.comment.ImageCommentHolder;
+import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.maopao.item.ContentArea;
+import net.coding.program.maopao.item.ContentAreaBase;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.BaseComment;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
@@ -728,7 +733,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
-
     ArrayList<TaskObject.TaskComment> mData = new ArrayList<TaskObject.TaskComment>();
 
     BaseAdapter commentAdpter = new BaseAdapter() {
@@ -791,4 +795,18 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
         }
     };
 
+    private static class ImageCommentHolder extends BaseCommentHolder {
+
+        private ContentAreaBase contentArea;
+
+        public ImageCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
+            super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser);
+            contentArea = new ContentAreaBase(convertView, onClickComment, imageGetter);
+        }
+
+        public void setTaskCommentContent(TaskObject.TaskComment comment) {
+            super.setContent(comment);
+            contentArea.setData(comment);
+        }
+    }
 }

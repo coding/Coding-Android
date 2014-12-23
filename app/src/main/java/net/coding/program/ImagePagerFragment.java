@@ -8,9 +8,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,14 +24,20 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.project.detail.AttachmentsActivity;
+import net.coding.program.project.detail.AttachmentsPicDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.HashMap;
 
 import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
@@ -46,8 +49,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
 
-    @FragmentArg
-    String uri;
+    private String URL_FILES_BASE = Global.HOST + "/api/project/%s/files/%s/view";
+    private String URL_FILES = "";
 
     @ViewById
     ProgressBar loading;
@@ -57,10 +60,28 @@ public class ImagePagerFragment extends BaseFragment {
 
     ImageView image;
 
-    File mFile;
-
     public void setData(String uriString) {
         uri = uriString;
+    }
+
+    HashMap<String, AttachmentFileObject> picCache;
+
+    File mFile;
+
+    AttachmentsPicDetailActivity parentActivity;
+
+    @FragmentArg
+    String uri;
+
+    @FragmentArg
+    String fileId;
+
+    @FragmentArg
+    String mProjectObjectId;
+
+    public void setData(String fileId, String mProjectObjectId) {
+        this.fileId = fileId;
+        this.mProjectObjectId = mProjectObjectId;
     }
 
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
@@ -75,7 +96,28 @@ public class ImagePagerFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        if (isGif(uri)) {
+        if (uri == null) {
+            parentActivity = (AttachmentsPicDetailActivity) getActivity();
+            if (parentActivity != null) {
+                //在AttachmentsPicDetailActivity中存放了缓存下来的结果
+                picCache = parentActivity.getPicCache();
+                if (picCache.containsKey(fileId)) {
+                    AttachmentFileObject mFileObject = picCache.get(fileId);
+                    uri = mFileObject.preview;
+                    showPhoto(mFileObject.isGif());
+                } else {
+                    //如果之前没有缓存过，那么获取并在得到结果后存入
+                    URL_FILES = String.format(URL_FILES_BASE, mProjectObjectId, fileId);
+                    getNetwork(URL_FILES, URL_FILES);
+                }
+            }
+        } else {
+            showPhoto(isGif(uri));
+        }
+    }
+
+    private void showPhoto(boolean isGif) {
+        if (isGif) {
             GifImageView gifView = (GifImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
             image = gifView;
 
@@ -101,101 +143,106 @@ public class ImagePagerFragment extends BaseFragment {
             rootLayout.addView(image);
         }
 
-            getImageLoad().imageLoader.displayImage(uri, image, optionsImage, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    loading.setVisibility(View.VISIBLE);
+        getImageLoad().imageLoader.displayImage(uri, image, optionsImage, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                loading.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                String message;
+                switch (failReason.getType()) {
+                    case IO_ERROR:
+                        message = "IO错误";
+                        break;
+                    case DECODING_ERROR:
+                        message = "图片编码错误";
+                        break;
+                    case NETWORK_DENIED:
+                        message = "载入图片超时";
+                        break;
+                    case OUT_OF_MEMORY:
+                        message = "内存不足";
+                        break;
+                    case UNKNOWN:
+                        message = "未知错误";
+                        break;
+                    default:
+                        message = "未知错误";
+                        break;
                 }
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    String message;
-                    switch (failReason.getType()) {
-                        case IO_ERROR:
-                            message = "IO错误";
-                            break;
-                        case DECODING_ERROR:
-                            message = "图片编码错误";
-                            break;
-                        case NETWORK_DENIED:
-                            message = "载入图片超时";
-                            break;
-                        case OUT_OF_MEMORY:
-                            message = "内存不足";
-                            break;
-                        case UNKNOWN:
-                            message = "未知错误";
-                            break;
-                        default:
-                            message = "未知错误";
-                            break;
-                    }
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                loading.setVisibility(View.GONE);
+            }
 
-                    loading.setVisibility(View.GONE);
-                }
+            @Override
+            public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
+                loading.setVisibility(View.GONE);
 
-                @Override
-                public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
-                    loading.setVisibility(View.GONE);
+                image.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        new AlertDialog.Builder(getActivity())
+                                .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which == 0) {
+                                            if (client == null) {
+                                                client = MyAsyncHttpClient.createClient(getActivity());
+                                                client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
 
-                    image.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            new AlertDialog.Builder(getActivity())
-                                    .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (which == 0) {
-                                                if (client == null) {
-                                                    client = MyAsyncHttpClient.createClient(getActivity());
-                                                    client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+                                                    @Override
+                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                                                        client = null;
+                                                        showButtomToast("保存失败");
+                                                    }
 
-                                                        @Override
-                                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                                            Log.d("", "ddd ff");
-                                                            client = null;
-                                                            showButtomToast("保存失败");
-                                                        }
-
-                                                        @Override
-                                                        public void onSuccess(int statusCode, Header[] headers, File file) {
-                                                            Log.d("", "ddd ss");
-                                                            client = null;
-                                                            showButtomToast("图片已保存到:" + file.getPath());
-                                                            getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
-                                                        }
-                                                    });
-                                                }
-
+                                                    @Override
+                                                    public void onSuccess(int statusCode, Header[] headers, File file) {
+                                                        client = null;
+                                                        showButtomToast("图片已保存到:" + file.getPath());
+                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
+                                                    }
+                                                });
                                             }
+
                                         }
-                                    })
-                                    .show();
+                                    }
+                                })
+                                .show();
 
-                            return true;
-                        }
-                    });
-
-                    if (image instanceof GifImageView) {
-                        File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-                        image.setImageURI(Uri.fromFile(file));
-
-//                        new Handler() {
-//                            @Override
-//                            public void handleMessage(Message msg) {
-//                                File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-//                                image.setImageURI(Uri.parse(file.getAbsolutePath()));
-//                            }
-//                        }.sendEmptyMessageDelayed(0, 1000);
+                        return true;
                     }
+                });
 
+                if (image instanceof GifImageView) {
+                    File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                    image.setImageURI(Uri.fromFile(file));
                 }
-
-
-            });
+            }
+        });
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(URL_FILES)) {
+            if (code == 0) {
+                JSONObject file = response.getJSONObject("data").getJSONObject("file");
+                AttachmentFileObject mFileObject = new AttachmentFileObject(file);
+                if (picCache != null) {
+                    picCache.put(mFileObject.file_id, mFileObject);
+                    parentActivity.setAttachmentFileObject(mFileObject);
+                }
+                uri = mFileObject.preview;
+                showPhoto(mFileObject.isGif());
+            } else {
+                showErrorMsg(code, response);
+            }
+        }
     }
 
     private boolean isGif(String uri) {

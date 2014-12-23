@@ -137,6 +137,10 @@ public class AttachmentFileObject implements Serializable {
         return imagePattern.matcher(this.fileType).find();
     }
 
+    public boolean isGif() {
+        return this.fileType.toLowerCase().equals("gif");
+    }
+
     public boolean isDoc() {
         return docPattern.matcher(this.fileType).find();
     }
