@@ -47,6 +47,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -131,6 +134,7 @@ public class Global {
     public static void popSoftkeyboard(Context ctx, View view, boolean wantPop) {
         InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (wantPop) {
+            view.requestFocus();
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         } else {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -150,6 +154,12 @@ public class Global {
         String realUrl = url.split("\\?")[0];
 
         if (url.indexOf("http") == 0) {
+            // 头像再裁剪需要算坐标，就不改参数了
+            // https://dn-coding-net-production-static.qbox.me/c28b97dd-61f2-41d4-bd7e-b04f0c634751.jpg?imageMogr2/auto-orient/format/jpeg/crop/!164x164a568a38
+            if(url.contains("/crop/")) {
+                return url;
+            }
+
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             String width = intToString(lp.width);
             String height = intToString(lp.height);
@@ -244,6 +254,22 @@ public class Global {
         s = s.replaceAll(html, "$2");
 
         return s;
+    }
+
+    static public String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+
+        } catch (IOException e) {
+        }
+        return outputStream.toString();
     }
 
     public static class URLSpanNoUnderline extends URLSpan {

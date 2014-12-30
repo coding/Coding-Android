@@ -151,6 +151,10 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
         networkImpl.loadData(url, null, tag, -1, id, NetworkImpl.Request.Delete);
     }
 
+    protected void putNetwork(String url, RequestParams params, final String tag) {
+        networkImpl.loadData(url, params, tag, -1, null, NetworkImpl.Request.Put);
+    }
+
     @Override
     public void getNetwork(String url, final String tag) {
         networkImpl.loadData(url, null, tag, -1, null, NetworkImpl.Request.Get);

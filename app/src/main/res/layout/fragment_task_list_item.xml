@@ -52,6 +52,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/round_rect_shape_green"
+            android:textSize="12dp"
+            android:textColor="@color/white"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:layout_marginRight="6dp"
+            android:id="@+id/deadline"
+            android:text="aaa"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Small Text"
             android:id="@+id/name"
             android:textColor="@color/font_gray"

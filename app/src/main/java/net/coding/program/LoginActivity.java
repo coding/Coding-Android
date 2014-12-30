@@ -5,11 +5,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -21,8 +24,13 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
+import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -146,6 +154,8 @@ public class LoginActivity extends BaseActivity {
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
 
+                syncCookie();
+
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
             } else {
@@ -163,6 +173,23 @@ public class LoginActivity extends BaseActivity {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    public void syncCookie() {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(this);
+        List<Cookie> cookies = cookieStore.getCookies();
+
+        CookieManager cookieManager = CookieManager.getInstance();
+
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie eachCookie = cookies.get(i);
+            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
+            cookieManager.setCookie(Global.HOST, cookieString);
+            Log.i(">>>>>", "cookie : " + cookieString);
+        }
+
+        CookieSyncManager.createInstance(this);
+                CookieSyncManager.getInstance().sync();
     }
 }
 

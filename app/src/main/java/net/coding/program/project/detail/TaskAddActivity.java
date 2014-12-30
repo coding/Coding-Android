@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -19,13 +21,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BaseFragmentActivity;
 import net.coding.program.Global;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.DatePickerFragment;
+import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
@@ -33,20 +39,22 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.maopao.item.ContentArea;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.maopao.item.ContentAreaBase;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.BaseComment;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.task.TaskDescriptionActivity_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,7 +63,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_task_add)
-public class TaskAddActivity extends BaseActivity implements StartActivity {
+public class TaskAddActivity extends BaseFragmentActivity implements StartActivity, DatePickerFragment.DateSet {
 
     @Extra
     TaskObject.SingleTask mSingleTask;
@@ -66,18 +74,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
     @Extra
     TaskJumpParams mJumpParams;
 
-    public static class TaskJumpParams implements Serializable {
-        public String userKey;
-        public String projectName;
-        public String taskId;
-
-        public TaskJumpParams(String user, String project, String task) {
-            userKey = user;
-            projectName = project;
-            taskId = task;
-        }
-    }
-
     @ViewById
     ListView listView;
 
@@ -87,45 +83,19 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
     TextView name;
     TextView status;
     LinearLayout linearlayout2;
+    LinearLayout linearlayout3;
     TextView priority;
+    TextView deadline;
+    TextView description;
+    ViewGroup descriptionLayout;
+    TextView descriptionCount;
+
+    TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
+    TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
 
     @StringArrayRes
     String strings_priority[];
     private TextView commentCount;
-
-    static class TaskParams {
-        String content = "";
-        int status;
-        String ownerId = "";
-        int priority;
-        UserObject owner;
-
-        public TaskParams(TaskObject.SingleTask singleTask) {
-            content = singleTask.content;
-            status = singleTask.status;
-            ownerId = singleTask.owner_id;
-            priority = singleTask.priority;
-            owner = singleTask.owner;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            TaskParams that = (TaskParams) o;
-
-            if (priority != that.priority) return false;
-            if (status != that.status) return false;
-            if (content != null ? !content.equals(that.content) : that.content != null)
-                return false;
-            if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
-            if (ownerId != null ? !ownerId.equals(that.ownerId) : that.ownerId != null)
-                return false;
-
-            return true;
-        }
-    }
 
     TaskParams mNewParam;
     TaskParams mOldParam;
@@ -134,36 +104,12 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
 
     final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
 
-    // 发评论
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = mEnterLayout.getContent();
+    String HOST_DESCRIPTER = Global.HOST + "/api/task/%s/description";
 
-            if (EmojiFilter.containsEmoji(s)) {
-                showMiddleToast("暂不支持发表情");
-                return;
-            }
-
-            Object item = mEnterLayout.content.getTag();
-            if (item != null && (item instanceof TaskObject.TaskComment)) {
-                TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
-                String at = String.format("@%s ", comment.owner.global_key);
-                s = at + s;
-            }
-
-            RequestParams params = new RequestParams();
-            params.put("content", s);
-            params.put("extra", "");
-
-            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD);
-        }
-    };
 
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
         initControl();
 
         if (mJumpParams == null) {
@@ -186,17 +132,32 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
         status = (TextView) mHeadView.findViewById(R.id.status);
         priority = (TextView) mHeadView.findViewById(R.id.priority);
         linearlayout2 = (LinearLayout) mHeadView.findViewById(R.id.linearlayout2);
+        linearlayout3 = (LinearLayout) mHeadView.findViewById(R.id.linearlayout3);
+        deadline = (TextView) mHeadView.findViewById(R.id.deadline);
+        descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
+        description = (TextView) mHeadView.findViewById(R.id.description);
+        descriptionCount = (TextView) mHeadView.findViewById(R.id.descripPhotoCount);
         commentCount = (TextView) mHeadView.findViewById(R.id.commentCount);
         listView.addHeaderView(mHeadView);
     }
 
     private void updateSendButton() {
         if (title.getText().toString().isEmpty()
-                || mNewParam.equals(mOldParam)) {
+                || (mNewParam.equals(mOldParam) && !descripChange())) {
             enableSendButton(false);
         } else {
             enableSendButton(true);
         }
+    }
+
+    private boolean descripChange() {
+        if (mSingleTask.id.isEmpty()) {
+            return false;
+        } else {
+            return descriptionData.markdown.equals(descriptionDataNew.markdown);
+        }
+
+
     }
 
     private void enableSendButton(boolean enable) {
@@ -222,6 +183,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             mSingleTask.owner_id = mSingleTask.owner.id;
             mSingleTask.priority = 1; // 默认优先级是 1：正常处理
         }
+
         mNewParam = new TaskParams(mSingleTask);
         mOldParam = new TaskParams(mSingleTask);
 
@@ -251,8 +213,26 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             linearlayout2.setVisibility(View.VISIBLE);
         }
 
+        setDeadline();
+
+        if (mSingleTask.id.isEmpty()) {
+            descriptionLayout.setVisibility(View.VISIBLE);
+            descriptionLayout.setOnClickListener(onClickCreateDescription);
+
+        } else {
+            if (mSingleTask.has_description) {
+                descriptionLayout.setVisibility(View.VISIBLE);
+                description.setText("载入备注中...");
+                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.id);
+                getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
+            } else {
+                descriptionLayout.setVisibility(View.GONE);
+            }
+        }
+
         urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.id);
         getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
+
     }
 
     MenuItem mMenuSave;
@@ -341,6 +321,24 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             }
         });
 
+        linearlayout3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("date", mNewParam.deadline);
+                bundle.putBoolean("clear", true);
+                newFragment.setArguments(bundle);
+
+
+                newFragment.setCancelable(true);
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+                getSupportFragmentManager().executePendingTransactions();
+                dialogTitleLineColor(newFragment.getDialog());
+            }
+        });
+
         ViewGroup layout3 = (ViewGroup) mHeadView.findViewById(R.id.layout3);
         layout3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +356,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             }
         });
 
-
         if (mSingleTask.id.isEmpty()) {
             createName.setText(mNewParam.owner.name);
             time.setText(String.format("现在"));
@@ -366,7 +363,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             createName.setText(mSingleTask.creator.name);
             time.setText(String.format(Global.dayToNow(mSingleTask.created_at)));
         }
-
     }
 
     View listFoot;
@@ -392,10 +388,43 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
+    public void dateSetResult(String date, boolean clear) {
+        if (clear) {
+            mNewParam.deadline = "";
+        } else {
+            mNewParam.deadline = date;
+        }
+
+        deadline.setText(mNewParam.deadline);
+
+        updateSendButton();
+    }
+
     private void setPriority() {
         priority.setText(strings_priority[mNewParam.priority]);
     }
 
+    private void setDeadline() {
+        String s = mNewParam.deadline;
+        if (s.isEmpty()) {
+            s = "未指定";
+        }
+
+        deadline.setText(s);
+    }
+
+    private void setDescription() {
+        Global.MessageParse parseData = HtmlContent.parseMaopao(descriptionDataNew.description);
+        description.setText(Html.fromHtml(parseData.text, myImageGetter, Global.tagHandler));
+        int count = parseData.uris.size();
+        if (count > 0) {
+            descriptionCount.setVisibility(View.VISIBLE);
+            descriptionCount.setText(String.valueOf(count));
+        } else {
+            descriptionCount.setVisibility(View.INVISIBLE);
+        }
+
+    }
 
     final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";
     final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
@@ -407,10 +436,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
 
 
     String urlComments = "";
-
-    // 旧版的任务怎么跳转
-    // https://coding.net/u/ease/p/Coding-iOS/tasks/user/8206503/all
-    // https://coding.net/u/8206503/p/TestIt2/task/9206
 
     @OptionsItem
     void action_save() {
@@ -427,12 +452,14 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             params.put("status", mNewParam.status);
             params.put("priority", mNewParam.priority);
             params.put("owner_id", mNewParam.ownerId);
+            params.put("deadline", mNewParam.deadline);
+            if (!descriptionDataNew.markdown.isEmpty()) {
+                params.put("description", descriptionDataNew.markdown);
+            }
             postNetwork(url, params, HOST_TASK_ADD);
 
         } else {
             String url = String.format(HOST_TASK_UPDATE, mSingleTask.id);
-
-//            PUT /api/task/{id}/update status priority owner_id content
             RequestParams params = new RequestParams();
             if (!content.equals(mSingleTask.content)) {
                 params.put("content", content);
@@ -445,6 +472,16 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             }
             if (!mNewParam.ownerId.equals(mSingleTask.owner_id)) {
                 params.put("owner_id", mNewParam.ownerId);
+            }
+            if (!mNewParam.deadline.equals(mSingleTask.deadline)) {
+                params.put("deadline", mNewParam.deadline);
+            }
+
+            if (mSingleTask.has_description) {
+                String oldData = descriptionData.markdown;
+                if (oldData != null && !oldData.equals(descriptionDataNew.markdown)) {
+                    params.put("description", descriptionDataNew.markdown);
+                }
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
@@ -515,7 +552,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
                 mEnterLayout.content.setTag(null);
 
                 commentAdpter.notifyDataSetChanged();
-
                 updateCommentCount();
             } else {
                 showErrorMsg(code, respanse);
@@ -529,12 +565,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
                         break;
                     }
                 }
-
                 commentAdpter.notifyDataSetChanged();
-
                 updateCommentCount();
-
                 showButtomToast("删除成功");
+
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -558,6 +592,27 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
                 showErrorMsg(code, respanse);
             }
             hideProgressDialog();
+
+        } else if (tag.equals(HOST_DESCRIPTER)) {
+            if (code == 0) {
+                descriptionData = new TaskObject.TaskDescription(respanse.getJSONObject("data"));
+                descriptionDataNew = new TaskObject.TaskDescription(descriptionData);
+                setDescription();
+
+                description.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TaskDescriptionActivity_
+                                .intent(TaskAddActivity.this)
+                                .descriptionData(descriptionData)
+                                .taskId(mSingleTask.id)
+                                .startForResult(RESULT_REQUEST_DESCRIPTION);
+                    }
+                });
+
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 
@@ -565,6 +620,63 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
 
     public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
+
+    public static final int RESULT_REQUEST_DESCRIPTION = 4;
+    public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
+
+
+    @OnActivityResult(RESULT_REQUEST_DESCRIPTION)
+    void resultDescription(int result, Intent data) {
+        if (result == RESULT_OK) {
+//            getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
+            updateDescriptionFromResult(data);
+        }
+    }
+
+    @OnActivityResult(RESULT_REQUEST_DESCRIPTION_CREATE)
+    void resultDescriptionCreate(int result, Intent data) {
+        if (result == RESULT_OK) {
+            updateDescriptionFromResult(data);
+        }
+    }
+
+    void updateDescriptionFromResult(Intent data) {
+        descriptionData.markdown = data.getStringExtra("data");
+
+        final String HOST_PREVIEW = "https://coding.net/api/markdown/preview";
+        RequestParams params = new RequestParams();
+        params.put("content", descriptionData.markdown);
+        postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
+
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
+        client.post(HOST_PREVIEW, params, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                showButtomToast("发生错误 " + statusCode + " " + responseString);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                descriptionDataNew.description = responseString;
+                setDescription();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+        });
+    }
+
+    String createLocateHtml(String s) {
+        try {
+            final String bubble = Global.readTextFile(getAssets().open("topic-android"));
+            return bubble.replace("${webview_content}", s);
+        } catch (Exception e) {
+            Global.errorLog(e);
+            return "";
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -653,23 +765,15 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
                 return 1;
             }
         }
-
     }
 
     private void popListSelectDialog(String title, BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
         AlertDialog.Builder builder = new AlertDialog.Builder(TaskAddActivity.this);
         builder.setTitle(title)
                 .setAdapter(selectsAdapter, clickList);
-        //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
         dialogTitleLineColor(dialog);
-    }
-
-    class ViewHolder {
-        View mIcon;
-        ImageView mCheck;
-        TextView mTitle;
     }
 
     PriorityAdapter mPriorityAdapter;
@@ -731,6 +835,13 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
         private int getSelectPos() {
             return priorityDrawableInverse.length - 1 - mNewParam.priority;
         }
+
+    }
+
+    static class ViewHolder {
+        View mIcon;
+        ImageView mCheck;
+        TextView mTitle;
     }
 
     ArrayList<TaskObject.TaskComment> mData = new ArrayList<TaskObject.TaskComment>();
@@ -809,4 +920,105 @@ public class TaskAddActivity extends BaseActivity implements StartActivity {
             contentArea.setData(comment);
         }
     }
+
+    public static class TaskJumpParams implements Serializable {
+        public String userKey;
+        public String projectName;
+        public String taskId;
+
+        public TaskJumpParams(String user, String project, String task) {
+            userKey = user;
+            projectName = project;
+            taskId = task;
+        }
+    }
+
+    private static class TaskParams {
+        String content = "";
+        int status;
+        String ownerId = "";
+        int priority;
+        String deadline = "";
+
+        UserObject owner;
+
+        public TaskParams(TaskObject.SingleTask singleTask) {
+            content = singleTask.content;
+            status = singleTask.status;
+            ownerId = singleTask.owner_id;
+            priority = singleTask.priority;
+            owner = singleTask.owner;
+            deadline = singleTask.deadline;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            TaskParams that = (TaskParams) o;
+
+            if (priority != that.priority) return false;
+            if (status != that.status) return false;
+            if (content != null ? !content.equals(that.content) : that.content != null)
+                return false;
+            if (deadline != null ? !deadline.equals(that.deadline) : that.deadline != null)
+                return false;
+            if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
+            if (ownerId != null ? !ownerId.equals(that.ownerId) : that.ownerId != null)
+                return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = content != null ? content.hashCode() : 0;
+            result = 31 * result + status;
+            result = 31 * result + (ownerId != null ? ownerId.hashCode() : 0);
+            result = 31 * result + priority;
+            result = 31 * result + (deadline != null ? deadline.hashCode() : 0);
+            result = 31 * result + (owner != null ? owner.hashCode() : 0);
+            return result;
+        }
+    }
+
+    private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TaskDescriptionActivity_
+                    .intent(TaskAddActivity.this)
+                    .taskId("")
+                    .descriptionData(descriptionData)
+                    .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
+        }
+    };
+
+    // 发评论
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String s = mEnterLayout.getContent();
+
+            if (EmojiFilter.containsEmoji(s)) {
+                showMiddleToast("暂不支持发表情");
+                return;
+            }
+
+            Object item = mEnterLayout.content.getTag();
+            if (item != null && (item instanceof TaskObject.TaskComment)) {
+                TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
+                String at = String.format("@%s ", comment.owner.global_key);
+                s = at + s;
+            }
+
+            RequestParams params = new RequestParams();
+            params.put("content", s);
+            params.put("extra", "");
+
+            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD);
+        }
+    };
+
+
 }

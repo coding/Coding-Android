@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/action_cancel"
+        android:title="@string/action_save"
+        android:showAsAction="withText|ifRoom" />
+
+    <item
+        android:id="@+id/action_previewk"
+        android:title="@string/action_perview"
+        android:showAsAction="withText|ifRoom" />
+
+    <!--<item-->
+        <!--android:id="@+id/action_more"-->
+        <!--android:title="@string/action_more"-->
+        <!--android:icon="@drawable/ic_action_overflow"-->
+        <!--android:showAsAction="withText|always" />-->
+
+    <item
+        android:id="@+id/action_clear"
+        android:title="清空备注"
+        android:showAsAction="withText|never" />
+
+</menu>

@@ -6,47 +6,47 @@
     tools:context="net.coding.program.project.detail.TaskAddActivity">
 
     <EditText
-        android:layout_margin="12dp"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="110dp"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal|top"
+        android:layout_margin="12dp"
+        android:layout_marginTop="10dp"
         android:background="@null"
-        android:textSize="17sp"
-        android:textColor="@color/font_black_content"
         android:gravity="top"
-        android:layout_marginTop="10dp" />
+        android:lines="3"
+        android:textColor="@color/font_black_content"
+        android:textSize="17sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:orientation="horizontal">
+        android:paddingRight="12dp">
 
         <TextView
+            android:id="@+id/createrName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:text="Small Text"
-            android:id="@+id/createrName"
             android:textColor="@color/font_gray"
-            android:textSize="12dp"
-            android:layout_gravity="bottom" />
+            android:textSize="12dp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
             android:id="@+id/time"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:drawableLeft="@drawable/ic_clock"
             android:drawablePadding="2dp"
             android:text="Small Text"
             android:textColor="@color/font_gray"
-            android:textSize="12sp"
-            android:layout_gravity="bottom" />
+            android:textSize="12sp" />
 
         <View
             android:id="@+id/delete"
@@ -63,8 +63,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/time"
-        android:background="@color/task_list_head"
-        android:layout_marginTop="7dp" />
+        android:layout_marginTop="7dp"
+        android:background="@color/task_list_head" />
 
     <LinearLayout
         android:id="@+id/linearlayout1"
@@ -80,10 +80,10 @@
             android:id="@+id/circleIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_default_user"
-            android:layout_marginLeft="12dp" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_default_user" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,8 +98,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/font_gray"
             android:text="chenchao陈超"
+            android:textColor="@color/font_gray"
             android:textSize="16sp" />
 
         <ImageView
@@ -132,10 +132,10 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_task_priovity"
-            android:layout_marginLeft="12dp" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_task_priovity" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -150,8 +150,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/font_gray"
             android:text="正常处理"
+            android:textColor="@color/font_gray"
             android:textSize="16sp" />
 
         <ImageView
@@ -183,10 +183,10 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_task_phase"
-            android:layout_marginLeft="12dp" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_task_phase" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -201,8 +201,61 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/font_gray"
             android:text="阶段"
+            android:textColor="@color/font_gray"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_list_right_arr" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearlayout2"
+        android:background="@color/attachment_btn_layout" />
+
+    <LinearLayout
+        android:id="@+id/linearlayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/grayline1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_task_deadline" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="截止日期"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="未指定"
+            android:textColor="@color/font_gray"
             android:textSize="16sp" />
 
         <ImageView
@@ -213,38 +266,68 @@
             android:src="@drawable/ic_list_right_arr" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutListHeadBottom"
-        android:orientation="vertical"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearlayout1"
+        android:background="@color/task_list_head" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/linearlayout1"
-            android:background="@color/task_list_head" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="134dp"
+        android:background="@drawable/task_description_bg"
+        android:orientation="vertical"
+        android:id="@+id/descriptionLayout"
+        android:visibility="visible"
+        android:layout_margin="12dp">
 
         <TextView
-            android:layout_below="@id/layout3"
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:textSize="16sp"
+            android:hint="添加备注"
+            android:textColor="@color/font_gray" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:drawableLeft="@drawable/task_description_extra"
+            android:textColor="@color/font_green"
+            android:id="@+id/descripPhotoCount" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutListHeadBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
             android:id="@+id/commentCount"
-            android:textColor="@color/font_gray"
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout3"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="12dp"
-            android:text="载入评论中" />
+            android:layout_marginTop="5dp"
+            android:text="载入评论中"
+            android:textColor="@color/font_gray"
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_below="@id/commentCount"
-            android:background="@drawable/ic_comment_line"
             android:layout_height="7dp"
-            android:layout_marginTop="3dp" />
+            android:layout_below="@id/commentCount"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/ic_comment_line" />
     </LinearLayout>
 </LinearLayout>
 

@@ -43,11 +43,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.WeakHashMap;
 
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import u.aly.de;
 
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
@@ -149,9 +152,16 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     int mTaskCount[] = new int[2];
 
+
+    final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     @AfterViews
     protected void init() {
         super.init();
+
+        Calendar calendar = Calendar.getInstance();
+        mToday = mDateFormat.format(calendar.getTimeInMillis());
+        mTomorrow = mDateFormat.format(calendar.getTimeInMillis() + 1000 * 60 * 60 * 24);
 
         mNeedUpdate = true;
         mAdapter = new TestBaseAdapter();
@@ -355,6 +365,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     TestBaseAdapter mAdapter;
 
+    String mToday = "";
+    String mTomorrow = "";
+
     public class TestBaseAdapter extends BaseAdapter implements
             StickyListHeadersAdapter, SectionIndexer {
 
@@ -385,6 +398,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 convertView = mInflater.inflate(R.layout.fragment_task_list_item, parent, false);
                 holder.mCheckBox = (CheckBox) convertView.findViewById(R.id.checkbox);
                 holder.mTitle = (TextView) convertView.findViewById(R.id.title);
+                holder.mDeadline = (TextView) convertView.findViewById(R.id.deadline);
                 holder.mName = (TextView) convertView.findViewById(R.id.name);
                 holder.mTime = (TextView) convertView.findViewById(R.id.time);
                 holder.mDiscuss = (TextView) convertView.findViewById(R.id.discuss);
@@ -420,6 +434,31 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
             holder.mCheckBox.setButtonDrawable(checkboxButton[data.priority]);
 
+            if (data.deadline.isEmpty()) {
+                holder.mDeadline.setVisibility(View.GONE);
+            } else {
+                holder.mDeadline.setVisibility(View.VISIBLE);
+
+                if (data.deadline.equals(mToday)) {
+                    holder.mDeadline.setText("今天");
+                    holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_yellow);
+                } else if(data.deadline.equals(mTomorrow)) {
+                    holder.mDeadline.setText("明天");
+                    holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_green);
+                } else {
+                    if (data.deadline.compareTo(mToday) < 0) {
+                        holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_red);
+                    } else {
+                        holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_gray_light);
+                    }
+                    String num[] = data.deadline.split("-");
+                    holder.mDeadline.setText(String.format("%s/%s", num[1], num[2]));
+                }
+
+                if (data.isDone()) {
+                    holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_gray);
+                }
+            }
 
             holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -448,7 +487,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
 
             int type = getSectionForPosition(position);
-//            String title = String.format(task_titles[type], mTaskCount[type]);
             String title = task_titles[type];
             holder.mHead.setText(title);
 
@@ -487,6 +525,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             CheckBox mCheckBox;
             ImageView mIcon;
             TextView mTitle;
+
+            TextView mDeadline;
 
             TextView mName;
             TextView mTime;

@@ -42,9 +42,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -194,28 +191,12 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String bubble;
 
-    private String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-        }
-        return outputStream.toString();
-    }
-
     private void updateHeadData() {
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
 
         View head = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
         try {
-            bubble = readTextFile(getAssets().open("topic-android"));
+            bubble = Global.readTextFile(getAssets().open("topic-android"));
         } catch (Exception e) {
             Global.errorLog(e);
         }
@@ -401,7 +382,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             iconfromNetwork(holder.icon, data.owner.avatar);
 
-            Global.MessageParse content = HtmlContent.parseTaskComment(data.content);
+            Global.MessageParse content = HtmlContent.parseReplacePhoto(data.content);
             holder.title.setText(Global.changeHyperlinkColor(content.text, myImageGetter, Global.tagHandler));
 
             final String timeFormat = "%s 发布于%s";

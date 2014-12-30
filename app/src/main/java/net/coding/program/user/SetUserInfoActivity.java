@@ -67,7 +67,7 @@ public class SetUserInfoActivity extends BaseActivity {
             params.put("name", user.name);
             params.put("sex", user.sex);
             params.put("phone", user.phone);
-            params.put("birthday", Global.dayFromTime(user.birthday));
+            params.put("birthday", user.birthday);
             params.put("location", user.location);
             params.put("company", user.company);
             params.put("slogan", user.slogan);

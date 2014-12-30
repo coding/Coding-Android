@@ -10,6 +10,8 @@
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
+        <item name="android:actionModeBackground">@drawable/gray_drawable</item>
+        <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
     </style>
 
@@ -57,7 +59,6 @@
         <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitleHoloLight</item>
     </style>
-
 
     <style name="DialogWindowTitleHoloLight">
         <item name="android:maxLines">1</item>

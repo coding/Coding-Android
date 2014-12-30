@@ -27,10 +27,10 @@ public class HtmlContent {
     public static String TYPE_IMAGE_HEAD = "imagetype:";
 
     public static String parseDynamic(String s) {
-        return parseTaskComment(s).text;
+        return parseReplacePhoto(s).text;
     }
 
-    public static Global.MessageParse parseTaskComment(String s) {
+    public static Global.MessageParse parseReplacePhoto(String s) {
         Global.MessageParse parse = new Global.MessageParse();
 
         String regx = "(?:<br />)? ?<a href=\".*\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*)\" alt=\"(.*)\".*></a>(?:<br />)? ?";

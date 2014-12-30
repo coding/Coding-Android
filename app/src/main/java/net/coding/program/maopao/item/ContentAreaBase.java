@@ -28,7 +28,7 @@ public class ContentAreaBase {
 
     public void setData(TaskObject.TaskComment comment) {
         String data = comment.content;
-        Global.MessageParse maopaoData = HtmlContent.parseTaskComment(data);
+        Global.MessageParse maopaoData = HtmlContent.parseReplacePhoto(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);

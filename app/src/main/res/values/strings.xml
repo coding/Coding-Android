@@ -45,6 +45,8 @@
     <string name="action_delete">删除</string>
     <string name="action_new_folder">创建文件夹</string>
     <string name="action_cancel">取消</string>
+    <string name="action_ok">确定</string>
+    <string name="action_perview">预览</string>
     <string name="action_info">信息</string>
     <string name="action_more">更多</string>
     <string name="title_activity_user_dynamic">UserDynamicActivity</string>
@@ -53,5 +55,6 @@
     <string name="title_activity_attachment_folder_selector">选择文件夹</string>
     <string name="title_activity_notify_setting">通知栏设置</string>
     <string name="title_activity_members_select">选择项目成员</string>
+    <string name="title_activity_task_description">任务描述</string>
 
 </resources>

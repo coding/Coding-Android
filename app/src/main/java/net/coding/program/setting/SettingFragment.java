@@ -84,7 +84,7 @@ public class SettingFragment extends BaseFragment {
                         break;
 
                     case 6:
-                        AboutActivity_.intent(SettingFragment.this).startForResult(RESULT_CODE_LOGIN_OUT);
+                        AboutActivity_.intent(SettingFragment.this).start();
                         break;
                 }
             }
@@ -118,31 +118,6 @@ public class SettingFragment extends BaseFragment {
         AccountInfo.loginOut(getActivity());
         startActivity(new Intent(getActivity(), LoginActivity_.class));
         getActivity().finish();
-    }
-
-
-    static final int RESULT_CODE_LOGIN_OUT = 30;
-
-    @OnActivityResult(RESULT_CODE_LOGIN_OUT)
-    void onResult(int resultCode) {
-        if (resultCode == Activity.RESULT_OK) {
-            XGPushManager.unregisterPush(getActivity().getApplicationContext());
-            AccountInfo.loginOut(getActivity());
-            getActivity().finish();
-            System.exit(0);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_CODE_LOGIN_OUT) {
-            if (resultCode == Activity.RESULT_OK) {
-                loginOut();
-            }
-
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     BaseAdapter mAdapter = new BaseAdapter() {

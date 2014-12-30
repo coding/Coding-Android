@@ -20,21 +20,6 @@ import java.util.Calendar;
  */
 public class DynamicObject {
 
-//                   ‘Project’,#
-//                   ‘ProjectMember’,#
-//            ‘Tweet’,
-//            ‘TweetComment’,
-//                   ‘Depot’,#
-//                   ‘Task’,#
-//            ‘UserFollow’,
-//                   ‘ProjectFile’, #
-//                   ‘ProjectTopic’,#
-//                      ‘PullRequestBean’,#
-//                      ‘PullRequestComment’,#
-//                      ‘ProjectStar’,#
-//                      ‘ProjectWatcher’,#
-//                   ‘QcTask’#
-
     static final String BLACK_HTML = "<font color='#666666'>%s</font>";
     static final int BLACK_COLOR = 0xff666666;
 
@@ -156,7 +141,6 @@ public class DynamicObject {
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-//            String noImageContent = Global.realParse1(mTaskComment.content, "<img src=\"", "\"", "<", "/>", "[图片]");
             String noImageContent = HtmlContent.parseDynamic(mTaskComment.content);
             return Global.changeHyperlinkColor(noImageContent, BLACK_COLOR, imageGetter);
         }
@@ -616,15 +600,21 @@ public class DynamicObject {
 
         @Override
         public Spanned title() {
-            if (action.equals("update_deadline") || action.equals("update_priority")) {
-                final String format = "%s %s";
-                String title = String.format(format, user.getHtml(), action_msg);
-                return Global.changeHyperlinkColor(title);
+            final String format;
+            final String title;
 
-            } else {
-                final String format = "%s %s %s 的任务";
-                String title = String.format(format, user.getHtml(), action_msg, task.owner.getHtml());
-                return Global.changeHyperlinkColor(title);
+            switch (action) {
+                case "update_deadline":
+                case "update_priority":
+                case "update_description":
+                    format = "%s %s";
+                    title = String.format(format, user.getHtml(), action_msg);
+                    return Global.changeHyperlinkColor(title);
+
+                default:
+                    format = "%s %s %s 的任务";
+                    title = String.format(format, user.getHtml(), action_msg, task.owner.getHtml());
+                    return Global.changeHyperlinkColor(title);
             }
         }
 
@@ -690,8 +680,9 @@ public class DynamicObject {
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            try {
-                if (action.equals("update_deadline")) {
+            final String s;
+            switch (action) {
+                case "update_deadline":
                     Calendar data = Calendar.getInstance();
                     String time[] = task.deadline.split("-");
                     data.set(Integer.valueOf(time[0]), Integer.valueOf(time[1]) - 1, Integer.valueOf(time[2]));
@@ -703,9 +694,10 @@ public class DynamicObject {
                         }
                     }
 
-                    String s = String.format("[%s] %s", dataString, task.getHtml());
-                    return Global.changeHyperlinkColor(s, BLACK_COLOR, imageGetter);
-                } else if (action.equals("update_priority")) {
+                    s = String.format("[%s] %s", dataString, task.getHtml());
+                    break;
+
+                case "update_priority":
                     final String priority[] = new String[]{
                             "有空再看",
                             "正常处理",
@@ -713,14 +705,21 @@ public class DynamicObject {
                             "十万火急",
                     };
 
-                    String s = String.format("[%s] %s", priority[task.priority], task.getHtml());
-                    return Global.changeHyperlinkColor(s, BLACK_COLOR, imageGetter);
-                }
-            } catch (Exception e) {
-                Global.errorLog(e);
+                    s = String.format("[%s] %s", priority[task.priority], task.getHtml());
+                    break;
+
+                case "update_description":
+                    s = task.getDescripHtml();
+                    break;
+
+                default:
+                    s = task.getHtml();
+                    break;
             }
 
-            return Global.changeHyperlinkColor(task.getHtml(), BLACK_COLOR, imageGetter);
+            return Global.changeHyperlinkColor(s, BLACK_COLOR, imageGetter);
+
+
         }
 
         @Override
@@ -843,6 +842,7 @@ public class DynamicObject {
         public String path = "";
         public String title = "";
         public String deadline = "";
+        public String description = "";
         public int priority = 0;
 
         public Task(JSONObject json) throws JSONException {
@@ -854,10 +854,15 @@ public class DynamicObject {
             title = json.optString("title");
             deadline = json.optString("deadline");
             priority = json.optInt("priority");
+            description = json.optString("description");
         }
 
         public String getHtml() {
             return String.format(BLACK_HTML, title);
+        }
+
+        public String getDescripHtml() {
+            return String.format(BLACK_HTML, HtmlContent.parseReplacePhoto(description).text);
         }
     }
 

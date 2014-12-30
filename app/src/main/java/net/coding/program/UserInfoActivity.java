@@ -2,11 +2,8 @@ package net.coding.program;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,16 +13,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.ListModify;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
@@ -46,12 +41,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 
 @EActivity(R.layout.activity_user_info)
 @OptionsMenu(R.menu.user_info)
-public class UserInfoActivity extends BaseFragmentActivity {
+public class UserInfoActivity extends BaseFragmentActivity implements DatePickerFragment.DateSet {
 
     ImageView icon;
 
@@ -121,7 +115,7 @@ public class UserInfoActivity extends BaseFragmentActivity {
         user_info_list_second = new String[]{
                 user.name,
                 sexs[user.sex],
-                Global.dayFromTime(user.birthday),
+                user.birthday,
                 user.location,
                 user.slogan,
                 user.company,
@@ -139,7 +133,7 @@ public class UserInfoActivity extends BaseFragmentActivity {
         params.put("name", user.name);
         params.put("sex", user.sex);
         params.put("phone", user.phone);
-        params.put("birthday", Global.dayFromTime(user.birthday));
+        params.put("birthday", user.birthday);
         params.put("location", user.location.trim());
         params.put("company", user.company);
         params.put("slogan", user.slogan);
@@ -328,7 +322,7 @@ public class UserInfoActivity extends BaseFragmentActivity {
                     //生日
                     DialogFragment newFragment = new DatePickerFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putLong("date", user.birthday);
+                    bundle.putString("date", user.birthday);
                     newFragment.setArguments(bundle);
                     newFragment.setCancelable(true);
                     newFragment.show(getSupportFragmentManager(), "datePicker");
@@ -404,73 +398,10 @@ public class UserInfoActivity extends BaseFragmentActivity {
         dialogTitleLineColor(dialog);
     }
 
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        private UserInfoActivity mActivity;
-
-        @Override
-        public void onAttach(Activity activity) {
-            if (activity instanceof UserInfoActivity) {
-                mActivity = (UserInfoActivity) activity;
-            }
-            super.onAttach(activity);
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(getArguments().getLong("date"));
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            LinearLayout layoutParent = (LinearLayout) datePickerDialog.getDatePicker().getChildAt(0);
-            LinearLayout layout = (LinearLayout) layoutParent.getChildAt(0);
-            for (int i = 0; i < layout.getChildCount(); i++) {
-                View v = layout.getChildAt(i);
-                if (v instanceof NumberPicker) {
-                    setNumberPicker((NumberPicker) v);
-                }
-            }
-            return datePickerDialog;
-        }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            final Calendar c = Calendar.getInstance();
-            c.set(year, monthOfYear, dayOfMonth);
-            if (mActivity != null) {
-                mActivity.setUserinfoBirthday(c.getTimeInMillis());
-            }
-        }
-
-        public void setNumberPicker(NumberPicker spindle) {
-            java.lang.reflect.Field[] pickerFields = NumberPicker.class
-                    .getDeclaredFields();
-            for (java.lang.reflect.Field pf : pickerFields) {
-                if (pf.getName().equals("mSelectionDivider")) {
-                    pf.setAccessible(true);
-                    try {
-                        pf.set(spindle, getResources().getDrawable(R.drawable.line_green));
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    } catch (Resources.NotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                }
-            }
-        }
-    }
-
-    void setUserinfoBirthday(long time) {
-        if (user.birthday != time) {
-            user.birthday = time;
+    @Override
+    public void dateSetResult(String date, boolean clear) {
+        if (!user.birthday.equals(date)) {
+            user.birthday = date;
             action_done();
         }
     }

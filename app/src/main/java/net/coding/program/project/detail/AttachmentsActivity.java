@@ -789,7 +789,6 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 adapter.notifyDataSetChanged();
             }
         };
-
     };
 
     static class ViewHolder {

@@ -41,7 +41,6 @@ public class MyImageDownloader extends BaseImageDownloader {
         }
     }
 
-
     @Override
     protected HttpURLConnection createConnection(String url, Object extra) throws IOException {
         HttpURLConnection conn = super.createConnection(url, extra);

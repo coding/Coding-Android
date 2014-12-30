@@ -50,6 +50,24 @@ public class TaskObject {
         }
     }
 
+    public static class TaskDescription implements Serializable {
+        public String description = "";
+        public String markdown = "";
+
+        public TaskDescription(JSONObject json) throws JSONException {
+            description = json.optString("description");
+            markdown = json.optString("markdown");
+        }
+
+        public TaskDescription(TaskDescription t) {
+            description = t.description;
+            markdown = t.markdown;
+        }
+
+        public TaskDescription() {
+        }
+    }
+
     public static class TaskComment extends BaseComment implements Serializable {
 
         public int taskId;
@@ -75,6 +93,10 @@ public class TaskObject {
     }
 
     public static class SingleTask implements Serializable {
+        public boolean isDone() {
+            return status == 2;
+        }
+
         public String content = "";
         public long created_at;
         public UserObject creator = new UserObject();
@@ -85,10 +107,12 @@ public class TaskObject {
         public String owner_id = "";
         public ProjectObject project = new ProjectObject();
         public String project_id = "";
+        public String deadline = "";
         public int status;
         public int priority;
         public long updated_at;
         public int comments;
+        public boolean has_description;
 
         public SingleTask(JSONObject json) throws JSONException {
             comments = json.optInt("comments");
@@ -117,6 +141,8 @@ public class TaskObject {
             project_id = json.optString("project_id");
             status = json.optInt("status");
             updated_at = json.optLong("updated_at");
+            deadline = json.optString("deadline");
+            has_description = json.optBoolean("has_description", false);
         }
 
         public SingleTask() {
