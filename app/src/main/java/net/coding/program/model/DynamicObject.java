@@ -605,6 +605,12 @@ public class DynamicObject {
 
             switch (action) {
                 case "update_deadline":
+                    if (task.deadline.isEmpty()) {
+                        action_msg = "移除了任务的截止日期";
+                    }
+                    format = "%s %s";
+                    title = String.format(format, user.getHtml(), action_msg);
+                    return Global.changeHyperlinkColor(title);
                 case "update_priority":
                 case "update_description":
                     format = "%s %s";
@@ -683,18 +689,22 @@ public class DynamicObject {
             final String s;
             switch (action) {
                 case "update_deadline":
-                    Calendar data = Calendar.getInstance();
-                    String time[] = task.deadline.split("-");
-                    data.set(Integer.valueOf(time[0]), Integer.valueOf(time[1]) - 1, Integer.valueOf(time[2]));
-                    String dataString = getDay(data.getTimeInMillis());
-                    if (dataString == null) {
-                        dataString = getWeek(data.getTimeInMillis());
+                    if (task.deadline.isEmpty()) { // 移除了 deadline
+                        s = task.getHtml();
+                    } else {
+                        Calendar data = Calendar.getInstance();
+                        String time[] = task.deadline.split("-");
+                        data.set(Integer.valueOf(time[0]), Integer.valueOf(time[1]) - 1, Integer.valueOf(time[2]));
+                        String dataString = getDay(data.getTimeInMillis());
                         if (dataString == null) {
-                            dataString = Global.MonthDayFormatTime.format(data.getTimeInMillis());
+                            dataString = getWeek(data.getTimeInMillis());
+                            if (dataString == null) {
+                                dataString = Global.MonthDayFormatTime.format(data.getTimeInMillis());
+                            }
                         }
+                        s = String.format("[%s] %s", dataString, task.getHtml());
                     }
 
-                    s = String.format("[%s] %s", dataString, task.getHtml());
                     break;
 
                 case "update_priority":

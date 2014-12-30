@@ -83,6 +83,7 @@ public class UserDetailActivity extends BaseActivity {
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
+                setTitleMyPage();
                 resizeHead();
             }
 
@@ -90,11 +91,16 @@ public class UserDetailActivity extends BaseActivity {
         } else {
             String name = getIntent().getData().getQueryParameter("name");
             if (name.equals(MyApp.sUserObject.name)) {
+                setTitleMyPage();
                 resizeHead();
             }
 
             getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
         }
+    }
+
+    private void setTitleMyPage() {
+        getActionBar().setTitle("个人主页");
     }
 
     @Click

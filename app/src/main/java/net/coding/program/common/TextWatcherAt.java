@@ -1,6 +1,7 @@
 package net.coding.program.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 
@@ -39,23 +40,20 @@ public class TextWatcherAt implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String newEnter = s.toString().substring(start, start + count);
         if (newEnter.equals("@")) {
+            Intent intent;
             if (mProjectObject == null) {
-                UsersListActivity_
-                        .intent(mContext)
-                        .type(UsersListActivity.Friend.Follow)
-                        .select(true)
-                        .startForResult(mResult);
+                intent = new Intent(mContext, UsersListActivity_.class);
+                intent.putExtra("type", UsersListActivity.Friend.Follow);
+                intent.putExtra("select", true);
             } else {
-                MembersSelectActivity_
-                        .intent(mContext)
-                        .mProjectObject(mProjectObject)
-                        .startForResult(mResult);
+                intent = new Intent(mContext, MembersSelectActivity_.class);
+                intent.putExtra("mProjectObject", mProjectObject);
             }
+            mStartActivity.startActivityForResult(intent, mResult);
         }
     }
 
     @Override
     public void afterTextChanged(Editable s) {
     }
-
 }
