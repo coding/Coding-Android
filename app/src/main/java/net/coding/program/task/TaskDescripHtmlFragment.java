@@ -1,6 +1,6 @@
 package net.coding.program.task;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.webkit.WebView;
@@ -92,7 +92,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     @OptionsItem
     void action_edit() {
         Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
-        getActivity().getSupportFragmentManager()
+        getActivity().getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack("name")

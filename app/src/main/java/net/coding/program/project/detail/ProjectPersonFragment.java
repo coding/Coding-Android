@@ -1,7 +1,7 @@
 package net.coding.program.project.detail;
 
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 
 import net.coding.program.R;
 

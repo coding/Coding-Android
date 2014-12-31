@@ -3,8 +3,8 @@ package net.coding.program.project.detail;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @EActivity(R.layout.activity_project)
 public class ProjectActivity extends BaseFragmentActivity implements NetworkCallback {
@@ -40,6 +42,8 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
 
     @Extra
     ProjectJumpParam mJumpParam;
+
+    List<WeakReference<Fragment>> mFragments = new ArrayList<>();
 
     public static class ProjectJumpParam implements Serializable {
         public String mProject;
@@ -154,9 +158,11 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
                     bundle.putSerializable("mProjectObject", mProjectObject);
                     fragment.setArguments(bundle);
 
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.container, fragment, project_activity_action_list.get(position));
                     ft.commit();
+
+                    mFragments.add(new WeakReference<Fragment>(fragment));
 
                 } catch (Exception e) {
                     Global.errorLog(e);
@@ -243,8 +249,10 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
 
     @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
     void onFileResult(int resultCode, Intent data) {
-        for (Fragment f : getSupportFragmentManager().getFragments()) {
-            if (f instanceof ProjectAttachmentFragment_) {
+
+        for (WeakReference<Fragment> item : mFragments) {
+            Fragment f = item.get();
+            if (f != null && f instanceof ProjectAttachmentFragment_) {
                 ((ProjectAttachmentFragment_) f).onFileResult(resultCode, data);
             }
         }

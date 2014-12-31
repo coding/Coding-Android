@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "net.coding.program"
@@ -37,6 +37,7 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
+    compile 'com.android.support:support-v13:21.0.3'
 }
 
 //################

@@ -4,9 +4,9 @@ package net.coding.program.project.detail;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
@@ -15,6 +15,7 @@ import net.coding.program.Global;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -30,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,15 +164,16 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
     @Override
     public void taskListParentUpdate() {
-        List<Fragment> fragmentArray = getChildFragmentManager().getFragments();
-        for (Fragment item : fragmentArray) {
-            if (item instanceof TaskListUpdate) {
+        List<WeakReference<Fragment>> fragmentArray = adapter.getFragments();
+        for (WeakReference<Fragment> ref : fragmentArray) {
+            Fragment item = ref.get();
+            if (item != null && item instanceof TaskListUpdate) {
                 ((TaskListUpdate) item).taskListUpdate();
             }
         }
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
+    public class MyPagerAdapter extends SaveFragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -198,6 +201,8 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             fragment.setParent(ProjectTaskFragment.this);
 
             fragment.setArguments(bundle);
+
+            saveFragment(fragment);
 
             return fragment;
         }

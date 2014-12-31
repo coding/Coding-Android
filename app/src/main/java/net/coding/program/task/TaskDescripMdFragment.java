@@ -1,7 +1,7 @@
 package net.coding.program.task;
 
 import android.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.EditText;
@@ -41,11 +41,11 @@ public class TaskDescripMdFragment extends BaseFragment {
                 .preview(true)
                 .build();
 
-        getActivity().getSupportFragmentManager()
+        getActivity().getFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(
-                        R.anim.listview_fade_in, R.anim.listview_fade_out
-                )
+                        R.animator.card_flip_right_in, R.animator.card_flip_right_out,
+                        R.animator.card_flip_left_in, R.animator.card_flip_left_out)
                 .replace(R.id.container, fragment)
                 .addToBackStack("pre")
                 .commit();

@@ -1,14 +1,15 @@
 package net.coding.program.common.umeng;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
 
 import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by chaochen on 14-10-9.
  */
-public class UmengFragmentActivity extends FragmentActivity {
+public class UmengFragmentActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

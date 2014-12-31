@@ -9,9 +9,9 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -171,7 +171,7 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.name);
         loading.setVisibility(View.GONE);
 
-        adapter = new ImagePager(getSupportFragmentManager());
+        adapter = new ImagePager(getFragmentManager());
         pager.setAdapter(adapter);
         pager.setOnPageChangeListener(onPageChangeListener);
         pager.setCurrentItem(mPagerPosition, false);

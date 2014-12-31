@@ -2,7 +2,7 @@ package net.coding.program.maopao;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;

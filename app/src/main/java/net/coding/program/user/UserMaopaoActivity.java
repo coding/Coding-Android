@@ -1,16 +1,17 @@
 package net.coding.program.user;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import net.coding.program.R;
 import net.coding.program.maopao.MaopaoListFragment_;
 
-public class UserMaopaoActivity extends FragmentActivity {
+public class UserMaopaoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class UserMaopaoActivity extends FragmentActivity {
         bundle.putString("userId", userId);
         fragment.setArguments(bundle);
 
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.container, fragment, "所有冒泡");
         ft.commit();

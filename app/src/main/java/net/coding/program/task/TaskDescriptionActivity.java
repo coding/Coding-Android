@@ -5,8 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,7 +60,7 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
                     .build();
         }
 
-        getSupportFragmentManager()
+        getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();

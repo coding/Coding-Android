@@ -3,7 +3,7 @@ package net.coding.program.task;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import net.coding.program.Global;
 import net.coding.program.R;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -28,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,17 +116,18 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
     @Override
     public void taskListParentUpdate() {
-        List<Fragment> array = getChildFragmentManager().getFragments();
-        for (Fragment fragment : array) {
+        List<WeakReference<Fragment>> array = adapter.getFragments();
+        for (WeakReference<Fragment> item : array) {
+            Fragment fragment = item.get();
             if (fragment instanceof TaskListUpdate) {
                 ((TaskListUpdate) fragment).taskListUpdate();
             }
         }
     }
 
-    private class PageTaskFragment extends android.support.v4.app.FragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
+    private class PageTaskFragment extends SaveFragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
 
-        public PageTaskFragment(android.support.v4.app.FragmentManager fm) {
+        public PageTaskFragment(android.app.FragmentManager fm) {
             super(fm);
         }
 
@@ -167,6 +170,8 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
             bundle.putBoolean("mShowAdd", false);
 
             fragment.setArguments(bundle);
+
+            saveFragment(fragment);
 
             return fragment;
         }

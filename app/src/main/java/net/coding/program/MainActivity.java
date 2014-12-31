@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -148,7 +148,7 @@ public class MainActivity extends BaseFragmentActivity
 
                 fragment.setArguments(bundle);
 
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Log.d("", ft == null ? "is null" : "is good");
                 ft.replace(R.id.container, fragment, strings[position]);
@@ -159,7 +159,7 @@ public class MainActivity extends BaseFragmentActivity
         };
 
         mNavigationDrawerFragment = (NavigationDrawerFragment_)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         mTitle = drawer_title[0];
 
@@ -209,7 +209,7 @@ public class MainActivity extends BaseFragmentActivity
         getActionBar().setDisplayShowCustomEnabled(useCustomBar);
 
         if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
 
     }

@@ -33,7 +33,7 @@ public class UserDynamicActivity extends BaseFragmentActivity {
         bundle.putSerializable("mProjectObject", mProjectObject);
         fragment.setArguments(bundle);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
     }
 
     @OptionsItem(android.R.id.home)

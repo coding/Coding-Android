@@ -4,14 +4,15 @@ package net.coding.program.project.detail;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import net.coding.program.R;
+import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.third.WechatTab;
@@ -22,6 +23,7 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 
@@ -79,7 +81,7 @@ public class TopicFragment extends BaseFragment {
         tabs.setTabBackground(0);
     }
 
-    class MyPagerAdapter extends FragmentPagerAdapter {
+    class MyPagerAdapter extends SaveFragmentPagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -103,15 +105,17 @@ public class TopicFragment extends BaseFragment {
             bundle.putInt("type", position);
             fragment.setArguments(bundle);
 
+            saveFragment(fragment);
+
             return fragment;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        List<Fragment> fragments = getChildFragmentManager().getFragments();
-        for (Fragment fragment : fragments) {
-            fragment.onActivityResult(requestCode, resultCode, data);
+        List<WeakReference<Fragment>> fragments = adapter.getFragments();
+        for (WeakReference<Fragment> fragment : fragments) {
+            fragment.get().onActivityResult(requestCode, resultCode, data);
         }
 
         super.onActivityResult(requestCode, resultCode, data);

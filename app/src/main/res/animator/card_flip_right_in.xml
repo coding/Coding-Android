@@ -36,14 +36,14 @@
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Before rotating, immediately set the alpha to 0. -->
-    <alpha
+    <objectAnimator
         android:valueFrom="1.0"
         android:valueTo="0.0"
         android:propertyName="alpha"
         android:duration="0" />
 
     <!-- Rotate. -->
-    <rotate
+    <objectAnimator
         android:valueFrom="180"
         android:valueTo="0"
         android:propertyName="rotationY"
@@ -51,7 +51,7 @@
         android:duration="@integer/card_flip_time_full" />
 
     <!-- Half-way through the rotation (see startOffset), set the alpha to 1. -->
-    <alpha
+    <objectAnimator
         android:valueFrom="0.0"
         android:valueTo="1.0"
         android:propertyName="alpha"

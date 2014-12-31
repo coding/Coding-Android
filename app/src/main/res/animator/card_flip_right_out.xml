@@ -18,14 +18,14 @@
     This object animator is used as a custom fragment transition. See
     FragmentTransaction.setCustomAnimation for more details.
 
-    The overall effect of this animator is to rotate the front of the card
+    The overall effect of this animator is to rotate the back of the card
     out of view. The order of operations is described below:
 
-    1. The front rotates 90 degrees, from facing the user to being
-       zero-width, fully perpendicular to the viewer, facing left.
-    2. The front is then made invisible (this is half-way through the
+    1. The back rotates 90 degrees, from facing the user to being
+       zero-width, fully perpendicular to the viewer, facing right.
+    2. The back is then made invisible (this is half-way through the
        animation).
-    3. The front rotates another 90 degrees, from zero-width, to
+    3. The back rotates another 90 degrees, from zero-width, to
        100% of its normal width, but facing away from the user and
        still invisible.
 
@@ -35,15 +35,15 @@
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Rotate. -->
-    <rotate
+    <objectAnimator
         android:valueFrom="0"
-        android:valueTo="180"
+        android:valueTo="-180"
         android:propertyName="rotationY"
         android:interpolator="@android:interpolator/accelerate_decelerate"
         android:duration="@integer/card_flip_time_full" />
 
     <!-- Half-way through the rotation (see startOffset), set the alpha to 0. -->
-    <alpha
+    <objectAnimator
         android:valueFrom="1.0"
         android:valueTo="0.0"
         android:propertyName="alpha"

@@ -1,8 +1,8 @@
 package net.coding.program.project.detail;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import net.coding.program.R;
@@ -14,7 +14,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 @EActivity(R.layout.activity_project_git_tree)
-public class GitTreeActivity extends FragmentActivity {
+public class GitTreeActivity extends Activity {
 
     @Extra
     ProjectObject mProjectObject;
@@ -31,7 +31,7 @@ public class GitTreeActivity extends FragmentActivity {
 
         ProjectGitFragment fragment = ProjectGitFragment_.builder().mGitFileInfoObject(mGitFileInfoObject).mProjectObject(mProjectObject).build();
 
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.container, fragment, mGitFileInfoObject.name);
         ft.commit();
