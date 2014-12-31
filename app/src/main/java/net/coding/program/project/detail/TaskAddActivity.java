@@ -641,11 +641,11 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     }
 
     void updateDescriptionFromResult(Intent data) {
-        descriptionData.markdown = data.getStringExtra("data");
+        descriptionDataNew.markdown = data.getStringExtra("data");
 
         final String HOST_PREVIEW = "https://coding.net/api/markdown/preview";
         RequestParams params = new RequestParams();
-        params.put("content", descriptionData.markdown);
+        params.put("content", descriptionDataNew.markdown);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
 
         AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
