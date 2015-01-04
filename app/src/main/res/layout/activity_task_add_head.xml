@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="net.coding.program.project.detail.TaskAddActivity">
+    tools:context="net.coding.program.task.TaskAddActivity">
 
     <EditText
         android:id="@+id/title"

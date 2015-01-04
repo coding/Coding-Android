@@ -30,6 +30,7 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
+import net.coding.program.task.TaskAddActivity_;
 import net.coding.program.task.TaskListUpdate;
 
 import org.androidannotations.annotations.AfterViews;
@@ -50,7 +51,6 @@ import java.util.WeakHashMap;
 
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import u.aly.de;
 
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {

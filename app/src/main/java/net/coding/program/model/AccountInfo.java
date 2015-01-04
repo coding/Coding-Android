@@ -2,6 +2,7 @@ package net.coding.program.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Pair;
 
 import net.coding.program.user.UsersListActivity;
 
@@ -9,20 +10,20 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-7.
  */
 public class AccountInfo {
 
-    private static final String ACCOUNT = "ACCOUNT";
-
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
         String[] fileNameList = dir.list();
         for (String item : fileNameList) {
             File file = new File(dir, item);
-            if (file.exists()) {
+            if (file.exists() && !file.isDirectory()) {
                 file.delete();
             }
         }
@@ -30,6 +31,8 @@ public class AccountInfo {
         AccountInfo.setNeedPush(ctx, true);
 
     }
+
+    private static final String ACCOUNT = "ACCOUNT";
 
     public static void saveAccount(Context ctx, UserObject data) {
         File file = new File(ctx.getFilesDir(), ACCOUNT);
@@ -195,12 +198,32 @@ public class AccountInfo {
 
     static class DataCache<T> {
 
+        public final static String FILDER_GLOBAL = "FILDER_GLOBAL";
+
         public void save(Context ctx, ArrayList<T> data, String name) {
+            save(ctx, data, name, "");
+        }
+
+        public void saveGlobal(Context ctx, ArrayList<T> data, String name) {
+            save(ctx, data, name, FILDER_GLOBAL);
+        }
+
+        private void save(Context ctx, ArrayList<T> data, String name, String folder) {
             if (ctx == null) {
                 return;
             }
 
-            File file = new File(ctx.getFilesDir(), name);
+            File file;
+            if (folder.isEmpty()) {
+                File fileDir = new File(ctx.getFilesDir(), folder);
+                if (!fileDir.exists() || !fileDir.isDirectory()) {
+                    fileDir.mkdir();
+                }
+                file = new File(fileDir, name);
+            } else {
+                file = new File(ctx.getFilesDir(), name);
+            }
+
             if (file.exists()) {
                 file.delete();
             }
@@ -216,8 +239,31 @@ public class AccountInfo {
         }
 
         public ArrayList<T> load(Context ctx, String name) {
+            return load(ctx, name, "");
+        }
+
+        public ArrayList<T> loadGlobal(Context ctx, String name) {
+            return load(ctx, name, FILDER_GLOBAL);
+        }
+
+        private ArrayList<T> load(Context ctx, String name, String folder) {
             ArrayList<T> data = null;
-            File file = new File(ctx.getFilesDir(), name);
+
+            File file;
+            if (folder.isEmpty()) {
+                File fileDir = new File(ctx.getFilesDir(), folder);
+                if (!fileDir.exists() || !fileDir.isDirectory()) {
+                    fileDir.mkdir();
+                }
+                file = new File(fileDir, name);
+            } else {
+                file = new File(ctx.getFilesDir(), name);
+            }
+
+            if (file.exists()) {
+                file.delete();
+            }
+
             if (file.exists()) {
                 try {
                     ObjectInputStream ois = new ObjectInputStream(ctx.openFileInput(name));
@@ -234,6 +280,7 @@ public class AccountInfo {
 
             return data;
         }
+
     }
 
     private static final String CACHE_FRIEND_FOLLOW = "CACHE_FRIEND_FOLLOW";
@@ -290,4 +337,39 @@ public class AccountInfo {
     public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, String id) {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
     }
+
+    private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO";
+    public static void saveReloginInfo(Context ctx, String email, String globayKey) {
+        DataCache<Pair<String, String>> dateCache = new DataCache<>();
+        ArrayList<Pair<String, String>> listData = dateCache.loadGlobal(ctx, USER_RELOGIN_INFO);
+        for (Pair<String, String> item : listData) {
+            if (item.second.equals(globayKey)) {
+                listData.remove(item);
+            }
+        }
+        listData.add(new Pair<>(email, globayKey));
+        dateCache.saveGlobal(ctx, listData, USER_RELOGIN_INFO);
+    }
+
+    public static String loadRelogininfo(Context ctx, String key) {
+        ArrayList<Pair<String, String>> listData = new DataCache<Pair<String, String>>().loadGlobal(ctx, USER_RELOGIN_INFO);
+        if (key.contains("@")) {
+            for (Pair<String, String> item : listData) {
+                if (item.first.equals(key)) {
+                    return item.second;
+                }
+            }
+
+        } else {
+            for (Pair<String, String> item : listData) {
+                if (item.second.equals(key)) {
+                    return item.second;
+                }
+            }
+        }
+
+        return "";
+    }
+
+
 }

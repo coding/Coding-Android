@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
@@ -34,6 +35,12 @@ import java.util.List;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
+
+    @ViewById
+    ImageView userIcon;
+
+    @ViewById
+    ImageView backgroundImage;
 
     @ViewById
     EditText editName;

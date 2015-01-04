@@ -1,8 +1,10 @@
 package net.coding.program;
 
 import android.app.Application;
+import android.app.Fragment;
 import android.test.ApplicationTestCase;
 
+import net.coding.program.model.AccountInfo;
 import net.coding.program.third.EmojiFilter;
 
 /**
@@ -19,14 +21,14 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testEmojiFilter() {
-        String s[] = new String[] {"°" ,
-                "(" ,
-                "・" ,
-                "∀" ,
-                "・" ,
-                "≡" ,
-                "＝" ,
-                "－" ,
+        String s[] = new String[]{"°",
+                "(",
+                "・",
+                "∀",
+                "・",
+                "≡",
+                "＝",
+                "－",
                 "▪",
                 "▪",
                 "(・∀・ ≡＝－(・∀・ ≡＝－"
@@ -35,5 +37,21 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         for (String item : s) {
             assertFalse(EmojiFilter.containsEmoji(item));
         }
+    }
+
+    public void testSaveGlobal() {
+        String a1 = "chen@qq";
+        String a2 = "1234";
+
+        String b1 = "chao@zzz";
+
+        String c2 = "785";
+
+        AccountInfo.saveReloginInfo(getContext(), a1, a2);
+
+//        assertEquals(AccountInfo.loadRelogininfo(mContext, a1), a2);
+//        assertEquals(AccountInfo.loadRelogininfo(mContext, a2), a2);
+//        assertTrue(AccountInfo.loadRelogininfo(mContext, b1).isEmpty());
+//        assertTrue(AccountInfo.loadRelogininfo(mContext, c2).isEmpty());
     }
 }

@@ -1,11 +1,11 @@
-package net.coding.program.project.detail;
+package net.coding.program.task;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -44,7 +44,8 @@ import net.coding.program.maopao.item.ContentAreaBase;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
-import net.coding.program.task.TaskDescriptionActivity_;
+import net.coding.program.project.detail.MembersActivity_;
+import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;

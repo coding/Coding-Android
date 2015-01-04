@@ -14,7 +14,8 @@
     <item name="line_green" type="drawable">#ff3bbd79</item>
     <item name="line_gray" type="drawable">#ffc7cacc</item>
     <color name="background_tab_pressed">#ffffff</color>
-    <color name="white">#ffffff</color>
+    <color name="white">#ffffffff</color>
+    <drawable name="white">#ffffffff</drawable>
     <color name="font_black">#010101</color>
 
     <color name="divide_line_color">#dddddd</color>
@@ -26,6 +27,7 @@
     <color name="font_black_content_disabled">#cacaca</color>
     <color name="font_black_comment">#666666</color>
     <color name="font_gray">#999999</color>
+    <color name="font_white">#ffffff</color>
 
     <color name="bg_maopao_comment">#e6e6e6</color>
     <color name="divide">#e3e5e7</color>

@@ -37,10 +37,11 @@ import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
-import net.coding.program.project.detail.TaskAddActivity;
-import net.coding.program.project.detail.TaskAddActivity_;
+import net.coding.program.task.TaskAddActivity;
+import net.coding.program.task.TaskAddActivity_;
 import net.coding.program.project.detail.TopicListDetailActivity;
 import net.coding.program.project.detail.TopicListDetailActivity_;
+import net.coding.program.task.TaskAddActivity_;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
