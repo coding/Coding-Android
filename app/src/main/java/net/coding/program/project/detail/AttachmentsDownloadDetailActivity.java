@@ -229,6 +229,7 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
                 hideProgressDialog();
                 JSONObject file = response.getJSONObject("data").getJSONObject("file");
                 mFileObject = new AttachmentFileObject(file);
+                mAttachmentFileObject = mFileObject;
                 downloadId = downloadList.getLong(mFileObject.file_id, 0L);
 
 

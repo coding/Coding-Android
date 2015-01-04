@@ -10,4 +10,13 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent" />
 
+
+    <ProgressBar android:id="@+id/loading"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:indeterminate="false" />
+
 </FrameLayout>

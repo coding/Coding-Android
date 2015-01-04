@@ -88,7 +88,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     TextView deadline;
     TextView description;
     ViewGroup descriptionLayout;
-    TextView descriptionCount;
 
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
@@ -136,7 +135,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         deadline = (TextView) mHeadView.findViewById(R.id.deadline);
         descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
         description = (TextView) mHeadView.findViewById(R.id.description);
-        descriptionCount = (TextView) mHeadView.findViewById(R.id.descripPhotoCount);
         commentCount = (TextView) mHeadView.findViewById(R.id.commentCount);
         listView.addHeaderView(mHeadView);
     }
@@ -414,16 +412,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     }
 
     private void setDescription() {
-        Global.MessageParse parseData = HtmlContent.parseMaopao(descriptionDataNew.description);
+        Global.MessageParse parseData = HtmlContent.parseReplacePhoto(descriptionDataNew.description);
         description.setText(Html.fromHtml(parseData.text, myImageGetter, Global.tagHandler));
-        int count = parseData.uris.size();
-        if (count > 0) {
-            descriptionCount.setVisibility(View.VISIBLE);
-            descriptionCount.setText(String.valueOf(count));
-        } else {
-            descriptionCount.setVisibility(View.INVISIBLE);
-        }
-
     }
 
     final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";

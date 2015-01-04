@@ -1,8 +1,12 @@
 package net.coding.program.task;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -26,6 +30,9 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     @ViewById
     WebView descWeb;
 
+    @ViewById
+    View loading;
+
     @FragmentArg
     String contentMd = "";
 
@@ -35,16 +42,68 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     @FragmentArg
     boolean preview = false;
 
+    ActionMode mActionMode;
+
     @AfterViews
     void init() {
         setHasOptionsMenu(true);
 
         if (contentHtml.isEmpty()) {
             mdToHtml();
+            mActionMode = getActivity().startActionMode(mActionModeCallback);
         } else {
             displayWebView();
         }
     }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        int id = 0;
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_task_description_pre, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_save:
+                    ((TaskDescrip) getActivity()).closeAndSave(contentMd);
+                    return true;
+
+                case R.id.action_edit:
+                    id = R.id.action_edit;
+                    mActionMode.finish();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+//            getFragmentManager().popBackStack();
+
+            Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
+            FragmentManager manager = getActivity().getFragmentManager();
+            manager.popBackStack();
+            if (id == R.id.action_edit) {
+                manager
+                        .beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .addToBackStack("name")
+                        .commit();
+            }
+        }
+    };
 
     private void displayWebView() {
         descWeb.getSettings().setJavaScriptEnabled(true);
@@ -65,6 +124,8 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     }
 
     private void mdToHtml() {
+        loading.setVisibility(View.VISIBLE);
+
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
@@ -84,7 +145,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
             @Override
             public void onFinish() {
-                hideProgressDialog();
+                loading.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -92,7 +153,9 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     @OptionsItem
     void action_edit() {
         Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
-        getActivity().getFragmentManager()
+        FragmentManager manager = getActivity().getFragmentManager();
+        manager.popBackStack();
+        manager
                 .beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack("name")

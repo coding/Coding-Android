@@ -171,48 +171,6 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
     }
 
 
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            menu.clear();
-            mode.getMenu().clear();
-            mode.getMenuInflater().inflate(R.menu.task_description_edit, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_cancel:
-                    closeAndSave("");
-                    return true;
-
-                case R.id.action_previewk:
-                    showDialogLoading();
-
-                    return true;
-
-                case R.id.action_clear:
-                    description.setText("");
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            showEdit(false);
-        }
-    };
-
     @Override
     public void closeAndSave(String s) {
         Intent intent = new Intent();
