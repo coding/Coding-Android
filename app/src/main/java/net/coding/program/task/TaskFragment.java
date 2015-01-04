@@ -3,7 +3,7 @@ package net.coding.program.task;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -127,7 +127,7 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
     private class PageTaskFragment extends SaveFragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
 
-        public PageTaskFragment(android.app.FragmentManager fm) {
+        public PageTaskFragment(android.support.v4.app.FragmentManager fm) {
             super(fm);
         }
 

@@ -3,8 +3,8 @@ package net.coding.program.project.detail;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,7 +158,7 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
                     bundle.putSerializable("mProjectObject", mProjectObject);
                     fragment.setArguments(bundle);
 
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.container, fragment, project_activity_action_list.get(position));
                     ft.commit();
 

@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -325,8 +325,8 @@ public class UserInfoActivity extends BaseFragmentActivity implements DatePicker
                     bundle.putString("date", user.birthday);
                     newFragment.setArguments(bundle);
                     newFragment.setCancelable(true);
-                    newFragment.show(getFragmentManager(), "datePicker");
-                    getFragmentManager().executePendingTransactions();
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                    getSupportFragmentManager().executePendingTransactions();
                     dialogTitleLineColor(newFragment.getDialog());
                     break;
 
@@ -347,8 +347,8 @@ public class UserInfoActivity extends BaseFragmentActivity implements DatePicker
                         }
                     });
                     //provincesDialogFragment.setCancelable(true);
-                    provincesDialogFragment.show(getFragmentManager(), "provincesPicker");
-                    getFragmentManager().executePendingTransactions();
+                    provincesDialogFragment.show(getSupportFragmentManager(), "provincesPicker");
+                    getSupportFragmentManager().executePendingTransactions();
                     dialogTitleLineColor(provincesDialogFragment.getDialog());
                     break;
 

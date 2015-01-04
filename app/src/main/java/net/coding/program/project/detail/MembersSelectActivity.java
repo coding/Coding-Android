@@ -19,7 +19,7 @@ public class MembersSelectActivity extends BaseFragmentActivity {
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, new MembersListFragment_
                         .FragmentBuilder_()

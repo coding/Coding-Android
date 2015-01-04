@@ -1,8 +1,8 @@
 package net.coding.program.task;
 
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -83,14 +83,14 @@ public class TaskDescripMdFragment extends BaseFragment {
                     .preview(true)
                     .build();
 
-            FragmentManager fragmentManager = getActivity().getFragmentManager();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
             if (id == R.id.action_preview) {
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(
-                                R.animator.alpha_in, R.animator.alpha_out,
-                                R.animator.alpha_in, R.animator.alpha_out)
+                                R.anim.alpha_in, R.anim.alpha_out,
+                                R.anim.alpha_in, R.anim.alpha_out)
                         .replace(R.id.container, fragment)
                         .addToBackStack("pre")
                         .commit();

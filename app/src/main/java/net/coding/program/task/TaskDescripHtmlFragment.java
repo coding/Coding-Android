@@ -1,7 +1,7 @@
 package net.coding.program.task;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -90,10 +90,10 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-//            getFragmentManager().popBackStack();
+//            getSupportFragmentManager().popBackStack();
 
             Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
-            FragmentManager manager = getActivity().getFragmentManager();
+            FragmentManager manager = getActivity().getSupportFragmentManager();
             manager.popBackStack();
             if (id == R.id.action_edit) {
                 manager
@@ -153,7 +153,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     @OptionsItem
     void action_edit() {
         Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
-        FragmentManager manager = getActivity().getFragmentManager();
+        FragmentManager manager = getActivity().getSupportFragmentManager();
         manager.popBackStack();
         manager
                 .beginTransaction()

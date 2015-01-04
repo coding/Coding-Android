@@ -1,11 +1,15 @@
 package net.coding.program;
 
 import android.app.Application;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.test.ApplicationTestCase;
 
 import net.coding.program.model.AccountInfo;
 import net.coding.program.third.EmojiFilter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -49,9 +53,9 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         AccountInfo.saveReloginInfo(getContext(), a1, a2);
 
-//        assertEquals(AccountInfo.loadRelogininfo(mContext, a1), a2);
-//        assertEquals(AccountInfo.loadRelogininfo(mContext, a2), a2);
-//        assertTrue(AccountInfo.loadRelogininfo(mContext, b1).isEmpty());
-//        assertTrue(AccountInfo.loadRelogininfo(mContext, c2).isEmpty());
+        assertEquals(AccountInfo.loadRelogininfo(mContext, a1), a2);
+        assertEquals(AccountInfo.loadRelogininfo(mContext, a2), a2);
+        assertTrue(AccountInfo.loadRelogininfo(mContext, b1).isEmpty());
+        assertTrue(AccountInfo.loadRelogininfo(mContext, c2).isEmpty());
     }
 }

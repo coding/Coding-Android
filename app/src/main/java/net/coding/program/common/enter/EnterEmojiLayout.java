@@ -1,10 +1,11 @@
 package net.coding.program.common.enter;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -40,11 +41,11 @@ public class EnterEmojiLayout extends EnterLayout {
         Default, SmallOnly
     }
 
-    public EnterEmojiLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type) {
+    public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type) {
         this(activity, sendTextOnClick, type, EmojiType.Default);
     }
 
-    public EnterEmojiLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
+    public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type);
 
         mActivity = activity;
@@ -104,8 +105,8 @@ public class EnterEmojiLayout extends EnterLayout {
         emojiKeyboardLayout = activity.findViewById(R.id.emojiKeyboardLayout);
 
         final ViewPager viewPager = (ViewPager) activity.findViewById(R.id.viewPager);
-        mEmojiPagerAdapter = new EmojiPagerAdapter(activity.getFragmentManager());
-        mMonkeyPagerAdapter = new MonkeyPagerAdapter(activity.getFragmentManager());
+        mEmojiPagerAdapter = new EmojiPagerAdapter(activity.getSupportFragmentManager());
+        mMonkeyPagerAdapter = new MonkeyPagerAdapter(activity.getSupportFragmentManager());
 
         emojiKeyboardIndicator = (LinearLayout) mActivity.findViewById(R.id.emojiKeyboardIndicator);
 
@@ -186,7 +187,7 @@ public class EnterEmojiLayout extends EnterLayout {
     PageChangeListener pageChange = new PageChangeListener();
 
 
-    public EnterEmojiLayout(Activity activity, View.OnClickListener sendTextOnClick) {
+    public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick) {
         this(activity, sendTextOnClick, Type.Default);
     }
 

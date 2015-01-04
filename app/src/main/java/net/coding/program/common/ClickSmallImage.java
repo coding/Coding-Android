@@ -1,7 +1,7 @@
 package net.coding.program.common;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import net.coding.program.ImagePagerActivity_;

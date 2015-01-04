@@ -2,7 +2,7 @@ package net.coding.program.task;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -332,8 +332,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
 
                 newFragment.setCancelable(true);
-                newFragment.show(getFragmentManager(), "datePicker");
-                getFragmentManager().executePendingTransactions();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+                getSupportFragmentManager().executePendingTransactions();
                 dialogTitleLineColor(newFragment.getDialog());
             }
         });

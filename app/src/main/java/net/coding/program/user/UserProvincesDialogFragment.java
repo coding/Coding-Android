@@ -3,7 +3,7 @@ package net.coding.program.user;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
 
 import net.coding.program.R;
 
