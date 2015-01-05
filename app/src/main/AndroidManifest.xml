@@ -42,6 +42,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -123,6 +124,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
+            android:theme="@style/TranslateTheme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
@@ -146,7 +148,7 @@
             android:name=".EntranceActivity_"
             android:icon="@drawable/ic_launcher"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@style/TranslateThemeFull" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

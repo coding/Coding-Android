@@ -38,6 +38,7 @@
     <color name="spinner_divider">#ff252b37</color>
 
     <color name="transparent">#00000000</color>
+    <drawable name="transparent">#00000000</drawable>
 
     <!-- user info tags -->
     <color name="user_info_tags_bg_1">#EBEBEB</color>

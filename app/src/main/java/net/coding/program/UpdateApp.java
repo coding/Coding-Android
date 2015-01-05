@@ -30,20 +30,10 @@ public class UpdateApp {
     }
 
     public void runInBackground() {
-        if (isWifiConnected(mContext)) {
+        if (Global.isWifiConnected(mContext)) {
             Log.d("", "ddd is wifi");
             run(true);
         }
-    }
-
-    private boolean isWifiConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activityNetwork = mConnectivityManager.getActiveNetworkInfo();
-            return activityNetwork != null && activityNetwork.getType() == ConnectivityManager.TYPE_WIFI;
-        }
-        return false;
     }
 
     public void deleteOldApk() {

@@ -6,6 +6,8 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -548,6 +550,17 @@ public class Global {
         long year = month / 12;
         return year + "年前";
     }
+
+    public static boolean isWifiConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activityNetwork = mConnectivityManager.getActiveNetworkInfo();
+            return activityNetwork != null && activityNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        return false;
+    }
+
 
     public static boolean isKK() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;

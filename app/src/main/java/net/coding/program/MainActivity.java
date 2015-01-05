@@ -24,6 +24,7 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
+import net.coding.program.common.LoginBackground;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
@@ -76,6 +77,8 @@ public class MainActivity extends BaseFragmentActivity
 
         updateNotifyService();
 
+        LoginBackground loginBackground = new LoginBackground(this);
+        loginBackground.update();
     }
 
     @Override

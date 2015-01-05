@@ -2,14 +2,18 @@ package net.coding.program.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Pair;
 
+import net.coding.program.common.LoginBackground;
 import net.coding.program.user.UsersListActivity;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -214,7 +218,7 @@ public class AccountInfo {
             }
 
             File file;
-            if (folder.isEmpty()) {
+            if (!folder.isEmpty()) {
                 File fileDir = new File(ctx.getFilesDir(), folder);
                 if (!fileDir.exists() || !fileDir.isDirectory()) {
                     fileDir.mkdir();
@@ -229,7 +233,7 @@ public class AccountInfo {
             }
 
             try {
-                ObjectOutputStream oos = new ObjectOutputStream(ctx.openFileOutput(name, Context.MODE_PRIVATE));
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
                 oos.writeObject(data);
                 oos.close();
 
@@ -250,7 +254,7 @@ public class AccountInfo {
             ArrayList<T> data = null;
 
             File file;
-            if (folder.isEmpty()) {
+            if (!folder.isEmpty()) {
                 File fileDir = new File(ctx.getFilesDir(), folder);
                 if (!fileDir.exists() || !fileDir.isDirectory()) {
                     fileDir.mkdir();
@@ -261,12 +265,8 @@ public class AccountInfo {
             }
 
             if (file.exists()) {
-                file.delete();
-            }
-
-            if (file.exists()) {
                 try {
-                    ObjectInputStream ois = new ObjectInputStream(ctx.openFileInput(name));
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
                     data = (ArrayList<T>) ois.readObject();
                     ois.close();
                 } catch (Exception e) {
@@ -329,6 +329,23 @@ public class AccountInfo {
         editor.commit();
     }
 
+    private static final String GLOBAL_SETTING = "GLOBAL_SETTING";
+    private static final String GLOBAL_SETTING_BACKGROUND = "GLOBAL_SETTING_BACKGROUND";
+
+    public static void setCheckLoginBackground(Context ctx) {
+        Calendar calendar = Calendar.getInstance();
+        SharedPreferences.Editor editor = ctx.getSharedPreferences(GLOBAL_SETTING, Context.MODE_PRIVATE).edit();
+        editor.putLong(GLOBAL_SETTING_BACKGROUND, calendar.getTimeInMillis());
+        editor.commit();
+    }
+
+    // 距离上次检查24小时后再检查
+    public static boolean needCheckLoginBackground(Context ctx) {
+        long last = ctx.getSharedPreferences(GLOBAL_SETTING, Context.MODE_PRIVATE)
+                .getLong(GLOBAL_SETTING_BACKGROUND, 0);
+        return (Calendar.getInstance().getTimeInMillis() - last) > 1000 * 3600 * 24;
+    }
+
     private static final String USER_MAOPAO = "USER_MAOPAO";
     public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, String id) {
         new DataCache<Maopao.MaopaoObject>().save(ctx, data, USER_MAOPAO + type + id);
@@ -337,31 +354,33 @@ public class AccountInfo {
     public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, String id) {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
     }
-
     private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO";
+
     public static void saveReloginInfo(Context ctx, String email, String globayKey) {
-        DataCache<Pair<String, String>> dateCache = new DataCache<>();
-        ArrayList<Pair<String, String>> listData = dateCache.loadGlobal(ctx, USER_RELOGIN_INFO);
-        for (Pair<String, String> item : listData) {
-            if (item.second.equals(globayKey)) {
-                listData.remove(item);
+        DataCache<Pair> dateCache = new DataCache<>();
+        ArrayList<Pair> listData = dateCache.loadGlobal(ctx, USER_RELOGIN_INFO);
+        for (int i = 0; i < listData.size(); ++i) {
+            if (listData.get(i).second.equals(globayKey)) {
+                listData.remove(i);
+                --i;
             }
         }
-        listData.add(new Pair<>(email, globayKey));
+
+        listData.add(new Pair(email, globayKey));
         dateCache.saveGlobal(ctx, listData, USER_RELOGIN_INFO);
     }
 
     public static String loadRelogininfo(Context ctx, String key) {
-        ArrayList<Pair<String, String>> listData = new DataCache<Pair<String, String>>().loadGlobal(ctx, USER_RELOGIN_INFO);
+        ArrayList<Pair> listData = new DataCache<Pair>().loadGlobal(ctx, USER_RELOGIN_INFO);
         if (key.contains("@")) {
-            for (Pair<String, String> item : listData) {
+            for (Pair item : listData) {
                 if (item.first.equals(key)) {
                     return item.second;
                 }
             }
 
         } else {
-            for (Pair<String, String> item : listData) {
+            for (Pair item : listData) {
                 if (item.second.equals(key)) {
                     return item.second;
                 }
@@ -371,5 +390,24 @@ public class AccountInfo {
         return "";
     }
 
+    static class Pair implements Serializable {
+        public String first;
+        public String second;
+
+        Pair(String first, String second) {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    private static final String BACKGROUNDS = "BACKGROUNDS";
+
+    public static void saveBackgrounds(Context ctx, ArrayList<LoginBackground.PhotoItem> data) {
+        new DataCache<LoginBackground.PhotoItem>().saveGlobal(ctx, data, BACKGROUNDS);
+    }
+
+    public static ArrayList<LoginBackground.PhotoItem> loadBackgrounds(Context ctx) {
+        return new DataCache<LoginBackground.PhotoItem>().loadGlobal(ctx, BACKGROUNDS);
+    }
 
 }

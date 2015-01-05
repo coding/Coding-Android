@@ -16,6 +16,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.common.LoginBackground;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -23,6 +24,8 @@ import net.coding.program.model.UserObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 import org.apache.http.client.protocol.ClientContext;
@@ -31,10 +34,14 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
+
+    @Extra
+    Uri background;
 
     @ViewById
     ImageView userIcon;
@@ -59,6 +66,17 @@ public class LoginActivity extends BaseActivity {
 
     @AfterViews
     void init() {
+        if (background != null) {
+            backgroundImage.setImageURI(background);
+        } else {
+            LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
+            File file = photoItem.getCacheFile(this);
+            if (file.exists()) {
+                background = Uri.fromFile(file);
+                backgroundImage.setImageURI(background);
+            }
+        }
+
         getActionBar().hide();
         needCaptcha();
     }
@@ -86,14 +104,13 @@ public class LoginActivity extends BaseActivity {
         client.get(host, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.d("", "photo ok");
                 imageValify.setImageBitmap(BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length));
                 editValify.setText("");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("", "photo fail " + statusCode + " " + headers + " " + error);
+                showMiddleToast("获取验证码失败");
             }
         });
     }
@@ -137,7 +154,6 @@ public class LoginActivity extends BaseActivity {
 
     String HOST_USER = Global.HOST + "/api/user/key/%s";
 
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LOGIN)) {
@@ -160,6 +176,7 @@ public class LoginActivity extends BaseActivity {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
+                AccountInfo.saveReloginInfo(this, user.email, user.global_key);
 
                 syncCookie();
 
@@ -182,6 +199,11 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @FocusChange
+    void editName() {
+
+    }
+
     public void syncCookie() {
         PersistentCookieStore cookieStore = new PersistentCookieStore(this);
         List<Cookie> cookies = cookieStore.getCookies();
@@ -192,7 +214,6 @@ public class LoginActivity extends BaseActivity {
             Cookie eachCookie = cookies.get(i);
             String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
             cookieManager.setCookie(Global.HOST, cookieString);
-            Log.i(">>>>>", "cookie : " + cookieString);
         }
 
         CookieSyncManager.createInstance(this);
