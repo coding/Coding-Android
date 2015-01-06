@@ -62,7 +62,7 @@
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
                     android:textColor="@color/font_white"
-                    android:textColorHint="@color/font_gray" />
+                    android:textColorHint="@color/font_white_disable" />
 
                 <EditText
                     android:id="@+id/editPassword"
@@ -78,7 +78,7 @@
                     android:textSize="18sp"
                     android:singleLine="true"
                     android:textColor="@color/font_white"
-                    android:textColorHint="@color/font_gray" />
+                    android:textColorHint="@color/font_white_disable" />
 
                 <LinearLayout
                     android:id="@+id/captchaLayout"
@@ -98,7 +98,7 @@
                         android:hint="验证码"
                         android:singleLine="true"
                         android:textColor="@color/font_white"
-                        android:textColorHint="@color/font_gray" />
+                        android:textColorHint="@color/font_white_disable" />
 
                     <ImageView
                         android:id="@+id/imageValify"
@@ -118,7 +118,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/login_button"
                     android:text="登录"
-                    android:textColor="@color/white"
+                    android:textColor="@drawable/font_login_button"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -139,8 +139,9 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="12dp"
                     android:gravity="center"
-                    android:text="去注册"
-                    android:textColor="@color/font_green"
+                    android:text="注册帐号"
+                    android:drawableRight="@drawable/arrow_login"
+                    android:textColor="@color/font_white_disable"
                     android:textSize="18sp" />
 
             </RelativeLayout>

@@ -1,11 +1,12 @@
 package net.coding.program;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
@@ -15,6 +16,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -28,9 +32,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.cookie.Cookie;
-import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,6 +66,20 @@ public class LoginActivity extends BaseActivity {
     @ViewById
     View captchaLayout;
 
+    @ViewById
+    View loginButton;
+
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.icon_user_monkey)
+            .showImageOnFail(R.drawable.icon_user_monkey)
+            .resetViewBeforeLoading(true)
+            .cacheOnDisk(true)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .considerExifParams(true)
+            .displayer(new FadeInBitmapDisplayer(300))
+            .build();
+
     @AfterViews
     void init() {
         if (background != null) {
@@ -79,6 +95,13 @@ public class LoginActivity extends BaseActivity {
 
         getActionBar().hide();
         needCaptcha();
+
+        editName.addTextChangedListener(textWatcher);
+        editPassword.addTextChangedListener(textWatcher);
+        editValify.addTextChangedListener(textWatcher);
+        upateLoginButton();
+
+        editName.addTextChangedListener(textWatcherName);
     }
 
     @Click
@@ -154,6 +177,8 @@ public class LoginActivity extends BaseActivity {
 
     String HOST_USER = Global.HOST + "/api/user/key/%s";
 
+    String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LOGIN)) {
@@ -196,12 +221,31 @@ public class LoginActivity extends BaseActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(HOST_USER_RELOGIN)) {
+            if (code == 0) {
+                UserObject user = new UserObject(respanse.getJSONObject("data"));
+                imagefromNetwork(userIcon, user.avatar, options);
+            }
         }
     }
 
     @FocusChange
-    void editName() {
+    void editName(boolean hasFocus) {
+        if (hasFocus) {
+            return;
+        }
 
+        String name = editName.getText().toString();
+        if (name.isEmpty()) {
+            return;
+        }
+
+        String global = AccountInfo.loadRelogininfo(this, name);
+        if (global.isEmpty()) {
+            return;
+        }
+
+        getNetwork(String.format(HOST_USER, global), HOST_USER_RELOGIN);
     }
 
     public void syncCookie() {
@@ -217,7 +261,61 @@ public class LoginActivity extends BaseActivity {
         }
 
         CookieSyncManager.createInstance(this);
-                CookieSyncManager.getInstance().sync();
+        CookieSyncManager.getInstance().sync();
+    }
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            upateLoginButton();
+        }
+    };
+
+    TextWatcher textWatcherName = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            userIcon.setImageResource(R.drawable.icon_user_monkey);
+        }
+    };
+
+    private void upateLoginButton() {
+        if (editName.getText().length() == 0) {
+            loginButton.setEnabled(false);
+            return;
+        }
+
+        if (editPassword.getText().length() == 0) {
+            loginButton.setEnabled(false);
+            return;
+        }
+
+        if (captchaLayout.getVisibility() == View.VISIBLE &&
+                editValify.getText().length() == 0) {
+            loginButton.setEnabled(false);
+            return;
+        }
+
+        loginButton.setEnabled(true);
     }
 }
 

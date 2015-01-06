@@ -27,7 +27,8 @@
     <color name="font_black_content_disabled">#cacaca</color>
     <color name="font_black_comment">#666666</color>
     <color name="font_gray">#999999</color>
-    <color name="font_white">#ffffff</color>
+    <color name="font_white">#ffffffff</color>
+    <color name="font_white_disable">#7fffffff</color>
 
     <color name="bg_maopao_comment">#e6e6e6</color>
     <color name="divide">#e3e5e7</color>

@@ -33,7 +33,6 @@ public class AccountInfo {
         }
 
         AccountInfo.setNeedPush(ctx, true);
-
     }
 
     private static final String ACCOUNT = "ACCOUNT";
@@ -280,7 +279,6 @@ public class AccountInfo {
 
             return data;
         }
-
     }
 
     private static final String CACHE_FRIEND_FOLLOW = "CACHE_FRIEND_FOLLOW";
