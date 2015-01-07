@@ -26,7 +26,8 @@ public final class CustomDialog {
     }
 
     public static void dialogTitleLineColor(Context context, Dialog dialog) {
-        if (dialog != null)
+        if (dialog != null) {
             dialogTitleLineColor(context, dialog, context.getResources().getColor(R.color.green));
+        }
     }
 }

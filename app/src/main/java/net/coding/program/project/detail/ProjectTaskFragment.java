@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import net.coding.program.Global;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ListModify;
@@ -59,7 +60,6 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
         HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.id);
         refresh();
-
     }
 
     private void refresh() {
@@ -86,7 +86,11 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     TaskObject.Members userInfo = new TaskObject.Members(jsonArray.getJSONObject(i));
                     if (mMemberTask.memberHasTask(userInfo.user_id)) { // 只显示有任务的
-                        usersInfo.add(userInfo);
+                        if (userInfo.user.global_key.equals(MyApp.sUserObject.global_key)) {
+                            usersInfo.add(0, userInfo);
+                        } else {
+                            usersInfo.add(userInfo);
+                        }
                     }
 
                     mMembersAllAll.add(userInfo);

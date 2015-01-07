@@ -3,7 +3,6 @@ package net.coding.program;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
@@ -123,7 +123,22 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
                 .setNegativeButton("取消", null)
                 .show();
 
-        dialogTitleLineColor(dialog);
+        CustomDialog.dialogTitleLineColor(this, dialog);
+    }
+
+    protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk) {
+        Dialog dialog = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("确定", clickOk)
+                .setNegativeButton("取消", null)
+                .show();
+
+        CustomDialog.dialogTitleLineColor(this, dialog);
+    }
+
+    public void dialogTitleLineColor(Dialog dialog) {
+        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     @Override
@@ -241,19 +256,6 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // no face detection
         startActivityForResult(intent, requestCode);
-    }
-
-    public final void dialogTitleLineColor(Dialog dialog, int color) {
-        Context context = BaseFragmentActivity.this;
-        int divierId = context.getResources().getIdentifier("android:id/titleDivider", null, null);
-        View divider = dialog.findViewById(divierId);
-        if (divider != null)
-            divider.setBackgroundColor(color);
-    }
-
-    public final void dialogTitleLineColor(Dialog dialog) {
-        if (dialog != null)
-            dialogTitleLineColor(dialog, getResources().getColor(R.color.green));
     }
 
     /**

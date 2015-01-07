@@ -53,7 +53,7 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.add_maopao)
 public class AddMaopaoActivity extends BaseFragmentActivity implements StartActivity {
 
-    final int PHOTO_MAX_COUNT = 5;
+    final int PHOTO_MAX_COUNT = 6;
 
     final String sendUrl = Global.HOST + "/api/tweet";
 
@@ -100,13 +100,14 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
                             .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    int count = PHOTO_MAX_COUNT - mData.size();
+                                    if (count <= 0) {
+                                        return;
+                                    }
+
                                     if (which == 0) {
                                         camera();
                                     } else {
-                                        int count = PHOTO_MAX_COUNT - mData.size();
-                                        if (count <= 0) {
-                                            return;
-                                        }
                                         Intent intent = new Intent(AddMaopaoActivity.this, PhotoPickActivity.class);
                                         intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
                                         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
@@ -131,13 +132,6 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         });
 
         message.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
-
-//        new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {
-//                mEnterLayout.popKeyboard();
-//            }
-//        }.sendEmptyMessageDelayed(0, 0);
     }
 
     public static final int RESULT_REQUEST_IMAGE = 100;
@@ -207,7 +201,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         if (message.getText().toString().isEmpty() && adapter.getCount() <= 1) {
             finish();
         } else {
-            showDialog("确定放弃此次冒泡机会？", new DialogInterface.OnClickListener() {
+            showDialog("冒泡", "放弃此次冒泡机会？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -353,10 +347,17 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
 
 
             if (position == getCount() - 1) {
-                holder.image.setImageResource(R.drawable.make_maopao_add);
-                holder.uri = "";
+                if (getCount() == (PHOTO_MAX_COUNT + 1)) {
+                    holder.image.setVisibility(View.INVISIBLE);
+
+                } else {
+                    holder.image.setVisibility(View.VISIBLE);
+                    holder.image.setImageResource(R.drawable.make_maopao_add);
+                    holder.uri = "";
+                }
 
             } else {
+                holder.image.setVisibility(View.VISIBLE);
                 PhotoData photoData = mData.get(position);
                 Uri data = photoData.uri;
                 holder.uri = data.toString();

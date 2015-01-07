@@ -222,7 +222,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 getNetwork(url, urlTaskCountProject);
             }
         }
-
     }
 
     @Override
@@ -403,13 +402,14 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mTime = (TextView) convertView.findViewById(R.id.time);
                 holder.mDiscuss = (TextView) convertView.findViewById(R.id.discuss);
                 holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.mTaskPriority = convertView.findViewById(R.id.taskPriority);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             final TaskObject.SingleTask data = (TaskObject.SingleTask) getItem(position);
-            holder.mTitle.setText(data.content);
+            holder.mTitle.setText("      " + data.content);
 
             holder.mName.setText(data.creator.name);
             holder.mTime.setText(Global.dayToNow(data.created_at));
@@ -425,14 +425,15 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mCheckBox.setChecked(true);
             }
 
-            final int checkboxButton[] = new int[]{
-                    R.drawable.checkbox_task_0,
-                    R.drawable.checkbox_task_1,
-                    R.drawable.checkbox_task_2,
-                    R.drawable.checkbox_task_3,
+
+            final int priorityIcons[] = new int[] {
+                    R.drawable.task_mark_0,
+                    R.drawable.task_mark_1,
+                    R.drawable.task_mark_2,
+                    R.drawable.task_mark_3,
             };
 
-            holder.mCheckBox.setButtonDrawable(checkboxButton[data.priority]);
+            holder.mTaskPriority.setBackgroundResource(priorityIcons[data.priority]);
 
             if (data.deadline.isEmpty()) {
                 holder.mDeadline.setVisibility(View.GONE);
@@ -531,6 +532,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             TextView mName;
             TextView mTime;
             TextView mDiscuss;
+
+            View mTaskPriority;
         }
     }
 
@@ -589,9 +592,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 }
             });
             animator.start();
-
         }
     }
-
-
 }

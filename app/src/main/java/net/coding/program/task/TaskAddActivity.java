@@ -1010,6 +1010,4 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD);
         }
     };
-
-
 }

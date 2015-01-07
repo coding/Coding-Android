@@ -62,7 +62,6 @@ public class LoginActivity extends BaseActivity {
 
     @ViewById
     EditText editValify;
-
     @ViewById
     View captchaLayout;
 
@@ -106,6 +105,7 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     void imageValify() {
+        editValify.requestFocus();
         downloadValifyPhoto();
     }
 

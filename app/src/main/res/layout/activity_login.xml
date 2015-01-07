@@ -45,12 +45,12 @@
                     android:layout_height="83dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="60dp"
                     android:background="@drawable/icon_user_monkey"
                     app:border_color="#ffffffff"
                     app:border_width="3dp" />
 
-                <EditText
+                <net.coding.program.common.LoginEditText
                     android:id="@+id/editName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,11 +64,11 @@
                     android:textColor="@color/font_white"
                     android:textColorHint="@color/font_white_disable" />
 
-                <EditText
+                <net.coding.program.common.LoginEditText
                     android:id="@+id/editPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/login_edit"
                     android:hint="密码"
                     android:imeOptions="actionUnspecified"
@@ -80,18 +80,17 @@
                     android:textColor="@color/font_white"
                     android:textColorHint="@color/font_white_disable" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/captchaLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone">
+                    android:layout_marginTop="12dp"
+                    android:visibility="visible">
 
                     <EditText
                         android:id="@+id/editValify"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:background="@drawable/login_edit"
                         android:textSize="18sp"
                         android:textCursorDrawable="@null"
@@ -101,12 +100,13 @@
                         android:textColorHint="@color/font_white_disable" />
 
                     <ImageView
+                        android:layout_alignParentRight="true"
                         android:id="@+id/imageValify"
                         android:layout_width="72dp"
                         android:layout_height="30dp"
                         android:scaleType="fitCenter" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <Button
                     android:id="@+id/loginButton"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:background="@drawable/login_button"
                     android:text="登录"
                     android:textColor="@drawable/font_login_button"
@@ -133,7 +133,7 @@
 
                 <TextView
                     android:id="@+id/register"
-                    android:layout_width="100dp"
+                    android:layout_width="80dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
@@ -142,7 +142,7 @@
                     android:text="注册帐号"
                     android:drawableRight="@drawable/arrow_login"
                     android:textColor="@color/font_white_disable"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </RelativeLayout>
         </LinearLayout>
