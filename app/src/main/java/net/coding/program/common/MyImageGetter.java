@@ -50,7 +50,7 @@ public class MyImageGetter implements Html.ImageGetter {
         return name.indexOf("coding") == 0;
     }
 
-    private int getResourceId(String s) {
+    static public int getResourceId(String s) {
         String name = s.replace('-', '_');
 
         if (name.equals("e_mail")) {

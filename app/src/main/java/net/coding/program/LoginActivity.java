@@ -3,6 +3,9 @@ package net.coding.program;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +27,7 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
+import net.coding.program.third.FastBlur;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -38,6 +42,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
+
+import u.aly.co;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -68,6 +74,9 @@ public class LoginActivity extends BaseActivity {
     @ViewById
     View loginButton;
 
+    final float radius = 8;
+    final double scaleFactor = 16;
+
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -81,16 +90,21 @@ public class LoginActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        if (background != null) {
-            backgroundImage.setImageURI(background);
-        } else {
+        if (background == null) {
             LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
             File file = photoItem.getCacheFile(this);
             if (file.exists()) {
                 background = Uri.fromFile(file);
-                backgroundImage.setImageURI(background);
             }
         }
+
+        BitmapDrawable bitmapDrawable;
+        if (background == null) {
+            bitmapDrawable = createBlur();
+        } else {
+            bitmapDrawable = createBlur(background);
+        }
+        backgroundImage.setImageDrawable(bitmapDrawable);
 
         getActionBar().hide();
         needCaptcha();
@@ -101,6 +115,48 @@ public class LoginActivity extends BaseActivity {
         upateLoginButton();
 
         editName.addTextChangedListener(textWatcherName);
+    }
+
+    private BitmapDrawable createBlur() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.entrance1, options);
+        int height = options.outHeight;
+        int width = options.outWidth;
+
+        options.outHeight = (int) (height / scaleFactor);
+        options.outWidth = (int) (width / scaleFactor);
+        options.inSampleSize = (int) (scaleFactor + 0.5);
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        options.inMutable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.entrance1, options);
+        Bitmap blurBitmap = FastBlur.doBlur(bitmap, (int) radius, true);
+
+        return new BitmapDrawable(getResources(), blurBitmap);
+    }
+
+    private BitmapDrawable createBlur(Uri uri) {
+        String path = Global.getPath(this, uri);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        int height = options.outHeight;
+        int width = options.outWidth;
+
+        options.outHeight = (int) (height / scaleFactor);
+        options.outWidth = (int) (width / scaleFactor);
+        options.inSampleSize = (int) (scaleFactor + 0.5);
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        options.inMutable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+
+        Bitmap blurBitmap = FastBlur.doBlur(bitmap, (int) radius, true);
+
+        return new BitmapDrawable(getResources(), blurBitmap);
     }
 
     @Click
@@ -183,8 +239,7 @@ public class LoginActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LOGIN)) {
             if (code == 0) {
-                JSONObject json = respanse.getJSONObject("data");
-                UserObject user = new UserObject(json);
+                UserObject user = new UserObject(respanse.getJSONObject("data"));
                 getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
                 showProgressBar(true);
 

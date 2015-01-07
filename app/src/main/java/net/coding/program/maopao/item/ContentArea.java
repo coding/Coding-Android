@@ -31,6 +31,7 @@ public class ContentArea extends ContentAreaBase {
             R.id.image2,
             R.id.image3,
             R.id.image4,
+            R.id.image5
     };
 
     private static final int itemImagesMaxCount = itemImages.length;
@@ -159,7 +160,8 @@ public class ContentArea extends ContentAreaBase {
             imageSingle.setTag(new MaopaoListFragment.ClickImageParam(uris, 0, false));
 
         } else {
-            for (; i < uris.size(); ++i) {
+            int min = Math.min(uris.size(), images.length);
+            for (; i < min; ++i) {
                 images[i].setVisibility(View.VISIBLE);
                 images[i].setTag(new MaopaoListFragment.ClickImageParam(uris, i, false));
                 imageLoad.loadImage(images[i], uris.get(i), imageOptions);

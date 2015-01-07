@@ -7,6 +7,7 @@ android {
 
     defaultConfig {
         applicationId "net.coding.program"
+        renderscriptTargetApi 19
     }
 
     buildTypes {
@@ -38,6 +39,8 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.android.support:support-v13:21.0.3'
+//    compile 'com.faradaj:blur-behind:1.0.3'
+    compile 'com.ms-square:etsyblur:0.1.0'
 }
 
 //################

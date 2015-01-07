@@ -20,10 +20,7 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
 //                android.R.color.holo_green_light,
 //                android.R.color.holo_orange_light,
 //                android.R.color.holo_red_light);
-        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.transparent,
-                android.R.color.holo_blue_light,
-                android.R.color.transparent
+        swipeLayout.setColorSchemeResources(R.color.green, R.color.green, R.color.green, R.color.green
         );
     }
 

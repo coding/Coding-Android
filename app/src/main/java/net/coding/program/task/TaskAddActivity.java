@@ -2,6 +2,7 @@ package net.coding.program.task;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.BlurMaskFilter;
 import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.ms.square.android.etsyblur.BlurDialogFragmentHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.BaseFragmentActivity;
@@ -106,7 +108,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
     String HOST_DESCRIPTER = Global.HOST + "/api/task/%s/description";
 
-
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -155,14 +156,13 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         } else {
             return descriptionData.markdown.equals(descriptionDataNew.markdown);
         }
-
-
     }
 
     private void enableSendButton(boolean enable) {
         if (mMenuSave == null) {
             return;
         }
+
         if (enable) {
             mMenuSave.setIcon(R.drawable.ic_menu_ok);
             mMenuSave.setEnabled(true);
@@ -282,6 +282,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                             TaskObject.SingleTask task = mSingleTask;
                             String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.id);
                             deleteNetwork(url, TaskListFragment.hostTaskDelete);
+                            showProgressBar(true);
                         }
                     });
                 }
@@ -448,6 +449,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 params.put("description", descriptionDataNew.markdown);
             }
             postNetwork(url, params, HOST_TASK_ADD);
+            showProgressBar(true);
 
         } else {
             String url = String.format(HOST_TASK_UPDATE, mSingleTask.id);
@@ -476,6 +478,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
+            showProgressBar(true);
         }
     }
 
@@ -513,6 +516,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_TASK_ADD)) {
+            showProgressBar(false);
             if (code == 0) {
                 closeActivity("新建任务成功");
             } else {
@@ -564,12 +568,14 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_TASK_UPDATE)) {
+            showProgressBar(false);
             if (code == 0) {
                 closeActivity("修改任务成功");
             } else {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TaskListFragment.hostTaskDelete)) {
+            showProgressBar(false);
             if (code == 0) {
                 closeActivity("删除任务成功");
             } else {

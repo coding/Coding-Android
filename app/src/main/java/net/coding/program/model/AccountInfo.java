@@ -72,6 +72,11 @@ public class AccountInfo {
         return data;
     }
 
+    public static boolean isLogin(Context ctx) {
+        File file = new File(ctx.getFilesDir(), ACCOUNT);
+        return file.exists();
+    }
+
     private static final String PROJECTS = "PROJECTS";
 
     public static void saveProjects(Context ctx, ArrayList<ProjectObject> data) {

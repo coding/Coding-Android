@@ -96,9 +96,7 @@ public class LoginBackground {
 
     private boolean needUpdate() {
         return true;
-//        return AccountInfo.needCheckLoginBackground(context);
     }
-
 
     private void downloadPhotos() {
         if (!Global.isWifiConnected(context)) {
@@ -141,12 +139,14 @@ public class LoginBackground {
 
         class Group implements Serializable {
             String name = "";
+            String author = "";
             String link = "";
             String description = "";
             int id;
 
             Group(JSONObject json) {
                 name = json.optString("name");
+                author = json.optString("author");
                 link = json.optString("link");
                 description = json.optString("description");
                 id = json.optInt("id");
@@ -161,7 +161,7 @@ public class LoginBackground {
         }
 
         public String getTitle() {
-            return group.name;
+            return String.format("%s © %s", group.name, group.author);
         }
 
         private String getCacheName() {

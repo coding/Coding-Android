@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
 import net.coding.program.R;
+import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
 
 import java.lang.reflect.Field;
@@ -30,14 +31,7 @@ class EmojiconSpan extends DynamicDrawableSpan {
             mIsMonkey = true;
         }
 
-        int id = R.drawable.ic_launcher;
-        try {
-            Field field = R.drawable.class.getField(name);
-            id = Integer.parseInt(field.get(null).toString());
-        } catch (Exception e) {
-        }
-
-        mResourceId = id;
+        mResourceId = MyImageGetter.getResourceId(name);
     }
 
     @Override

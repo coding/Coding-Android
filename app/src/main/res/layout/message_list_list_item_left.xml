@@ -116,6 +116,13 @@
                 android:layout_margin="3dp"
                 android:scaleType="centerCrop" />
 
+            <ImageView
+                android:id="@+id/image5"
+                android:layout_width="@dimen/image_square_width"
+                android:layout_height="@dimen/image_square_width"
+                android:layout_margin="3dp"
+                android:scaleType="centerCrop" />
+
         </LinearLayout>
     </LinearLayout>
 

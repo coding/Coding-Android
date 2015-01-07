@@ -161,11 +161,11 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(UPDATE_ALL)) {
-//            hideProgressDialog();
             if (mLoadingAnimation != null) {
                 mLoadingAnimation.destory();
                 mLoadingAnimation = null;
             }
+
             setRefreshing(false);
 
             if (code == 0) {
@@ -234,10 +234,11 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
 
             if (array.length() == 0) {
-                mFootUpdate.dismiss();
                 mNoMore = true;
+                mFootUpdate.dismiss();
 
             } else {
+                mNoMore = false;
 
                 mFootUpdate.showLoading();
             }
