@@ -290,7 +290,7 @@
             android:layout_margin="5dp"
             android:lineSpacingExtra="12dp"
             android:textSize="16sp"
-            android:hint="添加备注"
+            android:hint="添加描述"
             android:textColor="@color/font_gray"
             android:maxLines="3"
             android:ellipsize="end"/>

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -162,14 +163,15 @@ public class EnterLayout {
     }
 
     public void insertText(String s) {
+        content.requestFocus();
         int insertPos = content.getSelectionStart();
+        Log.d("", "pppppp " + insertPos);
 
         String  insertString = s + " ";
         Editable editable = content.getText();
         editable.insert(insertPos, insertString);
 
-        content.requestFocus();
-        content.setSelection(insertPos + insertString.length());
+//        content.setSelection(insertPos + insertString.length());
     }
 
     public void insertEmoji(String s) {

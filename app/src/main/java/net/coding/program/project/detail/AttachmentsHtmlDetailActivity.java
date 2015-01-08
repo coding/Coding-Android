@@ -80,45 +80,27 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
                 } else if (mFiles.isMd()) {
                     RequestParams params = new RequestParams();
                     params.put("content", content);
-                    postMdContent(urlMdPreview, params);
+                    postNetwork(urlMdPreview, params, urlMdPreview);
                 }
 
             } else {
                 hideProgressDialog();
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(urlMdPreview)) {
+            if (code == 0) {
+                hideProgressDialog();
+                String html = respanse.optString("data", "");
+                webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
+            } else {
+                hideProgressDialog();
+                showButtomToast("连接服务器失败，请检查网络或稍后重试");
+            }
         }
     }
 
     @OptionsItem
     public void action_add() {
-
-    }
-
-    private void postMdContent(String url, RequestParams params) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post(url, params, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                hideProgressDialog();
-                webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", new String(response)), "text/html", "UTF-8", null);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                hideProgressDialog();
-                showButtomToast("连接服务器失败，请检查网络或稍后重试");
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-            }
-        });
     }
 
     private String readTextFile(InputStream inputStream) {

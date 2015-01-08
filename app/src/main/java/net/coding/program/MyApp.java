@@ -85,7 +85,7 @@ public class MyApp extends Application {
                 String id = intent.getStringExtra("id");
                 if (id != null && !id.isEmpty()) {
                     AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                    final String host = "https://coding.net/api/notification/mark-read?id=%s";
+                    final String host = Global.HOST + "/api/notification/mark-read?id=%s";
                     client.post(String.format(host, id), new JsonHttpResponseHandler() {
                     });
                 }

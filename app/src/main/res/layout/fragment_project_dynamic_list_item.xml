@@ -9,7 +9,7 @@
         android:layout_height="35dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="18dp"
         android:src="@drawable/ic_default_user" />
 
     <LinearLayout
@@ -75,7 +75,7 @@
     <View
         android:id="@+id/timeLineUp"
         android:layout_width="2dp"
-        android:layout_height="14dp"
+        android:layout_height="28dp"
         android:layout_toRightOf="@id/icon"
         android:background="@color/divide" />
 

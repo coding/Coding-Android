@@ -1,13 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/action_save"
-        android:title="@string/action_save"
-        android:showAsAction="withText|ifRoom" />
-
-    <item
         android:id="@+id/action_preview"
         android:title="@string/action_perview"
+        android:showAsAction="withText|ifRoom" />
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
         android:showAsAction="withText|ifRoom" />
 
 </menu>

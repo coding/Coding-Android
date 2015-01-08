@@ -13,6 +13,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import net.coding.program.Global;
 import net.coding.program.R;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -23,6 +24,8 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_task_descrip_html)
 public class TaskDescripHtmlFragment extends BaseFragment {
@@ -90,18 +93,21 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-//            getSupportFragmentManager().popBackStack();
-
-            Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
             FragmentManager manager = getActivity().getSupportFragmentManager();
             manager.popBackStack();
             if (id == R.id.action_edit) {
+                Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
                 manager
                         .beginTransaction()
                         .replace(R.id.container, fragment)
                         .addToBackStack("name")
                         .commit();
+            } else {
+                if (manager.getFragments().size() == 1) {
+                    getActivity().finish();
+                }
             }
+
         }
     };
 
@@ -113,7 +119,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         descWeb.loadDataWithBaseURL(null, ((TaskDescrip) getActivity()).createLocateHtml(contentHtml), "text/html", "UTF-8", null);
     }
 
-    final String HOST_PREVIEW = "https://coding.net/api/markdown/preview";
+    final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -123,31 +129,26 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_PREVIEW)) {
+            if (code == 0) {
+                contentHtml = respanse.optString("data", "");
+                displayWebView();
+            } else {
+                showButtomToast("发生错误");
+            }
+
+            loading.setVisibility(View.INVISIBLE);
+        }
+    }
+
     private void mdToHtml() {
         loading.setVisibility(View.VISIBLE);
 
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
-
-        AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
-        client.post(HOST_PREVIEW, params, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                showButtomToast("发生错误 " + statusCode + " " + responseString);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                contentHtml = responseString;
-                displayWebView();
-            }
-
-            @Override
-            public void onFinish() {
-                loading.setVisibility(View.INVISIBLE);
-            }
-        });
     }
 
     @OptionsItem

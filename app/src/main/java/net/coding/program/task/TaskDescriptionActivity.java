@@ -51,58 +51,30 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Fragment fragment;
-        if (taskId.isEmpty()) {
-            fragment = TaskDescripMdFragment_.builder().build();
+        String markdown = descriptionData.markdown;
+        if (markdown.isEmpty()) {
+            fragment = TaskDescripMdFragment_.builder().contentMd(markdown).build();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .addToBackStack("edit")
+                    .commit();
         } else {
             fragment = TaskDescripHtmlFragment_.builder()
-                    .contentMd(descriptionData.markdown)
+                    .contentMd(markdown)
                     .contentHtml(descriptionData.description)
                     .build();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
         }
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
-
-
-//        if (taskId.isEmpty()) {
-//            action_edit();
-//            description.setText(descriptionData.markdown);
-//
-//        } else {
-//            HOST_DESCRIPTION = String.format(HOST_DESCRIPTION, taskId);
-//
-//
-//            description.setText(descriptionData.markdown);
-//        }
     }
 
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        if (editMode) {
-//            getMenuInflater().inflate(R.menu.menu_task_edit_description, menu);
-//        } else {
-//            getMenuInflater().inflate(R.menu.menu_task_description, menu);
-//        }
-//
-//        return true;
-//    }
-
-//    @OptionsItem
-//    void action_edit() {
-//        showEdit(true);
-//    }
-//
-//    @OptionsItem
-//    void action_save() {
-//        closeAndSave("");
-//    }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

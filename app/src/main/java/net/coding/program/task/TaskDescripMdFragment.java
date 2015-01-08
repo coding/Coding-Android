@@ -19,6 +19,8 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 @EFragment(R.layout.fragment_task_descrip_md)
 public class TaskDescripMdFragment extends BaseFragment {
 
@@ -78,14 +80,14 @@ public class TaskDescripMdFragment extends BaseFragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            Fragment fragment = TaskDescripHtmlFragment_.builder()
-                    .contentMd(edit.getText().toString())
-                    .preview(true)
-                    .build();
-
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
+
             if (id == R.id.action_preview) {
+                Fragment fragment = TaskDescripHtmlFragment_.builder()
+                        .contentMd(edit.getText().toString())
+                        .preview(true)
+                        .build();
                 fragmentManager
                         .beginTransaction()
                         .setCustomAnimations(
@@ -94,9 +96,21 @@ public class TaskDescripMdFragment extends BaseFragment {
                         .replace(R.id.container, fragment)
                         .addToBackStack("pre")
                         .commit();
+            } else {
+                if (fragmentManager.getFragments().size() == 1) {
+                    getActivity().finish();
+                }
             }
         }
     };
+
+    @Override
+    public void onDetach() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        List<Fragment> lists = fragmentManager.getFragments();
+
+        super.onDetach();
+    }
 
     @OptionsItem
     void action_save() {

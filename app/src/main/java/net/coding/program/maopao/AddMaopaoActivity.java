@@ -183,12 +183,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
-
-                String enter = message.getText().toString() + name + " ";
-                message.setText(enter);
-
-                message.requestFocus();
-                message.setSelection(enter.length());
+                mEnterLayout.insertText(name);
             }
 
         } else {

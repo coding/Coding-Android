@@ -215,17 +215,14 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         setDeadline();
 
         if (mSingleTask.id.isEmpty()) {
-            descriptionLayout.setVisibility(View.VISIBLE);
             descriptionLayout.setOnClickListener(onClickCreateDescription);
-
         } else {
             if (mSingleTask.has_description) {
-                descriptionLayout.setVisibility(View.VISIBLE);
                 description.setText("载入备注中...");
                 HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.id);
                 getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
             } else {
-                descriptionLayout.setVisibility(View.GONE);
+                descriptionLayout.setOnClickListener(onClickCreateDescription);
             }
         }
 
@@ -395,8 +392,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             mNewParam.deadline = date;
         }
 
-        deadline.setText(mNewParam.deadline);
-
+        setDeadline();
         updateSendButton();
     }
 
@@ -470,11 +466,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 params.put("deadline", mNewParam.deadline);
             }
 
-            if (mSingleTask.has_description) {
-                String oldData = descriptionData.markdown;
-                if (oldData != null && !oldData.equals(descriptionDataNew.markdown)) {
-                    params.put("description", descriptionDataNew.markdown);
-                }
+            String oldData = descriptionData.markdown;
+            if (oldData != null && !oldData.equals(descriptionDataNew.markdown)) {
+                params.put("description", descriptionDataNew.markdown);
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
@@ -601,7 +595,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                     public void onClick(View v) {
                         TaskDescriptionActivity_
                                 .intent(TaskAddActivity.this)
-                                .descriptionData(descriptionData)
+                                .descriptionData(descriptionDataNew)
                                 .taskId(mSingleTask.id)
                                 .startForResult(RESULT_REQUEST_DESCRIPTION);
                     }
@@ -610,6 +604,15 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(HOST_PREVIEW)) {
+            if (code == 0) {
+                descriptionDataNew.description = respanse.optString("data", "");
+                setDescription();
+            } else {
+                showButtomToast("发生错误");
+            }
+
+            hideProgressDialog();
         }
     }
 
@@ -625,7 +628,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @OnActivityResult(RESULT_REQUEST_DESCRIPTION)
     void resultDescription(int result, Intent data) {
         if (result == RESULT_OK) {
-//            getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
             updateDescriptionFromResult(data);
         }
     }
@@ -637,42 +639,14 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         }
     }
 
+    final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
+
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");
 
-        final String HOST_PREVIEW = "https://coding.net/api/markdown/preview";
         RequestParams params = new RequestParams();
         params.put("content", descriptionDataNew.markdown);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
-
-        AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
-        client.post(HOST_PREVIEW, params, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                showButtomToast("发生错误 " + statusCode + " " + responseString);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                descriptionDataNew.description = responseString;
-                setDescription();
-            }
-
-            @Override
-            public void onFinish() {
-                hideProgressDialog();
-            }
-        });
-    }
-
-    String createLocateHtml(String s) {
-        try {
-            final String bubble = Global.readTextFile(getAssets().open("topic-android"));
-            return bubble.replace("${webview_content}", s);
-        } catch (Exception e) {
-            Global.errorLog(e);
-            return "";
-        }
     }
 
     @Override
@@ -986,7 +960,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             TaskDescriptionActivity_
                     .intent(TaskAddActivity.this)
                     .taskId("")
-                    .descriptionData(descriptionData)
+                    .descriptionData(descriptionDataNew)
                     .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
         }
     };

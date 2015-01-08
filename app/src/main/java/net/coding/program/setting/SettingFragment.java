@@ -60,27 +60,27 @@ public class SettingFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch ((int) id) {
                     case 0:
-                        NotifySetting_.intent(getActivity()).start();
-                        break;
-
-                    case 1:
                         SetPasswordActivity_.intent(getActivity()).start();
                         break;
 
-                    case 2:
-                        FeedbackActivity_.intent(getActivity()).start();
+                    case 1:
+                        NotifySetting_.intent(getActivity()).start();
                         break;
 
-                    case 3:
+                    case 2:
                         setFileDownloadPath();
                         break;
 
+                    case 3:
+                        FeedbackActivity_.intent(getActivity()).start();
+                        break;
+
                     case 4:
-                        gotoMarket();
+                        new UpdateApp(getActivity()).runForeground();
                         break;
 
                     case 5:
-                        new UpdateApp(getActivity()).runForeground();
+                        gotoMarket();
                         break;
 
                     case 6:
@@ -140,9 +140,10 @@ public class SettingFragment extends BaseFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.list_item_2_text, parent, false);
+                convertView = mInflater.inflate(R.layout.list_item_2_text_divide_head, parent, false);
                 holder = new ViewHolder();
                 holder.title = (TextView) convertView.findViewById(R.id.first);
+                holder.divide = convertView.findViewById(R.id.headDivide);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -151,12 +152,19 @@ public class SettingFragment extends BaseFragment {
             String title = (String) getItem(position);
             holder.title.setText(title);
 
+            if (position == 0 || position == 3) {
+                holder.divide.setVisibility(View.VISIBLE);
+            } else {
+                holder.divide.setVisibility(View.GONE);
+            }
+
             return convertView;
         }
     };
 
     static class ViewHolder {
         public TextView title;
+        public View divide;
     }
 
     private void setFileDownloadPath() {

@@ -408,7 +408,7 @@ public class DynamicObject {
             if (parent.isEmpty()) {
                 return String.format(BLACK_HTML, title);
             } else {
-                return String.format(BLACK_HTML, content);
+                return String.format(BLACK_HTML, HtmlContent.parseReplacePhoto(content));
             }
         }
     }

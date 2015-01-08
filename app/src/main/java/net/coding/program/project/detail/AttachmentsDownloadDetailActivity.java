@@ -111,7 +111,6 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
 
     String urlFiles = Global.HOST + "/api/project/%s/files/%s/view";
     String urlPages = Global.HOST + "/api/project/%s/files/image/%s?folderId=%s&orderByDesc=true";
-    String urlMdPreview = Global.HOST + "/api/markdown/preview";
     String urlDownload = Global.HOST + "/api/project/%s/files/%s/download";
     private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?fileIds=%s";
 

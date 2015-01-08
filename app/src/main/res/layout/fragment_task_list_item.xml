@@ -11,7 +11,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_centerVertical="true"
         android:button="@drawable/checkbox_task_0"
         android:checked="false"
         android:focusable="false" />
@@ -19,9 +19,9 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
         android:layout_width="35dp"
+        android:layout_centerVertical="true"
         android:layout_height="35dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/checkbox"
         android:src="@drawable/ic_default_user" />
 
