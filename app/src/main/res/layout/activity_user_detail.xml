@@ -39,6 +39,8 @@
             android:layout_marginTop="18dp"
             android:layout_toRightOf="@id/icon"
             android:textColor="@color/font_black_content"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textSize="18sp"
 
             />

@@ -44,6 +44,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
+@OptionsMenu(R.menu.message_list)
 public class MessageListActivity extends BaseFragmentActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
 
     @Extra
@@ -92,7 +94,6 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         } else {
             initControl();
         }
-
     }
 
     void initControl() {
@@ -167,6 +168,14 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
+    @OptionsItem
+    void action_refresh() {
+        showProgressBar(true);
+
+        initSetting();
+        loadMore();
+    }
+
     @Override
     public void loadMore() {
         onRefresh();
@@ -186,7 +195,6 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
     public void onRefresh() {
         getNextPageNetwork(url, url);
     }
-
 
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -282,6 +290,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
         } else if (tag.equals(url)) {
             hideProgressDialog();
+            showProgressBar(false);
 
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {

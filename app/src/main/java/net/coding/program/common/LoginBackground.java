@@ -8,6 +8,7 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import net.coding.program.Global;
+import net.coding.program.MyApp;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 
@@ -108,7 +109,8 @@ public class LoginBackground {
             File file = item.getCacheFile(context);
             if (!file.exists()) {
                 AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                client.get(context, item.getUrl(), new FileAsyncHttpResponseHandler(file) {
+                String url = String.format("%s?imageMogr2/thumbnail/!%d", item.getUrl(), MyApp.sWidthPix);
+                client.get(context, url, new FileAsyncHttpResponseHandler(file) {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
 

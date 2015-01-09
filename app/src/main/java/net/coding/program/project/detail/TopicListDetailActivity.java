@@ -281,7 +281,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     TopicObject commnet = new TopicObject(jsonArray.getJSONObject(i));
-                    mData.add(0, commnet);
+                    mData.add(commnet);
                 }
                 baseAdapter.notifyDataSetChanged();
             } else {

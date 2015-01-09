@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="net.coding.program.task.TaskAddActivity">
 
     <EditText
@@ -280,7 +281,7 @@
         android:background="@drawable/task_description_bg"
         android:orientation="vertical"
         android:id="@+id/descriptionLayout"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_margin="12dp">
 
         <TextView

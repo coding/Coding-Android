@@ -2,11 +2,10 @@ package net.coding.program.task;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.graphics.BlurMaskFilter;
-import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -22,10 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.ms.square.android.etsyblur.BlurDialogFragmentHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.BaseFragmentActivity;
@@ -41,7 +37,6 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.maopao.item.ContentAreaBase;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.TaskObject;
@@ -57,7 +52,6 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -214,6 +208,14 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         setDeadline();
 
+//        initDescription();
+
+        urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.id);
+        getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
+
+    }
+
+    private void initDescription() {
         if (mSingleTask.id.isEmpty()) {
             descriptionLayout.setOnClickListener(onClickCreateDescription);
         } else {
@@ -225,10 +227,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 descriptionLayout.setOnClickListener(onClickCreateDescription);
             }
         }
-
-        urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.id);
-        getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
-
     }
 
     MenuItem mMenuSave;
@@ -365,8 +363,12 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     View listFoot;
 
     private void addFoot() {
+        if (mSingleTask.id.isEmpty()) {
+            return;
+        }
+
         listFoot = mInflater.inflate(R.layout.task_comment_empty, null);
-        listFoot.setVisibility(View.INVISIBLE);
+        listFoot.setVisibility(View.GONE);
         listView.addFooterView(listFoot);
     }
 
@@ -417,11 +419,10 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";
     final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
     final String HOST_TASK_DEL = Global.HOST + "/api/task/%s";
-    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/task/%s/comments?";
+    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/task/%s/comments?pageSize=200";
 
     final String HOST_TASK_UPDATE = Global.HOST + "/api/task/%s/update";
     final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
-
 
     String urlComments = "";
 
@@ -486,11 +487,13 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         String foramt = "%d 条评论";
         commentCount.setText(String.format(foramt, count));
         if (count == 0) {
-            listFoot.setVisibility(View.VISIBLE);
-            listFoot.setPadding(0, 0, 0, 0);
+//            listFoot.setVisibility(View.VISIBLE);
+//            listFoot.setPadding(0, 0, 0, 0);
+            listView.addFooterView(listFoot);
         } else {
-            listFoot.setVisibility(View.INVISIBLE);
-            listFoot.setPadding(0, -listFoot.getHeight(), 0, 0);
+//            listFoot.setVisibility(View.GONE);
+//            listFoot.setPadding(0, -listFoot.getHeight(), 0, 0);
+            listView.removeFooterView(listFoot);
         }
     }
 
