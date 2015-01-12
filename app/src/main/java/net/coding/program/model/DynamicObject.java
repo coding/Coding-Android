@@ -3,7 +3,7 @@ package net.coding.program.model;
 import android.text.SpannableString;
 import android.text.Spanned;
 
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
 

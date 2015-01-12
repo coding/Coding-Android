@@ -25,6 +25,7 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.LoginBackground;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
@@ -173,7 +174,7 @@ public class MainActivity extends BaseFragmentActivity
         restoreActionBar();
 
         if (mPushUrl != null) {
-            Global.openActivityByUri(this, mPushUrl, false);
+            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
         }
 
     }

@@ -8,13 +8,9 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
+import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 

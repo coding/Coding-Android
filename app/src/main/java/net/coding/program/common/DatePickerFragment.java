@@ -12,7 +12,6 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
-import net.coding.program.Global;
 import net.coding.program.R;
 
 import java.text.SimpleDateFormat;

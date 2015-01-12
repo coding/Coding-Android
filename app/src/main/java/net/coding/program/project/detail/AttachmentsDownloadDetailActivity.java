@@ -30,7 +30,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;

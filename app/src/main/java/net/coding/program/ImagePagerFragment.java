@@ -22,10 +22,10 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.FileUtil;
+import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;

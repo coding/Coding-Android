@@ -14,8 +14,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import net.coding.program.common.Global;
 import net.coding.program.common.PushReceiver;
 import net.coding.program.common.Unread;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -73,7 +75,7 @@ public class MyApp extends Application {
                 if (url != null) {
                     closeNotify(url);
                     if (sMainCreate) {
-                        Global.openActivityByUri(context, url, true);
+                        URLSpanNoUnderline.openActivityByUri(context, url, true);
                     } else {
                         Intent mainIntent = new Intent(context, MainActivity_.class);
                         mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

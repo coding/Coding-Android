@@ -18,7 +18,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.FootUpdate;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.user.UserDetailActivity_;

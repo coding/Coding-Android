@@ -21,6 +21,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
+import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
@@ -43,9 +44,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-@EActivity(R.layout.activity_user_info)
-@OptionsMenu(R.menu.user_info)
-public class UserInfoActivity extends BaseFragmentActivity implements DatePickerFragment.DateSet {
+@EActivity(R.layout.activity_user_detail_edit)
+@OptionsMenu(R.menu.user_detail_edit)
+public class UserDetailEditActivity extends BaseFragmentActivity implements DatePickerFragment.DateSet {
 
     ImageView icon;
 
@@ -310,7 +311,7 @@ public class UserInfoActivity extends BaseFragmentActivity implements DatePicker
 
                 case USERINFO_NAME:
                     //昵称
-                    SetUserInfoActivity_.intent(UserInfoActivity.this).title("昵称").row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("昵称").row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
                 case USERINFO_SEX:
@@ -354,12 +355,12 @@ public class UserInfoActivity extends BaseFragmentActivity implements DatePicker
 
                 case USERINFO_SLOGAN:
                     //座右铭
-                    SetUserInfoActivity_.intent(UserInfoActivity.this).title("座右铭").row(USERINFO_SLOGAN).startForResult(ListModify.RESULT_EDIT_LIST);
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("座右铭").row(USERINFO_SLOGAN).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
                 case USERINFO_COMPANY:
                     //公司
-                    SetUserInfoActivity_.intent(UserInfoActivity.this).title("公司").row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("公司").row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
                 case USERINFO_JOB:
@@ -369,7 +370,7 @@ public class UserInfoActivity extends BaseFragmentActivity implements DatePicker
 
                 case USERINFO_TAGS:
                     //个性标签
-                    SetUserTagActivity_.intent(UserInfoActivity.this).title("个性标签").startForResult(ListModify.RESULT_EDIT_LIST);
+                    SetUserTagActivity_.intent(UserDetailEditActivity.this).title("个性标签").startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
             }
         }

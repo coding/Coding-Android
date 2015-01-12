@@ -2,7 +2,6 @@ package net.coding.program.common.enter;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,7 +11,7 @@ import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;

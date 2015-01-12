@@ -7,15 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.model.TaskObject;
 

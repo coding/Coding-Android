@@ -14,7 +14,6 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
-import net.coding.program.Global;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.model.AccountInfo;

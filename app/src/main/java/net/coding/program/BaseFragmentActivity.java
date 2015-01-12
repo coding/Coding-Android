@@ -22,6 +22,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
+import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
@@ -222,18 +223,6 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
     public void photo() {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_REQUEST_PHOTO);
-
-//        if (Global.isKK()) {
-//            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//            intent.setType("image/*");
-//            startActivityForResult(intent, RESULT_REQUEST_PHOTO);
-//
-//        } else {
-//            Intent choosePictureIntent = new Intent(Intent.ACTION_PICK,
-//                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(choosePictureIntent, RESULT_REQUEST_PHOTO);
-//        }
     }
 
     protected final int RESULT_REQUEST_PHOTO = 1005;

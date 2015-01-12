@@ -3,6 +3,8 @@ package net.coding.program;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import net.coding.program.common.Global;
+
 import java.lang.reflect.Method;
 
 /**

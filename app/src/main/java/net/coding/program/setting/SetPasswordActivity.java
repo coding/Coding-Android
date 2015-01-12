@@ -9,10 +9,11 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
+import net.coding.program.common.SimpleSHA1;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -57,9 +58,9 @@ public class SetPasswordActivity extends BaseActivity {
             if (passwordFormatError(oldPwd, newPwd, confirmPwd)) {
                 return;
             }
-            params.put("current_password", Global.sha1(oldPwd));
-            params.put("password", Global.sha1(newPwd));
-            params.put("confirm_password", Global.sha1(confirmPwd));
+            params.put("current_password", SimpleSHA1.sha1(oldPwd));
+            params.put("password", SimpleSHA1.sha1(newPwd));
+            params.put("confirm_password", SimpleSHA1.sha1(confirmPwd));
             postNetwork(Url, params, "");
         } catch (Exception e) {
             showMiddleToast(e.toString());

@@ -6,9 +6,9 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.R;
-import net.coding.program.UserInfoActivity;
+import net.coding.program.UserDetailEditActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -97,38 +97,38 @@ public class SetUserInfoActivity extends BaseActivity {
         String returnValue = "";
         switch (row) {
 
-            case UserInfoActivity.USERINFO_NAME:
+            case UserDetailEditActivity.USERINFO_NAME:
                 //昵称
                 returnValue = user.name;
                 break;
 
-            case UserInfoActivity.USERINFO_SEX:
+            case UserDetailEditActivity.USERINFO_SEX:
                 //性别
                 break;
 
-            case UserInfoActivity.USERINFO_BIRTHDAY:
+            case UserDetailEditActivity.USERINFO_BIRTHDAY:
                 //生日
                 break;
 
-            case UserInfoActivity.USERINFO_LOCATION:
+            case UserDetailEditActivity.USERINFO_LOCATION:
                 //所在地
                 break;
 
-            case UserInfoActivity.USERINFO_SLOGAN:
+            case UserDetailEditActivity.USERINFO_SLOGAN:
                 //座右铭
                 returnValue = user.slogan;
                 break;
 
-            case UserInfoActivity.USERINFO_COMPANY:
+            case UserDetailEditActivity.USERINFO_COMPANY:
                 //公司
                 returnValue = user.company;
                 break;
 
-            case UserInfoActivity.USERINFO_JOB:
+            case UserDetailEditActivity.USERINFO_JOB:
                 //职位
                 break;
 
-            case UserInfoActivity.USERINFO_TAGS:
+            case UserDetailEditActivity.USERINFO_TAGS:
                 //个性标签
                 break;
         }
@@ -139,24 +139,24 @@ public class SetUserInfoActivity extends BaseActivity {
         boolean result = true;
         switch (row) {
 
-            case UserInfoActivity.USERINFO_NAME:
+            case UserDetailEditActivity.USERINFO_NAME:
                 //昵称
                 user.name = rowValue;
                 break;
 
-            case UserInfoActivity.USERINFO_SEX:
+            case UserDetailEditActivity.USERINFO_SEX:
                 //性别
                 break;
 
-            case UserInfoActivity.USERINFO_BIRTHDAY:
+            case UserDetailEditActivity.USERINFO_BIRTHDAY:
                 //生日
                 break;
 
-            case UserInfoActivity.USERINFO_LOCATION:
+            case UserDetailEditActivity.USERINFO_LOCATION:
                 //所在地
                 break;
 
-            case UserInfoActivity.USERINFO_SLOGAN:
+            case UserDetailEditActivity.USERINFO_SLOGAN:
                 //座右铭
                 /*if(rowValue.length() > 50){
                     showButtomToast("座右铭太长了，请不要超过50个字");
@@ -167,16 +167,16 @@ public class SetUserInfoActivity extends BaseActivity {
                 user.slogan = rowValue;
                 break;
 
-            case UserInfoActivity.USERINFO_COMPANY:
+            case UserDetailEditActivity.USERINFO_COMPANY:
                 //公司
                 user.company = rowValue;
                 break;
 
-            case UserInfoActivity.USERINFO_JOB:
+            case UserDetailEditActivity.USERINFO_JOB:
                 //职位
                 break;
 
-            case UserInfoActivity.USERINFO_TAGS:
+            case UserDetailEditActivity.USERINFO_TAGS:
                 //个性标签
                 break;
         }

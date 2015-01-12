@@ -42,7 +42,7 @@ import android.widget.TextView;
 import com.astuetz.pagerslidingtabstrip.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 
 import java.util.Locale;

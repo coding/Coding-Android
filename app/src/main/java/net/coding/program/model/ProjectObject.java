@@ -1,6 +1,6 @@
 package net.coding.program.model;
 
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 
 import org.json.JSONException;
 import org.json.JSONObject;

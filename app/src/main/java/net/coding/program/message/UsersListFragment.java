@@ -15,7 +15,7 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.Unread;

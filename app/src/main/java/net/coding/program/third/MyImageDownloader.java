@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

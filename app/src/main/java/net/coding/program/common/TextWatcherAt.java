@@ -49,6 +49,8 @@ public class TextWatcherAt implements TextWatcher {
                 intent = new Intent(mContext, MembersSelectActivity_.class);
                 intent.putExtra("mProjectObject", mProjectObject);
             }
+
+            // 必须考虑是activty还是fragment，所以只能由mStartActivity启动
             mStartActivity.startActivityForResult(intent, mResult);
         }
     }

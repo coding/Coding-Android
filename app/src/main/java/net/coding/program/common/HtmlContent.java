@@ -1,7 +1,5 @@
 package net.coding.program.common;
 
-import net.coding.program.Global;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

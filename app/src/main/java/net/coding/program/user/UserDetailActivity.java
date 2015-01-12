@@ -18,10 +18,10 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.UserInfoActivity_;
+import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
@@ -114,7 +114,7 @@ public class UserDetailActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (isMe) {
             MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.user_detail_edit, menu);
+            inflater.inflate(R.menu.user_detail, menu);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -122,7 +122,7 @@ public class UserDetailActivity extends BaseActivity {
 
     @OptionsItem
     void action_edit() {
-        UserInfoActivity_
+        UserDetailEditActivity_
                 .intent(this)
                 .startForResult(RESULT_EDIT);
     }

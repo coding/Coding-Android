@@ -6,8 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
-import net.coding.program.Global;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

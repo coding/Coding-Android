@@ -19,7 +19,6 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.coding.program.Global;
 import net.coding.program.R;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.widget.TextView;
 
-import net.coding.program.Global;
+import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengActivity;
 

@@ -3,8 +3,6 @@ package net.coding.program;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.text.Editable;
@@ -23,7 +21,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
+import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -42,8 +42,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
-
-import u.aly.co;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -213,7 +211,7 @@ public class LoginActivity extends BaseActivity {
 
             RequestParams params = new RequestParams();
             params.put("email", name);
-            params.put("password", Global.sha1(password));
+            params.put("password", SimpleSHA1.sha1(password));
             if (captchaLayout.getVisibility() == View.VISIBLE) {
                 params.put("j_captcha", captcha);
             }
