@@ -28,31 +28,30 @@
             android:layout_alignRight="@id/icon"
             android:layout_marginRight="-12dp"
             android:layout_marginTop="-9dp" />
-
+        
+        <View
+            android:id="@+id/privateIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:visibility="visible"
+            android:background="@drawable/icon_project_private_flag1"
+            android:layout_marginTop="10dp"
+            android:layout_alignRight="@id/icon"
+            android:layout_alignBottom="@id/icon"
+            />
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="    Medium Text"
+            android:text="Medium Text"
             android:singleLine="true"
             android:layout_alignTop="@id/icon"
+            android:layout_toRightOf="@id/icon"
             android:textSize="18sp"
             android:textColor="@color/font_black_content"
             android:id="@+id/name"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp" />
-
-        <View
-            android:id="@+id/privateIcon"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:visibility="visible"
-            android:background="@drawable/icon_project_private_flag"
-            android:layout_marginTop="12dp"
-            android:layout_alignLeft="@id/name"
-            android:layout_alignTop="@id/icon"
-            />
 
         <TextView
             android:layout_width="match_parent"
@@ -61,6 +60,7 @@
             android:textColor="@color/font_gray"
             android:text="Medium Text"
             android:singleLine="true"
+            android:layout_toRightOf="@id/icon"
             android:layout_alignLeft="@+id/name"
             android:textSize="15sp"
             android:layout_marginBottom="5dp"

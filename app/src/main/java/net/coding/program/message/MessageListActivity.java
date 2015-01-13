@@ -85,6 +85,8 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
     final String HOST_USER_INFO = Global.HOST + "/api/user/key/";
 
+    private Uri fileUri;
+
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -196,8 +198,9 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         getNextPageNetwork(url, url);
     }
 
-    public static final int RESULT_REQUEST_FOLLOW = 1002;
-    public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
+    private static final int RESULT_REQUEST_FOLLOW = 1002;
+    private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
+    private static final int RESULT_REQUEST_PHOTO = 1005;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

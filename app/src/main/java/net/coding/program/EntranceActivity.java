@@ -121,12 +121,11 @@ public class EntranceActivity extends BaseActivity {
             intent = new Intent(this, MainActivity_.class);
         }
 
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
         startActivity(intent);
 
         UnreadNotify.update(this);
         finish();
+        overridePendingTransition(0, R.anim.alpha_out);
     }
 }
 

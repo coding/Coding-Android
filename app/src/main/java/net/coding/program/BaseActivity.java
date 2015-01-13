@@ -212,59 +212,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         imageLoadTool.loadImageFromUrl(view, url, options);
     }
 
-    public void camera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
-    }
-
-    protected Uri getOutputMediaFileUri() {
-        File mediaStorageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "MyCameraApp");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp
-                + ".jpg");
-
-        return Uri.fromFile(mediaFile);
-    }
-
-    public void photo() {
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_REQUEST_PHOTO);
-    }
-
-    protected final int RESULT_REQUEST_PHOTO = 1005;
-    protected final int RESULT_REQUEST_PHOTO_CROP = 1006;
-
-    protected Uri fileUri;
-    protected Uri fileCropUri;
-
-    protected void cropImageUri(Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", outputX);
-        intent.putExtra("outputY", outputY);
-        intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-        intent.putExtra("return-data", false);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true); // no face detection
-        startActivityForResult(intent, requestCode);
-    }
-
     public final void dialogTitleLineColor(Dialog dialog) {
         CustomDialog.dialogTitleLineColor(this, dialog);
     }

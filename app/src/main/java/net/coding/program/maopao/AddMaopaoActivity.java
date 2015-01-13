@@ -23,11 +23,11 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.common.Global;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
@@ -70,6 +70,8 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
     EnterEmojiLayout mEnterLayout;
     EditText message;
 
+    private Uri fileUri;
+
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -96,26 +98,14 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == mData.size()) {
-                    AlertDialog dialog = new AlertDialog.Builder(AddMaopaoActivity.this)
-                            .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    int count = PHOTO_MAX_COUNT - mData.size();
-                                    if (count <= 0) {
-                                        return;
-                                    }
+                    int count = PHOTO_MAX_COUNT - mData.size();
+                    if (count <= 0) {
+                        return;
+                    }
 
-                                    if (which == 0) {
-                                        camera();
-                                    } else {
-                                        Intent intent = new Intent(AddMaopaoActivity.this, PhotoPickActivity.class);
-                                        intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
-                                        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
-                                    }
-                                }
-                            }).show();
-
-                    dialogTitleLineColor(dialog);
+                    Intent intent = new Intent(AddMaopaoActivity.this, PhotoPickActivity.class);
+                    intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
+                    startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
 
                 } else {
                     Intent intent = new Intent(AddMaopaoActivity.this, ImagePagerActivity_.class);
@@ -137,6 +127,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
     public static final int RESULT_REQUEST_IMAGE = 100;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
+    public static final int RESULT_REQUEST_PHOTO = 1005;
 
 
     @Override

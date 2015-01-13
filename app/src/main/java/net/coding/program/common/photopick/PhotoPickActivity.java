@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CameraPreview;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,6 +76,8 @@ public class PhotoPickActivity extends Activity {
 
     final String allPhotos = "所有图片";
 
+    final String CameraItem = "CameraItem";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +101,7 @@ public class PhotoPickActivity extends Activity {
         String[] selectionArgs = null;
         Cursor mImageExternalCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.MediaColumns.DATE_ADDED + " DESC");
         ArrayList<ImageInfo> allPhoto = new ArrayList<ImageInfo>();
+        allPhoto.add(new ImageInfo(CameraItem));
         mFoldersData.add(allPhotos);
 
         while (mImageExternalCursor.moveToNext()) {
@@ -144,13 +149,6 @@ public class PhotoPickActivity extends Activity {
         mPreView = (TextView) findViewById(R.id.preView);
         mPreView.setOnClickListener(onClickPre);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        mPhotoAdapter.notifyDataSetChanged();
-//    }
 
     View.OnClickListener onClickPre = new View.OnClickListener() {
         @Override
@@ -236,6 +234,7 @@ public class PhotoPickActivity extends Activity {
 
     MenuItem mMenuItem;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_photo_pick, menu);
@@ -272,7 +271,17 @@ public class PhotoPickActivity extends Activity {
         finish();
     }
 
+    private Uri fileUri;
+
+    public void camera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        startActivityForResult(intent, RESULT_CAMERA);
+    }
+
     final int RESULT_PICK = 20;
+    final int RESULT_CAMERA = 21;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -280,13 +289,22 @@ public class PhotoPickActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 ArrayList<ImageInfo> pickArray = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                 mPickData = pickArray;
-
                 mPhotoAdapter.notifyDataSetChanged();
-
                 boolean send = data.getBooleanExtra("send", false);
                 if (send) {
                     send();
                 }
+            }
+        } else if (requestCode == RESULT_CAMERA) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<ImageInfo> pickArray = new ArrayList<>();
+
+                ImageInfo itme = new ImageInfo(fileUri.toString());
+                pickArray.add(itme);
+                mPickData = pickArray;
+                send();
+            } else {
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -345,61 +363,102 @@ public class PhotoPickActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            GridViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.photopick_gridlist_item, parent, false);
-                convertView.getLayoutParams().height = MyApp.sWidthPix / 3;
+        public int getViewTypeCount() {
+            return 2;
+        }
 
-                holder = new GridViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.iconFore = (ImageView) convertView.findViewById(R.id.iconFore);
-                holder.check = (CheckBox) convertView.findViewById(R.id.check);
-                GridViewCheckTag checkTag = new GridViewCheckTag(holder.iconFore);
-                holder.check.setTag(checkTag);
-                holder.check.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        GridViewCheckTag tag = (GridViewCheckTag) v.getTag();
-                        if (((CheckBox) v).isChecked()) {
-                            if (mPickData.size() >= mMaxPick) {
-                                ((CheckBox) v).setChecked(false);
-                                String s = String.format("最多只能选择%d张", mMaxPick);
-                                Toast.makeText(PhotoPickActivity.this, s, Toast.LENGTH_LONG).show();
-                                return;
-                            }
+        private final int TYPE_CAMERA = 0;
+        private final int TYPE_PHOTO = 1;
 
-                            addPicked(tag.path);
-                            tag.iconFore.setVisibility(View.VISIBLE);
-                        } else {
-                            removePicked(tag.path);
-                            tag.iconFore.setVisibility(View.INVISIBLE);
-                        }
-                        mFoldAdapter.notifyDataSetChanged();
-
-                        updatePickCount();
-                    }
-                });
-                convertView.setTag(holder);
+        @Override
+        public int getItemViewType(int position) {
+            ImageInfo imageInfo = (ImageInfo) getItem(position);
+            if (imageInfo.path.equals(CameraItem)) {
+                return TYPE_CAMERA;
             } else {
-                holder = (GridViewHolder) convertView.getTag();
+                return TYPE_PHOTO;
             }
+        }
 
-            ImageInfo data = (ImageInfo) getItem(position);
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(data.path, holder.icon, optionsImage);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            int type = getItemViewType(position);
+            int width = MyApp.sWidthPix / 3;
+            if (type == TYPE_PHOTO) {
+                GridViewHolder holder;
+                if (convertView == null) {
+                    convertView = mInflater.inflate(R.layout.photopick_gridlist_item, parent, false);
+                    convertView.getLayoutParams().height = width;
 
-            ((GridViewCheckTag) holder.check.getTag()).path = data.path;
+                    holder = new GridViewHolder();
+                    holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                    holder.iconFore = (ImageView) convertView.findViewById(R.id.iconFore);
+                    holder.check = (CheckBox) convertView.findViewById(R.id.check);
+                    GridViewCheckTag checkTag = new GridViewCheckTag(holder.iconFore);
+                    holder.check.setTag(checkTag);
+                    holder.check.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            GridViewCheckTag tag = (GridViewCheckTag) v.getTag();
+                            if (((CheckBox) v).isChecked()) {
+                                if (mPickData.size() >= mMaxPick) {
+                                    ((CheckBox) v).setChecked(false);
+                                    String s = String.format("最多只能选择%d张", mMaxPick);
+                                    Toast.makeText(PhotoPickActivity.this, s, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
 
-            boolean picked = isPicked(data.path);
-            holder.check.setChecked(picked);
-            holder.iconFore.setVisibility(picked ? View.VISIBLE : View.INVISIBLE);
+                                addPicked(tag.path);
+                                tag.iconFore.setVisibility(View.VISIBLE);
+                            } else {
+                                removePicked(tag.path);
+                                tag.iconFore.setVisibility(View.INVISIBLE);
+                            }
+                            mFoldAdapter.notifyDataSetChanged();
 
-            return convertView;
+                            updatePickCount();
+                        }
+                    });
+                    convertView.setTag(holder);
+                } else {
+                    holder = (GridViewHolder) convertView.getTag();
+                }
+
+                ImageInfo data = (ImageInfo) getItem(position);
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage(data.path, holder.icon, optionsImage);
+
+                ((GridViewCheckTag) holder.check.getTag()).path = data.path;
+
+                boolean picked = isPicked(data.path);
+                holder.check.setChecked(picked);
+                holder.iconFore.setVisibility(picked ? View.VISIBLE : View.INVISIBLE);
+
+                return convertView;
+            } else {
+                final GridCameraHolder cameraHolder;
+                if (convertView == null) {
+                    convertView = mInflater.inflate(R.layout.photopick_gridlist_item_camera, parent, false);
+
+                    ViewGroup.LayoutParams layoutParams = convertView.getLayoutParams();
+                    layoutParams.height = width;
+                    layoutParams.width = width;
+
+                    cameraHolder = new GridCameraHolder();
+                    cameraHolder.cameraPreview = (CameraPreview) convertView.findViewById(R.id.cameraPreview);
+                    cameraHolder.cameraPreview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cameraHolder.cameraPreview.stopAndReleaseCamera();
+                            camera();
+                        }
+                    });
+                }
+
+                return convertView;
+            }
         }
     }
-
-    ;
 
     private void updatePickCount() {
         String format = "完成(%d/%d)";
@@ -424,6 +483,10 @@ public class PhotoPickActivity extends Activity {
         ImageView icon;
         ImageView iconFore;
         CheckBox check;
+    }
+
+    static class GridCameraHolder {
+        CameraPreview cameraPreview;
     }
 
     BaseAdapter mFoldAdapter = new BaseAdapter() {

@@ -1,8 +1,6 @@
 package net.coding.program.common.enter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
@@ -13,10 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.EmojiTranslate;
+import net.coding.program.common.Global;
 
 /**
  * Created by chaochen on 14-10-28.
@@ -51,23 +48,10 @@ public class EnterLayout {
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                    AlertDialog dialog = builder.setTitle("")
-                            .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (mActivity instanceof CameraAndPhoto) {
-                                        CameraAndPhoto cameraAndPhoto = (CameraAndPhoto) mActivity;
-                                        if (which == 0) {
-                                            cameraAndPhoto.camera();
-                                        } else {
-                                            cameraAndPhoto.photo();
-                                        }
-                                    }
-                                }
-                            }).show();
-                    CustomDialog.dialogTitleLineColor(mActivity, dialog);
+                    if (mActivity instanceof CameraAndPhoto) {
+                        CameraAndPhoto cameraAndPhoto = (CameraAndPhoto) mActivity;
+                        cameraAndPhoto.photo();
+                    }
                 }
             });
         } else {
@@ -167,7 +151,7 @@ public class EnterLayout {
         int insertPos = content.getSelectionStart();
         Log.d("", "pppppp " + insertPos);
 
-        String  insertString = s + " ";
+        String insertString = s + " ";
         Editable editable = content.getText();
         editable.insert(insertPos, insertString);
 
@@ -208,8 +192,6 @@ public class EnterLayout {
     }
 
     public interface CameraAndPhoto {
-        void camera();
-
         void photo();
     }
 }

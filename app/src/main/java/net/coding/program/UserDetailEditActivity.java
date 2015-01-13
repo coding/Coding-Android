@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.view.Display;
 import android.view.View;
@@ -23,6 +26,7 @@ import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -50,6 +54,8 @@ public class UserDetailEditActivity extends BaseFragmentActivity implements Date
 
     ImageView icon;
 
+    private Uri fileCropUri;
+
     void setIcon() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("更换头像")
@@ -63,10 +69,21 @@ public class UserDetailEditActivity extends BaseFragmentActivity implements Date
                         }
                     }
                 });
-        //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
         dialogTitleLineColor(dialog);
+    }
+
+    private void camera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
+    }
+
+    private void photo() {
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_REQUEST_PHOTO);
     }
 
     @StringArrayRes
@@ -85,6 +102,8 @@ public class UserDetailEditActivity extends BaseFragmentActivity implements Date
     String[] user_jobs;
 
     final String HOST_USER = Global.HOST + "/api/user/key/%s";
+
+    private Uri fileUri;
 
     @AfterViews
     void init() {
@@ -258,6 +277,25 @@ public class UserDetailEditActivity extends BaseFragmentActivity implements Date
         }
     }
 
+    private void cropImageUri(Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        startActivityForResult(intent, requestCode);
+    }
+
+    private final int RESULT_REQUEST_PHOTO = 1005;
+    private final int RESULT_REQUEST_PHOTO_CROP = 1006;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PHOTO) {
@@ -266,7 +304,7 @@ public class UserDetailEditActivity extends BaseFragmentActivity implements Date
                     fileUri = data.getData();
                 }
 
-                fileCropUri = getOutputMediaFileUri();
+                fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
                 cropImageUri(fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
             }
 

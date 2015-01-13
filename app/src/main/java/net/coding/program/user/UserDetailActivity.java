@@ -153,8 +153,6 @@ public class UserDetailActivity extends BaseActivity {
                 }
             }
         });
-
-
     }
 
     View.OnClickListener onClickMaopao = new View.OnClickListener() {

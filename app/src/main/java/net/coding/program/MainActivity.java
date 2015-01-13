@@ -331,68 +331,19 @@ public class MainActivity extends BaseFragmentActivity
         }
     }
 
-//    class MySpinnerAdapter extends BaseAdapter {
-//
-//        private LayoutInflater inflater;
-//        private String[] project_activity_action_list;
-//
-//        public MySpinnerAdapter(LayoutInflater inflater, String[] titles) {
-//            this.inflater = inflater;
-//            this.project_activity_action_list = titles;
-//        }
-//
-//        int checkPos = 0;
-//
-//        public void setCheckPos(int pos) {
-//            checkPos = pos;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return project_activity_action_list.length;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            if (convertView == null) {
-//                convertView = inflater.inflate(R.layout.spinner_layout_head, parent, false);
-//            }
-//
-//            ((TextView) convertView).setText(project_activity_action_list[position]);
-//
-//            return convertView;
-//        }
-//
-//        @Override
-//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-//            if (convertView == null) {
-//                convertView = inflater.inflate(R.layout.spinner_layout_item, parent, false);
-//            }
-//
-//            TextView title = (TextView) convertView.findViewById(R.id.title);
-//            title.setText(project_activity_action_list[position]);
-//
-//            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-//            icon.setVisibility(View.GONE);
-//
-//            if (checkPos == position) {
-//                convertView.setBackgroundColor(getResources().getColor(R.color.green));
-//            } else {
-//                convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
-//            }
-//
-//            return convertView;
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        exitApp();
+    }
 
+    private long exitTime = 0;
+
+    private void exitApp() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            showButtomToast("再按一次退出Coding");
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
+    }
 }

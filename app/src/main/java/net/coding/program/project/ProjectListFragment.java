@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -148,12 +148,13 @@ public class ProjectListFragment extends RefreshBaseFragment {
             View view = convertView;
             final ViewHolder holder;
             if (convertView == null) {
-                view = mInflater.inflate(R.layout.project_all_list_item, parent, false);
+                view = mInflater.inflate(R.layout.project_all_list_item1, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) view.findViewById(R.id.name);
                 holder.image = (ImageView) view.findViewById(R.id.icon);
                 holder.content = (TextView) view.findViewById(R.id.comment);
                 holder.badge = (BadgeView) view.findViewById(R.id.badge);
+                holder.privateIcon = view.findViewById(R.id.privateIcon);
 
                 view.setTag(holder);
             } else {
@@ -162,7 +163,11 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
             ProjectObject item = (ProjectObject) getItem(position);
 
+//            String nameString = item.is_public ? item.name : ("    " + item.name);
+
             holder.name.setText(item.name);
+            holder.privateIcon.setVisibility(item.is_public ? View.INVISIBLE : View.VISIBLE);
+
             holder.content.setText(item.owner_user_name);
             int count = item.un_read_activities_count;
             if (count > 0) {
@@ -186,6 +191,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
         ImageView image;
         TextView content;
         BadgeView badge;
+        View privateIcon;
     }
 
     public interface UpdateData {

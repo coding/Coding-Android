@@ -623,10 +623,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
     public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
-
     public static final int RESULT_REQUEST_DESCRIPTION = 4;
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
-
+    public static final int RESULT_REQUEST_PHOTO = 1005;
 
     @OnActivityResult(RESULT_REQUEST_DESCRIPTION)
     void resultDescription(int result, Intent data) {
@@ -651,6 +650,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         params.put("content", descriptionDataNew.markdown);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
