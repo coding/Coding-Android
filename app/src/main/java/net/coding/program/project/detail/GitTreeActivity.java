@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.app.Activity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;

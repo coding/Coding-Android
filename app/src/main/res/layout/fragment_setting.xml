@@ -1,7 +1,131 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listView"
+<!--<ListView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/listView"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:footerDividersEnabled="false"--><!--tools:context="net.coding.program.setting.SettingFragment" />-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:footerDividersEnabled="false"
-    tools:context="net.coding.program.setting.SettingFragment" />
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/list_divider_big" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@drawable/list_item_selector"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:id="@+id/accountSetting">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:text="帐号设置"
+                android:textColor="#222222"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+
+        <include layout="@layout/list_divider_big" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:background="@drawable/list_item_selector"
+            android:padding="12dp"
+            android:id="@+id/pushSetting">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:text="消息推送"
+                android:textColor="#222222"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/list_divider_big" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@drawable/list_item_selector"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:id="@+id/downloadPathSetting">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:text="下载路径设置"
+                android:textColor="#222222"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/list_divider_big" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@drawable/list_item_selector"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:id="@+id/feedback">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:text="意见反馈"
+                android:textColor="#222222"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+
+        <include layout="@layout/list_divider_small" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@drawable/list_item_selector"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:id="@+id/aboutCoding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:text="关于Coding"
+                android:textColor="#222222"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/loginOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/setting_button_esc"
+            android:text="退出"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+</ScrollView>

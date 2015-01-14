@@ -33,8 +33,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
-* Created by chaochen on 15/1/12.
-*/
+ * Created by chaochen on 15/1/12.
+ */
 public class URLSpanNoUnderline extends URLSpan {
 
     private int color;

@@ -25,10 +25,10 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
+import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
@@ -982,7 +982,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             Object item = mEnterLayout.content.getTag();
             if (item != null && (item instanceof TaskObject.TaskComment)) {
                 TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
-                String at = String.format("@%s ", comment.owner.global_key);
+                String at = String.format("@%s ", comment.owner.name);
                 s = at + s;
             }
 

@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.ProjectObject;

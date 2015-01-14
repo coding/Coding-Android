@@ -16,8 +16,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;

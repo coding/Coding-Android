@@ -14,8 +14,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-7.
@@ -350,6 +348,7 @@ public class AccountInfo {
     }
 
     private static final String USER_MAOPAO = "USER_MAOPAO";
+
     public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, String id) {
         new DataCache<Maopao.MaopaoObject>().save(ctx, data, USER_MAOPAO + type + id);
     }
@@ -357,6 +356,7 @@ public class AccountInfo {
     public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, String id) {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
     }
+
     private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO";
 
     public static void saveReloginInfo(Context ctx, String email, String globayKey) {

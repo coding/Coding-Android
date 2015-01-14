@@ -124,8 +124,8 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
-            android:theme="@style/TranslateTheme"
             android:screenOrientation="portrait"
+            android:theme="@style/TranslateTheme"
             android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".project.detail.ProjectActivity_"
@@ -384,7 +384,12 @@
             android:name=".task.TaskDescriptionActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_description"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.AccountSetting_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_account_setting" >
         </activity>
     </application>
 

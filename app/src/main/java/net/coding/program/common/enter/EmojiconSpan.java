@@ -4,11 +4,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
-import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by chaochen on 14-11-12.

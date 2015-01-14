@@ -9,9 +9,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;

@@ -8,8 +8,8 @@ import android.text.ParcelableSpan;
 import android.text.style.LeadingMarginSpan;
 
 /**
-* Created by chaochen on 15/1/12.
-*/
+ * Created by chaochen on 15/1/12.
+ */
 public class GrayQuoteSpan implements LeadingMarginSpan, ParcelableSpan {
     private static final int STRIPE_WIDTH = 4 * 3;
     private static final int GAP_WIDTH = 12 * 3;

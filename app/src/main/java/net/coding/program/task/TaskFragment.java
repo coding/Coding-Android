@@ -10,8 +10,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;

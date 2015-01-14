@@ -5,12 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +28,6 @@ import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by cc191954 on 14-8-16.

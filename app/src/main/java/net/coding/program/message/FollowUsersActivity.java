@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.user.UsersListActivity;

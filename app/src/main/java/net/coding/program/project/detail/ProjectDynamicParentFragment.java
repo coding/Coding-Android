@@ -1,7 +1,6 @@
 package net.coding.program.project.detail;
 
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -109,9 +108,9 @@ public class ProjectDynamicParentFragment extends BaseFragment {
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
             return ProjectDynamicFragment_.builder()
-                        .mProjectObject(mProjectObject)
-                        .mType(mParams[position])
-                        .build();
+                    .mProjectObject(mProjectObject)
+                    .mType(mParams[position])
+                    .build();
         }
 
         @Override

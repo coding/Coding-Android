@@ -22,9 +22,9 @@ import android.widget.Toast;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
@@ -426,7 +426,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
 
 
-            final int priorityIcons[] = new int[] {
+            final int priorityIcons[] = new int[]{
                     R.drawable.task_mark_0,
                     R.drawable.task_mark_1,
                     R.drawable.task_mark_2,
@@ -443,7 +443,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 if (data.deadline.equals(mToday)) {
                     holder.mDeadline.setText("今天");
                     holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_yellow);
-                } else if(data.deadline.equals(mTomorrow)) {
+                } else if (data.deadline.equals(mTomorrow)) {
                     holder.mDeadline.setText("明天");
                     holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_green);
                 } else {

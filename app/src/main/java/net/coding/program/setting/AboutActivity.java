@@ -1,11 +1,15 @@
 package net.coding.program.setting;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.UpdateApp;
+import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -44,31 +48,42 @@ public class AboutActivity extends UmengActivity {
         onBackPressed();
     }
 
-    long mLastTime = 0;
-    int mClickCount = 0;
-
     @Click
-    void icon() {
-        long millis = Calendar.getInstance().getTimeInMillis();
-
-        if (millis - mLastTime < 3000) {
-            ++mClickCount;
-        } else {
-            mClickCount = 1;
-            mLastTime = millis;
-        }
-
-        if (mClickCount == 5) {
+    void markCoding() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
         }
     }
 
-    static final int RESULT_CODE_LOGIN_OUT = 30;
+    @Click
+    void checkUpdate() {
+        new UpdateApp(this).runForeground();
+    }
 
-    @OnActivityResult(RESULT_CODE_LOGIN_OUT)
-    void onResult(int resultCode) {
-        if (resultCode == Activity.RESULT_OK) {
-            setResult(RESULT_OK);
-            finish();
+    @Click
+    void codingWebsite() {
+        try {
+            Uri uri = Uri.parse("https://coding.net");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Click
+    void codingWeibo() {
+
+    }
+
+    @Click
+    void codingWechat() {
+
     }
 }

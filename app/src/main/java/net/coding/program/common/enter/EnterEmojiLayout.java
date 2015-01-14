@@ -11,8 +11,8 @@ import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
 

@@ -23,11 +23,11 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.common.Global;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -103,7 +103,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     protected void init() {
         super.init();
 
-        mData = AccountInfo.loadMaopao(getActivity(), mType ,userId);
+        mData = AccountInfo.loadMaopao(getActivity(), mType, userId);
         if (mData.isEmpty()) {
             showDialogLoading();
         } else {

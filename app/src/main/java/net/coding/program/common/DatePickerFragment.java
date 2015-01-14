@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
-* Created by chaochen on 14/12/23.
-*/
+ * Created by chaochen on 14/12/23.
+ */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private DateSet mDateSet;

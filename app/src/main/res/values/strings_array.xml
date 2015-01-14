@@ -22,12 +22,10 @@
     </string-array>
 
     <string-array name="setting_list_items">
-        <item>密码设置</item>
-        <item>推送设置</item>
+        <item>帐号设置</item>
+        <item>消息推送</item>
         <item>下载路径设置</item>
         <item>意见反馈</item>
-        <item>检查更新</item>
-        <item>评价我们</item>
         <item>关于Coding</item>
     </string-array>
 

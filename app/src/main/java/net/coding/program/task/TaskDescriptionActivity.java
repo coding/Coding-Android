@@ -12,8 +12,8 @@ import android.webkit.WebView;
 import android.widget.EditText;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.model.TaskObject;
 
 import org.androidannotations.annotations.AfterViews;

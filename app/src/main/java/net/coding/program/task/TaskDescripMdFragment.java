@@ -8,8 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;

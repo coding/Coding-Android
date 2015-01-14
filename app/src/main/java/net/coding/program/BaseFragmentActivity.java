@@ -5,10 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +22,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.umeng.UmengFragmentActivity;
 import net.coding.program.user.UserDetailActivity_;
 

@@ -5,8 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
-* Created by chaochen on 15/1/12.
-*/
+ * Created by chaochen on 15/1/12.
+ */
 public class SimpleSHA1 {
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();

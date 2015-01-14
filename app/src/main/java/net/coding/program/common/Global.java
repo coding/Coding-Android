@@ -4,14 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.Browser;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -25,27 +23,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import net.coding.program.ImagePagerActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.maopao.MaopaoDetailActivity;
-import net.coding.program.maopao.MaopaoDetailActivity_;
-import net.coding.program.message.MessageListActivity_;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.AttachmentFolderObject;
-import net.coding.program.project.detail.AttachmentsActivity_;
-import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
-import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
-import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
-import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
-import net.coding.program.project.detail.ProjectActivity;
-import net.coding.program.project.detail.ProjectActivity_;
-import net.coding.program.task.TaskAddActivity;
-import net.coding.program.task.TaskAddActivity_;
-import net.coding.program.project.detail.TopicListDetailActivity;
-import net.coding.program.project.detail.TopicListDetailActivity_;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,8 +39,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by cc191954 on 14-8-233.
@@ -153,7 +131,7 @@ public class Global {
         if (url.indexOf("http") == 0) {
             // 头像再裁剪需要算坐标，就不改参数了
             // https://dn-coding-net-production-static.qbox.me/c28b97dd-61f2-41d4-bd7e-b04f0c634751.jpg?imageMogr2/auto-orient/format/jpeg/crop/!164x164a568a38
-            if(url.contains("/crop/")) {
+            if (url.contains("/crop/")) {
                 return url;
             }
 

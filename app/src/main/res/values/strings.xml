@@ -57,5 +57,6 @@
     <string name="title_activity_notify_setting">通知栏设置</string>
     <string name="title_activity_members_select">选择项目成员</string>
     <string name="title_activity_task_description">任务描述</string>
+    <string name="title_activity_account_setting">帐号设置</string>
 
 </resources>

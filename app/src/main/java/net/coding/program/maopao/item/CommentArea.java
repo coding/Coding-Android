@@ -5,8 +5,8 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.Maopao;

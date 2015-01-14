@@ -20,10 +20,10 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.common.Global;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
+import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;

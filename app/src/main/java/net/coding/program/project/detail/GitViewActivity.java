@@ -14,10 +14,10 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.BaseFragmentActivity;
-import net.coding.program.common.Global;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitFileObject;

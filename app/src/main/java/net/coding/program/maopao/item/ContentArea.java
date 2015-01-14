@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import net.coding.program.common.Global;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.maopao.MaopaoListFragment;
@@ -102,7 +102,6 @@ public class ContentArea extends ContentAreaBase {
 
         setImageUrl(maopaoData.uris);
     }
-
 
 
     public void setData(String data, Type type) {

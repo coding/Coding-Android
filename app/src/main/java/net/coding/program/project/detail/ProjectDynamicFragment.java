@@ -15,9 +15,9 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.common.Global;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;

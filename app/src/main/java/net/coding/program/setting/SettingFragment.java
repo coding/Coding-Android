@@ -1,38 +1,26 @@
 package net.coding.program.setting;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
-import net.coding.program.UpdateApp;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.io.File;
 import java.util.regex.Pattern;
@@ -40,134 +28,18 @@ import java.util.regex.Pattern;
 @EFragment(R.layout.fragment_setting)
 public class SettingFragment extends BaseFragment {
 
-    @ViewById
-    ListView listView;
-
-    @StringArrayRes
-    String setting_list_items[];
-
-    LayoutInflater mInflater;
-
-    @AfterViews
-    void init() {
-        mInflater = LayoutInflater.from(getActivity());
-
-        addFoot();
-        listView.setAdapter(mAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch ((int) id) {
-                    case 0:
-                        SetPasswordActivity_.intent(getActivity()).start();
-                        break;
-
-                    case 1:
-                        NotifySetting_.intent(getActivity()).start();
-                        break;
-
-                    case 2:
-                        setFileDownloadPath();
-                        break;
-
-                    case 3:
-                        FeedbackActivity_.intent(getActivity()).start();
-                        break;
-
-                    case 4:
-                        new UpdateApp(getActivity()).runForeground();
-                        break;
-
-                    case 5:
-                        gotoMarket();
-                        break;
-
-                    case 6:
-                        AboutActivity_.intent(SettingFragment.this).start();
-                        break;
-                }
-            }
-        });
+    @Click
+    void accountSetting() {
+        AccountSetting_.intent(this).start();
     }
 
-    private void gotoMarket() {
-        try {
-            Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
-        }
+    @Click
+    void pushSetting() {
+        NotifySetting_.intent(this).start();
     }
 
-    private void addFoot() {
-        View v = mInflater.inflate(R.layout.activity_setting_bottom, null, false);
-        v.findViewById(R.id.esc).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginOut();
-            }
-        });
-        listView.addFooterView(v);
-    }
-
-    private void loginOut() {
-        XGPushManager.unregisterPush(getActivity().getApplicationContext());
-        AccountInfo.loginOut(getActivity());
-        startActivity(new Intent(getActivity(), LoginActivity_.class));
-        getActivity().finish();
-    }
-
-    BaseAdapter mAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return setting_list_items.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return setting_list_items[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.list_item_2_text_divide_head, parent, false);
-                holder = new ViewHolder();
-                holder.title = (TextView) convertView.findViewById(R.id.first);
-                holder.divide = convertView.findViewById(R.id.headDivide);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            String title = (String) getItem(position);
-            holder.title.setText(title);
-
-            if (position == 0 || position == 3) {
-                holder.divide.setVisibility(View.VISIBLE);
-            } else {
-                holder.divide.setVisibility(View.GONE);
-            }
-
-            return convertView;
-        }
-    };
-
-    static class ViewHolder {
-        public TextView title;
-        public View divide;
-    }
-
-    private void setFileDownloadPath() {
+    @Click
+    void downloadPathSetting() {
         final SharedPreferences share = getActivity().getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         String path = "";
         final String defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
@@ -207,4 +79,23 @@ public class SettingFragment extends BaseFragment {
         ((BaseFragmentActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
+
+    @Click
+    void feedback() {
+        FeedbackActivity_.intent(getActivity()).start();
+    }
+
+    @Click
+    void aboutCoding() {
+        AboutActivity_.intent(SettingFragment.this).start();
+    }
+
+    @Click
+    void loginOut() {
+        XGPushManager.unregisterPush(getActivity().getApplicationContext());
+        AccountInfo.loginOut(getActivity());
+        startActivity(new Intent(getActivity(), LoginActivity_.class));
+        getActivity().finish();
+    }
+
 }
