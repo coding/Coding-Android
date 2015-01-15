@@ -36,7 +36,6 @@
 
     </RelativeLayout>
 
-
     <include layout="@layout/list_divider_small" />
 
     <RelativeLayout

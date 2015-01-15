@@ -1,13 +1,11 @@
 package net.coding.program.maopao.item;
 
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.HtmlContent;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.Maopao;
 
@@ -26,41 +24,24 @@ public class CommentArea {
             R.id.comment4
     };
 
+    private View commentMore;
+    private Html.ImageGetter imageGetter;
+    private TextView commentMoreCount;
+    private View commentLayout;
+
+    private CommentItem comment[];
     private static final int commentMaxCount = commentIds.length;
-
-    private static final int[] commentNames = new int[]{
-            R.id.name0,
-            R.id.name1,
-            R.id.name2,
-            R.id.name3,
-            R.id.name4
-    };
-
-    private static final int[] commentTimes = new int[]{
-            R.id.time0,
-            R.id.time1,
-            R.id.time2,
-            R.id.time3,
-            R.id.time4
-    };
-
-    private static final int[] commentLayouts = new int[]{
-            R.id.commentLayout0,
-            R.id.commentLayout1,
-            R.id.commentLayout2,
-            R.id.commentLayout3,
-            R.id.commentLayout4,
-    };
 
     public CommentArea(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetterParamer) {
         imageGetter = imageGetterParamer;
+
         commentLayout = convertView.findViewById(R.id.commentArea);
-        comment = new CommentItem[commentIds.length];
         commentMore = convertView.findViewById(R.id.commentMore);
         commentMoreCount = (TextView) convertView.findViewById(R.id.commentMoreCount);
 
+        comment = new CommentItem[commentIds.length];
         for (int i = 0; i < commentIds.length; ++i) {
-            comment[i] = new CommentItem(convertView, onClickComment, i);
+            comment[i] = new CommentItem(convertView.findViewById(commentIds[i]), onClickComment, i);
         }
     }
 
@@ -77,9 +58,7 @@ public class CommentArea {
                 CommentItem item = comment[i];
                 item.setVisibility(View.VISIBLE);
                 Maopao.Comment comment = commentsData.get(i);
-                item.setContent(comment.owner.name, comment.content, comment.created_at, imageGetter, Global.tagHandler);
-                item.layout.setTag(MaopaoListFragment.TAG_COMMENT, comment);
-                item.content.setTag(MaopaoListFragment.TAG_COMMENT, comment);
+                item.setContent(comment, imageGetter, Global.tagHandler);
             }
 
             for (; i < commentMaxCount; ++i) {
@@ -93,47 +72,6 @@ public class CommentArea {
             } else {
                 commentMore.setVisibility(View.GONE);
             }
-        }
-    }
-
-    View commentMore;
-    TextView commentMoreCount;
-
-    private View commentLayout;
-    private CommentItem comment[];
-
-    Html.ImageGetter imageGetter;
-
-    public static class CommentItem {
-        public CommentItem(View convertView, View.OnClickListener onClickComment, int i) {
-            layout = convertView.findViewById(commentLayouts[i]);
-            layout.setOnClickListener(onClickComment);
-            name = (TextView) convertView.findViewById(commentNames[i]);
-            time = (TextView) convertView.findViewById(commentTimes[i]);
-            content = (TextView) convertView.findViewById(commentIds[i]);
-            content.setMovementMethod(LinkMovementMethod.getInstance());
-            content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((View) (v.getParent())).callOnClick();
-                }
-            });
-        }
-
-        protected TextView content;
-        protected TextView name;
-        protected TextView time;
-        protected View layout;
-
-        public void setVisibility(int visibility) {
-            layout.setVisibility(visibility);
-        }
-
-        public void setContent(String nameString, String contentString, long timeParam, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-            name.setText(nameString);
-            time.setText(Global.dayToNow(timeParam));
-            Global.MessageParse parse = HtmlContent.parseMessage(contentString);
-            content.setText(Global.changeHyperlinkColor(parse.text, imageGetter, tagHandler));
         }
     }
 }

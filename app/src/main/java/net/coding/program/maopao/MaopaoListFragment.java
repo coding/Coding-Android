@@ -36,7 +36,6 @@ import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.item.CommentArea;
-import net.coding.program.maopao.item.ContentArea;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
@@ -399,7 +398,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
         } else if (tag.equals(HOST_GOOD)) {
             if (code == 0) {
-                Maopao.MaopaoObject item = (Maopao.MaopaoObject) data;
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject maopao = mData.get(i);
                     if (maopao.id.equals(((Maopao.MaopaoObject) data).id)) {
@@ -495,7 +493,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.icon.setOnClickListener(mOnClickUser);
 
                 holder.name = (TextView) convertView.findViewById(R.id.name);
-
                 holder.time = (TextView) convertView.findViewById(R.id.time);
 
                 holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad());
@@ -550,7 +547,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
             holder.maopaoItem.setTag(data);
 
-            holder.contentArea.setData(data, ContentArea.Type.Maopao);
+            holder.contentArea.setData(data);
 
             holder.time.setText(Global.dayToNow(data.created_at));
 

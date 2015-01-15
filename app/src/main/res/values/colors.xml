@@ -16,6 +16,7 @@
     <color name="background_tab_pressed">#ffffff</color>
     <color name="white">#ffffffff</color>
     <color name="white_pressed">#ffeeeeee</color>
+    <color name="white_pressed1">#ffdfdfdf</color>
     <drawable name="white">#ffffffff</drawable>
     <color name="font_black">#010101</color>
 

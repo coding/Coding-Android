@@ -128,6 +128,11 @@
         <item>删除</item>
     </string-array>
 
+
+    <string-array name="message_action_text_copy">
+        <item>复制</item>
+    </string-array>
+
     <string-array name="message_action_image">
         <item>删除</item>
     </string-array>

@@ -1,4 +1,4 @@
-package net.coding.program.maopao.item;
+package net.coding.program.maopao;
 
 import android.text.Html;
 import android.view.View;
@@ -12,7 +12,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.maopao.item.ContentAreaBase;
 import net.coding.program.model.Maopao;
 
 import java.util.ArrayList;
@@ -75,22 +75,12 @@ public class ContentArea extends ContentAreaBase {
         contentMarginBottom = convertView.getResources().getDimensionPixelSize(R.dimen.message_text_margin_bottom);
     }
 
-    public enum Type {
-        Maopao,
-        Message,
-    }
-
-    ;
-
-    public void setData(Maopao.MaopaoObject maopaoObject, Type type) {
+    // 用来设置冒泡的
+    public void setData(Maopao.MaopaoObject maopaoObject) {
         String data = maopaoObject.content;
 
         Global.MessageParse maopaoData;
-        if (type == Type.Maopao) {
-            maopaoData = HtmlContent.parseMaopao(data);
-        } else {
-            maopaoData = HtmlContent.parseMessage(data);
-        }
+        maopaoData = HtmlContent.parseMaopao(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
@@ -103,14 +93,10 @@ public class ContentArea extends ContentAreaBase {
         setImageUrl(maopaoData.uris);
     }
 
-
-    public void setData(String data, Type type) {
+    // 用来设置message的
+    public void setData(String data) {
         Global.MessageParse maopaoData;
-        if (type == Type.Maopao) {
-            maopaoData = HtmlContent.parseMaopao(data);
-        } else {
-            maopaoData = HtmlContent.parseMessage(data);
-        }
+        maopaoData = HtmlContent.parseMessage(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);

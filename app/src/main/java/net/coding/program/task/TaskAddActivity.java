@@ -880,6 +880,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         }
     };
 
+    // 任务的评论是可以带图片的，虽然现在没有显示的要求，但以后不好说，所以使用contentArea;
     private static class ImageCommentHolder extends BaseCommentHolder {
 
         private ContentAreaBase contentArea;

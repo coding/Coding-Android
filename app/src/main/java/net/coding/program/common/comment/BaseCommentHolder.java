@@ -20,7 +20,6 @@ public class BaseCommentHolder {
     protected TextView time;
     protected View layout;
     protected Html.ImageGetter imageGetter;
-
     protected ImageLoadTool imageLoadTool;
 
     public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {

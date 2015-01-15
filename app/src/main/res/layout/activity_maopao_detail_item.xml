@@ -21,17 +21,16 @@
         android:layout_toRightOf="@+id/icon">
 
         <TextView
-            android:id="@+id/comment"
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/icon"
             android:layout_below="@+id/name"
             android:lineSpacingExtra="1dp"
+            android:background="@drawable/content_pressed_selector"
             android:lineSpacingMultiplier="1.1"
-            android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/font_black_content"
-            android:textIsSelectable="true"
             android:textSize="15sp"
             android:layout_marginRight="12dp" />
 

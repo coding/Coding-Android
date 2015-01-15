@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         android:id="@+id/MaopaoItem"
@@ -52,20 +52,19 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/comment"
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/name"
                 android:layout_below="@+id/name"
                 android:layout_marginTop="8dp"
                 android:lineSpacingExtra="1dp"
-                android:textIsSelectable="true"
                 android:lineSpacingMultiplier="1.1"
                 android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/font_black_content"
+                android:background="@drawable/content_pressed_selector"
                 android:textSize="15sp" />
-
 
             <ImageView
                 android:id="@+id/imageSingle"
@@ -241,7 +240,6 @@
                             android:background="@drawable/maopao_comment_divide"
                             android:layout_gravity="bottom" />
                     </LinearLayout>
-                    >
 
                     <LinearLayout
                         android:id="@+id/commentArea"
@@ -274,242 +272,12 @@
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:id="@+id/commentLayout0"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:paddingBottom="5dp"
-                            android:layout_marginRight="10dp">
+                        <include android:id="@+id/comment0" layout="@layout/maopao_list_comment_area_item" />
+                        <include android:id="@+id/comment1" layout="@layout/maopao_list_comment_area_item" />
+                        <include android:id="@+id/comment2" layout="@layout/maopao_list_comment_area_item" />
+                        <include android:id="@+id/comment3" layout="@layout/maopao_list_comment_area_item" />
+                        <include android:id="@+id/comment4" layout="@layout/maopao_list_comment_area_item" />
 
-                            <TextView
-                                android:id="@+id/comment0"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="6dp"
-                                android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/font_black_content"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/name0"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/comment0"
-                                android:text="超级小胖纸"
-                                android:textColor="@color/font_black_comment"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/time0"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/comment0"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/name0"
-                                android:drawableLeft="@drawable/ic_clock"
-                                android:drawablePadding="5dp"
-                                android:text="3分钟前"
-                                android:textColor="@color/font_gray"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/commentLayout1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:paddingBottom="5dp"
-                            android:layout_marginRight="10dp">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/maopao_comment_divide" />
-
-                            <TextView
-                                android:id="@+id/comment1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="6dp"
-                                android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/font_black_content"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/name1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/comment1"
-                                android:text="超级小胖纸"
-                                android:textColor="@color/font_black_comment"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/time1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/comment1"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/name1"
-                                android:drawableLeft="@drawable/ic_clock"
-                                android:drawablePadding="5dp"
-                                android:text="3分钟前"
-                                android:textColor="@color/font_gray"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/commentLayout2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:paddingBottom="5dp"
-                            android:layout_marginRight="10dp">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/maopao_comment_divide" />
-
-                            <TextView
-                                android:id="@+id/comment2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="6dp"
-                                android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/font_black_content"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/name2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/comment2"
-                                android:text="超级小胖纸"
-                                android:textColor="@color/font_black_comment"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/time2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/comment2"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/name2"
-                                android:drawableLeft="@drawable/ic_clock"
-                                android:drawablePadding="5dp"
-                                android:text="3分钟前"
-                                android:textColor="@color/font_gray"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-
-                        <RelativeLayout
-                            android:id="@+id/commentLayout3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:paddingBottom="5dp"
-                            android:layout_marginRight="10dp">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/maopao_comment_divide" />
-
-                            <TextView
-                                android:id="@+id/comment3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="6dp"
-                                android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/font_black_content"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/name3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/comment3"
-                                android:text="超级小胖纸"
-                                android:textColor="@color/font_black_comment"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/time3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/comment3"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/name3"
-                                android:drawableLeft="@drawable/ic_clock"
-                                android:drawablePadding="5dp"
-                                android:text="3分钟前"
-                                android:textColor="@color/font_gray"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-
-                        <RelativeLayout
-                            android:id="@+id/commentLayout4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:paddingBottom="5dp"
-                            android:layout_marginRight="10dp">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@drawable/maopao_comment_divide" />
-
-                            <TextView
-                                android:id="@+id/comment4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="6dp"
-                                android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/font_black_content"
-                                android:textSize="15sp" />
-
-                            <TextView
-                                android:id="@+id/name4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/comment4"
-                                android:text="超级小胖纸"
-                                android:textColor="@color/font_black_comment"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/time4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/comment4"
-                                android:layout_marginLeft="10dp"
-                                android:layout_toRightOf="@id/name4"
-                                android:drawableLeft="@drawable/ic_clock"
-                                android:drawablePadding="5dp"
-                                android:text="3分钟前"
-                                android:textColor="@color/font_gray"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

@@ -34,7 +34,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.photopick.PhotoPickActivity;
-import net.coding.program.maopao.item.ContentArea;
+import net.coding.program.maopao.ContentArea;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
@@ -547,7 +547,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
                 holder.sending.setVisibility(View.INVISIBLE);
             }
 
-            holder.contentArea.setData(item.content, ContentArea.Type.Message);
+            holder.contentArea.setData(item.content);
 
             return convertView;
         }

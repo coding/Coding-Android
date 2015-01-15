@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="this is contentasdfasdfasdfasdfasdfasdfasdfasdfasdfas"
-            android:id="@+id/comment"
+            android:id="@+id/content"
             android:textColor="@color/font_black_content"
             android:textSize="15sp" />
 
@@ -55,8 +55,8 @@
             android:id="@+id/imageSingle"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/image_single_width"
-            android:layout_alignLeft="@id/comment"
-            android:layout_below="@id/comment"
+            android:layout_alignLeft="@id/content"
+            android:layout_below="@id/content"
             android:focusable="false"
             android:visibility="visible"
             android:scaleType="fitStart"

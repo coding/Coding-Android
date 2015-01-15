@@ -28,7 +28,9 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.model.Maopao;
 import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
 
@@ -98,34 +100,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             getNetwork(urlTopic, urlTopic);
         }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int itemPos = (int) id;
-                final String itemId = mData.get(itemPos).id;
-
-                if (mData.get(itemPos).owner.name.equals(MyApp.sUserObject.name)) {
-                    AlertDialog dialog = new AlertDialog.Builder(TopicListDetailActivity.this).setTitle("删除评论")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
-                                    deleteNetwork(String.format(HOST_MAOPAO_DELETE, itemId), TAG_DELETE_TOPIC_COMMENT, itemId);
-                                }
-                            })
-                            .setNegativeButton("取消", null)
-                            .show();
-                    CustomDialog.dialogTitleLineColor(TopicListDetailActivity.this, dialog);
-
-                } else {
-                    EditText message = mEnterLayout.content;
-                    String atName = mData.get((int) id).owner.name;
-                    message.setHint("回复 " + atName);
-                    message.setTag(String.format("@%s : ", atName));
-                    mEnterLayout.popKeyboard();
-                }
-            }
-        });
         mEnterLayout = new EnterLayout(this, mOnClickSend, EnterLayout.Type.TextOnly);
 
         prepareComment();
@@ -364,40 +338,79 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            HtmlCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_project_topic_comment_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.title = (TextView) convertView.findViewById(R.id.title);
-                holder.title.setMovementMethod(LinkMovementMethod.getInstance());
-                holder.title.setFocusable(false);
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-                convertView.setTag(holder);
+                convertView = mInflater.inflate(R.layout.activity_maopao_detail_item, parent, false);
+                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser);
+                convertView.setTag(R.id.layout, holder);
+
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (HtmlCommentHolder) convertView.getTag(R.id.layout);
             }
 
             TopicObject data = (TopicObject) getItem(position);
-
-            iconfromNetwork(holder.icon, data.owner.avatar);
-
-            Global.MessageParse content = HtmlContent.parseReplacePhoto(data.content);
-            holder.title.setText(Global.changeHyperlinkColor(content.text, myImageGetter, Global.tagHandler));
-
-            final String timeFormat = "%s 发布于%s";
-            String timeString = String.format(timeFormat, data.owner.name, Global.dayToNow(data.created_at));
-            holder.time.setText(timeString);
+            holder.setContent(data);
 
             return convertView;
         }
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder holder;
+//            if (convertView == null) {
+//                convertView = mInflater.inflate(R.layout.activity_project_topic_comment_list_item, parent, false);
+//                holder = new ViewHolder();
+//                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+//                holder.title = (TextView) convertView.findViewById(R.id.title);
+//                holder.title.setMovementMethod(LinkMovementMethod.getInstance());
+//                holder.title.setFocusable(false);
+//                holder.time = (TextView) convertView.findViewById(R.id.time);
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//
+//            TopicObject data = (TopicObject) getItem(position);
+//
+//            iconfromNetwork(holder.icon, data.owner.avatar);
+//
+//            Global.MessageParse content = HtmlContent.parseReplacePhoto(data.content);
+//            holder.title.setText(Global.changeHyperlinkColor(content.text, myImageGetter, Global.tagHandler));
+//
+//            final String timeFormat = "%s 发布于%s";
+//            String timeString = String.format(timeFormat, data.owner.name, Global.dayToNow(data.created_at));
+//            holder.time.setText(timeString);
+//
+//            return convertView;
+//        }
     };
 
-    static class ViewHolder {
-        ImageView icon;
-        TextView title;
-        TextView time;
-    }
+    View.OnClickListener onClickComment = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final TopicObject comment = (TopicObject) v.getTag();
+
+            if (comment.isMy()) {
+                AlertDialog dialog = new AlertDialog.Builder(TopicListDetailActivity.this).setTitle("删除评论")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
+                                deleteNetwork(String.format(HOST_MAOPAO_DELETE, comment.id), TAG_DELETE_TOPIC_COMMENT, comment.id);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+                CustomDialog.dialogTitleLineColor(TopicListDetailActivity.this, dialog);
+
+            } else {
+                EditText message = mEnterLayout.content;
+                String atName = comment.owner.name;
+                message.setHint("回复 " + atName);
+                message.setTag(String.format("@%s : ", atName));
+                mEnterLayout.popKeyboard();
+            }
+        }
+    };
 
     MyImageGetter myImageGetter = new MyImageGetter(this);
 }
