@@ -8,6 +8,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,6 +37,7 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Maopao;
@@ -49,7 +55,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_add_maopao)
-@OptionsMenu(R.menu.add_maopao)
 public class AddMaopaoActivity extends BaseFragmentActivity implements StartActivity {
 
     final int PHOTO_MAX_COUNT = 6;
@@ -121,13 +126,50 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         });
 
         message.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
+        message.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateAddButton();
+            }
+        });
+    }
+
+    private void updateAddButton() {
+        enableSendButton(!message.getText().toString().isEmpty() ||
+        mData.size() > 0);
+    }
+
+    private void enableSendButton(boolean enable) {
+        if (mMenuAdd == null) {
+            return;
+        }
+
+        if (enable) {
+            mMenuAdd.setIcon(R.drawable.ic_menu_ok);
+            mMenuAdd.setEnabled(true);
+        } else {
+            mMenuAdd.setIcon(R.drawable.ic_menu_ok_unable);
+            mMenuAdd.setEnabled(false);
+        }
+    }
+
+    private MenuItem mMenuAdd;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_maopao, menu);
+
+        mMenuAdd = menu.findItem(R.id.action_add);
+        updateAddButton();
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public static final int RESULT_REQUEST_IMAGE = 100;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final int RESULT_REQUEST_PHOTO = 1005;
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -179,6 +221,8 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+
+        updateAddButton();
     }
 
     @Override
@@ -300,7 +344,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
 
     }
 
-    ArrayList<PhotoData> mData = new ArrayList<PhotoData>();
+    ArrayList<PhotoData> mData = new ArrayList();
 
     BaseAdapter adapter = new BaseAdapter() {
 
