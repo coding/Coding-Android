@@ -92,7 +92,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 final String format = "删除你和%s之间的所有私信?";
                 String title = String.format(format, msg.friend.name);
 
-                showDialog(title, new DialogInterface.OnClickListener() {
+                showDialog("私信", title, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final String hostDeleteAll = Global.HOST + "/api/message/conversations/%s";

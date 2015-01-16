@@ -271,7 +271,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog("删除任务", new DialogInterface.OnClickListener() {
+                    showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             TaskObject.SingleTask task = mSingleTask;
@@ -864,7 +864,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         public void onClick(View v) {
             final TaskObject.TaskComment comment = (TaskObject.TaskComment) v.getTag();
             if (comment.isMy()) {
-                showDialog("删除评论", new DialogInterface.OnClickListener() {
+                showDialog("任务", "删除评论？", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String url = String.format(hostDeleteComment, comment.taskId, comment.id);

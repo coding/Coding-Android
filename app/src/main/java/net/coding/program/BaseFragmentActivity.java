@@ -108,16 +108,6 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
         networkImpl.initSetting();
     }
 
-    protected void showDialog(String msg, DialogInterface.OnClickListener clickOk) {
-        Dialog dialog = new AlertDialog.Builder(this).
-                setTitle(msg)
-                .setPositiveButton("确定", clickOk)
-                .setNegativeButton("取消", null)
-                .show();
-
-        CustomDialog.dialogTitleLineColor(this, dialog);
-    }
-
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk) {
         Dialog dialog = new AlertDialog.Builder(this)
                 .setTitle(title)

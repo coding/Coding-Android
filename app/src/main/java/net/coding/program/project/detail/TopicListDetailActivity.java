@@ -148,7 +148,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     @OptionsItem(R.id.action_delete)
     void menuDeleteTopic() {
-        showDialog("删除讨论", new DialogInterface.OnClickListener() {
+        showDialog("讨论", "删除讨论?", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteNetwork(String.format(HOST_MAOPAO_DELETE, topicObject.id), TAG_DELETE_TOPIC);

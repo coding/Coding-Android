@@ -128,15 +128,6 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         networkImpl.loadData(url, null, tag, -1, null, NetworkImpl.Request.Put);
     }
 
-    protected void showDialog(String msg, DialogInterface.OnClickListener clickOk) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog dialog = builder.setTitle(msg)
-                .setPositiveButton("确定", clickOk)
-                .setNegativeButton("取消", null)
-                .show();
-        CustomDialog.dialogTitleLineColor(getActivity(), dialog);
-    }
-
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog dialog = builder.setTitle(title)

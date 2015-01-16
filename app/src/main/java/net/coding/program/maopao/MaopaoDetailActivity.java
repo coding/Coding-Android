@@ -261,7 +261,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         @Override
         public void onClick(View v) {
             final String maopaoId = mMaopaoObject.id;
-            showDialog("删除冒泡", new DialogInterface.OnClickListener() {
+            showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -446,7 +446,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         public void onClick(View v) {
             final Maopao.Comment comment = (Maopao.Comment) v.getTag();
             if (comment.isMy()) {
-                showDialog("删除评论", new DialogInterface.OnClickListener() {
+                showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String url = String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id);

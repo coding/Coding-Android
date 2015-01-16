@@ -591,7 +591,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             @Override
             public void onClick(View v) {
                 final String maopaoId = (String) v.getTag(TAG_MAOPAO_ID);
-                showDialog("删除冒泡", new DialogInterface.OnClickListener() {
+                showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%s";
@@ -618,7 +618,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             public void onClick(View v) {
                 final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
                 if (MyApp.sUserObject.id.equals(comment.owner_id)) {
-                    showDialog("删除评论", new DialogInterface.OnClickListener() {
+                    showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/6597/comment/%s";
