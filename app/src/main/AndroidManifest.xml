@@ -388,6 +388,7 @@
         </activity>
         <activity
             android:name=".setting.AccountSetting_"
+            android:icon="@drawable/ic_lancher"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_account_setting" >
         </activity>

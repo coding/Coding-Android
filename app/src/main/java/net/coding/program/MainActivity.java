@@ -13,14 +13,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -60,26 +58,30 @@ public class MainActivity extends BaseFragmentActivity
     @ViewById
     ViewGroup drawer_layout;
 
+    boolean mFirstEnter = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MyApp.setMainActivityState(true);
 
-        XGPushConfig config = new XGPushConfig();
-//        config.enableDebug(this, true);
-
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
         // qq push
-        Context context = getApplicationContext();
-        Intent service = new Intent(context, XGPushService.class);
-        context.startService(service);
-
+        startPushService();
         updateNotifyService();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
+
+
+        mFirstEnter = (savedInstanceState == null);
+
+
+        if (savedInstanceState != null) {
+            mSelectPos = savedInstanceState.getInt("pos", 0);
+        }
     }
 
     @Override
@@ -90,7 +92,13 @@ public class MainActivity extends BaseFragmentActivity
         MyApp.setMainActivityState(false);
     }
 
-    void updateNotifyService() {
+    private void startPushService() {
+        Context context = getApplicationContext();
+        Intent service = new Intent(context, XGPushService.class);
+        context.startService(service);
+    }
+
+    private void updateNotifyService() {
         boolean needPush = AccountInfo.getNeedPush(this);
 
         if (needPush) {
@@ -107,6 +115,7 @@ public class MainActivity extends BaseFragmentActivity
             updateNotifyService();
         }
     };
+
 
     @AfterViews
     void init() {
@@ -162,6 +171,8 @@ public class MainActivity extends BaseFragmentActivity
             }
         };
 
+        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment_)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
@@ -177,18 +188,21 @@ public class MainActivity extends BaseFragmentActivity
             URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
         }
 
+        if (mFirstEnter) {
+            onNavigationDrawerItemSelected(0);
+        }
+
     }
 
     int mSelectPos = 0;
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        mTitle = drawer_title[position];
+        Log.d("", "https://coding.net/api/tweet/public_tweets + " + position);
 
-        Fragment fragment = null;
         mSelectPos = position;
+        Fragment fragment = null;
 
-        boolean useCustomBar = false;
         switch (position) {
             case 0:
                 fragment = new ProjectFragment_();
@@ -197,8 +211,7 @@ public class MainActivity extends BaseFragmentActivity
                 fragment = new TaskFragment_();
                 break;
             case 2:
-                useCustomBar = true;
-                initMaopaoActionbar();
+                // 进入冒泡页面，
                 break;
 
             case 3:
@@ -210,23 +223,56 @@ public class MainActivity extends BaseFragmentActivity
                 break;
         }
 
-        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
-
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
 
+        updateActionbar();
+    }
+
+    private void updateActionbar() {
+        mTitle = drawer_title[mSelectPos];
+
+        boolean useCustomBar = false;
+        if (mSelectPos == 2) {
+            useCustomBar = true;
+            ActionBar bar = getActionBar();
+            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+            getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+        }
+
+        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
+    }
+
+    private void updateActionbarRestore() {
+        mTitle = drawer_title[mSelectPos];
+
+        boolean useCustomBar = false;
+        if (mSelectPos == 2) {
+            useCustomBar = true;
+            ActionBar bar = getActionBar();
+            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        }
+
+        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("pos", mSelectPos);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSelectPos = savedInstanceState.getInt("pos", 0);
+        updateActionbarRestore(); // 只需要恢复actionbar就可以了
     }
 
     MySpinnerAdapter mSpinnerAdapter;
     ActionBar.OnNavigationListener mOnNavigationListener;
-
-    void initMaopaoActionbar() {
-        ActionBar bar = getActionBar();
-
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        bar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-    }
 
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
@@ -245,18 +291,12 @@ public class MainActivity extends BaseFragmentActivity
             if (mSelectPos == 2) {
                 getActionBar().setIcon(R.drawable.ic_lancher);
                 getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                MenuInflater menuInflater = getMenuInflater();
-//                menuInflater.inflate(R.menu.maopao_add, menu);
             } else {
                 restoreActionBar();
             }
             return true;
         }
         return super.onCreateOptionsMenu(menu);
-    }
-
-    public void onProjectFragment() {
-        startActivity(new Intent(this, LoginActivity_.class));
     }
 
     class MySpinnerAdapter extends BaseAdapter {

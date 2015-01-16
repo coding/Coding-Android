@@ -97,8 +97,7 @@ public class NavigationDrawerFragment extends BaseFragment {
             radios[i].setOnClickListener(clickItem);
         }
 
-        radios[0].performClick();
-        selectItem(0);
+        radios[0].setChecked(true);
 
         badgeProject = (BadgeView) getView().findViewById(R.id.badge0);
         badgeProject.setVisibility(View.INVISIBLE);

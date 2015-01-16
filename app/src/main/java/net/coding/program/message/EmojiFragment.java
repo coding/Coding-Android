@@ -1,6 +1,7 @@
 package net.coding.program.message;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,9 +137,19 @@ public class EmojiFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArray("mEmojiData", mEmojiData);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mInflater = inflater;
         View v = inflater.inflate(R.layout.emoji_gridview, container, false);
+
+        if (savedInstanceState != null) {
+            mEmojiData = savedInstanceState.getStringArray("mEmojiData");
+        }
 
         GridView gridView = (GridView) v.findViewById(R.id.gridView);
         gridView.setNumColumns(mGridViewColumns);

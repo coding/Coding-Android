@@ -33,16 +33,18 @@ public class MyImageGetter implements Html.ImageGetter {
     }
 
     private String getPhotoName(String s) {
-        try {
-            int begin = s.lastIndexOf('/');
-            ++begin;
-            int end = s.lastIndexOf('.');
-            return s.substring(begin, end);
-        } catch (Exception e) {
-            Global.errorLog(e);
+        int begin = s.lastIndexOf('/');
+        if (begin == -1) {
+            return s;
         }
 
-        return s;
+        ++begin;
+        int end = s.lastIndexOf('.');
+        if (end == -1) {
+            return s;
+        }
+
+        return s.substring(begin, end);
     }
 
     private boolean isMonkey(String name) {
