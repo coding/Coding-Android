@@ -251,7 +251,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".maopao.AddMaopaoActivity_"
-            android:icon="@drawable/ic_lancher"
+            android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
