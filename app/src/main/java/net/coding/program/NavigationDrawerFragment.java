@@ -201,6 +201,10 @@ public class NavigationDrawerFragment extends BaseFragment {
                     return;
                 }
 
+                if (mCallbacks != null) {
+                    mCallbacks.onNavigationDrawerItemSelected(mSelectMenuPos);
+                }
+
                 getActivity().invalidateOptionsMenu();
             }
 
@@ -214,6 +218,7 @@ public class NavigationDrawerFragment extends BaseFragment {
                 if (!isAdded()) {
                     return;
                 }
+
 
                 getActivity().invalidateOptionsMenu();
             }
@@ -229,13 +234,14 @@ public class NavigationDrawerFragment extends BaseFragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    int mSelectMenuPos = 0;
+
     private void selectItem(int position) {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
+            mSelectMenuPos = position;
         }
-        if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
-        }
+
     }
 
     @Click

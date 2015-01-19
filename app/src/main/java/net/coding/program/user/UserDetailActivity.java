@@ -1,6 +1,7 @@
 package net.coding.program.user;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -96,6 +97,24 @@ public class UserDetailActivity extends BaseActivity {
             }
 
             getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mUserObject = (UserObject) savedInstanceState.getSerializable("mUserObject");
+            isMe = savedInstanceState.getBoolean("isMe", false);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mUserObject != null) {
+            outState.putSerializable("mUserObject", mUserObject);
+            outState.putBoolean("isMe", isMe);
         }
     }
 

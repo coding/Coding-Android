@@ -43,9 +43,11 @@ import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +59,7 @@ import java.util.Calendar;
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    ArrayList<Maopao.MaopaoObject> mData = new ArrayList<Maopao.MaopaoObject>();
+    ArrayList<Maopao.MaopaoObject> mData = new ArrayList();
 
     final String maopaoUrlFormat = Global.HOST + "/api/tweet/public_tweets?last_id=%s&sort=%s";
     final String friendUrl = Global.HOST + "/api/activities/user_tweet?last_id=%s";
@@ -103,6 +105,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         super.init();
 
         mData = AccountInfo.loadMaopao(getActivity(), mType, userId);
+
         if (mData.isEmpty()) {
             showDialogLoading();
         } else {
@@ -346,7 +349,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     mData.add(item);
                 }
 
-                AccountInfo.saveMaopao(getActivity(), mData, mType, userId);
+                ArrayList<Maopao.MaopaoObject> mSaveData = new ArrayList<>();
+                int minSize = Math.min(mData.size(), 5);
+                for (int i = 0; i < minSize; ++i) {
+                    mSaveData.add(mData.get(i));
+                }
+                AccountInfo.saveMaopao(getActivity(), mSaveData, mType, userId);
 
                 if (jsonArray.length() == 0) {
                     mNoMore = true;

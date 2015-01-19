@@ -143,7 +143,9 @@ public class ImagePagerActivity extends UmengFragmentActivity {
 
             case R.id.action_del_maopao:
                 final int selectPos = pager.getCurrentItem();
-                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("确定删除？")
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setTitle("图片")
+                        .setMessage("确定删除？")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
