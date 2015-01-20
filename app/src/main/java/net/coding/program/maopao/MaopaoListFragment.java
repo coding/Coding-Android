@@ -43,11 +43,9 @@ import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -512,6 +510,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
                 holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
                 holder.likeBtn.setTag(R.id.likeBtn, holder);
+                holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
                 holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -523,6 +522,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
 
                 holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
+                // 隐藏第一条评论的分割线
+                convertView.findViewById(R.id.comment0).findViewById(R.id.commentTopDivider).setVisibility(View.INVISIBLE);
+
 
                 convertView.setTag(holder);
             } else {
@@ -572,6 +574,10 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 }
             });
 
+            if (data.likes > 0) {
+                holder.likeAreaDivide.setVisibility(data.comments > 0 ? View.VISIBLE : View.INVISIBLE);
+            }
+
             holder.commentBtn.setTag(data);
 
             if (data.owner_id.equals(MyApp.sUserObject.id)) {
@@ -583,6 +589,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
 
             holder.commentArea.displayContentData(data);
+
 
             if (mData.size() - position <= 1) {
                 if (!mNoMore) {
@@ -706,6 +713,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         View commentLikeArea;
 
         CommentArea commentArea;
+
+        View likeAreaDivide;
     }
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;

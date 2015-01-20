@@ -8,8 +8,11 @@ import android.text.TextPaint;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import net.coding.program.ImagePagerActivity_;
+import net.coding.program.WebActivity_;
+import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
@@ -42,18 +45,20 @@ public class URLSpanNoUnderline extends URLSpan {
     public URLSpanNoUnderline(String url, int color) {
         super(url);
         this.color = color;
-
-        Log.d("", "dduu " + url);
     }
 
     public static void openActivityByUri(Context context, String uriString, boolean newTask) {
+        openActivityByUri(context, uriString, newTask, true);
+    }
+
+    public static boolean openActivityByUri(Context context, String uriString, boolean newTask, boolean defaultIntent) {
         Intent intent = new Intent();
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         // 用户名
-        final String atSomeOne = "^(?:https://[\\w.-]+)?/u/([\\w.-]+)$";
+        final String atSomeOne = "^(?:https://[\\w.]*)?/u/([\\w.-]+)$";
         Pattern pattern = Pattern.compile(atSomeOne);
         Matcher matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -61,12 +66,12 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setClass(context, UserDetailActivity_.class);
             intent.putExtra("globalKey", global);
             context.startActivity(intent);
-            return;
+            return true;
         }
 
         // 项目讨论
         // https://coding.net/u/8206503/p/AndroidCoding/topic/9638?page=1
-        final String topic = "^https://[\\w.-]*/u/([\\w.-]+)/p/([\\w.-]+)/topic/(\\w+)(?:\\?[\\w=&-]*)?$";
+        final String topic = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?$";
         pattern = Pattern.compile(topic);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -76,27 +81,28 @@ public class URLSpanNoUnderline extends URLSpan {
                             matcher.group(2), matcher.group(3));
             intent.putExtra("mJumpParam", param);
             context.startActivity(intent);
-            return;
+            return true;
         }
 
         // 项目
         // https://coding.net/u/8206503/p/AndroidCoding
-        final String project = "^https://[\\w.-]+/u/([\\w.-]+)/p/([\\w.-]+)$";
+        //
+        final String project = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)(/topic)?$";
         pattern = Pattern.compile(project);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             intent.setClass(context, ProjectActivity_.class);
             ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(
-                    matcher.group(1), matcher.group(2)
+                    matcher.group(1), matcher.group(2), matcher.group(3)
             );
             intent.putExtra("mJumpParam", param);
             context.startActivity(intent);
-            return;
+            return true;
         }
 
         // 冒泡
         // https://coding.net/u/8206503/pp/9275
-        final String maopao = "^https://[\\w.-]+/u/([\\w.-]+)/pp/([\\w.-]+)$";
+        final String maopao = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/pp/([\\w.-]+)$";
         pattern = Pattern.compile(maopao);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -105,12 +111,12 @@ public class URLSpanNoUnderline extends URLSpan {
                     matcher.group(1), matcher.group(2));
             intent.putExtra("mClickParam", param);
             context.startActivity(intent);
-            return;
+            return true;
         }
 
         // 任务详情
         // https://coding.net/u/wzw/p/coding/task/9220
-        final String task = "^https://[\\w.-]*/u/(\\w+)/p/([\\w-]+)/task/(\\w+)$";
+        final String task = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/task/(\\w+)$";
         pattern = Pattern.compile(task);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -119,12 +125,12 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.putExtra("mJumpParams", new TaskAddActivity.TaskJumpParams(matcher.group(1),
                     matcher.group(2), matcher.group(3)));
             context.startActivity(intent);
-            return;
+            return true;
         }
 
         // 私信推送
         // https://coding.net/user/messages/history/1984
-        final String message = "^https://[\\w.-]*/user/messages/history/([\\w-]+)$";
+        final String message = "^(?:https://[\\w.]*)?/user/messages/history/([\\w-]+)$";
         pattern = Pattern.compile(message);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -132,12 +138,12 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setClass(context, MessageListActivity_.class);
             intent.putExtra("mGlobalKey", matcher.group(1));
             context.startActivity(intent);
-            return;
+            return true;
         }
 
         // 文件夹，这个url后面的字段是添加上去的
         // https://coding.net/u/8206503/p/TestIt2/attachment/65138/projectid/5741/name/aa.jpg
-        final String dir = "^https://[\\w.-]+/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
+        final String dir = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
         pattern = Pattern.compile(dir);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -148,12 +154,12 @@ public class URLSpanNoUnderline extends URLSpan {
                     .mAttachmentFolderObject(folder)
                     .mProjectObjectId(matcher.group(4))
                     .start();
-            return;
+            return true;
         }
 
         // 文件，这个url后面的字段是添加上去的
         // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171/projectid/5741/name/aa.jpg
-        final String dirFile = "^https://[\\w.-]+/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
+        final String dirFile = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
         pattern = Pattern.compile(dirFile);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -198,9 +204,8 @@ public class URLSpanNoUnderline extends URLSpan {
                         .start();
             }
 
-            return;
+            return true;
         }
-
 
         final String imageSting = "(http|https):.*?.[.]{1}(gif|jpg|png|bmp)";
         pattern = Pattern.compile(imageSting);
@@ -209,27 +214,40 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setClass(context, ImagePagerActivity_.class);
             intent.putExtra("mSingleUri", uriString);
             context.startActivity(intent);
-            return;
+            return true;
         }
 
-        // 加了自定义图片前缀的链接
-        if (uriString.indexOf(HtmlContent.TYPE_IMAGE_HEAD) == 0) {
-//            String imageUrl = uriString.replaceFirst(HtmlContent.TYPE_IMAGE_HEAD, "");
-//                intent.setClass(context, ImagePagerActivity_.class);
-//                intent.putExtra("mSingleUri", imageUrl);
-//                intent.putExtra("isPrivate", true);
-//                context.startActivity(intent);
+//        // 加了自定义图片前缀的链接
+//        if (uriString.indexOf(HtmlContent.TYPE_IMAGE_HEAD) == 0) {
+////            String imageUrl = uriString.replaceFirst(HtmlContent.TYPE_IMAGE_HEAD, "");
+////                intent.setClass(context, ImagePagerActivity_.class);
+////                intent.putExtra("mSingleUri", imageUrl);
+////                intent.putExtra("isPrivate", true);
+////                context.startActivity(intent);
+//
+//            return true;
+//        }
 
-            return;
+        try {
+            if (defaultIntent) {
+                intent = new Intent(context, WebActivity_.class);
+
+                if (newTask) {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                if (uriString.startsWith("/u/")) {
+                    uriString = Global.HOST + uriString;
+                }
+
+                intent.putExtra("url", uriString);
+                context.startActivity(intent);
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, "" + uriString.toString(), Toast.LENGTH_LONG).show();
+            Global.errorLog(e);
         }
 
-        Uri uri = Uri.parse(uriString);
-        intent = new Intent(Intent.ACTION_VIEW, uri);
-        if (newTask) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
-        context.startActivity(intent);
+        return false;
     }
 
     @Override

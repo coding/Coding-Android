@@ -8,6 +8,7 @@
     android:paddingBottom="5dp">
 
     <View
+        android:id="@+id/commentTopDivider"
         android:background="@drawable/maopao_comment_divide"
         android:layout_height="1dp"
         android:layout_width="match_parent" />

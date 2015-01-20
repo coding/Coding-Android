@@ -82,6 +82,8 @@ public class ProjectDynamicParentFragment extends BaseFragment {
         tabs.setIndicatorColor(Color.parseColor("#3bbd79"));
         // 设置选中Tab文字的颜色 (这是我自定义的一个方法)
         tabs.setSelectedTextColor(Color.parseColor("#3bbd79"));
+
+        tabs.setUnderlinePadding0();
         // 取消点击Tab时的背景色
 //        tabs.setTabBackground(0);
 //        tabs.setTabPaddingLeftRight(0);

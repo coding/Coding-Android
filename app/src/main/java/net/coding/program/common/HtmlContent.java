@@ -22,7 +22,7 @@ public class HtmlContent {
         }
     }
 
-    public static String TYPE_IMAGE_HEAD = "imagetype:";
+//    public static String TYPE_IMAGE_HEAD = "imagetype:";
 
     public static String parseDynamic(String s) {
         return parseReplacePhoto(s).text;

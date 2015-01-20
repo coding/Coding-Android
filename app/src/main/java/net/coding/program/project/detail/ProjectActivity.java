@@ -48,10 +48,16 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
     public static class ProjectJumpParam implements Serializable {
         public String mProject;
         public String mUser;
+        public String mDefault = ""; // 如果为""就说明要跳转到
 
-        public ProjectJumpParam(String mUser, String mProject) {
+
+        public ProjectJumpParam(String mUser, String mProject, String defaultSelect) {
             this.mUser = mUser;
             this.mProject = mProject;
+
+            if (defaultSelect != null) {
+                this.mDefault = defaultSelect;
+            }
         }
     }
 
@@ -85,9 +91,6 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mProjectObject == null) {
-
-//            String content = getIntent().getData().getQueryParameter("id");
-//            String temp[] = content.split("/p/");
             urlProject = String.format(Global.HOST + "/api/user/%s/project/%s", mJumpParam.mUser, mJumpParam.mProject);
             actionBar.setTitle(mJumpParam.mProject);
 
@@ -143,7 +146,7 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
 
-        ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
+        final ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
@@ -175,6 +178,10 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+
+        if (!mJumpParam.mDefault.isEmpty()) {
+            actionBar.setSelectedNavigationItem(1);
+        }
     }
 
 

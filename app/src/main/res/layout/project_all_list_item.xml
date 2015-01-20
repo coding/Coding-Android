@@ -35,7 +35,7 @@
             android:layout_toRightOf="@id/icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="    Medium Text"
+            android:text="Medium Text"
             android:singleLine="true"
             android:layout_alignTop="@id/icon"
             android:textSize="18sp"
@@ -43,27 +43,27 @@
             android:id="@+id/name"
             android:layout_marginTop="5dp" />
 
-        <View
-            android:id="@+id/privateIcon"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:visibility="visible"
-            android:background="@drawable/icon_project_private_flag"
-            android:layout_marginTop="12dp"
-            android:layout_alignLeft="@id/name"
-            android:layout_alignTop="@id/icon"
-            />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/icon"
             android:textColor="@color/font_gray"
-            android:text="Medium Text"
+            android:text="    chenchao"
             android:singleLine="true"
             android:layout_alignLeft="@+id/name"
             android:textSize="15sp"
             android:layout_marginBottom="5dp"
             android:id="@+id/comment" />
+
+        <View
+            android:id="@+id/privateIcon"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:visibility="visible"
+            android:background="@drawable/ic_project_private1"
+            android:layout_marginTop="41dp"
+            android:layout_alignLeft="@id/name"
+            android:layout_alignTop="@id/icon"
+            />
     </RelativeLayout>
 </FrameLayout>

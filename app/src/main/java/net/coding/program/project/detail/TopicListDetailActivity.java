@@ -30,6 +30,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
@@ -190,6 +191,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setBackgroundColor(0);
         webView.getBackground().setAlpha(0);
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(this));
 
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", topicObject.content), "text/html", "UTF-8", null);

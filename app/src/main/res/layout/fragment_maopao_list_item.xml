@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:id="@+id/likesAllLayout"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <LinearLayout
                             android:id="@+id/likeUsersLayout"
@@ -235,6 +235,7 @@
                             android:paddingRight="8dp"></LinearLayout>
 
                         <View
+                            android:id="@+id/likeAreaDivide"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@drawable/maopao_comment_divide"
@@ -251,7 +252,8 @@
                         <RelativeLayout
                             android:id="@+id/commentMore"
                             android:layout_width="match_parent"
-                            android:layout_height="33dp">
+                            android:layout_height="33dp"
+                            android:visibility="visible">
 
                             <ImageView
                                 android:id="@+id/temp1"
@@ -270,6 +272,14 @@
                                 android:layout_toRightOf="@id/temp1"
                                 android:text="查看全部24条评论"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                            <View
+                                android:layout_alignLeft="@id/temp1"
+                                android:background="@drawable/maopao_comment_divide"
+                                android:layout_height="1dp"
+                                android:layout_width="match_parent"
+                                android:layout_alignParentBottom="true"/>
                         </RelativeLayout>
 
                         <include android:id="@+id/comment0" layout="@layout/maopao_list_comment_area_item" />

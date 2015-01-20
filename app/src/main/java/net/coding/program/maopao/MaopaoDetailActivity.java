@@ -1,11 +1,13 @@
 package net.coding.program.maopao;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.WebActivity;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
@@ -26,6 +29,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
 
@@ -201,6 +205,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", mMaopaoObject.content), "text/html", "UTF-8", null);
+        webView.setWebViewClient(new CustomWebViewClient(this));
 
         head.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,6 +260,20 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         }
 
         listView.addHeaderView(head);
+    }
+
+    public static class CustomWebViewClient extends WebViewClient {
+
+        Context mContext;
+        public CustomWebViewClient(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            URLSpanNoUnderline.openActivityByUri(mContext, url, false, true);
+            return true;
+        }
     }
 
     View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {

@@ -219,7 +219,6 @@ public class NavigationDrawerFragment extends BaseFragment {
                     return;
                 }
 
-
                 getActivity().invalidateOptionsMenu();
             }
         };

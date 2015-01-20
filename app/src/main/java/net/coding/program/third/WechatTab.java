@@ -88,7 +88,7 @@ public class WechatTab extends HorizontalScrollView {
     private int tabPadding = 3; // tab 为 textview 时的padding
     private int dividerWidth = 1;
 
-    private int myDividerCut = 12;
+    private int mMyUnderlinePadding = 12;
 
     private int tabTextSize = 12;
     private int tabTextColor = 0xFF666666;
@@ -155,7 +155,7 @@ public class WechatTab extends HorizontalScrollView {
         shouldExpand = a.getBoolean(R.styleable.WechatTab_pstsShouldExpandWe, shouldExpand);
         scrollOffset = a.getDimensionPixelSize(R.styleable.WechatTab_pstsScrollOffsetWe, scrollOffset);
         textAllCaps = a.getBoolean(R.styleable.WechatTab_pstsTextAllCapsWe, textAllCaps);
-        myDividerCut = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, myDividerCut, dm);
+        mMyUnderlinePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mMyUnderlinePadding, dm);
 
         a.recycle();
 
@@ -336,20 +336,20 @@ public class WechatTab extends HorizontalScrollView {
             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
         }
 
-        TextView tv = ((TextView) currentTab);
-        String s = tv.getText().toString();
-        float widths[] = new float[s.length()];
-        tv.getPaint().getTextWidths(s, widths);
-        float StringWidth = 0;
-        for (float item : widths) {
-            StringWidth += item;
-        }
-        int padding = (int) ((tv.getWidth() - StringWidth) / 2 - myDividerCut);
-        if (padding < 0) {
-            padding = 0;
-        }
+//        TextView tv = ((TextView) currentTab);
+//        String s = tv.getText().toString();
+//        float widths[] = new float[s.length()];
+//        tv.getPaint().getTextWidths(s, widths);
+//        float StringWidth = 0;
+//        for (float item : widths) {
+//            StringWidth += item;
+//        }
+//        int padding = (int) ((tv.getWidth() - StringWidth) / 2 - mMyUnderlinePadding);
+//        if (padding < 0) {
+//            padding = 0;
+//        }
 
-        canvas.drawRect(lineLeft + padding, height - indicatorHeight, lineRight - padding, height, rectPaint);
+        canvas.drawRect(lineLeft + mMyUnderlinePadding, height - indicatorHeight, lineRight - mMyUnderlinePadding, height, rectPaint);
 
         // draw divider
 
@@ -496,6 +496,10 @@ public class WechatTab extends HorizontalScrollView {
     public void setTextSize(int textSizePx) {
         this.tabTextSize = textSizePx;
         updateTabStyles();
+    }
+
+    public void setUnderlinePadding0() {
+        mMyUnderlinePadding = 0;
     }
 
     public int getTextSize() {

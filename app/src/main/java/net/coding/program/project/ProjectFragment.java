@@ -205,7 +205,6 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
                 }
             }
         }
-
     }
 
     private void registerRefreshReceiver() {
@@ -255,5 +254,4 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
 
         super.onDestroy();
     }
-
 }

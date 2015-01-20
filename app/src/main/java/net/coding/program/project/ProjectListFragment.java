@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
+import net.coding.program.WebActivity_;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -25,6 +26,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EFragment(R.layout.common_refresh_listview)
+@OptionsMenu(R.menu.menu_web)
 public class ProjectListFragment extends RefreshBaseFragment {
 
     @FragmentArg
@@ -88,6 +92,14 @@ public class ProjectListFragment extends RefreshBaseFragment {
     @Override
     public void onRefresh() {
         ((SwipeRefreshLayout.OnRefreshListener) getParentFragment()).onRefresh();
+    }
+
+    @OptionsItem
+    void action_browser() {
+        WebActivity_.intent(this)
+//                .url("https://coding.net")
+                .url("https://www.baidu.com")
+                .start();
     }
 
     public void setRead(String id) {
@@ -148,7 +160,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
             View view = convertView;
             final ViewHolder holder;
             if (convertView == null) {
-                view = mInflater.inflate(R.layout.project_all_list_item1, parent, false);
+                view = mInflater.inflate(R.layout.project_all_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) view.findViewById(R.id.name);
                 holder.image = (ImageView) view.findViewById(R.id.icon);
@@ -163,12 +175,12 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
             ProjectObject item = (ProjectObject) getItem(position);
 
-//            String nameString = item.is_public ? item.name : ("    " + item.name);
-
             holder.name.setText(item.name);
-            holder.privateIcon.setVisibility(item.is_public ? View.INVISIBLE : View.VISIBLE);
 
-            holder.content.setText(item.owner_user_name);
+            holder.privateIcon.setVisibility(item.is_public ? View.INVISIBLE : View.VISIBLE);
+            String ownerName = item.is_public ? item.name : ("      " + item.owner_user_name);
+            holder.content.setText(ownerName);
+
             int count = item.un_read_activities_count;
             if (count > 0) {
                 String countString = count > 99 ? "99+" : ("" + count);

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="net.coding.program.WebActivity">
+
+    <item android:id="@+id/action_browser" android:title="用浏览器打开"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_copy" android:title="复制链接"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
