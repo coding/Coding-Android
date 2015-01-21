@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import net.coding.program.R;
 import net.coding.program.UpdateApp;
+import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengActivity;
 
@@ -67,23 +68,15 @@ public class AboutActivity extends UmengActivity {
 
     @Click
     void codingWebsite() {
-        try {
-            Uri uri = Uri.parse("https://coding.net");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        } catch (Exception e) {
-            Toast.makeText(this, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
-        }
+        WebActivity_.intent(this).url("https://coding.net").start();
     }
-
-    @Click
-    void codingWeibo() {
-
-    }
-
-    @Click
-    void codingWechat() {
-
-    }
+//
+//    @Click
+//    void codingWeibo() {
+//        WebActivity_.intent(this).url("http://www.weibo.com/clouddevelopment").start();
+//    }
+//
+//    @Click
+//    void codingWechat() {
+//    }
 }

@@ -60,6 +60,12 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
         HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.id);
         refresh();
+
+        adapter = new MyPagerAdapter(getChildFragmentManager());
+        pager.setAdapter(adapter);
+
+        // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
+        setHasOptionsMenu(true);
     }
 
     private void refresh() {
@@ -101,8 +107,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 mMembersAll.add(new TaskObject.Members());
                 mMembersAll.addAll(mUsersInfo);
 
-                adapter = new MyPagerAdapter(getChildFragmentManager());
-                pager.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
 
                 final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                         .getDisplayMetrics());
@@ -135,8 +140,6 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             refresh();
         }
     };
-
-//    public static final int RESUST_TASK_PAGER = 2010;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -35,7 +35,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EFragment(R.layout.common_refresh_listview)
-@OptionsMenu(R.menu.menu_web)
 public class ProjectListFragment extends RefreshBaseFragment {
 
     @FragmentArg
@@ -92,14 +91,6 @@ public class ProjectListFragment extends RefreshBaseFragment {
     @Override
     public void onRefresh() {
         ((SwipeRefreshLayout.OnRefreshListener) getParentFragment()).onRefresh();
-    }
-
-    @OptionsItem
-    void action_browser() {
-        WebActivity_.intent(this)
-//                .url("https://coding.net")
-                .url("https://www.baidu.com")
-                .start();
     }
 
     public void setRead(String id) {

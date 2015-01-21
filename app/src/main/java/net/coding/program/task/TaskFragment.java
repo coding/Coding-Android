@@ -56,6 +56,9 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
         showDialogLoading();
         tabs.setLayoutInflater(mInflater);
         getNetwork(host, host);
+
+        adapter = new PageTaskFragment(getChildFragmentManager());
+        pager.setAdapter(adapter);
     }
 
     @Override
@@ -89,8 +92,7 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
                     }
                 }
 
-                adapter = new PageTaskFragment(getChildFragmentManager());
-                pager.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
 
                 int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                         .getDisplayMetrics());

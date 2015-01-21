@@ -179,7 +179,7 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
-        if (!mJumpParam.mDefault.isEmpty()) {
+        if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
             actionBar.setSelectedNavigationItem(1);
         }
     }
