@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
  */
 public class HtmlContent {
     public static Global.MessageParse parseMaopao(String s) {
-        final String regx = "(?:<br>)? ?<a href=\".*?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
+        final String regx = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
         return createMessageParse(s, regx);
     }
 
     public static Global.MessageParse parseMessage(String s) {
-        final String regx = "<div class='message-image-box'><a href='.*?' target='_blank'><img class='message-image' src='(.*?)'/></a></div>";
+        final String regx = "<div class='message-image-box'><a href=\"(?:[^\\\']*)?\" target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
         Global.MessageParse parse = createMessageParse(s, regx);
         if (parse.uris.size() > 0) {
             return parse;
@@ -31,7 +31,7 @@ public class HtmlContent {
     public static Global.MessageParse parseReplacePhoto(String s) {
         Global.MessageParse parse = new Global.MessageParse();
 
-        String regx = "(?:<br />)? ?<a href=\".*\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*)\" alt=\"(.*)\".*></a>(?:<br />)? ?";
+        String regx = "(?:<br />)? ?<a href=\"(?:[^\\\"]*)?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*)\" alt=\"(.*)\".*></a>(?:<br />)? ?";
         String replace = "[图片]";
         String replaceImage = s.replaceAll(regx, replace);
 

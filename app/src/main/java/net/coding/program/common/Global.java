@@ -221,11 +221,11 @@ public class Global {
         s = s.replaceAll("<img class=\"emotion monkey\".*?title=\"(.*?)\">", "[$1]");
 
         // 新的图片格式
-        final String regx = "(?:<br>)? ?<a href=\".*?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
+        final String regx = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
         s = s.replaceAll(regx, "[图片]");
 
         // 旧的图片格式
-        final String photoOld = "<div class='message-image-box'><a href='.*?' target='_blank'><img class='message-image' src='(.*?)'/></a></div>";
+        final String photoOld = "<div class='message-image-box'><a href=\"(?:[^\\\']*)?\" target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
         s = s.replaceAll(photoOld, "[图片]");
 
         final String code = "(<pre>)?<code .*(\\n)?</code>(</pre>)?";
@@ -323,8 +323,6 @@ public class Global {
                 if ("primary".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
-
-                // TODO handle non-primary volumes
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {

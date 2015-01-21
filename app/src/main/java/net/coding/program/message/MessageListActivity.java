@@ -248,7 +248,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         postNetwork(HOST_INSERT_IMAGE, params, TAG_SEND_IMAGE + myId, myId, null);
 
         MyMessage myMessage = new MyMessage(myId, MyMessage.REQUEST_IMAGE, params, mUserObject);
-        String imageLink = "<div class='message-image-box'><a href='%s' target='_blank'><img class='message-image' src='%s'/></a></div>";
+        String imageLink = "<div class='message-image-box'><a href='%s' target='_blank'><img class='message-image' src='%s'/?></a></div>";
         myMessage.content = String.format(imageLink, uri.toString(), uri.toString());
         mData.add(myMessage);
     }

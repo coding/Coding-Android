@@ -19,6 +19,7 @@ package net.coding.program.third;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
@@ -173,6 +174,30 @@ public class WechatTab extends HorizontalScrollView {
         if (locale == null) {
             locale = getResources().getConfiguration().locale;
         }
+
+    }
+
+    private void setTabsValue() {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        // 设置Tab是自动填充满屏幕的
+        setShouldExpand(true);
+        // 设置Tab的分割线是透明的
+        setDividerColor(Color.TRANSPARENT);
+        // 设置Tab底部线的高度
+        setUnderlineHeight((int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 1, dm));
+        // 设置Tab Indicator的高度
+        setIndicatorHeight((int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 3, dm));
+        // 设置Tab标题文字的大小
+        setTextSize((int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 16, dm));
+        // 设置Tab Indicator的颜色
+        setIndicatorColor(Color.parseColor("#3bbd79"));
+        // 设置选中Tab文字的颜色 (这是我自定义的一个方法)
+        setSelectedTextColor(Color.parseColor("#3bbd79"));
+        // 取消点击Tab时的背景色
+        setTabBackground(0);
     }
 
     public void setViewPager(ViewPager pager) {
@@ -185,6 +210,8 @@ public class WechatTab extends HorizontalScrollView {
         pager.setOnPageChangeListener(pageListener);
 
         notifyDataSetChanged();
+
+        setTabsValue();
     }
 
     public void setOnPageChangeListener(OnPageChangeListener listener) {

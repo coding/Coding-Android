@@ -106,9 +106,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             finish();
         }
 
-        if (displayMyFriend()) {
+        if (isMyFriendList()) {
             mData = AccountInfo.loadFriends(this, getType());
-            mSearchData = new ArrayList<UserObject>(mData);
+            mSearchData = new ArrayList(mData);
         }
 
         if (mData.isEmpty()) {
@@ -145,13 +145,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         }
     }
 
-    private boolean displayMyFriend() {
-        if (mUserParam != null
-                && !mUserParam.mUser.global_key.equals(MyApp.sUserObject.global_key)) {
-            return false;
-        }
-
-        return true;
+    private boolean isMyFriendList() {
+        return mUserParam == null ||
+                mUserParam.mUser.global_key.equals(MyApp.sUserObject.global_key);
     }
 
     @Override
@@ -291,7 +287,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                     mData.add(user);
                 }
 
-                if (displayMyFriend()) {
+                if (isMyFriendList()) {
                     AccountInfo.saveFriends(this, mData, getType());
                 }
 

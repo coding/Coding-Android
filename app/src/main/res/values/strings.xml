@@ -59,5 +59,6 @@
     <string name="title_activity_task_description">任务描述</string>
     <string name="title_activity_account_setting">帐号设置</string>
     <string name="title_activity_web">WebActivity</string>
+    <string name="title_activity_search_project">SearchProjectActivity</string>
 
 </resources>
