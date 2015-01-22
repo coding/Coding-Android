@@ -36,10 +36,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.fragment_project)
-@OptionsMenu(R.menu.fragment_project)
+@OptionsMenu(R.menu.menu_fragment_project)
 public class ProjectFragment extends BaseFragment implements ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
-    private ArrayList<ProjectObject> mData = new ArrayList<ProjectObject>();
+    private ArrayList<ProjectObject> mData = new ArrayList();
 
     @StringArrayRes
     String[] program_title;

@@ -47,6 +47,14 @@ public class ProjectListFragment extends RefreshBaseFragment {
         mRequestOk = requestOk;
     }
 
+    public void setDataAndUpdate(ArrayList<ProjectObject> data) {
+        mRequestOk = true;
+        mData = data;
+        myAdapter.notifyDataSetChanged();
+        // 不让空白画面出现
+        BlankViewDisplay.setBlank(1, this, true, blankLayout, null);
+    }
+
     @ViewById
     ListView listView;
 

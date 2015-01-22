@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -37,15 +39,19 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
+import java.util.HashSet;
+
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseFragmentActivity
         implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
 
     NavigationDrawerFragment_ mNavigationDrawerFragment;
-    CharSequence mTitle;
+    String mTitle;
 
     @Extra
     String mPushUrl;
+
+    HashSet<String> mPushOpened = new HashSet();
 
     @StringArrayRes
     String drawer_title[];
@@ -75,12 +81,12 @@ public class MainActivity extends BaseFragmentActivity
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
 
-
         mFirstEnter = (savedInstanceState == null);
-
 
         if (savedInstanceState != null) {
             mSelectPos = savedInstanceState.getInt("pos", 0);
+            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
+            mTitle = savedInstanceState.getString("mTitle");
         }
     }
 
@@ -115,7 +121,6 @@ public class MainActivity extends BaseFragmentActivity
             updateNotifyService();
         }
     };
-
 
     @AfterViews
     void init() {
@@ -184,14 +189,14 @@ public class MainActivity extends BaseFragmentActivity
 
         restoreActionBar();
 
-        if (mPushUrl != null) {
+        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
+            mPushOpened.add(mPushUrl);
             URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
         }
 
         if (mFirstEnter) {
             onNavigationDrawerItemSelected(0);
         }
-
     }
 
     int mSelectPos = 0;
@@ -242,6 +247,7 @@ public class MainActivity extends BaseFragmentActivity
         }
 
         getActionBar().setDisplayShowCustomEnabled(useCustomBar);
+        getActionBar().setTitle(mTitle);
     }
 
     private void updateActionbarRestore() {
@@ -255,19 +261,22 @@ public class MainActivity extends BaseFragmentActivity
         }
 
         getActionBar().setDisplayShowCustomEnabled(useCustomBar);
+        getActionBar().setTitle(mTitle);
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("pos", mSelectPos);
+        outState.putSerializable("mPushOpened", mPushOpened);
+        outState.putString("mTitle", mTitle);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mSelectPos = savedInstanceState.getInt("pos", 0);
+        mTitle = savedInstanceState.getString("mTitle");
         updateActionbarRestore(); // 只需要恢复actionbar就可以了
     }
 

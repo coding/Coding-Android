@@ -12,7 +12,7 @@ public class NotifyObject {
     public long created_at;
     public String id = "";
     public String owner_id = "";
-    public String status = "";
+    public int status;
     public String target_id = "";
     public String target_type = "";
     public String type = "";
@@ -22,7 +22,7 @@ public class NotifyObject {
         created_at = json.optLong("created_at");
         id = json.optString("id"); //40338"
         owner_id = json.optString("owner_id"); //7074"
-        status = json.optString("status"); //0"
+        status = json.optInt("status"); //0"
         target_id = json.optString("target_id"); //14270"
         target_type = json.optString("target_type"); //TweetComment"
         type = json.optString("type"); //0"

@@ -390,21 +390,18 @@
             android:name=".setting.AccountSetting_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_account_setting"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_account_setting"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.SearchProjectActivity_"
             android:label="@string/title_activity_search_project"
             android:icon="@drawable/ic_lancher"
             android:screenOrientation="portrait"
-            >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
     </application>
 
 </manifest>

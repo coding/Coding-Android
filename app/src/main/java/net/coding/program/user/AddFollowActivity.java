@@ -21,6 +21,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 
@@ -100,18 +101,10 @@ public class AddFollowActivity extends BaseActivity {
         }
         listView.setAdapter(baseAdapter);
 
-        name.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+        name.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 search(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
     }

@@ -41,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 @EFragment(R.layout.common_refresh_listview)
@@ -60,26 +61,27 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
     @ViewById
     ListView listView;
 
-    ArrayList<TaskObject.Members> mMembersArray = new ArrayList<TaskObject.Members>();
+    ArrayList<TaskObject.Members> mSearchData = new ArrayList<TaskObject.Members>();
+    ArrayList<TaskObject.Members> mData = new ArrayList<TaskObject.Members>();
     private AdapterView.OnItemClickListener mListClickJump;
 
     @AfterViews
     protected void init() {
         super.init();
 
-        mMembersArray = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.id);
-        if (mMembersArray.isEmpty()) {
+        mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.id);
+        mSearchData = new ArrayList(mData);
+        if (mSearchData.isEmpty()) {
             showDialogLoading();
         }
 
         listView.setAdapter(adapter);
-
         if (mSelect) {
             mListClickJump = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent();
-                    intent.putExtra("name", mMembersArray.get((int) id).user.name);
+                    intent.putExtra("name", mSearchData.get((int) id).user.name);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().finish();
                 }
@@ -91,7 +93,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                     UserDynamicActivity_
                             .intent(getActivity())
                             .mProjectObject(mProjectObject)
-                            .mMember(mMembersArray.get(position))
+                            .mMember(mSearchData.get(position))
                             .start();
 
                 }
@@ -103,7 +105,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
-                    final TaskObject.Members members = mMembersArray.get((int) id);
+                    final TaskObject.Members members = mSearchData.get((int) id);
                     if (members.user.global_key.equals(MyApp.sUserObject.global_key)) {
                         return false;
                     }
@@ -141,6 +143,22 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
         loadMore();
 
         setHasOptionsMenu(true);
+    }
+
+    public void search(String input) {
+        mSearchData.clear();
+        if (input.isEmpty()) {
+            mSearchData.addAll(mData);
+        } else {
+            for (TaskObject.Members item : mData) {
+                if (item.user.global_key.toLowerCase().contains(input) ||
+                        item.user.name.toLowerCase().contains(input)) {
+                    mSearchData.add(item);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -196,25 +214,23 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
 
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
-                    mMembersArray.clear();
+                    mData.clear();
                 }
 
-                ArrayList<TaskObject.Members> usersInfo = new ArrayList<TaskObject.Members>();
-
                 JSONArray members = respanse.getJSONObject("data").getJSONArray("list");
-
-                TaskObject.Members member;
                 for (int i = 0; i < members.length(); ++i) {
-                    member = new TaskObject.Members(members.getJSONObject(i));
+                    TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
                     if (member.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                        mMembersArray.add(0, member);
+                        mData.add(0, member);
                     } else {
-                        mMembersArray.add(member);
+                        mData.add(member);
                     }
                 }
 
-                AccountInfo.saveProjectMembers(getActivity(), mMembersArray, mProjectObject.id);
+                AccountInfo.saveProjectMembers(getActivity(), mData, mProjectObject.id);
 
+                mSearchData.clear();
+                mSearchData.addAll(mData);
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
@@ -234,7 +250,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
         } else if (tag.equals(urlDeleteUser)) {
             showProgressBar(false);
             if (code == 0) {
-                mMembersArray.remove(pos);
+                mSearchData.remove(pos);
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
@@ -246,12 +262,12 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
 
         @Override
         public int getCount() {
-            return mMembersArray.size();
+            return mSearchData.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mMembersArray.get(position);
+            return mSearchData.get(position);
         }
 
         @Override
@@ -277,7 +293,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            TaskObject.Members data = mMembersArray.get(position);
+            TaskObject.Members data = mSearchData.get(position);
             holder.name.setText(data.user.name);
             if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
                 //holder.desc.setText("(创建者)");
@@ -288,7 +304,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
             iconfromNetwork(holder.icon, data.user.avatar);
             holder.icon.setTag(data.user.global_key);
 
-            if (mMembersArray.size() - 1 == position) {
+            if (mSearchData.size() - 1 == position) {
                 loadMore();
             }
 

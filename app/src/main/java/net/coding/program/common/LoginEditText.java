@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 import net.coding.program.R;
+import net.coding.program.common.enter.SimpleTextWatcher;
 
 /**
  * Created by chaochen on 15/1/6.
@@ -26,16 +27,7 @@ public class LoginEditText extends EditText {
         drawable = getResources().getDrawable(R.drawable.delete_edit_login);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
 
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+        addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 displayDelete(s.length() > 0);

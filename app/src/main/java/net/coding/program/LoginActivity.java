@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -317,34 +318,14 @@ public class LoginActivity extends BaseActivity {
         CookieSyncManager.getInstance().sync();
     }
 
-    TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
+    TextWatcher textWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
             upateLoginButton();
         }
     };
 
-    TextWatcher textWatcherName = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
+    TextWatcher textWatcherName = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
             userIcon.setImageResource(R.drawable.icon_user_monkey);

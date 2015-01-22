@@ -200,6 +200,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
             }
 
             holder.title.setText(Global.changeHyperlinkColor(title));
+            holder.title.setTextColor(data.status == 0 ? 0xff222222 : 0xff999999);
 
             if (position == (mData.size() - 1)) {
                 loadMore();

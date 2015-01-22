@@ -33,6 +33,10 @@ public class MyImageGetter implements Html.ImageGetter {
     }
 
     private String getPhotoName(String s) {
+        if (s == null) {
+            return "";
+        }
+
         int begin = s.lastIndexOf('/');
         if (begin == -1) {
             return s;

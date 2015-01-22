@@ -60,9 +60,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     BadgeView badgeComment;
     BadgeView badgeSystem;
 
-//    @ViewById
-//    View blankLayout;
-
     @AfterViews
     protected void init() {
         super.init();
@@ -147,33 +144,21 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         v.findViewById(R.id.atLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NotifyListActivity_.class);
-                intent.putExtra("type", 0);
-                startActivity(intent);
-
-                postNetwork(HOST_MARK_AT, new RequestParams(), HOST_MARK_AT);
+                startNotifyListActivity(0);
             }
         });
 
         v.findViewById(R.id.commentLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NotifyListActivity_.class);
-                intent.putExtra("type", 1);
-                startActivity(intent);
-
-                postNetwork(HOST_MARK_COMMENT, new RequestParams(), HOST_MARK_COMMENT);
+                startNotifyListActivity(1);
             }
         });
 
         v.findViewById(R.id.systemLayout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NotifyListActivity_.class);
-                intent.putExtra("type", 4);
-                startActivity(intent);
-
-                postNetwork(HOST_MARK_SYSTEM, new RequestParams(), HOST_MARK_SYSTEM);
+                startNotifyListActivity(4);
             }
         });
 
@@ -185,6 +170,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         badgeSystem.setVisibility(View.INVISIBLE);
 
         listView.addHeaderView(v);
+    }
+
+    private void startNotifyListActivity(int type) {
+        NotifyListActivity_.intent(UsersListFragment.this)
+                .type(type).startForResult(type);
     }
 
     @OptionsItem
@@ -288,6 +278,21 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             } else {
                 showButtomToast("删除失败");
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 0:
+                postNetwork(HOST_MARK_AT, new RequestParams(), HOST_MARK_AT);
+                break;
+            case 1:
+                postNetwork(HOST_MARK_COMMENT, new RequestParams(), HOST_MARK_COMMENT);
+                break;
+            case 4:
+                postNetwork(HOST_MARK_SYSTEM, new RequestParams(), HOST_MARK_SYSTEM);
+                break;
         }
     }
 

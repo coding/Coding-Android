@@ -198,39 +198,36 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (type == Friend.Follow) {
-            MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.users_follow, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(type == Friend.Follow ? R.menu.users_follow : R.menu.users_fans,
+                menu);
 
-            MenuItem searchItem = menu.findItem(R.id.action_search);
-            searchItem.setIcon(R.drawable.ic_menu_search);
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setIcon(R.drawable.ic_menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-            try { // 更改搜索按钮的icon
-                int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-                ImageView v = (ImageView) searchView.findViewById(searchImgId);
-                v.setImageResource(R.drawable.ic_menu_search);
-            } catch (Exception e) {
-            }
-
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String s) {
-                    return true;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    searchItem(s);
-                    return true;
-                }
-            });
-
-
-            return true;
+        try { // 更改搜索按钮的icon
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView v = (ImageView) searchView.findViewById(searchImgId);
+            v.setImageResource(R.drawable.ic_menu_search);
+        } catch (Exception e) {
         }
 
-        return super.onCreateOptionsMenu(menu);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchItem(s);
+                return true;
+            }
+        });
+
+
+        return true;
     }
 
     private void searchItem(String s) {
