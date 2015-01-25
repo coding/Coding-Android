@@ -12,7 +12,6 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.message.MessageListActivity;
 import net.coding.program.model.TaskObject;
 
 /**
@@ -31,15 +30,15 @@ public class ContentAreaBase {
             @Override
             public boolean onLongClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setItems(R.array.message_action_text_copy, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                Global.copy(((TextView) v).getText().toString(), v.getContext());
-                                Toast.makeText(v.getContext(), "已复制", Toast.LENGTH_SHORT).show();
-                            }
+                builder.setItems(R.array.message_action_text_copy, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            Global.copy(((TextView) v).getText().toString(), v.getContext());
+                            Toast.makeText(v.getContext(), "已复制", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }
+                });
 
                 AlertDialog dialog = builder.show();
                 CustomDialog.dialogTitleLineColor(v.getContext(), dialog);

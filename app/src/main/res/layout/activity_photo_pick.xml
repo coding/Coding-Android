@@ -8,10 +8,11 @@
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
         android:gravity="center"
         android:horizontalSpacing="4dip"
         android:numColumns="3"
+
+        android:background="@android:color/black"
         android:stretchMode="columnWidth"
         android:verticalSpacing="4dip"
         android:padding="4dip" />

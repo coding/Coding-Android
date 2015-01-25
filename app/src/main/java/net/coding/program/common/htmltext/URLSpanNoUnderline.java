@@ -2,8 +2,6 @@ package net.coding.program.common.htmltext;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.Browser;
 import android.text.TextPaint;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
-import net.coding.program.common.HtmlContent;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.message.MessageListActivity_;

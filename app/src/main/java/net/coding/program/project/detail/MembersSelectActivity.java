@@ -15,7 +15,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 
 @EActivity(R.layout.activity_members_select)
 public class MembersSelectActivity extends BaseFragmentActivity {

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,7 +45,6 @@ import net.coding.program.third.EmojiFilter;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,7 +134,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
 
     private void updateAddButton() {
         enableSendButton(!message.getText().toString().isEmpty() ||
-        mData.size() > 0);
+                mData.size() > 0);
     }
 
     private void enableSendButton(boolean enable) {

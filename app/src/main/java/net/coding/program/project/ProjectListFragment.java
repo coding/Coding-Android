@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
-import net.coding.program.WebActivity_;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -26,8 +25,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;

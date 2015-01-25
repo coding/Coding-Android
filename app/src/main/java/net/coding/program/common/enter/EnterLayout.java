@@ -3,7 +3,6 @@ package net.coding.program.common.enter;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.Spannable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;

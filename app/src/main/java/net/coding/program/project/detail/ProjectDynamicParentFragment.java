@@ -1,10 +1,8 @@
 package net.coding.program.project.detail;
 
-import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import net.coding.program.R;
@@ -60,6 +58,7 @@ public class ProjectDynamicParentFragment extends BaseFragment {
         pager.setPageMargin(pageMargin);
 
         tabs.setViewPager(pager);
+        tabs.setUnderlinePadding0();
     }
 
     class DynamicPagerAdapter extends FragmentStatePagerAdapter {

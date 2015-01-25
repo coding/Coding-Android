@@ -307,6 +307,19 @@ public class Global {
         return false;
     }
 
+    public static boolean isConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+
+
     @SuppressLint("NewApi")
     public static String getPath(final Context context, final Uri uri) {
 

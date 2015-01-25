@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -78,6 +79,14 @@ public class PhotoPickActivity extends Activity {
 
     final String CameraItem = "CameraItem";
 
+    long lastTime;
+
+    private void displayTime(int pos) {
+        long current = System.currentTimeMillis();
+        Log.d("", "ttt" + pos + " " + (current - lastTime));
+        lastTime = current;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,66 +97,92 @@ public class PhotoPickActivity extends Activity {
         mMaxPick = getIntent().getIntExtra(EXTRA_MAX, 5);
 
         mInflater = getLayoutInflater();
-
         mGridView = (GridView) findViewById(R.id.gridView);
         mListView = (ListView) findViewById(R.id.listView);
         mListViewGroup = findViewById(R.id.listViewParent);
         mListViewGroup.setOnClickListener(mOnClickFoldName);
         mFoldName = (TextView) findViewById(R.id.foldName);
+
         findViewById(R.id.selectFold).setOnClickListener(mOnClickFoldName);
-
-        String[] projection = {MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME};
-        String selection = "";
-        String[] selectionArgs = null;
-        Cursor mImageExternalCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.MediaColumns.DATE_ADDED + " DESC");
-        ArrayList<ImageInfo> allPhoto = new ArrayList<ImageInfo>();
-        allPhoto.add(new ImageInfo(CameraItem));
-        mFoldersData.add(allPhotos);
-
-        while (mImageExternalCursor.moveToNext()) {
-            String s0 = mImageExternalCursor.getString(0);
-            String s1 = mImageExternalCursor.getString(1);
-            String s2 = mImageExternalCursor.getString(2);
-
-            String s = String.format("%s,%s,%s", s0, s1, s2);
-            Log.d("", "sss " + s);
-            if (s1.endsWith(".png") || s1.endsWith(".jpg") || s1.endsWith(".PNG") || s1.endsWith(".JPG")) {
-                s1 = "file://" + s1;
-            }
-            ImageInfo imageInfo = new ImageInfo(s1);
-
-            ArrayList<ImageInfo> value = mFolders.get(s2);
-            if (value == null) {
-                value = new ArrayList<ImageInfo>();
-                mFolders.put(s2, value);
-                mFoldersData.add(s2);
-            }
-            allPhoto.add(imageInfo);
-
-            value.add(imageInfo);
-        }
-        mFolders.put(allPhotos, allPhoto);
-
-        mPhotoAdapter.setData(mFolders.get(mFoldersData.get(0)));
-        mListView.setAdapter(mFoldAdapter);
-        mListView.setOnItemClickListener(mOnItemClick);
-
-        mGridView.setAdapter(mPhotoAdapter);
-        mGridView.setOnItemClickListener(mOnPhotoItemClick);
-        // 必须这么刷一下，否则很卡，也许是ImageLoader某个地方的线程写的有问题，当然了，更有可能是我用的的有问题：），先这样吧
-        mGridView.post(new Runnable() {
-            @Override
-            public void run() {
-                mPhotoAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        String folderName = mFoldersData.get(0);
-        mFoldName.setText(folderName);
 
         mPreView = (TextView) findViewById(R.id.preView);
         mPreView.setOnClickListener(onClickPre);
+
+        lastTime = System.currentTimeMillis();
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                displayTime(0);
+
+
+                String[] projection = {MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME};
+                String selection = "";
+                String[] selectionArgs = null;
+                Cursor mImageExternalCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.MediaColumns.DATE_ADDED + " DESC");
+
+                displayTime(0);
+
+                ArrayList<ImageInfo> allPhoto = new ArrayList<ImageInfo>();
+                allPhoto.add(new ImageInfo(CameraItem));
+                mFoldersData.add(allPhotos);
+
+
+                while (mImageExternalCursor.moveToNext()) {
+                    String s0 = mImageExternalCursor.getString(0);
+                    String s1 = mImageExternalCursor.getString(1);
+                    String s2 = mImageExternalCursor.getString(2);
+
+                    String s = String.format("%s,%s,%s", s0, s1, s2);
+                    Log.d("", "sss " + s);
+                    if (s1.endsWith(".png") || s1.endsWith(".jpg") || s1.endsWith(".PNG") || s1.endsWith(".JPG")) {
+                        s1 = "file://" + s1;
+                    }
+                    ImageInfo imageInfo = new ImageInfo(s1);
+
+                    ArrayList<ImageInfo> value = mFolders.get(s2);
+                    if (value == null) {
+                        value = new ArrayList<ImageInfo>();
+                        mFolders.put(s2, value);
+                        mFoldersData.add(s2);
+                    }
+                    allPhoto.add(imageInfo);
+
+                    value.add(imageInfo);
+                }
+                mFolders.put(allPhotos, allPhoto);
+
+                displayTime(1);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+                displayTime(2);
+                mPhotoAdapter.setData(mFolders.get(mFoldersData.get(0)));
+                mListView.setAdapter(mFoldAdapter);
+                mListView.setOnItemClickListener(mOnItemClick);
+
+                displayTime(2);
+
+                mGridView.setAdapter(mPhotoAdapter);
+                mGridView.setOnItemClickListener(mOnPhotoItemClick);
+                displayTime(3);
+                // 必须这么刷一下，否则很卡，也许是ImageLoader某个地方的线程写的有问题，当然了，更有可能是我用的的有问题：），先这样吧
+//                mGridView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mPhotoAdapter.notifyDataSetChanged();
+//                    }
+//                });
+
+                String folderName = mFoldersData.get(0);
+                mFoldName.setText(folderName);
+            }
+        }.execute();
     }
 
     View.OnClickListener onClickPre = new View.OnClickListener() {
@@ -426,18 +461,21 @@ public class PhotoPickActivity extends Activity {
 
                 ImageInfo data = (ImageInfo) getItem(position);
                 ImageLoader imageLoader = ImageLoader.getInstance();
-                imageLoader.displayImage(data.path, holder.icon, optionsImage);
+//                imageLoader.displayImage(data.path, holder.icon, optionsImage);
 
-                ((GridViewCheckTag) holder.check.getTag()).path = data.path;
-
-                boolean picked = isPicked(data.path);
-                holder.check.setChecked(picked);
-                holder.iconFore.setVisibility(picked ? View.VISIBLE : View.INVISIBLE);
+//                ((GridViewCheckTag) holder.check.getTag()).path = data.path;
+//
+//                boolean picked = isPicked(data.path);
+//                holder.check.setChecked(picked);
+//                holder.iconFore.setVisibility(picked ? View.VISIBLE : View.INVISIBLE);
 
                 return convertView;
             } else {
                 final GridCameraHolder cameraHolder;
                 if (convertView == null) {
+
+                    lastTime = System.currentTimeMillis();
+
                     convertView = mInflater.inflate(R.layout.photopick_gridlist_item_camera, parent, false);
 
                     ViewGroup.LayoutParams layoutParams = convertView.getLayoutParams();
@@ -453,6 +491,8 @@ public class PhotoPickActivity extends Activity {
                             camera();
                         }
                     });
+
+                    displayTime(5);
                 }
 
                 return convertView;

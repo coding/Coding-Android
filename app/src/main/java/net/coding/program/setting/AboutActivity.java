@@ -1,6 +1,5 @@
 package net.coding.program.setting;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
@@ -8,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
-import net.coding.program.UpdateApp;
+import net.coding.program.UpdateService;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengActivity;
@@ -16,11 +15,8 @@ import net.coding.program.common.umeng.UmengActivity;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.Calendar;
 
 @EActivity(R.layout.activity_about)
 public class AboutActivity extends UmengActivity {
@@ -63,7 +59,9 @@ public class AboutActivity extends UmengActivity {
 
     @Click
     void checkUpdate() {
-        new UpdateApp(this).runForeground();
+        Intent intent = new Intent(this, UpdateService.class);
+        intent.putExtra(UpdateService.EXTRA_BACKGROUND, false);
+        startService(intent);
     }
 
     @Click

@@ -13,7 +13,6 @@ import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.maopao.ContentArea;
 import net.coding.program.model.BaseComment;
 
 /**

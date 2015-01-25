@@ -3,7 +3,7 @@
     <string-array name="drawer_title">
         <item>我的项目</item>
         <item>我的任务</item>
-        <item>冒泡</item>
+        <item></item>
         <item>@string/title_activity_message_list</item>
         <item>设置</item>
     </string-array>

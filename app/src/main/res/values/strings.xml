@@ -60,5 +60,6 @@
     <string name="title_activity_account_setting">帐号设置</string>
     <string name="title_activity_web">WebActivity</string>
     <string name="title_activity_search_project">项目搜索</string>
+    <string name="title_activity_update_dialog">UpdateDialogActivity</string>
 
 </resources>

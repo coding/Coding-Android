@@ -5,10 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -28,7 +24,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_web)
@@ -67,36 +62,38 @@ public class WebActivity extends Activity {
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient() {
 
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                progressBar.setProgress(newProgress);
-                if (newProgress == 100) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
-                    animation.setDuration(500);
-                    animation.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {}
+                                       @Override
+                                       public void onProgressChanged(WebView view, int newProgress) {
+                                           progressBar.setProgress(newProgress);
+                                           if (newProgress == 100) {
+                                               progressBar.setVisibility(View.INVISIBLE);
+                                               AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
+                                               animation.setDuration(500);
+                                               animation.setAnimationListener(new Animation.AnimationListener() {
+                                                   @Override
+                                                   public void onAnimationStart(Animation animation) {
+                                                   }
 
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            progressBar.setVisibility(View.INVISIBLE);
-                        }
+                                                   @Override
+                                                   public void onAnimationEnd(Animation animation) {
+                                                       progressBar.setVisibility(View.INVISIBLE);
+                                                   }
 
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {}
-                    });
-                    progressBar.startAnimation(animation);
-                } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            }
+                                                   @Override
+                                                   public void onAnimationRepeat(Animation animation) {
+                                                   }
+                                               });
+                                               progressBar.startAnimation(animation);
+                                           } else {
+                                               progressBar.setVisibility(View.VISIBLE);
+                                           }
+                                       }
 
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                actionbarTitle.setText(title);
-            }
-        }
+                                       @Override
+                                       public void onReceivedTitle(WebView view, String title) {
+                                           actionbarTitle.setText(title);
+                                       }
+                                   }
         );
 
         WebSettings settings = webView.getSettings();
@@ -111,7 +108,7 @@ public class WebActivity extends Activity {
     void action_copy() {
         String urlString = webView.getUrl();
         Global.copy(urlString, this);
-        Toast.makeText(this,  urlString + " 已复制", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
     }
 
     @OptionsItem
@@ -136,6 +133,7 @@ public class WebActivity extends Activity {
     public static class CustomWebViewClient extends WebViewClient {
 
         Context mContext;
+
         public CustomWebViewClient(Context context) {
             mContext = context;
         }

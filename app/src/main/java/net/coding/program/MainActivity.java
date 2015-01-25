@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -124,9 +122,11 @@ public class MainActivity extends BaseFragmentActivity
 
     @AfterViews
     void init() {
-        UpdateApp updateApp = new UpdateApp(this);
-        updateApp.runInBackground();
-        updateApp.deleteOldApk();
+        Intent intent = new Intent(this, UpdateService.class);
+        intent.putExtra(UpdateService.EXTRA_BACKGROUND, true);
+        intent.putExtra(UpdateService.EXTRA_WIFI, true);
+        intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
+        startService(intent);
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater(), maopao_action_types);
 

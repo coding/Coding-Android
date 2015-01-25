@@ -2,12 +2,10 @@ package net.coding.program.project.detail;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import net.coding.program.R;

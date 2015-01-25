@@ -1,10 +1,5 @@
 package net.coding.program.setting;
 
-import android.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import net.coding.program.BaseActivity;
@@ -17,8 +12,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @EActivity(R.layout.activity_account_setting)
 public class AccountSetting extends BaseActivity {
