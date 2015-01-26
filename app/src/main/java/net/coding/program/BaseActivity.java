@@ -61,9 +61,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         public void onClick(View v) {
             String globalKey = (String) v.getTag();
 
-            Intent intent = new Intent(BaseActivity.this, UserDetailActivity_.class);
-            intent.putExtra("globalKey", globalKey);
-            startActivity(intent);
+            UserDetailActivity_.intent(BaseActivity.this)
+                    .globalKey(globalKey)
+                    .start();
         }
     };
 

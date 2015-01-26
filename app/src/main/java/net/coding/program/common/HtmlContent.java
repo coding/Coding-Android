@@ -7,22 +7,31 @@ import java.util.regex.Pattern;
  * Created by chaochen on 14-10-25.
  */
 public class HtmlContent {
+
+    private static final String REGX_PHOTO = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" (?:alt=\"\" )?target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
+    private static final String REGX_PHOTO_OLD = "<div class='message-image-box'><a href=\'(?:[^\\\']*)?\' target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
+    private static final String REPLACE_PHOTO = "[图片]";
+
+    private static final String REGX_MONKEY = "<img class=\"emotion emoji\" src=\".*?\" title=\"(.*?)\">";
+
+    private static final String REGX_CODE = "(<pre>)?<code .*(\\n)?</code>(</pre>)?";
+
+    private static final String REPLACE_CODE = "[代码]";
+
+    private static final String REGX_HTML = "<([A-Za-z][A-Za-z0-9]*)[^>]*>(.*?)</\\1>";
+
     public static Global.MessageParse parseMaopao(String s) {
-        final String regx = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
-        return createMessageParse(s, regx);
+        return createMessageParse(s, REGX_PHOTO);
     }
 
     public static Global.MessageParse parseMessage(String s) {
-        final String regx = "<div class='message-image-box'><a href=\"(?:[^\\\']*)?\" target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
-        Global.MessageParse parse = createMessageParse(s, regx);
+        Global.MessageParse parse = createMessageParse(s, REGX_PHOTO_OLD);
         if (parse.uris.size() > 0) {
             return parse;
         } else {
             return parseMaopao(s);
         }
     }
-
-//    public static String TYPE_IMAGE_HEAD = "imagetype:";
 
     public static String parseDynamic(String s) {
         return parseReplacePhoto(s).text;
@@ -31,17 +40,21 @@ public class HtmlContent {
     public static Global.MessageParse parseReplacePhoto(String s) {
         Global.MessageParse parse = new Global.MessageParse();
 
-        String regx = "(?:<br />)? ?<a href=\"(?:[^\\\"]*)?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*)\" alt=\"(.*)\".*></a>(?:<br />)? ?";
-        String replace = "[图片]";
-        String replaceImage = s.replaceAll(regx, replace);
+        String replaceImage = s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO);
 
-        regx = "<img class=\"emotion emoji\" src=\".*?\" title=\"(.*?)\">";
-        replace = "<img src=\"$1\">";
-        replaceImage = replaceImage.replaceAll(regx, replace);
+        replaceImage = replaceImage.replaceAll(REGX_MONKEY, "<img src=\"$1\">");
 
         parse.text = replaceAllSpace(replaceImage);
 
         return parse;
+    }
+
+    public static String parseToText(String s) {
+        return s.replaceAll(REGX_MONKEY, "[$1]")
+                .replaceAll(REGX_PHOTO, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
+                .replaceAll(REGX_CODE, REPLACE_CODE)
+                .replaceAll(REGX_HTML, "$2");
     }
 
     private static Global.MessageParse createMessageParse(String s, String regx) {
@@ -64,7 +77,7 @@ public class HtmlContent {
     }
 
     public static String createUserHtml(String globalKey, String name) {
-        final String format = "<font color='#3bbd79'><a href=\"coding-net://UserDetailActivity_?name=%s\">%s</a></font>";
+        final String format = "<font color='#3bbd79'><a href=\"/u/%s\">%s</a></font>";
         return String.format(format, globalKey, name);
     }
 }

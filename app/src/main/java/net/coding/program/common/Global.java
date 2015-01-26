@@ -189,7 +189,7 @@ public class Global {
     }
 
     public static Spannable recentMessage(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        String parse = parseNoMonkeyImage(content);
+        String parse = HtmlContent.parseToText(content);
 
         Spannable s = (Spannable) Html.fromHtml(parse, imageGetter, null);
         return getCustomSpannable(0xff999999, s);
@@ -213,26 +213,6 @@ public class Global {
             GrayQuoteSpan grayQuoteSpan = new GrayQuoteSpan();
             s.setSpan(grayQuoteSpan, start, end, 0);
         }
-
-        return s;
-    }
-
-    private static String parseNoMonkeyImage(String s) {
-        s = s.replaceAll("<img class=\"emotion monkey\".*?title=\"(.*?)\">", "[$1]");
-
-        // 新的图片格式
-        final String regx = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
-        s = s.replaceAll(regx, "[图片]");
-
-        // 旧的图片格式
-        final String photoOld = "<div class='message-image-box'><a href=\"(?:[^\\\']*)?\" target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
-        s = s.replaceAll(photoOld, "[图片]");
-
-        final String code = "(<pre>)?<code .*(\\n)?</code>(</pre>)?";
-        s = s.replaceAll(code, "[代码]");
-
-        final String html = "<([A-Za-z][A-Za-z0-9]*)[^>]*>(.*?)</\\1>";
-        s = s.replaceAll(html, "$2");
 
         return s;
     }
