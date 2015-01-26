@@ -29,8 +29,8 @@
         android:layout_marginBottom="17dp" />
 
     <View
-        android:layout_width="160dp"
-        android:layout_height="36dp"
+        android:layout_width="193dp"
+        android:layout_height="43dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/title"
         android:layout_marginBottom="44dp"

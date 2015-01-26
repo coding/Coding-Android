@@ -1,6 +1,7 @@
 package net.coding.program.message;
 
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
@@ -18,14 +19,20 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.StartActivity;
+import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
+import net.coding.program.model.UserObject;
+import net.coding.program.project.detail.ProjectAttachmentFragment_;
+import net.coding.program.user.UsersListActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -37,8 +44,9 @@ import java.util.ArrayList;
 
 @EFragment(R.layout.fragment_users_list)
 @OptionsMenu(R.menu.message_users_list)
-public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
+    private final int RESULT_SELECT_USER = 100;
     @ViewById
     ListView listView;
 
@@ -179,9 +187,19 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @OptionsItem
     void action_add() {
-        Intent intent = new Intent(getActivity(), FollowUsersActivity_.class);
-        startActivity(intent);
+        TextWatcherAt.startUserFollowList(getActivity(), this, RESULT_SELECT_USER);
     }
+
+    @OnActivityResult(RESULT_SELECT_USER)
+    void onSelectUser(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            UserObject user = (UserObject) data.getSerializableExtra(UsersListActivity.RESULT_EXTRA_USESR);
+            if (user != null) {
+                MessageListActivity_.intent(this).mUserObject(user).start();
+            }
+        }
+    }
+
 
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override

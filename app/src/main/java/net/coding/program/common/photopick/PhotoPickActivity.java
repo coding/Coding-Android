@@ -287,6 +287,7 @@ public class PhotoPickActivity extends Activity {
         finish();
     }
 
+    private static final String RESTORE_FILEURI = "fileUri";
     private Uri fileUri;
 
     public void camera() {
@@ -298,6 +299,24 @@ public class PhotoPickActivity extends Activity {
 
     final int RESULT_PICK = 20;
     final int RESULT_CAMERA = 21;
+
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        fileUri = savedInstanceState.getParcelable(RESTORE_FILEURI);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (fileUri != null) {
+            outState.putParcelable(RESTORE_FILEURI, fileUri);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

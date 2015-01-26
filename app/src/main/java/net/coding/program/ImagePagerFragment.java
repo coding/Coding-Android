@@ -219,7 +219,13 @@ public class ImagePagerFragment extends BaseFragment {
 
                 if (image instanceof GifImageView) {
                     File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-                    image.setImageURI(Uri.fromFile(file));
+
+                    // 看umeng有报错，bad file descriptor，可能有些gif有问题
+                    try {
+                        image.setImageURI(Uri.fromFile(file));
+                    } catch (Exception e) {
+                        Global.errorLog(e);
+                    }
                 }
             }
         });

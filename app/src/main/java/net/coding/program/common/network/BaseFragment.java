@@ -175,11 +175,19 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
     }
 
     protected void showButtomToast(String msg) {
+        if (!isResumed()) {
+            return;
+        }
+
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     protected void showMiddleToast(String msg) {
+        if (!isResumed()) {
+            return;
+        }
+
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();

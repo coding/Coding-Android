@@ -10,21 +10,32 @@
         android:layout_height="match_parent"
         android:visibility="invisible" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffdddddd"
-        android:visibility="visible">
+        android:background="@color/task_list_head"
+        android:paddingTop="35dp"
+        android:gravity="center_horizontal"
+        android:visibility="visible"
+        android:orientation="vertical">
+        
+        <View
+            android:layout_width="143dp"
+            android:layout_height="143dp"
+            android:background="@drawable/ic_search_project"
+            />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
+            android:layout_margin="15dp"
             android:gravity="center"
-            android:text="搜索项目名称或创建人的个性后缀都可以进行项目搜索哦！"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.1"
+            android:text="搜索项目名称或创建人的个性后缀\n都可以进行项目搜索哦！"
             android:textColor="@color/font_gray" />
 
-    </FrameLayout>
+    </LinearLayout>
 
 </FrameLayout>

@@ -40,22 +40,26 @@ public class TextWatcherAt implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String newEnter = s.toString().substring(start, start + count);
         if (newEnter.equals("@")) {
-            Intent intent;
             if (mProjectObject == null) {
-                intent = new Intent(mContext, UsersListActivity_.class);
-                intent.putExtra("type", UsersListActivity.Friend.Follow);
-                intent.putExtra("select", true);
+                startUserFollowList(mContext, mStartActivity, mResult);
             } else {
+                Intent intent;
                 intent = new Intent(mContext, MembersSelectActivity_.class);
                 intent.putExtra("mProjectObject", mProjectObject);
+                mStartActivity.startActivityForResult(intent, mResult);
             }
-
-            // 必须考虑是activty还是fragment，所以只能由mStartActivity启动
-            mStartActivity.startActivityForResult(intent, mResult);
         }
     }
 
     @Override
     public void afterTextChanged(Editable s) {
+    }
+
+    public static void startUserFollowList(Context mContext, StartActivity mStartActivity, int mResult) {
+        Intent intent;
+        intent = new Intent(mContext, UsersListActivity_.class);
+        intent.putExtra("type", UsersListActivity.Friend.Follow);
+        intent.putExtra("select", true);
+        mStartActivity.startActivityForResult(intent, mResult);
     }
 }

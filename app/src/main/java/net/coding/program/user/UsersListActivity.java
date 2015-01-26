@@ -84,6 +84,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
 
+    public static final String RESULT_EXTRA_NAME = "name";
+    public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
+
 
     ArrayList<UserObject> mData = new ArrayList<UserObject>();
     ArrayList<UserObject> mSearchData = new ArrayList<UserObject>();
@@ -126,8 +129,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent();
-                    String name = ((UserObject) parent.getItemAtPosition(position)).name;
-                    intent.putExtra("name", name);
+                    UserObject user = (UserObject) parent.getItemAtPosition(position);
+                    intent.putExtra(RESULT_EXTRA_NAME, user.name);
+                    intent.putExtra(RESULT_EXTRA_USESR, user);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }

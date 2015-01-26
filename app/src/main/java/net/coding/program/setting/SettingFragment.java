@@ -8,25 +8,38 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.LoginActivity_;
+import net.coding.program.MainActivity;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
 @EFragment(R.layout.fragment_setting)
 public class SettingFragment extends BaseFragment {
+
+    @ViewById
+    CheckBox allNotify;
+
+    @AfterViews
+    void init() {
+        boolean mLastNotifySetting = AccountInfo.getNeedPush(getActivity());
+        allNotify.setChecked(mLastNotifySetting);
+    }
 
     @Click
     void accountSetting() {
@@ -35,7 +48,15 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void pushSetting() {
-        NotifySetting_.intent(this).start();
+//        NotifySetting_.intent(this).start();
+        allNotify.performClick();
+    }
+
+    @Click
+    void allNotify() {
+        AccountInfo.setNeedPush(getActivity(), allNotify.isChecked());
+        Intent intent = new Intent(MainActivity.BroadcastPushStyle);
+        getActivity().sendBroadcast(intent);
     }
 
     @Click
