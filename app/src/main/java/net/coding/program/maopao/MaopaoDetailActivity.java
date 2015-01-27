@@ -79,11 +79,11 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
     MyImageGetter myImageGetter = new MyImageGetter(this);
 
-    String UrlComment = Global.HOST + "/api/tweet/%s/comments?pageSize=500";
+    String URI_COMMENT = Global.HOST + "/api/tweet/%s/comments?pageSize=500";
 
-    final String URI_COMMENT = Global.HOST + "/api/tweet/%s/comment";
+    String ADD_COMMENT = Global.HOST + "/api/tweet/%s/comment";
 
-    final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
+    String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
 
     EnterEmojiLayout mEnterLayout;
 
@@ -118,12 +118,12 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
     }
 
     private void initData() {
-        UrlComment = String.format(UrlComment, mMaopaoObject.id);
+        URI_COMMENT = String.format(URI_COMMENT, mMaopaoObject.id);
 
         initHead();
         listView.setAdapter(adapter);
 
-        getNetwork(UrlComment, UrlComment);
+        getNetwork(URI_COMMENT, URI_COMMENT);
 
         prepareAddComment(mMaopaoObject, false);
     }
@@ -143,7 +143,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
             }
 
             Maopao.Comment comment = (Maopao.Comment) content.getTag();
-            String uri = String.format(URI_COMMENT, comment.tweet_id);
+            String uri = String.format(ADD_COMMENT, comment.tweet_id);
 
             RequestParams params = new RequestParams();
 
@@ -154,7 +154,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
                 contentString = String.format("@%s : %s", comment.owner.name, input);
             }
             params.put("content", contentString);
-            postNetwork(uri, params, URI_COMMENT, 0, comment);
+            postNetwork(uri, params, ADD_COMMENT, 0, comment);
         }
     };
 
@@ -331,7 +331,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(UrlComment)) {
+        if (tag.equals(URI_COMMENT)) {
             if (code == 0) {
                 mData.clear();
 
@@ -351,19 +351,21 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
                 }
 
                 adapter.notifyDataSetChanged();
-                mEnterLayout.clearContent();
-                mEnterLayout.hideKeyboard();
 
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(URI_COMMENT)) {
+        } else if (tag.equals(ADD_COMMENT)) {
             if (code == 0) {
-                getNetwork(UrlComment, UrlComment);
+                getNetwork(URI_COMMENT, URI_COMMENT);
+
+                mEnterLayout.restoreDelete(data);
+
                 mEnterLayout.clearContent();
                 mEnterLayout.hideKeyboard();
 
                 mModifyComment = true;
+
 
             } else {
                 showErrorMsg(code, respanse);
@@ -405,7 +407,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         } else if (tag.equals(URI_COMMENT_DELETE)) {
             if (code == 0) {
                 mModifyComment = true;
-                getNetwork(UrlComment, UrlComment);
+                getNetwork(URI_COMMENT, URI_COMMENT);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -480,7 +482,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
     };
 
     void prepareAddComment(Object data, boolean popKeyboard) {
-        Maopao.Comment comment;
+        Maopao.Comment comment = null;
         EditText content = mEnterLayout.content;
         if (data instanceof Maopao.Comment) {
             comment = (Maopao.Comment) data;
@@ -491,6 +493,8 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
             content.setHint("评论冒泡");
             content.setTag(comment);
         }
+
+        mEnterLayout.restoreLoad(comment);
 
         if (popKeyboard) {
             content.requestFocus();

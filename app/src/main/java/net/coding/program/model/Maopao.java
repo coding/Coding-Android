@@ -67,7 +67,7 @@ public class Maopao {
 
     public static class Comment extends BaseComment implements Serializable {
 
-        public String tweet_id = ""; // 4676
+        public String tweet_id = "";
 
         public Comment(JSONObject json) throws JSONException {
             super(json);

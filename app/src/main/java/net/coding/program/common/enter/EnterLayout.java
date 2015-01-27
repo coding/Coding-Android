@@ -3,6 +3,7 @@ package net.coding.program.common.enter;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
 
@@ -165,7 +167,45 @@ public class EnterLayout {
         root.setVisibility(View.VISIBLE);
     }
 
+    public void restoreSaveStart() {
+        content.addTextChangedListener(restoreWatcher);
+    }
+
+    public void restoreSaveStop() {
+        content.removeTextChangedListener(restoreWatcher);
+    }
+
+    public void restoreDelete(Object comment) {
+        CommentBackup.getInstance().delete(CommentBackup.BackupParam.create(comment));
+    }
+
+    public void restoreLoad(Object object) {
+        if (object == null) {
+            return;
+        }
+
+        restoreSaveStop();
+        clearContent();
+        String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
+        content.getText().append(lastInput);
+        restoreSaveStart();
+    }
+
+    private TextWatcher restoreWatcher = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            Object tag = content.getTag();
+            if (tag == null) {
+                return;
+            }
+
+            CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
+        }
+    };
+
+
     public interface CameraAndPhoto {
         void photo();
     }
+
 }

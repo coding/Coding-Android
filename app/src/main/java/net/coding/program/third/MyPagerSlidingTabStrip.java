@@ -102,6 +102,8 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
     private Locale locale;
 
+    private int iconPadding = 5;
+
     public MyPagerSlidingTabStrip(Context context) {
         this(context, null);
     }
@@ -130,6 +132,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         tabPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, tabPadding, dm);
         dividerWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dividerWidth, dm);
         tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
+        iconPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconPadding, dm);
 
         // get system attrs (android:textSize and android:textColor)
 
@@ -274,25 +277,22 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 //		tabsContainer.addView(tab, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
         tabsContainer.addView(tab, position);
 
-        int count = tabCount = pager.getAdapter().getCount();
-
-        if (position == 0) {
-            View v = tab.findViewById(net.coding.program.R.id.layout);
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
-            lp.leftMargin += Global.dpToPx(5);
-            v.setLayoutParams(lp);
-        } else if (position == count - 1) {
-            View v = tab.findViewById(net.coding.program.R.id.layout);
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
-            lp.rightMargin += Global.dpToPx(5);
-            v.setLayoutParams(lp);
-        }
+//        int count = tabCount = pager.getAdapter().getCount();
+//        if (position == 0) {
+//            View v = tab.findViewById(net.coding.program.R.id.layout);
+//            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
+//            lp.leftMargin += iconPadding;
+//            v.setLayoutParams(lp);
+//        } else if (position == count - 1) {
+//            View v = tab.findViewById(net.coding.program.R.id.layout);
+//            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) v.getLayoutParams();
+//            lp.rightMargin += iconPadding;
+//            v.setLayoutParams(lp);
+//        }
     }
 
     private void updateTabStyles() {
-
         for (int i = 0; i < tabCount; i++) {
-
             View v = tabsContainer.getChildAt(i);
 
             v.setBackgroundResource(tabBackgroundResId);
@@ -347,6 +347,10 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
         final int height = getHeight();
 
+        // draw underline
+        rectPaint.setColor(underlineColor);
+        canvas.drawRect(0, height - underlineHeight, tabsContainer.getWidth(), height, rectPaint);
+
         // draw indicator line
 
         rectPaint.setColor(indicatorColor);
@@ -367,12 +371,16 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
         }
 
-        canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+        float myLeft = lineLeft + iconPadding;
+        float myRight = lineRight - iconPadding;
+//        if (currentPosition == 0) {
+//            myLeft += iconPadding;
+//        }
+//        if (currentPosition == (tabCount - 1)) {
+//            myRight -= iconPadding;
+//        }
 
-        // draw underline
-
-        rectPaint.setColor(underlineColor);
-        canvas.drawRect(0, height - underlineHeight, tabsContainer.getWidth(), height, rectPaint);
+        canvas.drawRect(myLeft, height - indicatorHeight, myRight, height, rectPaint);
 
         // draw divider
 

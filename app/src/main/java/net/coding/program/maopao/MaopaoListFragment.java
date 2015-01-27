@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -93,7 +92,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     private MyImageGetter myImageGetter;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -316,6 +315,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
 
     private void hideSoftkeyboard() {
+        mEnterLayout.restoreSaveStop();
         mEnterLayout.clearContent();
         mEnterLayout.hideKeyboard();
         mEnterLayout.hide();
@@ -385,6 +385,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 Maopao.Comment myComment = new Maopao.Comment(respanse.getJSONObject("data"));
                 myComment.owner = new DynamicObject.Owner(MyApp.sUserObject);
                 Maopao.Comment otherComment = (Maopao.Comment) data;
+                mEnterLayout.restoreDelete(myComment);
 
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject item = mData.get(i);
@@ -398,6 +399,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                         return;
                     }
                 }
+
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -441,10 +443,10 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                         mAdapter.notifyDataSetChanged();
                     }
                 }
-
             } else {
                 showButtomToast("删除失败");
             }
+
         } else if (tag.equals(TAG_DELETE_MAOPAO_COMMENT)) {
             Maopao.Comment comment = (Maopao.Comment) data;
             if (code == 0) {
@@ -648,8 +650,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
         void popComment(View v) {
             EditText comment = mEnterLayout.content;
+
             Object data = v.getTag();
-            Maopao.Comment commentObject;
+            Maopao.Comment commentObject = null;
             if (data instanceof Maopao.Comment) {
                 commentObject = (Maopao.Comment) v.getTag();
                 comment.setHint("回复 " + commentObject.owner.name);
@@ -668,6 +671,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             }
 
             mEnterLayout.show();
+
+            mEnterLayout.restoreLoad(commentObject);
 
             Object tag1 = v.getTag(R.id.likeBtn);
 
@@ -695,7 +700,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     };
 
     static class ViewHolder {
-
         View maopaoItem;
 
         ImageView icon;
@@ -734,7 +738,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
 
         public ClickImageParam(String url) {
-            urls = new ArrayList<String>();
+            urls = new ArrayList();
             urls.add(url);
             pos = 0;
             needEdit = false;

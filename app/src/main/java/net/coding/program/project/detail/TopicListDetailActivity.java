@@ -210,7 +210,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     private void prepareComment() {
         EditText message = mEnterLayout.content;
         message.setHint("发表评论");
-        message.setTag("");
+        message.setTag(topicObject);
+
+        mEnterLayout.restoreLoad(topicObject);
     }
 
     View.OnClickListener mOnClickSend = new View.OnClickListener() {
@@ -230,9 +232,13 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             RequestParams params = new RequestParams();
             EditText message = mEnterLayout.content;
-            String atName = (String) message.getTag();
-            params.put("content", atName + content);
-            postNetwork(urlCommentSend, params, urlCommentSend);
+            TopicObject comment = (TopicObject) message.getTag();
+
+            if (!comment.parent_id.isEmpty()) {
+                content = String.format("@%s : ", comment.owner.name) + content;
+            }
+            params.put("content", content);
+            postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
         }
     };
 
@@ -271,6 +277,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 updateDisplayCommentCount();
 
                 mData.add(0, new TopicObject(jsonObject));
+
+                mEnterLayout.restoreDelete(data);
 
                 mEnterLayout.clearContent();
                 mEnterLayout.hideKeyboard();
@@ -351,35 +359,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             return convertView;
         }
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder;
-//            if (convertView == null) {
-//                convertView = mInflater.inflate(R.layout.activity_project_topic_comment_list_item, parent, false);
-//                holder = new ViewHolder();
-//                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-//                holder.title = (TextView) convertView.findViewById(R.id.title);
-//                holder.title.setMovementMethod(LinkMovementMethod.getInstance());
-//                holder.title.setFocusable(false);
-//                holder.time = (TextView) convertView.findViewById(R.id.time);
-//                convertView.setTag(holder);
-//            } else {
-//                holder = (ViewHolder) convertView.getTag();
-//            }
-//
-//            TopicObject data = (TopicObject) getItem(position);
-//
-//            iconfromNetwork(holder.icon, data.owner.avatar);
-//
-//            Global.MessageParse content = HtmlContent.parseReplacePhoto(data.content);
-//            holder.title.setText(Global.changeHyperlinkColor(content.text, myImageGetter, Global.tagHandler));
-//
-//            final String timeFormat = "%s 发布于%s";
-//            String timeString = String.format(timeFormat, data.owner.name, Global.dayToNow(data.created_at));
-//            holder.time.setText(timeString);
-//
-//            return convertView;
-//        }
     };
 
     View.OnClickListener onClickComment = new View.OnClickListener() {
@@ -402,10 +381,12 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             } else {
                 EditText message = mEnterLayout.content;
-                String atName = comment.owner.name;
-                message.setHint("回复 " + atName);
-                message.setTag(String.format("@%s : ", atName));
+                message.setHint("回复 " + comment.owner.name);
+
+                message.setTag(comment);
                 mEnterLayout.popKeyboard();
+
+                mEnterLayout.restoreLoad(comment);
             }
         }
     };

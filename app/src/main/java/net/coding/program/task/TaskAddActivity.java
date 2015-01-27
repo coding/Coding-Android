@@ -27,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
@@ -212,6 +213,12 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.id);
         getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
+
+        if (!mSingleTask.id.isEmpty()) {
+            CommentBackup.BackupParam param = new CommentBackup.BackupParam(CommentBackup.Type.Task, mSingleTask.id, "");
+            mEnterLayout.content.setTag(param);
+            mEnterLayout.restoreLoad(param);
+        }
 
     }
 
@@ -538,6 +545,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             if (code == 0) {
                 TaskObject.TaskComment item = new TaskObject.TaskComment(respanse.getJSONObject("data"));
                 mData.add(0, item);
+
+                mEnterLayout.restoreDelete(data);
+
                 mEnterLayout.clearContent();
                 mEnterLayout.hideKeyboard();
                 mEnterLayout.content.setHint("");
@@ -875,6 +885,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 mEnterLayout.content.setTag(comment);
                 String format = "回复 %s";
                 mEnterLayout.content.setHint(String.format(format, comment.owner.name));
+
+                mEnterLayout.restoreLoad(comment);
+
                 mEnterLayout.popKeyboard();
             }
         }
@@ -991,7 +1004,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             params.put("content", s);
             params.put("extra", "");
 
-            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD);
+            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD, 0, item);
         }
     };
 }
