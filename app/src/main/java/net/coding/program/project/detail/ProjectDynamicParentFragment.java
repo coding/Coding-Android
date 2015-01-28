@@ -58,7 +58,7 @@ public class ProjectDynamicParentFragment extends BaseFragment {
         pager.setPageMargin(pageMargin);
 
         tabs.setViewPager(pager);
-        tabs.setUnderlinePadding0();
+//        tabs.setUnderlinePadding0();
     }
 
     class DynamicPagerAdapter extends FragmentStatePagerAdapter {

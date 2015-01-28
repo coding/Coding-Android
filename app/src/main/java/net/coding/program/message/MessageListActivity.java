@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -163,6 +164,19 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         });
 
         getNextPageNetwork(url, url);
+
+        listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            int last;
+            @Override
+            public void onGlobalLayout() {
+                int current = listView.getHeight();
+                if (last > current) {
+                    listView.setSelection(mData.size());
+                }
+
+                last = current;
+            }
+        });
     }
 
     public void photo() {
