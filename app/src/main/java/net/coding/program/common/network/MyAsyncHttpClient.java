@@ -1,10 +1,12 @@
 package net.coding.program.common.network;
 
 import android.content.Context;
+import android.util.Base64;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
+import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.apache.CustomSSLSocketFactory;
 import net.coding.program.common.network.apache.CustomX509TrustManager;

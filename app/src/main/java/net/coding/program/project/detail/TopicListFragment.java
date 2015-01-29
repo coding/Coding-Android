@@ -211,7 +211,7 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
 
     @OptionsItem
     void action_add() {
-        Intent intent = new Intent(getActivity(), TopicCreateActivity_.class);
+        Intent intent = new Intent(getActivity(), TopicAddActivity_.class);
         intent.putExtra("projectObject", mProjectObject);
         getParentFragment().startActivityForResult(intent, RESULT_ADD);
     }

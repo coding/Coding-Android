@@ -210,6 +210,7 @@
             android:name=".setting.FeedbackActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_feedback"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".setting.AboutActivity_"
@@ -233,11 +234,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".project.detail.TopicCreateActivity_"
+            android:name=".project.detail.TopicAddActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_topic_create"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".maopao.AddMaopaoActivity_"
             android:icon="@drawable/ic_launcher"

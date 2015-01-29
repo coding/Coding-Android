@@ -21,34 +21,34 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@EActivity(R.layout.activity_topic_create)
-@OptionsMenu(R.menu.topic_create)
-public class TopicCreateActivity extends BaseActivity {
+@EActivity(R.layout.activity_topic_add)
+@OptionsMenu(R.menu.topic_add)
+public class TopicAddActivity extends BaseActivity {
 
     @Extra
-    ProjectObject projectObject;
+    protected ProjectObject projectObject;
 
     @ViewById
-    EditText title;
+    protected EditText title;
 
     @ViewById
-    EditText content;
+    protected EditText content;
 
     String url = Global.HOST + "/api/project/%s/topic?parent=0";
 
     @AfterViews
-    void init() {
+    protected void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        url = String.format(url, projectObject.id);
+        url = String.format(url, getTopicId());
     }
 
     @OptionsItem(android.R.id.home)
-    void back() {
+    protected void back() {
         onBackPressed();
     }
 
     @OptionsItem
-    void action_finish() {
+    protected void action_finish() {
         String titleString = title.getText().toString();
         if (titleString.isEmpty()) {
             showMiddleToast("标题不能为空");
@@ -84,9 +84,17 @@ public class TopicCreateActivity extends BaseActivity {
                 intent.putExtra("topic", topic);
                 setResult(RESULT_OK, intent);
                 finish();
+                showSuccess();
             } else {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    protected String getTopicId() {
+        return projectObject.id;
+    }
+
+    protected void showSuccess() {
     }
 }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
-    tools:context="net.coding.program.project.detail.TopicCreateActivity">
+    tools:context="net.coding.program.project.detail.TopicAddActivity">
 
     <EditText
         android:layout_width="match_parent"
