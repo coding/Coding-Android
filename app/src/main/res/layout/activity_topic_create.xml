@@ -12,7 +12,8 @@
         android:id="@+id/title"
         android:hint="标题"
         android:background="@drawable/edit"
-        android:layout_gravity="center_horizontal|top" />
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="5dp" />
 
     <EditText
         android:hint="正文"

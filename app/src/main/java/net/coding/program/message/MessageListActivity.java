@@ -388,10 +388,8 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         } else if (tag.indexOf(TAG_SEND_IMAGE) == 0) {
             if (code == 0) {
                 String imageUrl = respanse.getString("data");
-                Log.d("", "image " + imageUrl);
                 RequestParams params = new RequestParams();
-                params.put("content", "");
-                params.put("extra", imageUrl);
+                params.put("content", String.format(" ![图片](%s) ",imageUrl));
                 params.put("receiver_global_key", mUserObject.global_key);
                 postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + pos, pos, null);
 
@@ -432,7 +430,6 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
             RequestParams params = new RequestParams();
             params.put("content", s);
-            params.put("extra", "");
             params.put("receiver_global_key", mUserObject.global_key);
 
             int msgId = MyMessage.createId();

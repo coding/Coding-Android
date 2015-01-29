@@ -42,9 +42,11 @@ public class WebActivity extends Activity {
     private TextView actionbarTitle;
     private View actionbarClose;
 
+    String loading = "";
+
     @AfterViews
     void init() {
-        ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -59,6 +61,8 @@ public class WebActivity extends Activity {
             }
         });
 
+        loading = actionbarTitle.getText().toString();
+
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient() {
 
@@ -66,6 +70,12 @@ public class WebActivity extends Activity {
                                        public void onProgressChanged(WebView view, int newProgress) {
                                            progressBar.setProgress(newProgress);
                                            if (newProgress == 100) {
+                                               // 没有title显示网址
+                                               String currentTitle = actionbarTitle.getText().toString();
+                                               if (loading.equals(currentTitle)) {
+                                                   actionbarTitle.setText(url);
+                                               }
+
                                                progressBar.setVisibility(View.INVISIBLE);
                                                AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
                                                animation.setDuration(500);

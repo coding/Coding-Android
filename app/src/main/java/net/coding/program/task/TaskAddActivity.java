@@ -1002,7 +1002,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
             RequestParams params = new RequestParams();
             params.put("content", s);
-            params.put("extra", "");
 
             postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD, 0, item);
         }

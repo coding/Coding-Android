@@ -149,7 +149,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_add"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".project.detail.MembersActivity_"
             android:icon="@drawable/ic_lancher"
@@ -392,6 +392,7 @@
 
         <activity
             android:name=".UpdateDialogActivity"
+            android:icon="@drawable/ic_lancher"
             android:theme="@android:style/Theme.Holo.Light.Dialog"
             android:label="@string/title_activity_update_dialog" >
         </activity>

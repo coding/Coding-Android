@@ -33,7 +33,11 @@ public class CommentBackup {
 
             if (object instanceof Maopao.Comment) {
                 Maopao.Comment maopaoComment = (Maopao.Comment) object;
-                return new BackupParam(Type.Maopao, maopaoComment.tweet_id, maopaoComment.owner_id);
+                String ownerId = maopaoComment.owner_id;
+                if (maopaoComment.id.isEmpty()) { // 表示直接回复冒泡，没有@某人
+                    ownerId = "";
+                }
+                return new BackupParam(Type.Maopao, maopaoComment.tweet_id, ownerId);
             } else if (object instanceof TopicObject) {
                 TopicObject topicObject = (TopicObject) object;
 

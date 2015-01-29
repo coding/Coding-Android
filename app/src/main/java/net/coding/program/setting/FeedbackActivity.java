@@ -65,11 +65,14 @@ public class FeedbackActivity extends BaseActivity {
         params.put("content", contentString);
 
         postNetwork(url, params, url);
+
+        showProgressBar(true);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(url)) {
+            showProgressBar(false);
             if (code == 0) {
                 Intent intent = new Intent();
                 TopicObject topic = new TopicObject(respanse.getJSONObject("data"));
