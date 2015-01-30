@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import net.coding.program.MyApp;
+import net.coding.program.R;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 
@@ -139,9 +140,9 @@ public class Global {
             String width = intToString(lp.width);
             String height = intToString(lp.height);
 
-            // 如果初始化的时候没有长宽，默认取高度为120dp缩略图
+            // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
             if (width.isEmpty() && height.isEmpty()) {
-                height = String.valueOf(Global.dpToPx(120));
+                height = String.valueOf(Global.dpToPx(200));
 
             }
             String smallImageUrl = String.format("?imageMogr2/thumbnail/!%sx%s", width, height);

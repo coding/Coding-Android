@@ -105,7 +105,6 @@ public class LoginActivity extends BaseActivity {
         }
         backgroundImage.setImageDrawable(bitmapDrawable);
 
-        getActionBar().hide();
         needCaptcha();
 
         editName.addTextChangedListener(textWatcher);

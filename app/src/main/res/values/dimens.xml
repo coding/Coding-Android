@@ -9,7 +9,7 @@
 
 
     <dimen name="image_square_width">80dp</dimen>
-    <dimen name="image_single_width">120dp</dimen>
+    <dimen name="image_single_width">200dp</dimen>
 
     <dimen name="image_add_maopao_width">62dp</dimen>
     <dimen name="message_text_margin_bottom">5dp</dimen>

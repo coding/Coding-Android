@@ -91,6 +91,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     private MyImageGetter myImageGetter;
 
+    private int mPxImageWidth;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -100,6 +102,11 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     @AfterViews
     protected void init() {
         super.init();
+
+        // 图片显示，单位为 dp
+        // 62 photo 3 photo 3 photo 34
+        final int divide = 3;
+        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
 
         mData = AccountInfo.loadMaopao(getActivity(), mType, userId);
 
@@ -503,7 +510,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
 
-                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad());
+                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
 
                 holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
                 holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);

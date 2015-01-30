@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -70,12 +70,11 @@
                 android:id="@+id/imageSingle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/comment"
-                android:layout_below="@id/comment"
                 android:scaleType="fitStart"
                 android:adjustViewBounds="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="13dp"
                 android:maxWidth="@dimen/image_single_width"
+                android:maxHeight="@dimen/image_single_width"
                 android:longClickable="true" />
 
             <LinearLayout
@@ -94,31 +93,9 @@
                     android:visibility="gone"
                     android:layout_marginTop="4dp">
 
-                    <ImageView
-                        android:id="@+id/image0"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/aa1" />
-
-                    <ImageView
-                        android:id="@+id/image1"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-
-                        android:src="@drawable/aa3" />
-
-                    <ImageView
-                        android:id="@+id/image2"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-
-                        android:src="@drawable/aa2" />
+                    <include layout="@layout/maopao_image" android:id="@+id/image0" />
+                    <include layout="@layout/maopao_image" android:id="@+id/image1" />
+                    <include layout="@layout/maopao_image" android:id="@+id/image2" />
 
                 </LinearLayout>
 
@@ -129,26 +106,9 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <ImageView
-                        android:id="@+id/image3"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop" />
-
-                    <ImageView
-                        android:id="@+id/image4"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop" />
-
-                    <ImageView
-                        android:id="@+id/image5"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop" />
+                    <include layout="@layout/maopao_image" android:id="@+id/image3" />
+                    <include layout="@layout/maopao_image" android:id="@+id/image4" />
+                    <include layout="@layout/maopao_image" android:id="@+id/image5" />
 
                 </LinearLayout>
             </LinearLayout>

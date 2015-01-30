@@ -51,15 +51,8 @@
             android:textColor="@color/font_black_content"
             android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/imageSingle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/image_single_width"
-            android:layout_alignLeft="@id/content"
-            android:layout_below="@id/content"
-            android:scaleType="fitStart"
-            android:adjustViewBounds="true"
-            android:layout_gravity="right" />
+        <include xmlns:android="http://schemas.android.com/apk/res/android"
+            layout="@layout/maopao_image_single" />
 
 
         <LinearLayout
@@ -69,31 +62,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/image0"
-                android:layout_width="@dimen/image_square_width"
-                android:layout_height="@dimen/image_square_width"
-                android:layout_margin="3dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/aa1" />
-
-            <ImageView
-                android:id="@+id/image1"
-                android:layout_width="@dimen/image_square_width"
-                android:layout_height="@dimen/image_square_width"
-                android:layout_margin="3dp"
-                android:scaleType="centerCrop"
-
-                android:src="@drawable/aa3" />
-
-            <ImageView
-                android:id="@+id/image2"
-                android:layout_width="@dimen/image_square_width"
-                android:layout_height="@dimen/image_square_width"
-                android:layout_margin="3dp"
-                android:scaleType="centerCrop"
-
-                android:src="@drawable/aa2" />
+            <include layout="@layout/maopao_image" android:id="@+id/image0" />
+            <include layout="@layout/maopao_image" android:id="@+id/image1" />
+            <include layout="@layout/maopao_image" android:id="@+id/image2" />
 
         </LinearLayout>
 
@@ -103,27 +74,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/image3"
-                android:layout_width="@dimen/image_square_width"
-                android:layout_height="@dimen/image_square_width"
-                android:layout_margin="3dp"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:id="@+id/image4"
-                android:layout_width="@dimen/image_square_width"
-                android:layout_height="@dimen/image_square_width"
-                android:layout_margin="3dp"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:id="@+id/image5"
-                android:layout_width="@dimen/image_square_width"
-                android:layout_height="@dimen/image_square_width"
-                android:layout_margin="3dp"
-                android:scaleType="centerCrop" />
-
+            <include layout="@layout/maopao_image" android:id="@+id/image3" />
+            <include layout="@layout/maopao_image" android:id="@+id/image4" />
+            <include layout="@layout/maopao_image" android:id="@+id/image5" />
         </LinearLayout>
     </LinearLayout>
 

@@ -1,6 +1,6 @@
 <resources>
     <!-- 背景设为透明，用于启动和登录页面-->
-    <style name="TranslateThemeFull" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+    <style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
         <item name="android:windowBackground">@drawable/transparent</item>
     </style>
 

@@ -88,9 +88,19 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
     private Uri fileUri;
 
+    private int mPxImageWidth = 0;
+    private int mPxImageDivide = 0;
+
+
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // 图片显示，单位为 dp
+        // 72 photo 3 photo 3 photo 72
+        final int divide = 3;
+        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 72 * 2 - divide * 2) / 3;
+        mPxImageDivide = Global.dpToPx(divide);
 
         if (mUserObject == null) {
             getNetwork(HOST_USER_INFO + mGlobalKey, HOST_USER_INFO);
@@ -497,7 +507,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.icon.setOnClickListener(mOnClickUser);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
-                holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad());
+                holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad(), mPxImageWidth);
                 holder.resend = convertView.findViewById(R.id.resend);
                 holder.sending = convertView.findViewById(R.id.sending);
 
