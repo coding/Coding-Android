@@ -20,7 +20,6 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.ProjectObject;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -85,8 +84,10 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
             MembersListFragment_.class
     ));
 
-    @AfterViews
-    void init() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -138,10 +139,9 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
 
         }
 
-        //项目代码 基本完成 入口隐藏
         final int insertGitPos = Math.min(spinnerIcons.size(), 4);
         spinnerIcons.add(insertGitPos, R.drawable.ic_spinner_git);
-        spinnerFragments.add(insertGitPos, ProjectGitFragment_.class);
+        spinnerFragments.add(insertGitPos, ProjectGitFragmentMain_.class);
         project_activity_action_list.add(insertGitPos, "项目代码");
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());

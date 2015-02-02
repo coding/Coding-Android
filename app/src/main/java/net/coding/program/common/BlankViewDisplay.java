@@ -7,6 +7,8 @@ import net.coding.program.R;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.project.ProjectListFragment;
+import net.coding.program.project.detail.AttachmentsActivity;
+import net.coding.program.project.detail.ProjectAttachmentFragment;
 import net.coding.program.project.detail.ProjectDynamicFragment;
 import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
@@ -66,6 +68,9 @@ public class BlankViewDisplay {
             } else if (fragment instanceof ProjectGitFragment) {
                 iconId = R.drawable.ic_exception_blank_task;
                 text = "此项目的 Git 仓库为空";
+            } else if (fragment instanceof AttachmentsActivity) {
+                iconId = R.drawable.ic_exception_blank_task;
+                text = "此文件夹为空";
             }
 
         } else {

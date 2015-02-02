@@ -55,16 +55,18 @@ public class GitViewActivity extends BaseFragmentActivity {
     @ViewById
     ViewPager pager;
     int mPagerPosition = 0;
+
+    @Extra
+    String mVersion = ProjectGitFragment.MASTER;
+
     ImagePager adapter;
     ArrayList<String> mArrayUri;
     AsyncHttpClient client;
 
     File mTempPicFile;
 
-    String urlBlob = Global.HOST + "/api/user/%s/project/%s/git/blob/master/%s";
-    //https://coding.net/api/user/bluishoul/project/AppBubbleDetail/git/blob/master%252F.bowerrc
-    String urlImage = Global.HOST + "/u/%s/p/%s/git/raw/master/%s";
-    //https://coding.net/u/8206503/p/AndroidCoding/git/raw/master/app/src/main/res/drawable-xxhdpi/actionbar_item_normal.png
+    String urlBlob = Global.HOST + "/api/user/%s/project/%s/git/blob/%s/%s";
+    String urlImage = Global.HOST + "/u/%s/p/%s/git/raw/%s/%s";
 
     GitFileObject mFile;
 
@@ -82,13 +84,13 @@ public class GitViewActivity extends BaseFragmentActivity {
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
-        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mGitFileInfoObject.path);
+        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mVersion,  mGitFileInfoObject.path);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setBuiltInZoomControls(true);
 
         //webview.setBackgroundColor(0);
         //webview.getBackground().setAlpha(0);
-        mArrayUri = new ArrayList<String>();
+        mArrayUri = new ArrayList();
         adapter = new ImagePager(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
@@ -113,7 +115,7 @@ public class GitViewActivity extends BaseFragmentActivity {
 
                         mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
                         mTempPicFile.deleteOnExit();
-                        download(String.format(urlImage, mProjectObject.owner_user_name, mProjectObject.name, mFile.path));
+                        download(String.format(urlImage, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mFile.path));
                     } catch (IOException e) {
                         showButtomToast("图片无法下载");
                     }

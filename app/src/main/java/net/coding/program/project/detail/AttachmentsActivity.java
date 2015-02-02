@@ -46,6 +46,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
@@ -132,6 +133,9 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
 
     @ViewById
     RelativeLayout uploadLayout;
+
+    @ViewById
+    View blankLayout;
 
     private SharedPreferences share;
     private SharedPreferences downloadList;
@@ -257,6 +261,8 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                     setDownloadStatus(fileObject);
                     mFilesArray.add(fileObject);
                 }
+
+                BlankViewDisplay.setBlank(mFilesArray.size(), this, true, blankLayout, null);
 
                 int page = respanse.getJSONObject("data").optInt("page");
                 int totalPage = respanse.getJSONObject("data").optInt("totalPage");

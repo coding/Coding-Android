@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="23232"
+    android:textSize="18sp"
+    android:background="@drawable/list_item_selector"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp"
+    android:paddingLeft="42dp"
+    android:paddingRight="12dp" />

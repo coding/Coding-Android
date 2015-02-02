@@ -1,5 +1,7 @@
 package net.coding.program.project.detail;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,14 +35,15 @@ import java.util.Stack;
 @EFragment(R.layout.common_refresh_listview)
 //@OptionsMenu(R.menu.project_attachment_folder)
 public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+
+    public static final String MASTER = "master";
     private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
 
-    private String HOST_GIT_TREE = Global.HOST + "/api/user/%s/project/%s/git/tree/master/%s";
-    //https://coding.net/api/user/8206503/project/AndroidCoding/git/tree/master
-    private String HOST_GIT_TREEINFO = Global.HOST + "/api/user/%s/project/%s/git/treeinfo/master/%s";
+    private final String HOST_GIT_TREE = Global.HOST + "/api/user/%s/project/%s/git/tree/%s/%s";
+    private final String HOST_GIT_TREEINFO = Global.HOST + "/api/user/%s/project/%s/git/treeinfo/%s/%s";
+
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
-    //https://coding.net/api/user/8206503/project/AndroidCoding/git/treeinfo/master
 
     private String commentFormat = "%s 发布于%s";
 
@@ -52,6 +55,9 @@ public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdat
     @FragmentArg
     GitFileInfoObject mGitFileInfoObject;
 
+    @FragmentArg
+    String mVersion = MASTER;
+
     @ViewById
     ListView listView;
 
@@ -62,29 +68,19 @@ public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdat
     protected void init() {
         super.init();
         showDialogLoading();
-        //HOST_GIT_TREEINFO = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name);
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GitFileInfoObject selectedFile = mData.get(position);
                 if (selectedFile.isTree()) {
-                    GitTreeActivity_.intent(getActivity()).mProjectObject(mProjectObject).mGitFileInfoObject(selectedFile).start();
+                    GitTreeActivity_.intent(getActivity()).mProjectObject(mProjectObject).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
                 } else {
-                    GitViewActivity_.intent(getActivity()).mProjectObject(mProjectObject).mGitFileInfoObject(selectedFile).start();
+                    GitViewActivity_.intent(getActivity()).mProjectObject(mProjectObject).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
                 }
-                //AttachmentsActivity_.intent(getActivity()).mAttachmentFolderObject(mData.get(position)).mProjectObjectId(mProjectObject.id).startForResult(RESULT_REQUEST_FILES);
             }
         });
-
-        /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //showButtomToast("rename");
-                doRename(position, mData.get(position));
-                return true;
-            }
-        });*/
 
         if (mGitFileInfoObject == null) {
             pathStack.push("");
@@ -93,23 +89,34 @@ public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdat
             getActivity().getActionBar().setTitle(mGitFileInfoObject.name);
         }
 
-
-        host_git_tree_url = String.format(HOST_GIT_TREE, mProjectObject.owner_user_name, mProjectObject.name, pathStack.peek());
+        host_git_tree_url = String.format(HOST_GIT_TREE, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
         getNetwork(host_git_tree_url, HOST_GIT_TREE);
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mVersion = savedInstanceState.getString("mVersion", MASTER);
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("mVersion", mVersion);
     }
 
     @Override
     public void onRefresh() {
         initSetting();
-        host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, pathStack.peek());
+        host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
         getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
     @Override
     public void loadMore() {
-        host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, pathStack.peek());
+        host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
         getNextPageNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
@@ -130,12 +137,13 @@ public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdat
                 }
 
                 adapter.notifyDataSetChanged();
+                switchVersionSuccess();
             } else {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
-                host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, pathStack.peek());
+                host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
                 getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
             } else {
                 hideProgressDialog();
@@ -143,6 +151,9 @@ public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdat
                 BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
             }
         }
+    }
+
+    protected void switchVersionSuccess() {
     }
 
     View.OnClickListener onClickRetry = new View.OnClickListener() {
