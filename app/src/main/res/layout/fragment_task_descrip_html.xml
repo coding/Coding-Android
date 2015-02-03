@@ -6,7 +6,6 @@
 
     <WebView
         android:id="@+id/descWeb"
-        android:layerType="software"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent" />

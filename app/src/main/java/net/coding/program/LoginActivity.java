@@ -1,5 +1,6 @@
 package net.coding.program;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,6 +36,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 import org.apache.http.cookie.Cookie;
@@ -67,6 +69,7 @@ public class LoginActivity extends BaseActivity {
 
     @ViewById
     EditText editValify;
+
     @ViewById
     View captchaLayout;
 
@@ -163,11 +166,19 @@ public class LoginActivity extends BaseActivity {
         downloadValifyPhoto();
     }
 
+
+    final private int RESULT_CLOSE = 100;
+
     @Click
     void register() {
-        Uri uri = Uri.parse(Global.HOST);
-        Intent it = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(it);
+        RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
+    }
+
+    @OnActivityResult(RESULT_CLOSE)
+    void resultRegiter(int result) {
+        if (result == Activity.RESULT_OK) {
+            finish();
+        }
     }
 
     private void needCaptcha() {
@@ -225,11 +236,11 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
+    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
 
     String HOST_LOGIN = Global.HOST + "/api/login";
 
-    String HOST_USER = Global.HOST + "/api/user/key/%s";
+    public static String HOST_USER = Global.HOST + "/api/user/key/%s";
 
     String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
 

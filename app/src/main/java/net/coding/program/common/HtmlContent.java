@@ -73,7 +73,13 @@ public class HtmlContent {
     }
 
     private static String replaceAllSpace(String s) {
-        return s.replaceAll("<p>|</p>", "").replaceAll("[ \\n]*$", "");
+        final String br = "<br>";
+        s = s.replaceAll("<p>", "").replaceAll("</p>", br);
+        if (s.endsWith(br)) {
+            s = s.substring(0, s.length() - br.length());
+        }
+
+        return s;
     }
 
     public static String createUserHtml(String globalKey, String name) {

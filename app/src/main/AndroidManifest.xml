@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- 友盟,腾讯push需要 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -114,8 +114,7 @@
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:theme="@style/TranslateThemeFull" />
         <activity
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -210,8 +209,8 @@
             android:name=".setting.FeedbackActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_feedback"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
         <activity
             android:name=".setting.AboutActivity_"
             android:icon="@drawable/ic_lancher"
@@ -234,14 +233,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".project.detail.TopicAddActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_topic_create"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
         <activity
             android:name=".maopao.AddMaopaoActivity_"
             android:icon="@drawable/ic_launcher"
@@ -382,7 +379,6 @@
         <activity
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
-            android:hardwareAccelerated="false"
             android:label="@string/title_activity_account_setting"
             android:screenOrientation="portrait" />
         <activity
@@ -398,8 +394,26 @@
         <activity
             android:name=".UpdateDialogActivity"
             android:icon="@drawable/ic_lancher"
-            android:theme="@android:style/Theme.Holo.Light.Dialog"
-            android:label="@string/title_activity_update_dialog" >
+            android:label="@string/title_activity_update_dialog"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+        </activity>
+        <activity
+            android:name=".RegisterActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".BaseAnnotationActivity_"
+            android:label="@string/title_activity_base_annotation"
+            android:icon="@drawable/ic_lancher"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".common.TermsActivity"
+            android:icon="@drawable/ic_lancher"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_terms" >
         </activity>
     </application>
 
