@@ -1,5 +1,9 @@
 package net.coding.program.third;
 
+import android.content.Context;
+import android.view.Gravity;
+import android.widget.Toast;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,5 +17,42 @@ public class EmojiFilter {
     public static boolean containsEmoji(String source) {
         Matcher matcher = mPattern.matcher(source);
         return matcher.find();
+    }
+
+    public static boolean containsEmptyEmoji(Context context, String input, String alertEmpty, String alertEmoji) {
+        if (input.isEmpty()) {
+            showMiddleToast(context, alertEmpty);
+            return true;
+        }
+
+        return containsEmoji(context, input, alertEmoji);
+    }
+
+    public static boolean containsEmptyEmoji(Context context, String input) {
+        if (input.isEmpty()) {
+            showMiddleToast(context, "内容不能为空");
+            return true;
+        }
+
+        return containsEmoji(context, input);
+    }
+
+    public static boolean containsEmoji(Context context, String input) {
+        return containsEmoji(context, input, "暂不支持发表情");
+    }
+
+    public static boolean containsEmoji(Context context, String input, String alertMessage) {
+        if (EmojiFilter.containsEmoji(input)) {
+            showMiddleToast(context, alertMessage);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static void showMiddleToast(Context context, String msg) {
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

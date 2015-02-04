@@ -86,7 +86,7 @@
             android:dividerHeight="0dp"
             android:background="@android:color/white"
             android:divider="@null"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom" />
 
     </FrameLayout>
 

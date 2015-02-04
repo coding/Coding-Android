@@ -133,12 +133,8 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         public void onClick(View v) {
             EditText content = mEnterLayout.content;
             String input = content.getText().toString();
-            if (input.isEmpty()) {
-                return;
-            }
 
-            if (EmojiFilter.containsEmoji(input)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
                 return;
             }
 

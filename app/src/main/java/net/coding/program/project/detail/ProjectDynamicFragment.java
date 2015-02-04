@@ -2,7 +2,6 @@ package net.coding.program.project.detail;
 
 
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -326,11 +326,11 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.fragment_project_dynamic_list_item, parent, false);
                 holder.mTitle = (TextView) convertView.findViewById(R.id.title);
-                holder.mTitle.setMovementMethod(LinkMovementMethod.getInstance());
+                holder.mTitle.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.mTitle.setFocusable(false);
 
                 holder.mContent = (TextView) convertView.findViewById(R.id.comment);
-                holder.mContent.setMovementMethod(LinkMovementMethod.getInstance());
+                holder.mContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.mContent.setOnClickListener(onClickParent);
                 holder.mContent.setFocusable(false);
 

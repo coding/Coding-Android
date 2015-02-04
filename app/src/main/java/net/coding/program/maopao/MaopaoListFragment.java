@@ -219,7 +219,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     @OptionsItem
     void action_add_maopao() {
-        Intent intent = new Intent(getActivity(), AddMaopaoActivity_.class);
+        Intent intent = new Intent(getActivity(), MaopaoAddActivity_.class);
         startActivityForResult(intent, RESULT_EDIT_MAOPAO);
     }
 
@@ -234,12 +234,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         public void onClick(View v) {
 
             String input = mEnterLayout.getContent();
-            if (input.isEmpty()) {
-                return;
-            }
 
-            if (EmojiFilter.containsEmoji(input)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
                 return;
             }
 

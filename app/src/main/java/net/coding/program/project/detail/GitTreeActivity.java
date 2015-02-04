@@ -1,7 +1,6 @@
 package net.coding.program.project.detail;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
@@ -11,7 +10,6 @@ import net.coding.program.common.umeng.UmengFragmentActivity;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="5dp"
-    tools:context="net.coding.program.maopao.AddMaopaoActivity">
+    tools:context="net.coding.program.maopao.MaopaoAddActivity">
 
 
     <!--<EditText-->

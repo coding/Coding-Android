@@ -52,8 +52,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
-@EActivity(R.layout.activity_add_maopao)
-public class AddMaopaoActivity extends BaseFragmentActivity implements StartActivity {
+@EActivity(R.layout.activity_maopao_add)
+public class MaopaoAddActivity extends BaseFragmentActivity implements StartActivity {
 
     final int PHOTO_MAX_COUNT = 6;
 
@@ -105,12 +105,12 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
                         return;
                     }
 
-                    Intent intent = new Intent(AddMaopaoActivity.this, PhotoPickActivity.class);
+                    Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
                     intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
                     startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
 
                 } else {
-                    Intent intent = new Intent(AddMaopaoActivity.this, ImagePagerActivity_.class);
+                    Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
                     ArrayList<String> arrayUri = new ArrayList<String>();
                     for (PhotoData item : mData) {
                         arrayUri.add(item.uri.toString());
@@ -178,7 +178,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
                     for (PhotoPickActivity.ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);
                         File outputFile = photoOperate.scal(uri);
-                        mData.add(new AddMaopaoActivity.PhotoData(outputFile));
+                        mData.add(new MaopaoAddActivity.PhotoData(outputFile));
                     }
                 } catch (Exception e) {
                     showMiddleToast("缩放图片失败");
@@ -190,7 +190,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
             if (resultCode == RESULT_OK) {
                 try {
                     File outputFile = photoOperate.scal(fileUri);
-                    mData.add(mData.size(), new AddMaopaoActivity.PhotoData(outputFile));
+                    mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile));
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -244,7 +244,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
 
     @OptionsItem
     void action_add() {
-        showProgressBar(true);
+        showProgressBar(true, "正在发表冒泡...");
         uploadMaopao();
     }
 
@@ -277,8 +277,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
         RequestParams params = new RequestParams();
         String content = message.getText().toString();
 
-        if (EmojiFilter.containsEmoji(content)) {
-            showMiddleToast("暂不支持发表情");
+        if (EmojiFilter.containsEmoji(this, content)) {
             showProgressBar(false);
             return;
         }
@@ -430,7 +429,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
                     File outputFile = null;
                     try {
                         outputFile = photoOperate.scal(imageUri);
-                        mData.add(mData.size(), new AddMaopaoActivity.PhotoData(outputFile));
+                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile));
                         adapter.notifyDataSetChanged();
                     } catch (Exception e) {
                         showMiddleToast("缩放图片失败");
@@ -448,7 +447,7 @@ public class AddMaopaoActivity extends BaseFragmentActivity implements StartActi
                     try {
                         for (Uri uri : imagesUris) {
                             File outputFile = photoOperate.scal(uri);
-                            mData.add(new AddMaopaoActivity.PhotoData(outputFile));
+                            mData.add(new MaopaoAddActivity.PhotoData(outputFile));
                         }
                     } catch (Exception e) {
                         showMiddleToast("缩放图片失败");

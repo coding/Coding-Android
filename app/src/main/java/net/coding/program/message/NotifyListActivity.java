@@ -1,7 +1,6 @@
 package net.coding.program.message;
 
 
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,6 +12,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.model.NotifyObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -124,7 +124,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
 
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.title = (TextView) convertView.findViewById(R.id.title);
-                holder.title.setMovementMethod(LinkMovementMethod.getInstance());
+                holder.title.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.time = (TextView) convertView.findViewById(R.id.time);
 
             } else {

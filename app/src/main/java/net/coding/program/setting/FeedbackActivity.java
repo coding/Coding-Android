@@ -17,4 +17,9 @@ public class FeedbackActivity extends TopicAddActivity {
     protected void showSuccess() {
         showButtomToast("反馈成功");
     }
+
+    @Override
+    protected String getSendingTip() {
+        return "正在发表反馈...";
+    }
 }

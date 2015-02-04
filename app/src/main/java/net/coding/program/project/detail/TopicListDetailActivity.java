@@ -218,15 +218,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     View.OnClickListener mOnClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String input = mEnterLayout.getContent();
 
-            String content = mEnterLayout.getContent();
-            if (content.isEmpty()) {
-                showMiddleToast("你还什么都没有写");
-                return;
-            }
-
-            if (EmojiFilter.containsEmoji(content)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
                 return;
             }
 
@@ -235,9 +229,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             TopicObject comment = (TopicObject) message.getTag();
 
             if (!comment.parent_id.isEmpty()) {
-                content = String.format("@%s : ", comment.owner.name) + content;
+                input = String.format("@%s : ", comment.owner.name) + input;
             }
-            params.put("content", content);
+            params.put("content", input);
             postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
         }
     };
@@ -276,7 +270,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mResultData.putExtra("topic_id", topicObject.id);
                 updateDisplayCommentCount();
 
-                mData.add(0, new TopicObject(jsonObject));
+                mData.add(new TopicObject(jsonObject));
 
                 mEnterLayout.restoreDelete(data);
 

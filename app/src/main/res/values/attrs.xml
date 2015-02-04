@@ -15,4 +15,10 @@
         <attr name="pstsTextAllCapsWe" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="MinSizeImageView">
+        <attr name="minWidth" format="dimension" />
+        <attr name="minHeight" format="dimension" />
+        <attr name="microSize" format="dimension" />
+    </declare-styleable>
+
 </resources>

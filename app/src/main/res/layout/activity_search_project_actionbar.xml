@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/title_activity_search_project"/>
+            android:text="@string/title_activity_search_project" />
     </LinearLayout>
 
     <net.coding.program.common.LoginEditText

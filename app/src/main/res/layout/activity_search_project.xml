@@ -19,12 +19,11 @@
         android:gravity="center_horizontal"
         android:visibility="visible"
         android:orientation="vertical">
-        
+
         <View
             android:layout_width="143dp"
             android:layout_height="143dp"
-            android:background="@drawable/ic_search_project"
-            />
+            android:background="@drawable/ic_search_project" />
 
         <TextView
             android:layout_width="match_parent"

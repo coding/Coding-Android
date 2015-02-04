@@ -71,9 +71,17 @@
             android:orientation="horizontal"
             android:gravity="right">
 
-            <include layout="@layout/maopao_image" android:id="@+id/image0" />
-            <include layout="@layout/maopao_image" android:id="@+id/image1" />
-            <include layout="@layout/maopao_image" android:id="@+id/image2" />
+            <include
+                layout="@layout/maopao_image"
+                android:id="@+id/image0" />
+
+            <include
+                layout="@layout/maopao_image"
+                android:id="@+id/image1" />
+
+            <include
+                layout="@layout/maopao_image"
+                android:id="@+id/image2" />
 
         </LinearLayout>
 
@@ -84,9 +92,17 @@
             android:visibility="visible"
             android:orientation="horizontal">
 
-            <include layout="@layout/maopao_image" android:id="@+id/image3" />
-            <include layout="@layout/maopao_image" android:id="@+id/image4" />
-            <include layout="@layout/maopao_image" android:id="@+id/image5" />
+            <include
+                layout="@layout/maopao_image"
+                android:id="@+id/image3" />
+
+            <include
+                layout="@layout/maopao_image"
+                android:id="@+id/image4" />
+
+            <include
+                layout="@layout/maopao_image"
+                android:id="@+id/image5" />
 
         </LinearLayout>
     </LinearLayout>

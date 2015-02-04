@@ -50,19 +50,12 @@ public class TopicAddActivity extends BaseActivity {
     @OptionsItem
     protected void action_finish() {
         String titleString = title.getText().toString();
-        if (titleString.isEmpty()) {
-            showMiddleToast("标题不能为空");
+        if (EmojiFilter.containsEmptyEmoji(this, titleString, "标题不能为空", "标题不能包含表情")) {
             return;
         }
 
         String contentString = content.getText().toString();
-        if (contentString.isEmpty()) {
-            showMiddleToast("内容不能为空");
-            return;
-        }
-
-        if (EmojiFilter.containsEmoji(titleString) || EmojiFilter.containsEmoji(contentString)) {
-            showMiddleToast("暂不支持发表情");
+        if (EmojiFilter.containsEmptyEmoji(this, contentString, "内容不能为空", "内容不能包含表情")) {
             return;
         }
 
@@ -71,7 +64,7 @@ public class TopicAddActivity extends BaseActivity {
         params.put("content", contentString);
 
         postNetwork(url, params, url);
-        showProgressBar(true);
+        showProgressBar(true, getSendingTip());
     }
 
     @Override
@@ -96,5 +89,9 @@ public class TopicAddActivity extends BaseActivity {
     }
 
     protected void showSuccess() {
+    }
+
+    protected String getSendingTip() {
+        return "正在发表讨论...";
     }
 }

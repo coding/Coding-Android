@@ -79,6 +79,7 @@ public class PhotoPickActivity extends Activity {
     final String CameraItem = "CameraItem";
 
     long lastTime;
+
     private void displayTime(int pos) {
     }
 
@@ -299,7 +300,6 @@ public class PhotoPickActivity extends Activity {
 
     final int RESULT_PICK = 20;
     final int RESULT_CAMERA = 21;
-
 
 
     @Override

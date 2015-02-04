@@ -27,7 +27,6 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
-import net.coding.program.project.detail.ProjectAttachmentFragment_;
 import net.coding.program.user.UsersListActivity;
 
 import org.androidannotations.annotations.AfterViews;

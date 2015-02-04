@@ -1,15 +1,11 @@
 package net.coding.program.common;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.AndroidCharacter;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
 import net.coding.program.R;
-import net.coding.program.task.TaskDescrip;
 
 public class TermsActivity extends Activity {
 

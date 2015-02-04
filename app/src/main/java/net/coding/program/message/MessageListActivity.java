@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,6 +176,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int last;
+
             @Override
             public void onGlobalLayout() {
                 int current = listView.getHeight();
@@ -399,7 +399,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
             if (code == 0) {
                 String imageUrl = respanse.getString("data");
                 RequestParams params = new RequestParams();
-                params.put("content", String.format(" ![图片](%s) ",imageUrl));
+                params.put("content", String.format(" ![图片](%s) ", imageUrl));
                 params.put("receiver_global_key", mUserObject.global_key);
                 postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + pos, pos, null);
 
@@ -432,9 +432,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         @Override
         public void onClick(View v) {
             String s = mEnterLayout.getContent();
-
-            if (EmojiFilter.containsEmoji(s)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmoji(v.getContext(), s)) {
                 return;
             }
 

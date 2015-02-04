@@ -28,7 +28,7 @@
             android:layout_alignRight="@id/icon"
             android:layout_marginRight="-12dp"
             android:layout_marginTop="-9dp" />
-        
+
         <View
             android:id="@+id/privateIcon"
             android:layout_width="18dp"
@@ -37,8 +37,7 @@
             android:background="@drawable/icon_project_private_flag1"
             android:layout_marginTop="10dp"
             android:layout_alignRight="@id/icon"
-            android:layout_alignBottom="@id/icon"
-            />
+            android:layout_alignBottom="@id/icon" />
 
         <TextView
             android:layout_width="match_parent"

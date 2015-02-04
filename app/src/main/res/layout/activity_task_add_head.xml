@@ -294,7 +294,7 @@
             android:hint="添加描述"
             android:textColor="@color/font_gray"
             android:maxLines="3"
-            android:ellipsize="end"/>
+            android:ellipsize="end" />
 
     </LinearLayout>
 

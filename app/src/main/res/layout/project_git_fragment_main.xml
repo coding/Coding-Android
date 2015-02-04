@@ -7,17 +7,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/top">
-    <TextView
-        android:id="@+id/versionButton"
-        android:text="master"
-        android:background="#ffececec"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="12dp"
-        android:textSize="18sp"
-        android:paddingRight="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/versionButton"
+            android:text="master"
+            android:background="#ffececec"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:textSize="18sp"
+            android:paddingRight="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="12dp"
@@ -29,6 +30,7 @@
 
 
     </FrameLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

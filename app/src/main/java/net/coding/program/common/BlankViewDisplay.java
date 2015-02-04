@@ -8,7 +8,6 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.AttachmentsActivity;
-import net.coding.program.project.detail.ProjectAttachmentFragment;
 import net.coding.program.project.detail.ProjectDynamicFragment;
 import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
@@ -53,7 +52,7 @@ public class BlankViewDisplay {
 
             } else if (fragment instanceof TopicListFragment) {
                 iconId = R.drawable.ic_exception_blank_task;
-                text = "你还没有讨论\n创建一个讨论发表对项目的看法吧";
+                text = "还没有讨论\n创建一个讨论发表对项目的看法吧";
 
             } else if (fragment instanceof MaopaoListFragment) {
                 iconId = R.drawable.ic_exception_blank_maopao;

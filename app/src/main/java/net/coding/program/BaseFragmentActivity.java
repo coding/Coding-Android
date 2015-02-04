@@ -82,11 +82,21 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
     }
 
     protected void showProgressBar(boolean show) {
+        showProgressBar(show, "");
+    }
+
+    protected void showProgressBar(boolean show, String message) {
         if (show) {
+            mProgressDialog.setMessage(message);
             mProgressDialog.show();
         } else {
             mProgressDialog.hide();
         }
+    }
+
+    protected void showProgressBar(boolean show, int messageId) {
+        String message = getString(messageId);
+        showProgressBar(show, message);
     }
 
     @Override

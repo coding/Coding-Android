@@ -284,7 +284,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                             TaskObject.SingleTask task = mSingleTask;
                             String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.id);
                             deleteNetwork(url, TaskListFragment.hostTaskDelete);
-                            showProgressBar(true);
+                            showProgressBar(true, "删除任务中...");
                         }
                     });
                 }
@@ -436,8 +436,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @OptionsItem
     void action_save() {
         String content = title.getText().toString();
-        if (EmojiFilter.containsEmoji(content)) {
-            showMiddleToast("暂不支持发表情");
+        if (EmojiFilter.containsEmoji(this, content)) {
             return;
         }
 
@@ -453,7 +452,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 params.put("description", descriptionDataNew.markdown);
             }
             postNetwork(url, params, HOST_TASK_ADD);
-            showProgressBar(true);
+            showProgressBar(true, R.string.delete_task_ing);
 
         } else {
             String url = String.format(HOST_TASK_UPDATE, mSingleTask.id);
@@ -480,7 +479,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
-            showProgressBar(true);
+            showProgressBar(true, R.string.delete_task_ing);
         }
     }
 
@@ -988,8 +987,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         public void onClick(View v) {
             String s = mEnterLayout.getContent();
 
-            if (EmojiFilter.containsEmoji(s)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
                 return;
             }
 

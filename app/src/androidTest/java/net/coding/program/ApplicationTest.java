@@ -1,16 +1,12 @@
 package net.coding.program;
 
 import android.app.Application;
-import android.support.v4.app.Fragment;
 import android.test.ApplicationTestCase;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.third.EmojiFilter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 

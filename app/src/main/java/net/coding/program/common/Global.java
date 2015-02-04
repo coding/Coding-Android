@@ -24,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import net.coding.program.MyApp;
-import net.coding.program.R;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 

@@ -84,7 +84,7 @@ public class GitViewActivity extends BaseFragmentActivity {
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
-        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mVersion,  mGitFileInfoObject.path);
+        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mGitFileInfoObject.path);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setBuiltInZoomControls(true);
 
