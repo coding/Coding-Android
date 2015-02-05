@@ -226,13 +226,16 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             RequestParams params = new RequestParams();
             EditText message = mEnterLayout.content;
-            TopicObject comment = (TopicObject) message.getTag();
 
-            if (!comment.parent_id.isEmpty()) {
-                input = String.format("@%s : ", comment.owner.name) + input;
+            TopicObject comment = (TopicObject) message.getTag();
+            if (comment != null && comment.parent_id != 0) {
+                input = String.format("@%d : ", comment.owner.name) + input;
             }
             params.put("content", input);
+
             postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
+
+            showProgressBar(true, R.string.sending_comment);
         }
     };
 
@@ -262,6 +265,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             }
 
         } else if (tag.equals(urlCommentSend)) {
+            showProgressBar(false);
             if (code == 0) {
                 JSONObject jsonObject = respanse.getJSONObject("data");
 
@@ -277,6 +281,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mEnterLayout.clearContent();
                 mEnterLayout.hideKeyboard();
                 baseAdapter.notifyDataSetChanged();
+                showButtomToast("发送评论成功");
             } else {
                 showErrorMsg(code, respanse);
                 baseAdapter.notifyDataSetChanged();
@@ -290,23 +295,22 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_DELETE_TOPIC_COMMENT)) {
-            String itemId = (String) data;
+            int itemId = (int) data;
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
-                    if (itemId.equals(mData.get(i).id)) {
+                    if (itemId == mData.get(i).id) {
                         mData.remove(i);
                         --topicObject.child_count;
                         mResultData.putExtra("child_count", topicObject.child_count);
                         mResultData.putExtra("topic_id", topicObject.id);
                         updateDisplayCommentCount();
-
                         baseAdapter.notifyDataSetChanged();
                         break;
                     }
                 }
 
             } else {
-                showButtomToast("删除失败");
+                showButtomToast(R.string.delete_fail);
             }
         } else if (tag.equals(TAG_DELETE_TOPIC)) {
             if (code == 0) {
@@ -315,7 +319,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 finish();
 
             } else {
-                showButtomToast("删除失败");
+                showButtomToast(R.string.delete_fail);
             }
         }
     }

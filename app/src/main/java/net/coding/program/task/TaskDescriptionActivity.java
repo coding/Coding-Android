@@ -34,7 +34,7 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
     EditText description;
 
     @Extra
-    String taskId;
+    int taskId;
 
     String HOST_DESCRIPTION = Global.HOST + "/api/task/%s/description";
 

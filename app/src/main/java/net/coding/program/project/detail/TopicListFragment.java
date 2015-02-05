@@ -233,20 +233,20 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
             case RESULT_DETAIL:
                 if (resultCode == Activity.RESULT_OK) {
 
-                    String id = data.getStringExtra("id");
-                    if (id != null) {
+                    int id = data.getIntExtra("id", -1);
+                    if (id != -1) {
                         for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id.equals(id)) {
+                            if (mData.get(i).id == (id)) {
                                 mData.remove(i);
                                 baseAdapter.notifyDataSetChanged();
                                 break;
                             }
                         }
                     } else {
-                        String topicId = data.getStringExtra("topic_id");
+                        int topicId = data.getIntExtra("topic_id", 0);
                         int childrenCount = data.getIntExtra("child_count", -1);
                         for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id.equals(topicId)) {
+                            if (mData.get(i).id == topicId) {
                                 mData.get(i).child_count = childrenCount;
                                 baseAdapter.notifyDataSetChanged();
                                 break;

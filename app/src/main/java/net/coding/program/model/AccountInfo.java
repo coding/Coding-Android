@@ -349,11 +349,11 @@ public class AccountInfo {
 
     private static final String USER_MAOPAO = "USER_MAOPAO";
 
-    public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, String id) {
+    public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, int id) {
         new DataCache<Maopao.MaopaoObject>().save(ctx, data, USER_MAOPAO + type + id);
     }
 
-    public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, String id) {
+    public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, int id) {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
     }
 

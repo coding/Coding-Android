@@ -55,8 +55,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         }
     }
 
-    protected boolean progressBarIsShowing() {
-        return mProgressDialog.isShowing();
+    protected void showProgressBar(boolean show, int messageId) {
+        String message = getString(messageId);
+        showProgressBar(show, message);
     }
 
     protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
@@ -174,8 +175,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
     }
 
     protected void showButtomToast(String msg) {
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showButtomToast(int messageId) {
+        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
     }
 
     protected void showMiddleToast(String msg) {

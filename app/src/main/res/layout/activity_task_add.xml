@@ -4,20 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/task_list_head"
-        android:layout_weight="1">
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:background="@color/task_list_head"-->
+        <!--android:layout_weight="1">-->
 
-        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false" />
-    </FrameLayout>
 
     <include layout="@layout/common_enter" />
 

@@ -144,13 +144,15 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
             RequestParams params = new RequestParams();
 
             String contentString;
-            if (comment.id.isEmpty()) {
+            if (comment.id == 0) {
                 contentString = input;
             } else {
                 contentString = String.format("@%s : %s", comment.owner.name, input);
             }
             params.put("content", contentString);
             postNetwork(uri, params, ADD_COMMENT, 0, comment);
+
+            showProgressBar(true, R.string.sending_comment);
         }
     };
 
@@ -275,14 +277,13 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
     View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final String maopaoId = mMaopaoObject.id;
+            final int maopaoId = mMaopaoObject.id;
             showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%s";
+                    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%d";
                     deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
-
                 }
             });
         }
@@ -352,6 +353,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(ADD_COMMENT)) {
+            showProgressBar(false);
             if (code == 0) {
                 getNetwork(URI_COMMENT, URI_COMMENT);
 

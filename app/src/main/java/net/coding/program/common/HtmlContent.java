@@ -79,6 +79,10 @@ public class HtmlContent {
             s = s.substring(0, s.length() - br.length());
         }
 
+        if (s.startsWith(br)) {
+            s = s.substring(br.length(), s.length());
+        }
+
         return s;
     }
 

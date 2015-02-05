@@ -147,8 +147,7 @@
             android:name=".task.TaskAddActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_add"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.MembersActivity_"
             android:icon="@drawable/ic_lancher"

@@ -125,10 +125,10 @@ public class AddFollowActivity extends BaseActivity {
         } else if (tag.equals(UsersListActivity.HOST_FOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
-                showButtomToast("关注成功");
+                showButtomToast(R.string.follow_success);
                 mData.get(pos).followed = true;
             } else {
-                showButtomToast("关注失败");
+                showButtomToast(R.string.follow_fail);
             }
             baseAdapter.notifyDataSetChanged();
         } else if (tag.equals(UsersListActivity.HOST_UNFOLLOW)) {

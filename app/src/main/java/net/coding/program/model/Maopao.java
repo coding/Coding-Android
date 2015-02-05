@@ -21,12 +21,12 @@ public class Maopao {
         public int comments;
         public String content = "";
         public long created_at;
-        public String id = "";
+        public int id;
         public ArrayList<Like_user> like_users = new ArrayList<Like_user>();
         public boolean liked;
         public int likes;
         public UserObject owner = new UserObject();
-        public String owner_id = "";
+        public int owner_id;
         public String path = "";
         public String device = "";
 
@@ -44,7 +44,7 @@ public class Maopao {
             comments = json.optInt("comments");
             content = json.optString("content");
             created_at = json.optLong("created_at");
-            id = json.optString("id");
+            id = json.optInt("id");
 
             if (json.has("like_users")) {
                 JSONArray jsonLikeUsers = json.optJSONArray("like_users");
@@ -59,7 +59,7 @@ public class Maopao {
             if (json.has("owner")) {
                 owner = new UserObject(json.optJSONObject("owner"));
             }
-            owner_id = json.optString("owner_id");
+            owner_id = json.optInt("owner_id");
             path = json.optString("path");
             device = json.optString("device");
         }
@@ -67,17 +67,15 @@ public class Maopao {
 
     public static class Comment extends BaseComment implements Serializable {
 
-        public String tweet_id = "";
+        public int tweet_id;
 
         public Comment(JSONObject json) throws JSONException {
             super(json);
-            if (json.has("tweet_id")) {
-                tweet_id = json.optString("tweet_id");
-            }
+            tweet_id = json.optInt("tweet_id");
         }
 
         public Comment(MaopaoObject maopao) {
-            id = "";
+            id = 0;
             owner = new DynamicObject.Owner(maopao.owner);
             owner_id = maopao.owner_id;
             tweet_id = maopao.id;

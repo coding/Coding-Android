@@ -103,7 +103,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 }
 
                 mUsersInfo = usersInfo;
-                mMembersAll = new ArrayList<TaskObject.Members>();
+                mMembersAll = new ArrayList();
                 mMembersAll.add(new TaskObject.Members());
                 mMembersAll.addAll(mUsersInfo);
 
@@ -238,9 +238,9 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             }
         }
 
-        public boolean memberHasTask(String id) {
+        public boolean memberHasTask(int id) {
             for (Count item : mData) {
-                if (item.user.equals(id)) {
+                if (item.user == id) {
                     return true;
                 }
             }
@@ -251,12 +251,12 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         static class Count {
             public int done;
             public int processing;
-            public String user;
+            public int user;
 
-            public Count(JSONObject json) throws JSONException {
-                done = json.getInt("done");
-                processing = json.getInt("processing");
-                user = json.getString("user");
+            public Count(JSONObject json) {
+                done = json.optInt("done");
+                processing = json.optInt("processing");
+                user = json.optInt("user");
             }
         }
     }

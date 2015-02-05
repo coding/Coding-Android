@@ -29,7 +29,7 @@ public class UserDynamicActivity extends BaseFragmentActivity {
         ProjectDynamicFragment_ fragment = new ProjectDynamicFragment_();
 
         Bundle bundle = new Bundle();
-        bundle.putString("mUser_id", mMember.user_id);
+        bundle.putInt("mUser_id", mMember.user_id);
         bundle.putSerializable("mProjectObject", mProjectObject);
         fragment.setArguments(bundle);
 

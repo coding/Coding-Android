@@ -24,6 +24,7 @@ import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
@@ -143,23 +144,23 @@ public class MainActivity extends BaseFragmentActivity
                 switch (position) {
                     case 1:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "friends");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.friends);
                         break;
 
                     case 2:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "hot");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.hot);
                         break;
 
                     case 3:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "my");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.my);
                         break;
 
                     case 0:
                     default:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "time");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.time);
 
                         break;
                 }

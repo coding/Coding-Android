@@ -17,13 +17,13 @@ public class CommentBackup {
 
     public static class BackupParam {
         Type type;
-        String id;
-        String globalKey;
+        int id;
+        int owner_id;
 
-        public BackupParam(Type type, String id, String globalKey) {
+        public BackupParam(Type type, int id, int owner_id) {
             this.type = type;
             this.id = id;
-            this.globalKey = globalKey;
+            this.owner_id = owner_id;
         }
 
         public static BackupParam create(Object object) {
@@ -33,30 +33,29 @@ public class CommentBackup {
 
             if (object instanceof Maopao.Comment) {
                 Maopao.Comment maopaoComment = (Maopao.Comment) object;
-                String ownerId = maopaoComment.owner_id;
-                if (maopaoComment.id.isEmpty()) { // 表示直接回复冒泡，没有@某人
-                    ownerId = "";
+                int ownerId = maopaoComment.owner_id;
+                if (maopaoComment.id == 0) { // 表示直接回复冒泡，没有@某人
+                    ownerId = 0;
                 }
                 return new BackupParam(Type.Maopao, maopaoComment.tweet_id, ownerId);
             } else if (object instanceof TopicObject) {
                 TopicObject topicObject = (TopicObject) object;
 
-                String parentId = topicObject.parent_id;
-                if (parentId.isEmpty() || parentId.equals("0")) {
+                int parentId = topicObject.parent_id;
+                if (parentId == 0) {
                     parentId = topicObject.id;
                 }
                 return new BackupParam(Type.Topic, parentId, topicObject.owner_id);
 
             } else if (object instanceof TaskObject.TaskComment) {
                 TaskObject.TaskComment comment = (TaskObject.TaskComment) object;
-                return new BackupParam(Type.Task, String.valueOf(comment.taskId), comment.owner_id);
+                return new BackupParam(Type.Task, comment.taskId, comment.owner_id);
             } else if (object instanceof BackupParam) {
                 return (BackupParam) object;
             }
 
             return null;
         }
-
 
         @Override
         public boolean equals(Object o) {
@@ -65,8 +64,8 @@ public class CommentBackup {
 
             BackupParam param = (BackupParam) o;
 
-            if (!globalKey.equals(param.globalKey)) return false;
-            if (!id.equals(param.id)) return false;
+            if (id != param.id) return false;
+            if (owner_id != param.owner_id) return false;
             if (type != param.type) return false;
 
             return true;
@@ -75,8 +74,8 @@ public class CommentBackup {
         @Override
         public int hashCode() {
             int result = type.hashCode();
-            result = 31 * result + id.hashCode();
-            result = 31 * result + globalKey.hashCode();
+            result = 31 * result + id;
+            result = 31 * result + owner_id;
             return result;
         }
     }

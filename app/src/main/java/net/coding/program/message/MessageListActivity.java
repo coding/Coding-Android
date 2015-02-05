@@ -477,7 +477,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         @Override
         public int getItemViewType(int position) {
             Message.MessageObject item = (Message.MessageObject) getItem(position);
-            if (item.sender.id.equals(item.friend.id)) {
+            if (item.sender.id == (item.friend.id)) {
                 return 0;
             } else {
                 return 1;

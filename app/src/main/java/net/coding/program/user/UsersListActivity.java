@@ -301,18 +301,18 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             hideProgressDialog();
         } else if (tag.equals(HOST_FOLLOW)) {
             if (code == 0) {
-                showButtomToast("成功");
+                showButtomToast(R.string.follow_success);
                 mSearchData.get(pos).followed = true;
             } else {
-                showButtomToast("失败");
+                showButtomToast(R.string.follow_fail);
             }
             adapter.notifyDataSetChanged();
         } else if (tag.equals(HOST_UNFOLLOW)) {
             if (code == 0) {
-                showButtomToast("成功");
+                showButtomToast(R.string.unfollow_success);
                 mSearchData.get(pos).followed = false;
             } else {
-                showButtomToast("失败");
+                showButtomToast(R.string.unfollow_fail);
             }
             adapter.notifyDataSetChanged();
         }

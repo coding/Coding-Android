@@ -41,11 +41,24 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
     private ProgressDialog mProgressDialog;
 
     protected void showProgressBar(boolean show) {
+        showProgressBar(show, "");
+    }
+    protected void showProgressBar(boolean show, String message) {
+        if (mProgressDialog == null) {
+            return;
+        }
+
         if (show) {
+            mProgressDialog.setMessage(message);
             mProgressDialog.show();
         } else {
             mProgressDialog.hide();
         }
+    }
+
+    protected void showProgressBar(boolean show, int messageId) {
+        String message = getString(messageId);
+        showProgressBar(show, message);
     }
 
     protected boolean progressBarIsShowing() {
@@ -95,6 +108,16 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+
+        super.onDestroy();
     }
 
     @Override

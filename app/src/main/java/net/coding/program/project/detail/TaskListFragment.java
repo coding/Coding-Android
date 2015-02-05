@@ -341,7 +341,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     void deleteTask(final int pos) {
         TaskObject.SingleTask task = mData.get(pos);
-        String url = String.format(hostTaskDelete, task.project.owner_user_name, task.project.name, task.id);
+        String url = String.format(hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
         deleteNetwork(url, hostTaskDelete, pos, null);
     }
 
@@ -355,7 +355,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         }
     }
 
-    void statusTask(final int pos, final String id, final boolean complete) {
+    void statusTask(final int pos, final int id, final boolean complete) {
         RequestParams params = new RequestParams();
         int completeStatus = complete ? 2 : 1;
         params.put("status", completeStatus); // 任务完成2，任务正在进行1
@@ -403,6 +403,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mDiscuss = (TextView) convertView.findViewById(R.id.discuss);
                 holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mTaskPriority = convertView.findViewById(R.id.taskPriority);
+                holder.mTaskDes = convertView.findViewById(R.id.taskDes);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -425,6 +426,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mCheckBox.setChecked(true);
             }
 
+            holder.mTaskDes.setVisibility(data.has_description ? View.VISIBLE : View.INVISIBLE);
 
             final int priorityIcons[] = new int[]{
                     R.drawable.task_mark_0,
@@ -464,7 +466,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    statusTask(pos, data.id, isChecked);
+                    statusTask(pos, data.getId(), isChecked);
                 }
             });
 
@@ -534,6 +536,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             TextView mDiscuss;
 
             View mTaskPriority;
+
+            View mTaskDes;
         }
     }
 

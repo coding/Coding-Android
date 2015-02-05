@@ -86,6 +86,10 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
     }
 
     protected void showProgressBar(boolean show, String message) {
+        if (mProgressDialog == null) {
+            return;
+        }
+
         if (show) {
             mProgressDialog.setMessage(message);
             mProgressDialog.show();
@@ -154,6 +158,10 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
     }
 
     protected void deleteNetwork(String url, final String tag, String id) {
+        networkImpl.loadData(url, null, tag, -1, id, NetworkImpl.Request.Delete);
+    }
+
+    protected void deleteNetwork(String url, final String tag, int id) {
         networkImpl.loadData(url, null, tag, -1, id, NetworkImpl.Request.Delete);
     }
 

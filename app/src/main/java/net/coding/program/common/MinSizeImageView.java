@@ -205,6 +205,7 @@ public class MinSizeImageView extends ImageView {
             setMeasuredDimension(widthSize, heightSize);
         } catch (Exception e) {
             Log.d("", "hh " + e);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
 

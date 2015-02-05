@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.EventLogTags;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -86,6 +87,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     TextView deadline;
     TextView description;
     ViewGroup descriptionLayout;
+    TextView descriptionButton;
 
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
@@ -133,6 +135,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
         description = (TextView) mHeadView.findViewById(R.id.description);
         commentCount = (TextView) mHeadView.findViewById(R.id.commentCount);
+        descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView);
     }
 
@@ -146,7 +149,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     }
 
     private boolean descripChange() {
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             return false;
         } else {
             return descriptionData.markdown.equals(descriptionDataNew.markdown);
@@ -168,8 +171,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     }
 
     void initData() {
-        if (mSingleTask.id.isEmpty()) {
-            if (mUserOwner.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
+            if (mUserOwner.id == 0) {
                 mSingleTask.owner = AccountInfo.loadAccount(this);
             } else {
                 mSingleTask.owner = mUserOwner;
@@ -191,7 +194,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         selectMember();
 
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             status.setText("未完成");
             linearlayout2.setVisibility(View.GONE);
             mEnterLayout.hide();
@@ -209,13 +212,13 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         setDeadline();
 
-//        initDescription();
+        initDescription();
 
-        urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.id);
+        urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.getId());
         getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
 
-        if (!mSingleTask.id.isEmpty()) {
-            CommentBackup.BackupParam param = new CommentBackup.BackupParam(CommentBackup.Type.Task, mSingleTask.id, "");
+        if (!mSingleTask.isEmpty()) {
+            CommentBackup.BackupParam param = new CommentBackup.BackupParam(CommentBackup.Type.Task, mSingleTask.getId(), 0);
             mEnterLayout.content.setTag(param);
             mEnterLayout.restoreLoad(param);
         }
@@ -223,16 +226,30 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     }
 
     private void initDescription() {
-        if (mSingleTask.id.isEmpty()) {
-            descriptionLayout.setOnClickListener(onClickCreateDescription);
+//        if (mSingleTask.isEmpty()) {
+//            descriptionLayout.setOnClickListener(onClickCreateDescription);
+//        } else {
+//            if (mSingleTask.has_description) {
+//                description.setText("载入备注中...");
+//                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.getId());
+//                getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
+//            } else {
+//                descriptionLayout.setOnClickListener(onClickCreateDescription);
+//            }
+//        }
+        if (mSingleTask.isEmpty()) {
+            descriptionButtonUpdate(false);
+            descriptionButton.setOnClickListener(onClickCreateDescription);
         } else {
             if (mSingleTask.has_description) {
-                description.setText("载入备注中...");
-                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.id);
+                descriptionButtonUpdate(true);
+                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.getId());
                 getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
             } else {
-                descriptionLayout.setOnClickListener(onClickCreateDescription);
+                descriptionButtonUpdate(false);
+                descriptionButton.setOnClickListener(onClickCreateDescription);
             }
+
         }
     }
 
@@ -267,11 +284,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         });
         title.setText("");
 
-        TextView time = (TextView) mHeadView.findViewById(R.id.time);
-        TextView createName = (TextView) mHeadView.findViewById(R.id.createrName);
-
         View delete = mHeadView.findViewById(R.id.delete);
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             delete.setVisibility(View.GONE);
         } else {
             delete.setVisibility(View.VISIBLE);
@@ -282,7 +296,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             TaskObject.SingleTask task = mSingleTask;
-                            String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.id);
+                            String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
                             deleteNetwork(url, TaskListFragment.hostTaskDelete);
                             showProgressBar(true, "删除任务中...");
                         }
@@ -357,20 +371,12 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                         });
             }
         });
-
-        if (mSingleTask.id.isEmpty()) {
-            createName.setText(mNewParam.owner.name);
-            time.setText(String.format("现在"));
-        } else {
-            createName.setText(mSingleTask.creator.name);
-            time.setText(String.format(Global.dayToNow(mSingleTask.created_at)));
-        }
     }
 
     View listFoot;
 
     private void addFoot() {
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             return;
         }
 
@@ -440,7 +446,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             return;
         }
 
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             String url = String.format(HOST_TASK_ADD, mSingleTask.project.backend_project_path);
             RequestParams params = new RequestParams();
             params.put("content", content);
@@ -455,7 +461,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             showProgressBar(true, R.string.delete_task_ing);
 
         } else {
-            String url = String.format(HOST_TASK_UPDATE, mSingleTask.id);
+            String url = String.format(HOST_TASK_UPDATE, mSingleTask.getId());
             RequestParams params = new RequestParams();
             if (!content.equals(mSingleTask.content)) {
                 params.put("content", content);
@@ -466,7 +472,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             if (mNewParam.priority != mSingleTask.priority) {
                 params.put("priority", mNewParam.priority);
             }
-            if (!mNewParam.ownerId.equals(mSingleTask.owner_id)) {
+            if (mNewParam.ownerId != (mSingleTask.owner_id)) {
                 params.put("owner_id", mNewParam.ownerId);
             }
             if (!mNewParam.deadline.equals(mSingleTask.deadline)) {
@@ -541,6 +547,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
 
         } else if (tag.equals(HOST_COMMENT_ADD)) {
+            showProgressBar(false);
             if (code == 0) {
                 TaskObject.TaskComment item = new TaskObject.TaskComment(respanse.getJSONObject("data"));
                 mData.add(0, item);
@@ -559,9 +566,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
         } else if (tag.equals(hostDeleteComment)) {
             if (code == 0) {
-                String commentId = (String) data;
+                int commentId = (int) data;
                 for (int i = 0; i < mData.size(); ++i) {
-                    if (mData.get(i).id.equals(commentId)) {
+                    if (mData.get(i).id == (commentId)) {
                         mData.remove(i);
                         break;
                     }
@@ -602,13 +609,14 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 descriptionDataNew = new TaskObject.TaskDescription(descriptionData);
                 setDescription();
 
-                description.setOnClickListener(new View.OnClickListener() {
+                descriptionButtonUpdate(false);
+                descriptionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         TaskDescriptionActivity_
                                 .intent(TaskAddActivity.this)
                                 .descriptionData(descriptionDataNew)
-                                .taskId(mSingleTask.id)
+                                .taskId(mSingleTask.getId())
                                 .startForResult(RESULT_REQUEST_DESCRIPTION);
                     }
                 });
@@ -625,6 +633,25 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
 
             hideProgressDialog();
+        }
+    }
+
+    private void descriptionButtonUpdate(boolean loading) {
+        if (loading) {
+            descriptionButton.setText("载入备注中");
+            descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
+            descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
+        } else {
+            if (descriptionDataNew.markdown.isEmpty()) {
+                descriptionButton.setText("添加描述");
+                descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
+                descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
+            } else {
+                descriptionButton.setText("查看描述");
+                descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
+                descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_green), null);
+            }
+
         }
     }
 
@@ -658,6 +685,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         RequestParams params = new RequestParams();
         params.put("content", descriptionDataNew.markdown);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
+
+        descriptionButtonUpdate(false);
     }
 
 
@@ -923,7 +952,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     private static class TaskParams {
         String content = "";
         int status;
-        String ownerId = "";
+        int ownerId;
         int priority;
         String deadline = "";
 
@@ -941,10 +970,11 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof TaskParams)) return false;
 
             TaskParams that = (TaskParams) o;
 
+            if (ownerId != that.ownerId) return false;
             if (priority != that.priority) return false;
             if (status != that.status) return false;
             if (content != null ? !content.equals(that.content) : that.content != null)
@@ -952,8 +982,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             if (deadline != null ? !deadline.equals(that.deadline) : that.deadline != null)
                 return false;
             if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
-            if (ownerId != null ? !ownerId.equals(that.ownerId) : that.ownerId != null)
-                return false;
 
             return true;
         }
@@ -962,7 +990,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         public int hashCode() {
             int result = content != null ? content.hashCode() : 0;
             result = 31 * result + status;
-            result = 31 * result + (ownerId != null ? ownerId.hashCode() : 0);
+            result = 31 * result + ownerId;
             result = 31 * result + priority;
             result = 31 * result + (deadline != null ? deadline.hashCode() : 0);
             result = 31 * result + (owner != null ? owner.hashCode() : 0);
@@ -975,7 +1003,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         public void onClick(View v) {
             TaskDescriptionActivity_
                     .intent(TaskAddActivity.this)
-                    .taskId("")
+                    .taskId(0)
                     .descriptionData(descriptionDataNew)
                     .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
         }
@@ -1001,7 +1029,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             RequestParams params = new RequestParams();
             params.put("content", s);
 
-            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD, 0, item);
+            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
+
+            showProgressBar(true, R.string.sending_comment);
         }
     };
 }

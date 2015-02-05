@@ -53,7 +53,7 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
     String mType;
 
     @FragmentArg
-    String mUser_id;
+    int mUser_id;
 
     @ViewById
     View blankLayout;
@@ -138,7 +138,7 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
     @Override
     public void loadMore() {
         String getUrl;
-        if (mUser_id == null) {
+        if (mUser_id == 0) {
             getUrl = String.format(HOST, mProjectObject.id, mLastId, mProjectObject.owner_id, mType);
         } else {
             getUrl = String.format(HOST_USER, mProjectObject.id, mUser_id, mLastId);
