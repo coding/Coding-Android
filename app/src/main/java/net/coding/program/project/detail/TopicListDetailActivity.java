@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +25,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -123,12 +128,62 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (owerGlobar.equals(MyApp.sUserObject.global_key)) {
-            getMenuInflater().inflate(R.menu.topic_detail, menu);
-        }
+        getMenuInflater().inflate(R.menu.topic_detail, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    @OptionsItem
+    void action_more() {
+        showRightTopPop();
+    }
+
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
+
+    private void initRightTopPop() {
+        if (mRightTopPopupWindow == null) {
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
+            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(downloadItem);
+            if (owerGlobar.equals(MyApp.sUserObject.global_key)) {
+                DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.delete_topic), R.drawable.ic_menu_delete_selector);
+                popupItemArrayList.add(deleteItem);
+            }
+            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
+        }
+    }
+
+    private void showRightTopPop() {
+        initRightTopPop();
+
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+
+        Rect rectgle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+        int StatusBarHeight = rectgle.top;
+        int contentViewTop =
+                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        //int TitleBarHeight= contentViewTop - StatusBarHeight;
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        mRightTopPopupWindow.showAtLocation(listView, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
+    }
+
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    action_copy();
+                    break;
+                case 1:
+                    action_delete();
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -143,14 +198,21 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
 
-    @OptionsItem(R.id.action_delete)
-    void menuDeleteTopic() {
+    @OptionsItem
+    void action_delete() {
         showDialog("讨论", "删除讨论?", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteNetwork(String.format(HOST_MAOPAO_DELETE, topicObject.id), TAG_DELETE_TOPIC);
             }
         });
+    }
+
+    void action_copy() {
+        final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
+        String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
+        Global.copy(this, url);
+        showButtomToast("已复制 " + url);
     }
 
     private TextView textViewCommentCount;
@@ -190,7 +252,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(this));
 
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", topicObject.content), "text/html", "UTF-8", null);
+        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", topicObject.content), "text/html", "UTF-8", null);
 
         textViewCommentCount = (TextView) head.findViewById(R.id.commentCount);
         updateDisplayCommentCount();

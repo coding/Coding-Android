@@ -33,7 +33,6 @@ import java.util.Stack;
  * Created by yangzhen on 2014/10/25.
  */
 @EFragment(R.layout.common_refresh_listview)
-//@OptionsMenu(R.menu.project_attachment_folder)
 public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
 
     public static final String MASTER = "master";

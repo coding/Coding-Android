@@ -48,8 +48,11 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     @ViewById
     View expandableIndicator;
 
+    // 父类已经使用了 init，子类就不能再用这个名字，否则 init 会调用两次
     @AfterViews
     protected void init2() {
+        setHasOptionsMenu(true);
+
         String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectObject.owner_user_name, mProjectObject.name);
         getNetwork(urlBranches, HOST_LIST_BRANCHES);
 

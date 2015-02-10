@@ -7,9 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.EditText;
+
+import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.R;
@@ -21,8 +26,13 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 @EActivity(R.layout.activity_task_description)
 public class TaskDescriptionActivity extends BaseFragmentActivity implements TaskDescrip {
@@ -46,6 +56,8 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Global.syncCookie(this);
 
         Fragment fragment;
         String markdown = descriptionData.markdown;

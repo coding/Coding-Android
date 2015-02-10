@@ -2,13 +2,16 @@ package net.coding.program.task;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 
+import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
@@ -20,8 +23,12 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.CookieManager;
+import java.util.List;
 
 @EFragment(R.layout.fragment_task_descrip_html)
 public class TaskDescripHtmlFragment extends BaseFragment {
@@ -46,6 +53,8 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     @AfterViews
     void init() {
         setHasOptionsMenu(true);
+
+        Global.syncCookie(getActivity());
 
         if (contentHtml.isEmpty()) {
             mdToHtml();
@@ -112,7 +121,8 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         descWeb.setBackgroundColor(0);
         descWeb.getBackground().setAlpha(0);
         descWeb.getSettings().setDefaultTextEncodingName("UTF-8");
-        descWeb.loadDataWithBaseURL(null, ((TaskDescrip) getActivity()).createLocateHtml(contentHtml), "text/html", "UTF-8", null);
+
+        descWeb.loadDataWithBaseURL(Global.HOST, ((TaskDescrip) getActivity()).createLocateHtml(contentHtml), "text/html", "UTF-8", null);
     }
 
     final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";

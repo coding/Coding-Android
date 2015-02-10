@@ -4,26 +4,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.EventLogTags;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,6 +33,7 @@ import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
@@ -62,7 +63,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_task_add)
@@ -278,29 +278,18 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu)
-    {
-        if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
-            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
-                try{
-                    Method m = menu.getClass().getDeclaredMethod(
-                            "setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                } catch (Exception e) {
-                }
+    private void deleteTask() {
+        showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                TaskObject.SingleTask task = mSingleTask;
+                String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
+                deleteNetwork(url, TaskListFragment.hostTaskDelete);
+                showProgressBar(true, "删除任务中...");
             }
-        }
-        return super.onMenuOpened(featureId, menu);
+        });
     }
 
-    private void deleteTask() {
-        TaskObject.SingleTask task = mSingleTask;
-        String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
-        deleteNetwork(url, TaskListFragment.hostTaskDelete);
-        showProgressBar(true, "删除任务中...");
-    }
 
     private void setHeadData() {
         title.addTextChangedListener(new TextWatcher() {
@@ -328,12 +317,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            deleteTask();
-                        }
-                    });
+                    deleteTask();
                 }
             });
         }
@@ -520,6 +504,11 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             putNetwork(url, params, TAG_TASK_UPDATE);
             showProgressBar(true, R.string.delete_task_ing);
         }
+    }
+
+    @OptionsItem
+    void action_more() {
+        showRightTopPop();
     }
 
     @OptionsItem
@@ -1078,6 +1067,51 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
 
             showProgressBar(true, R.string.sending_comment);
+        }
+    };
+
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
+
+    private void initRightTopPop() {
+        if (mRightTopPopupWindow == null) {
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
+            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(downloadItem);
+            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.delete_task), R.drawable.ic_menu_delete_selector);
+            popupItemArrayList.add(deleteItem);
+            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
+        }
+    }
+
+    private void showRightTopPop() {
+        initRightTopPop();
+
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+
+        Rect rectgle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+        int StatusBarHeight = rectgle.top;
+        int contentViewTop =
+                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        //int TitleBarHeight= contentViewTop - StatusBarHeight;
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        mRightTopPopupWindow.showAtLocation(listView, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
+    }
+
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    action_copy();
+                    break;
+                case 1:
+                    action_delete();
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
         }
     };
 }

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 /**
 * Created by chaochen on 15/2/9.
 */
-class TouchLinearLayout extends LinearLayout {
+public class TouchLinearLayout extends LinearLayout {
 
     private long pressTime = 0;
     private int action;

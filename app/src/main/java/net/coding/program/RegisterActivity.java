@@ -147,7 +147,7 @@ public class RegisterActivity extends BaseAnnotationActivity {
                 MyApp.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user.email, user.global_key);
 
-                syncCookie();
+                Global.syncCookie(this);
 
                 setResult(RESULT_OK);
                 finish();
@@ -199,22 +199,6 @@ public class RegisterActivity extends BaseAnnotationActivity {
         }
 
         loginButton.setEnabled(true);
-    }
-
-    public void syncCookie() {
-        PersistentCookieStore cookieStore = new PersistentCookieStore(this);
-        List<Cookie> cookies = cookieStore.getCookies();
-
-        CookieManager cookieManager = CookieManager.getInstance();
-
-        for (int i = 0; i < cookies.size(); i++) {
-            Cookie eachCookie = cookies.get(i);
-            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
-            cookieManager.setCookie(Global.HOST, cookieString);
-        }
-
-        CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().sync();
     }
 
     private void downloadValifyPhoto() {

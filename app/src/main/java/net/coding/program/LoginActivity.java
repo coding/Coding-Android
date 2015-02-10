@@ -267,7 +267,7 @@ public class LoginActivity extends BaseActivity {
                 MyApp.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user.email, user.global_key);
 
-                syncCookie();
+                Global.syncCookie(this);
 
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
@@ -310,22 +310,6 @@ public class LoginActivity extends BaseActivity {
         }
 
         getNetwork(String.format(HOST_USER, global), HOST_USER_RELOGIN);
-    }
-
-    public void syncCookie() {
-        PersistentCookieStore cookieStore = new PersistentCookieStore(this);
-        List<Cookie> cookies = cookieStore.getCookies();
-
-        CookieManager cookieManager = CookieManager.getInstance();
-
-        for (int i = 0; i < cookies.size(); i++) {
-            Cookie eachCookie = cookies.get(i);
-            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
-            cookieManager.setCookie(Global.HOST, cookieString);
-        }
-
-        CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().sync();
     }
 
     TextWatcher textWatcher = new SimpleTextWatcher() {

@@ -71,8 +71,11 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
         adapter = new PageTaskFragment(getChildFragmentManager());
         pager.setPageMargin(pageMargin);
         pager.setAdapter(adapter);
-        tabs.setViewPager(pager);
-        adapter.notifyDataSetChanged();
+
+        if (!mData.isEmpty()) {
+            tabs.setViewPager(pager);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -107,8 +110,9 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
                 }
 
                 AccountInfo.saveTaskProjects(getActivity(), mData);
-                adapter.notifyDataSetChanged();
                 tabs.setViewPager(pager);
+                adapter.notifyDataSetChanged();
+
             } else {
                 showErrorMsg(code, respanse);
             }

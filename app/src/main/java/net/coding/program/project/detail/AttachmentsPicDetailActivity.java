@@ -148,7 +148,7 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
 
         share = AttachmentsPicDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
-        client = MyAsyncHttpClient.createClient(AttachmentsPicDetailActivity.this);
+        client = MyAsyncHttpClient.createClient(this);
 
         picCache = new HashMap<String, AttachmentFileObject>();
 

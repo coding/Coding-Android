@@ -75,5 +75,6 @@
     <string name="connect_service_fail">连接服务器失败，请检查网络或稍后重试</string>
     <string name="copy_link">复制链接</string>
     <string name="delete_task">删除任务</string>
+    <string name="delete_topic">删除讨论</string>
 
 </resources>
