@@ -84,8 +84,8 @@ public class TopicAddActivity extends BaseActivity {
         }
     }
 
-    protected String getTopicId() {
-        return projectObject.id;
+    protected int getTopicId() {
+        return projectObject.getId();
     }
 
     protected void showSuccess() {

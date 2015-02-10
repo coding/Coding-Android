@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 public class AttachmentsFolderSelectorActivity extends BaseActivity implements FootUpdate.LoadMore {
     private static String TAG = AttachmentsFolderSelectorActivity.class.getSimpleName();
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     AttachmentFolderObject mAttachmentFolderObject;
 

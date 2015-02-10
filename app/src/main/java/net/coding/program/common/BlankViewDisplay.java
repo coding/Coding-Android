@@ -19,6 +19,11 @@ import net.coding.program.project.detail.TopicListFragment;
 public class BlankViewDisplay {
 
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
+        setBlank(itemSize, fragment, request, v, onClick, "");
+    }
+
+
+    public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick, String blankMessage) {
         View btn = v.findViewById(R.id.btnRetry);
         if (request) {
             btn.setVisibility(View.INVISIBLE);
@@ -56,7 +61,7 @@ public class BlankViewDisplay {
 
             } else if (fragment instanceof MaopaoListFragment) {
                 iconId = R.drawable.ic_exception_blank_maopao;
-                text = "还没有冒泡~";
+                text = "来，冒个泡吧～";
 
             } else if (fragment instanceof UsersListFragment) {
                 iconId = R.drawable.ic_exception_blank_maopao;
@@ -80,4 +85,5 @@ public class BlankViewDisplay {
         v.findViewById(R.id.icon).setBackgroundResource(iconId);
         ((TextView) v.findViewById(R.id.message)).setText(text);
     }
+
 }

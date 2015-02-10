@@ -73,7 +73,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
-            showButtomToast("连接服务器失败，请检查网络或稍后重试");
+            showButtomToast(R.string.connect_service_fail);
         } else {
             String msg = Global.getErrorMsg(json);
             if (!msg.isEmpty()) {

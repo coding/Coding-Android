@@ -60,7 +60,7 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
 
     protected void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
-            showButtomToast("连接服务器失败，请检查网络或稍后重试");
+            showButtomToast(R.string.connect_service_fail);
         } else {
             String msg = Global.getErrorMsg(json);
             if (!msg.isEmpty()) {
@@ -180,6 +180,11 @@ public class BaseFragmentActivity extends UmengFragmentActivity implements Netwo
 
     protected void showButtomToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    protected void showButtomToast(int messageId) {
+        Toast toast = Toast.makeText(this, messageId, Toast.LENGTH_SHORT);
         toast.show();
     }
 

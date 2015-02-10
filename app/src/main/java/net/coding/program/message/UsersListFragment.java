@@ -199,7 +199,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
     }
 
-
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

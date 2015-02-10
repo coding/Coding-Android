@@ -46,10 +46,10 @@ import java.util.ArrayList;
 @EFragment(R.layout.common_refresh_listview)
 public class MembersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
 
-    String urlMembers = Global.HOST + "/api/project/%s/members?pagesize=1000";
-    String urlQuit = Global.HOST + "/api/project/%s/quit";
+    String urlMembers = Global.HOST + "/api/project/%d/members?pagesize=1000";
+    String urlQuit = Global.HOST + "/api/project/%d/quit";
 
-    final String urlDeleteUser = Global.HOST + "/api/project/%s/kickout/%s";
+    final String urlDeleteUser = Global.HOST + "/api/project/%d/kickout/%d";
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -68,7 +68,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
     protected void init() {
         super.init();
 
-        mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.id);
+        mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
         mSearchData = new ArrayList(mData);
         if (mSearchData.isEmpty()) {
             showDialogLoading();
@@ -119,7 +119,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String url = String.format(urlDeleteUser, mProjectObject.id, members.user.id);
+                                            String url = String.format(urlDeleteUser, mProjectObject.getId(), members.user.id);
                                             postNetwork(url, new RequestParams(), urlDeleteUser, (int) id, null);
                                             showProgressBar(true);
                                         }
@@ -136,8 +136,8 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
             });
         }
 
-        urlMembers = String.format(urlMembers, mProjectObject.id);
-        urlQuit = String.format(urlQuit, mProjectObject.id);
+        urlMembers = String.format(urlMembers, mProjectObject.getId());
+        urlQuit = String.format(urlQuit, mProjectObject.getId());
 
         loadMore();
 
@@ -226,7 +226,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                     }
                 }
 
-                AccountInfo.saveProjectMembers(getActivity(), mData, mProjectObject.id);
+                AccountInfo.saveProjectMembers(getActivity(), mData, mProjectObject.getId());
 
                 mSearchData.clear();
                 mSearchData.addAll(mData);
@@ -343,7 +343,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
             @Override
             public void onClick(View v) {
                 //showButtomToast("quit");
-                String.format(urlMembers, mProjectObject.id);
+                String.format(urlMembers, mProjectObject.getId());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 AlertDialog dialog = builder.setTitle("确认退出项目")
                         .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))

@@ -50,8 +50,8 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
 
     ArrayList<TopicObject> mData = new ArrayList<TopicObject>();
 
-    String URL_DISCUSS_ALL = Global.HOST + "/api/project/%s/topics?pageSize=20&type=1";
-    String URL_DISCUSS_ME = Global.HOST + "/api/project/%s/topics/me?pageSize=20&type=1";
+    String URL_DISCUSS_ALL = Global.HOST + "/api/project/%d/topics?pageSize=20&type=1";
+    String URL_DISCUSS_ME = Global.HOST + "/api/project/%d/topics/me?pageSize=20&type=1";
 
     String urlGet;
 
@@ -71,7 +71,7 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
             }
         });
 
-        urlGet = String.format(type == 0 ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.id);
+        urlGet = String.format(type == 0 ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.getId());
         loadMore();
     }
 

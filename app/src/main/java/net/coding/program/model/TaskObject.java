@@ -114,7 +114,7 @@ public class TaskObject {
         public UserObject owner = new UserObject();
         public int owner_id;
         public ProjectObject project = new ProjectObject();
-        public String project_id = "";
+        public int project_id;
         public String deadline = "";
         public int status;
         public int priority;
@@ -146,7 +146,7 @@ public class TaskObject {
                 project = new ProjectObject(json.optJSONObject("project"));
             }
 
-            project_id = json.optString("project_id");
+            project_id = json.optInt("project_id");
             status = json.optInt("status");
             updated_at = json.optLong("updated_at");
             deadline = json.optString("deadline");

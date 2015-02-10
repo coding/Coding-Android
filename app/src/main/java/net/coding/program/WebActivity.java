@@ -117,7 +117,7 @@ public class WebActivity extends Activity {
     @OptionsItem
     void action_copy() {
         String urlString = webView.getUrl();
-        Global.copy(urlString, this);
+        Global.copy(this, urlString);
         Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
     }
 

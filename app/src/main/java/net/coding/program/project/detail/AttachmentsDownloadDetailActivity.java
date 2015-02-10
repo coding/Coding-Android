@@ -59,7 +59,7 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
 
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     @Extra
     AttachmentFileObject mAttachmentFileObject;
@@ -109,10 +109,10 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
     ImageView ivDownloadCancel;
 
 
-    String urlFiles = Global.HOST + "/api/project/%s/files/%s/view";
-    String urlPages = Global.HOST + "/api/project/%s/files/image/%s?folderId=%s&orderByDesc=true";
-    String urlDownload = Global.HOST + "/api/project/%s/files/%s/download";
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?fileIds=%s";
+    String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
+    String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
+    String urlDownload = Global.HOST + "/api/project/%d/files/%s/download";
+    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
 
     AttachmentFileObject mFileObject = new AttachmentFileObject();
 

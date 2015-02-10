@@ -73,7 +73,7 @@ public class AddFollowActivity extends BaseActivity {
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
         } else {
-            urlAddUser = String.format(Global.HOST + "/api/project/%s/members/add?", mProjectObject.id);
+            urlAddUser = String.format(Global.HOST + "/api/project/%d/members/add?", mProjectObject.getId());
             getActionBar().setTitle("添加项目成员");
             baseAdapter = new AddProjectAdapter();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

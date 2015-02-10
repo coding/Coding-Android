@@ -1,6 +1,7 @@
 package net.coding.program.project.detail;
 
 
+import android.app.Activity;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EFragment(R.layout.fragment_project_dynamic)
 public class ProjectDynamicFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
 
-    String mLastId = UPDATE_ALL;
+    int mLastId = UPDATE_ALL_INT;
 
     boolean mNoMore = false;
 
@@ -62,8 +63,8 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("a HH:mm");
 
-    final String HOST = Global.HOST + "/api/project/%s/activities?last_id=%s&user_id=%s&type=%s";
-    final String HOST_USER = Global.HOST + "/api/project/%s/activities/user/%s?last_id=%s";
+    final String HOST = Global.HOST + "/api/project/%d/activities?last_id=%s&user_id=%s&type=%s";
+    final String HOST_USER = Global.HOST + "/api/project/%d/activities/user/%s?last_id=%s";
 
     private MyImageGetter myImageGetter;
 
@@ -73,6 +74,8 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
     String sToday = "";
     String sYesterday = "";
+
+    final String TAG_PROJECT_DYNMAIC = "TAG_PROJECT_DYNMAIC";
 
     @ViewById
     ExpandableStickyListHeadersListView listView;
@@ -127,7 +130,7 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
         Long yesterday = calendar.getTimeInMillis() - 1000 * 60 * 60 * 24;
         sYesterday = mDateFormat.format(yesterday);
 
-        mLastId = UPDATE_ALL;
+        mLastId = UPDATE_ALL_INT;
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
@@ -139,16 +142,17 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
     public void loadMore() {
         String getUrl;
         if (mUser_id == 0) {
-            getUrl = String.format(HOST, mProjectObject.id, mLastId, mProjectObject.owner_id, mType);
+            getUrl = String.format(HOST, mProjectObject.getId(), mLastId, mProjectObject.owner_id, mType);
         } else {
-            getUrl = String.format(HOST_USER, mProjectObject.id, mUser_id, mLastId);
+            getUrl = String.format(HOST_USER, mProjectObject.getId(), mUser_id, mLastId);
         }
-        getNetwork(getUrl, mLastId);
+
+        getNetwork(getUrl, TAG_PROJECT_DYNMAIC, 0, mLastId);
     }
 
     @Override
     public void onRefresh() {
-        mLastId = UPDATE_ALL;
+        mLastId = UPDATE_ALL_INT;
         loadMore();
     }
 
@@ -161,103 +165,104 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(UPDATE_ALL)) {
-            if (mLoadingAnimation != null) {
-                mLoadingAnimation.destory();
-                mLoadingAnimation = null;
-            }
-
-            setRefreshing(false);
-
-            if (code == 0) {
-                mData.clear();
-            }
-        }
-
-        if (code == 0) {
-            JSONArray array = respanse.getJSONArray("data");
-
-            for (int i = 0; i < array.length(); ++i) {
-                JSONObject json = array.getJSONObject(i);
-
-                String itemType = json.getString("target_type");
-                DynamicObject.DynamicBaseObject baseObject;
-
-                if (itemType.equals("ProjectMember")) {
-                    baseObject = new DynamicObject.DynamicProjectMember(json);
-
-                } else if (itemType.equals("Depot")) { // 项目分支
-                    baseObject = new DynamicObject.DynamicDepotPush(json);
-
-                } else if (itemType.equals("Task")) {
-                    baseObject = new DynamicObject.DynamicTask(json);
-
-                } else if (itemType.equals("ProjectFile")) {
-                    baseObject = new DynamicObject.DynamicProjectFile(json).projectId(mProjectObject.id);
-
-                } else if (itemType.equals("QcTask")) {
-                    baseObject = new DynamicObject.DynamicQcTask(json);
-
-                } else if (itemType.equals("ProjectTopic")) {
-                    baseObject = new DynamicObject.DynamicProjectTopic(json);
-
-                } else if (itemType.equals("Project")) {
-                    baseObject = new DynamicObject.DynamicProject(json);
-
-                } else if (itemType.equals("ProjectStar")) {
-                    baseObject = new DynamicObject.ProjectStar(json);
-
-                } else if (itemType.equals("ProjectWatcher")) {
-                    baseObject = new DynamicObject.ProjectWatcher(json);
-
-                } else if (itemType.equals("PullRequestComment")) {
-                    baseObject = new DynamicObject.PullRequestComment(json);
-
-                } else if (itemType.equals("PullRequestBean")) {
-                    baseObject = new DynamicObject.PullRequestBean(json);
-
-                } else if (itemType.equals("MergeRequestComment")) {
-                    baseObject = new DynamicObject.MergeRequestComment(json);
-
-                } else if (itemType.equals("MergeRequestBean")) {
-                    baseObject = new DynamicObject.MergeRequestBean(json);
-
-                } else if (itemType.equals("TaskComment")) {
-                    baseObject = new DynamicObject.MyTaskComment(json);
-
-                } else {
-                    Log.e("", "no parse dynamic type " + json);
-                    baseObject = new DynamicObject.DynamicBaseObject(json);
+        if (tag.equals(TAG_PROJECT_DYNMAIC)) {
+            if (((int) data) == UPDATE_ALL_INT) {
+                if (mLoadingAnimation != null) {
+                    mLoadingAnimation.destory();
+                    mLoadingAnimation = null;
                 }
 
-                mData.add(baseObject);
+                setRefreshing(false);
+
+                if (code == 0) {
+                    mData.clear();
+                }
             }
 
+            if (code == 0) {
+                JSONArray array = respanse.getJSONArray("data");
 
-            if (array.length() == 0) {
-                mNoMore = true;
-                mFootUpdate.dismiss();
+                for (int i = 0; i < array.length(); ++i) {
+                    JSONObject json = array.getJSONObject(i);
 
+                    String itemType = json.getString("target_type");
+                    DynamicObject.DynamicBaseObject baseObject;
+
+                    if (itemType.equals("ProjectMember")) {
+                        baseObject = new DynamicObject.DynamicProjectMember(json);
+
+                    } else if (itemType.equals("Depot")) { // 项目分支
+                        baseObject = new DynamicObject.DynamicDepotPush(json);
+
+                    } else if (itemType.equals("Task")) {
+                        baseObject = new DynamicObject.DynamicTask(json);
+
+                    } else if (itemType.equals("ProjectFile")) {
+                        baseObject = new DynamicObject.DynamicProjectFile(json).projectId(mProjectObject.getId());
+
+                    } else if (itemType.equals("QcTask")) {
+                        baseObject = new DynamicObject.DynamicQcTask(json);
+
+                    } else if (itemType.equals("ProjectTopic")) {
+                        baseObject = new DynamicObject.DynamicProjectTopic(json);
+
+                    } else if (itemType.equals("Project")) {
+                        baseObject = new DynamicObject.DynamicProject(json);
+
+                    } else if (itemType.equals("ProjectStar")) {
+                        baseObject = new DynamicObject.ProjectStar(json);
+
+                    } else if (itemType.equals("ProjectWatcher")) {
+                        baseObject = new DynamicObject.ProjectWatcher(json);
+
+                    } else if (itemType.equals("PullRequestComment")) {
+                        baseObject = new DynamicObject.PullRequestComment(json);
+
+                    } else if (itemType.equals("PullRequestBean")) {
+                        baseObject = new DynamicObject.PullRequestBean(json);
+
+                    } else if (itemType.equals("MergeRequestComment")) {
+                        baseObject = new DynamicObject.MergeRequestComment(json);
+
+                    } else if (itemType.equals("MergeRequestBean")) {
+                        baseObject = new DynamicObject.MergeRequestBean(json);
+
+                    } else if (itemType.equals("TaskComment")) {
+                        baseObject = new DynamicObject.MyTaskComment(json);
+
+                    } else {
+                        Log.e("", "no parse dynamic type " + json);
+                        baseObject = new DynamicObject.DynamicBaseObject(json);
+                    }
+
+                    mData.add(baseObject);
+                }
+
+
+                if (array.length() == 0) {
+                    mNoMore = true;
+                    mFootUpdate.dismiss();
+
+                } else {
+                    mNoMore = false;
+
+                    mFootUpdate.showLoading();
+                }
+
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
+
+                mAdapter.initSection();
+                mAdapter.notifyDataSetChanged();
             } else {
-                mNoMore = false;
+                if (mData.isEmpty()) {
+                    mFootUpdate.dismiss();
+                } else {
+                    mFootUpdate.showFail();
+                }
+                showErrorMsg(code, respanse);
 
-                mFootUpdate.showLoading();
+                BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
             }
-
-            BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
-
-            mAdapter.initSection();
-            mAdapter.notifyDataSetChanged();
-        } else {
-            if (mData.isEmpty()) {
-                mFootUpdate.dismiss();
-            } else {
-                mFootUpdate.showFail();
-            }
-            showErrorMsg(code, respanse);
-
-            BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
-
         }
     }
 
@@ -413,10 +418,9 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
             if (mData.size() - position <= 3) {
                 if (!mNoMore) {
-                    String lastId = mData.get(mData.size() - 1).id;
-                    if (!mLastId.equals(lastId)) {
+                    int lastId = mData.get(mData.size() - 1).id;
+                    if (mLastId != (lastId)) {
                         mLastId = lastId;
-
                         loadMore();
                     }
                 }

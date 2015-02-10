@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.FootUpdate;
+import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -188,13 +189,22 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
 
     protected void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
-            showButtomToast("连接服务器失败，请检查网络或稍后重试");
+            showButtomToast(R.string.connect_service_fail);
         } else {
             String msg = Global.getErrorMsg(json);
             if (!msg.isEmpty()) {
                 showButtomToast(msg);
             }
         }
+    }
+
+    protected void showButtomToast(int messageId) {
+        if (!isResumed()) {
+            return;
+        }
+
+        String message = getString(messageId);
+        showButtomToast(message);
     }
 
     protected void showButtomToast(String msg) {

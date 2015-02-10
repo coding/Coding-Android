@@ -76,7 +76,7 @@ public class Global {
         Log.e("", "" + e);
     }
 
-    public static void copy(String content, Context context) {
+    public static void copy(Context context, String content) {
         ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         cmb.setText(content);
     }

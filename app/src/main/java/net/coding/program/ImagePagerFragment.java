@@ -49,7 +49,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
 
-    private String URL_FILES_BASE = Global.HOST + "/api/project/%s/files/%s/view";
+    private String URL_FILES_BASE = Global.HOST + "/api/project/%d/files/%s/view";
     private String URL_FILES = "";
 
     @ViewById
@@ -77,9 +77,9 @@ public class ImagePagerFragment extends BaseFragment {
     String fileId;
 
     @FragmentArg
-    String mProjectObjectId;
+    int mProjectObjectId;
 
-    public void setData(String fileId, String mProjectObjectId) {
+    public void setData(String fileId, int mProjectObjectId) {
         this.fileId = fileId;
         this.mProjectObjectId = mProjectObjectId;
     }

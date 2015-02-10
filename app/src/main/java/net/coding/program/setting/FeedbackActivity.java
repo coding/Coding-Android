@@ -9,8 +9,8 @@ import org.androidannotations.annotations.EActivity;
 public class FeedbackActivity extends TopicAddActivity {
 
     @Override
-    protected String getTopicId() {
-        return "182";
+    protected int getTopicId() {
+        return 182;
     }
 
     @Override

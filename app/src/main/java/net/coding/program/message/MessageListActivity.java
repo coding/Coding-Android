@@ -155,7 +155,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                Global.copy(msg.content, MessageListActivity.this);
+                                Global.copy(MessageListActivity.this, msg.content);
                                 showButtomToast("已复制");
                             } else if (which == 1) {
                                 String url = String.format(hostDeleteMessage, msg.id);

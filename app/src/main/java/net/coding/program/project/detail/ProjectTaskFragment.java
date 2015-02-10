@@ -58,7 +58,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         showDialogLoading();
         tabs.setLayoutInflater(mInflater);
 
-        HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.id);
+        HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.getId());
         refresh();
 
         adapter = new MyPagerAdapter(getChildFragmentManager());
@@ -77,8 +77,8 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     ArrayList<TaskObject.Members> mMembersAll = new ArrayList<TaskObject.Members>();
     ArrayList<TaskObject.Members> mMembersAllAll = new ArrayList<TaskObject.Members>();
 
-    final String HOST_MEMBERS = Global.HOST + "/api/project/%s/members?pageSize=1000";
-    String HOST_TASK_MEMBER = Global.HOST + "/api/project/%s/task/user/count";
+    final String HOST_MEMBERS = Global.HOST + "/api/project/%d/members?pageSize=1000";
+    String HOST_TASK_MEMBER = Global.HOST + "/api/project/%d/task/user/count";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -124,7 +124,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             if (code == 0) {
                 mMemberTask.addItems(respanse.getJSONArray("data"));
 
-                String getMembers = String.format(HOST_MEMBERS, mProjectObject.id);
+                String getMembers = String.format(HOST_MEMBERS, mProjectObject.getId());
                 getNetwork(getMembers, HOST_MEMBERS);
 
             } else {

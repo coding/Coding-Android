@@ -1,12 +1,20 @@
 package net.coding.program.message;
 
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
@@ -24,10 +32,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 @EActivity(R.layout.fragment_notify_list)
 public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadMore {
+
+    private final String HOST_MARK_READ = Global.HOST + "/api/notification/mark-read";
 
     @Extra
     int type;
@@ -95,8 +106,28 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(HOST_MARK_READ)) {
+            int id = (int) data;
+            for (NotifyObject item : mData) {
+                if (item.id == id) {
+                    item.setRead();
+                    baseAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
         }
     }
+
+    View.OnClickListener onClickItem = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            NotifyObject notifyObject = (NotifyObject) v.getTag(R.id.tag);
+
+            RequestParams params = new RequestParams();
+            params.put("id", notifyObject.id);
+            postNetwork(HOST_MARK_READ, params, HOST_MARK_READ, 0, notifyObject.id);
+        }
+    };
 
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
@@ -121,17 +152,22 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.fragment_notify_list_item_at, parent, false);
                 convertView.setTag(holder);
+                convertView.setOnClickListener(onClickItem);
 
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.title.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.time = (TextView) convertView.findViewById(R.id.time);
+                holder.root = convertView;
+
 
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             NotifyObject data = mData.get(position);
+
+            holder.root.setTag(R.id.tag, data);
 
             String title = data.content;
             holder.time.setText(Global.dayToNow(data.created_at));
@@ -173,34 +209,28 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
 
             } else if (itemType.equals("Tweet")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_tweet);
-//                title = ParseLink.parseMaopao(title);
 
             } else if (itemType.equals("TweetComment")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
-//                title = ParseLink.parseMaopao(title);
 
             } else if (itemType.equals("TweetLike")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_tweetlike);
-//                        title = ParseLink.parseMaopao(title);
 
             } else if (itemType.equals("MergeRequestBean")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
-//                title = ParseLink.parseMergeRequestBean(title);
 
             } else if (itemType.equals("UserFollow")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_follow);
-//                title = ParseLink.parsePerson(title);
 
             } else if (itemType.equals("TaskComment")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-//                title = ParseLink.parsePerson(title);
 
             } else {
                 holder.icon.setImageResource(R.drawable.ic_notify_at);
             }
 
             holder.title.setText(Global.changeHyperlinkColor(title));
-            holder.title.setTextColor(data.status == 0 ? 0xff222222 : 0xff999999);
+            holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);
 
             if (position == (mData.size() - 1)) {
                 loadMore();
@@ -215,6 +245,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
         public ImageView icon;
         public TextView title;
         public TextView time;
+        public View root;
     }
 
 }

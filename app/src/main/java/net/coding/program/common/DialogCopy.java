@@ -25,7 +25,7 @@ public class DialogCopy {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                Global.copy(((TextView) v).getText().toString(), v.getContext());
+                                Global.copy(v.getContext(), ((TextView) v).getText().toString());
                                 Toast.makeText(v.getContext(), "已复制", Toast.LENGTH_SHORT).show();
                             }
                         }

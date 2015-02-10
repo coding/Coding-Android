@@ -97,7 +97,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
         TaskObject.SingleTask task = new TaskObject.SingleTask();
         task.project = mProjectObject;
-        task.project_id = mProjectObject.id;
+        task.project_id = mProjectObject.getId();
         task.owner = AccountInfo.loadAccount(getActivity());
         task.owner_id = task.owner.id;
 
@@ -109,7 +109,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mShowAdd && !mProjectObject.id.isEmpty()) {
+        if (mShowAdd && !mProjectObject.isEmpty()) {
             inflater.inflate(R.menu.project_task, menu);
         }
 
@@ -133,7 +133,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     String createHost(String userId, String type) {
         String BASE_HOST = Global.HOST + "/api%s/tasks%s?";
         String userType;
-        if (mProjectObject.id.isEmpty()) {
+        if (mProjectObject.isEmpty()) {
             userType = type;
 
         } else {
@@ -158,6 +158,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     @AfterViews
     protected void init() {
         super.init();
+
+        mData = AccountInfo.loadTasks(getActivity(), mProjectObject.getId(), mMembers.id);
 
         Calendar calendar = Calendar.getInstance();
         mToday = mDateFormat.format(calendar.getTimeInMillis());
@@ -215,10 +217,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         getNextPageNetwork(urlAll, urlAll);
 
         if (mUpdateAll) {
-            if (mProjectObject.id.isEmpty()) {
+            if (mProjectObject.isEmpty()) {
                 getNetwork(urlTaskCountMy, urlTaskCountMy);
             } else {
-                String url = String.format(urlTaskCountProject, mProjectObject.id);
+                String url = String.format(urlTaskCountProject, mProjectObject.getId());
                 getNetwork(url, urlTaskCountProject);
             }
         }
@@ -239,7 +241,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     String urlAll = "";
 
-    final String urlTaskCountProject = Global.HOST + "/api/project/%s/task/user/count";
+    final String urlTaskCountProject = Global.HOST + "/api/project/%d/task/user/count";
     final String urlTaskCountMy = Global.HOST + "/api/tasks/projects/count";
     public static final String hostTaskDelete = Global.HOST + "/api/user/%s/project/%s/task/%s";
     final String URL_TASK_SATUS = Global.HOST + "/api/task/%s/status";
@@ -272,6 +274,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                     }
                 }
 
+                AccountInfo.saveTasks(getActivity(), mData, mProjectObject.getId(), mMembers.id);
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
 
             } else {
@@ -286,7 +289,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 JSONArray array = respanse.getJSONArray("data");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    if (item.getString("project").equals(mProjectObject.id)) {
+                    if (item.optInt("project") == (mProjectObject.getId())) {
                         mTaskCount[0] = item.getInt("processing");
                         mTaskCount[1] = item.getInt("done");
                         break;
@@ -294,6 +297,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 }
                 mAdapter.notifyDataSetChanged();
             }
+
         } else if (tag.equals(urlTaskCountProject)) {
             if (code == 0) {
                 JSONArray array = respanse.getJSONArray("data");

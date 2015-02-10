@@ -27,7 +27,7 @@ public class ProjectObject implements Serializable {
     public String git_url = "";
     public String https_url = "";
     public String icon = "";
-    public String id = "";
+    private int id;
     public int fork_count;
     public boolean forked;
     public long created_at;
@@ -57,7 +57,7 @@ public class ProjectObject implements Serializable {
         git_url = json.optString("git_url");
         https_url = json.optString("https_url");
         icon = Global.replaceUrl(json, "icon");
-        id = json.optString("id");
+        id = json.optInt("id");
         created_at = json.optLong("created_at");
         update_at = json.optLong("update_at");
         fork_count = json.optInt("fork_count");
@@ -70,6 +70,14 @@ public class ProjectObject implements Serializable {
         forked = json.optBoolean("forked");
         is_public = json.optBoolean("is_public");
         stared = json.optBoolean("stared");
+    }
+
+    public boolean isEmpty() {
+        return id == 0;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public ProjectObject() {

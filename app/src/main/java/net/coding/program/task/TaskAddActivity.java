@@ -10,17 +10,20 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.EventLogTags;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -59,6 +62,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_task_add)
@@ -123,8 +127,12 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     private void initControl() {
         mEnterLayout = new EnterLayout(this, mOnClickSendText, EnterLayout.Type.TextOnly);
 
+        // 单独提出来是因为弹出软键盘时，由于head太长，导致 title 会被顶到消失，现在的解决方法是 edit作为一个单独的head加载
+        View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, null);
+        title = (EditText) headEdit.findViewById(R.id.title);
+        listView.addHeaderView(headEdit);
+
         mHeadView = mInflater.inflate(R.layout.activity_task_add_head, null);
-        title = (EditText) mHeadView.findViewById(R.id.title);
         circleIcon = (ImageView) mHeadView.findViewById(R.id.circleIcon);
         name = (TextView) mHeadView.findViewById(R.id.name);
         status = (TextView) mHeadView.findViewById(R.id.status);
@@ -249,7 +257,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 descriptionButtonUpdate(false);
                 descriptionButton.setOnClickListener(onClickCreateDescription);
             }
-
         }
     }
 
@@ -258,12 +265,41 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.task_add, menu);
+
+        if (mJumpParams == null && mSingleTask.isEmpty()) {
+            menuInflater.inflate(R.menu.task_add, menu);
+        } else {
+            menuInflater.inflate(R.menu.task_add_edit, menu);
+        }
 
         mMenuSave = menu.findItem(R.id.action_save);
         updateSendButton();
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu)
+    {
+        if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    private void deleteTask() {
+        TaskObject.SingleTask task = mSingleTask;
+        String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
+        deleteNetwork(url, TaskListFragment.hostTaskDelete);
+        showProgressBar(true, "删除任务中...");
     }
 
     private void setHeadData() {
@@ -284,7 +320,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         });
         title.setText("");
 
-        View delete = mHeadView.findViewById(R.id.delete);
+        final View delete = mHeadView.findViewById(R.id.delete);
         if (mSingleTask.isEmpty()) {
             delete.setVisibility(View.GONE);
         } else {
@@ -295,10 +331,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                     showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            TaskObject.SingleTask task = mSingleTask;
-                            String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
-                            deleteNetwork(url, TaskListFragment.hostTaskDelete);
-                            showProgressBar(true, "删除任务中...");
+                            deleteTask();
                         }
                     });
                 }
@@ -487,6 +520,19 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             putNetwork(url, params, TAG_TASK_UPDATE);
             showProgressBar(true, R.string.delete_task_ing);
         }
+    }
+
+    @OptionsItem
+    void action_copy() {
+        final String urlTemplate = Global.HOST + "/u/%s/p/%s/task/%d";
+        String url = String.format(urlTemplate, mSingleTask.project.owner_user_name, mSingleTask.project.name, mSingleTask.getId());
+        Global.copy(this, url);
+        showButtomToast("已复制 " + url);
+    }
+
+    @OptionsItem
+    void action_delete() {
+        deleteTask();
     }
 
     void selectMember() {

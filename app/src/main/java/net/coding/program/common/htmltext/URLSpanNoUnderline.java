@@ -149,7 +149,7 @@ public class URLSpanNoUnderline extends URLSpan {
             folder.name = matcher.group(5);
             AttachmentsActivity_.intent(context)
                     .mAttachmentFolderObject(folder)
-                    .mProjectObjectId(matcher.group(4))
+                    .mProjectObjectId(Integer.valueOf(matcher.group(4)))
                     .start();
             return true;
         }
@@ -167,7 +167,7 @@ public class URLSpanNoUnderline extends URLSpan {
             folderFile.file_id = matcher.group(4);
             folderFile.name = matcher.group(6);
 
-            String projectId = matcher.group(5);
+            int projectId = Integer.valueOf(matcher.group(5));
 
             String extension = folderFile.name.toLowerCase();
             final String imageType = ".*\\.(gif|png|jpeg|jpg)$";

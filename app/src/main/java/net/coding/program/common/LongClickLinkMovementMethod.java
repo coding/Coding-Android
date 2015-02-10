@@ -65,8 +65,9 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
 
 
     public static MovementMethod getInstance() {
-        if (sInstance == null)
+        if (sInstance == null) {
             sInstance = new LongClickLinkMovementMethod();
+        }
 
         return sInstance;
     }

@@ -60,7 +60,7 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
     private static String TAG = AttachmentsPicDetailActivity.class.getSimpleName();
 
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     @Extra
     AttachmentFileObject mAttachmentFileObject;
@@ -86,8 +86,8 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
 
     private static final String STATE_POSITION = "STATE_POSITION";
 
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?fileIds=%s";
-    private String urlDownloadBase = Global.HOST + "/api/project/%s/files/%s/download";
+    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
+    private String urlDownloadBase = Global.HOST + "/api/project/%d/files/%s/download";
     String urlDownload = "";
 
     File mFile;
