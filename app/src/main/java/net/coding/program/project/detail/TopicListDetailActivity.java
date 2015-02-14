@@ -2,6 +2,7 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -57,6 +58,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     @Extra
     TopicDetailParam mJumpParam;
+
+    private WebView webView;
+    private TextView topicTitleTextView;
 
     public static class TopicDetailParam implements Serializable {
         public String mUser;
@@ -116,6 +120,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     final int RESULT_AT = 1;
+    final int RESULT_EDIT = 2;
 
     @OnActivityResult(RESULT_AT)
     void onResultAt(int requestCode, Intent data) {
@@ -123,6 +128,16 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             String name = data.getStringExtra("name");
             mEnterLayout.insertText(name);
             mEnterLayout.popKeyboard();
+        }
+    }
+
+    @OnActivityResult(RESULT_EDIT)
+    void onResultEdit(int requestCode, Intent data) {
+        if (requestCode == Activity.RESULT_OK) {
+            topicObject = (TopicObject) data.getSerializableExtra("topic");
+            topicTitleTextView.setText(topicObject.title);
+            setTopicWebView(this, webView, bubble, topicObject.content);
+            mResultData.putExtra("topic", topicObject);
         }
     }
 
@@ -136,6 +151,11 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     @OptionsItem
     void action_more() {
         showRightTopPop();
+    }
+
+    @OptionsItem
+    void action_edit() {
+        TopicAddActivity_.intent(this).projectObject(topicObject.project).topicObject(topicObject).startForResult(RESULT_EDIT);
     }
 
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
@@ -187,7 +207,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     @Override
     public void onBackPressed() {
-        if (mResultData.getIntExtra("child_count", -1) == -1) {
+        if (mResultData.getExtras() == null) {
             setResult(Activity.RESULT_CANCELED);
         } else {
             setResult(Activity.RESULT_OK, mResultData);
@@ -222,7 +242,18 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         textViewCommentCount.setText(commentCount);
     }
 
-    String bubble;
+    String bubble = "";
+
+    static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setBackgroundColor(0);
+        webView.getBackground().setAlpha(0);
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context));
+
+        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
+    }
+
 
     private void updateHeadData() {
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
@@ -239,20 +270,15 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         icon.setTag(topicObject.owner.global_key);
         icon.setOnClickListener(mOnClickUser);
 
-        ((TextView) head.findViewById(R.id.title)).setText(topicObject.title);
+        topicTitleTextView = ((TextView) head.findViewById(R.id.title));
+        topicTitleTextView.setText(topicObject.title);
 
         final String format = "<font color='#3bbd79'>%s</font> 发布于%s";
         String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
         ((TextView) head.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
 
-        WebView webView = (WebView) head.findViewById(R.id.comment);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setBackgroundColor(0);
-        webView.getBackground().setAlpha(0);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(this));
-
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", topicObject.content), "text/html", "UTF-8", null);
+        webView = (WebView) head.findViewById(R.id.comment);
+        setTopicWebView(this, webView, bubble, topicObject.content);
 
         textViewCommentCount = (TextView) head.findViewById(R.id.commentCount);
         updateDisplayCommentCount();
@@ -291,7 +317,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             TopicObject comment = (TopicObject) message.getTag();
             if (comment != null && comment.parent_id != 0) {
-                input = String.format("@%d : ", comment.owner.name) + input;
+                input = String.format("@%s : ", comment.owner.name) + input;
             }
             params.put("content", input);
 

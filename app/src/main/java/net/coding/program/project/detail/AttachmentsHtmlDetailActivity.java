@@ -41,8 +41,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     String markdown;
 
     @AfterViews
-    void init() {
-        super.init();
+    void init1() {
 
         try {
             markdown = readTextFile(getAssets().open("markdown-html"));

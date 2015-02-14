@@ -17,6 +17,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.maopao.MaopaoDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -117,6 +118,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     };
 
     private void displayWebView() {
+        descWeb.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
         descWeb.getSettings().setJavaScriptEnabled(true);
         descWeb.setBackgroundColor(0);
         descWeb.getBackground().setAlpha(0);
@@ -125,7 +127,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         descWeb.loadDataWithBaseURL(Global.HOST, ((TaskDescrip) getActivity()).createLocateHtml(contentHtml), "text/html", "UTF-8", null);
     }
 
-    final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
+    public static final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -12,7 +12,7 @@ public class HtmlContent {
     private static final String REGX_PHOTO_OLD = "<div class='message-image-box'><a href=\'(?:[^\\\']*)?\' target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
     private static final String REPLACE_PHOTO = "[图片]";
 
-    private static final String REGX_MONKEY = "<img class=\"emotion emoji\" src=\".*?\" title=\"(.*?)\">";
+    private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";
 
     private static final String REGX_CODE = "(<pre>)?<code .*(\\n)?</code>(</pre>)?";
 
@@ -81,6 +81,11 @@ public class HtmlContent {
 
         if (s.startsWith(br)) {
             s = s.substring(br.length(), s.length());
+        }
+
+        String temp = s.replaceAll("<br>", "").replaceAll(" ", "").replaceAll("\n", "");
+        if (temp.isEmpty()) {
+            return "";
         }
 
         return s;

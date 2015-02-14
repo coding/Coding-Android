@@ -2,10 +2,12 @@ package net.coding.program.task;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import net.coding.program.R;
@@ -13,6 +15,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
@@ -34,9 +37,7 @@ public class TaskDescripMdFragment extends BaseFragment {
     @AfterViews
     void init() {
         setHasOptionsMenu(true);
-        if (contentMd == null) {
-
-        } else {
+        if (contentMd != null)  {
             edit.setText(contentMd);
             mActionMode = getActivity().startActionMode(mActionModeCallback);
         }
@@ -119,5 +120,74 @@ public class TaskDescripMdFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_task_description_edit, menu);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    final String tipFont = "在此输入文字";
+
+    @Click
+    public void mdBold(View v) {
+        insertString(" **", tipFont, "** ");
+    }
+
+    @Click
+    public void mdItalic(View v) {
+        insertString(" *", tipFont, "* ");
+    }
+
+    @Click
+    public void mdHyperlink(View view) {
+        insertString("[", tipFont, "]()");
+    }
+
+    @Click
+    public void mdLinkQuote(View view) {
+        insertString("\n> ", tipFont,  "");
+    }
+
+    @Click
+    public void mdCode(View v) {
+        insertString("\n```\n" ,
+                tipFont ,
+                "\n```\n");
+    }
+
+    @Click
+    public void mdTitle(View view) {
+        insertString("## ", tipFont, " ##");
+    }
+
+    @Click
+    public void mdList(View v) {
+        insertString("\n - ", tipFont, "");
+    }
+
+    @Click
+    public void mdDivide(View v) {
+        insertString("\n----------\n", tipFont, "");
+    }
+
+    private void insertString(String begin, String middle, String end) {
+        edit.requestFocus();
+        Global.popSoftkeyboard(getActivity(), edit, true);
+
+        String insertString = String.format("%s%s%s", begin, middle, end);
+        int insertPos = edit.getSelectionStart();
+        int selectBegin = insertPos - begin.length();
+        int selectEnd = selectBegin + insertString.length();
+
+        Editable editable = edit.getText();
+        String currentInput = editable.toString();
+
+        if (0 <= selectBegin &&
+                selectEnd <= currentInput.length() &&
+                insertString.equals(currentInput.substring(selectBegin, selectEnd))) { //
+            editable.replace(selectBegin, selectEnd, middle);
+            edit.setSelection(selectBegin, selectBegin + middle.length());
+        } else {
+            editable.replace(insertPos, edit.getSelectionEnd(), insertString);
+            edit.setSelection(insertPos + begin.length(), insertPos + begin.length() + middle.length());
+        }
     }
 }

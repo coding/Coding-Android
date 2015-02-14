@@ -7,35 +7,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.EditText;
 
-import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.TaskObject;
+import net.coding.program.project.detail.TopicAddActivity;
+import net.coding.program.project.detail.TopicAddActivity.TopicData;
+import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.project.detail.TopicEditFragment_;
+import net.coding.program.project.detail.TopicPreviewFragment_;
+import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.client.protocol.ClientContext;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 @EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BaseFragmentActivity implements TaskDescrip {
+public class TaskDescriptionActivity extends BaseFragmentActivity implements TaskDescrip, TopicEditFragment.SaveData {
 
     @Extra
     TaskObject.TaskDescription descriptionData;
@@ -53,30 +51,22 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
 
     String preViewHtml = "";
 
+    Fragment editFragment;
+    Fragment previewFragment;
+
     @AfterViews
     void init() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Global.syncCookie(this);
+        editFragment = TaskDespEditFragment_.builder().build();
+        previewFragment = TaskDespPreviewFragment_.builder().build();
 
-        Fragment fragment;
         String markdown = descriptionData.markdown;
         if (markdown.isEmpty()) {
-            fragment = TaskDescripMdFragment_.builder().contentMd(markdown).build();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .addToBackStack("edit")
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
         } else {
-            fragment = TaskDescripHtmlFragment_.builder()
-                    .contentMd(markdown)
-                    .contentHtml(descriptionData.description)
-                    .build();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .commit();
+            modifyData.content = markdown;
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
         }
     }
 
@@ -170,4 +160,35 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
             return "";
         }
     }
+
+    private TopicData modifyData = new TopicData();
+
+    @Override
+    public void saveData(TopicData data) {
+        modifyData = data;
+    }
+
+    @Override
+    public TopicAddActivity.TopicData loadData() {
+        return modifyData;
+    }
+
+    @Override
+    public void switchPreview() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
+    }
+
+    @Override
+    public void switchEdit() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+    }
+
+    @Override
+    public void exit() {
+        Intent intent = new Intent();
+        intent.putExtra("data", modifyData.content);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
 }

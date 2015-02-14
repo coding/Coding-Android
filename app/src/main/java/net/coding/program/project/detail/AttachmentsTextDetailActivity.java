@@ -33,9 +33,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     }
 
     @AfterViews
-    void init() {
-        super.init();
-
+    void init1() {
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
 
         showDialogLoading();
@@ -62,7 +60,6 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
     @OptionsItem
     public void action_add() {
-
     }
 
 }

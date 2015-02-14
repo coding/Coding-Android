@@ -454,6 +454,9 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (position) {
                 case 0:
+                    action_copy();
+                    break;
+                case 1:
                     if (!mAttachmentFileObject.isOwner()) {
                         return;
                     } else {
@@ -465,6 +468,16 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
         }
     };
 
+    void action_copy() {
+        String preViewUrl = mAttachmentFileObject.owner_preview;
+        int pos = preViewUrl.lastIndexOf("imagePreview");
+        if (pos != -1) {
+            preViewUrl = preViewUrl.substring(0, pos) + "download";
+        }
+        Global.copy(this, preViewUrl);
+        showButtomToast("已复制 " + preViewUrl);
+    }
+
 
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 
@@ -473,6 +486,10 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
             ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
             //DialogUtil.RightTopPopupItem moveItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_move), R.drawable.ic_menu_move);
             //popupItemArrayList.add(moveItem);
+
+            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(copylinkItem);
+
             DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
             popupItemArrayList.add(deleteItem);
             mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsDownloadDetailActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
@@ -485,8 +502,7 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
             initRightTopPop();
         }
 
-        //DialogUtil.RightTopPopupItem moveItem = mRightTopPopupWindow.adapter.getItem(0);
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(0);
+        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(1);
 
         if (!mAttachmentFileObject.isOwner()) {
             deleteItem.enabled = false;

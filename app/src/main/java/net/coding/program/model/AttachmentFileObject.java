@@ -25,7 +25,7 @@ public class AttachmentFileObject implements Serializable {
     // .file-icon.rar,.file-icon.zip{background-color:#8e6dd2}
     // .file-icon.html,.file-icon.markd,.file-icon.markdown,.file-icon.md,.file-icon.mdown{background-color:#c5f0e9}
 
-    public static String imagePatternStr = "(gif|png|jpeg|jpg)"; // /\.(gif|png|jpeg|jpg)$/
+    public static String imagePatternStr = "(gif|png|jpeg|jpg|GIF|PNG|JPEG|JPG)"; // /\.(gif|png|jpeg|jpg)$/
     static Pattern imagePattern = Pattern.compile(imagePatternStr);
 
     static String docPatternStr = "(doc|docx)";
@@ -89,6 +89,12 @@ public class AttachmentFileObject implements Serializable {
     public String name = "";
     public UserObject owner = new UserObject();
     public String owner_id = "";
+
+    /* https://coding.net/api/project/1/files/70699/imagePreview
+     * 可以看到图片的原图，如果是其它类型的文件
+     * 就需要去掉 imagePreview,推荐的用法是拼接url出来，
+     * https://coding.net/api/project/1/files/70699/download
+     */
     public String owner_preview = "";
     public String parent_id = "";
     public String preview = "";

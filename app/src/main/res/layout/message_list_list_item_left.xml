@@ -34,6 +34,7 @@
         android:layout_marginLeft="5dp"
         android:id="@+id/linearLayout"
         android:layout_toRightOf="@+id/icon"
+        xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
         android:orientation="vertical"
         android:background="@drawable/message_list_item_left"
         android:visibility="visible"
@@ -51,8 +52,20 @@
             android:textColor="@color/font_black_content"
             android:textSize="16sp" />
 
-        <include xmlns:android="http://schemas.android.com/apk/res/android"
-            layout="@layout/maopao_image_single" />
+        <net.coding.program.common.MinSizeImageView
+            custom:microSize="@dimen/image_single_micro_width"
+            custom:minWidth="@dimen/image_single_min_size"
+            custom:minHeight="@dimen/image_single_min_size"
+            android:id="@+id/imageSingle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/image_single_width"
+            android:maxHeight="@dimen/image_single_width"
+            android:minWidth="@dimen/image_single_min_width"
+            android:minHeight="@dimen/image_single_min_width"
+            android:longClickable="true" />
 
 
         <LinearLayout

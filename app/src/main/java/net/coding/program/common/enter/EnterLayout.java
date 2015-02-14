@@ -125,7 +125,6 @@ public class EnterLayout {
     public void insertText(String s) {
         content.requestFocus();
         int insertPos = content.getSelectionStart();
-        Log.d("", "pppppp " + insertPos);
 
         String insertString = s + " ";
         Editable editable = content.getText();

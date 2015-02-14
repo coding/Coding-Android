@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @EFragment(R.layout.common_refresh_listview)
@@ -48,7 +49,7 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
     @ViewById
     View blankLayout;
 
-    ArrayList<TopicObject> mData = new ArrayList<TopicObject>();
+    ArrayList<TopicObject> mData = new ArrayList();
 
     String URL_DISCUSS_ALL = Global.HOST + "/api/project/%d/topics?pageSize=20&type=1";
     String URL_DISCUSS_ME = Global.HOST + "/api/project/%d/topics/me?pageSize=20&type=1";
@@ -232,7 +233,6 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
 
             case RESULT_DETAIL:
                 if (resultCode == Activity.RESULT_OK) {
-
                     int id = data.getIntExtra("id", -1);
                     if (id != -1) {
                         for (int i = 0; i < mData.size(); ++i) {
@@ -252,6 +252,20 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
                                 break;
                             }
                         }
+                    }
+
+                    Serializable topicObject = data.getSerializableExtra("topic");
+                    if (topicObject != null && topicObject instanceof TopicObject) {
+                        TopicObject topicData = (TopicObject) topicObject;
+
+                        for (int i = 0; i < mData.size(); ++i) {
+                            if (mData.get(i).id == topicData.id) {
+                                mData.set(i, topicData);
+                                baseAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
                     }
                 }
                 break;

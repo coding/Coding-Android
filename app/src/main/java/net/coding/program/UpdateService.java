@@ -154,6 +154,7 @@ public class UpdateService extends Service {
                         if (!background) {
                             Toast.makeText(UpdateService.this, "你的软件已经是最新版本", Toast.LENGTH_LONG).show();
                         }
+                        stopSelf();
                     }
                 } catch (Exception e) {
                     Global.errorLog(e);
