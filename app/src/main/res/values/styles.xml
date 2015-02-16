@@ -1,7 +1,10 @@
 <resources>
     <!-- 背景设为透明，用于启动和登录页面-->
-    <style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+    <!--<style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar">-->
+    <style name="TranslateThemeFull" parent="@android:style/android:Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="TranslateTheme" parent="ActionbarNoIcon">
@@ -36,7 +39,6 @@
         <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
 
     </style>
-
 
     <style name="ActionbarSpannerNoIconTheme" parent="ActionbarSpannerTheme">
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>

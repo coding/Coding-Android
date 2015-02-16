@@ -142,7 +142,7 @@ public class EntranceActivity extends BaseActivity {
 
         UnreadNotify.update(this);
         finish();
-        overridePendingTransition(0, R.anim.alpha_out);
+        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
     }
 }
 
