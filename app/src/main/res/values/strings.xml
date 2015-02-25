@@ -79,5 +79,6 @@
     <string name="delete_topic">删除讨论</string>
     <string name="perview">预览</string>
     <string name="edit">编辑</string>
+    <string name="title_activity_update_tip">UpdateTipActivity</string>
 
 </resources>

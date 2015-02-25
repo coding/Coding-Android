@@ -24,11 +24,13 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.setting.UpdateTipActivity;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 
 /*
  * 该服务的作用是检查是否有新版本程序，有的话就升级
@@ -38,6 +40,11 @@ public class UpdateService extends Service {
     public static final String EXTRA_BACKGROUND = "EXTRA_BACKGROUND";
     public static final String EXTRA_WIFI = "EXTRA_WIFI";
     public static final String EXTRA_DEL_OLD_APK = "EXTRA_DEL_OLD_APK";
+
+    public static final int PARAM_INSTALL_APK = 1;
+    public static final int PARAM_STOP_SELF = 2;
+    public static final int PARAM_START_DOWNLOAD = 3;
+
 
     private boolean isChecking = false;
 
@@ -55,6 +62,19 @@ public class UpdateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        int param = intent.getIntExtra("data", 0);
+        if (param == PARAM_INSTALL_APK) {
+            installApk();
+            return START_REDELIVER_INTENT;
+        } else if (param == PARAM_STOP_SELF) {
+            stopSelf();
+            return START_REDELIVER_INTENT;
+        } else if (param == PARAM_START_DOWNLOAD) {
+            downloadApp();
+            return START_REDELIVER_INTENT;
+        }
+
+
         if (intent.getBooleanExtra(EXTRA_DEL_OLD_APK, false)) {
             deleteOldApk();
         }
@@ -62,6 +82,18 @@ public class UpdateService extends Service {
         run(intent);
 
         return START_REDELIVER_INTENT;
+    }
+
+    private void downloadApp() {
+        if (enqueue == 0) {
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUpdateInfo.url))
+                    .setTitle("Coding")
+                    .setDescription("下载Coding" + mUpdateInfo.versionName)
+                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mUpdateInfo.apkName())
+                    .setVisibleInDownloadsUi(false);
+            enqueue = downloadManager.enqueue(request);
+        }
     }
 
     @Override
@@ -148,7 +180,10 @@ public class UpdateService extends Service {
                         int jumpVersion = share.getInt("jump", 0);
 
                         if (mUpdateInfo.newVersion > jumpVersion) {
-                            showNoticeDialog();
+                            Intent intentUpdateTipActivity = new Intent(UpdateService.this, UpdateTipActivity.class);
+                            intentUpdateTipActivity.putExtra("data", mUpdateInfo);
+                            intentUpdateTipActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentUpdateTipActivity);
                         }
                     } else {
                         if (!background) {
@@ -212,68 +247,6 @@ public class UpdateService extends Service {
     private DownloadManager downloadManager;
     private long enqueue = 0;
 
-    private void showNoticeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("软件版本更新");
-        builder.setMessage(mUpdateInfo.newMessage);
-
-        if (isDownload()) {
-            builder.setPositiveButton("安装", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    installApk();
-                }
-            });
-        } else {
-            builder.setPositiveButton("下载", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (noticeDialog.isShowing()) {
-                        noticeDialog.cancel();
-
-                        if (enqueue == 0) {
-
-                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUpdateInfo.url))
-                                    .setTitle("Coding")
-                                    .setDescription("下载Coding" + mUpdateInfo.versionName)
-                                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mUpdateInfo.apkName())
-                                    .setVisibleInDownloadsUi(false);
-                            enqueue = downloadManager.enqueue(request);
-                        }
-                    }
-                }
-            });
-        }
-
-        builder.setCancelable(false);
-
-        if (mUpdateInfo.required == 1 || mUpdateInfo.required == 0) {
-            builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    stopSelf();
-                }
-            });
-
-            builder.setNeutralButton("跳过", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    SharedPreferences share = getSharedPreferences("version", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = share.edit();
-                    editor.putInt("jump", mUpdateInfo.newVersion);
-                    editor.commit();
-                    stopSelf();
-                }
-            });
-        }
-
-        noticeDialog = builder.create();
-        noticeDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        noticeDialog.show();
-        CustomDialog.dialogTitleLineColor(this, noticeDialog);
-    }
 
 
     private boolean isDownload() {
@@ -295,7 +268,7 @@ public class UpdateService extends Service {
         stopSelf();
     }
 
-    public static class UpdateInfo {
+    public static class UpdateInfo implements Serializable {
         public int newVersion;
         public String newMessage;
         public int required;
