@@ -22,7 +22,13 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    private DateSet mDateSet;
+//    SetTimeType mTimeType = SetTimeType.Cannel;
+// 小米手机不管按那个按钮都会调用 onDataSet，只好在click事件里面做标记
+//    enum SetTimeType {
+//        Cannel, Set, Clear;
+//    };
+private DateSet mDateSet;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -44,13 +50,28 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int month = Integer.valueOf(date[1]) - 1;
         int day = Integer.valueOf(date[2]);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
         if (getArguments().getBoolean("clear", false)) {
             datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "清除", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    if (which == DialogInterface.BUTTON_NEUTRAL) {
                         mDateSet.dateSetResult("", true);
-                    }
+                    dialog.cancel();
+                }
+            });
+            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DatePicker datePicker = datePickerDialog.getDatePicker();
+                    dateSet(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                    dialog.cancel();
+
                 }
             });
         }
@@ -66,13 +87,18 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return datePickerDialog;
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    // 用来取代onDateSet
+    private void dateSet(int year, int monthOfYear, int dayOfMonth) {
         final Calendar c = Calendar.getInstance();
         c.set(year, monthOfYear, dayOfMonth);
         if (mDateSet != null) {
             mDateSet.dateSetResult(Global.dayFromTime(c.getTimeInMillis()), false);
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // 因为小米手机一定会调这个接口，即使选择了取消，干脆不用这个接口算了
     }
 
     public void setNumberPicker(NumberPicker spindle) {

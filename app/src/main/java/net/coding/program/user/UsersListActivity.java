@@ -3,6 +3,7 @@ package net.coding.program.user;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -229,7 +229,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                 return true;
             }
         });
-
 
         return true;
     }

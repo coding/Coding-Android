@@ -14,8 +14,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-        <item name="actionBarStyle">@style/MyActionBar</item>
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
+        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
         <item name="android:windowBackground">@color/stand_bg</item>
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
@@ -23,6 +23,14 @@
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
         <item name="android:actionModeBackground">@drawable/gray_drawable</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
+
+        <!--<item name="android:background">@drawable/gray_drawable</item>-->
+
+        <item name="colorPrimary">@drawable/gray_drawable</item>
+        <!--<item name="android:textColorPrimary">@drawable/</item>-->
+        <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
+        <!--<item name="colorAccent">@color/material_green_A200</item>-->
+
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
     </style>
 
@@ -42,23 +50,23 @@
     </style>
 
     <style name="ActionbarSpannerNoIconTheme" parent="ActionbarSpannerTheme">
-        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->
     </style>
 
     <!-- ActionBar styles -->
 
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/gray_drawable</item>
-        <item name="background">@drawable/gray_drawable</item>
-    </style>
+    <!--<style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+        <!--<item name="android:background">@drawable/gray_drawable</item>-->
+        <!--<item name="background">@drawable/gray_drawable</item>-->
+    <!--</style>-->
 
 
-    <style name="ActionBarStyle" parent="MyActionBar">
-        <item name="android:displayOptions">showTitle</item>
-    </style>
+    <!--<style name="ActionBarStyle" parent="MyActionBar">-->
+        <!--<item name="android:displayOptions">showTitle</item>-->
+    <!--</style>-->
 
     <style name="ActionbarNoIcon" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->
     </style>
 
     <style name="ThemeHoloLightDialogAlert" parent="@android:style/Theme.Holo.Light.Dialog">

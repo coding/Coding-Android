@@ -15,6 +15,6 @@
         android:icon="@drawable/ic_menu_search"
         android:title="搜索"
         app:showAsAction="always"
-        android:actionViewClass="android.widget.SearchView" />
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 
 </menu>
