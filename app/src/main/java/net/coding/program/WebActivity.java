@@ -1,10 +1,11 @@
 package net.coding.program;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.umeng.UmengActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,7 +30,7 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_web)
 @OptionsMenu(R.menu.menu_web)
-public class WebActivity extends Activity {
+public class WebActivity extends UmengActivity {
 
     @Extra
     String url = "https://coding.net";
@@ -46,7 +48,7 @@ public class WebActivity extends Activity {
 
     @AfterViews
     void init() {
-        final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);

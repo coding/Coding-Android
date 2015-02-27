@@ -69,12 +69,12 @@ public class AddFollowActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
         } else {
             urlAddUser = String.format(Global.HOST + "/api/project/%d/members/add?", mProjectObject.getId());
-            getActionBar().setTitle("添加项目成员");
+            getSupportActionBar().setTitle("添加项目成员");
             baseAdapter = new AddProjectAdapter();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

@@ -60,7 +60,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
 
         setDefaultByType();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);
         loadMore();
@@ -73,13 +73,13 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
 
     private void setDefaultByType() {
         if (type == 0) {
-            getActionBar().setTitle("@我的");
+            getSupportActionBar().setTitle("@我的");
             defaultIcon = R.drawable.ic_notify_at;
         } else if (type == 1) {
-            getActionBar().setTitle("评论");
+            getSupportActionBar().setTitle("评论");
             defaultIcon = R.drawable.ic_notify_comment;
         } else {
-            getActionBar().setTitle("系统通知");
+            getSupportActionBar().setTitle("系统通知");
             defaultIcon = R.drawable.ic_notify_comment;
         }
     }

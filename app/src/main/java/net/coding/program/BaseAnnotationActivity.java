@@ -10,7 +10,7 @@ public class BaseAnnotationActivity extends BaseActivity {
 
     @AfterViews
     protected void annotationDispayHomeAsUp() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @OptionsItem(android.R.id.home)

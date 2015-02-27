@@ -1,4 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.user.UsersListActivity">
 
@@ -6,14 +7,14 @@
     <!--<item android:id="@+id/action_search"-->
     <!--android:title="搜索"-->
     <!--android:icon="@drawable/ic_menu_search"-->
-    <!--android:showAsAction="always"-->
+    <!--app:showAsAction="always"-->
     <!--android:actionViewClass="android.widget.SearchView" />-->
 
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_menu_search"
         android:title="搜索"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:actionViewClass="android.widget.SearchView" />
 
     <item
@@ -21,5 +22,5 @@
         android:title="添加"
         android:icon="@drawable/ic_menu_add"
         android:orderInCategory="100"
-        android:showAsAction="always" />
+        app:showAsAction="always" />
 </menu>

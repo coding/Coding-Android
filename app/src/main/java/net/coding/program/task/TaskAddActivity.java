@@ -28,7 +28,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CommentBackup;
@@ -66,7 +66,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_task_add)
-public class TaskAddActivity extends BaseFragmentActivity implements StartActivity, DatePickerFragment.DateSet {
+public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet {
 
     @Extra
     TaskObject.SingleTask mSingleTask;
@@ -111,7 +111,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initControl();
 
         if (mJumpParams == null) {
@@ -211,7 +211,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         } else {
             title.setText(mSingleTask.content);
-            getActionBar().setTitle("编辑任务");
+            getSupportActionBar().setTitle("编辑任务");
 
             setStatus();
             setPriority();

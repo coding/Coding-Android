@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.model.ProjectObject;
 
@@ -17,7 +17,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 
 @EActivity(R.layout.activity_members_select)
-public class MembersSelectActivity extends BaseFragmentActivity {
+public class MembersSelectActivity extends BaseActivity {
 
     @Extra
     ProjectObject mProjectObject;
@@ -26,7 +26,7 @@ public class MembersSelectActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fragment = new MembersListFragment_
                 .FragmentBuilder_()

@@ -10,7 +10,7 @@ public class FeedbackActivity extends TopicAddActivity {
 
     @AfterViews
     protected void init2() {
-        getActionBar().setTitle(R.string.title_activity_feedback);
+        getSupportActionBar().setTitle(R.string.title_activity_feedback);
     }
 
     @Override

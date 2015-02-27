@@ -2,13 +2,14 @@ package net.coding.program.common.umeng;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by chaochen on 14-10-9.
  */
-public class UmengActivity extends Activity {
+public class UmengActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

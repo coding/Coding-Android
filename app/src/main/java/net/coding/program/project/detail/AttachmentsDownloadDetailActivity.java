@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
@@ -54,7 +54,7 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_download)
 @OptionsMenu(R.menu.project_attachment_download)
-public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
+public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
 
@@ -191,8 +191,8 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFileObject.name);
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadManagerPro = new DownloadManagerPro(downloadManager);

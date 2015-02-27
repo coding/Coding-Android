@@ -1,6 +1,6 @@
 package net.coding.program;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,7 +41,7 @@ import org.androidannotations.annotations.res.StringArrayRes;
 import java.util.HashSet;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseFragmentActivity
+public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
 
     NavigationDrawerFragment_ mNavigationDrawerFragment;
@@ -177,7 +177,7 @@ public class MainActivity extends BaseFragmentActivity
             }
         };
 
-        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+        getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment_)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -243,13 +243,13 @@ public class MainActivity extends BaseFragmentActivity
         boolean useCustomBar = false;
         if (mSelectPos == 2) {
             useCustomBar = true;
-            ActionBar bar = getActionBar();
+            ActionBar bar = getSupportActionBar();
             bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
         }
 
-        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(useCustomBar);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     private void updateActionbarRestore() {
@@ -258,12 +258,12 @@ public class MainActivity extends BaseFragmentActivity
         boolean useCustomBar = false;
         if (mSelectPos == 2) {
             useCustomBar = true;
-            ActionBar bar = getActionBar();
+            ActionBar bar = getSupportActionBar();
             bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         }
 
-        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(useCustomBar);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     @Override
@@ -283,10 +283,10 @@ public class MainActivity extends BaseFragmentActivity
     }
 
     MySpinnerAdapter mSpinnerAdapter;
-    ActionBar.OnNavigationListener mOnNavigationListener;
+    android.support.v7.app.ActionBar.OnNavigationListener mOnNavigationListener;
 
     public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (mSelectPos != 2) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
@@ -300,8 +300,8 @@ public class MainActivity extends BaseFragmentActivity
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
 
             if (mSelectPos == 2) {
-                getActionBar().setIcon(R.drawable.ic_lancher);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+                getSupportActionBar().setIcon(R.drawable.ic_lancher);
+                getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
             } else {
                 restoreActionBar();
             }

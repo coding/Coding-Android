@@ -117,6 +117,10 @@ public class ImagePagerFragment extends BaseFragment {
     }
 
     private void showPhoto(boolean isGif) {
+        if (!isAdded()) {
+            return;
+        }
+
         if (isGif) {
             GifImageView gifView = (GifImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
             image = gifView;
@@ -151,6 +155,10 @@ public class ImagePagerFragment extends BaseFragment {
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                if (!isAdded()) {
+                    return;
+                }
+
                 String message;
                 switch (failReason.getType()) {
                     case IO_ERROR:
@@ -179,6 +187,10 @@ public class ImagePagerFragment extends BaseFragment {
 
             @Override
             public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
+                if (!isAdded()) {
+                    return;
+                }
+
                 loading.setVisibility(View.GONE);
 
                 image.setOnLongClickListener(new View.OnLongClickListener() {

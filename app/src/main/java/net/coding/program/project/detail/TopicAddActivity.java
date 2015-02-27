@@ -1,12 +1,12 @@
 package net.coding.program.project.detail;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.ProjectObject;
@@ -17,14 +17,13 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 
 @EActivity(R.layout.activity_topic_add)
-public class TopicAddActivity extends BaseFragmentActivity implements TopicEditFragment.SaveData {
+public class TopicAddActivity extends BaseActivity implements TopicEditFragment.SaveData {
 
     @Extra
     protected ProjectObject projectObject;
@@ -46,7 +45,7 @@ public class TopicAddActivity extends BaseFragmentActivity implements TopicEditF
 
     @AfterViews
     protected void init() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         editFragment = TopicEditFragment_.builder().build();

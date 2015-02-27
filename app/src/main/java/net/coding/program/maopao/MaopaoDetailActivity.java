@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -49,7 +49,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_detail)
-public class MaopaoDetailActivity extends BaseFragmentActivity implements StartActivity {
+public class MaopaoDetailActivity extends BaseActivity implements StartActivity {
 
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
@@ -91,7 +91,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mEnterLayout = new EnterEmojiLayout(this, onClickSend, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
@@ -139,6 +139,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
             }
 
             Maopao.Comment comment = (Maopao.Comment) content.getTag();
+            // TODO comment可能为空
             String uri = String.format(ADD_COMMENT, comment.tweet_id);
 
             RequestParams params = new RequestParams();

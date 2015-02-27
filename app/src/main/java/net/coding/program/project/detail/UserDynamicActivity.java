@@ -2,7 +2,7 @@ package net.coding.program.project.detail;
 
 import android.os.Bundle;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -13,7 +13,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 
 @EActivity(R.layout.activity_user_dynamic)
-public class UserDynamicActivity extends BaseFragmentActivity {
+public class UserDynamicActivity extends BaseActivity {
 
     @Extra
     TaskObject.Members mMember;
@@ -23,8 +23,8 @@ public class UserDynamicActivity extends BaseFragmentActivity {
 
     @AfterViews
     protected void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mMember.user.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mMember.user.name);
 
         ProjectDynamicFragment_ fragment = new ProjectDynamicFragment_();
 

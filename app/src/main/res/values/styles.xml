@@ -1,7 +1,7 @@
 <resources>
     <!-- 背景设为透明，用于启动和登录页面-->
     <!--<style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar">-->
-    <style name="TranslateThemeFull" parent="@android:style/android:Theme.Holo.Light.NoActionBar">
+    <style name="TranslateThemeFull" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -10,8 +10,9 @@
     <style name="TranslateTheme" parent="ActionbarNoIcon">
         <item name="android:windowBackground">@drawable/transparent</item>
     </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
@@ -29,7 +30,7 @@
         <item name="android:background">@drawable/spinner_layout_head_bg</item>
     </style>
 
-    <style name="SpinnerDropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">
+    <style name="SpinnerDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
         <item name="android:divider">@color/spinner_divider</item>
         <item name="android:dividerHeight">1dp</item>
     </style>

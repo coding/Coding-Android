@@ -93,7 +93,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (topicObject == null) {
             urlTopic = String.format(Global.HOST + "/api/topic/%s?", mJumpParam.mTopic);
@@ -143,7 +143,15 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.topic_detail, menu);
+        if (topicObject != null) {
+            int menuRes;
+            if (topicObject.isMy()) {
+                menuRes = R.menu.topic_detail_modify;
+            } else {
+                menuRes = R.menu.topic_detail;
+            }
+            getMenuInflater().inflate(menuRes, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -378,7 +386,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             if (code == 0) {
                 topicObject = new TopicObject(respanse.getJSONObject("data"));
                 initData();
-
+                invalidateOptionsMenu();
             } else {
                 showErrorMsg(code, respanse);
             }

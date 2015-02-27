@@ -13,7 +13,7 @@ import android.webkit.WebView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_html)
 //@OptionsMenu(R.menu.users)
-public class GitViewActivity extends BaseFragmentActivity {
+public class GitViewActivity extends BaseActivity {
     private static String TAG = GitViewActivity.class.getSimpleName();
 
     @Extra
@@ -79,8 +79,8 @@ public class GitViewActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mGitFileInfoObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mGitFileInfoObject.name);
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 

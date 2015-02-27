@@ -117,7 +117,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         if (mData.isEmpty()) {
             showDialogLoading();
         }
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle();
 
         mFootUpdate.init(listView, mInflater, this);
@@ -189,7 +189,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             title = String.format(format, mUserParam.mUser.name, type);
         }
 
-        getActionBar().setTitle(title);
+        getSupportActionBar().setTitle(title);
     }
 
     private Friend getType() {

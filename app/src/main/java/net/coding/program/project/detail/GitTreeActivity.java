@@ -5,8 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengFragmentActivity;
+import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
 
@@ -14,7 +15,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 @EActivity(R.layout.activity_project_git_tree)
-public class GitTreeActivity extends UmengFragmentActivity {
+public class GitTreeActivity extends UmengActivity {
 
     @Extra
     ProjectObject mProjectObject;
@@ -29,7 +30,7 @@ public class GitTreeActivity extends UmengFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState != null) {
             mVersion = savedInstanceState.getString("mVersion", ProjectGitFragment.MASTER);

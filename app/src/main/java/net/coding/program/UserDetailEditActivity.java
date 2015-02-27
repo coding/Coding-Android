@@ -50,7 +50,7 @@ import java.util.Iterator;
 
 @EActivity(R.layout.activity_user_detail_edit)
 @OptionsMenu(R.menu.user_detail_edit)
-public class UserDetailEditActivity extends BaseFragmentActivity implements DatePickerFragment.DateSet {
+public class UserDetailEditActivity extends BaseActivity implements DatePickerFragment.DateSet {
 
     ImageView icon;
 
@@ -107,7 +107,7 @@ public class UserDetailEditActivity extends BaseFragmentActivity implements Date
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         user = AccountInfo.loadAccount(this);
 
         View head = mInflater.inflate(R.layout.activity_user_info_head, null, false);

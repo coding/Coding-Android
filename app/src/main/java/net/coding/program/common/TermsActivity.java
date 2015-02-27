@@ -5,15 +5,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 
-public class TermsActivity extends Activity {
+public class TermsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_terms);
 

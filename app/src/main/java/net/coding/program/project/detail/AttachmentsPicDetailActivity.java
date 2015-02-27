@@ -25,7 +25,7 @@ import android.widget.ProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
@@ -56,7 +56,7 @@ import java.util.HashMap;
  */
 @EActivity(R.layout.activity_attachments_image)
 @OptionsMenu(R.menu.project_attachment_image)
-public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
+public class AttachmentsPicDetailActivity extends BaseActivity {
     private static String TAG = AttachmentsPicDetailActivity.class.getSimpleName();
 
     @Extra
@@ -143,8 +143,8 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
     @AfterViews
     void init() {
         loading.setVisibility(View.VISIBLE);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFileObject.name);
 
         share = AttachmentsPicDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
@@ -185,7 +185,7 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
 
         @Override
         public void onPageSelected(int i) {
-            getActionBar().setTitle(fileList.get(i).name);
+            getSupportActionBar().setTitle(fileList.get(i).name);
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).name);
             mAttachmentFileObject = fileList.get(i);
         }

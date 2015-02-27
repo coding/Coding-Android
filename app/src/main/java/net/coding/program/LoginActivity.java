@@ -166,7 +166,6 @@ public class LoginActivity extends BaseActivity {
         downloadValifyPhoto();
     }
 
-
     final private int RESULT_CLOSE = 100;
 
     @Click

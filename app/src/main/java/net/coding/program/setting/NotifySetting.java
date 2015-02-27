@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.CheckBox;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.MainActivity;
 import net.coding.program.R;
 import net.coding.program.model.AccountInfo;
@@ -15,14 +16,14 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_notify_setting)
-public class NotifySetting extends Activity {
+public class NotifySetting extends BaseActivity {
 
     @ViewById
     CheckBox allNotify;
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         boolean mLastNotifySetting = AccountInfo.getNeedPush(this);
         allNotify.setChecked(mLastNotifySetting);

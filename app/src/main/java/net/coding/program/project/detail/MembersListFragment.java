@@ -168,7 +168,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
     static final int RESULT_ADD_USER = 111;
 
     private boolean projectCreateByMe() {
-        return mProjectObject.owner_id.equals(MyApp.sUserObject.id);
+        return mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
     }
 
     @OptionsItem
@@ -373,7 +373,6 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
     static class ViewHolder {
         ImageView icon;
         TextView name;
-        //TextView desc;
         ImageView ic;
         ImageView btn;
     }

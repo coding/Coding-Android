@@ -11,18 +11,13 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
 
-import com.loopj.android.http.RequestParams;
-
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicAddActivity.TopicData;
 import net.coding.program.project.detail.TopicEditFragment;
-import net.coding.program.project.detail.TopicEditFragment_;
-import net.coding.program.project.detail.TopicPreviewFragment_;
-import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -33,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BaseFragmentActivity implements TaskDescrip, TopicEditFragment.SaveData {
+public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip, TopicEditFragment.SaveData {
 
     @Extra
     TaskObject.TaskDescription descriptionData;
@@ -56,7 +51,7 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editFragment = TaskDespEditFragment_.builder().build();
         previewFragment = TaskDespPreviewFragment_.builder().build();

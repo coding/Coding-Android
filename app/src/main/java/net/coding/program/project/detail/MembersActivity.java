@@ -48,7 +48,7 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final String format = Global.HOST + "/api/project/%d/members?";
         urlMembers = String.format(format, mProjectObjectId);

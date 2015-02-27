@@ -1,12 +1,12 @@
 package net.coding.program.common.photopick;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CameraPreview;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 
-public class PhotoPickActivity extends Activity {
+public class PhotoPickActivity extends BaseActivity {
 
     TextView mFoldName;
     View mListViewGroup;
@@ -87,7 +88,7 @@ public class PhotoPickActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_pick);
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("图片");
         actionBar.setDisplayHomeAsUpEnabled(true);
         mMaxPick = getIntent().getIntExtra(EXTRA_MAX, 5);

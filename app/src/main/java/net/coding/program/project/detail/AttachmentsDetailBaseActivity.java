@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
@@ -46,7 +46,7 @@ import java.util.ArrayList;
  */
 @EActivity
 @OptionsMenu(R.menu.project_attachment_image)
-public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
+public class AttachmentsDetailBaseActivity extends BaseActivity {
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
 
     @Extra
@@ -103,8 +103,8 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFileObject.name);
 
         share = AttachmentsDetailBaseActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -55,7 +55,7 @@ import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
 @OptionsMenu(R.menu.message_list)
-public class MessageListActivity extends BaseFragmentActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
+public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
 
     @Extra
     UserObject mUserObject;
@@ -93,7 +93,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
@@ -119,7 +119,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
         url = String.format(Global.HOST + "/api/message/conversations/%s?pageSize=10", mUserObject.global_key);
 
-        getActionBar().setTitle(mUserObject.name);
+        getSupportActionBar().setTitle(mUserObject.name);
 
         mFootUpdate.initToHead(listView, mInflater, this);
         listView.setAdapter(adapter);

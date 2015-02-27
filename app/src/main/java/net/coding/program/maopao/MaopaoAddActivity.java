@@ -25,7 +25,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
@@ -53,7 +53,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_add)
-public class MaopaoAddActivity extends BaseFragmentActivity implements StartActivity {
+public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     final int PHOTO_MAX_COUNT = 6;
 
@@ -86,7 +86,7 @@ public class MaopaoAddActivity extends BaseFragmentActivity implements StartActi
         imageWidthPx = Global.dpToPx(100);
         mSize = new ImageSize(imageWidthPx, imageWidthPx);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mEnterLayout = new EnterEmojiLayout(this, null);
         message = mEnterLayout.content;

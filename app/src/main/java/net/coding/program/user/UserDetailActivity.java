@@ -80,7 +80,7 @@ public class UserDetailActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
@@ -119,7 +119,7 @@ public class UserDetailActivity extends BaseActivity {
     }
 
     private void setTitleMyPage() {
-        getActionBar().setTitle("个人主页");
+        getSupportActionBar().setTitle("个人主页");
     }
 
     @Click

@@ -1,4 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.project.detail.TopicAddActivity">
 
@@ -6,10 +7,10 @@
     <item
         android:id="@+id/action_preview"
         android:title="@string/perview"
-        android:showAsAction="always" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/ic_menu_ok"
         android:title="确定"
-        android:showAsAction="always" />
+        app:showAsAction="always" />
 </menu>

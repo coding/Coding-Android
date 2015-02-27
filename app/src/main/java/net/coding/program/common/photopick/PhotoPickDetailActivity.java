@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengFragmentActivity;
+import net.coding.program.common.umeng.UmengActivity;
 
 import java.util.ArrayList;
 
-public class PhotoPickDetailActivity extends UmengFragmentActivity {
+public class PhotoPickDetailActivity extends UmengActivity {
 
     public static final String PICK_DATA = "PICK_DATA";
     public static final String ALL_DATA = "ALL_DATA";
@@ -41,7 +41,7 @@ public class PhotoPickDetailActivity extends UmengFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_pick_detail);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         mPickPhotos = (ArrayList<PhotoPickActivity.ImageInfo>) extras.getSerializable(PICK_DATA);
@@ -99,7 +99,7 @@ public class PhotoPickDetailActivity extends UmengFragmentActivity {
     private void updateDisplay(int pos) {
         String uri = mAllPhotos.get(pos).path;
         mCheckBox.setChecked(isPicked(uri));
-        getActionBar().setTitle(String.format(actionbarTitle, pos + 1, mAllPhotos.size()));
+        getSupportActionBar().setTitle(String.format(actionbarTitle, pos + 1, mAllPhotos.size()));
     }
 
     private boolean isPicked(String path) {

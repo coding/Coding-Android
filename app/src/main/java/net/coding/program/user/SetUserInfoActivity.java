@@ -40,8 +40,8 @@ public class SetUserInfoActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
         user = AccountInfo.loadAccount(this);
         final String hintFormat = "请输入%s";
         value.setHint(String.format(hintFormat, title));

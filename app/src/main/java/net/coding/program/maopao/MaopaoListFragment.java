@@ -1,7 +1,7 @@
 package net.coding.program.maopao;
 
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -177,7 +177,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     private void addDoubleClickActionbar() {
-        ActionBar actionBar = getActivity().getActionBar();
+        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         View v = mInflater.inflate(R.layout.action_bar_custom, null);
         v.setOnClickListener(new View.OnClickListener() {
 

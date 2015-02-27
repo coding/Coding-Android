@@ -155,8 +155,8 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
     @AfterViews
     void init() {
         uploadLayout.setVisibility(View.GONE);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFolderObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFolderObject.name);
 
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);

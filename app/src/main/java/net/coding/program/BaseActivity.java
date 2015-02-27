@@ -24,6 +24,7 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.user.UserDetailActivity_;
+import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,6 +85,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected ImageLoadTool getImageLoad() {
         return imageLoadTool;
+    }
+
+    protected boolean isLoadingFirstPage(String tag) {
+        return networkImpl.isLoadingFirstPage(tag);
     }
 
     protected boolean isLoadingLastPage(String tag) {

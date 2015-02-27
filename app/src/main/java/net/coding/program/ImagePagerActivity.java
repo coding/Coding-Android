@@ -34,7 +34,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.CustomDialog;
-import net.coding.program.common.umeng.UmengFragmentActivity;
+import net.coding.program.common.umeng.UmengActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -44,7 +44,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_image_pager)
-public class ImagePagerActivity extends UmengFragmentActivity {
+public class ImagePagerActivity extends UmengActivity {
 
     private static final String STATE_POSITION = "STATE_POSITION";
 
@@ -75,10 +75,10 @@ public class ImagePagerActivity extends UmengFragmentActivity {
     @AfterViews
     void init() {
         if (needEdit) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-            getActionBar().setIcon(android.R.color.transparent);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setIcon(android.R.color.transparent);
         } else {
-            getActionBar().hide();
+            getSupportActionBar().hide();
         }
 
         if (mSingleUri != null) {

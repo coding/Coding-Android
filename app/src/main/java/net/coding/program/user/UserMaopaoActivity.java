@@ -5,11 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengFragmentActivity;
+import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 
-public class UserMaopaoActivity extends UmengFragmentActivity {
+public class UserMaopaoActivity extends UmengActivity {
 
     public static final String PARAM_ID = "ID";
 
@@ -18,7 +18,7 @@ public class UserMaopaoActivity extends UmengFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_maopao);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         int userId = getIntent().getIntExtra(PARAM_ID, 0);
 

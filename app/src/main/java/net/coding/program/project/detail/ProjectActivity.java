@@ -1,6 +1,6 @@
 package net.coding.program.project.detail;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_project)
-public class ProjectActivity extends BaseFragmentActivity implements NetworkCallback {
+public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
     @Extra
     ProjectObject mProjectObject;
@@ -88,7 +88,7 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mProjectObject == null) {
@@ -175,7 +175,7 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
             }
         };
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 

@@ -5,8 +5,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.coding.program.common.umeng.UmengActivity;
 
-public class UpdateDialogActivity extends ActionBarActivity {
+
+public class UpdateDialogActivity extends UmengActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
