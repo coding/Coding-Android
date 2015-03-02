@@ -45,7 +45,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="60dp"
-                android:src="@drawable/icon_user_monkey"
+                android:src="@drawable/icon_user_monkey_circle"
                 app:border_color="#ffffffff"
                 app:border_width="2dp" />
 

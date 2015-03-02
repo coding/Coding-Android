@@ -149,11 +149,15 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
     private void updateSendButton() {
         if (title.getText().toString().isEmpty()
-                || (mNewParam.equals(mOldParam) && !descripChange())) {
+                || isContentUnmodify()) {
             enableSendButton(false);
         } else {
             enableSendButton(true);
         }
+    }
+
+    private boolean isContentUnmodify() {
+        return mNewParam.equals(mOldParam) && !descripChange();
     }
 
     private boolean descripChange() {
@@ -473,7 +477,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 params.put("description", descriptionDataNew.markdown);
             }
             postNetwork(url, params, HOST_TASK_ADD);
-            showProgressBar(true, R.string.delete_task_ing);
+            showProgressBar(true, R.string.create_task_ing);
 
         } else {
             String url = String.format(HOST_TASK_UPDATE, mSingleTask.getId());
@@ -500,7 +504,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
-            showProgressBar(true, R.string.delete_task_ing);
+            showProgressBar(true, R.string.modify_task_ing);
         }
     }
 
@@ -754,6 +758,20 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isContentUnmodify()) {
+            showDialog("任务", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        } else {
+            finish();
+        }
     }
 
     StatusBaseAdapter mStatusAdapter;

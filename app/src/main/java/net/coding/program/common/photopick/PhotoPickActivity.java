@@ -127,7 +127,8 @@ public class PhotoPickActivity extends BaseActivity {
 
             String s = String.format("%s,%s,%s", s0, s1, s2);
             Log.d("", "sss " + s);
-            if (s1.endsWith(".png") || s1.endsWith(".jpg") || s1.endsWith(".PNG") || s1.endsWith(".JPG")) {
+            if (s1.endsWith(".png") || s1.endsWith(".jpg") || s1.endsWith(".PNG") || s1.endsWith(".JPG") ||
+                    s1.endsWith(".jpeg") || s1.endsWith(".JPEG")) {
                 s1 = "file://" + s1;
             }
             ImageInfo imageInfo = new ImageInfo(s1);

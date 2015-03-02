@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
@@ -355,7 +356,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((SearchProjectActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
@@ -395,7 +396,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((SearchProjectActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
@@ -493,7 +494,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((SearchProjectActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
     }
 
     void action_delete_single(AttachmentFolderObject selectedFolderObject) {

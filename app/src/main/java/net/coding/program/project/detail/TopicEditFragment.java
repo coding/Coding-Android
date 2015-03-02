@@ -26,14 +26,16 @@ public class TopicEditFragment extends BaseFragment {
 
     @ViewById
     protected EditText edit;
+    private TopicAddActivity.TopicData mOldData;
+
 
     @AfterViews
     protected void init() {
         hasOptionsMenu();
 
-        TopicAddActivity.TopicData data = ((SaveData) getActivity()).loadData();
-        title.setText(data.title);
-        edit.setText(data.content);
+        mOldData = ((SaveData) getActivity()).loadData();
+        title.setText(mOldData.title);
+        edit.setText(mOldData.content);
     }
 
     @OptionsItem
@@ -49,6 +51,11 @@ public class TopicEditFragment extends BaseFragment {
         SaveData saveData = (SaveData) getActivity();
         saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString()));
         saveData.exit();
+    }
+
+    public boolean isContentModify() {
+        return !title.getText().toString().equals(mOldData.title) ||
+                !edit.getText().toString().equals(mOldData.content);
     }
 
     public interface SaveData {

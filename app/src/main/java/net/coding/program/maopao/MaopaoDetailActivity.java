@@ -500,13 +500,4 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
             Global.popSoftkeyboard(MaopaoDetailActivity.this, content, true);
         }
     }
-
-    View.OnClickListener onClickLikeUsrs = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MaopaoDetailActivity.this, LikeUsersListActivity_.class);
-            intent.putExtra("id", (String) v.getTag());
-            startActivity(intent);
-        }
-    };
 }

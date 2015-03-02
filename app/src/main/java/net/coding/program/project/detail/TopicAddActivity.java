@@ -1,5 +1,6 @@
 package net.coding.program.project.detail;
 
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -40,7 +41,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     String HOST_TOPIC_DETAIL_CONTENT = Global.HOST + "/api/topic/%d?type=1";
 
-    Fragment editFragment;
+    TopicEditFragment editFragment;
     Fragment previewFragment;
 
     @AfterViews
@@ -63,7 +64,21 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     @OptionsItem(android.R.id.home)
     protected void back() {
-        onBackPressed();
+        if (editFragment.isContentModify()) {
+            showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onBackPressed();
+                }
+            });
+        } else {
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        back();
     }
 
     private boolean isNewTopic() {

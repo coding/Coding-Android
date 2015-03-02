@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.tencent.android.tpush.XGPushManager;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity;
 import net.coding.program.R;
@@ -97,7 +98,7 @@ public class SettingFragment extends BaseFragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((SearchProjectActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 

@@ -105,6 +105,7 @@
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarSpannerTheme" />
         <activity
@@ -146,6 +147,7 @@
             android:name=".task.TaskAddActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_add"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.MembersActivity_"

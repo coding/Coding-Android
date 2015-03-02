@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class LikeUsersListActivity extends BaseActivity {
 
     @Extra
-    String id;
+    int id;
 
     @ViewById
     ListView listView;

@@ -9,14 +9,11 @@ import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -39,12 +36,10 @@ import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.List;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -80,8 +75,8 @@ public class LoginActivity extends BaseActivity {
     final double scaleFactor = 16;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.icon_user_monkey)
-            .showImageOnFail(R.drawable.icon_user_monkey)
+            .showImageForEmptyUri(R.drawable.icon_user_monkey_circle)
+            .showImageOnFail(R.drawable.icon_user_monkey_circle)
             .resetViewBeforeLoading(true)
             .cacheOnDisk(true)
             .imageScaleType(ImageScaleType.EXACTLY)
@@ -321,7 +316,7 @@ public class LoginActivity extends BaseActivity {
     TextWatcher textWatcherName = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
-            userIcon.setImageResource(R.drawable.icon_user_monkey);
+            userIcon.setImageResource(R.drawable.icon_user_monkey_circle);
         }
     };
 

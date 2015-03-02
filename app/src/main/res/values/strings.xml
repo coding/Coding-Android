@@ -65,7 +65,8 @@
     <string name="title_activity_register">注册</string>
     <string name="title_activity_base_annotation">BaseAnnotationActivity</string>
     <string name="title_activity_terms">服务条款</string>
-    <string name="delete_task_ing">"正在创建任务..."</string>
+    <string name="create_task_ing">"正在创建任务..."</string>
+    <string name="modify_task_ing">"正在修改任务..."</string>
     <string name="sending_comment">"正在发送评论..."</string>
     <string name="follow_success">关注成功</string>
     <string name="follow_fail">关注失败</string>
