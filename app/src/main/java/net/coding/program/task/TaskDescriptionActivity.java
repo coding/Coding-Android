@@ -46,7 +46,7 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
 
     String preViewHtml = "";
 
-    Fragment editFragment;
+    TaskDespEditFragment editFragment;
     Fragment previewFragment;
 
     @AfterViews
@@ -68,6 +68,20 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (editFragment.isContentModify()) {
+            showDialog("任务描述", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        } else {
+            finish();
+        }
     }
 
     @Override

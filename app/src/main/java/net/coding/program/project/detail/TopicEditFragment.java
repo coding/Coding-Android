@@ -54,15 +54,24 @@ public class TopicEditFragment extends BaseFragment {
     }
 
     public boolean isContentModify() {
+        // title 有可能为空，因为用户可能根本没有进入编辑界面
+        if (title == null) {
+            return false;
+        }
+
         return !title.getText().toString().equals(mOldData.title) ||
-                !edit.getText().toString().equals(mOldData.content);
+                        !edit.getText().toString().equals(mOldData.content);
     }
 
     public interface SaveData {
         public void saveData(TopicAddActivity.TopicData data);
+
         public TopicAddActivity.TopicData loadData();
+
         public void switchPreview();
+
         public void switchEdit();
+
         public void exit();
     }
 
@@ -86,13 +95,13 @@ public class TopicEditFragment extends BaseFragment {
 
     @Click
     public void mdLinkQuote(View view) {
-        insertString("\n> ", tipFont,  "");
+        insertString("\n> ", tipFont, "");
     }
 
     @Click
     public void mdCode(View v) {
-        insertString("\n```\n" ,
-                tipFont ,
+        insertString("\n```\n",
+                tipFont,
                 "\n```\n");
     }
 

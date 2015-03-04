@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tencent.android.tpush.XGPushManager;
@@ -64,6 +66,7 @@ public class MainActivity extends BaseActivity
     ViewGroup drawer_layout;
 
     boolean mFirstEnter = true;
+    private View actionbarCustom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,21 @@ public class MainActivity extends BaseActivity
             mSelectPos = savedInstanceState.getInt("pos", 0);
             mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
             mTitle = savedInstanceState.getString("mTitle");
+        }
+
+//        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
+//            mPushOpened.add(mPushUrl);
+//            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
+//        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
+            mPushOpened.add(mPushUrl);
+            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
         }
     }
 
@@ -131,12 +149,15 @@ public class MainActivity extends BaseActivity
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater(), maopao_action_types);
 
-        mOnNavigationListener = new ActionBar.OnNavigationListener() {
-
+        ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setCustomView(R.layout.actionbar_custom_spinner);
+        actionbarCustom = supportActionBar.getCustomView();
+        Spinner spinner = (Spinner) supportActionBar.getCustomView().findViewById(R.id.spinner);
+        spinner.setAdapter(mSpinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             String[] strings = getResources().getStringArray(R.array.maopao_action_types);
-
             @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment;
                 Bundle bundle = new Bundle();
                 mSpinnerAdapter.setCheckPos(position);
@@ -173,11 +194,13 @@ public class MainActivity extends BaseActivity
                 ft.replace(R.id.container, fragment, strings[position]);
                 ft.commit();
 
-                return true;
             }
-        };
 
-        getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mNavigationDrawerFragment = (NavigationDrawerFragment_)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -190,23 +213,15 @@ public class MainActivity extends BaseActivity
 
         restoreActionBar();
 
-        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
-            mPushOpened.add(mPushUrl);
-            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
-        }
-
         if (mFirstEnter) {
             onNavigationDrawerItemSelected(0);
         }
     }
 
-
     int mSelectPos = 0;
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Log.d("", "https://coding.net/api/tweet/public_tweets + " + position);
-
         mSelectPos = position;
         Fragment fragment = null;
 
@@ -234,37 +249,9 @@ public class MainActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
 
-        updateActionbar();
+        restoreActionBar();
     }
 
-    private void updateActionbar() {
-        mTitle = drawer_title[mSelectPos];
-
-        boolean useCustomBar = false;
-        if (mSelectPos == 2) {
-            useCustomBar = true;
-            ActionBar bar = getSupportActionBar();
-            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            getSupportActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-        }
-
-        getSupportActionBar().setDisplayShowCustomEnabled(useCustomBar);
-        getSupportActionBar().setTitle(mTitle);
-    }
-
-    private void updateActionbarRestore() {
-        mTitle = drawer_title[mSelectPos];
-
-        boolean useCustomBar = false;
-        if (mSelectPos == 2) {
-            useCustomBar = true;
-            ActionBar bar = getSupportActionBar();
-            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        }
-
-        getSupportActionBar().setDisplayShowCustomEnabled(useCustomBar);
-        getSupportActionBar().setTitle(mTitle);
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -279,32 +266,30 @@ public class MainActivity extends BaseActivity
         super.onRestoreInstanceState(savedInstanceState);
         mSelectPos = savedInstanceState.getInt("pos", 0);
         mTitle = savedInstanceState.getString("mTitle");
-        updateActionbarRestore(); // 只需要恢复actionbar就可以了
+        restoreActionBar();
     }
 
     MySpinnerAdapter mSpinnerAdapter;
-    android.support.v7.app.ActionBar.OnNavigationListener mOnNavigationListener;
 
     public void restoreActionBar() {
+        mTitle = drawer_title[mSelectPos];
         ActionBar actionBar = getSupportActionBar();
         if (mSelectPos != 2) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowCustomEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(mTitle);
+            actionBar.setIcon(R.drawable.ic_lancher);
+        } else {
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionbarCustom);
         }
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-        actionBar.setIcon(R.drawable.ic_lancher);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
 
-            if (mSelectPos == 2) {
-                getSupportActionBar().setIcon(R.drawable.ic_lancher);
-                getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            } else {
-                restoreActionBar();
-            }
+            restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -376,7 +361,6 @@ public class MainActivity extends BaseActivity
             } else {
                 convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
             }
-
 
             return convertView;
         }

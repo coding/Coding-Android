@@ -119,8 +119,7 @@
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_project"
-            android:screenOrientation="portrait"
-            android:theme="@style/ActionbarSpannerNoIconTheme">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <data
                     android:host="ProjectActivity_"

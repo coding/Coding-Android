@@ -38,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
@@ -457,6 +458,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                     }
                 }
 
+                @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.v(TAG, "onFailure");
                     try {
@@ -480,7 +482,8 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 }
             };
             client.post(urlUpload, params, jsonHttpResponseHandler);
-            client.setTimeout(60 * 60 * 1000); // 超时设为60分钟
+
+//            client.setTimeout(60 * 60 * 1000); // 超时设为60分钟
 
         } catch (FileNotFoundException e) {
             showButtomToast("文件未找到");

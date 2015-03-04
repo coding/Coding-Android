@@ -8,8 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -146,10 +150,31 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
 
-        final ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
+//        final BaseAdapter mOnNavigationListener = new  {
+//
+//            @Override
+//            public boolean onNavigationItemSelected(int position, long itemId) {
+//
+//                return true;
+//            }
+//        };
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.actionbar_custom_spinner);
+        Spinner spinner = (Spinner) actionBar.getCustomView().findViewById(R.id.spinner);
+        spinner.setAdapter(mSpinnerAdapter);
+//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            }
+//        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 mSpinnerAdapter.setCheckPos(position);
 
                 Fragment fragment;
@@ -170,17 +195,20 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }
-
-                return true;
             }
-        };
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
         if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
-            actionBar.setSelectedNavigationItem(1);
+//            actionBar.setSelectedNavigationItem(1);
+            spinner.setSelection(1);
         }
     }
 

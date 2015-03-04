@@ -68,11 +68,11 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
             showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    onBackPressed();
+                    finish();
                 }
             });
         } else {
-            onBackPressed();
+            finish();
         }
     }
 

@@ -34,7 +34,8 @@
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
     </style>
 
-    <style name="MyGreenSpinner" parent="android:style/Widget.Holo.Light.Spinner">
+    <!--<style name="MyGreenSpinner" parent="android:style/Widget.Holo.Light.Spinner">-->
+    <style name="MyGreenSpinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:background">@drawable/spinner_layout_head_bg</item>
     </style>
 

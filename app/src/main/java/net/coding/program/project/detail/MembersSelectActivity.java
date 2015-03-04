@@ -1,11 +1,11 @@
 package net.coding.program.project.detail;
 
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.SearchView;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
