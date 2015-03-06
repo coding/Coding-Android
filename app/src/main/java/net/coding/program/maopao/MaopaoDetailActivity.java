@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -49,7 +50,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_detail)
-public class MaopaoDetailActivity extends BaseActivity implements StartActivity {
+public class MaopaoDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
@@ -69,6 +70,9 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
 
     String maopaoUrl;
 
@@ -102,6 +106,19 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
             Global.errorLog(e);
         }
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        loadData();
+    }
+
+    @Override
+    public void onRefresh() {
+        mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+        mMaopaoObject = null;
+        loadData();
+    }
+
+    private void loadData() {
         if (mMaopaoObject == null) {
             maopaoOwnerGlobal = mClickParam.name;
             maopaoId = mClickParam.maopaoId;
@@ -179,15 +196,20 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
 
     final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
 
-    void initHead() {
-        View head = mInflater.inflate(R.layout.activity_maopao_detail_head, null, false);
+    View mListHead;
 
-        ImageView icon = (ImageView) head.findViewById(R.id.icon);
+    void initHead() {
+        if (mListHead == null) {
+            mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, null, false);
+            listView.addHeaderView(mListHead);
+        }
+
+        ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         icon.setOnClickListener(mOnClickUser);
 
-        TextView name = (TextView) head.findViewById(R.id.name);
+        TextView name = (TextView) mListHead.findViewById(R.id.name);
 
-        TextView time = (TextView) head.findViewById(R.id.time);
+        TextView time = (TextView) mListHead.findViewById(R.id.time);
         time.setText(Global.dayToNow(mMaopaoObject.created_at));
 
         iconfromNetwork(icon, mMaopaoObject.owner.avatar);
@@ -196,7 +218,7 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
         name.setText(mMaopaoObject.owner.name);
         name.setTag(mMaopaoObject.owner.global_key);
 
-        WebView webView = (WebView) head.findViewById(R.id.comment);
+        WebView webView = (WebView) mListHead.findViewById(R.id.comment);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setBackgroundColor(0);
         webView.getBackground().setAlpha(0);
@@ -205,15 +227,15 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", mMaopaoObject.content), "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClient(this));
 
-        head.setOnClickListener(new View.OnClickListener() {
+        mListHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prepareAddComment(mMaopaoObject, true);
             }
         });
 
-        likeBtn = (CheckBox) head.findViewById(R.id.likeBtn);
-        CheckBox commentBtn = (CheckBox) head.findViewById(R.id.commentBtn);
+        likeBtn = (CheckBox) mListHead.findViewById(R.id.likeBtn);
+        CheckBox commentBtn = (CheckBox) mListHead.findViewById(R.id.commentBtn);
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,13 +256,13 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
         });
 
 
-        likeUsersArea = new LikeUsersArea(head, this, getImageLoad(), mOnClickUser);
+        likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), mOnClickUser);
 
         likeUsersArea.likeUsersLayout.setTag(MaopaoListFragment.TAG_MAOPAO, mMaopaoObject);
         likeUsersArea.displayLikeUser();
 
 
-        TextView photoType = (TextView) head.findViewById(R.id.photoType);
+        TextView photoType = (TextView) mListHead.findViewById(R.id.photoType);
         String device = mMaopaoObject.device;
         if (!device.isEmpty()) {
             final String format = "来自 %s";
@@ -249,15 +271,13 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
             photoType.setText("");
         }
 
-        View maopaoDelete = head.findViewById(R.id.maopaoDelete);
+        View maopaoDelete = mListHead.findViewById(R.id.maopaoDelete);
         if (mMaopaoObject.owner.global_key.equals(MyApp.sUserObject.global_key)) {
             maopaoDelete.setVisibility(View.VISIBLE);
             maopaoDelete.setOnClickListener(onClickDeleteMaopao);
         } else {
             maopaoDelete.setVisibility(View.INVISIBLE);
         }
-
-        listView.addHeaderView(head);
     }
 
     public static class CustomWebViewClient extends WebViewClient {
@@ -330,6 +350,7 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URI_COMMENT)) {
+            swipeRefreshLayout.setRefreshing(false);
             if (code == 0) {
                 mData.clear();
 

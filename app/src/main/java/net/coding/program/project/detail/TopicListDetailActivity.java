@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.Menu;
@@ -51,7 +52,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_topic_list_detail)
-public class TopicListDetailActivity extends BaseActivity implements StartActivity {
+public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
     @Extra
     TopicObject topicObject;
@@ -77,6 +78,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     @ViewById
     ListView listView;
 
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
+
     EnterLayout mEnterLayout;
 
     String owerGlobar = "";
@@ -87,7 +91,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String urlTopic = "";
 
-    ArrayList<TopicObject> mData = new ArrayList<TopicObject>();
+    ArrayList<TopicObject> mData = new ArrayList();
 
     Intent mResultData = new Intent();
 
@@ -95,6 +99,22 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+
+        loadData();
+
+        mEnterLayout = new EnterLayout(this, mOnClickSend, EnterLayout.Type.TextOnly);
+
+        prepareComment();
+    }
+
+    @Override
+    public void onRefresh() {
+        loadData();
+    }
+
+    private void loadData() {
         if (topicObject == null) {
             urlTopic = String.format(Global.HOST + "/api/topic/%s?", mJumpParam.mTopic);
             getNetwork(urlTopic, urlTopic);
@@ -105,10 +125,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             urlTopic = String.format(Global.HOST + "/api/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
         }
-
-        mEnterLayout = new EnterLayout(this, mOnClickSend, EnterLayout.Type.TextOnly);
-
-        prepareComment();
     }
 
     private void initData() {
@@ -263,35 +279,43 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
 
+    View mListHead;
+
     private void updateHeadData() {
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
 
-        View head = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
+        if (mListHead == null) {
+            mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
+            listView.addHeaderView(mListHead);
+        }
+
         try {
-            bubble = Global.readTextFile(getAssets().open("topic-android"));
+            if (bubble == null) {
+                bubble = Global.readTextFile(getAssets().open("topic-android"));
+            }
         } catch (Exception e) {
             Global.errorLog(e);
         }
 
-        ImageView icon = (ImageView) head.findViewById(R.id.icon);
+        ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         iconfromNetwork(icon, topicObject.owner.avatar);
         icon.setTag(topicObject.owner.global_key);
         icon.setOnClickListener(mOnClickUser);
 
-        topicTitleTextView = ((TextView) head.findViewById(R.id.title));
+        topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
         topicTitleTextView.setText(topicObject.title);
 
         final String format = "<font color='#3bbd79'>%s</font> 发布于%s";
         String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
-        ((TextView) head.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
+        ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
 
-        webView = (WebView) head.findViewById(R.id.comment);
+        webView = (WebView) mListHead.findViewById(R.id.comment);
         setTopicWebView(this, webView, bubble, topicObject.content);
 
-        textViewCommentCount = (TextView) head.findViewById(R.id.commentCount);
+        textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();
 
-        head.setOnClickListener(new View.OnClickListener() {
+        mListHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prepareComment();
@@ -299,7 +323,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             }
         });
 
-        listView.addHeaderView(head);
         listView.setAdapter(baseAdapter);
     }
 
@@ -383,6 +406,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 baseAdapter.notifyDataSetChanged();
             }
         } else if (tag.equals(urlTopic)) {
+            swipeRefreshLayout.setRefreshing(false);
             if (code == 0) {
                 topicObject = new TopicObject(respanse.getJSONObject("data"));
                 initData();

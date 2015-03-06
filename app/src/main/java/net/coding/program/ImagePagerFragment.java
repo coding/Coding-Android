@@ -305,5 +305,4 @@ public class ImagePagerFragment extends BaseFragment {
         }
         return path;
     }
-
 }
