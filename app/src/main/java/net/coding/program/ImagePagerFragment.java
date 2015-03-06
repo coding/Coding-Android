@@ -10,15 +10,16 @@ import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.FileUtil;
@@ -40,8 +41,6 @@ import java.io.File;
 import java.util.HashMap;
 
 import pl.droidsonroids.gif.GifImageView;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by chaochen on 14-9-7.
@@ -53,12 +52,12 @@ public class ImagePagerFragment extends BaseFragment {
     private String URL_FILES = "";
 
     @ViewById
-    ProgressBar loading;
+    DonutProgress circleLoading;
 
     @ViewById
     ViewGroup rootLayout;
 
-    ImageView image;
+    View image;
 
     public void setData(String uriString) {
         uri = uriString;
@@ -96,6 +95,7 @@ public class ImagePagerFragment extends BaseFragment {
 
     @AfterViews
     void init() {
+        circleLoading.setVisibility(View.INVISIBLE);
         if (uri == null) {
             parentActivity = (AttachmentsPicDetailActivity) getActivity();
             if (parentActivity != null) {
@@ -128,17 +128,11 @@ public class ImagePagerFragment extends BaseFragment {
             rootLayout.addView(image);
 
         } else {
-            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
-            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-                @Override
-                public void onPhotoTap(View view, float x, float y) {
-                    getActivity().onBackPressed();
-                }
-            });
+            SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
 
-            photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onViewTap(View view, float x, float y) {
+                public void onClick(View v) {
                     getActivity().onBackPressed();
                 }
             });
@@ -147,100 +141,121 @@ public class ImagePagerFragment extends BaseFragment {
             rootLayout.addView(image);
         }
 
-        getImageLoad().imageLoader.displayImage(uri, image, optionsImage, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                loading.setVisibility(View.VISIBLE);
-            }
 
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                if (!isAdded()) {
-                    return;
-                }
+        getImageLoad().imageLoader.loadImage(uri, null, optionsImage, new SimpleImageLoadingListener() {
 
-                String message;
-                switch (failReason.getType()) {
-                    case IO_ERROR:
-                        message = "IO错误";
-                        break;
-                    case DECODING_ERROR:
-                        message = "图片编码错误";
-                        break;
-                    case NETWORK_DENIED:
-                        message = "载入图片超时";
-                        break;
-                    case OUT_OF_MEMORY:
-                        message = "内存不足";
-                        break;
-                    case UNKNOWN:
-                        message = "未知错误";
-                        break;
-                    default:
-                        message = "未知错误";
-                        break;
-                }
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
-                loading.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
-                if (!isAdded()) {
-                    return;
-                }
-
-                loading.setVisibility(View.GONE);
-
-                image.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
-                        new AlertDialog.Builder(getActivity())
-                                .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (which == 0) {
-                                            if (client == null) {
-                                                client = MyAsyncHttpClient.createClient(getActivity());
-                                                client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+                    public void onLoadingStarted(String imageUri, View view) {
+                        circleLoading.setVisibility(View.VISIBLE);
+                    }
 
-                                                    @Override
-                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                                        client = null;
-                                                        showButtomToast("保存失败");
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        String message;
+                        switch (failReason.getType()) {
+                            case IO_ERROR:
+                                message = "IO错误";
+                                break;
+                            case DECODING_ERROR:
+                                message = "图片编码错误";
+                                break;
+                            case NETWORK_DENIED:
+                                message = "载入图片超时";
+                                break;
+                            case OUT_OF_MEMORY:
+                                message = "内存不足";
+                                break;
+                            case UNKNOWN:
+                                message = "未知错误";
+                                break;
+                            default:
+                                message = "未知错误";
+                                break;
+                        }
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
+                        circleLoading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(final String imageUri, View view, Bitmap loadedImage) {
+                        if (!isAdded()) {
+                            return;
+                        }
+                        circleLoading.setVisibility(View.GONE);
+
+                        image.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                new AlertDialog.Builder(getActivity())
+                                        .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (which == 0) {
+                                                    if (client == null) {
+                                                        client = MyAsyncHttpClient.createClient(getActivity());
+                                                        client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+
+                                                            @Override
+                                                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                                                                client = null;
+                                                                showButtomToast("保存失败");
+                                                            }
+
+                                                            @Override
+                                                            public void onSuccess(int statusCode, Header[] headers, File file) {
+                                                                client = null;
+                                                                showButtomToast("图片已保存到:" + file.getPath());
+                                                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
+                                                            }
+                                                        });
                                                     }
 
-                                                    @Override
-                                                    public void onSuccess(int statusCode, Header[] headers, File file) {
-                                                        client = null;
-                                                        showButtomToast("图片已保存到:" + file.getPath());
-                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
-                                                    }
-                                                });
+                                                }
                                             }
+                                        })
+                                        .show();
 
-                                        }
-                                    }
-                                })
-                                .show();
+                                return true;
+                            }
+                        });
 
-                        return true;
+                        if (image instanceof GifImageView) {
+                            File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+
+                            // 看umeng有报错，bad file descriptor，可能有些gif有问题
+                            try {
+                                ((GifImageView) image).setImageURI(Uri.fromFile(file));
+                            } catch (Exception e) {
+                                Global.errorLog(e);
+                            }
+                        } else if (image instanceof SubsamplingScaleImageView) {
+                            File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+
+                            try {
+                                ((SubsamplingScaleImageView) image).setImageUri(Uri.fromFile(file));
+                            } catch (Exception e) {
+                                Global.errorLog(e);
+                            }
+                        }
+
+                    }
+                },
+                new ImageLoadingProgressListener() {
+
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                        if (!isAdded()) {
+                            return;
+                        }
+
+                        int progress = current * 100 / total;
+                        circleLoading.setProgress(progress);
                     }
                 });
-
-                if (image instanceof GifImageView) {
-                    File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-
-                    // 看umeng有报错，bad file descriptor，可能有些gif有问题
-                    try {
-                        image.setImageURI(Uri.fromFile(file));
-                    } catch (Exception e) {
-                        Global.errorLog(e);
-                    }
-                }
-            }
-        });
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
     }

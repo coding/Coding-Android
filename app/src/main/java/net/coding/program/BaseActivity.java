@@ -24,7 +24,6 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.user.UserDetailActivity_;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
 import org.json.JSONObject;

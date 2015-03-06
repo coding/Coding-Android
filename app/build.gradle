@@ -41,6 +41,8 @@ dependencies {
     compile 'com.android.support:support-v13:21.0.3'
     //    compile 'com.faradaj:blur-behind:1.0.3'
     compile 'com.ms-square:etsyblur:0.1.0'
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:2.4.0'
+    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
 }
 
 //################

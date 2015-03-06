@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000000"
-    android:id="@+id/rootLayout">
+    android:background="#000000">
 
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/circleLoading"
+        android:layout_width="50dp"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:layout_height="50dp"
+        custom:donut_finished_stroke_width="3dp"
+        custom:donut_unfinished_stroke_width="3dp"
+        custom:donut_finished_color="@color/font_green"
+        custom:donut_progress="30"
+        custom:donut_text_color="@color/transparent"
+        custom:donut_max="100"/>
 
 </FrameLayout>
