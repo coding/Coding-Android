@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -30,6 +31,7 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.Maopao;
 import net.coding.program.project.ProjectFragment_;
 import net.coding.program.setting.SettingFragment_;
 import net.coding.program.task.TaskFragment_;
@@ -41,6 +43,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.util.HashSet;
+import java.util.List;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity
@@ -76,6 +79,7 @@ public class MainActivity extends BaseActivity
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
+//        XGPushConfig.enableDebug(this, true);
         // qq push
         startPushService();
         updateNotifyService();
@@ -90,11 +94,6 @@ public class MainActivity extends BaseActivity
             mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
             mTitle = savedInstanceState.getString("mTitle");
         }
-
-//        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
-//            mPushOpened.add(mPushUrl);
-//            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
-//        }
     }
 
     @Override
@@ -211,8 +210,6 @@ public class MainActivity extends BaseActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        restoreActionBar();
-
         if (mFirstEnter) {
             onNavigationDrawerItemSelected(0);
         }
@@ -233,7 +230,7 @@ public class MainActivity extends BaseActivity
                 fragment = new TaskFragment_();
                 break;
             case 2:
-                // 进入冒泡页面，
+                // 进入冒泡页面，单独处理
                 break;
 
             case 3:
@@ -249,9 +246,28 @@ public class MainActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
 
-        restoreActionBar();
-    }
+        if (position == 2) {
+            ActionBar actionBar = getSupportActionBar();
+            Spinner spinner;
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionbarCustom);
+            spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
+            boolean containFragment = false;
+            for (Fragment item : fragments) {
+                if (item instanceof MaopaoListFragment) {
+                    containFragment = true;
+                    break;
+                }
+            }
+
+            if (!containFragment) {
+                int pos = spinner.getSelectedItemPosition();
+                spinner.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
+            }
+        }
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -282,6 +298,9 @@ public class MainActivity extends BaseActivity
         } else {
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setCustomView(actionbarCustom);
+//             Spinner   spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
+//            spinner.setSelection(1);
+//            spinner.setSelection(0);
         }
     }
 

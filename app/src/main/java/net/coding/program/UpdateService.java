@@ -74,7 +74,6 @@ public class UpdateService extends Service {
             return START_REDELIVER_INTENT;
         }
 
-
         if (intent.getBooleanExtra(EXTRA_DEL_OLD_APK, false)) {
             deleteOldApk();
         }

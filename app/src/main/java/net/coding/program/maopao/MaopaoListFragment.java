@@ -178,28 +178,30 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     private void addDoubleClickActionbar() {
         ActionBar actionBar = getActionBarActivity().getSupportActionBar();
-        View v = mInflater.inflate(R.layout.action_bar_custom, null);
-        v.setOnClickListener(new View.OnClickListener() {
+        View v = actionBar.getCustomView();
+        // 有些界面没有下拉刷新
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
 
-            long mLastTime = 0;
-            final long DOUBLE_CLICK_TIME = 300;
+                long mLastTime = 0;
+                final long DOUBLE_CLICK_TIME = 300;
 
-            @Override
-            public void onClick(View v) {
-                long lastTime = mLastTime;
-                long nowTime = Calendar.getInstance().getTimeInMillis();
-                mLastTime = nowTime;
+                @Override
+                public void onClick(View v) {
+                    long lastTime = mLastTime;
+                    long nowTime = Calendar.getInstance().getTimeInMillis();
+                    mLastTime = nowTime;
 
-                if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
-                    if (!isRefreshing()) {
-                        listView.smoothScrollToPosition(0);
-                        setRefreshing(true);
-                        onRefresh();
+                    if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
+                        if (!isRefreshing()) {
+                            setRefreshing(true);
+                            onRefresh();
+                        }
                     }
                 }
-            }
-        });
-        actionBar.setCustomView(v);
+            });
+        }
+
     }
 
     @Override
@@ -259,7 +261,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             postNetwork(uri, params, URI_COMMENT, 0, commentObject);
 
             showProgressBar(true, R.string.sending_comment);
-   }
+        }
     };
 
     static final int RESULT_EDIT_MAOPAO = 100;
@@ -348,6 +350,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             setRefreshing(false);
             if (code == 0) {
                 if (id == UPDATE_ALL_INT) {
+                    listView.setSelection(0);
                     mData.clear();
                 }
 
@@ -367,8 +370,13 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 if (jsonArray.length() == 0) {
                     mNoMore = true;
                 } else {
+                    int oldId = id;
                     id = mData.get(mData.size() - 1).id;
                     mAdapter.notifyDataSetChanged();
+
+                    if (oldId == UPDATE_ALL_INT) {
+                        listView.smoothScrollToPosition(0);
+                    }
                 }
 
                 if (mNoMore) {

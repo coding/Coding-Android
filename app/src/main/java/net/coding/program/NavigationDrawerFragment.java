@@ -296,7 +296,7 @@ public class NavigationDrawerFragment extends BaseFragment {
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowCustomEnabled(false);
         actionBar.setTitle("");
         actionBar.setIcon(R.drawable.logo);
     }

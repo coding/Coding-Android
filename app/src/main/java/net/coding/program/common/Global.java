@@ -163,6 +163,7 @@ public class Global {
         }
     };
 
+    private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%sx%s";
     public static String makeSmallUrl(ImageView view, String url) {
         String realUrl = url.split("\\?")[0];
 
@@ -182,12 +183,16 @@ public class Global {
                 height = String.valueOf(Global.dpToPx(200));
 
             }
-            String smallImageUrl = String.format("?imageMogr2/thumbnail/!%sx%s", width, height);
-            return realUrl + smallImageUrl;
+            return String.format(IMAGE_URL_SCAL, realUrl, width, height);
         } else {
             return realUrl;
         }
 
+    }
+
+    public static String makeLargeUrl(String url) {
+        final int MAX = 4096; // ImageView显示的图片不能大于这个数
+        return String.format(IMAGE_URL_SCAL, url, 4096, 4096);
     }
 
     private static String intToString(int length) {

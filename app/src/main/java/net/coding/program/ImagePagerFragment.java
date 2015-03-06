@@ -91,7 +91,7 @@ public class ImagePagerFragment extends BaseFragment {
             .cacheOnDisk(true)
             .cacheInMemory(false)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
+            .imageScaleType(ImageScaleType.NONE)
             .build();
 
     @AfterViews
