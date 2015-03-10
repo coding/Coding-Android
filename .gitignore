@@ -1,7 +1,7 @@
 # built application files
 *.ap_
 *.apk
-
+!/*.apk
 .idea
 
 build
