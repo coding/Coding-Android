@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -39,11 +40,15 @@ import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
@@ -64,6 +69,10 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     @ViewById
     GridView gridView;
+    @ViewById
+    TextView locationText;
+    @InstanceState
+    LocationObject currentLocation = LocationObject.undefined();
 
     int imageWidthPx;
     ImageSize mSize;
@@ -138,6 +147,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             mData = draft.getPhotos();
             adapter.notifyDataSetChanged();
         }
+
+        locationText.setText(currentLocation.name);
     }
 
     private void updateAddButton() {
@@ -184,6 +195,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final int RESULT_REQUEST_PHOTO = 1005;
+    public static final int RESULT_REQUEST_LOCATION = 1006;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -305,6 +317,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         params.put("content", content);
         params.put("device", Build.MODEL);
+        params.put("location", locationText.getText());
         postNetwork(sendUrl, params, sendUrl);
     }
 
@@ -529,4 +542,19 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
+    @Click(R.id.locationText)
+    void chooseLocation(){
+        ChooseLocationActivity_.intent(this).currentLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
+    }
+
+    @OnActivityResult(RESULT_REQUEST_LOCATION)
+    void on_AA(int result,@OnActivityResult.Extra LocationObject location){
+        if(result == RESULT_OK){
+            currentLocation = location;
+            locationText.setCompoundDrawables(getResources().getDrawable(
+                    currentLocation.type == LocationObject.Type.Undefined
+                            ? R.drawable.ic_location_inactive
+                            : R.drawable.ic_location_active), null,null,null);
+        }
+    }
 }
