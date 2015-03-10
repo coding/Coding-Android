@@ -38,12 +38,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
@@ -52,11 +50,13 @@ import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -85,13 +85,17 @@ import java.util.regex.Pattern;
  */
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
-public class AttachmentsActivity extends BaseActivity implements FootUpdate.LoadMore {
+public class AttachmentsActivity extends CustomMoreActivity implements FootUpdate.LoadMore {
     private static String TAG = AttachmentsActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
 
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+
+    ProjectObject mProjectObject;
+
+    public static final String HOST_PROJECT_ID = Global.HOST + "/api/project/%d";
 
     String urlFiles = Global.HOST + "/api/project/%s/files/%s?height=90&width=90&pageSize=9999";
     String urlUpload = Global.HOST + "/api/project/%s/file/upload";
@@ -107,13 +111,13 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
 
     private String urlDownload = Global.HOST + "/api/project/%s/files/%s/download";
 
-    private HashMap<String, Integer> fileCountMap = new HashMap<String, Integer>();
+    private HashMap<String, Integer> fileCountMap = new HashMap();
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
 
     private String descTemplate = "发布于%s";
 
-    ArrayList<AttachmentFileObject> mFilesArray = new ArrayList<AttachmentFileObject>();
+    ArrayList<AttachmentFileObject> mFilesArray = new ArrayList();
 
     boolean mNoMore = false;
 
@@ -220,6 +224,9 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
         initBottomPop();
 
         loadMore();
+
+        String projectUrl = String.format(HOST_PROJECT_ID, mProjectObjectId);
+        getNetwork(projectUrl, HOST_PROJECT_ID);
     }
 
     /**
@@ -350,6 +357,12 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
                 mFilesArray.add(0, AttachmentFileObject.parseFileObject(folder));
                 adapter.notifyDataSetChanged();
                 setResult(Activity.RESULT_OK);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(HOST_PROJECT_ID)) {
+            if (code == 0) {
+                mProjectObject = new ProjectObject(respanse.optJSONObject("data"));
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -1474,7 +1487,7 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
     public void updateFileDownloadStatus(AttachmentFileObject mFileObject) {
         if (mFileObject.downloadId != 0L) {
             mFileObject.bytesAndStatus = downloadManagerPro.getBytesAndStatus(mFileObject.downloadId);
-            Log.v("updateFileDownloadStatus", mFileObject.name + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
+            Log.v("updateFileDownloadStat", mFileObject.name + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
 
             //handler.sendMessage(handler.obtainMessage(0, bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2]));
         }
@@ -1582,4 +1595,19 @@ public class AttachmentsActivity extends BaseActivity implements FootUpdate.Load
         download(mFileObjects);
     }
 
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        if (mProjectObject == null) {
+            showButtomToast("获取项目信息失败，请稍后重试");
+            getNetwork(String.format(HOST_PROJECT_ID, mProjectObjectId), HOST_PROJECT_ID);
+            return "";
+        }
+
+        return mProjectObject.getPath() + "/attachment/" + mAttachmentFolderObject.file_id;
+    }
 }

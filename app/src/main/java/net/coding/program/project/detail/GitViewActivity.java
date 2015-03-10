@@ -1,14 +1,18 @@
 package net.coding.program.project.detail;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -17,7 +21,9 @@ import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitFileObject;
@@ -27,6 +33,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -40,7 +47,8 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_html)
 //@OptionsMenu(R.menu.users)
-public class GitViewActivity extends BaseActivity {
+@OptionsMenu(R.menu.common_more)
+public class GitViewActivity extends CustomMoreActivity {
     private static String TAG = GitViewActivity.class.getSimpleName();
 
     @Extra
@@ -229,4 +237,13 @@ public class GitViewActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected View getAnchorView() {
+        return webview;
+    }
+
+    @Override
+    protected String getLink() {
+        return mProjectObject.getPath() + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
+    }
 }

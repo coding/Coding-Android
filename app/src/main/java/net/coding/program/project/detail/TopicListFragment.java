@@ -15,7 +15,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.user.UserDetailActivity_;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 @EFragment(R.layout.common_refresh_listview)
 @OptionsMenu(R.menu.project_task)
-public class TopicListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -72,8 +72,12 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
             }
         });
 
-        urlGet = String.format(type == 0 ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.getId());
+        urlGet = String.format(isAll() ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.getId());
         loadMore();
+    }
+
+    private boolean isAll() {
+        return type == 0;
     }
 
     @Override
@@ -273,5 +277,20 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        if (isAll()) {
+            return mProjectObject.getPath() + "/topic/all";
+        } else {
+            return mProjectObject.getPath() + "/topic/mine";
+        }
+
     }
 }

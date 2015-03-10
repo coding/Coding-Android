@@ -4,6 +4,14 @@
     tools:context=".MyActivity">
     <item
         android:id="@+id/action_add"
+        android:title="新建讨论"
         android:icon="@drawable/ic_menu_add"
-        app:showAsAction="withText|ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_more"
+        android:title="@string/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        app:showAsAction="always" />
+
 </menu>

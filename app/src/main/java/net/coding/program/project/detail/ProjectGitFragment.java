@@ -1,9 +1,12 @@
 package net.coding.program.project.detail;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -13,7 +16,9 @@ import android.widget.TextView;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
@@ -21,6 +26,8 @@ import net.coding.program.model.ProjectObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +40,8 @@ import java.util.Stack;
  * Created by yangzhen on 2014/10/25.
  */
 @EFragment(R.layout.common_refresh_listview)
-public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+@OptionsMenu(R.menu.common_more)
+public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     public static final String MASTER = "master";
     private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
@@ -214,4 +222,17 @@ public class ProjectGitFragment extends RefreshBaseFragment implements FootUpdat
         TextView comment;
     }
 
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        if (pathStack.peek().isEmpty()) {
+            return mProjectObject.getPath() + "/git";
+        } else {
+            return mProjectObject.getPath() + "/git/tree/" + mVersion + "/" + pathStack.peek();
+        }
+    }
 }

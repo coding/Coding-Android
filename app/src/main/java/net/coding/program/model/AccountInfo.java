@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.security.spec.DSAPublicKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -215,6 +216,13 @@ public class AccountInfo {
             save(ctx, data, name, FILDER_GLOBAL);
         }
 
+        public void delete(Context ctx, String name) {
+            File file = new File(ctx.getFilesDir(), name);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+
         private void save(Context ctx, ArrayList<T> data, String name, String folder) {
             if (ctx == null) {
                 return;
@@ -314,6 +322,28 @@ public class AccountInfo {
 
     public static ArrayList<TaskObject.Members> loadProjectMembers(Context ctx, int projectId) {
         return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
+    }
+
+    private static final String MESSAGE_INPUT = "MESSAGE_INPUT";
+
+    // input 为 "" 时，删除上次的输入
+    public static void saveMessageInput(Context ctx, String input, String globalkey) {
+        if (input.isEmpty()) { //
+            new DataCache<String>().delete(ctx, globalkey);
+        } else {
+            ArrayList<String> data = new ArrayList<>();
+            data.add(input);
+            new DataCache<String>().save(ctx, data, MESSAGE_INPUT + globalkey);
+        }
+    }
+
+    public static String loadMessageInput(Context ctx, String globalKey) {
+        ArrayList<String> data = new DataCache<String>().load(ctx, MESSAGE_INPUT + globalKey);
+        if (data.isEmpty()) {
+            return "";
+        } else {
+            return data.get(0);
+        }
     }
 
     private static String FILE_PUSH = "FILE_PUSH";

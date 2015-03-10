@@ -164,7 +164,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             if (topicObject.isMy()) {
                 menuRes = R.menu.topic_detail_modify;
             } else {
-                menuRes = R.menu.topic_detail;
+                menuRes = R.menu.common_more;
             }
             getMenuInflater().inflate(menuRes, menu);
         }
@@ -266,7 +266,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         textViewCommentCount.setText(commentCount);
     }
 
-    String bubble = "";
+    String bubble;
 
     static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
         webView.getSettings().setJavaScriptEnabled(true);
@@ -277,7 +277,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
     }
-
 
     View mListHead;
 

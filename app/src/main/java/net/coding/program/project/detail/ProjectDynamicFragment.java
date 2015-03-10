@@ -1,10 +1,12 @@
 package net.coding.program.project.detail;
 
 
-import android.app.Activity;
+import android.os.Bundle;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -20,10 +22,11 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.TaskObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -41,7 +44,7 @@ import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EFragment(R.layout.fragment_project_dynamic)
-public class ProjectDynamicFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class ProjectDynamicFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     int mLastId = UPDATE_ALL_INT;
 
@@ -55,6 +58,9 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
     @FragmentArg
     int mUser_id;
+
+    @FragmentArg
+    TaskObject.Members mMember;
 
     @ViewById
     View blankLayout;
@@ -114,6 +120,13 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
 
     LoadingAnimation mLoadingAnimation;
 
+    @Override
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
     @AfterViews
     protected void init() {
         super.init();
@@ -148,6 +161,15 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
         }
 
         getNetwork(getUrl, TAG_PROJECT_DYNMAIC, 0, mLastId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (mMember != null) {
+            inflater.inflate(R.menu.common_more, menu);
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -520,5 +542,13 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements FootU
         }
     }
 
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
 
+    @Override
+    protected String getLink() {
+        return mProjectObject.getPath() + "/members/" + mMember.user.global_key;
+    }
 }

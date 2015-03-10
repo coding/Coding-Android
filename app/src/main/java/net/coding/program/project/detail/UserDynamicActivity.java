@@ -31,6 +31,7 @@ public class UserDynamicActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("mUser_id", mMember.user_id);
         bundle.putSerializable("mProjectObject", mProjectObject);
+        bundle.putSerializable("mMember", mMember);
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();

@@ -20,10 +20,11 @@
         android:title="@string/action_upload"
         app:showAsAction="always" />
 
-    <!--<item android:id="@+id/action_add"
-        android:title="@string/action_add"
-        android:icon="@drawable/ic_menu_add"
-        android:orderInCategory="100"
-        app:showAsAction="withText|ifRoom" />-->
+
+    <item
+        android:id="@+id/action_more"
+        android:title="@string/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        app:showAsAction="always" />
 
 </menu>

@@ -81,5 +81,7 @@
     <string name="perview">预览</string>
     <string name="edit">编辑</string>
     <string name="title_activity_update_tip">UpdateTipActivity</string>
+    <string name="copy_link_finish">链接已复制</string>
+    <string name="title_activity_file_url"></string>
 
 </resources>

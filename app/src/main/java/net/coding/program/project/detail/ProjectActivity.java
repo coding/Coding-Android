@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.BaseActivity;
+import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
@@ -96,7 +97,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mProjectObject == null) {
-            urlProject = String.format(Global.HOST + "/api/user/%s/project/%s", mJumpParam.mUser, mJumpParam.mProject);
+            urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
             actionBar.setTitle(mJumpParam.mProject);
 
             networkImpl = new NetworkImpl(this, this);

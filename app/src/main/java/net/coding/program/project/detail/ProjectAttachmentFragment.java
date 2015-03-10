@@ -29,10 +29,9 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.SearchProjectActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -54,7 +53,7 @@ import java.util.regex.Pattern;
  */
 @EFragment(R.layout.common_refresh_listview)
 @OptionsMenu(R.menu.project_attachment_folder)
-public class ProjectAttachmentFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class ProjectAttachmentFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
     //private String HOST_FOLDER = Global.HOST + "/api/project/%s/folders?pageSize=20";
     private String HOST_FOLDER = Global.HOST + "/api/project/%d/all_folders?pageSize=9999";
@@ -604,4 +603,13 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         }
     };
 
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        return Global.HOST + mProjectObject.project_path + "/attachment";
+    }
 }

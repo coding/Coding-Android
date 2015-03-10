@@ -26,7 +26,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -53,7 +53,7 @@ import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EFragment(R.layout.fragment_task_list)
-public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
+public class TaskListFragment extends CustomMoreFragment implements TaskListUpdate {
 
     @FragmentArg
     boolean mShowAdd = false;
@@ -113,8 +113,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             inflater.inflate(R.menu.project_task, menu);
         }
 
+        inflater.inflate(R.menu.common_more, menu);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -600,6 +604,20 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 }
             });
             animator.start();
+        }
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        if (mMembers.user.global_key.isEmpty()) {
+            return Global.HOST + mProjectObject.project_path + "/tasks/user/all";
+        } else {
+            return Global.HOST + mProjectObject.project_path + "/tasks/user/" + mMembers.user.global_key + "/all";
         }
     }
 }

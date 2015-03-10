@@ -70,7 +70,6 @@ public class RegisterActivity extends BaseAnnotationActivity {
         needCaptcha();
     }
 
-
     private void needCaptcha() {
         getNetwork(HOST_NEED_CAPTCHA, HOST_NEED_CAPTCHA);
     }

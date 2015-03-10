@@ -82,4 +82,8 @@ public class ProjectObject implements Serializable {
 
     public ProjectObject() {
     }
+
+    public String getPath() {
+        return Global.HOST + project_path;
+    }
 }

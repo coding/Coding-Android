@@ -90,7 +90,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     private int mPxImageWidth = 0;
     private int mPxImageDivide = 0;
 
-
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,8 +103,12 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         if (mUserObject == null) {
             getNetwork(HOST_USER_INFO + mGlobalKey, HOST_USER_INFO);
         } else {
+            mGlobalKey = mUserObject.global_key;
             initControl();
         }
+
+        String lastInput = AccountInfo.loadMessageInput(this, mGlobalKey);
+        mEnterLayout.inputText(lastInput);
     }
 
     void initControl() {
@@ -290,6 +293,14 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        String input = mEnterLayout.getContent();
+        AccountInfo.saveMessageInput(this, input, mGlobalKey);
+
+        super.onStop();
     }
 
     View.OnClickListener onClickRetry = new View.OnClickListener() {

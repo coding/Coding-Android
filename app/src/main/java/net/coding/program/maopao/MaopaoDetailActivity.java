@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -26,9 +25,11 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.htmltext.LinkCreate;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
@@ -38,6 +39,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +52,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_detail)
-public class MaopaoDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
+@OptionsMenu(R.menu.common_more)
+public class MaopaoDetailActivity extends CustomMoreActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
@@ -242,7 +245,6 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity,
                 prepareAddComment(mMaopaoObject, true);
             }
         });
-
 
         likeBtn.setChecked(mMaopaoObject.liked);
         likeBtn.setOnClickListener(new View.OnClickListener() {
@@ -520,5 +522,15 @@ public class MaopaoDetailActivity extends BaseActivity implements StartActivity,
             content.requestFocus();
             Global.popSoftkeyboard(MaopaoDetailActivity.this, content, true);
         }
+    }
+
+    @Override
+    protected String getLink() {
+        return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
     }
 }

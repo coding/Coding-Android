@@ -143,6 +143,14 @@ public class WebActivity extends UmengActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        webView.destroy();
+        webView = null;
+
+        super.onDestroy();
+    }
+
     public static class CustomWebViewClient extends WebViewClient {
 
         Context mContext;

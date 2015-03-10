@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -31,7 +30,6 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.Maopao;
 import net.coding.program.project.ProjectFragment_;
 import net.coding.program.setting.SettingFragment_;
 import net.coding.program.task.TaskFragment_;
@@ -81,8 +79,8 @@ public class MainActivity extends BaseActivity
 
 //        XGPushConfig.enableDebug(this, true);
         // qq push
-        startPushService();
         updateNotifyService();
+        pushInXiaomi();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
@@ -114,7 +112,8 @@ public class MainActivity extends BaseActivity
         MyApp.setMainActivityState(false);
     }
 
-    private void startPushService() {
+    // 信鸽文档推荐调用，防止在小米手机上收不到推送
+    private void pushInXiaomi() {
         Context context = getApplicationContext();
         Intent service = new Intent(context, XGPushService.class);
         context.startService(service);

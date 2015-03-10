@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
@@ -84,6 +86,14 @@ public class LoginActivity extends BaseActivity {
             .considerExifParams(true)
             .displayer(new FadeInBitmapDisplayer(300))
             .build();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // 调用下，防止收到上次登陆账号的通知
+        XGPushManager.registerPush(this, "*");
+    }
 
     @AfterViews
     void init() {

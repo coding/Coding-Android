@@ -34,6 +34,7 @@ import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
@@ -600,5 +601,4 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     }
 
     ;
-
 }

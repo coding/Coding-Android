@@ -12,5 +12,9 @@
         android:icon="@drawable/ic_menu_add"
         android:title="@string/action_new"
         app:showAsAction="withText|ifRoom" />
-
+    <item
+        android:id="@+id/action_more"
+        android:title="@string/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        app:showAsAction="always" />
 </menu>
