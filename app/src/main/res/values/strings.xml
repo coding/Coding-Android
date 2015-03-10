@@ -19,6 +19,8 @@
     <string name="topic_create">创建讨论</string>
     <string name="topic_edit">编辑讨论</string>
     <string name="title_activity_make_maopao">发冒泡</string>
+    <string name="title_activity_choose_location">所在位置</string>
+    <string name="title_activity_search_location">搜索附近位置</string>
     <string name="title_activity_users">用户列表</string>
     <string name="title_activity_add_follow">添加关注</string>
     <string name="title_activity_user_detail">好友详情</string>
@@ -62,6 +64,7 @@
     <string name="title_activity_web">WebActivity</string>
     <string name="title_activity_search_project"></string>
     <string name="title_activity_update_dialog">UpdateDialogActivity</string>
+    <string name="location_undefined">所在位置</string>
     <string name="title_activity_register">注册</string>
     <string name="title_activity_base_annotation">BaseAnnotationActivity</string>
     <string name="title_activity_terms">服务条款</string>

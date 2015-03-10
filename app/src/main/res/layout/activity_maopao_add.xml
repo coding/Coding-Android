@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:background="@drawable/edit_select"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
@@ -40,19 +39,14 @@
                 android:id="@+id/comment"
                 android:layout_width="0dp"
                 android:maxHeight="80dp"
+                android:hint="来，发个冒泡吧~"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:background="@null" />
 
-            <CheckBox
-                android:id="@+id/popEmoji"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@null"
-                android:button="@drawable/checkbox_pop_emoji" />
-        </LinearLayout>
+        </LinearLayout>x
 
         <RelativeLayout
             android:layout_width="54dp"
@@ -149,13 +143,13 @@
     <!--</LinearLayout>-->
 
 
-    <GridView
+    <net.coding.program.common.AutoHeightGridView
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginTop="10dp"
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:columnWidth="@dimen/image_add_maopao_width"
         android:numColumns="4"
         android:layout_below="@id/emojiLayout"
@@ -164,7 +158,53 @@
         android:stretchMode="none"
         android:gravity="center" />
 
+        <TextView
+            android:id="@+id/locationText"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_location_inactive"
+            android:drawablePadding="5dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="18dp"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:text=""
+            android:hint="@string/location_undefined"
+            android:textColor="@color/font_black_content"
+            android:textColorHint="@color/font_black_content"
+            android:ellipsize="end"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="52dp" />
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="#cfcfcf" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="18dp"
+            android:background="#e5e5e5"
+            android:layout_width="match_parent"
+            android:layout_height="43dp">
+            <CheckBox
+                android:id="@+id/popEmoji"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@null"
+                android:button="@drawable/checkbox_pop_emoji" />
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:background="#cfcfcf" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -172,13 +212,8 @@
         android:id="@+id/emojiKeyboardLayout"
         android:focusable="true"
         android:clickable="true"
-        android:layout_alignParentBottom="true"
         android:visibility="gone">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="0.5dp"
-            android:background="@color/emoji_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -248,6 +283,8 @@
                 android:background="@color/emoji_line" />
 
         </LinearLayout>
+
+    </LinearLayout>
 
     </LinearLayout>
 
