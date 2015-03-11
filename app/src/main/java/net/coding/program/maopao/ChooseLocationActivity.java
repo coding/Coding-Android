@@ -1,10 +1,15 @@
 package net.coding.program.maopao;
 
 import android.content.Intent;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import net.coding.program.BaseFragmentActivity;
 import net.coding.program.R;
@@ -17,40 +22,87 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Neutra on 2015/3/11.
  */
 @EActivity(R.layout.activity_choose_location)
+@OptionsMenu(R.menu.choose_location)
 public class ChooseLocationActivity extends BaseFragmentActivity implements StartActivity {
     @ViewById
     ListView listView;
     @Extra
-    LocationObject currentLocation;
+    LocationObject selectedLocation;
 
     private Adapter adapter;
     private String currentCity = null;
+    private double latitude, longitude;
+
+    private LocationObject emptyLocation = LocationObject.undefined();
 
     @AfterViews
     void afterViews() {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         adapter = new Adapter();
-        LocationObject emptyLocation = LocationObject.undefined();
-        adapter.list.add(emptyLocation);
-        if (currentLocation != null && currentLocation.type != LocationObject.Type.Undefined) {
-            adapter.list.add(currentLocation);
-        } else {
-            currentLocation = emptyLocation;
-        }
         listView.setAdapter(adapter);
-        loadLocation();
+        reloadLocation();
     }
 
-    @Background
-    void loadLocation(){
-        // todo
+    private void resetList() {
+        currentCity = null;
+        latitude = longitude = 0;
+        adapter.list.clear();
+        adapter.list.add(emptyLocation);
+        if (selectedLocation != null && selectedLocation.type != LocationObject.Type.Undefined) {
+            adapter.list.add(selectedLocation);
+        } else {
+            selectedLocation = emptyLocation;
+        }
+    }
+
+    private void reloadLocation() {
+        resetList();
+        adapter.notifyDataSetChanged();
+        LocationProvider.getInstance(this).requestLocation(new LocationProvider.LocationResultListener() {
+            @Override
+            public void onLocationResult(boolean success, String city, double latitude, double longitude) {
+                if (ChooseLocationActivity.this.isFinishing()) return;
+                if (success) {
+                    currentCity = city;
+                    if(!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))){
+                        adapter.list.add(1, LocationObject.city(currentCity));
+                        adapter.notifyDataSetChanged();
+                    }
+                    ChooseLocationActivity.this.latitude = latitude;
+                    ChooseLocationActivity.this.longitude = longitude;
+                    loadList(1);
+                } else {
+                    // todo: show error tips
+                }
+            }
+        });
+    }
+
+    private void loadList(int page) {
+        LocationProvider.getInstance(this).requestNearbyLocations("餐饮", latitude, longitude, page, new LocationProvider.NearbyLocationsResultListener() {
+            @Override
+            public void onNearbyLocationsResult(boolean success, List<LocationObject> locations, int nextPage) {
+                if (locations != null) {
+                    // todo: distinct
+                    adapter.list.addAll(locations);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @ItemClick(R.id.listView)
@@ -59,6 +111,11 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Star
         intent.putExtra("location", data);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @OptionsItem
+    void action_search() {
+        Toast.makeText(this, "搜索位置", Toast.LENGTH_SHORT).show();
     }
 
     private class Adapter extends BaseAdapter {
@@ -86,7 +143,7 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Star
             }
             LocationItem locationItem = LocationItem.from(convertView);
             LocationObject data = getItem(position);
-            locationItem.bind(position, data, currentLocation == data);
+            locationItem.bind(position, data, selectedLocation == data);
             return convertView;
         }
     }

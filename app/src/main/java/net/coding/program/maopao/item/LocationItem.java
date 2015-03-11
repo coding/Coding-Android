@@ -36,6 +36,6 @@ public class LocationItem {
         if (TextUtils.isEmpty(data.address)) {
             secondary.setVisibility(View.GONE);
         }
-        checkbox.setVisibility(checked ? View.GONE : View.VISIBLE);
+        checkbox.setVisibility(checked ? View.VISIBLE : View.INVISIBLE);
     }
 }

@@ -13,6 +13,7 @@ public class LocationObject implements Serializable {
 
     public final Type type;
     public final String id, name, address;
+    public double latitude, longitude;
 
     public LocationObject(JSONObject json) throws JSONException {
         type = Type.Normal;
@@ -21,7 +22,11 @@ public class LocationObject implements Serializable {
         id = json.optString("id");
     }
 
-    public LocationObject(Type type, String id, String name, String address) {
+    public LocationObject(String id, String name, String address) {
+        this(Type.Normal, id, name, address);
+    }
+
+    private LocationObject(Type type, String id, String name, String address) {
         this.type = type;
         this.id = id;
         this.name = name;
@@ -29,7 +34,7 @@ public class LocationObject implements Serializable {
     }
 
     public static LocationObject undefined() {
-        return new LocationObject(Type.Undefined, null, "不显示位置", null);
+        return new LocationObject(Type.Undefined, null, "", null);
     }
 
     public static LocationObject city(String city) {
