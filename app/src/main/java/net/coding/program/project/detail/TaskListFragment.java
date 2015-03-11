@@ -77,6 +77,13 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
     }
 
     @Override
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void taskListUpdate() {
         if (mNeedUpdate) {
             mNeedUpdate = false;
@@ -181,12 +188,12 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
-                if (singleTask.status == 1) {
+//                if (singleTask.status == 1) {
                     mNeedUpdate = true;
                     Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
                     intent.putExtra("mSingleTask", singleTask);
                     getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
-                }
+//                }
             }
         });
 
@@ -206,8 +213,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
         });
 
         urlAll = String.format(createHost(mMembers.user.global_key, "/all"));
-
-        setHasOptionsMenu(true);
 
         loadData();
     }

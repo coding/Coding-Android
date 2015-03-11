@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import net.coding.program.common.LoginBackground;
+import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.user.UsersListActivity;
 
 import java.io.File;
@@ -12,8 +13,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.security.spec.DSAPublicKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -204,6 +203,7 @@ public class AccountInfo {
         return data;
     }
 
+    // TODO 添加单个item接口
     static class DataCache<T> {
 
         public final static String FILDER_GLOBAL = "FILDER_GLOBAL";
@@ -324,21 +324,21 @@ public class AccountInfo {
         return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
     }
 
-    private static final String MESSAGE_INPUT = "MESSAGE_INPUT";
+    private static final String MESSAGE_DRAFT = "MESSAGE_DRAFT";
 
     // input 为 "" 时，删除上次的输入
-    public static void saveMessageInput(Context ctx, String input, String globalkey) {
+    public static void saveMessageDraft(Context ctx, String input, String globalkey) {
         if (input.isEmpty()) { //
-            new DataCache<String>().delete(ctx, globalkey);
+            new DataCache<String>().delete(ctx, MESSAGE_DRAFT + globalkey);
         } else {
             ArrayList<String> data = new ArrayList<>();
             data.add(input);
-            new DataCache<String>().save(ctx, data, MESSAGE_INPUT + globalkey);
+            new DataCache<String>().save(ctx, data, MESSAGE_DRAFT + globalkey);
         }
     }
 
-    public static String loadMessageInput(Context ctx, String globalKey) {
-        ArrayList<String> data = new DataCache<String>().load(ctx, MESSAGE_INPUT + globalKey);
+    public static String loadMessageDraft(Context ctx, String globalKey) {
+        ArrayList<String> data = new DataCache<String>().load(ctx, MESSAGE_DRAFT + globalKey);
         if (data.isEmpty()) {
             return "";
         } else {
@@ -386,6 +386,27 @@ public class AccountInfo {
 
     public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, int id) {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
+    }
+
+    private static final String MAOPAO_DRAFT = "MAOPAO_DRAFT";
+
+    public static void saveMaopaoDraft(Context ctx, MaopaoAddActivity.MaopaoDraft draft) {
+        if (draft.isEmpty()) {
+            new DataCache<MaopaoAddActivity.MaopaoDraft>().delete(ctx, MAOPAO_DRAFT);
+        } else {
+            ArrayList<MaopaoAddActivity.MaopaoDraft> data = new ArrayList<>();
+            data.add(draft);
+            new DataCache<MaopaoAddActivity.MaopaoDraft>().save(ctx, data, MAOPAO_DRAFT);
+        }
+    }
+
+    public static MaopaoAddActivity.MaopaoDraft loadMaopaoDraft(Context ctx) {
+        ArrayList<MaopaoAddActivity.MaopaoDraft> data = new DataCache<MaopaoAddActivity.MaopaoDraft>().load(ctx, MAOPAO_DRAFT);
+        if (data.isEmpty()) {
+            return new MaopaoAddActivity.MaopaoDraft();
+        } else {
+            return data.get(0);
+        }
     }
 
     private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO";

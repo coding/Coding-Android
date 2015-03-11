@@ -427,7 +427,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                         break;
                     }
                 }
-
             } else {
                 showButtomToast(R.string.delete_fail);
             }

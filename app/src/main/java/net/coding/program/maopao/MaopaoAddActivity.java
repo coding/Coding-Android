@@ -50,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_add)
@@ -130,11 +131,26 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 updateAddButton();
             }
         });
+
+        MaopaoDraft draft = AccountInfo.loadMaopaoDraft(this);
+        if (!draft.isEmpty()) {
+            mEnterLayout.inputText(draft.getInput());
+            mData = draft.getPhotos();
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void updateAddButton() {
         enableSendButton(!message.getText().toString().isEmpty() ||
                 mData.size() > 0);
+    }
+
+    @Override
+    protected void onStop() {
+        MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData);
+        AccountInfo.saveMaopaoDraft(this, draft);
+
+        super.onStop();
     }
 
     private void enableSendButton(boolean enable) {
@@ -307,6 +323,11 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 intent.putExtra(ListModify.TYPE, ListModify.Add);
                 intent.putExtra(ListModify.DATA, maopaoObject);
                 setResult(Activity.RESULT_OK, intent);
+
+                // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
+                mEnterLayout.inputText("");
+                mData.clear();
+
                 finish();
             } else {
                 showErrorMsg(code, respanse);
@@ -331,7 +352,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
-    class PhotoData {
+    public static class PhotoData {
         Uri uri = Uri.parse("");
         String serviceUri = "";
 
@@ -339,6 +360,54 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             uri = Uri.fromFile(file);
         }
 
+        public PhotoData(PhotoDataSerializable data) {
+            uri = Uri.parse(data.uriString);
+            serviceUri = data.serviceUri;
+        }
+    }
+
+    // 因为PhotoData包含Uri，不能直接序列化，所以有了这个类
+    public static class PhotoDataSerializable implements Serializable {
+        String uriString = "";
+        String serviceUri = "";
+
+        public PhotoDataSerializable(PhotoData data) {
+            uriString = data.uri.toString();
+            serviceUri = data.serviceUri;
+        }
+    }
+
+    public static class MaopaoDraft implements Serializable {
+        private String input = "";
+
+        private ArrayList<PhotoDataSerializable> photos = new ArrayList();
+
+        public MaopaoDraft() {}
+
+        public MaopaoDraft(String input, ArrayList<PhotoData> photos) {
+            this.input = input;
+            this.photos = new ArrayList();
+            for (PhotoData item : photos) {
+                this.photos.add(new PhotoDataSerializable(item));
+            }
+        }
+
+        public boolean isEmpty() {
+            return input.isEmpty() && photos.isEmpty();
+        }
+
+        public String getInput() {
+            return input;
+        }
+
+        public ArrayList<PhotoData> getPhotos() {
+            ArrayList<PhotoData> data = new ArrayList();
+            for (PhotoDataSerializable item : photos) {
+                data.add(new PhotoData(item));
+            }
+
+            return data;
+        }
     }
 
     ArrayList<PhotoData> mData = new ArrayList();

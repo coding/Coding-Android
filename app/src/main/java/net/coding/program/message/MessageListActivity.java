@@ -107,7 +107,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             initControl();
         }
 
-        String lastInput = AccountInfo.loadMessageInput(this, mGlobalKey);
+        String lastInput = AccountInfo.loadMessageDraft(this, mGlobalKey);
         mEnterLayout.inputText(lastInput);
     }
 
@@ -298,7 +298,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     protected void onStop() {
         String input = mEnterLayout.getContent();
-        AccountInfo.saveMessageInput(this, input, mGlobalKey);
+        AccountInfo.saveMessageDraft(this, input, mGlobalKey);
 
         super.onStop();
     }

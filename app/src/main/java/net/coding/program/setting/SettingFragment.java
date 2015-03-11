@@ -40,6 +40,7 @@ public class SettingFragment extends BaseFragment {
     void init() {
         boolean mLastNotifySetting = AccountInfo.getNeedPush(getActivity());
         allNotify.setChecked(mLastNotifySetting);
+        setHasOptionsMenu(true);
     }
 
     @Click

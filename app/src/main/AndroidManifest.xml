@@ -37,6 +37,7 @@
         android:label="@string/app_name"
         android:theme="@style/ActionbarNoIcon" >
 
+
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
