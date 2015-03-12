@@ -1,25 +1,25 @@
 package net.coding.program;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
@@ -35,14 +35,13 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.List;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -67,6 +66,7 @@ public class LoginActivity extends BaseActivity {
 
     @ViewById
     EditText editValify;
+
     @ViewById
     View captchaLayout;
 
@@ -77,8 +77,8 @@ public class LoginActivity extends BaseActivity {
     final double scaleFactor = 16;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.icon_user_monkey)
-            .showImageOnFail(R.drawable.icon_user_monkey)
+            .showImageForEmptyUri(R.drawable.icon_user_monkey_circle)
+            .showImageOnFail(R.drawable.icon_user_monkey_circle)
             .resetViewBeforeLoading(true)
             .cacheOnDisk(true)
             .imageScaleType(ImageScaleType.EXACTLY)
@@ -86,6 +86,14 @@ public class LoginActivity extends BaseActivity {
             .considerExifParams(true)
             .displayer(new FadeInBitmapDisplayer(300))
             .build();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // 调用下，防止收到上次登陆账号的通知
+        XGPushManager.registerPush(this, "*");
+    }
 
     @AfterViews
     void init() {
@@ -97,15 +105,16 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
-        BitmapDrawable bitmapDrawable;
-        if (background == null) {
-            bitmapDrawable = createBlur();
-        } else {
-            bitmapDrawable = createBlur(background);
-        }
-        backgroundImage.setImageDrawable(bitmapDrawable);
+        try { // TODO 图片载入可能失败（小米2s 4.1)，没有测试机器，原因不明，只好先这么处理
+            BitmapDrawable bitmapDrawable;
+            if (background == null) {
+                bitmapDrawable = createBlur();
+            } else {
+                bitmapDrawable = createBlur(background);
+            }
+            backgroundImage.setImageDrawable(bitmapDrawable);
+        } catch (Exception e) {}
 
-        getActionBar().hide();
         needCaptcha();
 
         editName.addTextChangedListener(textWatcher);
@@ -164,11 +173,18 @@ public class LoginActivity extends BaseActivity {
         downloadValifyPhoto();
     }
 
+    final private int RESULT_CLOSE = 100;
+
     @Click
     void register() {
-        Uri uri = Uri.parse(Global.HOST);
-        Intent it = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(it);
+        RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
+    }
+
+    @OnActivityResult(RESULT_CLOSE)
+    void resultRegiter(int result) {
+        if (result == Activity.RESULT_OK) {
+            finish();
+        }
     }
 
     private void needCaptcha() {
@@ -226,11 +242,11 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
+    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
 
     String HOST_LOGIN = Global.HOST + "/api/login";
 
-    String HOST_USER = Global.HOST + "/api/user/key/%s";
+    public static String HOST_USER = Global.HOST + "/api/user/key/%s";
 
     String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
 
@@ -257,7 +273,7 @@ public class LoginActivity extends BaseActivity {
                 MyApp.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user.email, user.global_key);
 
-                syncCookie();
+                Global.syncCookie(this);
 
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
@@ -302,22 +318,6 @@ public class LoginActivity extends BaseActivity {
         getNetwork(String.format(HOST_USER, global), HOST_USER_RELOGIN);
     }
 
-    public void syncCookie() {
-        PersistentCookieStore cookieStore = new PersistentCookieStore(this);
-        List<Cookie> cookies = cookieStore.getCookies();
-
-        CookieManager cookieManager = CookieManager.getInstance();
-
-        for (int i = 0; i < cookies.size(); i++) {
-            Cookie eachCookie = cookies.get(i);
-            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
-            cookieManager.setCookie(Global.HOST, cookieString);
-        }
-
-        CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().sync();
-    }
-
     TextWatcher textWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -328,7 +328,7 @@ public class LoginActivity extends BaseActivity {
     TextWatcher textWatcherName = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
-            userIcon.setImageResource(R.drawable.icon_user_monkey);
+            userIcon.setImageResource(R.drawable.icon_user_monkey_circle);
         }
     };
 

@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container">
+
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/title"-->
+        <!--android:hint="标题"-->
+        <!--android:background="@drawable/edit"-->
+        <!--android:layout_gravity="center_horizontal|top"-->
+        <!--android:layout_marginTop="5dp" />-->
+
+    <!--<EditText-->
+        <!--android:hint="正文"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/edit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="top"-->
+        <!--android:id="@+id/content"-->
+        <!--android:layout_gravity="center" />-->
+</FrameLayout>

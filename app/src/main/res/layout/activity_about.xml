@@ -11,7 +11,7 @@
         android:layout_height="83dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/icon_user_monkey" />
+        android:background="@drawable/icon_user_monkey_circle" />
 
     <TextView
         android:id="@+id/t1"

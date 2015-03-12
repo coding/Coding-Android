@@ -3,6 +3,7 @@ package net.coding.program.user;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -117,7 +117,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         if (mData.isEmpty()) {
             showDialogLoading();
         }
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle();
 
         mFootUpdate.init(listView, mInflater, this);
@@ -189,7 +189,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             title = String.format(format, mUserParam.mUser.name, type);
         }
 
-        getActionBar().setTitle(title);
+        getSupportActionBar().setTitle(title);
     }
 
     private Friend getType() {
@@ -229,7 +229,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                 return true;
             }
         });
-
 
         return true;
     }
@@ -301,18 +300,18 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             hideProgressDialog();
         } else if (tag.equals(HOST_FOLLOW)) {
             if (code == 0) {
-                showButtomToast("成功");
+                showButtomToast(R.string.follow_success);
                 mSearchData.get(pos).followed = true;
             } else {
-                showButtomToast("失败");
+                showButtomToast(R.string.follow_fail);
             }
             adapter.notifyDataSetChanged();
         } else if (tag.equals(HOST_UNFOLLOW)) {
             if (code == 0) {
-                showButtomToast("成功");
+                showButtomToast(R.string.unfollow_success);
                 mSearchData.get(pos).followed = false;
             } else {
-                showButtomToast("失败");
+                showButtomToast(R.string.unfollow_fail);
             }
             adapter.notifyDataSetChanged();
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/MaopaoItem"
@@ -19,9 +19,13 @@
             android:layout_height="40dp" />
 
         <LinearLayout
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -53,7 +57,7 @@
 
             <TextView
                 android:id="@+id/content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/name"
                 android:layout_below="@+id/name"
@@ -66,16 +70,20 @@
                 android:background="@drawable/content_pressed_selector"
                 android:textSize="15sp" />
 
-            <ImageView
+            <net.coding.program.common.MinSizeImageView
+                custom:microSize="@dimen/image_single_micro_width"
+                custom:minWidth="@dimen/image_single_min_size"
+                custom:minHeight="@dimen/image_single_min_size"
                 android:id="@+id/imageSingle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/comment"
-                android:layout_below="@id/comment"
-                android:scaleType="fitStart"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="13dp"
                 android:maxWidth="@dimen/image_single_width"
+                android:maxHeight="@dimen/image_single_width"
+                android:minWidth="@dimen/image_single_min_width"
+                android:minHeight="@dimen/image_single_min_width"
                 android:longClickable="true" />
 
             <LinearLayout
@@ -94,31 +102,17 @@
                     android:visibility="gone"
                     android:layout_marginTop="4dp">
 
-                    <ImageView
-                        android:id="@+id/image0"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/aa1" />
+                    <include
+                        layout="@layout/maopao_image"
+                        android:id="@+id/image0" />
 
-                    <ImageView
-                        android:id="@+id/image1"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
+                    <include
+                        layout="@layout/maopao_image"
+                        android:id="@+id/image1" />
 
-                        android:src="@drawable/aa3" />
-
-                    <ImageView
-                        android:id="@+id/image2"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-
-                        android:src="@drawable/aa2" />
+                    <include
+                        layout="@layout/maopao_image"
+                        android:id="@+id/image2" />
 
                 </LinearLayout>
 
@@ -129,26 +123,17 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <ImageView
-                        android:id="@+id/image3"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop" />
+                    <include
+                        layout="@layout/maopao_image"
+                        android:id="@+id/image3" />
 
-                    <ImageView
-                        android:id="@+id/image4"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop" />
+                    <include
+                        layout="@layout/maopao_image"
+                        android:id="@+id/image4" />
 
-                    <ImageView
-                        android:id="@+id/image5"
-                        android:layout_width="@dimen/image_square_width"
-                        android:layout_height="@dimen/image_square_width"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop" />
+                    <include
+                        layout="@layout/maopao_image"
+                        android:id="@+id/image5" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -279,14 +264,28 @@
                                 android:background="@drawable/maopao_comment_divide"
                                 android:layout_height="1dp"
                                 android:layout_width="match_parent"
-                                android:layout_alignParentBottom="true"/>
+                                android:layout_alignParentBottom="true" />
                         </RelativeLayout>
 
-                        <include android:id="@+id/comment0" layout="@layout/maopao_list_comment_area_item" />
-                        <include android:id="@+id/comment1" layout="@layout/maopao_list_comment_area_item" />
-                        <include android:id="@+id/comment2" layout="@layout/maopao_list_comment_area_item" />
-                        <include android:id="@+id/comment3" layout="@layout/maopao_list_comment_area_item" />
-                        <include android:id="@+id/comment4" layout="@layout/maopao_list_comment_area_item" />
+                        <include
+                            android:id="@+id/comment0"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment1"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment2"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment3"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment4"
+                            layout="@layout/maopao_list_comment_area_item" />
 
                     </LinearLayout>
                 </LinearLayout>

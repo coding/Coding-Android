@@ -42,4 +42,5 @@ public class MyAsyncHttpClient {
 
         return client;
     }
+
 }

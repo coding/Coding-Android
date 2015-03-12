@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +17,13 @@ import android.widget.Toast;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
+import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.project.SearchProjectActivity;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
@@ -41,11 +44,38 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
     private ProgressDialog mProgressDialog;
 
     protected void showProgressBar(boolean show) {
+        showProgressBar(show, "");
+    }
+
+    protected void setProgressBarProgress(int progress) {
+        if (mProgressDialog == null) {
+            return;
+        }
+
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setProgress(progress);
+    }
+
+    protected void showProgressBar(boolean show, String message) {
+        if (mProgressDialog == null) {
+            return;
+        }
+
         if (show) {
+            mProgressDialog.setMessage(message);
             mProgressDialog.show();
         } else {
             mProgressDialog.hide();
         }
+    }
+
+    public ActionBarActivity getActionBarActivity() {
+        return (ActionBarActivity) getActivity();
+    }
+
+    protected void showProgressBar(boolean show, int messageId) {
+        String message = getString(messageId);
+        showProgressBar(show, message);
     }
 
     protected boolean progressBarIsShowing() {
@@ -95,6 +125,16 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+
+        super.onDestroy();
     }
 
     @Override
@@ -165,13 +205,22 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
 
     protected void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
-            showButtomToast("连接服务器失败，请检查网络或稍后重试");
+            showButtomToast(R.string.connect_service_fail);
         } else {
             String msg = Global.getErrorMsg(json);
             if (!msg.isEmpty()) {
                 showButtomToast(msg);
             }
         }
+    }
+
+    protected void showButtomToast(int messageId) {
+        if (!isResumed()) {
+            return;
+        }
+
+        String message = getString(messageId);
+        showButtomToast(message);
     }
 
     protected void showButtomToast(String msg) {
@@ -202,14 +251,14 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
     }
 
     protected void showDialogLoading() {
-        if (getActivity() instanceof BaseFragmentActivity) {
-            ((BaseFragmentActivity) getActivity()).showDialogLoading();
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showDialogLoading();
         }
     }
 
     protected void hideProgressDialog() {
-        if (getActivity() instanceof BaseFragmentActivity) {
-            ((BaseFragmentActivity) getActivity()).hideProgressDialog();
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).hideProgressDialog();
         }
     }
 }

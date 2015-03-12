@@ -48,8 +48,8 @@ public class SetUserTagActivity extends BaseActivity {
     @AfterViews
     void init() {
         showDialogLoading();
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
         user = AccountInfo.loadAccount(this);
         tags = user.tags;
         getNetwork(HOST_USER_TAG_LIST, HOST_USER_TAG_LIST);

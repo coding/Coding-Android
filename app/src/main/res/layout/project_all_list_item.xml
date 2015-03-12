@@ -63,7 +63,6 @@
             android:background="@drawable/ic_project_private1"
             android:layout_marginTop="41dp"
             android:layout_alignLeft="@id/name"
-            android:layout_alignTop="@id/icon"
-            />
+            android:layout_alignTop="@id/icon" />
     </RelativeLayout>
 </FrameLayout>

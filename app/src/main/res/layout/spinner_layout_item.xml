@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_marginLeft="16dp"
-        android:layout_gravity="center_vertical"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_spinner_task" />
+    android:background="@color/background_material_dark"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginBottom="13dp"
-        android:layout_marginTop="13dp"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="7dp"
-        android:layout_toRightOf="@id/icon"
-        android:text="项目任务"
-        android:textColor="#ffffffff" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_spinner_task" />
 
-</LinearLayout><!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content">-->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@id/icon"
+            android:singleLine="true"
+            android:text="项目任务"
+            android:textColor="#ffffffff"
+            android:textSize="16sp"
+            android:layout_marginRight="16dp" />
 
+    </LinearLayout>
+    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content">-->
     <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">--><!--<CheckedTextView--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@drawable/spinner_layout_item_bg"--><!--android:id="@+id/bg"--><!--/>-->
 
     <!--<ImageView--><!--android:id="@+id/icon"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="13dp"--><!--android:layout_marginLeft="30dp"--><!--android:layout_marginTop="13dp"--><!--android:src="@drawable/ic_spinner_task" />-->

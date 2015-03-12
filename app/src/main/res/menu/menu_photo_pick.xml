@@ -1,4 +1,5 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.chaochen.myphotopick.PhotoPickActivity">
 
@@ -6,5 +7,5 @@
         android:id="@+id/action_finish"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="always" />
+        app:showAsAction="always" />
 </menu>

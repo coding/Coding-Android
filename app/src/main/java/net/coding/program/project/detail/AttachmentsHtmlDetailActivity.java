@@ -32,8 +32,8 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     @ViewById
     WebView webview;
 
-    String urlFiles = Global.HOST + "/api/project/%s/files/%s/view";
-    String urlPages = Global.HOST + "/api/project/%s/files/image/%s?folderId=%s&orderByDesc=true";
+    String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
+    String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
     String urlMdPreview = Global.HOST + "/api/markdown/preview";
 
     AttachmentFileObject mFiles = new AttachmentFileObject();
@@ -41,8 +41,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     String markdown;
 
     @AfterViews
-    void init() {
-        super.init();
+    void init1() {
 
         try {
             markdown = readTextFile(getAssets().open("markdown-html"));
@@ -91,7 +90,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
                 webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
             } else {
                 hideProgressDialog();
-                showButtomToast("连接服务器失败，请检查网络或稍后重试");
+                showButtomToast(R.string.connect_service_fail);
             }
         }
     }

@@ -165,26 +165,20 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
     private void setCity(int pIndex, String cityName) {
         JSONArray cityJSONArray;
         cIndex = 0;
-        if (pIndex == 0) {
-            cityString = new String[1];
-            cityString[0] = " ";
-        } else {
-            try {
-                cityJSONArray = provincesArray.getJSONObject(pIndex - 1).optJSONArray("c");
-                cityString = new String[cityJSONArray.length() + 1];
-                cityString[0] = " ";
-                for (int i = 1; i < cityJSONArray.length() + 1; i++) {
-                    JSONObject jsonObject = cityJSONArray.getJSONObject(i - 1);
-                    cityString[i] = jsonObject.optString("n");
-                    if (cityName.equals(cityString[i])) {
-                        cIndex = i;
-                    }
+        try {
+            cityJSONArray = provincesArray.getJSONObject(pIndex).optJSONArray("c");
+            cityString = new String[cityJSONArray.length()];
+            for (int i = 0; i < cityJSONArray.length(); i++) {
+                JSONObject jsonObject = cityJSONArray.getJSONObject(i);
+                cityString[i] = jsonObject.optString("n");
+                if (cityName.equals(cityString[i])) {
+                    cIndex = i;
                 }
-
-            } catch (Exception e) {
-                cityJSONArray = new JSONArray();
-                cityString = new String[0];
             }
+
+        } catch (Exception e) {
+            cityJSONArray = new JSONArray();
+            cityString = new String[0];
         }
         mCityPicker.setDisplayedValues(null);
         mCityPicker.setMinValue(0);
@@ -196,20 +190,12 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
     private String getProvinceStr() {
         String returnValue = "";
         String pName = "";
-        if (pIndex > 0) {
-            pName = mProvincesPicker.getDisplayedValues()[pIndex];
-            returnValue = pName;
-        } else {
-            return "";
-        }
+        pName = mProvincesPicker.getDisplayedValues()[pIndex];
+        returnValue = pName;
 
         String cName = "";
-        if (cIndex > 0) {
-            cName = mCityPicker.getDisplayedValues()[cIndex];
-            returnValue += " " + cName;
-        } else {
-
-        }
+        cName = mCityPicker.getDisplayedValues()[cIndex];
+        returnValue += " " + cName;
 
         return returnValue;
     }
@@ -219,13 +205,13 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
         try {
             provincesArray = new JSONArray(provinces);
 
-            provincesString = new String[provincesArray.length() + 1];
-            provincesString[0] = " ";
-            for (int i = 1; i < provincesArray.length() + 1; i++) {
-                JSONObject jsonObject = provincesArray.getJSONObject(i - 1);
+            provincesString = new String[provincesArray.length()];
+            for (int i = 0; i < provincesArray.length(); i++) {
+                JSONObject jsonObject = provincesArray.getJSONObject(i);
                 provincesString[i] = jsonObject.optString("p");
-                if (provincesString[i].equals(provinceName))
+                if (provincesString[i].equals(provinceName)) {
                     pIndex = i;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

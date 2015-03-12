@@ -16,7 +16,8 @@
     <string name="title_activity_feedback">用户反馈</string>
     <string name="title_activity_about">关于我们</string>
     <string name="title_activity_topic_comment">讨论</string>
-    <string name="title_activity_topic_create">创建讨论</string>
+    <string name="topic_create">创建讨论</string>
+    <string name="topic_edit">编辑讨论</string>
     <string name="title_activity_make_maopao">发冒泡</string>
     <string name="title_activity_users">用户列表</string>
     <string name="title_activity_add_follow">添加关注</string>
@@ -59,7 +60,28 @@
     <string name="title_activity_task_description">任务描述</string>
     <string name="title_activity_account_setting">帐号设置</string>
     <string name="title_activity_web">WebActivity</string>
-    <string name="title_activity_search_project">  </string>
+    <string name="title_activity_search_project"></string>
     <string name="title_activity_update_dialog">UpdateDialogActivity</string>
+    <string name="title_activity_register">注册</string>
+    <string name="title_activity_base_annotation">BaseAnnotationActivity</string>
+    <string name="title_activity_terms">服务条款</string>
+    <string name="create_task_ing">"正在创建任务..."</string>
+    <string name="modify_task_ing">"正在修改任务..."</string>
+    <string name="sending_comment">"正在发送评论..."</string>
+    <string name="follow_success">关注成功</string>
+    <string name="follow_fail">关注失败</string>
+    <string name="unfollow_success">取消关注成功</string>
+    <string name="unfollow_fail">取消关注失败</string>
+    <string name="delete_success">删除评论成功</string>
+    <string name="delete_fail">删除评论失败</string>
+    <string name="connect_service_fail">连接服务器失败，请检查网络或稍后重试</string>
+    <string name="copy_link">复制链接</string>
+    <string name="delete_task">删除任务</string>
+    <string name="delete_topic">删除讨论</string>
+    <string name="perview">预览</string>
+    <string name="edit">编辑</string>
+    <string name="title_activity_update_tip">UpdateTipActivity</string>
+    <string name="copy_link_finish">链接已复制</string>
+    <string name="title_activity_file_url"></string>
 
 </resources>

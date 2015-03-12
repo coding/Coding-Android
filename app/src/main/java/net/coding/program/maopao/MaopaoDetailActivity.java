@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseFragmentActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -25,9 +25,11 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.htmltext.LinkCreate;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
@@ -37,6 +39,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +52,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_detail)
-public class MaopaoDetailActivity extends BaseFragmentActivity implements StartActivity {
+@OptionsMenu(R.menu.common_more)
+public class MaopaoDetailActivity extends CustomMoreActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
@@ -69,6 +73,9 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
 
     String maopaoUrl;
 
@@ -91,7 +98,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mEnterLayout = new EnterEmojiLayout(this, onClickSend, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
@@ -102,6 +109,19 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
             Global.errorLog(e);
         }
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        loadData();
+    }
+
+    @Override
+    public void onRefresh() {
+        mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+        mMaopaoObject = null;
+        loadData();
+    }
+
+    private void loadData() {
         if (mMaopaoObject == null) {
             maopaoOwnerGlobal = mClickParam.name;
             maopaoId = mClickParam.maopaoId;
@@ -133,28 +153,27 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         public void onClick(View v) {
             EditText content = mEnterLayout.content;
             String input = content.getText().toString();
-            if (input.isEmpty()) {
-                return;
-            }
 
-            if (EmojiFilter.containsEmoji(input)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
                 return;
             }
 
             Maopao.Comment comment = (Maopao.Comment) content.getTag();
+            // TODO comment可能为空
             String uri = String.format(ADD_COMMENT, comment.tweet_id);
 
             RequestParams params = new RequestParams();
 
             String contentString;
-            if (comment.id.isEmpty()) {
+            if (comment.id == 0) {
                 contentString = input;
             } else {
                 contentString = String.format("@%s : %s", comment.owner.name, input);
             }
             params.put("content", contentString);
             postNetwork(uri, params, ADD_COMMENT, 0, comment);
+
+            showProgressBar(true, R.string.sending_comment);
         }
     };
 
@@ -180,15 +199,20 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
 
     final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
 
-    void initHead() {
-        View head = mInflater.inflate(R.layout.activity_maopao_detail_head, null, false);
+    View mListHead;
 
-        ImageView icon = (ImageView) head.findViewById(R.id.icon);
+    void initHead() {
+        if (mListHead == null) {
+            mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, null, false);
+            listView.addHeaderView(mListHead);
+        }
+
+        ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         icon.setOnClickListener(mOnClickUser);
 
-        TextView name = (TextView) head.findViewById(R.id.name);
+        TextView name = (TextView) mListHead.findViewById(R.id.name);
 
-        TextView time = (TextView) head.findViewById(R.id.time);
+        TextView time = (TextView) mListHead.findViewById(R.id.time);
         time.setText(Global.dayToNow(mMaopaoObject.created_at));
 
         iconfromNetwork(icon, mMaopaoObject.owner.avatar);
@@ -197,7 +221,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         name.setText(mMaopaoObject.owner.name);
         name.setTag(mMaopaoObject.owner.global_key);
 
-        WebView webView = (WebView) head.findViewById(R.id.comment);
+        WebView webView = (WebView) mListHead.findViewById(R.id.comment);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setBackgroundColor(0);
         webView.getBackground().setAlpha(0);
@@ -206,22 +230,21 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", mMaopaoObject.content), "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClient(this));
 
-        head.setOnClickListener(new View.OnClickListener() {
+        mListHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prepareAddComment(mMaopaoObject, true);
             }
         });
 
-        likeBtn = (CheckBox) head.findViewById(R.id.likeBtn);
-        CheckBox commentBtn = (CheckBox) head.findViewById(R.id.commentBtn);
+        likeBtn = (CheckBox) mListHead.findViewById(R.id.likeBtn);
+        CheckBox commentBtn = (CheckBox) mListHead.findViewById(R.id.commentBtn);
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prepareAddComment(mMaopaoObject, true);
             }
         });
-
 
         likeBtn.setChecked(mMaopaoObject.liked);
         likeBtn.setOnClickListener(new View.OnClickListener() {
@@ -235,13 +258,13 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         });
 
 
-        likeUsersArea = new LikeUsersArea(head, this, getImageLoad(), mOnClickUser);
+        likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), mOnClickUser);
 
         likeUsersArea.likeUsersLayout.setTag(MaopaoListFragment.TAG_MAOPAO, mMaopaoObject);
         likeUsersArea.displayLikeUser();
 
 
-        TextView photoType = (TextView) head.findViewById(R.id.photoType);
+        TextView photoType = (TextView) mListHead.findViewById(R.id.photoType);
         String device = mMaopaoObject.device;
         if (!device.isEmpty()) {
             final String format = "来自 %s";
@@ -250,15 +273,13 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
             photoType.setText("");
         }
 
-        View maopaoDelete = head.findViewById(R.id.maopaoDelete);
+        View maopaoDelete = mListHead.findViewById(R.id.maopaoDelete);
         if (mMaopaoObject.owner.global_key.equals(MyApp.sUserObject.global_key)) {
             maopaoDelete.setVisibility(View.VISIBLE);
             maopaoDelete.setOnClickListener(onClickDeleteMaopao);
         } else {
             maopaoDelete.setVisibility(View.INVISIBLE);
         }
-
-        listView.addHeaderView(head);
     }
 
     public static class CustomWebViewClient extends WebViewClient {
@@ -279,14 +300,13 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
     View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final String maopaoId = mMaopaoObject.id;
+            final int maopaoId = mMaopaoObject.id;
             showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%s";
+                    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%d";
                     deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
-
                 }
             });
         }
@@ -332,6 +352,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URI_COMMENT)) {
+            swipeRefreshLayout.setRefreshing(false);
             if (code == 0) {
                 mData.clear();
 
@@ -356,6 +377,7 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(ADD_COMMENT)) {
+            showProgressBar(false);
             if (code == 0) {
                 getNetwork(URI_COMMENT, URI_COMMENT);
 
@@ -502,12 +524,13 @@ public class MaopaoDetailActivity extends BaseFragmentActivity implements StartA
         }
     }
 
-    View.OnClickListener onClickLikeUsrs = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MaopaoDetailActivity.this, LikeUsersListActivity_.class);
-            intent.putExtra("id", (String) v.getTag());
-            startActivity(intent);
-        }
-    };
+    @Override
+    protected String getLink() {
+        return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
 }

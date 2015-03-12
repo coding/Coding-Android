@@ -1,7 +1,7 @@
 package net.coding.program.maopao;
 
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -57,22 +58,27 @@ import java.util.Calendar;
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     ArrayList<Maopao.MaopaoObject> mData = new ArrayList();
-
     final String maopaoUrlFormat = Global.HOST + "/api/tweet/public_tweets?last_id=%s&sort=%s";
     final String friendUrl = Global.HOST + "/api/activities/user_tweet?last_id=%s";
+
     final String myUrl = Global.HOST + "/api/tweet/user_public?user_id=%s&last_id=%s";
+
 
     final String URI_COMMENT = Global.HOST + "/api/tweet/%s/comment";
 
-    String id = UPDATE_ALL;
+    int id = UPDATE_ALL_INT;
 
     boolean mNoMore = false;
 
-    @FragmentArg
-    String mType;
+    public enum Type {
+        user, friends, hot, my, time
+    }
 
     @FragmentArg
-    String userId;
+    Type mType;
+
+    @FragmentArg
+    int userId;
 
     @ViewById
     ListView listView;
@@ -84,12 +90,13 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     View commonEnterRoot;
 
     EnterEmojiLayout mEnterLayout;
-
     int needScrollY = 0;
     int oldListHigh = 0;
+
     int cal1 = 0;
 
     private MyImageGetter myImageGetter;
+    private int mPxImageWidth;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -101,7 +108,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     protected void init() {
         super.init();
 
-        mData = AccountInfo.loadMaopao(getActivity(), mType, userId);
+        // 图片显示，单位为 dp
+        // 62 photo 3 photo 3 photo 34
+        final int divide = 3;
+        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
+
+        mData = AccountInfo.loadMaopao(getActivity(), mType.toString(), userId);
 
         if (mData.isEmpty()) {
             showDialogLoading();
@@ -111,11 +123,11 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
         myImageGetter = new MyImageGetter(getActivity());
 
-        if (mType.equals("friends")) {
-            id = "";
+        if (mType == Type.friends) {
+            id = UPDATE_ALL_INT;
         }
 
-        if (mType.equals("hot")) {
+        if (mType == Type.hot) {
             mNoMore = true;
         }
 
@@ -165,29 +177,31 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     private void addDoubleClickActionbar() {
-        ActionBar actionBar = getActivity().getActionBar();
-        View v = mInflater.inflate(R.layout.action_bar_custom, null);
-        v.setOnClickListener(new View.OnClickListener() {
+        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
+        View v = actionBar.getCustomView();
+        // 有些界面没有下拉刷新
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
 
-            long mLastTime = 0;
-            final long DOUBLE_CLICK_TIME = 300;
+                long mLastTime = 0;
+                final long DOUBLE_CLICK_TIME = 300;
 
-            @Override
-            public void onClick(View v) {
-                long lastTime = mLastTime;
-                long nowTime = Calendar.getInstance().getTimeInMillis();
-                mLastTime = nowTime;
+                @Override
+                public void onClick(View v) {
+                    long lastTime = mLastTime;
+                    long nowTime = Calendar.getInstance().getTimeInMillis();
+                    mLastTime = nowTime;
 
-                if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
-                    if (!isRefreshing()) {
-                        listView.smoothScrollToPosition(0);
-                        setRefreshing(true);
-                        onRefresh();
+                    if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
+                        if (!isRefreshing()) {
+                            setRefreshing(true);
+                            onRefresh();
+                        }
                     }
                 }
-            }
-        });
-        actionBar.setCustomView(v);
+            });
+        }
+
     }
 
     @Override
@@ -203,7 +217,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!mType.equals("user")) {
+        if (mType != Type.user) {
             inflater.inflate(R.menu.maopao_add, menu);
         }
 
@@ -212,14 +226,14 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     @OptionsItem
     void action_add_maopao() {
-        Intent intent = new Intent(getActivity(), AddMaopaoActivity_.class);
+        Intent intent = new Intent(getActivity(), MaopaoAddActivity_.class);
         startActivityForResult(intent, RESULT_EDIT_MAOPAO);
     }
 
     @Override
     protected void initSetting() {
         super.initSetting();
-        id = UPDATE_ALL;
+        id = UPDATE_ALL_INT;
     }
 
     View.OnClickListener onClickSendText = new View.OnClickListener() {
@@ -227,12 +241,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         public void onClick(View v) {
 
             String input = mEnterLayout.getContent();
-            if (input.isEmpty()) {
-                return;
-            }
 
-            if (EmojiFilter.containsEmoji(input)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
                 return;
             }
 
@@ -242,13 +252,15 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             RequestParams params = new RequestParams();
 
             String commentString;
-            if (commentObject.id.isEmpty()) {
+            if (commentObject.id == 0) {
                 commentString = input;
             } else {
                 commentString = String.format("@%s : %s", commentObject.owner.name, input);
             }
             params.put("content", commentString);
             postNetwork(uri, params, URI_COMMENT, 0, commentObject);
+
+            showProgressBar(true, R.string.sending_comment);
         }
     };
 
@@ -264,7 +276,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     Maopao.MaopaoObject maopao = (Maopao.MaopaoObject) data.getSerializableExtra(ListModify.DATA);
                     for (int i = 0; i < mData.size(); ++i) {
                         Maopao.MaopaoObject item = mData.get(i);
-                        if (item.id.equals(maopao.id)) {
+                        if (item.id == maopao.id) {
                             mData.remove(i);
                             mData.add(i, maopao);
                             mAdapter.notifyDataSetChanged();
@@ -275,10 +287,10 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
 
                 } else if (type == ListModify.Delete) {
-                    String maopaoId = data.getStringExtra(ListModify.ID);
+                    int maopaoId = data.getIntExtra(ListModify.ID, 0);
                     for (int i = 0; i < mData.size(); ++i) {
                         Maopao.MaopaoObject item = mData.get(i);
-                        if (item.id.equals(maopaoId)) {
+                        if (item.id == (maopaoId)) {
                             mData.remove(i);
                             mAdapter.notifyDataSetChanged();
                             break;
@@ -300,12 +312,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     String createUrl() {
-        if (mType.equals("friends")) {
+        if (mType == Type.friends) {
             return String.format(friendUrl, id);
-        } else if (mType.equals("my")) {
+        } else if (mType == Type.my) {
             UserObject my = AccountInfo.loadAccount(getActivity());
             return String.format(myUrl, my.id, id);
-        } else if (mType.equals("user")) {
+        } else if (mType == Type.user) {
             return String.format(myUrl, userId, id);
         } else {
             return String.format(maopaoUrlFormat, id, mType);
@@ -337,7 +349,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             hideProgressDialog();
             setRefreshing(false);
             if (code == 0) {
-                if (id.equals(UPDATE_ALL)) {
+                if (id == UPDATE_ALL_INT) {
+                    listView.setSelection(0);
                     mData.clear();
                 }
 
@@ -352,13 +365,18 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 for (int i = 0; i < minSize; ++i) {
                     mSaveData.add(mData.get(i));
                 }
-                AccountInfo.saveMaopao(getActivity(), mSaveData, mType, userId);
+                AccountInfo.saveMaopao(getActivity(), mSaveData, mType.toString(), userId);
 
                 if (jsonArray.length() == 0) {
                     mNoMore = true;
                 } else {
+                    int oldId = id;
                     id = mData.get(mData.size() - 1).id;
                     mAdapter.notifyDataSetChanged();
+
+                    if (oldId == UPDATE_ALL_INT) {
+                        listView.smoothScrollToPosition(0);
+                    }
                 }
 
                 if (mNoMore) {
@@ -380,6 +398,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
             }
         } else if (tag.equals(URI_COMMENT)) {
+            showProgressBar(false);
             if (code == 0) {
                 mEnterLayout.clearContent();
                 Maopao.Comment myComment = new Maopao.Comment(respanse.getJSONObject("data"));
@@ -389,7 +408,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject item = mData.get(i);
-                    if (otherComment.tweet_id.equals(item.id)) {
+                    if (otherComment.tweet_id == item.id) {
                         item.comment_list.add(0, myComment);
                         ++item.comments;
 
@@ -408,7 +427,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject maopao = mData.get(i);
-                    if (maopao.id.equals(((Maopao.MaopaoObject) data).id)) {
+                    if (maopao.id == ((Maopao.MaopaoObject) data).id) {
                         maopao.liked = !maopao.liked;
                         if (maopao.liked) {
                             Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
@@ -434,11 +453,11 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             mAdapter.notifyDataSetChanged();
 
         } else if (tag.equals(TAG_DELETE_MAOPAO)) {
-            String maopaoId = (String) data;
+            int maopaoId = (int) data;
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject item = mData.get(i);
-                    if (item.id.equals(maopaoId)) {
+                    if (item.id == maopaoId) {
                         mData.remove(i);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -452,9 +471,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject item = mData.get(i);
-                    if (item.id.equals(comment.tweet_id)) {
+                    if (item.id == (comment.tweet_id)) {
                         for (int j = 0; j < item.comment_list.size(); ++j) {
-                            if (item.comment_list.get(j).id.equals(comment.id)) {
+                            if (item.comment_list.get(j).id == (comment.id)) {
                                 item.comment_list.remove(j);
                                 --item.comments;
                                 mAdapter.notifyDataSetChanged();
@@ -503,7 +522,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
 
-                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad());
+                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
 
                 holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
                 holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);
@@ -582,7 +601,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
             holder.commentBtn.setTag(data);
 
-            if (data.owner_id.equals(MyApp.sUserObject.id)) {
+            if (data.owner_id == (MyApp.sUserObject.id)) {
                 holder.maopaoDelete.setVisibility(View.VISIBLE);
                 holder.maopaoDelete.setTag(TAG_MAOPAO_ID, data.id);
             } else {
@@ -607,7 +626,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String maopaoId = (String) v.getTag(TAG_MAOPAO_ID);
+                final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
                 showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -634,12 +653,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             @Override
             public void onClick(View v) {
                 final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
-                if (MyApp.sUserObject.id.equals(comment.owner_id)) {
+                if (MyApp.sUserObject.id == (comment.owner_id)) {
                     showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/6597/comment/%s";
-                            deleteNetwork(String.format(URI_COMMENT_DELETE, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
+                            final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/%d/comment/%d";
+                            deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
                         }
                     });
                 } else {

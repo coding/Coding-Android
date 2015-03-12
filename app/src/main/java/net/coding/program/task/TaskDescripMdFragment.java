@@ -6,37 +6,31 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.base.MDEditFragment;
+import net.coding.program.project.detail.TopicEditFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
 @EFragment(R.layout.fragment_task_descrip_md)
-public class TaskDescripMdFragment extends BaseFragment {
+public class TaskDescripMdFragment extends MDEditFragment {
 
     @FragmentArg
     String contentMd;
-
-    @ViewById
-    EditText edit;
 
     ActionMode mActionMode;
 
     @AfterViews
     void init() {
         setHasOptionsMenu(true);
-        if (contentMd == null) {
-
-        } else {
+        if (contentMd != null) {
             edit.setText(contentMd);
             mActionMode = getActivity().startActionMode(mActionModeCallback);
         }
@@ -119,5 +113,10 @@ public class TaskDescripMdFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_task_description_edit, menu);
+    }
+
+    @Override
+    public int getProjectId() {
+        return ((TopicEditFragment.SaveData) getActivity()).getProjectId();
     }
 }

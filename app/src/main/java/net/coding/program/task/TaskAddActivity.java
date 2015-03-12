@@ -4,16 +4,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,11 +28,12 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
@@ -61,7 +66,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_task_add)
-public class TaskAddActivity extends BaseFragmentActivity implements StartActivity, DatePickerFragment.DateSet {
+public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet {
 
     @Extra
     TaskObject.SingleTask mSingleTask;
@@ -86,6 +91,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     TextView deadline;
     TextView description;
     ViewGroup descriptionLayout;
+    TextView descriptionButton;
 
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
@@ -105,7 +111,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initControl();
 
         if (mJumpParams == null) {
@@ -121,8 +127,12 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     private void initControl() {
         mEnterLayout = new EnterLayout(this, mOnClickSendText, EnterLayout.Type.TextOnly);
 
+        // 单独提出来是因为弹出软键盘时，由于head太长，导致 title 会被顶到消失，现在的解决方法是 edit作为一个单独的head加载
+        View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, null);
+        title = (EditText) headEdit.findViewById(R.id.title);
+        listView.addHeaderView(headEdit);
+
         mHeadView = mInflater.inflate(R.layout.activity_task_add_head, null);
-        title = (EditText) mHeadView.findViewById(R.id.title);
         circleIcon = (ImageView) mHeadView.findViewById(R.id.circleIcon);
         name = (TextView) mHeadView.findViewById(R.id.name);
         status = (TextView) mHeadView.findViewById(R.id.status);
@@ -133,23 +143,28 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
         description = (TextView) mHeadView.findViewById(R.id.description);
         commentCount = (TextView) mHeadView.findViewById(R.id.commentCount);
+        descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView);
     }
 
     private void updateSendButton() {
         if (title.getText().toString().isEmpty()
-                || (mNewParam.equals(mOldParam) && !descripChange())) {
+                || isContentUnmodify()) {
             enableSendButton(false);
         } else {
             enableSendButton(true);
         }
     }
 
+    private boolean isContentUnmodify() {
+        return mNewParam.equals(mOldParam) && !descripChange();
+    }
+
     private boolean descripChange() {
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             return false;
         } else {
-            return descriptionData.markdown.equals(descriptionDataNew.markdown);
+            return !descriptionData.markdown.equals(descriptionDataNew.markdown);
         }
     }
 
@@ -168,8 +183,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     }
 
     void initData() {
-        if (mSingleTask.id.isEmpty()) {
-            if (mUserOwner.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
+            if (mUserOwner.id == 0) {
                 mSingleTask.owner = AccountInfo.loadAccount(this);
             } else {
                 mSingleTask.owner = mUserOwner;
@@ -191,7 +206,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         selectMember();
 
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             status.setText("未完成");
             linearlayout2.setVisibility(View.GONE);
             mEnterLayout.hide();
@@ -200,7 +215,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         } else {
             title.setText(mSingleTask.content);
-            getActionBar().setTitle("编辑任务");
+            getSupportActionBar().setTitle("编辑任务");
 
             setStatus();
             setPriority();
@@ -209,29 +224,54 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
         setDeadline();
 
-//        initDescription();
+        initDescription();
 
-        urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.id);
-        getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
+        // 获取任务的评论
+        if (!mSingleTask.isEmpty()) {
+            urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.getId());
+            getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
+        }
 
-        if (!mSingleTask.id.isEmpty()) {
-            CommentBackup.BackupParam param = new CommentBackup.BackupParam(CommentBackup.Type.Task, mSingleTask.id, "");
+        if (!mSingleTask.isEmpty()) {
+            CommentBackup.BackupParam param = new CommentBackup.BackupParam(CommentBackup.Type.Task, mSingleTask.getId(), 0);
             mEnterLayout.content.setTag(param);
             mEnterLayout.restoreLoad(param);
         }
 
+        TextView time = (TextView) mHeadView.findViewById(R.id.time);
+        TextView createName = (TextView) mHeadView.findViewById(R.id.createrName);
+        if (mSingleTask.isEmpty()) {
+            createName.setText(mNewParam.owner.name);
+            time.setText(String.format("现在"));
+        } else {
+            createName.setText(mSingleTask.creator.name);
+            time.setText(String.format(Global.dayToNow(mSingleTask.created_at)));
+        }
     }
 
     private void initDescription() {
-        if (mSingleTask.id.isEmpty()) {
-            descriptionLayout.setOnClickListener(onClickCreateDescription);
+//        if (mSingleTask.isEmpty()) {
+//            descriptionLayout.setOnClickListener(onClickCreateDescription);
+//        } else {
+//            if (mSingleTask.has_description) {
+//                description.setText("载入备注中...");
+//                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.getId());
+//                getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
+//            } else {
+//                descriptionLayout.setOnClickListener(onClickCreateDescription);
+//            }
+//        }
+        if (mSingleTask.isEmpty()) {
+            descriptionButtonUpdate(false);
+            descriptionButton.setOnClickListener(onClickCreateDescription);
         } else {
             if (mSingleTask.has_description) {
-                description.setText("载入备注中...");
-                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.id);
+                descriptionButtonUpdate(true);
+                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.getId());
                 getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
             } else {
-                descriptionLayout.setOnClickListener(onClickCreateDescription);
+                descriptionButtonUpdate(false);
+                descriptionButton.setOnClickListener(onClickCreateDescription);
             }
         }
     }
@@ -241,13 +281,31 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.task_add, menu);
+
+        if (mJumpParams == null && mSingleTask.isEmpty()) {
+            menuInflater.inflate(R.menu.task_add, menu);
+        } else {
+            menuInflater.inflate(R.menu.task_add_edit, menu);
+        }
 
         mMenuSave = menu.findItem(R.id.action_save);
         updateSendButton();
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    private void deleteTask() {
+        showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                TaskObject.SingleTask task = mSingleTask;
+                String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
+                deleteNetwork(url, TaskListFragment.hostTaskDelete);
+                showProgressBar(true, "删除任务中...");
+            }
+        });
+    }
+
 
     private void setHeadData() {
         title.addTextChangedListener(new TextWatcher() {
@@ -266,30 +324,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
         });
         title.setText("");
-
-        TextView time = (TextView) mHeadView.findViewById(R.id.time);
-        TextView createName = (TextView) mHeadView.findViewById(R.id.createrName);
-
-        View delete = mHeadView.findViewById(R.id.delete);
-        if (mSingleTask.id.isEmpty()) {
-            delete.setVisibility(View.GONE);
-        } else {
-            delete.setVisibility(View.VISIBLE);
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            TaskObject.SingleTask task = mSingleTask;
-                            String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.id);
-                            deleteNetwork(url, TaskListFragment.hostTaskDelete);
-                            showProgressBar(true);
-                        }
-                    });
-                }
-            });
-        }
 
         mHeadView.findViewById(R.id.linearlayout1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,20 +391,12 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                         });
             }
         });
-
-        if (mSingleTask.id.isEmpty()) {
-            createName.setText(mNewParam.owner.name);
-            time.setText(String.format("现在"));
-        } else {
-            createName.setText(mSingleTask.creator.name);
-            time.setText(String.format(Global.dayToNow(mSingleTask.created_at)));
-        }
     }
 
     View listFoot;
 
     private void addFoot() {
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             return;
         }
 
@@ -425,7 +451,6 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
 
     final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";
     final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
-    final String HOST_TASK_DEL = Global.HOST + "/api/task/%s";
     final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/task/%s/comments?pageSize=200";
 
     final String HOST_TASK_UPDATE = Global.HOST + "/api/task/%s/update";
@@ -436,12 +461,11 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @OptionsItem
     void action_save() {
         String content = title.getText().toString();
-        if (EmojiFilter.containsEmoji(content)) {
-            showMiddleToast("暂不支持发表情");
+        if (EmojiFilter.containsEmoji(this, content)) {
             return;
         }
 
-        if (mSingleTask.id.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             String url = String.format(HOST_TASK_ADD, mSingleTask.project.backend_project_path);
             RequestParams params = new RequestParams();
             params.put("content", content);
@@ -453,10 +477,10 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 params.put("description", descriptionDataNew.markdown);
             }
             postNetwork(url, params, HOST_TASK_ADD);
-            showProgressBar(true);
+            showProgressBar(true, R.string.create_task_ing);
 
         } else {
-            String url = String.format(HOST_TASK_UPDATE, mSingleTask.id);
+            String url = String.format(HOST_TASK_UPDATE, mSingleTask.getId());
             RequestParams params = new RequestParams();
             if (!content.equals(mSingleTask.content)) {
                 params.put("content", content);
@@ -467,7 +491,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             if (mNewParam.priority != mSingleTask.priority) {
                 params.put("priority", mNewParam.priority);
             }
-            if (!mNewParam.ownerId.equals(mSingleTask.owner_id)) {
+            if (mNewParam.ownerId != (mSingleTask.owner_id)) {
                 params.put("owner_id", mNewParam.ownerId);
             }
             if (!mNewParam.deadline.equals(mSingleTask.deadline)) {
@@ -480,8 +504,26 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
-            showProgressBar(true);
+            showProgressBar(true, R.string.modify_task_ing);
         }
+    }
+
+    @OptionsItem
+    void action_more() {
+        showRightTopPop();
+    }
+
+    @OptionsItem
+    void action_copy() {
+        final String urlTemplate = Global.HOST + "/u/%s/p/%s/task/%d";
+        String url = String.format(urlTemplate, mSingleTask.project.owner_user_name, mSingleTask.project.name, mSingleTask.getId());
+        Global.copy(this, url);
+        showButtomToast("已复制 " + url);
+    }
+
+    @OptionsItem
+    void action_delete() {
+        deleteTask();
     }
 
     void selectMember() {
@@ -542,6 +584,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
 
         } else if (tag.equals(HOST_COMMENT_ADD)) {
+            showProgressBar(false);
             if (code == 0) {
                 TaskObject.TaskComment item = new TaskObject.TaskComment(respanse.getJSONObject("data"));
                 mData.add(0, item);
@@ -560,9 +603,9 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             }
         } else if (tag.equals(hostDeleteComment)) {
             if (code == 0) {
-                String commentId = (String) data;
+                int commentId = (int) data;
                 for (int i = 0; i < mData.size(); ++i) {
-                    if (mData.get(i).id.equals(commentId)) {
+                    if (mData.get(i).id == (commentId)) {
                         mData.remove(i);
                         break;
                     }
@@ -603,13 +646,15 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
                 descriptionDataNew = new TaskObject.TaskDescription(descriptionData);
                 setDescription();
 
-                description.setOnClickListener(new View.OnClickListener() {
+                descriptionButtonUpdate(false);
+                descriptionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         TaskDescriptionActivity_
                                 .intent(TaskAddActivity.this)
                                 .descriptionData(descriptionDataNew)
-                                .taskId(mSingleTask.id)
+                                .taskId(mSingleTask.getId())
+                                .projectId(mSingleTask.project.getId())
                                 .startForResult(RESULT_REQUEST_DESCRIPTION);
                     }
                 });
@@ -629,6 +674,25 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         }
     }
 
+    private void descriptionButtonUpdate(boolean loading) {
+        if (loading) {
+            descriptionButton.setText("载入备注中");
+            descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
+            descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
+        } else {
+            if (descriptionDataNew.markdown.isEmpty()) {
+                descriptionButton.setText("添加描述");
+                descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
+                descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
+            } else {
+                descriptionButton.setText("查看描述");
+                descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
+                descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_green), null);
+            }
+
+        }
+    }
+
     private PhotoOperate photoOperate = new PhotoOperate(this);
 
     public static final int RESULT_REQUEST_SELECT_USER = 3;
@@ -641,6 +705,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     void resultDescription(int result, Intent data) {
         if (result == RESULT_OK) {
             updateDescriptionFromResult(data);
+            updateSendButton();
         }
     }
 
@@ -648,6 +713,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     void resultDescriptionCreate(int result, Intent data) {
         if (result == RESULT_OK) {
             updateDescriptionFromResult(data);
+            updateSendButton();
         }
     }
 
@@ -659,6 +725,8 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         RequestParams params = new RequestParams();
         params.put("content", descriptionDataNew.markdown);
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
+
+        descriptionButtonUpdate(false);
     }
 
 
@@ -691,6 +759,20 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isContentUnmodify()) {
+            showDialog("任务", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        } else {
+            finish();
+        }
     }
 
     StatusBaseAdapter mStatusAdapter;
@@ -924,7 +1006,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
     private static class TaskParams {
         String content = "";
         int status;
-        String ownerId = "";
+        int ownerId;
         int priority;
         String deadline = "";
 
@@ -942,31 +1024,28 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof TaskParams)) return false;
 
             TaskParams that = (TaskParams) o;
 
+            if (ownerId != that.ownerId) return false;
             if (priority != that.priority) return false;
             if (status != that.status) return false;
-            if (content != null ? !content.equals(that.content) : that.content != null)
-                return false;
-            if (deadline != null ? !deadline.equals(that.deadline) : that.deadline != null)
-                return false;
-            if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
-            if (ownerId != null ? !ownerId.equals(that.ownerId) : that.ownerId != null)
-                return false;
+            if (!content.equals(that.content)) return false;
+            if (!deadline.equals(that.deadline)) return false;
+            if (!owner.equals(that.owner)) return false;
 
             return true;
         }
 
         @Override
         public int hashCode() {
-            int result = content != null ? content.hashCode() : 0;
+            int result = content.hashCode();
             result = 31 * result + status;
-            result = 31 * result + (ownerId != null ? ownerId.hashCode() : 0);
+            result = 31 * result + ownerId;
             result = 31 * result + priority;
-            result = 31 * result + (deadline != null ? deadline.hashCode() : 0);
-            result = 31 * result + (owner != null ? owner.hashCode() : 0);
+            result = 31 * result + deadline.hashCode();
+            result = 31 * result + owner.hashCode();
             return result;
         }
     }
@@ -976,7 +1055,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         public void onClick(View v) {
             TaskDescriptionActivity_
                     .intent(TaskAddActivity.this)
-                    .taskId("")
+                    .taskId(0)
                     .descriptionData(descriptionDataNew)
                     .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
         }
@@ -988,8 +1067,7 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
         public void onClick(View v) {
             String s = mEnterLayout.getContent();
 
-            if (EmojiFilter.containsEmoji(s)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
                 return;
             }
 
@@ -1003,7 +1081,54 @@ public class TaskAddActivity extends BaseFragmentActivity implements StartActivi
             RequestParams params = new RequestParams();
             params.put("content", s);
 
-            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.id), params, HOST_COMMENT_ADD, 0, item);
+            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
+
+            showProgressBar(true, R.string.sending_comment);
+        }
+    };
+
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
+
+    private void initRightTopPop() {
+        if (mRightTopPopupWindow == null) {
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
+            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(copylinkItem);
+            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.delete_task), R.drawable.ic_menu_delete_selector);
+            popupItemArrayList.add(deleteItem);
+            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
+        }
+    }
+
+    private void showRightTopPop() {
+        initRightTopPop();
+
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+
+        Rect rectgle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+        int StatusBarHeight = rectgle.top;
+        int contentViewTop =
+                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        //int TitleBarHeight= contentViewTop - StatusBarHeight;
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        mRightTopPopupWindow.showAtLocation(listView, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
+    }
+
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    action_copy();
+                    break;
+                case 1:
+                    action_delete();
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
         }
     };
 }

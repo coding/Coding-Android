@@ -80,7 +80,7 @@ public class UserDetailActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
@@ -119,7 +119,7 @@ public class UserDetailActivity extends BaseActivity {
     }
 
     private void setTitleMyPage() {
-        getActionBar().setTitle("个人主页");
+        getSupportActionBar().setTitle("个人主页");
     }
 
     @Click
@@ -178,7 +178,7 @@ public class UserDetailActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(UserDetailActivity.this, UserMaopaoActivity.class);
-            intent.putExtra("id", mUserObject.id);
+            intent.putExtra(UserMaopaoActivity.PARAM_ID, mUserObject.id);
             startActivity(intent);
         }
     };
@@ -312,19 +312,19 @@ public class UserDetailActivity extends BaseActivity {
         } else if (tag.equals(HOST_FOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
-                showButtomToast("成功");
+                showButtomToast(R.string.follow_success);
                 mUserObject.followed = true;
             } else {
-                showButtomToast("失败");
+                showButtomToast(R.string.follow_fail);
             }
             displayUserinfo();
         } else if (tag.equals(HOST_UNFOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
-                showButtomToast("成功");
+                showButtomToast(R.string.unfollow_success);
                 mUserObject.followed = false;
             } else {
-                showButtomToast("失败");
+                showButtomToast(R.string.unfollow_fail);
             }
             displayUserinfo();
         }

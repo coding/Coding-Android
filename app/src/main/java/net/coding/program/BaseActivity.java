@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,15 +44,20 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
     protected FootUpdate mFootUpdate = new FootUpdate();
 
     protected void showProgressBar(boolean show) {
+        showProgressBar(show, "");
+    }
+    protected void showProgressBar(boolean show, String message) {
         if (show) {
+            mProgressDialog.setMessage(message);
             mProgressDialog.show();
         } else {
             mProgressDialog.hide();
         }
     }
 
-    protected boolean progressBarIsShowing() {
-        return mProgressDialog.isShowing();
+    protected void showProgressBar(boolean show, int messageId) {
+        String message = getString(messageId);
+        showProgressBar(show, message);
     }
 
     protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
@@ -69,7 +73,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
-            showButtomToast("连接服务器失败，请检查网络或稍后重试");
+            showButtomToast(R.string.connect_service_fail);
         } else {
             String msg = Global.getErrorMsg(json);
             if (!msg.isEmpty()) {
@@ -80,6 +84,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected ImageLoadTool getImageLoad() {
         return imageLoadTool;
+    }
+
+    protected boolean isLoadingFirstPage(String tag) {
+        return networkImpl.isLoadingFirstPage(tag);
     }
 
     protected boolean isLoadingLastPage(String tag) {
@@ -171,8 +179,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
     }
 
     protected void showButtomToast(String msg) {
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showButtomToast(int messageId) {
+        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
     }
 
     protected void showMiddleToast(String msg) {

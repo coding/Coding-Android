@@ -7,7 +7,7 @@
     <WebView
         android:id="@+id/webview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></WebView>
+        android:layout_height="fill_parent" />
 
     <net.coding.program.PhotoViewPager
         android:id="@+id/pager"

@@ -15,7 +15,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.user.UserDetailActivity_;
@@ -30,11 +30,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @EFragment(R.layout.common_refresh_listview)
 @OptionsMenu(R.menu.project_task)
-public class TopicListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -48,10 +49,10 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
     @ViewById
     View blankLayout;
 
-    ArrayList<TopicObject> mData = new ArrayList<TopicObject>();
+    ArrayList<TopicObject> mData = new ArrayList();
 
-    String URL_DISCUSS_ALL = Global.HOST + "/api/project/%s/topics?pageSize=20&type=1";
-    String URL_DISCUSS_ME = Global.HOST + "/api/project/%s/topics/me?pageSize=20&type=1";
+    String URL_DISCUSS_ALL = Global.HOST + "/api/project/%d/topics?pageSize=20&type=1";
+    String URL_DISCUSS_ME = Global.HOST + "/api/project/%d/topics/me?pageSize=20&type=1";
 
     String urlGet;
 
@@ -71,8 +72,12 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
             }
         });
 
-        urlGet = String.format(type == 0 ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.id);
+        urlGet = String.format(isAll() ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.getId());
         loadMore();
+    }
+
+    private boolean isAll() {
+        return type == 0;
     }
 
     @Override
@@ -211,7 +216,7 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
 
     @OptionsItem
     void action_add() {
-        Intent intent = new Intent(getActivity(), TopicCreateActivity_.class);
+        Intent intent = new Intent(getActivity(), TopicAddActivity_.class);
         intent.putExtra("projectObject", mProjectObject);
         getParentFragment().startActivityForResult(intent, RESULT_ADD);
     }
@@ -232,26 +237,39 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
 
             case RESULT_DETAIL:
                 if (resultCode == Activity.RESULT_OK) {
-
-                    String id = data.getStringExtra("id");
-                    if (id != null) {
+                    int id = data.getIntExtra("id", -1);
+                    if (id != -1) {
                         for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id.equals(id)) {
+                            if (mData.get(i).id == (id)) {
                                 mData.remove(i);
                                 baseAdapter.notifyDataSetChanged();
                                 break;
                             }
                         }
                     } else {
-                        String topicId = data.getStringExtra("topic_id");
+                        int topicId = data.getIntExtra("topic_id", 0);
                         int childrenCount = data.getIntExtra("child_count", -1);
                         for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id.equals(topicId)) {
+                            if (mData.get(i).id == topicId) {
                                 mData.get(i).child_count = childrenCount;
                                 baseAdapter.notifyDataSetChanged();
                                 break;
                             }
                         }
+                    }
+
+                    Serializable topicObject = data.getSerializableExtra("topic");
+                    if (topicObject != null && topicObject instanceof TopicObject) {
+                        TopicObject topicData = (TopicObject) topicObject;
+
+                        for (int i = 0; i < mData.size(); ++i) {
+                            if (mData.get(i).id == topicData.id) {
+                                mData.set(i, topicData);
+                                baseAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
                     }
                 }
                 break;
@@ -259,5 +277,20 @@ public class TopicListFragment extends RefreshBaseFragment implements FootUpdate
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        if (isAll()) {
+            return mProjectObject.getPath() + "/topic/all";
+        } else {
+            return mProjectObject.getPath() + "/topic/mine";
+        }
+
     }
 }

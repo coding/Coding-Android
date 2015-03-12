@@ -1,20 +1,21 @@
 package net.coding.program.project.detail;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengFragmentActivity;
+import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 @EActivity(R.layout.activity_project_git_tree)
-public class GitTreeActivity extends UmengFragmentActivity {
+public class GitTreeActivity extends UmengActivity {
 
     @Extra
     ProjectObject mProjectObject;
@@ -22,19 +23,40 @@ public class GitTreeActivity extends UmengFragmentActivity {
     @Extra
     GitFileInfoObject mGitFileInfoObject;
 
-    @AfterViews
-    void init() {
+    @Extra
+    String mVersion = ProjectGitFragment.MASTER;
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        String userId = getIntent().getStringExtra("id");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ProjectGitFragment fragment = ProjectGitFragment_.builder().mGitFileInfoObject(mGitFileInfoObject).mProjectObject(mProjectObject).build();
+        if (savedInstanceState != null) {
+            mVersion = savedInstanceState.getString("mVersion", ProjectGitFragment.MASTER);
+        } else {
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container, fragment, mGitFileInfoObject.name);
-        ft.commit();
+            String userId = getIntent().getStringExtra("id");
+
+            ProjectGitFragment fragment = ProjectGitFragment_.builder().mGitFileInfoObject(mGitFileInfoObject).mProjectObject(mProjectObject).mVersion(mVersion).build();
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.container, fragment, mGitFileInfoObject.name);
+            ft.commit();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("mVersion", mVersion);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mVersion = savedInstanceState.getString("mVersion", ProjectGitFragment.MASTER);
     }
 
     @Override

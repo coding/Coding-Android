@@ -27,7 +27,6 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
-import net.coding.program.project.detail.ProjectAttachmentFragment_;
 import net.coding.program.user.UsersListActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -62,7 +61,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     final String HOST_MARK_COMMENT = Global.HOST + "/api/notification/mark-read?all=1&type=1&type=2";
     final String HOST_MARK_SYSTEM = Global.HOST + "/api/notification/mark-read?all=1&type=4";
 
-    final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
+    public static final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
 
     BadgeView badgeAt;
     BadgeView badgeComment;
@@ -125,6 +124,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
         mUpdateAll = true;
         loadMore();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         getNetwork(HOST_UNREAD_AT, HOST_UNREAD_AT);
         getNetwork(HOST_UNREAD_COMMENT, HOST_UNREAD_COMMENT);
@@ -200,7 +204,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
     }
 
-
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -269,20 +272,23 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         } else if (tag.equals(HOST_MARK_AT)) {
             if (code == 0) {
                 UnreadNotify.displayNotify(badgeAt, Unread.countToString(0));
-                UnreadNotify.update(getActivity());
             }
+
+            UnreadNotify.update(getActivity());
 
         } else if (tag.equals(HOST_MARK_COMMENT)) {
             if (code == 0) {
                 UnreadNotify.displayNotify(badgeComment, Unread.countToString(0));
-                UnreadNotify.update(getActivity());
             }
+
+            UnreadNotify.update(getActivity());
 
         } else if (tag.equals(HOST_MARK_SYSTEM)) {
             if (code == 0) {
                 UnreadNotify.displayNotify(badgeSystem, Unread.countToString(0));
-                UnreadNotify.update(getActivity());
             }
+
+            UnreadNotify.update(getActivity());
 
         } else if (tag.equals(HOST_MARK_MESSAGE)) {
             if (code == 0) {
@@ -304,12 +310,15 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         switch (requestCode) {
             case 0:
                 postNetwork(HOST_MARK_AT, new RequestParams(), HOST_MARK_AT);
+                UnreadNotify.displayNotify(badgeAt, Unread.countToString(0));
                 break;
             case 1:
                 postNetwork(HOST_MARK_COMMENT, new RequestParams(), HOST_MARK_COMMENT);
+                UnreadNotify.displayNotify(badgeComment, Unread.countToString(0));
                 break;
             case 4:
                 postNetwork(HOST_MARK_SYSTEM, new RequestParams(), HOST_MARK_SYSTEM);
+                UnreadNotify.displayNotify(badgeSystem, Unread.countToString(0));
                 break;
         }
     }

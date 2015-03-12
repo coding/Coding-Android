@@ -125,13 +125,21 @@ public class EnterLayout {
     public void insertText(String s) {
         content.requestFocus();
         int insertPos = content.getSelectionStart();
-        Log.d("", "pppppp " + insertPos);
 
         String insertString = s + " ";
         Editable editable = content.getText();
         editable.insert(insertPos, insertString);
 
 //        content.setSelection(insertPos + insertString.length());
+    }
+
+    public void inputText(String s) {
+        content.requestFocus();
+        int insertPos = content.getSelectionStart();
+
+        String insertString = s;
+        Editable editable = content.getText();
+        editable.insert(insertPos, insertString);
     }
 
     public void insertEmoji(String s) {

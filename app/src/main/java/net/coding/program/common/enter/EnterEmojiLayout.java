@@ -352,7 +352,7 @@ public class EnterEmojiLayout extends EnterLayout {
             "coding_emoji_23",
             "coding_emoji_24"
     }, {
-            "coding_emoji_35",
+            "coding_emoji_25",
             "coding_emoji_26",
             "coding_emoji_27",
             "coding_emoji_28",
@@ -364,7 +364,14 @@ public class EnterEmojiLayout extends EnterLayout {
             "coding_emoji_33",
             "coding_emoji_34",
             "coding_emoji_35",
-            "coding_emoji_36"
+            "coding_emoji_36",
+            "coding_emoji_38",
+            "coding_emoji_39",
+            "coding_emoji_40",
+            "coding_emoji_41",
+    }, {
+            "coding_emoji_42",
+            "coding_emoji_43",
     }};
 
     class EmojiPagerAdapter extends FragmentStatePagerAdapter {

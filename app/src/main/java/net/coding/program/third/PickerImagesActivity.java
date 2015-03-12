@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 
-public class PickerImagesActivity extends Activity {
+public class PickerImagesActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picker_images);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
@@ -46,11 +46,11 @@ import java.util.ArrayList;
  */
 @EActivity
 @OptionsMenu(R.menu.project_attachment_image)
-public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
+public class AttachmentsDetailBaseActivity extends BaseActivity {
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
 
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     @Extra
     AttachmentFileObject mAttachmentFileObject;
@@ -58,8 +58,8 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
 
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?fileIds=%s";
-    private String urlDownloadBase = Global.HOST + "/api/project/%s/files/%s/download";
+    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
+    private String urlDownloadBase = Global.HOST + "/api/project/%d/files/%s/download";
     String urlDownload = "";
 
     File mFile;
@@ -103,8 +103,8 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFileObject.name);
 
         share = AttachmentsDetailBaseActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
@@ -200,6 +200,16 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
         }
     }
 
+    void action_copy() {
+        String preViewUrl = mAttachmentFileObject.owner_preview;
+        int pos = preViewUrl.lastIndexOf("imagePreview");
+        if (pos != -1) {
+            preViewUrl = preViewUrl.substring(0, pos) + "download";
+        }
+        Global.copy(this, preViewUrl);
+        showButtomToast("已复制 " + preViewUrl);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
     }
@@ -249,6 +259,10 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
                     action_download();
                     break;
                 case 1:
+                    action_copy();
+                    break;
+
+                case 2:
                     if (!mAttachmentFileObject.isOwner()) {
                         return;
                     } else {
@@ -271,6 +285,8 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
             ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
             DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_save), R.drawable.ic_menu_download);
             popupItemArrayList.add(downloadItem);
+            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(copylinkItem);
             DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
             popupItemArrayList.add(deleteItem);
             mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsDetailBaseActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
@@ -283,8 +299,7 @@ public class AttachmentsDetailBaseActivity extends BaseFragmentActivity {
             initRightTopPop();
         }
 
-        DialogUtil.RightTopPopupItem downloadItem = mRightTopPopupWindow.adapter.getItem(0);
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(1);
+        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(2);
 
         if (!mAttachmentFileObject.isOwner()) {
             deleteItem.enabled = false;

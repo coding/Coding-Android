@@ -161,6 +161,11 @@ public class LoginBackground {
             return url;
         }
 
+        // 表明不要显示其它的控件，只显示图片
+        public boolean isGuoguo() {
+            return group.author.equals("guoguo");
+        }
+
         public String getTitle() {
             return String.format("%s © %s", group.name, group.author);
         }

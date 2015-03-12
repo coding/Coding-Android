@@ -21,12 +21,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.ImageView;
+
+import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 
+import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
@@ -39,6 +44,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-233.
@@ -76,7 +82,39 @@ public class Global {
         Log.e("", "" + e);
     }
 
-    public static void copy(String content, Context context) {
+//    public static void syncCookie(Context context) {
+//        CookieSyncManager.createInstance(context);
+//        CookieManager cookieManager = CookieManager.getInstance();
+//
+//        PersistentCookieStore myCookieStore = new PersistentCookieStore(context);
+//        List<Cookie> cookies = myCookieStore.getCookies();
+//        for (Cookie eachCookie : cookies) {
+//            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
+//            cookieManager.setCookie(Global.HOST, cookieString);
+//        }
+//
+//        CookieSyncManager.getInstance().sync();
+//    }
+
+
+    public static void syncCookie(Context context) {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        List<Cookie> cookies = cookieStore.getCookies();
+
+        CookieManager cookieManager = CookieManager.getInstance();
+
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie eachCookie = cookies.get(i);
+            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
+            cookieManager.setCookie(Global.HOST, cookieString);
+        }
+
+        CookieSyncManager.createInstance(context);
+        CookieSyncManager.getInstance().sync();
+
+    }
+
+    public static void copy(Context context, String content) {
         ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         cmb.setText(content);
     }
@@ -125,6 +163,7 @@ public class Global {
         }
     };
 
+    private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%sx%s";
     public static String makeSmallUrl(ImageView view, String url) {
         String realUrl = url.split("\\?")[0];
 
@@ -139,17 +178,21 @@ public class Global {
             String width = intToString(lp.width);
             String height = intToString(lp.height);
 
-            // 如果初始化的时候没有长宽，默认取高度为120dp缩略图
+            // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
             if (width.isEmpty() && height.isEmpty()) {
-                height = String.valueOf(Global.dpToPx(120));
+                height = String.valueOf(Global.dpToPx(200));
 
             }
-            String smallImageUrl = String.format("?imageMogr2/thumbnail/!%sx%s", width, height);
-            return realUrl + smallImageUrl;
+            return String.format(IMAGE_URL_SCAL, realUrl, width, height);
         } else {
             return realUrl;
         }
 
+    }
+
+    public static String makeLargeUrl(String url) {
+        final int MAX = 4096; // ImageView显示的图片不能大于这个数
+        return String.format(IMAGE_URL_SCAL, url, 4096, 4096);
     }
 
     private static String intToString(int length) {

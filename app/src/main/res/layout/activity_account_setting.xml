@@ -33,7 +33,7 @@
             android:textColor="@color/font_black_comment"
             android:textSize="18sp"
             android:id="@+id/email"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 
@@ -64,7 +64,7 @@
             android:textColor="@color/font_black_comment"
             android:textSize="18sp"
             android:id="@+id/suffix"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 

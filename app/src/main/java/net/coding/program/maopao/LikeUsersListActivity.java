@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class LikeUsersListActivity extends BaseActivity {
 
     @Extra
-    String id;
+    int id;
 
     @ViewById
     ListView listView;
@@ -46,7 +46,7 @@ public class LikeUsersListActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         UriLikeUsers = String.format(UriLikeUsers, id);
 
         listView.setAdapter(baseAdapter);

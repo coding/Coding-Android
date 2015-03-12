@@ -27,7 +27,7 @@ public class DynamicObject {
         public String action = "";
         public String action_msg = "";
         public long created_at;
-        public String id = "";
+        public int id;
         public String target_type = "";
 
         public User user = new User();
@@ -42,7 +42,7 @@ public class DynamicObject {
                 created_at = Calendar.getInstance().getTimeInMillis();
             }
 
-            id = json.optString("id");
+            id = json.optInt("id");
             target_type = json.optString("target_type");
 
             if (json.has("user")) {
@@ -478,9 +478,9 @@ public class DynamicObject {
             return makeJump(file.path + "/projectid/" + mProjectId + "/name/" + file.name);
         }
 
-        String mProjectId = "";
+        int mProjectId;
 
-        public DynamicProjectFile projectId(String id) {
+        public DynamicProjectFile projectId(int id) {
             mProjectId = id;
             return this;
         }

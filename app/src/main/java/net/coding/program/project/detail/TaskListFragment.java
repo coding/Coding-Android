@@ -26,7 +26,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -53,7 +53,7 @@ import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EFragment(R.layout.fragment_task_list)
-public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
+public class TaskListFragment extends CustomMoreFragment implements TaskListUpdate {
 
     @FragmentArg
     boolean mShowAdd = false;
@@ -77,6 +77,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     @Override
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void taskListUpdate() {
         if (mNeedUpdate) {
             mNeedUpdate = false;
@@ -97,7 +103,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
         TaskObject.SingleTask task = new TaskObject.SingleTask();
         task.project = mProjectObject;
-        task.project_id = mProjectObject.id;
+        task.project_id = mProjectObject.getId();
         task.owner = AccountInfo.loadAccount(getActivity());
         task.owner_id = task.owner.id;
 
@@ -109,10 +115,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mShowAdd && !mProjectObject.id.isEmpty()) {
+        if (mShowAdd && !mProjectObject.isEmpty()) {
             inflater.inflate(R.menu.project_task, menu);
         }
-
+        inflater.inflate(R.menu.common_more, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -133,7 +139,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     String createHost(String userId, String type) {
         String BASE_HOST = Global.HOST + "/api%s/tasks%s?";
         String userType;
-        if (mProjectObject.id.isEmpty()) {
+        if (mProjectObject.isEmpty()) {
             userType = type;
 
         } else {
@@ -159,6 +165,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     protected void init() {
         super.init();
 
+        mData = AccountInfo.loadTasks(getActivity(), mProjectObject.getId(), mMembers.id);
+
         Calendar calendar = Calendar.getInstance();
         mToday = mDateFormat.format(calendar.getTimeInMillis());
         mTomorrow = mDateFormat.format(calendar.getTimeInMillis() + 1000 * 60 * 60 * 24);
@@ -175,12 +183,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
-                if (singleTask.status == 1) {
+//                if (singleTask.status == 1) {
                     mNeedUpdate = true;
                     Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
                     intent.putExtra("mSingleTask", singleTask);
                     getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
-                }
+//                }
             }
         });
 
@@ -201,8 +209,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         urlAll = String.format(createHost(mMembers.user.global_key, "/all"));
 
-        setHasOptionsMenu(true);
-
         loadData();
     }
 
@@ -215,10 +221,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         getNextPageNetwork(urlAll, urlAll);
 
         if (mUpdateAll) {
-            if (mProjectObject.id.isEmpty()) {
+            if (mProjectObject.isEmpty()) {
                 getNetwork(urlTaskCountMy, urlTaskCountMy);
             } else {
-                String url = String.format(urlTaskCountProject, mProjectObject.id);
+                String url = String.format(urlTaskCountProject, mProjectObject.getId());
                 getNetwork(url, urlTaskCountProject);
             }
         }
@@ -239,7 +245,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     String urlAll = "";
 
-    final String urlTaskCountProject = Global.HOST + "/api/project/%s/task/user/count";
+    final String urlTaskCountProject = Global.HOST + "/api/project/%d/task/user/count";
     final String urlTaskCountMy = Global.HOST + "/api/tasks/projects/count";
     public static final String hostTaskDelete = Global.HOST + "/api/user/%s/project/%s/task/%s";
     final String URL_TASK_SATUS = Global.HOST + "/api/task/%s/status";
@@ -272,6 +278,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                     }
                 }
 
+                AccountInfo.saveTasks(getActivity(), mData, mProjectObject.getId(), mMembers.id);
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
 
             } else {
@@ -286,7 +293,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 JSONArray array = respanse.getJSONArray("data");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    if (item.getString("project").equals(mProjectObject.id)) {
+                    if (item.optInt("project") == (mProjectObject.getId())) {
                         mTaskCount[0] = item.getInt("processing");
                         mTaskCount[1] = item.getInt("done");
                         break;
@@ -294,6 +301,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 }
                 mAdapter.notifyDataSetChanged();
             }
+
         } else if (tag.equals(urlTaskCountProject)) {
             if (code == 0) {
                 JSONArray array = respanse.getJSONArray("data");
@@ -341,7 +349,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     void deleteTask(final int pos) {
         TaskObject.SingleTask task = mData.get(pos);
-        String url = String.format(hostTaskDelete, task.project.owner_user_name, task.project.name, task.id);
+        String url = String.format(hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
         deleteNetwork(url, hostTaskDelete, pos, null);
     }
 
@@ -355,7 +363,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         }
     }
 
-    void statusTask(final int pos, final String id, final boolean complete) {
+    void statusTask(final int pos, final int id, final boolean complete) {
         RequestParams params = new RequestParams();
         int completeStatus = complete ? 2 : 1;
         params.put("status", completeStatus); // 任务完成2，任务正在进行1
@@ -403,6 +411,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mDiscuss = (TextView) convertView.findViewById(R.id.discuss);
                 holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mTaskPriority = convertView.findViewById(R.id.taskPriority);
+                holder.mTaskDes = convertView.findViewById(R.id.taskDes);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -425,6 +434,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mCheckBox.setChecked(true);
             }
 
+            holder.mTaskDes.setVisibility(data.has_description ? View.VISIBLE : View.INVISIBLE);
 
             final int priorityIcons[] = new int[]{
                     R.drawable.task_mark_0,
@@ -464,7 +474,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    statusTask(pos, data.id, isChecked);
+                    statusTask(pos, data.getId(), isChecked);
                 }
             });
 
@@ -534,6 +544,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             TextView mDiscuss;
 
             View mTaskPriority;
+
+            View mTaskDes;
         }
     }
 
@@ -592,6 +604,20 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 }
             });
             animator.start();
+        }
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        if (mMembers.user.global_key.isEmpty()) {
+            return Global.HOST + mProjectObject.project_path + "/tasks/user/all";
+        } else {
+            return Global.HOST + mProjectObject.project_path + "/tasks/user/" + mMembers.user.global_key + "/all";
         }
     }
 }

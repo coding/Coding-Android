@@ -9,7 +9,7 @@
         android:layout_margin="7dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/task_add_cab_back"/>
+        android:src="@drawable/task_add_cab_back" />
 
     <View
         android:layout_width="1dp"
@@ -17,7 +17,8 @@
         android:background="#ff515761"
         android:layout_marginRight="10dp"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="12dp" />
+
     <TextView
         android:id="@+id/actionbar_title"
         android:layout_width="wrap_content"

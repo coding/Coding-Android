@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,12 @@ public class EntranceActivity extends BaseActivity {
     @ViewById
     TextView title;
 
+    @ViewById
+    View mask;
+
+    @ViewById
+    View logo;
+
     @AnimationRes
     Animation entrance;
 
@@ -52,6 +59,10 @@ public class EntranceActivity extends BaseActivity {
             background = Uri.fromFile(file);
             image.setImageURI(background);
             title.setText(photoItem.getTitle());
+
+            if (photoItem.isGuoguo()) {
+                hideLogo();
+            }
         }
 
         entrance.setAnimationListener(new Animation.AnimationListener() {
@@ -76,6 +87,12 @@ public class EntranceActivity extends BaseActivity {
             getNetwork(HOST_CURRENT, HOST_CURRENT);
             mNeedUpdateUser = true;
         }
+    }
+
+    private void hideLogo() {
+        mask.setVisibility(View.GONE);
+        title.setVisibility(View.GONE);
+        logo.setVisibility(View.GONE);
     }
 
     @Override
@@ -125,7 +142,7 @@ public class EntranceActivity extends BaseActivity {
 
         UnreadNotify.update(this);
         finish();
-        overridePendingTransition(0, R.anim.alpha_out);
+        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
     }
 }
 

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -56,7 +55,7 @@ import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
 @OptionsMenu(R.menu.message_list)
-public class MessageListActivity extends BaseFragmentActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
+public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
 
     @Extra
     UserObject mUserObject;
@@ -88,15 +87,30 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
     private Uri fileUri;
 
+    private int mPxImageWidth = 0;
+    private int mPxImageDivide = 0;
+
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mEnterLayout = new EnterEmojiLayout(this, mOnClickSendText);
+
+        // 图片显示，单位为 dp
+        // 72 photo 3 photo 3 photo 72
+        final int divide = 3;
+        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 72 * 2 - divide * 2) / 3;
+        mPxImageDivide = Global.dpToPx(divide);
 
         if (mUserObject == null) {
             getNetwork(HOST_USER_INFO + mGlobalKey, HOST_USER_INFO);
         } else {
+            mGlobalKey = mUserObject.global_key;
             initControl();
         }
+
+        String lastInput = AccountInfo.loadMessageDraft(this, mGlobalKey);
+        mEnterLayout.inputText(lastInput);
     }
 
     void initControl() {
@@ -105,12 +119,11 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
             showDialogLoading();
         }
 
-        mEnterLayout = new EnterEmojiLayout(this, mOnClickSendText);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
         url = String.format(Global.HOST + "/api/message/conversations/%s?pageSize=10", mUserObject.global_key);
 
-        getActionBar().setTitle(mUserObject.name);
+        getSupportActionBar().setTitle(mUserObject.name);
 
         mFootUpdate.initToHead(listView, mInflater, this);
         listView.setAdapter(adapter);
@@ -146,7 +159,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                Global.copy(msg.content, MessageListActivity.this);
+                                Global.copy(MessageListActivity.this, msg.content);
                                 showButtomToast("已复制");
                             } else if (which == 1) {
                                 String url = String.format(hostDeleteMessage, msg.id);
@@ -167,6 +180,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
 
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int last;
+
             @Override
             public void onGlobalLayout() {
                 int current = listView.getHeight();
@@ -282,6 +296,14 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         super.onBackPressed();
     }
 
+    @Override
+    protected void onStop() {
+        String input = mEnterLayout.getContent();
+        AccountInfo.saveMessageDraft(this, input, mGlobalKey);
+
+        super.onStop();
+    }
+
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -312,6 +334,10 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
+
+                    // 标记信息已读
+                    String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
+                    postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
                 }
 
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
@@ -389,7 +415,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
             if (code == 0) {
                 String imageUrl = respanse.getString("data");
                 RequestParams params = new RequestParams();
-                params.put("content", String.format(" ![图片](%s) ",imageUrl));
+                params.put("content", String.format(" ![图片](%s) ", imageUrl));
                 params.put("receiver_global_key", mUserObject.global_key);
                 postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + pos, pos, null);
 
@@ -422,9 +448,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         @Override
         public void onClick(View v) {
             String s = mEnterLayout.getContent();
-
-            if (EmojiFilter.containsEmoji(s)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmoji(v.getContext(), s)) {
                 return;
             }
 
@@ -469,7 +493,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
         @Override
         public int getItemViewType(int position) {
             Message.MessageObject item = (Message.MessageObject) getItem(position);
-            if (item.sender.id.equals(item.friend.id)) {
+            if (item.sender.id == (item.friend.id)) {
                 return 0;
             } else {
                 return 1;
@@ -497,7 +521,7 @@ public class MessageListActivity extends BaseFragmentActivity implements SwipeRe
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.icon.setOnClickListener(mOnClickUser);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
-                holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad());
+                holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad(), mPxImageWidth);
                 holder.resend = convertView.findViewById(R.id.resend);
                 holder.sending = convertView.findViewById(R.id.sending);
 

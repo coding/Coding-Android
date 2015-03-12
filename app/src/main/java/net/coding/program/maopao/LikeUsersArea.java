@@ -220,7 +220,7 @@ public class LikeUsersArea {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), LikeUsersListActivity_.class);
-            intent.putExtra("id", (String) v.getTag());
+            intent.putExtra("id", (int) v.getTag());
             startActivity(intent);
         }
     };

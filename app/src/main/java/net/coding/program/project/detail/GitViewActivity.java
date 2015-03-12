@@ -1,23 +1,29 @@
 package net.coding.program.project.detail;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitFileObject;
@@ -27,6 +33,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -40,7 +47,8 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_html)
 //@OptionsMenu(R.menu.users)
-public class GitViewActivity extends BaseFragmentActivity {
+@OptionsMenu(R.menu.common_more)
+public class GitViewActivity extends CustomMoreActivity {
     private static String TAG = GitViewActivity.class.getSimpleName();
 
     @Extra
@@ -55,16 +63,18 @@ public class GitViewActivity extends BaseFragmentActivity {
     @ViewById
     ViewPager pager;
     int mPagerPosition = 0;
+
+    @Extra
+    String mVersion = ProjectGitFragment.MASTER;
+
     ImagePager adapter;
     ArrayList<String> mArrayUri;
     AsyncHttpClient client;
 
     File mTempPicFile;
 
-    String urlBlob = Global.HOST + "/api/user/%s/project/%s/git/blob/master/%s";
-    //https://coding.net/api/user/bluishoul/project/AppBubbleDetail/git/blob/master%252F.bowerrc
-    String urlImage = Global.HOST + "/u/%s/p/%s/git/raw/master/%s";
-    //https://coding.net/u/8206503/p/AndroidCoding/git/raw/master/app/src/main/res/drawable-xxhdpi/actionbar_item_normal.png
+    String urlBlob = Global.HOST + "/api/user/%s/project/%s/git/blob/%s/%s";
+    String urlImage = Global.HOST + "/u/%s/p/%s/git/raw/%s/%s";
 
     GitFileObject mFile;
 
@@ -77,18 +87,18 @@ public class GitViewActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mGitFileInfoObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mGitFileInfoObject.name);
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
-        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mGitFileInfoObject.path);
+        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mGitFileInfoObject.path);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setBuiltInZoomControls(true);
 
         //webview.setBackgroundColor(0);
         //webview.getBackground().setAlpha(0);
-        mArrayUri = new ArrayList<String>();
+        mArrayUri = new ArrayList();
         adapter = new ImagePager(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
@@ -113,7 +123,7 @@ public class GitViewActivity extends BaseFragmentActivity {
 
                         mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
                         mTempPicFile.deleteOnExit();
-                        download(String.format(urlImage, mProjectObject.owner_user_name, mProjectObject.name, mFile.path));
+                        download(String.format(urlImage, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mFile.path));
                     } catch (IOException e) {
                         showButtomToast("图片无法下载");
                     }
@@ -227,4 +237,13 @@ public class GitViewActivity extends BaseFragmentActivity {
         });
     }
 
+    @Override
+    protected View getAnchorView() {
+        return webview;
+    }
+
+    @Override
+    protected String getLink() {
+        return mProjectObject.getPath() + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
+    }
 }

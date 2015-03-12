@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import net.coding.program.FileUrlActivity;
+import net.coding.program.FileUrlActivity_;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
@@ -138,6 +140,16 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
+        // 跳转到文件夹，与服务器相同
+        pattern = Pattern.compile(FileUrlActivity.PATTERN_DIR);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            FileUrlActivity_.intent(context)
+                    .url(uriString)
+                    .start();
+            return true;
+        }
+
         // 文件夹，这个url后面的字段是添加上去的
         // https://coding.net/u/8206503/p/TestIt2/attachment/65138/projectid/5741/name/aa.jpg
         final String dir = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
@@ -149,7 +161,16 @@ public class URLSpanNoUnderline extends URLSpan {
             folder.name = matcher.group(5);
             AttachmentsActivity_.intent(context)
                     .mAttachmentFolderObject(folder)
-                    .mProjectObjectId(matcher.group(4))
+                    .mProjectObjectId(Integer.valueOf(matcher.group(4)))
+                    .start();
+            return true;
+        }
+
+        pattern = Pattern.compile(FileUrlActivity.PATTERN_DIR_FILE);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            FileUrlActivity_.intent(context)
+                    .url(uriString)
                     .start();
             return true;
         }
@@ -167,7 +188,7 @@ public class URLSpanNoUnderline extends URLSpan {
             folderFile.file_id = matcher.group(4);
             folderFile.name = matcher.group(6);
 
-            String projectId = matcher.group(5);
+            int projectId = Integer.valueOf(matcher.group(5));
 
             String extension = folderFile.name.toLowerCase();
             final String imageType = ".*\\.(gif|png|jpeg|jpg)$";

@@ -22,7 +22,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -44,16 +44,17 @@ import java.util.ArrayList;
 
 
 @EFragment(R.layout.common_refresh_listview)
-public class MembersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
-    String urlMembers = Global.HOST + "/api/project/%s/members?pagesize=1000";
-    String urlQuit = Global.HOST + "/api/project/%s/quit";
+    String urlMembers = Global.HOST + "/api/project/%d/members?pagesize=1000";
+    String urlQuit = Global.HOST + "/api/project/%d/quit";
 
-    final String urlDeleteUser = Global.HOST + "/api/project/%s/kickout/%s";
+    final String urlDeleteUser = Global.HOST + "/api/project/%d/kickout/%d";
 
     @FragmentArg
     ProjectObject mProjectObject;
 
+    // 为true表示是用@选成员，为false表示项目成员列表
     @FragmentArg
     boolean mSelect;
 
@@ -68,7 +69,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
     protected void init() {
         super.init();
 
-        mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.id);
+        mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
         mSearchData = new ArrayList(mData);
         if (mSearchData.isEmpty()) {
             showDialogLoading();
@@ -119,7 +120,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String url = String.format(urlDeleteUser, mProjectObject.id, members.user.id);
+                                            String url = String.format(urlDeleteUser, mProjectObject.getId(), members.user.id);
                                             postNetwork(url, new RequestParams(), urlDeleteUser, (int) id, null);
                                             showProgressBar(true);
                                         }
@@ -136,8 +137,8 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
             });
         }
 
-        urlMembers = String.format(urlMembers, mProjectObject.id);
-        urlQuit = String.format(urlQuit, mProjectObject.id);
+        urlMembers = String.format(urlMembers, mProjectObject.getId());
+        urlQuit = String.format(urlQuit, mProjectObject.getId());
 
         loadMore();
 
@@ -168,7 +169,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
     static final int RESULT_ADD_USER = 111;
 
     private boolean projectCreateByMe() {
-        return mProjectObject.owner_id.equals(MyApp.sUserObject.id);
+        return mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
     }
 
     @OptionsItem
@@ -192,8 +193,12 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!mSelect && projectCreateByMe()) {
-            inflater.inflate(R.menu.users, menu);
+        if (!mSelect) {
+            if (projectCreateByMe()) {
+                inflater.inflate(R.menu.users, menu);
+            } else {
+                inflater.inflate(R.menu.common_more, menu);
+            }
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -226,7 +231,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                     }
                 }
 
-                AccountInfo.saveProjectMembers(getActivity(), mData, mProjectObject.id);
+                AccountInfo.saveProjectMembers(getActivity(), mData, mProjectObject.getId());
 
                 mSearchData.clear();
                 mSearchData.addAll(mData);
@@ -324,10 +329,8 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                 holder.btn.setVisibility(View.VISIBLE);
             }
 
-
             return convertView;
         }
-
 
         private View.OnClickListener sendMessage = new View.OnClickListener() {
             @Override
@@ -343,7 +346,7 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
             @Override
             public void onClick(View v) {
                 //showButtomToast("quit");
-                String.format(urlMembers, mProjectObject.id);
+                String.format(urlMembers, mProjectObject.getId());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 AlertDialog dialog = builder.setTitle("确认退出项目")
                         .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
@@ -367,14 +370,22 @@ public class MembersListFragment extends RefreshBaseFragment implements FootUpda
                 CustomDialog.dialogTitleLineColor(getActivity(), dialog);
             }
         };
-
     };
 
     static class ViewHolder {
         ImageView icon;
         TextView name;
-        //TextView desc;
         ImageView ic;
         ImageView btn;
+    }
+
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        return Global.HOST + mProjectObject.project_path + "/members";
     }
 }

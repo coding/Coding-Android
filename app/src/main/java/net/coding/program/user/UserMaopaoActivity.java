@@ -2,35 +2,32 @@ package net.coding.program.user;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengFragmentActivity;
+import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 
-public class UserMaopaoActivity extends UmengFragmentActivity {
+public class UserMaopaoActivity extends BaseActivity {
+
+    public static final String PARAM_ID = "ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_maopao);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String userId = getIntent().getStringExtra("id");
+        int userId = getIntent().getIntExtra(PARAM_ID, 0);
 
-        Fragment fragment = new MaopaoListFragment_();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("mType", "user");
-        bundle.putString("userId", userId);
-        fragment.setArguments(bundle);
+        Fragment fragment = MaopaoListFragment_.builder().mType(MaopaoListFragment.Type.user).userId(userId).build();
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container, fragment, "所有冒泡");
-        ft.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment, "所有冒泡")
+                .commit();
     }
 
     @Override

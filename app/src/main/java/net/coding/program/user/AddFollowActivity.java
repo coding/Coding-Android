@@ -69,12 +69,12 @@ public class AddFollowActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
         } else {
-            urlAddUser = String.format(Global.HOST + "/api/project/%s/members/add?", mProjectObject.id);
-            getActionBar().setTitle("添加项目成员");
+            urlAddUser = String.format(Global.HOST + "/api/project/%d/members/add?", mProjectObject.getId());
+            getSupportActionBar().setTitle("添加项目成员");
             baseAdapter = new AddProjectAdapter();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -125,10 +125,10 @@ public class AddFollowActivity extends BaseActivity {
         } else if (tag.equals(UsersListActivity.HOST_FOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
-                showButtomToast("关注成功");
+                showButtomToast(R.string.follow_success);
                 mData.get(pos).followed = true;
             } else {
-                showButtomToast("关注失败");
+                showButtomToast(R.string.follow_fail);
             }
             baseAdapter.notifyDataSetChanged();
         } else if (tag.equals(UsersListActivity.HOST_UNFOLLOW)) {

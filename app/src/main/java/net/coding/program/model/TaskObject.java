@@ -16,20 +16,20 @@ public class TaskObject {
         public static final int MEMBER_TYPE_OWNER = 100;
         public static final int MEMBER_TYPE_MEMBER = 80;
         public long created_at;
-        public String id = "";
+        public int id;
         public long last_visit_at;
-        public String project_id = "";
+        public int project_id;
         public int type;
-        public String user_id = "";
+        public int user_id;
         public UserObject user = new UserObject();
 
         public Members(JSONObject json) throws JSONException {
             created_at = json.optLong("created_at");
-            id = json.optString("id");
+            id = json.optInt("id");
             last_visit_at = json.optLong("last_visit_at");
-            project_id = json.optString("project_id");
+            project_id = json.optInt("project_id");
             type = json.optInt("type");
-            user_id = json.optString("user_id");
+            user_id = json.optInt("user_id");
 
             if (json.has("user")) {
                 user = new UserObject(json.optJSONObject("user"));
@@ -40,7 +40,7 @@ public class TaskObject {
             created_at = data.created_at;
             id = data.id;
             last_visit_at = data.last_activity_at;
-            project_id = "";
+            project_id = 0;
             type = 0;
             user_id = data.id;
             user = data;
@@ -97,16 +97,24 @@ public class TaskObject {
             return status == 2;
         }
 
+        public boolean isEmpty() {
+            return id == 0;
+        }
+
+        public int getId() {
+            return id;
+        }
+
         public String content = "";
         public long created_at;
         public UserObject creator = new UserObject();
         public String creator_id = "";
         public String current_user_role_id = "";
-        public String id = "";
+        private int id;
         public UserObject owner = new UserObject();
-        public String owner_id = "";
+        public int owner_id;
         public ProjectObject project = new ProjectObject();
-        public String project_id = "";
+        public int project_id;
         public String deadline = "";
         public int status;
         public int priority;
@@ -125,20 +133,20 @@ public class TaskObject {
 
             creator_id = json.optString("creator_id");
             current_user_role_id = json.optString("current_user_role_id");
-            id = json.optString("id");
+            id = json.optInt("id");
             priority = json.optInt("priority");
 
             if (json.has("owner")) {
                 owner = new UserObject(json.optJSONObject("owner"));
             }
 
-            owner_id = json.optString("owner_id");
+            owner_id = json.optInt("owner_id");
 
             if (json.has("project")) {
                 project = new ProjectObject(json.optJSONObject("project"));
             }
 
-            project_id = json.optString("project_id");
+            project_id = json.optInt("project_id");
             status = json.optInt("status");
             updated_at = json.optLong("updated_at");
             deadline = json.optString("deadline");

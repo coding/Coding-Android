@@ -53,7 +53,7 @@ public class ContentArea extends ContentAreaBase {
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
 
-    public ContentArea(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams) {
+    public ContentArea(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams, int pxImageWidth) {
         super(convertView, onClickContent, imageGetterParamer);
 
         imageSingle = (ImageView) convertView.findViewById(R.id.imageSingle);
@@ -68,6 +68,9 @@ public class ContentArea extends ContentAreaBase {
             images[i].setOnClickListener(onclickImage);
             images[i].setFocusable(false);
             images[i].setLongClickable(true);
+            ViewGroup.LayoutParams lp = images[i].getLayoutParams();
+            lp.width = pxImageWidth;
+            lp.height = pxImageWidth;
         }
 
         imageLoad = loadParams;

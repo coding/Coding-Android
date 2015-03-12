@@ -24,12 +24,12 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 
@@ -53,17 +53,17 @@ import java.util.regex.Pattern;
  */
 @EFragment(R.layout.common_refresh_listview)
 @OptionsMenu(R.menu.project_attachment_folder)
-public class ProjectAttachmentFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class ProjectAttachmentFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
     //private String HOST_FOLDER = Global.HOST + "/api/project/%s/folders?pageSize=20";
-    private String HOST_FOLDER = Global.HOST + "/api/project/%s/all_folders?pageSize=9999";
+    private String HOST_FOLDER = Global.HOST + "/api/project/%d/all_folders?pageSize=9999";
     //https://coding.net/api/project/20945/all_folders?page=1&pageSize=9999
     //private String HOST_FILECOUNT = Global.HOST + "/api/project/%s/folders/filecount";
-    private String HOST_FILECOUNT = Global.HOST + "/api/project/%s/folders/all_file_count";
+    private String HOST_FILECOUNT = Global.HOST + "/api/project/%d/folders/all_file_count";
     //https://coding.net/api/project/20945/folders/all_file_count
-    private String HOST_FOLDER_NAME = Global.HOST + "/api/project/%s/dir/%s/name/%s";
-    private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%s/mkdir";
-    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%s/rmdir/%s";
+    private String HOST_FOLDER_NAME = Global.HOST + "/api/project/%d/dir/%s/name/%s";
+    private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%d/mkdir";
+    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%d/rmdir/%s";
     private String HOST_FOLDER_DELETE;
     //https://coding.net/api/project/20945/rmdir/37282
     //https://coding.net/api/project/20945/mkdir?name=%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9
@@ -93,15 +93,15 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         super.init();
         showDialogLoading();
         initBottomPop();
-        HOST_FOLDER = String.format(HOST_FOLDER, mProjectObject.id);
-        HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObject.id);
+        HOST_FOLDER = String.format(HOST_FOLDER, mProjectObject.getId());
+        HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObject.getId());
         //mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //AttachmentsActivity_.intent(getActivity()).mAttachmentFolderObject(mData.get(position)).mProjectObjectId(mProjectObject.id).start();
-                AttachmentsActivity_.intent(getActivity()).mAttachmentFolderObject(mData.get(position)).mProjectObjectId(mProjectObject.id).startForResult(RESULT_REQUEST_FILES);
+                AttachmentsActivity_.intent(getActivity()).mAttachmentFolderObject(mData.get(position)).mProjectObjectId(mProjectObject.getId()).startForResult(RESULT_REQUEST_FILES);
             }
         });
 
@@ -341,7 +341,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                     // if(folder.name.match(/[,`~!@#$%^&*:;()''""><|.\ /=]/g))
                 } else {
                     if (!newName.equals(folderObject.name)) {
-                        HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObject.id, folderObject.file_id, newName);
+                        HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObject.getId(), folderObject.file_id, newName);
                         putNetwork(HOST_FOLDER_NAME, HOST_FOLDER_NAME, position, newName);
                     }
                 }
@@ -355,7 +355,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((BaseFragmentActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
@@ -380,7 +380,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                     showButtomToast("文件夹名：" + newName + " 不能采用");
                     // if(folder.name.match(/[,`~!@#$%^&*:;()''""><|.\ /=]/g))
                 } else {
-                    HOST_FOLDER_NEW = String.format(HOST_FOLDER_NEW, mProjectObject.id);
+                    HOST_FOLDER_NEW = String.format(HOST_FOLDER_NEW, mProjectObject.getId());
                     RequestParams params = new RequestParams();
                     params.put("name", newName);
                     postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
@@ -395,7 +395,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((BaseFragmentActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
@@ -493,7 +493,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        ((BaseFragmentActivity) getActivity()).dialogTitleLineColor(dialog);
+        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
     }
 
     void action_delete_single(AttachmentFolderObject selectedFolderObject) {
@@ -514,7 +514,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
     void deleteFolders() {
         if (selectFolder.size() > 0) {
             setRefreshing(true);
-            HOST_FOLDER_DELETE = String.format(HOST_FOLDER_DELETE_FORMAT, mProjectObject.id, selectFolder.get(0).file_id);
+            HOST_FOLDER_DELETE = String.format(HOST_FOLDER_DELETE_FORMAT, mProjectObject.getId(), selectFolder.get(0).file_id);
             deleteNetwork(HOST_FOLDER_DELETE, HOST_FOLDER_DELETE);
         }
     }
@@ -603,4 +603,13 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         }
     };
 
+    @Override
+    protected View getAnchorView() {
+        return listView;
+    }
+
+    @Override
+    protected String getLink() {
+        return Global.HOST + mProjectObject.project_path + "/attachment";
+    }
 }

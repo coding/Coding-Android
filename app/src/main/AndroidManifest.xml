@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="24"
-    android:versionName="2.1" >
+    android:versionCode="26"
+    android:versionName="2.3" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <!-- 友盟,腾讯push需要 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -62,7 +61,7 @@
         <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action" />
             </intent-filter>
@@ -106,6 +105,7 @@
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarSpannerTheme" />
         <activity
@@ -114,14 +114,12 @@
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateTheme"
-            android:windowSoftInputMode="adjustPan|stateVisible" />
+            android:theme="@style/TranslateThemeFull" />
         <activity
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_project"
-            android:screenOrientation="portrait"
-            android:theme="@style/ActionbarSpannerNoIconTheme" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <data
                     android:host="ProjectActivity_"
@@ -149,7 +147,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_add"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.MembersActivity_"
             android:icon="@drawable/ic_lancher"
@@ -210,7 +208,8 @@
             android:name=".setting.FeedbackActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_feedback"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
         <activity
             android:name=".setting.AboutActivity_"
             android:icon="@drawable/ic_lancher"
@@ -234,12 +233,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".project.detail.TopicCreateActivity_"
+            android:name=".project.detail.TopicAddActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_topic_create"
-            android:screenOrientation="portrait" />
+            android:label="@string/topic_create"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateUnspecified" />
         <activity
-            android:name=".maopao.AddMaopaoActivity_"
+            android:name=".maopao.MaopaoAddActivity_"
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
@@ -319,7 +319,6 @@
             android:label="@string/title_activity_maopao_detail"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustUnspecified" >
-            android:
         </activity>
         <activity
             android:name=".user.UserMaopaoActivity"
@@ -368,8 +367,8 @@
             android:name=".task.TaskDescriptionActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_description"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateUnspecified" />
         <activity
             android:name=".setting.AccountSetting_"
             android:icon="@drawable/ic_lancher"
@@ -387,14 +386,40 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
-        <service android:name=".UpdateService" >
-        </service>
+        <service android:name=".UpdateService" />
 
         <activity
             android:name=".UpdateDialogActivity"
             android:icon="@drawable/ic_lancher"
-            android:theme="@android:style/Theme.Holo.Light.Dialog"
-            android:label="@string/title_activity_update_dialog" >
+            android:label="@string/title_activity_update_dialog"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity
+            android:name=".RegisterActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BaseAnnotationActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_base_annotation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.TermsActivity"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_terms"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.UpdateTipActivity"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_update_tip"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+        </activity>
+        <activity
+            android:name=".FileUrlActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_file_url" >
         </activity>
     </application>
 

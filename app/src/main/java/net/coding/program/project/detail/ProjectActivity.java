@@ -1,6 +1,6 @@
 package net.coding.program.project.detail;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,19 +8,23 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
+import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.ProjectObject;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -35,7 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_project)
-public class ProjectActivity extends BaseFragmentActivity implements NetworkCallback {
+public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
     @Extra
     ProjectObject mProjectObject;
@@ -85,13 +89,15 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
             MembersListFragment_.class
     ));
 
-    @AfterViews
-    void init() {
-        ActionBar actionBar = getActionBar();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mProjectObject == null) {
-            urlProject = String.format(Global.HOST + "/api/user/%s/project/%s", mJumpParam.mUser, mJumpParam.mProject);
+            urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
             actionBar.setTitle(mJumpParam.mProject);
 
             networkImpl = new NetworkImpl(this, this);
@@ -138,18 +144,38 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
 
         }
 
-        //项目代码 基本完成 入口隐藏
         final int insertGitPos = Math.min(spinnerIcons.size(), 4);
         spinnerIcons.add(insertGitPos, R.drawable.ic_spinner_git);
-        spinnerFragments.add(insertGitPos, ProjectGitFragment_.class);
+        spinnerFragments.add(insertGitPos, ProjectGitFragmentMain_.class);
         project_activity_action_list.add(insertGitPos, "项目代码");
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
 
-        final ActionBar.OnNavigationListener mOnNavigationListener = new ActionBar.OnNavigationListener() {
+//        final BaseAdapter mOnNavigationListener = new  {
+//
+//            @Override
+//            public boolean onNavigationItemSelected(int position, long itemId) {
+//
+//                return true;
+//            }
+//        };
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.actionbar_custom_spinner);
+        Spinner spinner = (Spinner) actionBar.getCustomView().findViewById(R.id.spinner);
+        spinner.setAdapter(mSpinnerAdapter);
+//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            }
+//        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 mSpinnerAdapter.setCheckPos(position);
 
                 Fragment fragment;
@@ -170,17 +196,20 @@ public class ProjectActivity extends BaseFragmentActivity implements NetworkCall
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }
-
-                return true;
             }
-        };
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 
         if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
-            actionBar.setSelectedNavigationItem(1);
+//            actionBar.setSelectedNavigationItem(1);
+            spinner.setSelection(1);
         }
     }
 

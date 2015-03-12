@@ -29,11 +29,12 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
@@ -54,12 +55,12 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_download)
 @OptionsMenu(R.menu.project_attachment_download)
-public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
+public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
 
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     @Extra
     AttachmentFileObject mAttachmentFileObject;
@@ -109,10 +110,10 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
     ImageView ivDownloadCancel;
 
 
-    String urlFiles = Global.HOST + "/api/project/%s/files/%s/view";
-    String urlPages = Global.HOST + "/api/project/%s/files/image/%s?folderId=%s&orderByDesc=true";
-    String urlDownload = Global.HOST + "/api/project/%s/files/%s/download";
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?fileIds=%s";
+    String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
+    String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
+    String urlDownload = Global.HOST + "/api/project/%d/files/%s/download";
+    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
 
     AttachmentFileObject mFileObject = new AttachmentFileObject();
 
@@ -191,8 +192,8 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFileObject.name);
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadManagerPro = new DownloadManagerPro(downloadManager);
@@ -454,6 +455,9 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (position) {
                 case 0:
+                    action_copy();
+                    break;
+                case 1:
                     if (!mAttachmentFileObject.isOwner()) {
                         return;
                     } else {
@@ -465,6 +469,16 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
         }
     };
 
+    void action_copy() {
+        String preViewUrl = mAttachmentFileObject.owner_preview;
+        int pos = preViewUrl.lastIndexOf("imagePreview");
+        if (pos != -1) {
+            preViewUrl = preViewUrl.substring(0, pos) + "download";
+        }
+        Global.copy(this, preViewUrl);
+        showButtomToast("已复制 " + preViewUrl);
+    }
+
 
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 
@@ -473,6 +487,10 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
             ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
             //DialogUtil.RightTopPopupItem moveItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_move), R.drawable.ic_menu_move);
             //popupItemArrayList.add(moveItem);
+
+            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(copylinkItem);
+
             DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
             popupItemArrayList.add(deleteItem);
             mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsDownloadDetailActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
@@ -485,8 +503,7 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
             initRightTopPop();
         }
 
-        //DialogUtil.RightTopPopupItem moveItem = mRightTopPopupWindow.adapter.getItem(0);
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(0);
+        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(1);
 
         if (!mAttachmentFileObject.isOwner()) {
             deleteItem.enabled = false;
@@ -584,5 +601,4 @@ public class AttachmentsDownloadDetailActivity extends BaseFragmentActivity {
     }
 
     ;
-
 }

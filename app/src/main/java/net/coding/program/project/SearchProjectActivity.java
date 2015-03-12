@@ -1,11 +1,11 @@
 package net.coding.program.project;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.model.AccountInfo;
@@ -19,7 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_search_project)
-public class SearchProjectActivity extends BaseFragmentActivity {
+public class SearchProjectActivity extends BaseActivity {
 
     private ArrayList<ProjectObject> mData = new ArrayList();
     private ArrayList<ProjectObject> mSearchData = new ArrayList();
@@ -32,21 +32,12 @@ public class SearchProjectActivity extends BaseFragmentActivity {
 
     @AfterViews
     void init() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
 
         actionBar.setCustomView(R.layout.activity_search_project_actionbar);
-        actionBar.setTitle(R.string.title_activity_search_project);
-
-        findViewById(R.id.backButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        actionBar.setTitle(R.string.title_activity_search_project);
 
         editText = (EditText) findViewById(R.id.editText);
         editText.addTextChangedListener(new SimpleTextWatcher() {
@@ -74,7 +65,7 @@ public class SearchProjectActivity extends BaseFragmentActivity {
                     updateSearchResult();
                 }
 
-                getActionBar().setTitle(R.string.title_activity_search_project);
+                getSupportActionBar().setTitle(R.string.title_activity_search_project);
             }
         });
 

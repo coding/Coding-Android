@@ -2,13 +2,19 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +27,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -45,13 +52,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_topic_list_detail)
-public class TopicListDetailActivity extends BaseActivity implements StartActivity {
+public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
     @Extra
     TopicObject topicObject;
 
     @Extra
     TopicDetailParam mJumpParam;
+
+    private WebView webView;
+    private TextView topicTitleTextView;
 
     public static class TopicDetailParam implements Serializable {
         public String mUser;
@@ -68,6 +78,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     @ViewById
     ListView listView;
 
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
+
     EnterLayout mEnterLayout;
 
     String owerGlobar = "";
@@ -78,14 +91,30 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String urlTopic = "";
 
-    ArrayList<TopicObject> mData = new ArrayList<TopicObject>();
+    ArrayList<TopicObject> mData = new ArrayList();
 
     Intent mResultData = new Intent();
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+
+        loadData();
+
+        mEnterLayout = new EnterLayout(this, mOnClickSend, EnterLayout.Type.TextOnly);
+
+        prepareComment();
+    }
+
+    @Override
+    public void onRefresh() {
+        loadData();
+    }
+
+    private void loadData() {
         if (topicObject == null) {
             urlTopic = String.format(Global.HOST + "/api/topic/%s?", mJumpParam.mTopic);
             getNetwork(urlTopic, urlTopic);
@@ -96,10 +125,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             urlTopic = String.format(Global.HOST + "/api/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
         }
-
-        mEnterLayout = new EnterLayout(this, mOnClickSend, EnterLayout.Type.TextOnly);
-
-        prepareComment();
     }
 
     private void initData() {
@@ -111,6 +136,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     final int RESULT_AT = 1;
+    final int RESULT_EDIT = 2;
 
     @OnActivityResult(RESULT_AT)
     void onResultAt(int requestCode, Intent data) {
@@ -121,18 +147,91 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         }
     }
 
+    @OnActivityResult(RESULT_EDIT)
+    void onResultEdit(int requestCode, Intent data) {
+        if (requestCode == Activity.RESULT_OK) {
+            topicObject = (TopicObject) data.getSerializableExtra("topic");
+            topicTitleTextView.setText(topicObject.title);
+            setTopicWebView(this, webView, bubble, topicObject.content);
+            mResultData.putExtra("topic", topicObject);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (owerGlobar.equals(MyApp.sUserObject.global_key)) {
-            getMenuInflater().inflate(R.menu.topic_detail, menu);
+        if (topicObject != null) {
+            int menuRes;
+            if (topicObject.isMy()) {
+                menuRes = R.menu.topic_detail_modify;
+            } else {
+                menuRes = R.menu.common_more;
+            }
+            getMenuInflater().inflate(menuRes, menu);
         }
 
         return super.onCreateOptionsMenu(menu);
     }
 
+    @OptionsItem
+    void action_more() {
+        showRightTopPop();
+    }
+
+    @OptionsItem
+    void action_edit() {
+        TopicAddActivity_.intent(this).projectObject(topicObject.project).topicObject(topicObject).startForResult(RESULT_EDIT);
+    }
+
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
+
+    private void initRightTopPop() {
+        if (mRightTopPopupWindow == null) {
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
+            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(downloadItem);
+            if (owerGlobar.equals(MyApp.sUserObject.global_key)) {
+                DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.delete_topic), R.drawable.ic_menu_delete_selector);
+                popupItemArrayList.add(deleteItem);
+            }
+            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
+        }
+    }
+
+    private void showRightTopPop() {
+        initRightTopPop();
+
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+
+        Rect rectgle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+        int StatusBarHeight = rectgle.top;
+        int contentViewTop =
+                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        //int TitleBarHeight= contentViewTop - StatusBarHeight;
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        mRightTopPopupWindow.showAtLocation(listView, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
+    }
+
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    action_copy();
+                    break;
+                case 1:
+                    action_delete();
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
+        }
+    };
+
     @Override
     public void onBackPressed() {
-        if (mResultData.getIntExtra("child_count", -1) == -1) {
+        if (mResultData.getExtras() == null) {
             setResult(Activity.RESULT_CANCELED);
         } else {
             setResult(Activity.RESULT_OK, mResultData);
@@ -143,14 +242,21 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
 
-    @OptionsItem(R.id.action_delete)
-    void menuDeleteTopic() {
+    @OptionsItem
+    void action_delete() {
         showDialog("讨论", "删除讨论?", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteNetwork(String.format(HOST_MAOPAO_DELETE, topicObject.id), TAG_DELETE_TOPIC);
             }
         });
+    }
+
+    void action_copy() {
+        final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
+        String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
+        Global.copy(this, url);
+        showButtomToast("已复制 " + url);
     }
 
     private TextView textViewCommentCount;
@@ -162,40 +268,53 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String bubble;
 
+    static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setBackgroundColor(0);
+        webView.getBackground().setAlpha(0);
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context));
+
+        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
+    }
+
+    View mListHead;
+
     private void updateHeadData() {
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
 
-        View head = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
+        if (mListHead == null) {
+            mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
+            listView.addHeaderView(mListHead);
+        }
+
         try {
-            bubble = Global.readTextFile(getAssets().open("topic-android"));
+            if (bubble == null) {
+                bubble = Global.readTextFile(getAssets().open("topic-android"));
+            }
         } catch (Exception e) {
             Global.errorLog(e);
         }
 
-        ImageView icon = (ImageView) head.findViewById(R.id.icon);
+        ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         iconfromNetwork(icon, topicObject.owner.avatar);
         icon.setTag(topicObject.owner.global_key);
         icon.setOnClickListener(mOnClickUser);
 
-        ((TextView) head.findViewById(R.id.title)).setText(topicObject.title);
+        topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
+        topicTitleTextView.setText(topicObject.title);
 
         final String format = "<font color='#3bbd79'>%s</font> 发布于%s";
         String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
-        ((TextView) head.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
+        ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
 
-        WebView webView = (WebView) head.findViewById(R.id.comment);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setBackgroundColor(0);
-        webView.getBackground().setAlpha(0);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(this));
+        webView = (WebView) mListHead.findViewById(R.id.comment);
+        setTopicWebView(this, webView, bubble, topicObject.content);
 
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", topicObject.content), "text/html", "UTF-8", null);
-
-        textViewCommentCount = (TextView) head.findViewById(R.id.commentCount);
+        textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();
 
-        head.setOnClickListener(new View.OnClickListener() {
+        mListHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prepareComment();
@@ -203,7 +322,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             }
         });
 
-        listView.addHeaderView(head);
         listView.setAdapter(baseAdapter);
     }
 
@@ -218,27 +336,24 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     View.OnClickListener mOnClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String input = mEnterLayout.getContent();
 
-            String content = mEnterLayout.getContent();
-            if (content.isEmpty()) {
-                showMiddleToast("你还什么都没有写");
-                return;
-            }
-
-            if (EmojiFilter.containsEmoji(content)) {
-                showMiddleToast("暂不支持发表情");
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
                 return;
             }
 
             RequestParams params = new RequestParams();
             EditText message = mEnterLayout.content;
-            TopicObject comment = (TopicObject) message.getTag();
 
-            if (!comment.parent_id.isEmpty()) {
-                content = String.format("@%s : ", comment.owner.name) + content;
+            TopicObject comment = (TopicObject) message.getTag();
+            if (comment != null && comment.parent_id != 0) {
+                input = String.format("@%s : ", comment.owner.name) + input;
             }
-            params.put("content", content);
+            params.put("content", input);
+
             postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
+
+            showProgressBar(true, R.string.sending_comment);
         }
     };
 
@@ -268,6 +383,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             }
 
         } else if (tag.equals(urlCommentSend)) {
+            showProgressBar(false);
             if (code == 0) {
                 JSONObject jsonObject = respanse.getJSONObject("data");
 
@@ -276,43 +392,43 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mResultData.putExtra("topic_id", topicObject.id);
                 updateDisplayCommentCount();
 
-                mData.add(0, new TopicObject(jsonObject));
+                mData.add(new TopicObject(jsonObject));
 
                 mEnterLayout.restoreDelete(data);
 
                 mEnterLayout.clearContent();
                 mEnterLayout.hideKeyboard();
                 baseAdapter.notifyDataSetChanged();
+                showButtomToast("发送评论成功");
             } else {
                 showErrorMsg(code, respanse);
                 baseAdapter.notifyDataSetChanged();
             }
         } else if (tag.equals(urlTopic)) {
+            swipeRefreshLayout.setRefreshing(false);
             if (code == 0) {
                 topicObject = new TopicObject(respanse.getJSONObject("data"));
                 initData();
-
+                invalidateOptionsMenu();
             } else {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_DELETE_TOPIC_COMMENT)) {
-            String itemId = (String) data;
+            int itemId = (int) data;
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
-                    if (itemId.equals(mData.get(i).id)) {
+                    if (itemId == mData.get(i).id) {
                         mData.remove(i);
                         --topicObject.child_count;
                         mResultData.putExtra("child_count", topicObject.child_count);
                         mResultData.putExtra("topic_id", topicObject.id);
                         updateDisplayCommentCount();
-
                         baseAdapter.notifyDataSetChanged();
                         break;
                     }
                 }
-
             } else {
-                showButtomToast("删除失败");
+                showButtomToast(R.string.delete_fail);
             }
         } else if (tag.equals(TAG_DELETE_TOPIC)) {
             if (code == 0) {
@@ -321,7 +437,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 finish();
 
             } else {
-                showButtomToast("删除失败");
+                showButtomToast(R.string.delete_fail);
             }
         }
     }

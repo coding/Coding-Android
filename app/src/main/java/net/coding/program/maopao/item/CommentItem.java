@@ -1,17 +1,14 @@
 package net.coding.program.maopao.item;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
+import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.Maopao;
 
@@ -31,27 +28,9 @@ class CommentItem {
         name = (TextView) convertView.findViewById(R.id.name);
         time = (TextView) convertView.findViewById(R.id.time);
         comment = (TextView) convertView.findViewById(R.id.comment);
-        comment.setMovementMethod(LinkMovementMethod.getInstance());
+        comment.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         comment.setOnClickListener(onClickComment);
-        comment.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setItems(R.array.message_action_text_copy, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            Global.copy(((TextView) v).getText().toString(), v.getContext());
-                            Toast.makeText(v.getContext(), "已复制", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                AlertDialog dialog = builder.show();
-                CustomDialog.dialogTitleLineColor(v.getContext(), dialog);
-                return true;
-            }
-        });
+        comment.setOnLongClickListener(DialogCopy.getInstance());
     }
 
     public void setContent(Maopao.Comment commentData, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {

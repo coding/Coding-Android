@@ -51,14 +51,31 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
     ArrayList<ProjectObject> mData = new ArrayList<ProjectObject>();
     ArrayList<ProjectObject> mAllData = new ArrayList<ProjectObject>();
 
+    int pageMargin;
+
     @AfterViews
     void init() {
-        showDialogLoading();
+        mData = AccountInfo.loadTaskProjects(getActivity());
+        if (mData.isEmpty()) {
+            showDialogLoading();
+        }
+
+        pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+                .getDisplayMetrics());
+
+
         tabs.setLayoutInflater(mInflater);
+
         getNetwork(host, host);
 
         adapter = new PageTaskFragment(getChildFragmentManager());
+        pager.setPageMargin(pageMargin);
         pager.setAdapter(adapter);
+
+        if (!mData.isEmpty()) {
+            tabs.setViewPager(pager);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -78,7 +95,7 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
         } else if (tag.equals(urlTaskCount)) {
             if (code == 0) {
-                mData = new ArrayList<ProjectObject>();
+                mData = new ArrayList();
                 mData.add(new ProjectObject());
 
                 JSONArray jsonArray = respanse.getJSONArray("data");
@@ -86,19 +103,16 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
                     TaskCount taskCount = new TaskCount(jsonArray.getJSONObject(i));
                     for (int j = 0; j < mAllData.size(); ++j) {
                         ProjectObject project = mAllData.get(j);
-                        if (taskCount.project.equals(project.id)) {
+                        if (taskCount.project == project.getId()) {
                             mData.add(project);
                         }
                     }
                 }
 
+                AccountInfo.saveTaskProjects(getActivity(), mData);
+                tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
 
-                int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-                        .getDisplayMetrics());
-                pager.setPageMargin(pageMargin);
-
-                tabs.setViewPager(pager);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -180,14 +194,14 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
     }
 
     public static class TaskCount {
-        public String project = "";
+        public int project;
         public int processing;
         public int done;
 
         public TaskCount(JSONObject json) throws JSONException {
-            project = json.getString("project");
-            processing = json.getInt("processing");
-            done = json.getInt("done");
+            project = json.optInt("project");
+            processing = json.optInt("processing");
+            done = json.optInt("done");
         }
     }
 }

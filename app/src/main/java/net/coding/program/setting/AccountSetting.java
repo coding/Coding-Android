@@ -24,7 +24,7 @@ public class AccountSetting extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         UserObject userObject = MyApp.sUserObject;
         email.setText(userObject.email);

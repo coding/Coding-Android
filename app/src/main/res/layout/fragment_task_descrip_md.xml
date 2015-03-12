@@ -1,13 +1,147 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/edit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
         android:background="@color/transparent"
-        android:minHeight="600dp"
-        android:gravity="start" />
-</FrameLayout>
+        android:gravity="start"
+        android:minHeight="600dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ffcfcfcf" />
+    <HorizontalScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:id="@+id/mdBold"
+                android:text="B"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:id="@+id/mdItalic"
+                android:text="I"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:id="@+id/mdHyperlink"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="链接" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:id="@+id/mdPhoto"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="图片" />
+
+            <TextView
+                android:id="@+id/mdList"
+                android:text="列表"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+
+            <TextView
+                android:id="@+id/mdLinkQuote"
+                android:text="引用"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+            <TextView
+                android:id="@+id/mdCode"
+                android:text="code"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+
+            <TextView
+                android:id="@+id/mdTitle"
+                android:text="标题"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:id="@+id/mdDivide"
+                android:text="分割线"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ffcfcfcf" />
+
+
+</LinearLayout>

@@ -38,7 +38,7 @@ public class SetPasswordActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @OptionsItem(android.R.id.home)

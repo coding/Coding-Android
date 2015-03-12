@@ -10,26 +10,30 @@ import java.io.Serializable;
 public class BaseComment implements Serializable {
     public String content = "";
     public long created_at; // 1408614375604,
-    public java.lang.String id = ""; // 9291,
+    public int id; // 9291,
     public net.coding.program.model.DynamicObject.Owner owner = new net.coding.program.model.DynamicObject.Owner();
-    public java.lang.String owner_id = ""; // 8205,
+    public int owner_id; // 8205,
 
     public BaseComment(JSONObject json) throws JSONException {
         content = json.optString("content");
         created_at = json.optLong("created_at");
-        id = json.optString("id");
+        id = json.optInt("id");
 
         if (json.has("owner")) {
             owner = new DynamicObject.Owner(json.getJSONObject("owner"));
         }
 
-        owner_id = json.optString("owner_id");
+        owner_id = json.optInt("owner_id");
     }
 
     public BaseComment() {
     }
 
+    public boolean isEmpty() {
+        return id == 0;
+    }
+
     public boolean isMy() {
-        return MyApp.sUserObject.id.equals(owner_id);
+        return MyApp.sUserObject.id == owner_id;
     }
 }

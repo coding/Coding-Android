@@ -107,6 +107,17 @@
             android:text="333"
             android:textColor="@color/font_gray"
             android:textSize="12sp" />
+        
+        <TextView
+            android:id="@+id/taskDes"
+            android:text="描述"
+            android:textColor="@color/font_gray"
+            android:drawablePadding="4dp"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/icon_task_des" />
 
     </LinearLayout>
 

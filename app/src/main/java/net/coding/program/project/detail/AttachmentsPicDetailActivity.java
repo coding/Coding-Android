@@ -25,7 +25,7 @@ import android.widget.ProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
@@ -56,11 +56,11 @@ import java.util.HashMap;
  */
 @EActivity(R.layout.activity_attachments_image)
 @OptionsMenu(R.menu.project_attachment_image)
-public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
+public class AttachmentsPicDetailActivity extends BaseActivity {
     private static String TAG = AttachmentsPicDetailActivity.class.getSimpleName();
 
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     @Extra
     AttachmentFileObject mAttachmentFileObject;
@@ -86,8 +86,8 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
 
     private static final String STATE_POSITION = "STATE_POSITION";
 
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?fileIds=%s";
-    private String urlDownloadBase = Global.HOST + "/api/project/%s/files/%s/download";
+    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
+    private String urlDownloadBase = Global.HOST + "/api/project/%d/files/%s/download";
     String urlDownload = "";
 
     File mFile;
@@ -143,12 +143,12 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
     @AfterViews
     void init() {
         loading.setVisibility(View.VISIBLE);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(mAttachmentFileObject.name);
 
         share = AttachmentsPicDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
-        client = MyAsyncHttpClient.createClient(AttachmentsPicDetailActivity.this);
+        client = MyAsyncHttpClient.createClient(this);
 
         picCache = new HashMap<String, AttachmentFileObject>();
 
@@ -185,7 +185,7 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
 
         @Override
         public void onPageSelected(int i) {
-            getActionBar().setTitle(fileList.get(i).name);
+            getSupportActionBar().setTitle(fileList.get(i).name);
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).name);
             mAttachmentFileObject = fileList.get(i);
         }
@@ -283,6 +283,16 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
         }
     }
 
+    void action_copy() {
+        String preViewUrl = mAttachmentFileObject.owner_preview;
+        int pos = preViewUrl.lastIndexOf("imagePreview");
+        if (pos != -1) {
+            preViewUrl = preViewUrl.substring(0, pos) + "download";
+        }
+        Global.copy(this, preViewUrl);
+        showButtomToast("已复制 " + preViewUrl);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_POSITION, pager.getCurrentItem());
@@ -367,6 +377,9 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
                     action_download();
                     break;
                 case 1:
+                    action_copy();
+                    break;
+                case 2:
                     if (!mAttachmentFileObject.isOwner()) {
                         return;
                     } else {
@@ -389,6 +402,8 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
             ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
             DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_save), R.drawable.ic_menu_download);
             popupItemArrayList.add(downloadItem);
+            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(copylinkItem);
             DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
             popupItemArrayList.add(deleteItem);
             mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsPicDetailActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
@@ -401,8 +416,7 @@ public class AttachmentsPicDetailActivity extends BaseFragmentActivity {
             initRightTopPop();
         }
 
-        DialogUtil.RightTopPopupItem downloadItem = mRightTopPopupWindow.adapter.getItem(0);
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(1);
+        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(2);
 
         if (!mAttachmentFileObject.isOwner()) {
             deleteItem.enabled = false;

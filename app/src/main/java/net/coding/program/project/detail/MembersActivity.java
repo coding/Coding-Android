@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore {
 
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     String getProjectMembers = "getProjectMembers";
     String urlMembers = "";
@@ -48,9 +48,9 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final String format = Global.HOST + "/api/project/%s/members?";
+        final String format = Global.HOST + "/api/project/%d/members?";
         urlMembers = String.format(format, mProjectObjectId);
 
         mFootUpdate.init(listView, mInflater, this);

@@ -76,7 +76,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     }
 
     @Override
-    public void updateRead(String id) {
+    public void updateRead(int id) {
         List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
         for (WeakReference<Fragment> item : fragmentList) {
             Fragment fragment = item.get();

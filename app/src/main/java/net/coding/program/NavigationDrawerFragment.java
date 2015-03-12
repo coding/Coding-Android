@@ -1,12 +1,12 @@
 package net.coding.program;
 
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -185,13 +185,12 @@ public class NavigationDrawerFragment extends BaseFragment {
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        ActionBar actionBar = getActivity().getActionBar();
+        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(getActivity(),
                 mDrawerLayout,
-                R.drawable.ic_drawer,
                 R.string.empty,
                 R.string.empty) {
             @Override
@@ -295,9 +294,9 @@ public class NavigationDrawerFragment extends BaseFragment {
     }
 
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActivity().getActionBar();
+        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowCustomEnabled(false);
         actionBar.setTitle("");
         actionBar.setIcon(R.drawable.logo);
     }

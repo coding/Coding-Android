@@ -7,6 +7,7 @@ import net.coding.program.R;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.project.ProjectListFragment;
+import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.ProjectDynamicFragment;
 import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
@@ -18,6 +19,11 @@ import net.coding.program.project.detail.TopicListFragment;
 public class BlankViewDisplay {
 
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
+        setBlank(itemSize, fragment, request, v, onClick, "");
+    }
+
+
+    public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick, String blankMessage) {
         View btn = v.findViewById(R.id.btnRetry);
         if (request) {
             btn.setVisibility(View.INVISIBLE);
@@ -51,11 +57,11 @@ public class BlankViewDisplay {
 
             } else if (fragment instanceof TopicListFragment) {
                 iconId = R.drawable.ic_exception_blank_task;
-                text = "你还没有讨论\n创建一个讨论发表对项目的看法吧";
+                text = "还没有讨论\n创建一个讨论发表对项目的看法吧";
 
             } else if (fragment instanceof MaopaoListFragment) {
                 iconId = R.drawable.ic_exception_blank_maopao;
-                text = "还没有冒泡~";
+                text = "来，冒个泡吧～";
 
             } else if (fragment instanceof UsersListFragment) {
                 iconId = R.drawable.ic_exception_blank_maopao;
@@ -66,6 +72,9 @@ public class BlankViewDisplay {
             } else if (fragment instanceof ProjectGitFragment) {
                 iconId = R.drawable.ic_exception_blank_task;
                 text = "此项目的 Git 仓库为空";
+            } else if (fragment instanceof AttachmentsActivity) {
+                iconId = R.drawable.ic_exception_blank_task;
+                text = "此文件夹为空";
             }
 
         } else {
@@ -76,4 +85,5 @@ public class BlankViewDisplay {
         v.findViewById(R.id.icon).setBackgroundResource(iconId);
         ((TextView) v.findViewById(R.id.message)).setText(text);
     }
+
 }

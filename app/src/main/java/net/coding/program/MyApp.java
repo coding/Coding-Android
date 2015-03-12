@@ -60,6 +60,7 @@ public class MyApp extends Application {
 
         sUserObject = AccountInfo.loadAccount(this);
         sUnread = new Unread();
+
     }
 
     public static final String PushClickBroadcast = "PushClickBroadcast";
@@ -75,10 +76,11 @@ public class MyApp extends Application {
                 if (url != null) {
                     closeNotify(url);
                     if (sMainCreate) {
+                        MainActivity.setJumpNewIntent();
                         URLSpanNoUnderline.openActivityByUri(context, url, true);
                     } else {
                         Intent mainIntent = new Intent(context, MainActivity_.class);
-                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mainIntent.putExtra("mPushUrl", url);
                         context.startActivity(mainIntent);
                     }
@@ -95,16 +97,6 @@ public class MyApp extends Application {
         }, filter);
     }
 
-    // 冒泡
-    // https://coding.net/api/tweet/8206503/9275
-    // 讨论
-    // https://coding.net/u/8206503/p/AndroidCoding/topic/9243?page=1
-    // 任务
-    // https://coding.net/u/8206503/p/AndroidCoding/task/11664
-    // 粉丝
-    // new_fans
-    // 私信
-    // new_message
     private void closeNotify(String url) {
         String notifys[] = PushReceiver.sNotify;
         NotificationManager mNotificationManager = (NotificationManager)

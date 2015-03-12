@@ -11,10 +11,13 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.TaskObject;
+import net.coding.program.project.detail.TopicAddActivity;
+import net.coding.program.project.detail.TopicAddActivity.TopicData;
+import net.coding.program.project.detail.TopicEditFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -25,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BaseFragmentActivity implements TaskDescrip {
+public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip, TopicEditFragment.SaveData {
 
     @Extra
     TaskObject.TaskDescription descriptionData;
@@ -34,7 +37,10 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
     EditText description;
 
     @Extra
-    String taskId;
+    int taskId;
+
+    @Extra
+    int projectId;
 
     String HOST_DESCRIPTION = Global.HOST + "/api/task/%s/description";
 
@@ -43,34 +49,42 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
 
     String preViewHtml = "";
 
+    TaskDespEditFragment editFragment;
+    Fragment previewFragment;
+
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Fragment fragment;
+        editFragment = TaskDespEditFragment_.builder().build();
+        previewFragment = TaskDespPreviewFragment_.builder().build();
+
         String markdown = descriptionData.markdown;
         if (markdown.isEmpty()) {
-            fragment = TaskDescripMdFragment_.builder().contentMd(markdown).build();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .addToBackStack("edit")
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
         } else {
-            fragment = TaskDescripHtmlFragment_.builder()
-                    .contentMd(markdown)
-                    .contentHtml(descriptionData.description)
-                    .build();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .commit();
+            modifyData.content = markdown;
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
         }
     }
 
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (editFragment.isContentModify()) {
+            showDialog("任务描述", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        } else {
+            finish();
+        }
     }
 
     @Override
@@ -157,5 +171,40 @@ public class TaskDescriptionActivity extends BaseFragmentActivity implements Tas
             Global.errorLog(e);
             return "";
         }
+    }
+
+    private TopicData modifyData = new TopicData();
+
+    @Override
+    public void saveData(TopicData data) {
+        modifyData = data;
+    }
+
+    @Override
+    public TopicAddActivity.TopicData loadData() {
+        return modifyData;
+    }
+
+    @Override
+    public void switchPreview() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
+    }
+
+    @Override
+    public void switchEdit() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+    }
+
+    @Override
+    public void exit() {
+        Intent intent = new Intent();
+        intent.putExtra("data", modifyData.content);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public int getProjectId() {
+        return projectId;
     }
 }

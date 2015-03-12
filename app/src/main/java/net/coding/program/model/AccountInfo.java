@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import net.coding.program.common.LoginBackground;
+import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.user.UsersListActivity;
 
 import java.io.File;
@@ -202,6 +203,7 @@ public class AccountInfo {
         return data;
     }
 
+    // TODO 添加单个item接口
     static class DataCache<T> {
 
         public final static String FILDER_GLOBAL = "FILDER_GLOBAL";
@@ -212,6 +214,13 @@ public class AccountInfo {
 
         public void saveGlobal(Context ctx, ArrayList<T> data, String name) {
             save(ctx, data, name, FILDER_GLOBAL);
+        }
+
+        public void delete(Context ctx, String name) {
+            File file = new File(ctx.getFilesDir(), name);
+            if (file.exists()) {
+                file.delete();
+            }
         }
 
         private void save(Context ctx, ArrayList<T> data, String name, String folder) {
@@ -307,12 +316,34 @@ public class AccountInfo {
 
     private static final String PROJECT_MEMBER = "PROJECT_MEMBER";
 
-    public static void saveProjectMembers(Context ctx, ArrayList<TaskObject.Members> data, String projectId) {
+    public static void saveProjectMembers(Context ctx, ArrayList<TaskObject.Members> data, int projectId) {
         new DataCache<TaskObject.Members>().save(ctx, data, PROJECT_MEMBER + projectId);
     }
 
-    public static ArrayList<TaskObject.Members> loadProjectMembers(Context ctx, String projectId) {
+    public static ArrayList<TaskObject.Members> loadProjectMembers(Context ctx, int projectId) {
         return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
+    }
+
+    private static final String MESSAGE_DRAFT = "MESSAGE_DRAFT";
+
+    // input 为 "" 时，删除上次的输入
+    public static void saveMessageDraft(Context ctx, String input, String globalkey) {
+        if (input.isEmpty()) { //
+            new DataCache<String>().delete(ctx, MESSAGE_DRAFT + globalkey);
+        } else {
+            ArrayList<String> data = new ArrayList<>();
+            data.add(input);
+            new DataCache<String>().save(ctx, data, MESSAGE_DRAFT + globalkey);
+        }
+    }
+
+    public static String loadMessageDraft(Context ctx, String globalKey) {
+        ArrayList<String> data = new DataCache<String>().load(ctx, MESSAGE_DRAFT + globalKey);
+        if (data.isEmpty()) {
+            return "";
+        } else {
+            return data.get(0);
+        }
     }
 
     private static String FILE_PUSH = "FILE_PUSH";
@@ -349,12 +380,33 @@ public class AccountInfo {
 
     private static final String USER_MAOPAO = "USER_MAOPAO";
 
-    public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, String id) {
+    public static void saveMaopao(Context ctx, ArrayList<Maopao.MaopaoObject> data, String type, int id) {
         new DataCache<Maopao.MaopaoObject>().save(ctx, data, USER_MAOPAO + type + id);
     }
 
-    public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, String id) {
+    public static ArrayList<Maopao.MaopaoObject> loadMaopao(Context ctx, String type, int id) {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
+    }
+
+    private static final String MAOPAO_DRAFT = "MAOPAO_DRAFT";
+
+    public static void saveMaopaoDraft(Context ctx, MaopaoAddActivity.MaopaoDraft draft) {
+        if (draft.isEmpty()) {
+            new DataCache<MaopaoAddActivity.MaopaoDraft>().delete(ctx, MAOPAO_DRAFT);
+        } else {
+            ArrayList<MaopaoAddActivity.MaopaoDraft> data = new ArrayList<>();
+            data.add(draft);
+            new DataCache<MaopaoAddActivity.MaopaoDraft>().save(ctx, data, MAOPAO_DRAFT);
+        }
+    }
+
+    public static MaopaoAddActivity.MaopaoDraft loadMaopaoDraft(Context ctx) {
+        ArrayList<MaopaoAddActivity.MaopaoDraft> data = new DataCache<MaopaoAddActivity.MaopaoDraft>().load(ctx, MAOPAO_DRAFT);
+        if (data.isEmpty()) {
+            return new MaopaoAddActivity.MaopaoDraft();
+        } else {
+            return data.get(0);
+        }
     }
 
     private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO";
@@ -372,6 +424,28 @@ public class AccountInfo {
         listData.add(new Pair(email, globayKey));
         dateCache.saveGlobal(ctx, listData, USER_RELOGIN_INFO);
     }
+
+    private static final String USER_TASK_PROJECTS = "USER_TASK_PROJECTS";
+
+    public static void saveTaskProjects(Context context, ArrayList<ProjectObject> data) {
+        new DataCache<ProjectObject>().save(context, data, USER_TASK_PROJECTS);
+    }
+
+    public static ArrayList<ProjectObject> loadTaskProjects(Context context) {
+        return new DataCache<ProjectObject>().load(context, USER_TASK_PROJECTS);
+    }
+
+    private static final String USER_TASKS = "USER_TASKS_%d_%d";
+
+    public static void saveTasks(Context context, ArrayList<TaskObject.SingleTask> data, int projectId, int userId) {
+        new DataCache<TaskObject.SingleTask>().save(context, data, String.format(USER_TASKS, projectId, userId));
+    }
+
+    public static ArrayList<TaskObject.SingleTask> loadTasks(Context context, int projectId, int userId) {
+        return new DataCache<TaskObject.SingleTask>().load(context, String.format(USER_TASKS, projectId, userId));
+    }
+
+
 
     public static String loadRelogininfo(Context ctx, String key) {
         ArrayList<Pair> listData = new DataCache<Pair>().loadGlobal(ctx, USER_RELOGIN_INFO);

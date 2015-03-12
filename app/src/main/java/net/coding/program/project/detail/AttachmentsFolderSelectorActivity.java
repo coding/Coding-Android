@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 public class AttachmentsFolderSelectorActivity extends BaseActivity implements FootUpdate.LoadMore {
     private static String TAG = AttachmentsFolderSelectorActivity.class.getSimpleName();
     @Extra
-    String mProjectObjectId;
+    int mProjectObjectId;
 
     AttachmentFolderObject mAttachmentFolderObject;
 
@@ -75,13 +75,13 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 mData.addAll(mAttachmentFolderObject.sub_folders);
                 adapter.notifyDataSetChanged();
                 //isTopFolder = false;
-                getActionBar().setTitle(mAttachmentFolderObject.name);
+                getSupportActionBar().setTitle(mAttachmentFolderObject.name);
             } else {
                 mAttachmentFolderObject = null;
                 mData.clear();
                 mData.addAll(mDefaultData);
                 adapter.notifyDataSetChanged();
-                getActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
+                getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
                 ///isTopFolder = true;
             }
 
@@ -101,8 +101,8 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
 
     @AfterViews
     void init() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
 
         setBottomBtn();
 
@@ -118,7 +118,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 mData.addAll(mAttachmentFolderObject.sub_folders);
                 adapter.notifyDataSetChanged();
                 //isTopFolder = false;
-                getActionBar().setTitle(mAttachmentFolderObject.name);
+                getSupportActionBar().setTitle(mAttachmentFolderObject.name);
                 setBottomBtn();
             }
         });

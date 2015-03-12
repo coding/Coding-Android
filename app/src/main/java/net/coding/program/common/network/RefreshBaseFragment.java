@@ -10,19 +10,9 @@ import net.coding.program.R;
 public abstract class RefreshBaseFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String UPDATE_ALL = "99999999";
+    public static final int UPDATE_ALL_INT = 99999999;
 
     SwipeRefreshLayout swipeRefreshLayout;
-
-    private void initSwipeLayout(SwipeRefreshLayout swipeLayout) {
-        swipeLayout.setOnRefreshListener(this);
-//        swipeLayout.setColorSchemeResources(R.color.green, android.R.color.holo_red_light, android.R.color.holo_blue_light, android.R.color.holo_orange_light);
-//        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_red_light);
-        swipeLayout.setColorSchemeResources(R.color.green, R.color.green, R.color.green, R.color.green
-        );
-    }
 
     protected void setRefreshing(boolean refreshing) {
         swipeRefreshLayout.setRefreshing(refreshing);
@@ -34,6 +24,7 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
 
     protected void init() {
         swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipeRefreshLayout);
-        initSwipeLayout(swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
     }
 }

@@ -1,6 +1,6 @@
 package net.coding.program;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -16,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tencent.android.tpush.XGPushManager;
@@ -25,6 +26,7 @@ import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
@@ -39,9 +41,10 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.util.HashSet;
+import java.util.List;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseFragmentActivity
+public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
 
     NavigationDrawerFragment_ mNavigationDrawerFragment;
@@ -50,7 +53,7 @@ public class MainActivity extends BaseFragmentActivity
     @Extra
     String mPushUrl;
 
-    HashSet<String> mPushOpened = new HashSet();
+//    HashSet<String> mPushOpened = new HashSet();
 
     @StringArrayRes
     String drawer_title[];
@@ -64,6 +67,21 @@ public class MainActivity extends BaseFragmentActivity
     ViewGroup drawer_layout;
 
     boolean mFirstEnter = true;
+    private View actionbarCustom;
+
+    static private boolean mJumpNewIntent = false;
+
+    // 防止在onNewIntent中重复打开
+    public static void setJumpNewIntent() {
+        mJumpNewIntent = true;
+    }
+
+    public static boolean getJumpNewIntent() {
+        boolean old = mJumpNewIntent;
+        mJumpNewIntent = false;
+        return old;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +91,10 @@ public class MainActivity extends BaseFragmentActivity
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
+//        XGPushConfig.enableDebug(this, true);
         // qq push
-        startPushService();
         updateNotifyService();
+        pushInXiaomi();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
@@ -84,8 +103,24 @@ public class MainActivity extends BaseFragmentActivity
 
         if (savedInstanceState != null) {
             mSelectPos = savedInstanceState.getInt("pos", 0);
-            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
+//            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
             mTitle = savedInstanceState.getString("mTitle");
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+
+//        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
+//            mPushOpened.add(mPushUrl);
+//        }
+
+        if (!getJumpNewIntent()) {
+            if (mPushUrl != null) {
+                URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
+            }
         }
     }
 
@@ -97,7 +132,8 @@ public class MainActivity extends BaseFragmentActivity
         MyApp.setMainActivityState(false);
     }
 
-    private void startPushService() {
+    // 信鸽文档推荐调用，防止在小米手机上收不到推送
+    private void pushInXiaomi() {
         Context context = getApplicationContext();
         Intent service = new Intent(context, XGPushService.class);
         context.startService(service);
@@ -131,12 +167,15 @@ public class MainActivity extends BaseFragmentActivity
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater(), maopao_action_types);
 
-        mOnNavigationListener = new ActionBar.OnNavigationListener() {
-
+        ActionBar supportActionBar = getSupportActionBar();
+        supportActionBar.setCustomView(R.layout.actionbar_custom_spinner);
+        actionbarCustom = supportActionBar.getCustomView();
+        Spinner spinner = (Spinner) supportActionBar.getCustomView().findViewById(R.id.spinner);
+        spinner.setAdapter(mSpinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             String[] strings = getResources().getStringArray(R.array.maopao_action_types);
-
             @Override
-            public boolean onNavigationItemSelected(int position, long itemId) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment;
                 Bundle bundle = new Bundle();
                 mSpinnerAdapter.setCheckPos(position);
@@ -144,23 +183,23 @@ public class MainActivity extends BaseFragmentActivity
                 switch (position) {
                     case 1:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "friends");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.friends);
                         break;
 
                     case 2:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "hot");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.hot);
                         break;
 
                     case 3:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "my");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.my);
                         break;
 
                     case 0:
                     default:
                         fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", "time");
+                        bundle.putSerializable("mType", MaopaoListFragment.Type.time);
 
                         break;
                 }
@@ -173,11 +212,13 @@ public class MainActivity extends BaseFragmentActivity
                 ft.replace(R.id.container, fragment, strings[position]);
                 ft.commit();
 
-                return true;
             }
-        };
 
-        getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mNavigationDrawerFragment = (NavigationDrawerFragment_)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -188,25 +229,15 @@ public class MainActivity extends BaseFragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        restoreActionBar();
-
-        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
-            mPushOpened.add(mPushUrl);
-            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
-        }
-
         if (mFirstEnter) {
             onNavigationDrawerItemSelected(0);
         }
     }
 
-
     int mSelectPos = 0;
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        Log.d("", "https://coding.net/api/tweet/public_tweets + " + position);
-
         mSelectPos = position;
         Fragment fragment = null;
 
@@ -218,7 +249,7 @@ public class MainActivity extends BaseFragmentActivity
                 fragment = new TaskFragment_();
                 break;
             case 2:
-                // 进入冒泡页面，
+                // 进入冒泡页面，单独处理
                 break;
 
             case 3:
@@ -234,43 +265,34 @@ public class MainActivity extends BaseFragmentActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
 
-        updateActionbar();
-    }
+        if (position == 2) {
+            ActionBar actionBar = getSupportActionBar();
+            Spinner spinner;
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionbarCustom);
+            spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
-    private void updateActionbar() {
-        mTitle = drawer_title[mSelectPos];
+            boolean containFragment = false;
+            for (Fragment item : fragments) {
+                if (item instanceof MaopaoListFragment) {
+                    containFragment = true;
+                    break;
+                }
+            }
 
-        boolean useCustomBar = false;
-        if (mSelectPos == 2) {
-            useCustomBar = true;
-            ActionBar bar = getActionBar();
-            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            getActionBar().setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
+            if (!containFragment) {
+                int pos = spinner.getSelectedItemPosition();
+                spinner.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
+            }
         }
-
-        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
-        getActionBar().setTitle(mTitle);
-    }
-
-    private void updateActionbarRestore() {
-        mTitle = drawer_title[mSelectPos];
-
-        boolean useCustomBar = false;
-        if (mSelectPos == 2) {
-            useCustomBar = true;
-            ActionBar bar = getActionBar();
-            bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        }
-
-        getActionBar().setDisplayShowCustomEnabled(useCustomBar);
-        getActionBar().setTitle(mTitle);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("pos", mSelectPos);
-        outState.putSerializable("mPushOpened", mPushOpened);
+//        outState.putSerializable("mPushOpened", mPushOpened);
         outState.putString("mTitle", mTitle);
     }
 
@@ -279,32 +301,33 @@ public class MainActivity extends BaseFragmentActivity
         super.onRestoreInstanceState(savedInstanceState);
         mSelectPos = savedInstanceState.getInt("pos", 0);
         mTitle = savedInstanceState.getString("mTitle");
-        updateActionbarRestore(); // 只需要恢复actionbar就可以了
+        restoreActionBar();
     }
 
     MySpinnerAdapter mSpinnerAdapter;
-    ActionBar.OnNavigationListener mOnNavigationListener;
 
     public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
+        mTitle = drawer_title[mSelectPos];
+        ActionBar actionBar = getSupportActionBar();
         if (mSelectPos != 2) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowCustomEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(mTitle);
+            actionBar.setIcon(R.drawable.ic_lancher);
+        } else {
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionbarCustom);
+//             Spinner   spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
+//            spinner.setSelection(1);
+//            spinner.setSelection(0);
         }
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-        actionBar.setIcon(R.drawable.ic_lancher);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
 
-            if (mSelectPos == 2) {
-                getActionBar().setIcon(R.drawable.ic_lancher);
-                getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            } else {
-                restoreActionBar();
-            }
+            restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -376,7 +399,6 @@ public class MainActivity extends BaseFragmentActivity
             } else {
                 convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
             }
-
 
             return convertView;
         }

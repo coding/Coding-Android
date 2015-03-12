@@ -75,6 +75,13 @@ public class EmojiFragment extends Fragment {
         emojiMonkeyMap.put("coding_emoji_35", "下班");
         emojiMonkeyMap.put("coding_emoji_36", "冒泡");
 
+        emojiMonkeyMap.put("coding_emoji_38", "2015");
+        emojiMonkeyMap.put("coding_emoji_39", "拜年");
+        emojiMonkeyMap.put("coding_emoji_40", "发红包");
+        emojiMonkeyMap.put("coding_emoji_41", "放鞭炮");
+        emojiMonkeyMap.put("coding_emoji_42", "求红包");
+        emojiMonkeyMap.put("coding_emoji_43", "新年快乐");
+
         textToMonkdyMap.put("哈哈", "coding_emoji_01");
         textToMonkdyMap.put("吐", "coding_emoji_02");
         textToMonkdyMap.put("压力山大", "coding_emoji_03");
@@ -111,6 +118,12 @@ public class EmojiFragment extends Fragment {
         textToMonkdyMap.put("抓瓢虫", "coding_emoji_34");
         textToMonkdyMap.put("下班", "coding_emoji_35");
         textToMonkdyMap.put("冒泡", "coding_emoji_36");
+        textToMonkdyMap.put("2015", "coding_emoji_38");
+        textToMonkdyMap.put("拜年", "coding_emoji_39");
+        textToMonkdyMap.put("发红包", "coding_emoji_40");
+        textToMonkdyMap.put("放鞭炮", "coding_emoji_41");
+        textToMonkdyMap.put("求红包", "coding_emoji_42");
+        textToMonkdyMap.put("新年快乐", "coding_emoji_43");
     }
 
     ;

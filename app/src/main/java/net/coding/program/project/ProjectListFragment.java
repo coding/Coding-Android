@@ -98,9 +98,9 @@ public class ProjectListFragment extends RefreshBaseFragment {
         ((SwipeRefreshLayout.OnRefreshListener) getParentFragment()).onRefresh();
     }
 
-    public void setRead(String id) {
+    public void setRead(int id) {
         for (int i = 0; i < mData.size(); ++i) {
-            if (mData.get(i).id.equals(id)) {
+            if (mData.get(i).getId() == id) {
                 mData.get(i).un_read_activities_count = 0;
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
                 break;
@@ -108,15 +108,14 @@ public class ProjectListFragment extends RefreshBaseFragment {
         }
     }
 
-    final String HOST_VISTIT = Global.HOST + "/api/project/%s/update_visit";
+    final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_VISTIT)) {
             if (respanse.getInt("code") == 0) {
-                String id = (String) data;
+                int id = (int) data;
                 ((UpdateData) getParentFragment()).updateRead(id);
-
                 UnreadNotify.update(getActivity());
             }
         }
@@ -125,8 +124,8 @@ public class ProjectListFragment extends RefreshBaseFragment {
     @ItemClick
     public void listView(ProjectObject item) {
         if (item.un_read_activities_count > 0) {
-            String s = String.format(HOST_VISTIT, item.id);
-            getNetwork(s, HOST_VISTIT, 0, item.id);
+            String s = String.format(HOST_VISTIT, item.getId());
+            getNetwork(s, HOST_VISTIT, 0, item.getId());
         }
 
         Intent intent = new Intent(getActivity(), ProjectActivity_.class);
@@ -203,6 +202,6 @@ public class ProjectListFragment extends RefreshBaseFragment {
     }
 
     public interface UpdateData {
-        void updateRead(String id);
+        void updateRead(int id);
     }
 }
