@@ -46,6 +46,16 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
     protected void showProgressBar(boolean show) {
         showProgressBar(show, "");
     }
+
+    protected void setProgressBarProgress(int progress) {
+        if (mProgressDialog == null) {
+            return;
+        }
+
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setProgress(progress);
+    }
+
     protected void showProgressBar(boolean show, String message) {
         if (mProgressDialog == null) {
             return;

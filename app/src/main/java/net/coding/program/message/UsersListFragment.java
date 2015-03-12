@@ -61,7 +61,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     final String HOST_MARK_COMMENT = Global.HOST + "/api/notification/mark-read?all=1&type=1&type=2";
     final String HOST_MARK_SYSTEM = Global.HOST + "/api/notification/mark-read?all=1&type=4";
 
-    final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
+    public static final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
 
     BadgeView badgeAt;
     BadgeView badgeComment;

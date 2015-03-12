@@ -94,6 +94,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mEnterLayout = new EnterEmojiLayout(this, mOnClickSendText);
+
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
         final int divide = 3;
@@ -117,7 +119,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             showDialogLoading();
         }
 
-        mEnterLayout = new EnterEmojiLayout(this, mOnClickSendText);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
         url = String.format(Global.HOST + "/api/message/conversations/%s?pageSize=10", mUserObject.global_key);
@@ -333,6 +334,10 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
+
+                    // 标记信息已读
+                    String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
+                    postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
                 }
 
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");

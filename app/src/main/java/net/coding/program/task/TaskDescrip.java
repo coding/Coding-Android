@@ -5,6 +5,5 @@ package net.coding.program.task;
  */
 public interface TaskDescrip {
     void closeAndSave(String s);
-
     String createLocateHtml(String s);
 }

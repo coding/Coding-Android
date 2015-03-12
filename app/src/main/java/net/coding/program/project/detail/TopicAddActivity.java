@@ -182,4 +182,8 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
         showProgressBar(true, getSendingTip());
     }
 
+    @Override
+    public int getProjectId() {
+        return projectObject.getId();
+    }
 }

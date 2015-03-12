@@ -654,6 +654,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                                 .intent(TaskAddActivity.this)
                                 .descriptionData(descriptionDataNew)
                                 .taskId(mSingleTask.getId())
+                                .projectId(mSingleTask.project.getId())
                                 .startForResult(RESULT_REQUEST_DESCRIPTION);
                     }
                 });

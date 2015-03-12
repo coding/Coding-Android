@@ -624,201 +624,201 @@ ADDED from AndroidManifest.xml:328:9
 	android:name
 		ADDED from AndroidManifest.xml:329:13
 activity#net.coding.program.user.UserMaopaoActivity
-ADDED from AndroidManifest.xml:336:9
+ADDED from AndroidManifest.xml:335:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:340:13
-	android:label
 		ADDED from AndroidManifest.xml:339:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:338:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:337:13
+	android:name
+		ADDED from AndroidManifest.xml:336:13
 activity#net.coding.program.third.PickerImagesActivity
-ADDED from AndroidManifest.xml:341:9
+ADDED from AndroidManifest.xml:340:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:345:13
-	android:label
 		ADDED from AndroidManifest.xml:344:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:343:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:342:13
+	android:name
+		ADDED from AndroidManifest.xml:341:13
 activity#net.coding.program.project.detail.UserDynamicActivity_
-ADDED from AndroidManifest.xml:346:9
+ADDED from AndroidManifest.xml:345:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:350:13
-	android:label
 		ADDED from AndroidManifest.xml:349:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:348:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:347:13
+	android:name
+		ADDED from AndroidManifest.xml:346:13
 activity#net.coding.program.common.photopick.PhotoPickDetailActivity
-ADDED from AndroidManifest.xml:351:9
+ADDED from AndroidManifest.xml:350:9
 	android:label
-		ADDED from AndroidManifest.xml:353:13
-	android:name
 		ADDED from AndroidManifest.xml:352:13
+	android:name
+		ADDED from AndroidManifest.xml:351:13
 activity#net.coding.program.project.detail.GitTreeActivity_
-ADDED from AndroidManifest.xml:354:9
+ADDED from AndroidManifest.xml:353:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:358:13
-	android:label
 		ADDED from AndroidManifest.xml:357:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:356:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:355:13
+	android:name
+		ADDED from AndroidManifest.xml:354:13
 activity#net.coding.program.project.detail.GitViewActivity_
-ADDED from AndroidManifest.xml:359:9
+ADDED from AndroidManifest.xml:358:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:363:13
-	android:label
 		ADDED from AndroidManifest.xml:362:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:361:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:360:13
+	android:name
+		ADDED from AndroidManifest.xml:359:13
 activity#net.coding.program.setting.NotifySetting_
-ADDED from AndroidManifest.xml:364:9
+ADDED from AndroidManifest.xml:363:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:368:13
-	android:label
 		ADDED from AndroidManifest.xml:367:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:366:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:365:13
+	android:name
+		ADDED from AndroidManifest.xml:364:13
 activity#net.coding.program.project.detail.MembersSelectActivity_
-ADDED from AndroidManifest.xml:369:9
+ADDED from AndroidManifest.xml:368:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:373:13
-	android:label
 		ADDED from AndroidManifest.xml:372:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:371:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:370:13
+	android:name
+		ADDED from AndroidManifest.xml:369:13
 activity#net.coding.program.project.detail.AttachmentsDetailBaseActivity_
-ADDED from AndroidManifest.xml:374:9
+ADDED from AndroidManifest.xml:373:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:378:13
-	android:label
 		ADDED from AndroidManifest.xml:377:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:376:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:375:13
+	android:name
+		ADDED from AndroidManifest.xml:374:13
 activity#net.coding.program.task.TaskDescriptionActivity_
-ADDED from AndroidManifest.xml:379:9
+ADDED from AndroidManifest.xml:378:9
 	android:windowSoftInputMode
-		ADDED from AndroidManifest.xml:384:13
-	android:screenOrientation
 		ADDED from AndroidManifest.xml:383:13
-	android:label
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:382:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:381:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:380:13
+	android:name
+		ADDED from AndroidManifest.xml:379:13
 activity#net.coding.program.setting.AccountSetting_
-ADDED from AndroidManifest.xml:385:9
+ADDED from AndroidManifest.xml:384:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:389:13
-	android:label
 		ADDED from AndroidManifest.xml:388:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:387:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:386:13
+	android:name
+		ADDED from AndroidManifest.xml:385:13
 activity#net.coding.program.WebActivity_
-ADDED from AndroidManifest.xml:390:9
+ADDED from AndroidManifest.xml:389:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:394:13
-	android:label
 		ADDED from AndroidManifest.xml:393:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:392:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:391:13
+	android:name
+		ADDED from AndroidManifest.xml:390:13
 activity#net.coding.program.project.SearchProjectActivity_
-ADDED from AndroidManifest.xml:395:9
+ADDED from AndroidManifest.xml:394:9
 	android:windowSoftInputMode
-		ADDED from AndroidManifest.xml:400:13
-	android:screenOrientation
 		ADDED from AndroidManifest.xml:399:13
-	android:label
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:398:13
-	android:icon
+	android:label
 		ADDED from AndroidManifest.xml:397:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:396:13
+	android:name
+		ADDED from AndroidManifest.xml:395:13
 service#net.coding.program.UpdateService
-ADDED from AndroidManifest.xml:402:9
+ADDED from AndroidManifest.xml:401:9
 	android:name
-		ADDED from AndroidManifest.xml:402:18
+		ADDED from AndroidManifest.xml:401:18
 activity#net.coding.program.UpdateDialogActivity
-ADDED from AndroidManifest.xml:404:9
+ADDED from AndroidManifest.xml:403:9
 	android:label
-		ADDED from AndroidManifest.xml:407:13
-	android:icon
 		ADDED from AndroidManifest.xml:406:13
-	android:theme
-		ADDED from AndroidManifest.xml:408:13
-	android:name
+	android:icon
 		ADDED from AndroidManifest.xml:405:13
-activity#net.coding.program.RegisterActivity_
-ADDED from AndroidManifest.xml:409:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:413:13
-	android:label
-		ADDED from AndroidManifest.xml:412:13
-	android:icon
-		ADDED from AndroidManifest.xml:411:13
-	android:name
-		ADDED from AndroidManifest.xml:410:13
-activity#net.coding.program.BaseAnnotationActivity_
-ADDED from AndroidManifest.xml:414:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:418:13
-	android:label
-		ADDED from AndroidManifest.xml:417:13
-	android:icon
-		ADDED from AndroidManifest.xml:416:13
-	android:name
-		ADDED from AndroidManifest.xml:415:13
-activity#net.coding.program.common.TermsActivity
-ADDED from AndroidManifest.xml:419:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:423:13
-	android:label
-		ADDED from AndroidManifest.xml:422:13
-	android:icon
-		ADDED from AndroidManifest.xml:421:13
-	android:name
-		ADDED from AndroidManifest.xml:420:13
-activity#net.coding.program.setting.UpdateTipActivity
-ADDED from AndroidManifest.xml:424:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:428:13
-	android:label
-		ADDED from AndroidManifest.xml:427:13
-	android:icon
-		ADDED from AndroidManifest.xml:426:13
 	android:theme
-		ADDED from AndroidManifest.xml:429:13
+		ADDED from AndroidManifest.xml:407:13
 	android:name
-		ADDED from AndroidManifest.xml:425:13
-activity#net.coding.program.FileUrlActivity_
-ADDED from AndroidManifest.xml:431:9
+		ADDED from AndroidManifest.xml:404:13
+activity#net.coding.program.RegisterActivity_
+ADDED from AndroidManifest.xml:408:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:434:13
+		ADDED from AndroidManifest.xml:412:13
 	android:label
-		ADDED from AndroidManifest.xml:435:13
+		ADDED from AndroidManifest.xml:411:13
 	android:icon
-		ADDED from AndroidManifest.xml:433:13
+		ADDED from AndroidManifest.xml:410:13
 	android:name
+		ADDED from AndroidManifest.xml:409:13
+activity#net.coding.program.BaseAnnotationActivity_
+ADDED from AndroidManifest.xml:413:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:417:13
+	android:label
+		ADDED from AndroidManifest.xml:416:13
+	android:icon
+		ADDED from AndroidManifest.xml:415:13
+	android:name
+		ADDED from AndroidManifest.xml:414:13
+activity#net.coding.program.common.TermsActivity
+ADDED from AndroidManifest.xml:418:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:422:13
+	android:label
+		ADDED from AndroidManifest.xml:421:13
+	android:icon
+		ADDED from AndroidManifest.xml:420:13
+	android:name
+		ADDED from AndroidManifest.xml:419:13
+activity#net.coding.program.setting.UpdateTipActivity
+ADDED from AndroidManifest.xml:423:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:427:13
+	android:label
+		ADDED from AndroidManifest.xml:426:13
+	android:icon
+		ADDED from AndroidManifest.xml:425:13
+	android:theme
+		ADDED from AndroidManifest.xml:428:13
+	android:name
+		ADDED from AndroidManifest.xml:424:13
+activity#net.coding.program.FileUrlActivity_
+ADDED from AndroidManifest.xml:430:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:433:13
+	android:label
+		ADDED from AndroidManifest.xml:434:13
+	android:icon
 		ADDED from AndroidManifest.xml:432:13
+	android:name
+		ADDED from AndroidManifest.xml:431:13
 activity#android.support.v7.widget.TestActivity
 ADDED from com.android.support:recyclerview-v7:21.0.0:18:9
 	android:label

@@ -91,6 +91,19 @@
                 android:paddingRight="10dp"
                 android:text="链接" />
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:id="@+id/mdPhoto"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="图片" />
+
             <TextView
                 android:id="@+id/mdList"
                 android:layout_width="wrap_content"

@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity
     @Extra
     String mPushUrl;
 
-    HashSet<String> mPushOpened = new HashSet();
+//    HashSet<String> mPushOpened = new HashSet();
 
     @StringArrayRes
     String drawer_title[];
@@ -68,6 +68,20 @@ public class MainActivity extends BaseActivity
 
     boolean mFirstEnter = true;
     private View actionbarCustom;
+
+    static private boolean mJumpNewIntent = false;
+
+    // 防止在onNewIntent中重复打开
+    public static void setJumpNewIntent() {
+        mJumpNewIntent = true;
+    }
+
+    public static boolean getJumpNewIntent() {
+        boolean old = mJumpNewIntent;
+        mJumpNewIntent = false;
+        return old;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +103,7 @@ public class MainActivity extends BaseActivity
 
         if (savedInstanceState != null) {
             mSelectPos = savedInstanceState.getInt("pos", 0);
-            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
+//            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
             mTitle = savedInstanceState.getString("mTitle");
         }
     }
@@ -97,10 +111,16 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
 
-        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
-            mPushOpened.add(mPushUrl);
-            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, false);
+//        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
+//            mPushOpened.add(mPushUrl);
+//        }
+
+        if (!getJumpNewIntent()) {
+            if (mPushUrl != null) {
+                URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
+            }
         }
     }
 
@@ -272,7 +292,7 @@ public class MainActivity extends BaseActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("pos", mSelectPos);
-        outState.putSerializable("mPushOpened", mPushOpened);
+//        outState.putSerializable("mPushOpened", mPushOpened);
         outState.putString("mTitle", mTitle);
     }
 

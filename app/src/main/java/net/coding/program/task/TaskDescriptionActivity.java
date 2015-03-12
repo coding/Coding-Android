@@ -39,6 +39,9 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     @Extra
     int taskId;
 
+    @Extra
+    int projectId;
+
     String HOST_DESCRIPTION = Global.HOST + "/api/task/%s/description";
 
 
@@ -200,4 +203,8 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
         finish();
     }
 
+    @Override
+    public int getProjectId() {
+        return projectId;
+    }
 }
