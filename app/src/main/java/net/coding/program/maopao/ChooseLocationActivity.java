@@ -1,11 +1,18 @@
 package net.coding.program.maopao;
 
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 
@@ -38,9 +45,12 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
     @Extra
     LocationObject selectedLocation;
 
-    private Adapter adapter;
+    private ChooseAdapter chooseAdapter;
+    private SearchAdapter searchAdapter;
     private String currentCity = null;
     private double latitude, longitude;
+
+    private boolean isLoadingLocation = false;
 
     private LocationObject emptyLocation = LocationObject.undefined();
     private LocationSearcherGroup searcher = new LocationSearcherGroup();
@@ -49,9 +59,26 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
     void afterViews() {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         mFootUpdate.init(listView, mInflater, this);
-        adapter = new Adapter();
-        listView.setAdapter(adapter);
-        reloadLocation();
+        chooseAdapter = new ChooseAdapter();
+        searchAdapter = new SearchAdapter();
+        listView.setAdapter(chooseAdapter);
+
+        reset();
+        loadMore();
+    }
+
+    @Override
+    public void loadMore() {
+        mFootUpdate.showLoading();
+        if (listView.getAdapter() == searchAdapter) {
+            searchAdapter.loadMore();
+        } else {
+            if (currentCity == null) {
+                reloadLocation();
+            } else {
+                searcher.search();
+            }
+        }
     }
 
     @Override
@@ -62,33 +89,30 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
         }
     }
 
-    @Override
-    public void loadMore() {
-        mFootUpdate.showLoading();
-        searcher.search();
-    }
 
-    private void resetList() {
+    private void reset() {
         currentCity = null;
         latitude = longitude = 0;
         searcher.configure(this, null, null);
-        adapter.list.clear();
-        adapter.list.add(emptyLocation);
+        chooseAdapter.list.clear();
+        chooseAdapter.list.add(emptyLocation);
         if (selectedLocation != null && selectedLocation.type != LocationObject.Type.Undefined) {
-            adapter.list.add(selectedLocation);
+            chooseAdapter.list.add(selectedLocation);
         } else {
             selectedLocation = emptyLocation;
         }
+        chooseAdapter.notifyDataSetChanged();
+        searchAdapter.disabled();
     }
 
-    private void addToList(List<LocationObject> locations) {
+    private void addToChooseList(List<LocationObject> locations) {
         if (locations == null) return;
         if (selectedLocation != null) {
             if (selectedLocation.type == LocationObject.Type.City) {
                 String distinceKey = selectedLocation.name;
                 if (distinceKey != null) {
                     for (LocationObject item : locations) {
-                        if (!distinceKey.equals(item.name)) adapter.list.add(item);
+                        if (!distinceKey.equals(item.name)) chooseAdapter.list.add(item);
                     }
                     return;
                 }
@@ -96,47 +120,51 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
                 String distinceKey = selectedLocation.id;
                 if (distinceKey != null) {
                     for (LocationObject item : locations) {
-                        if (!distinceKey.equals(item.id)) adapter.list.add(item);
+                        if (!distinceKey.equals(item.id)) chooseAdapter.list.add(item);
                     }
                     return;
                 }
             }
         }
-        adapter.list.addAll(locations);
+        chooseAdapter.list.addAll(locations);
     }
 
     private LocationSearcher.SearchResultListener searchResultListener = new LocationSearcher.SearchResultListener() {
         @Override
         public void onSearchResult(List<LocationObject> locations) {
             if (ChooseLocationActivity.this.isFinishing()) return;
-            addToList(locations);
-            adapter.notifyDataSetChanged();
+            addToChooseList(locations);
+            chooseAdapter.notifyDataSetChanged();
             if (searcher.isComplete()) {
                 mFootUpdate.dismiss();
             } else {
-                mFootUpdate.showFail();
+                mFootUpdate.showLoading();
             }
         }
     };
 
     private void reloadLocation() {
-        resetList();
-        adapter.notifyDataSetChanged();
+        if (isLoadingLocation) return;
+        isLoadingLocation = true;
         LocationProvider.getInstance(this).requestLocation(new LocationProvider.LocationResultListener() {
             @Override
             public void onLocationResult(boolean success, String city, double latitude, double longitude) {
+                isLoadingLocation = false;
                 if (ChooseLocationActivity.this.isFinishing()) return;
                 if (success) {
                     currentCity = city;
                     if (!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))) {
-                        adapter.list.add(1, LocationObject.city(currentCity));
-                        adapter.notifyDataSetChanged();
+                        chooseAdapter.list.add(1, LocationObject.city(currentCity, latitude, longitude));
+                        chooseAdapter.notifyDataSetChanged();
                     }
                     ChooseLocationActivity.this.latitude = latitude;
                     ChooseLocationActivity.this.longitude = longitude;
-                    searcher.configure(ChooseLocationActivity.this, new LatLng(latitude, longitude), searchResultListener);
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    searcher.configure(ChooseLocationActivity.this, latLng, searchResultListener);
+                    searchAdapter.searcher.configure(ChooseLocationActivity.this, latLng, searchAdapter);
                     loadMore();
                 } else {
+                    currentCity = null;
                     mFootUpdate.showFail();
                 }
             }
@@ -151,12 +179,12 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
         finish();
     }
 
-    @OptionsItem
-    void action_search() {
-        Toast.makeText(this, "搜索位置", Toast.LENGTH_SHORT).show();
+    @OptionsItem(android.R.id.home)
+    void close() {
+        onBackPressed();
     }
 
-    private class Adapter extends BaseAdapter {
+    private abstract class LocationAdapter extends BaseAdapter {
         ArrayList<LocationObject> list = new ArrayList<LocationObject>();
 
         @Override
@@ -181,11 +209,167 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
             }
             LocationItem locationItem = LocationItem.from(convertView);
             LocationObject data = getItem(position);
-            locationItem.bind(position, data, selectedLocation == data);
+            bindItem(locationItem, position, data);
+            return convertView;
+        }
+
+        protected abstract void bindItem(LocationItem locationItem, int position, LocationObject data);
+    }
+
+    private class ChooseAdapter extends LocationAdapter {
+        @Override
+        public void bindItem(LocationItem locationItem, int position, LocationObject data) {
+            locationItem.bind(data, selectedLocation == data);
             if (position == list.size() - 1) {
                 loadMore();
             }
-            return convertView;
         }
+    }
+
+    private class SearchAdapter extends LocationAdapter implements LocationSearcher.SearchResultListener {
+        private LocationSearcher searcher;
+        static final int STATE_DISABLED = 0;
+        static final int STATE_SEARCH = 1;
+        static final int STATE_COMPLETE = 2;
+        private int state = STATE_DISABLED;
+        private View footView;
+        private TextView customTextView;
+
+        SearchAdapter() {
+            searcher = new LocationSearcher();
+            searcher.configure(ChooseLocationActivity.this, new LatLng(latitude, longitude), this);
+            footView = getLayoutInflater().inflate(R.layout.location_list_custom, listView, false);
+            customTextView = (TextView) footView.findViewById(R.id.secondary);
+        }
+
+        void disabled() {
+            state = STATE_DISABLED;
+            list.clear();
+            mFootUpdate.dismiss();
+        }
+
+        void reload(String keyword) {
+            state = STATE_SEARCH;
+            list.clear();
+            notifyDataSetChanged();
+            mFootUpdate.dismiss();
+            searcher.keyword(keyword);
+            if(TextUtils.isEmpty(searcher.keyword())){
+                mFootUpdate.dismiss();
+            } else {
+                mFootUpdate.showLoading();
+                searcher.search();
+            }
+        }
+
+        void loadMore() {
+            if (state == STATE_SEARCH && !TextUtils.isEmpty(searcher.keyword())) {
+                mFootUpdate.showLoading();
+                searcher.search();
+            }
+        }
+
+        private void complete() {
+            if (state == STATE_SEARCH) {
+                state = STATE_COMPLETE;
+                mFootUpdate.dismiss();
+                if (!TextUtils.isEmpty(searcher.keyword())) {
+                    list.add(LocationObject.newCustom(searcher.keyword(), latitude, longitude));
+                    customTextView.setText("创建新的位置: " + searcher.keyword());
+                }
+            }
+        }
+
+        @Override
+        public void bindItem(LocationItem locationItem, int position, LocationObject data) {
+            locationItem.bind(data, false);
+            if (position == list.size() - 1) {
+                loadMore();
+            }
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (state == STATE_COMPLETE) {
+                if (position == list.size() - 1 && !TextUtils.isEmpty(searcher.keyword())) {
+                    return footView;
+                }
+            }
+            if (footView == convertView) {
+                return super.getView(position, null, parent);
+            }
+            return super.getView(position, convertView, parent);
+        }
+
+        @Override
+        public void onSearchResult(List<LocationObject> locations) {
+            if (locations == null) {
+                complete();
+            } else {
+                list.addAll(locations);
+            }
+            searchAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem action_search = menu.findItem(R.id.action_search);
+        final View searchActionView = action_search.getActionView();
+        final EditText searchText = (EditText) searchActionView.findViewById(R.id.search_text);
+        final View actionDelete = searchActionView.findViewById(R.id.action_delete);
+
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                actionDelete.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                searchAdapter.reload(searchText.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+                searchAdapter.reload(searchText.getText().toString());
+                return false;
+            }
+        });
+
+        action_search.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                if (listView != null && searchAdapter != null) {
+                    listView.setAdapter(searchAdapter);
+                    searchAdapter.reload("");
+                    searchText.requestFocus();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (listView != null && chooseAdapter != null) {
+                    listView.setAdapter(chooseAdapter);
+                }
+                return true;
+            }
+        });
+
+        actionDelete.setVisibility(View.GONE);
+        actionDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText.setText("");
+                searchAdapter.reload("");
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }

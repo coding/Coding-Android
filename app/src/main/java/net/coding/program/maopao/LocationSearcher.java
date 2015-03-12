@@ -17,6 +17,7 @@ import net.coding.program.model.LocationObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Neutra on 2015/3/12.
@@ -25,11 +26,13 @@ public class LocationSearcher {
     // todo: 因不确定能否多次调用，故下面一行代码放在了LocationProvider里保证只初始化一次
     private static boolean sdkInitialized = false;
     private boolean complete = false;
-    private String keyword;
     private LatLng latLng;
     private int page;
     private PoiSearch poiSearch;
     private boolean isSearching = false;
+    private int version;
+    private int searchingVersion;
+    public String keyword = "";
 
     public void destory() {
         if (poiSearch != null) poiSearch.destroy();
@@ -37,16 +40,20 @@ public class LocationSearcher {
 
     public LocationSearcher keyword(String keyword) {
         this.keyword = keyword;
+        ++version;
+        page = 0;
         return this;
+    }
+    public String keyword() {
+        return keyword;
     }
 
     public void configure(Context context, LatLng latLng, final SearchResultListener listener) {
         isSearching = false;
         complete = false;
-        page = 0;
         this.latLng = latLng;
 
-        if(!sdkInitialized){
+        if (!sdkInitialized) {
             SDKInitializer.initialize(context.getApplicationContext());
             sdkInitialized = true;
         }
@@ -57,7 +64,10 @@ public class LocationSearcher {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
                 isSearching = false;
-                if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+                if(searchingVersion != version) {
+                    listener.onSearchResult(new ArrayList<LocationObject>());
+                } else if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
+                    ++page;
                     List<LocationObject> list = convert(poiResult.getAllPoi());
                     complete = poiResult.getCurrentPageNum() >= poiResult.getTotalPageNum();
                     listener.onSearchResult(list);
@@ -77,6 +87,7 @@ public class LocationSearcher {
     public void search() {
         if (isSearching) return;
         isSearching = true;
+        searchingVersion = version;
         poiSearch.searchNearby(new PoiNearbySearchOption().keyword(keyword).location(latLng)
                 .pageNum(page).pageCapacity(10)
                 .radius(1000).sortType(PoiSortType.distance_from_near_to_far));
