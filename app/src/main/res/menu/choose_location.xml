@@ -6,6 +6,7 @@
         android:title="搜索"
         android:icon="@drawable/ic_menu_search"
         android:orderInCategory="100"
-        android:showAsAction="always" />
+        android:showAsAction="always|collapseActionView"
+        android:actionLayout="@layout/menu_search_location"/>
 
 </menu>

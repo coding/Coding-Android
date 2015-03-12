@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by Neutra on 2015/3/11.
  */
 public class LocationObject implements Serializable {
-    public static enum Type {Undefined, City, Normal}
+    public static enum Type {Undefined, City, Normal, Custom, newCustom}
 
     public final Type type;
     public final String id, name, address;
@@ -37,7 +37,17 @@ public class LocationObject implements Serializable {
         return new LocationObject(Type.Undefined, null, "", null);
     }
 
-    public static LocationObject city(String city) {
-        return new LocationObject(Type.City, null, city, null);
+    public static LocationObject city(String city, double latitude, double longitude) {
+        LocationObject locationObject = new LocationObject(Type.City, null, city, null);
+        locationObject.latitude = latitude;
+        locationObject.longitude = longitude;
+        return locationObject;
+    }
+
+    public static LocationObject newCustom(String name, double latitude, double longitude){
+        LocationObject locationObject = new LocationObject(Type.newCustom, null, name, null);
+        locationObject.latitude = latitude;
+        locationObject.longitude = longitude;
+        return locationObject;
     }
 }
