@@ -79,7 +79,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-
         setHasOptionsMenu(true);
     }
 
@@ -119,13 +118,9 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
         if (mShowAdd && !mProjectObject.isEmpty()) {
             inflater.inflate(R.menu.project_task, menu);
         }
-
         inflater.inflate(R.menu.common_more, menu);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

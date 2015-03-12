@@ -105,13 +105,15 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
-        BitmapDrawable bitmapDrawable;
-        if (background == null) {
-            bitmapDrawable = createBlur();
-        } else {
-            bitmapDrawable = createBlur(background);
-        }
-        backgroundImage.setImageDrawable(bitmapDrawable);
+        try { // TODO 图片载入可能失败（小米2s 4.1)，没有测试机器，原因不明，只好先这么处理
+            BitmapDrawable bitmapDrawable;
+            if (background == null) {
+                bitmapDrawable = createBlur();
+            } else {
+                bitmapDrawable = createBlur(background);
+            }
+            backgroundImage.setImageDrawable(bitmapDrawable);
+        } catch (Exception e) {}
 
         needCaptcha();
 

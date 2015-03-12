@@ -74,4 +74,3 @@ apt {
         resourcePackageName 'net.coding.program'
     }
 }
-
