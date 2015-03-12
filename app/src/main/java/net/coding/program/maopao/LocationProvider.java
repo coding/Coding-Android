@@ -9,20 +9,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
-import com.baidu.mapapi.search.poi.PoiDetailResult;
-import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
-import com.baidu.mapapi.search.poi.PoiResult;
-import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.mapapi.search.poi.PoiSortType;
-
-import net.coding.program.model.LocationObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Neutra on 2015/3/11.
@@ -32,7 +18,6 @@ public class LocationProvider {
     private LocationClient locationClient;
 
     private LocationProvider(Context context) {
-        SDKInitializer.initialize(context.getApplicationContext());
         locationClient = new LocationClient(context.getApplicationContext());
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置定位模式
@@ -68,7 +53,7 @@ public class LocationProvider {
                     city = null;
                     success = false;
                     if (retry < 3) {
-                        Log.e("AAA", "request location failure retry " + retry + " times");
+                        Log.e("LocationProvider", "request location failure retry " + retry + " times");
                         requestLocation(listener, retry + 1);
                         return;
                     }
@@ -92,60 +77,5 @@ public class LocationProvider {
 
     public static interface LocationResultListener {
         void onLocationResult(boolean success, String city, double latitude, double longitude);
-    }
-
-    public void requestNearbyLocations(String keyword, double latitude, double longitude,
-                                       int page, final NearbyLocationsResultListener listener) {
-        final PoiSearch search = PoiSearch.newInstance();
-        final LatLng location = new LatLng(latitude, longitude);
-        search.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
-            @Override
-            public void onGetPoiResult(PoiResult poiResult) {
-                if (poiResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                    listener.onNearbyLocationsResult(false, new ArrayList<LocationObject>(0), -1);
-                } else {
-                    List<LocationObject> list = convert(poiResult.getAllPoi());
-                    int nextPage = poiResult.getCurrentPageNum() < poiResult.getTotalPageNum()
-                            ? poiResult.getCurrentPageNum() : -1;
-                    listener.onNearbyLocationsResult(true, list, nextPage);
-                }
-                search.destroy();
-            }
-
-            @Override
-            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-            }
-        });
-        search.searchNearby(new PoiNearbySearchOption().keyword(keyword).location(location)
-                .pageCapacity(20).pageNum(page).radius(50000).sortType(PoiSortType.distance_from_near_to_far));
-    }
-
-    private static List<LocationObject> convert(List<PoiInfo> src) {
-        List<LocationObject> dest;
-        if (src == null || src.size() == 0) {
-            dest = new ArrayList<LocationObject>(0);
-        } else {
-            dest = new ArrayList<LocationObject>(src.size());
-            for (PoiInfo item : src) {
-                LocationObject converted = convert(item);
-                if (converted != null) {
-                    dest.add(converted);
-                }
-            }
-        }
-        return dest;
-    }
-
-    private static LocationObject convert(PoiInfo src) {
-        LocationObject locationObject = new LocationObject(src.uid, src.name, src.address);
-        if (src.location != null) {
-            locationObject.latitude = src.location.latitude;
-            locationObject.longitude = src.location.longitude;
-        }
-        return locationObject;
-    }
-
-    public static interface NearbyLocationsResultListener {
-        void onNearbyLocationsResult(boolean success, List<LocationObject> locations, int nextPage);
     }
 }
