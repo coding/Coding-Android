@@ -81,16 +81,38 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
         }
     }
 
+    private void addToList(List<LocationObject> locations) {
+        if (locations == null) return;
+        if (selectedLocation != null) {
+            if (selectedLocation.type == LocationObject.Type.City) {
+                String distinceKey = selectedLocation.name;
+                if (distinceKey != null) {
+                    for (LocationObject item : locations) {
+                        if (!distinceKey.equals(item.name)) adapter.list.add(item);
+                    }
+                    return;
+                }
+            } else if (selectedLocation.type == LocationObject.Type.Normal) {
+                String distinceKey = selectedLocation.id;
+                if (distinceKey != null) {
+                    for (LocationObject item : locations) {
+                        if (!distinceKey.equals(item.id)) adapter.list.add(item);
+                    }
+                    return;
+                }
+            }
+        }
+        adapter.list.addAll(locations);
+    }
+
     private LocationSearcher.SearchResultListener searchResultListener = new LocationSearcher.SearchResultListener() {
         @Override
         public void onSearchResult(List<LocationObject> locations) {
-            if (locations != null) {
-                // todo: distinct
-                adapter.list.addAll(locations);
-                adapter.notifyDataSetChanged();
-                if (searcher.isComplete()) {
-                    mFootUpdate.dismiss();
-                }
+            if (ChooseLocationActivity.this.isFinishing()) return;
+            addToList(locations);
+            adapter.notifyDataSetChanged();
+            if (searcher.isComplete()) {
+                mFootUpdate.dismiss();
             } else {
                 mFootUpdate.showFail();
             }
