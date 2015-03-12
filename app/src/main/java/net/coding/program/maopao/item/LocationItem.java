@@ -30,7 +30,7 @@ public class LocationItem {
         return locationItem;
     }
 
-    public void bind(int position, LocationObject data, boolean checked) {
+    public void bind(LocationObject data, boolean checked) {
         primary.setText(data.name);
         secondary.setText(data.address);
         if (TextUtils.isEmpty(data.address)) {
