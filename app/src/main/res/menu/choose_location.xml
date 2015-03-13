@@ -1,4 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.maopao.ChooseLocationActivity">
     <item
@@ -6,7 +7,7 @@
         android:title="搜索"
         android:icon="@drawable/ic_menu_search"
         android:orderInCategory="100"
-        android:showAsAction="always|collapseActionView"
-        android:actionLayout="@layout/menu_search_location"/>
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
 
 </menu>
