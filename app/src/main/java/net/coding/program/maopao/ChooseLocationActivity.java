@@ -1,6 +1,8 @@
 package net.coding.program.maopao;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,15 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.BaseFragmentActivity;
+import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.StartActivity;
 import net.coding.program.maopao.item.LocationItem;
 import net.coding.program.model.LocationObject;
 
@@ -39,7 +41,7 @@ import java.util.List;
  */
 @EActivity(R.layout.activity_choose_location)
 @OptionsMenu(R.menu.choose_location)
-public class ChooseLocationActivity extends BaseFragmentActivity implements FootUpdate.LoadMore, StartActivity {
+public class ChooseLocationActivity extends BaseActivity implements FootUpdate.LoadMore {
     @ViewById
     ListView listView;
     @Extra
@@ -57,7 +59,7 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
 
     @AfterViews
     void afterViews() {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mFootUpdate.init(listView, mInflater, this);
         chooseAdapter = new ChooseAdapter();
         searchAdapter = new SearchAdapter();
@@ -254,7 +256,7 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
             notifyDataSetChanged();
             mFootUpdate.dismiss();
             searcher.keyword(keyword);
-            if(TextUtils.isEmpty(searcher.keyword())){
+            if (TextUtils.isEmpty(searcher.keyword())) {
                 mFootUpdate.dismiss();
             } else {
                 mFootUpdate.showLoading();
@@ -312,43 +314,77 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
         }
     }
 
+    private  SearchView searchView;
+
+    private void initActionView(MenuItem searchItem) {
+        if(searchView != null) return;
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        try { // 更改搜索按钮的icon
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView v = (ImageView) searchView.findViewById(searchImgId);
+            v.setImageResource(R.drawable.ic_menu_search);
+        } catch (Exception e) {
+        }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchAdapter.reload(s);
+                return true;
+            }
+        });
+
+//        if (searchText != null) return;
+//        searchText = (EditText) actionView.findViewById(R.id.search_text);
+//        final View actionDelete = actionView.findViewById(R.id.action_delete);
+//
+//        searchText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                actionDelete.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+//                searchAdapter.reload(searchText.getText().toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
+//        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+//                searchAdapter.reload(searchText.getText().toString());
+//                return false;
+//            }
+//        });
+//        actionDelete.setVisibility(View.GONE);
+//        actionDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchText.setText("");
+//                searchAdapter.reload("");
+//            }
+//        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem action_search = menu.findItem(R.id.action_search);
-        final View searchActionView = action_search.getActionView();
-        final EditText searchText = (EditText) searchActionView.findViewById(R.id.search_text);
-        final View actionDelete = searchActionView.findViewById(R.id.action_delete);
-
-        searchText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                actionDelete.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
-                searchAdapter.reload(searchText.getText().toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-                searchAdapter.reload(searchText.getText().toString());
-                return false;
-            }
-        });
-
-        action_search.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 if (listView != null && searchAdapter != null) {
                     listView.setAdapter(searchAdapter);
                     searchAdapter.reload("");
-                    searchText.requestFocus();
+                    initActionView(item);
+                    searchView.requestFocus();
                 }
                 return true;
             }
@@ -359,15 +395,6 @@ public class ChooseLocationActivity extends BaseFragmentActivity implements Foot
                     listView.setAdapter(chooseAdapter);
                 }
                 return true;
-            }
-        });
-
-        actionDelete.setVisibility(View.GONE);
-        actionDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchText.setText("");
-                searchAdapter.reload("");
             }
         });
         return super.onCreateOptionsMenu(menu);
