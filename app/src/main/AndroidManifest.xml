@@ -300,9 +300,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".maopao.ChooseLocationActivity_"
+            android:name=".maopao.LocationSearchActivity_"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/title_activity_choose_location"
+            android:label="@string/title_activity_location_search"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".maopao.LocationEditActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_location_edit"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".maopao.LocationDetailActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_location_detail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".maopao.LocationMapActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_location_map"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity

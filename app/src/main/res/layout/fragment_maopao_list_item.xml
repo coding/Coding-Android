@@ -156,12 +156,10 @@
                     android:minHeight="30dp"
                     android:gravity="center_vertical"
                     android:layout_weight="1">
-                    <TextView
-                        android:id="@+id/locationTnfo"
+                    <net.coding.program.maopao.MaopaoLocationView
+                        android:id="@+id/location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_location_active"
-                        android:drawablePadding="4dp"
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:text="北京"
@@ -175,7 +173,7 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:gravity="center_vertical"
-                        android:text="来自 iPhone 6 Plus"
+                        android:text="来自 iPhone 6"
                         android:textColor="@color/font_gray" />
                 </LinearLayout>
 

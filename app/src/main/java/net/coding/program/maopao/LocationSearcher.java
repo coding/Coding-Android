@@ -23,8 +23,6 @@ import java.util.Objects;
  * Created by Neutra on 2015/3/12.
  */
 public class LocationSearcher {
-    // todo: 因不确定能否多次调用，故下面一行代码放在了LocationProvider里保证只初始化一次
-    private static boolean sdkInitialized = false;
     private boolean complete = false;
     private LatLng latLng;
     private int page;
@@ -52,11 +50,6 @@ public class LocationSearcher {
         isSearching = false;
         complete = false;
         this.latLng = latLng;
-
-        if (!sdkInitialized) {
-            SDKInitializer.initialize(context.getApplicationContext());
-            sdkInitialized = true;
-        }
 
         destory();
         poiSearch = PoiSearch.newInstance();

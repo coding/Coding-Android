@@ -23,8 +23,8 @@ public class LocationItem {
             return (LocationItem) tag;
         }
         LocationItem locationItem = new LocationItem();
-        locationItem.primary = (TextView)view.findViewById(R.id.primary);
-        locationItem.secondary = (TextView)view.findViewById(R.id.secondary);
+        locationItem.primary = (TextView) view.findViewById(R.id.primary);
+        locationItem.secondary = (TextView) view.findViewById(R.id.secondary);
         locationItem.checkbox = view.findViewById(R.id.checkbox);
         view.setTag(locationItem);
         return locationItem;
@@ -33,9 +33,7 @@ public class LocationItem {
     public void bind(LocationObject data, boolean checked) {
         primary.setText(data.name);
         secondary.setText(data.address);
-        if (TextUtils.isEmpty(data.address)) {
-            secondary.setVisibility(View.GONE);
-        }
+        secondary.setVisibility(TextUtils.isEmpty(data.address) ? View.GONE : View.VISIBLE);
         checkbox.setVisibility(checked ? View.VISIBLE : View.INVISIBLE);
     }
 }

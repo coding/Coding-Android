@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="net.coding.program.maopao.ChooseLocationActivity">
+    tools:context="net.coding.program.maopao.LocationSearchActivity">
     <item
         android:id="@+id/action_search"
         android:title="搜索"
