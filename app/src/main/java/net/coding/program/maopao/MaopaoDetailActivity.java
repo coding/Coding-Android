@@ -263,6 +263,8 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         likeUsersArea.likeUsersLayout.setTag(MaopaoListFragment.TAG_MAOPAO, mMaopaoObject);
         likeUsersArea.displayLikeUser();
 
+        MaopaoLocationView location = (MaopaoLocationView) mListHead.findViewById(R.id.location);
+        location.bind(mMaopaoObject);
 
         TextView photoType = (TextView) mListHead.findViewById(R.id.photoType);
         String device = mMaopaoObject.device;

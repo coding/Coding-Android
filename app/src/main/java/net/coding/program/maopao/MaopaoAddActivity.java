@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,6 +41,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
@@ -317,7 +320,11 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         params.put("content", content);
         params.put("device", Build.MODEL);
-        params.put("location", locationText.getText());
+        if(!TextUtils.isEmpty( locationText.getText())) {
+            params.put("location", locationText.getText());
+            LocationCoord locationCoord = LocationCoord.from(currentLocation);
+           if(locationCoord != null) params.put("coord",locationCoord.toString());
+        }
         postNetwork(sendUrl, params, sendUrl);
     }
 
@@ -544,11 +551,11 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     @Click(R.id.locationText)
     void chooseLocation(){
-        ChooseLocationActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
+        LocationSearchActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
     }
 
     @OnActivityResult(RESULT_REQUEST_LOCATION)
-    void on_AA(int result,@OnActivityResult.Extra LocationObject location){
+    void on_RESULT_REQUEST_LOCATION(int result, @OnActivityResult.Extra LocationObject location){
         if(result == RESULT_OK){
             currentLocation = location;
             locationText.setText(currentLocation.name);

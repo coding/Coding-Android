@@ -8,16 +8,14 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 
 /**
  * Created by Neutra on 2015/3/11.
  */
 public class LocationProvider {
-
     private LocationClient locationClient;
 
-    private LocationProvider(Context context) {
+    public LocationProvider(Context context) {
         locationClient = new LocationClient(context.getApplicationContext());
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置定位模式
@@ -27,14 +25,6 @@ public class LocationProvider {
         option.setLocationNotify(false);
         option.setNeedDeviceDirect(false);//返回的定位结果不需要包含手机机头的方向
         locationClient.setLocOption(option);
-    }
-
-    private static LocationProvider instance;
-
-    public static LocationProvider getInstance(Context context) {
-        if (instance != null) return instance;
-        instance = new LocationProvider(context);
-        return instance;
     }
 
     public void requestLocation(final LocationResultListener listener) {
@@ -62,7 +52,12 @@ public class LocationProvider {
                     city = city.replaceFirst("市$", "");
                 }
                 locationClient.stop();
-                listener.onLocationResult(success, city, bdLocation.getLatitude(), bdLocation.getLongitude());
+                String area = bdLocation.getDistrict();
+                if (area == null) area = "";
+                area = bdLocation.getCity() == null ? area : bdLocation.getCity() + area;
+                String address = bdLocation.getAddrStr();
+                if (address == null) address = "";
+                listener.onLocationResult(success, city, area, address, bdLocation.getLatitude(), bdLocation.getLongitude());
             }
         });
         // 0：正常发起了定位。
@@ -76,6 +71,8 @@ public class LocationProvider {
     }
 
     public static interface LocationResultListener {
-        void onLocationResult(boolean success, String city, double latitude, double longitude);
+        void onLocationResult(boolean success, String city, String area, String address, double latitude, double longitude);
     }
+
+
 }

@@ -50,4 +50,11 @@ public class LocationObject implements Serializable {
         locationObject.longitude = longitude;
         return locationObject;
     }
+
+    public static LocationObject custom(String name, String address, double latitude, double longitude){
+        LocationObject locationObject = new LocationObject(Type.Custom, null, name, address);
+        locationObject.latitude = latitude;
+        locationObject.longitude = longitude;
+        return locationObject;
+    }
 }

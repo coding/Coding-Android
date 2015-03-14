@@ -35,6 +35,7 @@ import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.item.CommentArea;
+import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
@@ -527,7 +528,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
                 holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);
 
-                holder.locationTnfo = (TextView) convertView.findViewById(R.id.locationTnfo);
+                holder.location = (MaopaoLocationView) convertView.findViewById(R.id.location);
                 holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
                 holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
@@ -564,13 +565,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.commentLikeArea.setVisibility(View.GONE);
             }
 
-            String location = data.location;
-            if (!location.isEmpty()) {
-                holder.locationTnfo.setText(location);
-                holder.locationTnfo.setVisibility(View.VISIBLE);
-            } else  {
-                holder.locationTnfo.setVisibility(View.GONE);
-            }
+            holder.location.bind(data);
 
             String device = data.device;
             if (!device.isEmpty()) {
@@ -750,7 +745,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         CommentArea commentArea;
 
         View likeAreaDivide;
-        TextView locationTnfo;
+        MaopaoLocationView location;
     }
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
