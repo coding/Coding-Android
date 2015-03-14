@@ -58,7 +58,6 @@ public class NetworkImpl {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                android.util.Log.e("network", " onSuccess" + statusCode);
                 try {
                     int code = response.getInt("code");
 
@@ -86,7 +85,6 @@ public class NetworkImpl {
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-                    android.util.Log.e("network", " onFailure" + statusCode);
                     callback.parseJson(NETWORK_ERROR, errorResponse, tag, dataPos, data);
                     if (isPageRequest(tag)) {
 //                        callback.setPageBottom(NetworkCallback.PageStyle.LoadingFail);
@@ -101,7 +99,6 @@ public class NetworkImpl {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 try {
-                    android.util.Log.e("network", " onFailure" + statusCode);
                     callback.parseJson(NETWORK_ERROR, new JSONObject(""), tag, dataPos, data);
                     if (isPageRequest(tag)) {
 //                        callback.setPageBottom(NetworkCallback.PageStyle.LoadingFail);
@@ -115,7 +112,6 @@ public class NetworkImpl {
 
             @Override
             public void onFinish() {
-                android.util.Log.e("network", " onFinish");
             }
         };
 
