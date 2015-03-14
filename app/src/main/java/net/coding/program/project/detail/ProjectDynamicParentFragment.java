@@ -45,7 +45,7 @@ public class ProjectDynamicParentFragment extends BaseFragment {
     protected void init() {
         String[] title = dynamic_type;
         String[] titleParams = dynamic_type_params;
-        if (mProjectObject.is_public) {
+        if (mProjectObject.isPublic()) {
             title = dynamic_type_public;
             titleParams = dynamic_type_public_params;
         }

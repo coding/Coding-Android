@@ -31,11 +31,11 @@ public class ProjectObject implements Serializable {
     public int fork_count;
     public boolean forked;
     public long created_at;
-    public boolean is_public;
+    private boolean is_public;
     public int star_count;
     public boolean stared;
     public int status;
-    public int type;
+    private int type;
     public int un_read_activities_count;
     public long update_at;
     public int watch_count;
@@ -85,5 +85,29 @@ public class ProjectObject implements Serializable {
 
     public String getPath() {
         return Global.HOST + project_path;
+    }
+
+    public boolean isPublic() {
+        return is_public;
+    }
+
+    public String getHttpGitTree(String version) {
+        return Global.HOST + "/api" + backend_project_path + "/git/tree/" + version;
+    }
+
+    public String getHttpStar(boolean star) {
+        return getHttpUrl(star ? "/star" : "/unstar");
+    }
+
+    private String getHttpUrl(String param) {
+        return Global.HOST + "/api" + backend_project_path + param;
+    }
+
+    public String getHttpWatch(boolean watch) {
+        return getHttpUrl(watch ? "/watch" : "/unwatch");
+    }
+
+    public String getHttpProjectObject() {
+        return Global.HOST + "/api" + backend_project_path;
     }
 }

@@ -83,5 +83,6 @@
     <string name="title_activity_update_tip">UpdateTipActivity</string>
     <string name="copy_link_finish">链接已复制</string>
     <string name="title_activity_file_url"></string>
+    <string name="title_activity_project_home">项目主页</string>
 
 </resources>

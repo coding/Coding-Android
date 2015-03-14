@@ -27,8 +27,10 @@
     <color name="font_green">#3bbd79</color>
     <color name="font_black_0">#000000</color>
     <color name="font_black_content">#222222</color>
+    <color name="font_black_2">#222222</color>
     <color name="font_black_content_disabled">#cacaca</color>
     <color name="font_black_comment">#ff666666</color>
+    <color name="font_black_6">#ff666666</color>
     <color name="font_gray">#999999</color>
     <color name="font_white">#ffffffff</color>
     <color name="font_white_disable">#7fffffff</color>

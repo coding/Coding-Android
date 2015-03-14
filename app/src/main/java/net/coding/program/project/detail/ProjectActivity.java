@@ -47,6 +47,9 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     @Extra
     ProjectJumpParam mJumpParam;
 
+    @Extra
+    int mPos = 0;
+
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
 
     public static class ProjectJumpParam implements Serializable {
@@ -68,10 +71,11 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     ArrayList<String> project_activity_action_list = new ArrayList(Arrays.asList(
             "项目动态",
             "项目讨论",
+            "项目代码",
             "项目成员"
     ));
 
-    MySpinnerAdapter mSpinnerAdapter;
+//    MySpinnerAdapter mSpinnerAdapter;
 
     String urlProject;
 
@@ -80,12 +84,14 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     ArrayList<Integer> spinnerIcons = new ArrayList(Arrays.asList(
             R.drawable.ic_spinner_dynamic,
             R.drawable.ic_spinner_topic,
+            R.drawable.ic_spinner_git,
             R.drawable.ic_spinner_user
     ));
 
     ArrayList<Class> spinnerFragments = new ArrayList<Class>(Arrays.asList(
             ProjectDynamicParentFragment_.class,
             TopicFragment_.class,
+            ProjectGitFragmentMain_.class,
             MembersListFragment_.class
     ));
 
@@ -130,7 +136,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
     private void initData() {
         // 私有项目才有任务
-        if (mProjectObject.type == 2) {
+        if (!mProjectObject.isPublic()) {
             final int insertPos = 1;
             spinnerIcons.add(insertPos, R.drawable.ic_spinner_task);
             spinnerFragments.add(insertPos, ProjectTaskFragment_.class);
@@ -141,75 +147,56 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             spinnerIcons.add(insertAttPos, R.drawable.ic_spinner_attachment);
             spinnerFragments.add(insertAttPos, ProjectAttachmentFragment_.class);
             project_activity_action_list.add(insertAttPos, "项目文档");
-
         }
 
-        final int insertGitPos = Math.min(spinnerIcons.size(), 4);
-        spinnerIcons.add(insertGitPos, R.drawable.ic_spinner_git);
-        spinnerFragments.add(insertGitPos, ProjectGitFragmentMain_.class);
-        project_activity_action_list.add(insertGitPos, "项目代码");
+        selectFragment(mPos);
 
-        mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
+//        mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
 
-//        final BaseAdapter mOnNavigationListener = new  {
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setCustomView(R.layout.actionbar_custom_spinner);
+//        Spinner spinner = (Spinner) actionBar.getCustomView().findViewById(R.id.spinner);
+//        spinner.setAdapter(mSpinnerAdapter);
 //
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
-//            public boolean onNavigationItemSelected(int position, long itemId) {
-//
-//                return true;
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                selectFragment(position);
 //            }
-//        };
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.actionbar_custom_spinner);
-        Spinner spinner = (Spinner) actionBar.getCustomView().findViewById(R.id.spinner);
-        spinner.setAdapter(mSpinnerAdapter);
-//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
 //            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
 //            }
 //        });
+//
+//        if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
+//            spinner.setSelection(1);
+//        }
+    }
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    private void selectFragment(int position) {
+//        mSpinnerAdapter.setCheckPos(position);
 
-                mSpinnerAdapter.setCheckPos(position);
+        Fragment fragment;
+        Bundle bundle = new Bundle();
 
-                Fragment fragment;
-                Bundle bundle = new Bundle();
+        try {
+            fragment = (Fragment) spinnerFragments.get(position).newInstance();
 
-                try {
-                    fragment = (Fragment) spinnerFragments.get(position).newInstance();
+            bundle.putSerializable("mProjectObject", mProjectObject);
+            fragment.setArguments(bundle);
 
-                    bundle.putSerializable("mProjectObject", mProjectObject);
-                    fragment.setArguments(bundle);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, fragment, project_activity_action_list.get(position));
+            ft.commit();
 
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.container, fragment, project_activity_action_list.get(position));
-                    ft.commit();
+            mFragments.add(new WeakReference(fragment));
 
-                    mFragments.add(new WeakReference<Fragment>(fragment));
-
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
-
-        if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
-//            actionBar.setSelectedNavigationItem(1);
-            spinner.setSelection(1);
+        } catch (Exception e) {
+            Global.errorLog(e);
         }
     }
 
@@ -219,69 +206,69 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
         onBackPressed();
     }
 
-    class MySpinnerAdapter extends BaseAdapter {
-
-        private LayoutInflater inflater;
-
-        public MySpinnerAdapter(LayoutInflater inflater) {
-            this.inflater = inflater;
-        }
-
-        int checkPos = 0;
-
-        public void setCheckPos(int pos) {
-            checkPos = pos;
-        }
-
-
-        @Override
-        public int getCount() {
-            return spinnerIcons.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.spinner_layout_head, parent, false);
-            }
-
-            ((TextView) convertView).setText(project_activity_action_list.get(position));
-
-            return convertView;
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.spinner_layout_item, parent, false);
-            }
-
-            TextView title = (TextView) convertView.findViewById(R.id.title);
-            title.setText(project_activity_action_list.get(position));
-
-            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-            icon.setImageResource(spinnerIcons.get(position));
-
-            if (checkPos == position) {
-                convertView.setBackgroundColor(getResources().getColor(R.color.green));
-            } else {
-                convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
-            }
-
-
-            return convertView;
-        }
-    }
+//    class MySpinnerAdapter extends BaseAdapter {
+//
+//        private LayoutInflater inflater;
+//
+//        public MySpinnerAdapter(LayoutInflater inflater) {
+//            this.inflater = inflater;
+//        }
+//
+//        int checkPos = 0;
+//
+//        public void setCheckPos(int pos) {
+//            checkPos = pos;
+//        }
+//
+//
+//        @Override
+//        public int getCount() {
+//            return spinnerIcons.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            if (convertView == null) {
+//                convertView = inflater.inflate(R.layout.spinner_layout_head, parent, false);
+//            }
+//
+//            ((TextView) convertView).setText(project_activity_action_list.get(position));
+//
+//            return convertView;
+//        }
+//
+//        @Override
+//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//            if (convertView == null) {
+//                convertView = inflater.inflate(R.layout.spinner_layout_item, parent, false);
+//            }
+//
+//            TextView title = (TextView) convertView.findViewById(R.id.title);
+//            title.setText(project_activity_action_list.get(position));
+//
+//            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
+//            icon.setImageResource(spinnerIcons.get(position));
+//
+//            if (checkPos == position) {
+//                convertView.setBackgroundColor(getResources().getColor(R.color.green));
+//            } else {
+//                convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
+//            }
+//
+//
+//            return convertView;
+//        }
+//    }
 
     @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
     void onFileResult(int resultCode, Intent data) {

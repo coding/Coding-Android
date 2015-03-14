@@ -128,9 +128,11 @@ public class ProjectListFragment extends RefreshBaseFragment {
             getNetwork(s, HOST_VISTIT, 0, item.getId());
         }
 
-        Intent intent = new Intent(getActivity(), ProjectActivity_.class);
-        intent.putExtra("mProjectObject", item);
-        getActivity().startActivity(intent);
+//        Intent intent = new Intent(getActivity(), ProjectActivity_.class);
+//        intent.putExtra("mProjectObject", item);
+//        getActivity().startActivity(intent);
+
+        ProjectHomeActivity_.intent(this).mProjectObject(item).start();
     }
 
     class MyAdapter extends BaseAdapter {
@@ -172,8 +174,8 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
             holder.name.setText(item.name);
 
-            holder.privateIcon.setVisibility(item.is_public ? View.INVISIBLE : View.VISIBLE);
-            String ownerName = item.is_public ? item.name : ("      " + item.owner_user_name);
+            holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
+            String ownerName = item.isPublic() ? item.name : ("      " + item.owner_user_name);
             holder.content.setText(ownerName);
 
             int count = item.un_read_activities_count;
