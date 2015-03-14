@@ -1,119 +1,81 @@
 package net.coding.program.maopao;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
-import com.baidu.mapapi.search.poi.PoiDetailResult;
-import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
-import com.baidu.mapapi.search.poi.PoiResult;
-import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.mapapi.search.poi.PoiSortType;
 
 import net.coding.program.model.LocationObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
- * Created by Neutra on 2015/3/12.
+ * Created by Neutra on 2015/3/14.
  */
-public class LocationSearcher {
-    private boolean complete = false;
-    private LatLng latLng;
-    private int page;
-    private PoiSearch poiSearch;
+public abstract class LocationSearcher {
     private boolean isSearching = false;
-    private int version;
+    private boolean isComplete = false;
+    private int keywordVersion;
     private int searchingVersion;
-    public String keyword = "";
+    private int page;
+    private String keyword = "";
 
-    public void destory() {
-        if (poiSearch != null) poiSearch.destroy();
-    }
-
-    public LocationSearcher keyword(String keyword) {
-        this.keyword = keyword;
-        ++version;
-        page = 0;
-        return this;
-    }
-    public String keyword() {
+    public String getKeyword() {
         return keyword;
     }
-
-    public void configure(Context context, LatLng latLng, final SearchResultListener listener) {
-        isSearching = false;
-        complete = false;
-        this.latLng = latLng;
-
-        destory();
-        poiSearch = PoiSearch.newInstance();
-        poiSearch.setOnGetPoiSearchResultListener(new OnGetPoiSearchResultListener() {
-            @Override
-            public void onGetPoiResult(PoiResult poiResult) {
-                isSearching = false;
-                if(searchingVersion != version) {
-                    listener.onSearchResult(new ArrayList<LocationObject>());
-                } else if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
-                    ++page;
-                    List<LocationObject> list = convert(poiResult.getAllPoi());
-                    complete = poiResult.getCurrentPageNum() >= poiResult.getTotalPageNum();
-                    listener.onSearchResult(list);
-                } else {
-                    // todo: check searcher error
-                    complete = true;
-                    listener.onSearchResult(null);
-                }
-            }
-
-            @Override
-            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-            }
-        });
+    public boolean isKeywordEmpty() {
+        return TextUtils.isEmpty(keyword);
     }
 
-    public void search() {
-        if (isSearching) return;
-        isSearching = true;
-        searchingVersion = version;
-        poiSearch.searchNearby(new PoiNearbySearchOption().keyword(keyword).location(latLng)
-                .pageNum(page).pageCapacity(10)
-                .radius(1000).sortType(PoiSortType.distance_from_near_to_far));
+    public void setKeyword(String keyword) {
+        keyword = keyword == null? "": keyword.toString();
+        Log.e("LocationSearcher",  String.format("setKeyword %s => %s", this.keyword, keyword));
+        if(!keyword.equals(this.keyword)) {
+            this.keyword = keyword;
+            ++keywordVersion;
+            page = 0;
+            isSearching = false;
+            isComplete = false;
+            Log.e("LocationSearcher",  String.format("setKeyword reset states ,keywordVersion = %d", keywordVersion));
+        }
     }
 
     public boolean isComplete() {
-        return complete;
+        return isComplete;
     }
 
-    private static List<LocationObject> convert(List<PoiInfo> src) {
-        List<LocationObject> dest;
-        if (src == null || src.size() == 0) {
-            dest = new ArrayList<LocationObject>(0);
-        } else {
-            dest = new ArrayList<LocationObject>(src.size());
-            for (PoiInfo item : src) {
-                LocationObject converted = convert(item);
-                if (converted != null) {
-                    dest.add(converted);
-                }
-            }
-        }
-        return dest;
+    public void search() {
+        if (isComplete || isSearching) return;
+        isSearching = true;
+        searchingVersion = keywordVersion;
+        Log.e("LocationSearcher",  String.format("search() searchingVersion = %d", searchingVersion));
+        doSearch(page);
     }
 
-    private static LocationObject convert(PoiInfo src) {
-        LocationObject locationObject = new LocationObject(src.uid, src.name, src.address);
-        if (src.location != null) {
-            locationObject.latitude = src.location.latitude;
-            locationObject.longitude = src.location.longitude;
-        }
-        return locationObject;
+    protected boolean shouldSkipThisResult(){
+        isSearching = false;
+        return searchingVersion != keywordVersion;
     }
+
+    public void configure(Context context, LatLng latLng, final SearchResultListener listener){
+        isSearching = false;
+        isComplete = false;
+        page = 0;
+        doConfigure(context, latLng, listener);
+    }
+
+    protected void scheduleNextPage(){
+        ++page;
+    }
+
+    protected void setComplete(boolean isComplete){
+        this.isComplete = isComplete;
+    }
+
+    protected abstract void doConfigure(Context context, LatLng latLng, SearchResultListener listener);
+    protected abstract void doSearch(int page);
+    public abstract void destory() ;
 
     public static interface SearchResultListener {
         void onSearchResult(List<LocationObject> locations);
