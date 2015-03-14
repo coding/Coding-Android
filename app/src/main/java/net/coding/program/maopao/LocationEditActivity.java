@@ -55,6 +55,7 @@ public class LocationEditActivity extends BaseActivity {
         String customAddress = addressText.getText().toString().trim();
         if (TextUtils.isEmpty(customAddress)) customAddress = areaText.getText().toString().trim();
         LocationObject data = LocationObject.custom(customName, customAddress, latitude, longitude);
+        BaiduLbsLoader.store(getApplicationContext(), customName, customAddress, latitude, longitude);
         Intent intent = new Intent();
         intent.putExtra("location", data);
         setResult(RESULT_OK, intent);

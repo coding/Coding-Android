@@ -12,58 +12,76 @@ import java.util.List;
  * Created by Neutra on 2015/3/12.
  */
 public class LocationSearcherGroup {
-    private LocationSearcher[] searchers;
+    private PublicLocationSearcher[] publicSearchers;
+    private PrivateLocationSearcher privateSearcher;
     private LocationSearcher.SearchResultListener listener;
-    private LocationSearcher.SearchResultListener itemListener = new LocationSearcher.SearchResultListener() {
+    private LocationSearcher.SearchResultListener itemListener = new PublicLocationSearcher.SearchResultListener() {
         @Override
         public void onSearchResult(List<LocationObject> locations) {
-            if (locations != null) {
-                listener.onSearchResult(locations);
-            }
+            listener.onSearchResult(locations);
         }
     };
 
-    public LocationSearcherGroup() {
-        // 行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,结婚,丽人,金融,运动健身,医疗,教育,培训机构,交通设施,自然地物,政府机构,门址,道路
-        this("行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,自然地物,丽人,金融,运动健身,医疗,教育,交通设施,政府机构,道路".split(","));
+    public LocationSearcherGroup(String[] keywords) {
+        if (keywords == null || keywords.length < 1) throw new IllegalArgumentException("keywords");
+        publicSearchers = new PublicLocationSearcher[keywords.length];
+        for (int i = keywords.length - 1; i >= 0; --i) {
+            publicSearchers[i] = new PublicLocationSearcher();
+            publicSearchers[i].setKeyword(keywords[i]);
+        }
+        privateSearcher = new PrivateLocationSearcher();
+        privateSearcher.setKeyword("");
     }
 
-    private LocationSearcherGroup(String[] keywords) {
-        if (keywords == null || keywords.length < 1) throw new IllegalArgumentException("keywords");
-        searchers = new LocationSearcher[keywords.length];
-        for (int i = searchers.length - 1; i >= 0; --i) {
-            searchers[i] = new LocationSearcher().keyword(keywords[i]);
-        }
+    public LocationSearcherGroup() {
+        publicSearchers = new PublicLocationSearcher[]{new PublicLocationSearcher()};
+        privateSearcher = new PrivateLocationSearcher();
     }
 
     public synchronized void destory() {
-        for (LocationSearcher searcher : searchers) {
+        privateSearcher.destory();
+        for (LocationSearcher searcher : publicSearchers) {
             searcher.destory();
         }
     }
 
-    public synchronized void configure(Context context, LatLng latLng, final LocationSearcher.SearchResultListener listener) {
+    public synchronized void configure(Context context, LatLng latLng, final PublicLocationSearcher.SearchResultListener listener) {
         this.listener = listener;
-        for (int i = searchers.length - 1; i >= 0; --i) {
-            LocationSearcher searcher = searchers[i];
-            searcher.configure(context, latLng, itemListener);
+        privateSearcher.configure(context, latLng, itemListener);
+        for (LocationSearcher item : publicSearchers) {
+            item.configure(context, latLng, itemListener);
         }
     }
 
     public synchronized void search() {
         if (listener == null) return;
-        for (int i = searchers.length - 1; i >= 0; --i) {
-            searchers[i].search();
+        privateSearcher.search();
+        for (LocationSearcher item : publicSearchers) {
+            item.search();
         }
     }
 
     public synchronized boolean isComplete() {
-        for (int i = searchers.length - 1; i >= 0; --i) {
-            if (!searchers[i].isComplete()) {
+        for (LocationSearcher searcher : publicSearchers) {
+            if (!searcher.isComplete()) {
                 return false;
             }
         }
-        return true;
+        return privateSearcher.isComplete();
     }
 
+    public synchronized void setKeyword(String keyword) {
+        for (LocationSearcher searcher : publicSearchers) {
+            searcher.setKeyword(keyword);
+        }
+        privateSearcher.setKeyword(keyword);
+    }
+
+    public String getKeyword() {
+        return privateSearcher.getKeyword();
+    }
+
+    public boolean isKeywordEmpty() {
+        return privateSearcher.isKeywordEmpty();
+    }
 }
