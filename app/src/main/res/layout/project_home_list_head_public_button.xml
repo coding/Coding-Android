@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="38dp"
+    android:gravity="center"
+    android:background="@drawable/project_home_round_button"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/icon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/project_home_button_public_star" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="动态"
+        android:textColor="@color/font_green"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="12dp"
+        android:background="#ffdddddd"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp" />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2015"
+        android:textColor="@color/font_black_6"
+        android:textSize="12sp" />
+
+</LinearLayout>

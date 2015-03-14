@@ -51,19 +51,19 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     boolean mNoMore = false;
 
     @FragmentArg
-    ProjectObject mProjectObject;
+     protected ProjectObject mProjectObject;
 
     @FragmentArg
-    String mType;
+     protected String mType;
 
     @FragmentArg
-    int mUser_id;
+     protected int mUser_id;
 
     @FragmentArg
-    TaskObject.Members mMember;
+    protected TaskObject.Members mMember;
 
     @ViewById
-    View blankLayout;
+    protected View blankLayout;
 
     private LayoutInflater inflater;
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
@@ -84,7 +84,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     final String TAG_PROJECT_DYNMAIC = "TAG_PROJECT_DYNMAIC";
 
     @ViewById
-    ExpandableStickyListHeadersListView listView;
+    protected ExpandableStickyListHeadersListView listView;
 
     class LoadingAnimation {
 
@@ -118,7 +118,14 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     }
 
-    LoadingAnimation mLoadingAnimation;
+    private LoadingAnimation mLoadingAnimation;
+
+    protected void destoryLoadingAnimation() {
+        if (mLoadingAnimation != null) {
+            mLoadingAnimation.destory();
+            mLoadingAnimation = null;
+        }
+    }
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
@@ -128,7 +135,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     }
 
     @AfterViews
-    protected void init() {
+    final protected void init() {
         super.init();
         mLoadingAnimation = new LoadingAnimation();
         mLoadingAnimation.startAnimation();

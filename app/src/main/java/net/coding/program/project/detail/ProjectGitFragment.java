@@ -46,8 +46,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     public static final String MASTER = "master";
     private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
 
-    private final String HOST_GIT_TREE = Global.HOST + "/api/user/%s/project/%s/git/tree/%s/%s";
-    private final String HOST_GIT_TREEINFO = Global.HOST + "/api/user/%s/project/%s/git/treeinfo/%s/%s";
+    public static final String HOST_GIT_TREE = Global.HOST + "/api/user/%s/project/%s/git/tree/%s/%s";
+    public static final String HOST_GIT_TREEINFO = Global.HOST + "/api/user/%s/project/%s/git/treeinfo/%s/%s";
 
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
