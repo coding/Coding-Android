@@ -12,7 +12,7 @@ public class LocationObject implements Serializable {
     public static enum Type {Undefined, City, Normal, Custom, newCustom}
 
     public final Type type;
-    public final String id, name, address;
+    public String id, name, address;
     public double latitude, longitude;
 
     public LocationObject(JSONObject json) throws JSONException {
@@ -51,8 +51,8 @@ public class LocationObject implements Serializable {
         return locationObject;
     }
 
-    public static LocationObject custom(String name, String address, double latitude, double longitude){
-        LocationObject locationObject = new LocationObject(Type.Custom, null, name, address);
+    public static LocationObject custom(String id, String name, String address, double latitude, double longitude){
+        LocationObject locationObject = new LocationObject(Type.Custom, id, name, address);
         locationObject.latitude = latitude;
         locationObject.longitude = longitude;
         return locationObject;

@@ -271,8 +271,10 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         if (!device.isEmpty()) {
             final String format = "来自 %s";
             photoType.setText(String.format(format, device));
+            photoType.setVisibility(View.VISIBLE);
         } else {
             photoType.setText("");
+            photoType.setVisibility(View.GONE);
         }
 
         View maopaoDelete = mListHead.findViewById(R.id.maopaoDelete);

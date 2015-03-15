@@ -46,19 +46,27 @@ public class LocationEditActivity extends BaseActivity {
 
     @OptionsItem
     void action_ok() {
-        String customName = nameText.getText().toString().trim();
+        final String customName = nameText.getText().toString().trim();
         if (TextUtils.isEmpty(customName)) {
             Toast.makeText(this, "请输入位置名称", Toast.LENGTH_SHORT).show();
             nameText.requestFocus();
             return;
         }
-        String customAddress = addressText.getText().toString().trim();
-        if (TextUtils.isEmpty(customAddress)) customAddress = areaText.getText().toString().trim();
-        LocationObject data = LocationObject.custom(customName, customAddress, latitude, longitude);
-        BaiduLbsLoader.store(getApplicationContext(), customName, customAddress, latitude, longitude);
-        Intent intent = new Intent();
-        intent.putExtra("location", data);
-        setResult(RESULT_OK, intent);
-        finish();
+        final String areaAddress = addressText.getText().toString().trim();
+        final String customAddress = TextUtils.isEmpty(areaAddress) ? areaText.getText().toString().trim() : areaAddress;
+        BaiduLbsLoader.store(getApplicationContext(), customName, customAddress, latitude, longitude, new BaiduLbsLoader.StorePoiListener() {
+            @Override
+            public void onStoreResult(boolean success, String id) {
+                if (!success) {
+                    Toast.makeText(LocationEditActivity.this, "保存失败，请重试", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                final LocationObject data = LocationObject.custom(id, customName, customAddress, latitude, longitude);
+                Intent intent = new Intent();
+                intent.putExtra("location", data);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 }

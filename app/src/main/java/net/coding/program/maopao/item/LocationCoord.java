@@ -26,13 +26,13 @@ public class LocationCoord {
     public static LocationCoord parse(String coord) {
         if (!TextUtils.isEmpty(coord)) {
             Log.e("coord", coord);
-            String[] parts = coord.split(",", 3);
-            if (parts != null && parts.length == 4 && FORMAT_VERSION.equals(parts[3])) {
+            String[] parts = coord.split(",", 4);
+            if (parts != null && parts.length == 4 && FORMAT_VERSION.equals(parts[2])) {
                 LocationCoord result = new LocationCoord();
                 try {
                     result.latitude = Double.parseDouble(parts[0]);
                     result.longitude = Double.parseDouble(parts[1]);
-                    result.address = parts[2];
+                    result.address = parts[3];
                 } catch (Throwable e) {
                     Log.e("LocationCoord", "invalid LocationCoord format: coord", e);
                     return null;
