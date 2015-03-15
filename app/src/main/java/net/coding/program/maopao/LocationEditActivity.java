@@ -25,7 +25,7 @@ public class LocationEditActivity extends BaseActivity {
     @ViewById
     EditText nameText, areaText, addressText;
     @Extra
-    String name, city, area, address;
+    String name, city, area;
     @Extra
     double latitude, longitude;
 
@@ -34,7 +34,6 @@ public class LocationEditActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         nameText.setText(name);
         areaText.setText(area);
-        addressText.setText(address);
         addressText.requestFocus();
     }
 

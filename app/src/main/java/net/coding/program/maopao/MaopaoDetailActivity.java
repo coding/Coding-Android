@@ -29,7 +29,6 @@ import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.common.htmltext.LinkCreate;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
@@ -263,8 +262,9 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         likeUsersArea.likeUsersLayout.setTag(MaopaoListFragment.TAG_MAOPAO, mMaopaoObject);
         likeUsersArea.displayLikeUser();
 
-        MaopaoLocationView location = (MaopaoLocationView) mListHead.findViewById(R.id.location);
-        location.bind(mMaopaoObject);
+        TextView locationTop = (TextView) mListHead.findViewById(R.id.locationTop);
+        TextView locationBottom = (TextView) mListHead.findViewById(R.id.locationBottom);
+        MaopaoLocationArea.bind(locationTop, locationBottom, mMaopaoObject);
 
         TextView photoType = (TextView) mListHead.findViewById(R.id.photoType);
         String device = mMaopaoObject.device;
