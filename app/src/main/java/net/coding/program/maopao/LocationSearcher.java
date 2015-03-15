@@ -2,7 +2,6 @@ package net.coding.program.maopao;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
 
@@ -24,20 +23,19 @@ public abstract class LocationSearcher {
     public String getKeyword() {
         return keyword;
     }
+
     public boolean isKeywordEmpty() {
         return TextUtils.isEmpty(keyword);
     }
 
     public void setKeyword(String keyword) {
-        keyword = keyword == null? "": keyword.toString();
-        Log.e("LocationSearcher",  String.format("setKeyword %s => %s", this.keyword, keyword));
-        if(!keyword.equals(this.keyword)) {
+        keyword = keyword == null ? "" : keyword.toString();
+        if (!keyword.equals(this.keyword)) {
             this.keyword = keyword;
             ++keywordVersion;
             page = 0;
             isSearching = false;
             isComplete = false;
-            Log.e("LocationSearcher",  String.format("setKeyword reset states ,keywordVersion = %d", keywordVersion));
         }
     }
 
@@ -49,33 +47,34 @@ public abstract class LocationSearcher {
         if (isComplete || isSearching) return;
         isSearching = true;
         searchingVersion = keywordVersion;
-        Log.e("LocationSearcher",  String.format("search() searchingVersion = %d", searchingVersion));
         doSearch(page);
     }
 
-    protected boolean shouldSkipThisResult(){
+    protected boolean shouldSkipThisResult() {
         isSearching = false;
         return searchingVersion != keywordVersion;
     }
 
-    public void configure(Context context, LatLng latLng, final SearchResultListener listener){
+    public void configure(Context context, LatLng latLng, final SearchResultListener listener) {
         isSearching = false;
         isComplete = false;
         page = 0;
         doConfigure(context, latLng, listener);
     }
 
-    protected void scheduleNextPage(){
+    protected void scheduleNextPage() {
         ++page;
     }
 
-    protected void setComplete(boolean isComplete){
+    protected void setComplete(boolean isComplete) {
         this.isComplete = isComplete;
     }
 
     protected abstract void doConfigure(Context context, LatLng latLng, SearchResultListener listener);
+
     protected abstract void doSearch(int page);
-    public abstract void destory() ;
+
+    public abstract void destory();
 
     public static interface SearchResultListener {
         void onSearchResult(List<LocationObject> locations);

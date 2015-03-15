@@ -1,6 +1,7 @@
 package net.coding.program.maopao;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -46,7 +47,11 @@ public class BaiduLbsLoader {
         final String path = "/geosearch/v3/nearby";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         params.put("ak", ak);
-//        params.put("filter", "userid:" +  AccountInfo.loadAccount(context).id);
+        UserObject userObject = AccountInfo.loadAccount(context);
+        if(userObject != null) {
+            String userid = String.valueOf(userObject.id);
+            params.put("filter", String.format("userid:[%s,%s]", userid, userid));
+        }
         params.put("geotable_id", geotable);
         params.put("q", keyword);
         params.put("location", String.format("%f,%f", longitude, latitude));
@@ -65,20 +70,22 @@ public class BaiduLbsLoader {
         client.get(context, url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                if(json == null || json.optInt("status") != 0){
+                    if(listener != null) listener.onSearchResult(false, null, false);
+                    return;
+                }
                 int total = json.optInt("total");
-                listener.onSearchResult(true,parseList(json), page * PAGE_SIZE < total);
+                if(listener != null) listener.onSearchResult(true,parseList(json), page * PAGE_SIZE < total);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("BaiduLbsLoader", "search " + statusCode + ", " + throwable.toString());
-                listener.onSearchResult(false, null, false);
+                if(listener != null) listener.onSearchResult(false, null, false);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.e("BaiduLbsLoader", "search " + statusCode + ", " + responseString);
-                listener.onSearchResult(false, null, false);
+                if(listener != null) listener.onSearchResult(false, null, false);
             }
         });
     }
@@ -111,7 +118,7 @@ public class BaiduLbsLoader {
         return object;
     }
 
-    public static void store(Context context, String name, String address, double latitude, double longitude) {
+    public static void store(Context context, String name, String address, double latitude, double longitude, final StorePoiListener listener) {
         final String path = "/geodata/v3/poi/create";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         params.put("address", address);
@@ -132,21 +139,26 @@ public class BaiduLbsLoader {
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(context, host + path, new RequestParams(params), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.e("BaiduLbsLoader", "store " + statusCode + ", " + response.toString());
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                String id = null;
+                boolean success = json != null && !TextUtils.isEmpty(id = json.optString("id"));
+                if(listener != null) listener.onStoreResult(success, id);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("BaiduLbsLoader", "store " + statusCode + ", " + throwable.toString());
+                if(listener != null) listener.onStoreResult(false, null);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                super.onSuccess(statusCode, headers, responseString);
-                Log.e("BaiduLbsLoader", "store " + statusCode + ", " + responseString);
+                if(listener != null) listener.onStoreResult(false, null);
             }
         });
+    }
+
+    public static interface StorePoiListener {
+        void onStoreResult(boolean success, String id);
     }
 
     private static String sn(String path, LinkedHashMap<String, String> params) throws UnsupportedEncodingException {

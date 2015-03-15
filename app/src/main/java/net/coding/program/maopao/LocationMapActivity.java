@@ -38,7 +38,7 @@ public class LocationMapActivity extends BaseActivity {
         LatLng position = new LatLng(latitude, longitude);
         BaiduMap map = mapView.getMap();
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-        map.setMapStatus(MapStatusUpdateFactory.newLatLng(position));
+        map.setMapStatus(MapStatusUpdateFactory.newLatLngZoom(position, 17));
         String label = TextUtils.isEmpty(address) ? name : (name + ":" + address);
         map.addOverlay(new MarkerOptions()
                 .position(position)
