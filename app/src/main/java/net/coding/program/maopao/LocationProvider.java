@@ -60,12 +60,7 @@ public class LocationProvider {
                     city = city.replaceFirst("市$", "");
                 }
                 locationClient.stop();
-                String area = bdLocation.getDistrict();
-                if (area == null) area = "";
-                area = bdLocation.getCity() == null ? area : bdLocation.getCity() + area;
-                String address = bdLocation.getAddrStr();
-                if (address == null) address = "";
-                listener.onLocationResult(success, city, area, address, bdLocation.getLatitude(), bdLocation.getLongitude());
+                listener.onLocationResult(success, city, bdLocation.getCity() + bdLocation.getDistrict(), bdLocation.getLatitude(), bdLocation.getLongitude());
             }
         });
         // 0：正常发起了定位。
@@ -79,6 +74,6 @@ public class LocationProvider {
     }
 
     public static interface LocationResultListener {
-        void onLocationResult(boolean success, String city, String area, String address, double latitude, double longitude);
+        void onLocationResult(boolean success, String city, String area, double latitude, double longitude);
     }
 }

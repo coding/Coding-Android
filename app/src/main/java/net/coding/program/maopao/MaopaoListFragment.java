@@ -35,7 +35,6 @@ import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.item.CommentArea;
-import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
@@ -51,7 +50,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -527,7 +525,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
                 holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);
 
-                holder.location = (MaopaoLocationView) convertView.findViewById(R.id.location);
+                holder.locationTop = (TextView) convertView.findViewById(R.id.locationTop);
+                holder.locationBottom = (TextView) convertView.findViewById(R.id.locationBottom);
                 holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
                 holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
@@ -564,7 +563,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.commentLikeArea.setVisibility(View.GONE);
             }
 
-            holder.location.bind(data);
+            MaopaoLocationArea.bind(holder.locationTop, holder.locationBottom, data);
 
             String device = data.device;
             if (!device.isEmpty()) {
@@ -744,7 +743,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         CommentArea commentArea;
 
         View likeAreaDivide;
-        MaopaoLocationView location;
+        TextView locationTop;
+        TextView locationBottom;
     }
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;

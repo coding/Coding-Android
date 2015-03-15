@@ -55,7 +55,6 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
     private LocationProvider locationProvider;
     private String currentCity = null;
     private String currentArea = null;
-    private String currentAddress = null;
     private double latitude, longitude;
 
     private boolean isLoadingLocation = false;
@@ -119,13 +118,12 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
         }
         locationProvider.requestLocation(new LocationProvider.LocationResultListener() {
             @Override
-            public void onLocationResult(boolean success, String city, String area, String address, double latitude, double longitude) {
+            public void onLocationResult(boolean success, String city, String area, double latitude, double longitude) {
                 isLoadingLocation = false;
                 if (LocationSearchActivity.this.isFinishing()) return;
                 if (success) {
                     currentCity = city;
                     currentArea = area;
-                    currentAddress = address;
                     LocationSearchActivity.this.latitude = latitude;
                     LocationSearchActivity.this.longitude = longitude;
                     if (!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))) {
@@ -150,7 +148,7 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
         if (data == null) return;
         if (data.type == LocationObject.Type.newCustom) {
             LocationEditActivity_.intent(this)
-                    .name(data.name).city(currentCity).area(currentArea).address(currentAddress)
+                    .name(data.name).city(currentCity).area(currentArea)
                     .latitude(latitude).longitude(longitude)
                     .startForResult(MaopaoAddActivity.RESULT_REQUEST_LOCATION);
             return;
