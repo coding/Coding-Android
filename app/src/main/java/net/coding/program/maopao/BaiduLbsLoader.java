@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static android.location.Location.convert;
-
 public class BaiduLbsLoader {
     private static final String host = "http://api.map.baidu.com";
     private static final String geotable = "95956";
@@ -39,18 +37,17 @@ public class BaiduLbsLoader {
         return userObject == null ? "" : String.valueOf(userObject.id);
     }
 
-    public static interface LbsResultListener{
-        void onSearchResult(boolean success, List<LocationObject>  list, boolean hasMore);
+    public static interface LbsResultListener {
+        void onSearchResult(boolean success, List<LocationObject> list, boolean hasMore);
     }
 
-    public static void search(Context context, String keyword, double latitude, double longitude,final int page, final LbsResultListener listener) {
+    public static void search(Context context, String keyword, double latitude, double longitude, final int page, final LbsResultListener listener) {
         final String path = "/geosearch/v3/nearby";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         params.put("ak", ak);
         UserObject userObject = AccountInfo.loadAccount(context);
-        if(userObject != null) {
-            String userid = String.valueOf(userObject.id);
-            params.put("filter", String.format("userid:[%s,%s]", userid, userid));
+        if (userObject != null) {
+            params.put("filter", String.format("userid:[%d,%d]", userObject.id, userObject.id));
         }
         params.put("geotable_id", geotable);
         params.put("q", keyword);
@@ -70,22 +67,23 @@ public class BaiduLbsLoader {
         client.get(context, url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-                if(json == null || json.optInt("status") != 0){
-                    if(listener != null) listener.onSearchResult(false, null, false);
+                if (json == null || json.optInt("status") != 0) {
+                    if (listener != null) listener.onSearchResult(false, null, false);
                     return;
                 }
-                int total = json.optInt("total");
-                if(listener != null) listener.onSearchResult(true,parseList(json), page * PAGE_SIZE < total);
+                int size = json.optInt("size");
+                if (listener != null)
+                    listener.onSearchResult(true, parseList(json),  size >= PAGE_SIZE);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if(listener != null) listener.onSearchResult(false, null, false);
+                if (listener != null) listener.onSearchResult(false, null, false);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                if(listener != null) listener.onSearchResult(false, null, false);
+                if (listener != null) listener.onSearchResult(false, null, false);
             }
         });
     }
@@ -115,6 +113,7 @@ public class BaiduLbsLoader {
             object.longitude = location.optDouble(0, 0);
             object.latitude = location.optDouble(1, 0);
         }
+        object.distance = json.optInt("distance");
         return object;
     }
 
@@ -142,17 +141,17 @@ public class BaiduLbsLoader {
             public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                 String id = null;
                 boolean success = json != null && !TextUtils.isEmpty(id = json.optString("id"));
-                if(listener != null) listener.onStoreResult(success, id);
+                if (listener != null) listener.onStoreResult(success, id);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if(listener != null) listener.onStoreResult(false, null);
+                if (listener != null) listener.onStoreResult(false, null);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                if(listener != null) listener.onStoreResult(false, null);
+                if (listener != null) listener.onStoreResult(false, null);
             }
         });
     }

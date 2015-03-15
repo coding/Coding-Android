@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 
@@ -28,6 +29,7 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -144,13 +146,16 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
     }
 
     @ItemClick(R.id.listView)
-    void onItemClick(LocationObject data) {
+    void onItemClick(final LocationObject data) {
         if (data == null) return;
         if (data.type == LocationObject.Type.newCustom) {
-            LocationEditActivity_.intent(this).name(data.name).area(currentArea).address(currentAddress)
-                    .latitude(latitude).longitude(longitude).startForResult(MaopaoAddActivity.RESULT_REQUEST_LOCATION);
+            LocationEditActivity_.intent(this)
+                    .name(data.name).city(currentCity).area(currentArea).address(currentAddress)
+                    .latitude(latitude).longitude(longitude)
+                    .startForResult(MaopaoAddActivity.RESULT_REQUEST_LOCATION);
             return;
         }
+        data.city = currentCity;
         Intent intent = new Intent();
         intent.putExtra("location", data);
         setResult(RESULT_OK, intent);
@@ -298,8 +303,7 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
                 if (searcher.isKeywordEmpty()) {
                     mFootUpdate.dismiss();
                 } else {
-                    mFootUpdate.showLoading();
-                    searcher.search();
+                    loadMore();
                 }
             }
         }

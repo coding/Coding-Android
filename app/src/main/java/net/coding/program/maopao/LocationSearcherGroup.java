@@ -6,6 +6,9 @@ import com.baidu.mapapi.model.LatLng;
 
 import net.coding.program.model.LocationObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -18,9 +21,23 @@ public class LocationSearcherGroup {
     private LocationSearcher.SearchResultListener itemListener = new PublicLocationSearcher.SearchResultListener() {
         @Override
         public void onSearchResult(List<LocationObject> locations) {
-            listener.onSearchResult(locations);
+            if (locations != null) resultBuffer.addAll(locations);
+            if (!isSearching()) {
+                // onSearchResult后可能立刻就会重新搜索， 所以要输出的列表放到另一个对象中
+                List<LocationObject> temp = new ArrayList<>(resultBuffer);
+                resultBuffer.clear();
+                Collections.sort(temp, new Comparator<LocationObject>() {
+                    @Override
+                    public int compare(LocationObject lhs, LocationObject rhs) {
+                        return lhs.distance - rhs.distance;
+                    }
+                });
+                listener.onSearchResult(temp);
+            }
         }
     };
+
+    private List<LocationObject> resultBuffer = new ArrayList<>();
 
     public LocationSearcherGroup(String[] keywords) {
         if (keywords == null || keywords.length < 1) throw new IllegalArgumentException("keywords");
@@ -39,6 +56,7 @@ public class LocationSearcherGroup {
     }
 
     public synchronized void destory() {
+        resultBuffer.clear();
         privateSearcher.destory();
         for (LocationSearcher searcher : publicSearchers) {
             searcher.destory();
@@ -55,10 +73,21 @@ public class LocationSearcherGroup {
 
     public synchronized void search() {
         if (listener == null) return;
+        if (isSearching()) return;
+        resultBuffer.clear();
         privateSearcher.search();
         for (LocationSearcher item : publicSearchers) {
             item.search();
         }
+    }
+
+    public synchronized boolean isSearching() {
+        for (LocationSearcher searcher : publicSearchers) {
+            if (!searcher.isSearching()) {
+                return false;
+            }
+        }
+        return privateSearcher.isSearching();
     }
 
     public synchronized boolean isComplete() {

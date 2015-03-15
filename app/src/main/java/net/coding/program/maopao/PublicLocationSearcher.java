@@ -11,6 +11,7 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.poi.PoiSortType;
+import com.baidu.mapapi.utils.DistanceUtil;
 
 import net.coding.program.model.LocationObject;
 
@@ -30,7 +31,7 @@ public class PublicLocationSearcher extends LocationSearcher {
     }
 
     @Override
-    protected void doConfigure(Context context, LatLng latLng, final LocationSearcher.SearchResultListener listener) {
+    protected void doConfigure(Context context, final LatLng latLng, final LocationSearcher.SearchResultListener listener) {
         this.latLng = latLng;
         destory();
         poiSearch = PoiSearch.newInstance();
@@ -42,7 +43,7 @@ public class PublicLocationSearcher extends LocationSearcher {
                 }
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
                     scheduleNextPage();
-                    List<LocationObject> list = convert(poiResult.getAllPoi());
+                    List<LocationObject> list = convert(poiResult.getAllPoi(), latLng);
                     setComplete(poiResult.getCurrentPageNum() >= poiResult.getTotalPageNum());
                     listener.onSearchResult(list);
                 } else {
@@ -65,14 +66,14 @@ public class PublicLocationSearcher extends LocationSearcher {
                 .radius(1000).sortType(PoiSortType.distance_from_near_to_far));
     }
 
-    private static List<LocationObject> convert(List<PoiInfo> src) {
+    private static List<LocationObject> convert(List<PoiInfo> src, LatLng latLng) {
         List<LocationObject> dest;
         if (src == null || src.size() == 0) {
             dest = new ArrayList<LocationObject>(0);
         } else {
             dest = new ArrayList<LocationObject>(src.size());
             for (PoiInfo item : src) {
-                LocationObject converted = convert(item);
+                LocationObject converted = convert(item, latLng);
                 if (converted != null) {
                     dest.add(converted);
                 }
@@ -81,11 +82,12 @@ public class PublicLocationSearcher extends LocationSearcher {
         return dest;
     }
 
-    private static LocationObject convert(PoiInfo src) {
+    private static LocationObject convert(PoiInfo src, LatLng latLng) {
         LocationObject locationObject = new LocationObject(src.uid, src.name, src.address);
         if (src.location != null) {
             locationObject.latitude = src.location.latitude;
             locationObject.longitude = src.location.longitude;
+            locationObject.distance = (int)DistanceUtil.getDistance(latLng, src.location);
         }
         return locationObject;
     }
