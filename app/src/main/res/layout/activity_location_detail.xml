@@ -49,7 +49,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:singleLine="true"
-            android:text="广州"
+            android:text=""
             android:textColor="#222222"
             android:textSize="15sp"
             android:textStyle="bold" />

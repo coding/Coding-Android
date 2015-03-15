@@ -12,8 +12,9 @@ public class LocationObject implements Serializable {
     public static enum Type {Undefined, City, Normal, Custom, newCustom}
 
     public final Type type;
-    public String id, name, address;
+    public String id, name, address, city;
     public double latitude, longitude;
+    public int distance;
 
     public LocationObject(JSONObject json) throws JSONException {
         type = Type.Normal;

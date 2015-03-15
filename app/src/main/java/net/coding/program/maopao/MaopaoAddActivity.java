@@ -319,17 +319,11 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
 
         params.put("content", content);
-        //params.put("device", Build.MODEL);
-        params.put("device", "iPhone 7 Preview");
+        params.put("device", Build.MODEL);
         if(!TextUtils.isEmpty( locationText.getText())) {
-            params.put("location", locationText.getText());
-            LocationCoord locationCoord = LocationCoord.from(currentLocation);
-            if(locationCoord != null) params.put("coord","123456789|123456789|");//locationCoord.toString()
-//            if(locationCoord != null){
-//                params.put("location", locationText.getText() + "|||" + locationCoord.toString());
-//            }else{
-//                params.put("location", locationText.getText());
-//            }
+            params.put("location", currentLocation.type == LocationObject.Type.City?
+                    currentLocation.name : currentLocation.city + "·" + currentLocation.name);
+            params.put("coord", LocationCoord.from(currentLocation).toString());
         }
         postNetwork(sendUrl, params, sendUrl);
     }

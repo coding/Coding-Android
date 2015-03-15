@@ -38,15 +38,17 @@ public class MaopaoLocationView extends TextView {
         if (!TextUtils.isEmpty(data.location)) {
             this.setText(data.location);
             this.setVisibility(View.VISIBLE);
-            final LocationCoord locationCoord = LocationCoord.parse("23.141118,113.365535,1,广东省广州市天河区");
-            if (locationCoord != null) {
+            final LocationCoord locationCoord = LocationCoord.parse(data.coord);
+            if (data.coord != null) {
                 this.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         LocationDetailActivity_.intent(v.getContext())
-                                .name(data.location).address(locationCoord.address)
-                                .latitude(locationCoord.latitude).longitude(locationCoord.longitude)
-                                .address(locationCoord.address).start();
+                                .name(data.location)
+                                .address(locationCoord.address)
+                                .latitude(locationCoord.latitude)
+                                .longitude(locationCoord.longitude)
+                                .start();
                     }
                 });
             } else {

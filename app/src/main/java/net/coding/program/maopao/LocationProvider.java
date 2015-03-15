@@ -8,6 +8,14 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.share.LocationShareURLOption;
+import com.baidu.mapapi.search.share.OnGetShareUrlResultListener;
+import com.baidu.mapapi.search.share.ShareUrlResult;
+import com.baidu.mapapi.search.share.ShareUrlSearch;
+
+import net.coding.program.model.LocationObject;
 
 /**
  * Created by Neutra on 2015/3/11.
@@ -73,6 +81,4 @@ public class LocationProvider {
     public static interface LocationResultListener {
         void onLocationResult(boolean success, String city, String area, String address, double latitude, double longitude);
     }
-
-
 }

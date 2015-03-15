@@ -28,7 +28,7 @@ public abstract class LocationSearcher {
         return TextUtils.isEmpty(keyword);
     }
 
-    public void setKeyword(String keyword) {
+    public synchronized void setKeyword(String keyword) {
         keyword = keyword == null ? "" : keyword.toString();
         if (!keyword.equals(this.keyword)) {
             this.keyword = keyword;
@@ -43,10 +43,14 @@ public abstract class LocationSearcher {
         return isComplete;
     }
 
-    public void search() {
+    public boolean isSearching() {
+        return isSearching;
+    }
+
+    public synchronized void search() {
         if (isComplete || isSearching) return;
         isSearching = true;
-        searchingVersion = keywordVersion;
+        searchingVersion = ++keywordVersion;
         doSearch(page);
     }
 

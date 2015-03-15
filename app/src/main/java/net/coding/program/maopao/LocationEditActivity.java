@@ -25,7 +25,7 @@ public class LocationEditActivity extends BaseActivity {
     @ViewById
     EditText nameText, areaText, addressText;
     @Extra
-    String name, area, address;
+    String name, city, area, address;
     @Extra
     double latitude, longitude;
 
@@ -59,13 +59,14 @@ public class LocationEditActivity extends BaseActivity {
             public void onStoreResult(boolean success, String id) {
                 if (!success) {
                     Toast.makeText(LocationEditActivity.this, "保存失败，请重试", Toast.LENGTH_SHORT).show();
-                    return;
+                } else {
+                    final LocationObject data = LocationObject.custom(id, customName, customAddress, latitude, longitude);
+                    data.city = city;
+                    Intent intent = new Intent();
+                    intent.putExtra("location", data);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                final LocationObject data = LocationObject.custom(id, customName, customAddress, latitude, longitude);
-                Intent intent = new Intent();
-                intent.putExtra("location", data);
-                setResult(RESULT_OK, intent);
-                finish();
             }
         });
     }

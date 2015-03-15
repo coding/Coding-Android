@@ -9,7 +9,6 @@ import net.coding.program.model.LocationObject;
  * Created by Neutra on 2015/3/14.
  */
 public class LocationCoord {
-    // coord格式: format("%f,%f,%s,%s", latitude, longitude, FORMAT_VERSION, address);
     // 经纬度均使用百度经纬度坐标(bd09ll),
     public String address;
     public double latitude, longitude;
@@ -25,16 +24,15 @@ public class LocationCoord {
 
     public static LocationCoord parse(String coord) {
         if (!TextUtils.isEmpty(coord)) {
-            Log.e("coord", coord);
-            String[] parts = coord.split(",", 4);
-            if (parts != null && parts.length == 4 && FORMAT_VERSION.equals(parts[2])) {
+            String[] parts = coord.split(",", 3);
+            if (parts != null && parts.length >= 2) {
                 LocationCoord result = new LocationCoord();
                 try {
                     result.latitude = Double.parseDouble(parts[0]);
                     result.longitude = Double.parseDouble(parts[1]);
-                    result.address = parts[3];
+                    result.address = parts.length > 2 ? parts[2] : "不详";
                 } catch (Throwable e) {
-                    Log.e("LocationCoord", "invalid LocationCoord format: coord", e);
+                    Log.e("LocationCoord", "invalid coord format", e);
                     return null;
                 }
                 return result;
@@ -45,6 +43,6 @@ public class LocationCoord {
 
     @Override
     public String toString() {
-        return String.format("%f,%f,%s,%s", latitude, longitude, FORMAT_VERSION, address);
+        return String.format("%.4f,%.4f", latitude, longitude);
     }
 }

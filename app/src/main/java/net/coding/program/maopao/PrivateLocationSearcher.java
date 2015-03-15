@@ -1,6 +1,7 @@
 package net.coding.program.maopao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
 
@@ -12,8 +13,6 @@ import java.util.List;
  * Created by Neutra on 2015/3/14.
  */
 public class PrivateLocationSearcher extends LocationSearcher {
-
-    private static final int PAGE_SIZE = 10;
 
     private Context context;
     private double latitude, longitude;
