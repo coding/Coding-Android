@@ -114,7 +114,7 @@
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull" />
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -135,7 +135,7 @@
             android:name=".EntranceActivity_"
             android:icon="@drawable/ic_launcher"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull">
+            android:theme="@style/AppThemeNoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -377,6 +377,7 @@
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_account_setting"
+            android:theme="@style/AppThemeNoActionbar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.SearchProjectActivity_"

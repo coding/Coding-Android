@@ -38,6 +38,7 @@ MERGED from com.android.support:appcompat-v7:21.0.3:15:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.davemorrissey.labs:subsampling-scale-image-view:2.4.0:7:5
 MERGED from com.github.lzyzsd:circleprogress:1.1.0:7:5
+MERGED from com.android.support:cardview-v7:22.0.0:20:5
 	android:targetSdkVersion
 		ADDED from AndroidManifest.xml:9:9
 	android:minSdkVersion
@@ -137,6 +138,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.ms-square:etsyblur:0.1.0:9:5
 MERGED from com.android.support:appcompat-v7:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:cardview-v7:22.0.0:22:5
 	android:label
 		ADDED from AndroidManifest.xml:37:9
 	android:allowBackup
@@ -734,99 +736,101 @@ ADDED from AndroidManifest.xml:382:9
 activity#net.coding.program.WebActivity_
 ADDED from AndroidManifest.xml:387:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:391:13
+		ADDED from AndroidManifest.xml:392:13
 	android:label
 		ADDED from AndroidManifest.xml:390:13
 	android:icon
 		ADDED from AndroidManifest.xml:389:13
+	android:theme
+		ADDED from AndroidManifest.xml:391:13
 	android:name
 		ADDED from AndroidManifest.xml:388:13
 activity#net.coding.program.project.SearchProjectActivity_
-ADDED from AndroidManifest.xml:392:9
+ADDED from AndroidManifest.xml:393:9
 	android:windowSoftInputMode
+		ADDED from AndroidManifest.xml:398:13
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:397:13
-	android:screenOrientation
+	android:label
 		ADDED from AndroidManifest.xml:396:13
-	android:label
+	android:icon
 		ADDED from AndroidManifest.xml:395:13
-	android:icon
+	android:name
 		ADDED from AndroidManifest.xml:394:13
-	android:name
-		ADDED from AndroidManifest.xml:393:13
 service#net.coding.program.UpdateService
-ADDED from AndroidManifest.xml:399:9
+ADDED from AndroidManifest.xml:400:9
 	android:name
-		ADDED from AndroidManifest.xml:399:18
+		ADDED from AndroidManifest.xml:400:18
 activity#net.coding.program.UpdateDialogActivity
-ADDED from AndroidManifest.xml:401:9
+ADDED from AndroidManifest.xml:402:9
 	android:label
-		ADDED from AndroidManifest.xml:404:13
-	android:icon
-		ADDED from AndroidManifest.xml:403:13
-	android:theme
 		ADDED from AndroidManifest.xml:405:13
-	android:name
-		ADDED from AndroidManifest.xml:402:13
-activity#net.coding.program.RegisterActivity_
-ADDED from AndroidManifest.xml:406:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:410:13
-	android:label
-		ADDED from AndroidManifest.xml:409:13
 	android:icon
-		ADDED from AndroidManifest.xml:408:13
-	android:name
-		ADDED from AndroidManifest.xml:407:13
-activity#net.coding.program.BaseAnnotationActivity_
-ADDED from AndroidManifest.xml:411:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:415:13
-	android:label
-		ADDED from AndroidManifest.xml:414:13
-	android:icon
-		ADDED from AndroidManifest.xml:413:13
-	android:name
-		ADDED from AndroidManifest.xml:412:13
-activity#net.coding.program.common.TermsActivity
-ADDED from AndroidManifest.xml:416:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:420:13
-	android:label
-		ADDED from AndroidManifest.xml:419:13
-	android:icon
-		ADDED from AndroidManifest.xml:418:13
-	android:name
-		ADDED from AndroidManifest.xml:417:13
-activity#net.coding.program.setting.UpdateTipActivity
-ADDED from AndroidManifest.xml:421:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:425:13
-	android:label
-		ADDED from AndroidManifest.xml:424:13
-	android:icon
-		ADDED from AndroidManifest.xml:423:13
+		ADDED from AndroidManifest.xml:404:13
 	android:theme
-		ADDED from AndroidManifest.xml:426:13
+		ADDED from AndroidManifest.xml:406:13
 	android:name
-		ADDED from AndroidManifest.xml:422:13
-activity#net.coding.program.FileUrlActivity_
-ADDED from AndroidManifest.xml:427:9
+		ADDED from AndroidManifest.xml:403:13
+activity#net.coding.program.RegisterActivity_
+ADDED from AndroidManifest.xml:407:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:431:13
+		ADDED from AndroidManifest.xml:411:13
 	android:label
-		ADDED from AndroidManifest.xml:430:13
+		ADDED from AndroidManifest.xml:410:13
 	android:icon
-		ADDED from AndroidManifest.xml:429:13
+		ADDED from AndroidManifest.xml:409:13
 	android:name
-		ADDED from AndroidManifest.xml:428:13
-activity#net.coding.program.project.ProjectHomeActivity_
-ADDED from AndroidManifest.xml:432:9
+		ADDED from AndroidManifest.xml:408:13
+activity#net.coding.program.BaseAnnotationActivity_
+ADDED from AndroidManifest.xml:412:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:435:13
+		ADDED from AndroidManifest.xml:416:13
 	android:label
-		ADDED from AndroidManifest.xml:434:13
+		ADDED from AndroidManifest.xml:415:13
+	android:icon
+		ADDED from AndroidManifest.xml:414:13
 	android:name
-		ADDED from AndroidManifest.xml:433:13
+		ADDED from AndroidManifest.xml:413:13
+activity#net.coding.program.common.TermsActivity
+ADDED from AndroidManifest.xml:417:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:421:13
+	android:label
+		ADDED from AndroidManifest.xml:420:13
+	android:icon
+		ADDED from AndroidManifest.xml:419:13
+	android:name
+		ADDED from AndroidManifest.xml:418:13
+activity#net.coding.program.setting.UpdateTipActivity
+ADDED from AndroidManifest.xml:422:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:426:13
+	android:label
+		ADDED from AndroidManifest.xml:425:13
+	android:icon
+		ADDED from AndroidManifest.xml:424:13
+	android:theme
+		ADDED from AndroidManifest.xml:427:13
+	android:name
+		ADDED from AndroidManifest.xml:423:13
+activity#net.coding.program.FileUrlActivity_
+ADDED from AndroidManifest.xml:428:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:432:13
+	android:label
+		ADDED from AndroidManifest.xml:431:13
+	android:icon
+		ADDED from AndroidManifest.xml:430:13
+	android:name
+		ADDED from AndroidManifest.xml:429:13
+activity#net.coding.program.project.ProjectHomeActivity_
+ADDED from AndroidManifest.xml:433:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:436:13
+	android:label
+		ADDED from AndroidManifest.xml:435:13
+	android:name
+		ADDED from AndroidManifest.xml:434:13
 activity#android.support.v7.widget.TestActivity
 ADDED from com.android.support:recyclerview-v7:21.0.0:18:9
 	android:label

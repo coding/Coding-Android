@@ -91,7 +91,7 @@ public abstract class MDEditFragment extends BaseFragment {
     @Click
     public void mdPhoto(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("更换头像")
+        builder.setTitle("上传图片")
                 .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

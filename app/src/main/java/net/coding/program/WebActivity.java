@@ -3,20 +3,27 @@ package net.coding.program;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.umeng.UmengActivity;
@@ -28,8 +35,11 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
+
 @EActivity(R.layout.activity_web)
-@OptionsMenu(R.menu.menu_web)
+//@OptionsMenu(R.menu.menu_web)
+@OptionsMenu(R.menu.common_more)
 public class WebActivity extends UmengActivity {
 
     @Extra
@@ -48,12 +58,14 @@ public class WebActivity extends UmengActivity {
 
     @AfterViews
     void init() {
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setCustomView(R.layout.actionbar_close_icon);
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowHomeEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setCustomView(R.layout.actionbar_close_icon);
+//        actionBar.setDisplayShowCustomEnabled(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.custom_action_bar);
+        setSupportActionBar(toolbar);
 
         actionbarTitle = (TextView) findViewById(R.id.actionbar_title);
         actionbarClose = findViewById(R.id.actionbar_close);
@@ -117,22 +129,22 @@ public class WebActivity extends UmengActivity {
         webView.loadUrl(url);
     }
 
-    @OptionsItem
-    void action_copy() {
-        String urlString = webView.getUrl();
-        Global.copy(this, urlString);
-        Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
-    }
+//    @OptionsItem
+//    void action_copy() {
+//        String urlString = webView.getUrl();
+//        Global.copy(this, urlString);
+//        Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
+//    }
 
-    @OptionsItem
-    void action_browser() {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
-            startActivity(intent);
-        } catch (Exception e) {
-            Toast.makeText(this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
-        }
-    }
+//    @OptionsItem
+//    void action_browser() {
+//        try {
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+//            startActivity(intent);
+//        } catch (Exception e) {
+//            Toast.makeText(this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
@@ -164,4 +176,63 @@ public class WebActivity extends UmengActivity {
             return URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
         }
     }
+
+    @OptionsItem
+    protected void action_more() {
+        showRightTopPop();
+    }
+
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
+
+    private void showRightTopPop() {
+        if (mRightTopPopupWindow == null) {
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
+            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
+            popupItemArrayList.add(downloadItem);
+
+            DialogUtil.RightTopPopupItem browserItem = new DialogUtil.RightTopPopupItem(getString(R.string.open_by_browser), 0);
+            popupItemArrayList.add(browserItem);
+
+            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
+        }
+
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+
+        Rect rectgle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+        int contentViewTop =
+                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        mRightTopPopupWindow.showAtLocation(getAnchorView(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
+    }
+
+    private View getAnchorView() {
+        return webView;
+    }
+
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    String urlString = webView.getUrl();
+                    Global.copy(WebActivity.this, urlString);
+                    Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case 1:
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(WebActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
+        }
+    };
+
 }

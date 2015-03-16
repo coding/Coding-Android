@@ -20,6 +20,7 @@
     <drawable name="white">#ffffffff</drawable>
     <color name="font_black">#010101</color>
     <drawable name="black">#ff000000</drawable>
+    <color name="black">#ff000000</color>
 
     <color name="divide_line_color">#dddddd</color>
 

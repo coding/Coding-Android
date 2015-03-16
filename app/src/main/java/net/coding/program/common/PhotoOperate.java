@@ -39,7 +39,7 @@ public class PhotoOperate {
         String path = Global.getPath(context, fileUri);
         File outputFile = new File(path);
         long fileSize = outputFile.length();
-        final long fileMaxSize = 100 * 1024;
+        final long fileMaxSize = 200 * 1024;
         if (fileSize >= fileMaxSize) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;

@@ -9,15 +9,14 @@
 
         <ImageView
             android:id="@+id/projectIcon"
-            android:layout_width="53dp"
-            android:layout_height="53dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="23dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="15dp"
             android:src="@color/font_black_0" />
 
         <TextView
@@ -25,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/projectIcon"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginStart="29dp"
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/projectIcon"
@@ -36,19 +35,19 @@
             android:textSize="18sp" />
 
         <TextView
-            android:layout_width="15dp"
             android:id="@+id/recommendIcon"
-            android:textColor="@color/white"
+            android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_toRightOf="@id/projectName"
             android:layout_alignTop="@id/projectName"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="2dp"
-            android:textSize="10sp"
-            android:gravity="center"
+            android:layout_toRightOf="@id/projectName"
             android:background="@drawable/round_rect_shape_green2"
-            android:visibility="gone"
-            android:text="荐"/>
+            android:gravity="center"
+            android:text="荐"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/projectAuthor"
@@ -63,21 +62,22 @@
             android:textColor="@color/font_gray" />
 
         <View
-            android:visibility="gone"
             android:id="@+id/iconPrivate"
             android:layout_width="11dp"
             android:layout_height="11dp"
             android:layout_alignLeft="@+id/projectAuthor"
             android:layout_alignStart="@+id/projectAuthor"
-            android:background="@drawable/ic_project_private1"
             android:layout_alignTop="@+id/projectAuthor"
-            android:layout_marginTop="3dp" />
+            android:layout_marginTop="4.5dp"
+            android:background="@drawable/ic_project_private1"
+            android:visibility="gone" />
     </RelativeLayout>
 
-    <net.coding.program.third.DashLine
+    <View
         android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_height="0.5dp"
-        android:background="@color/font_gray" />
+        android:layout_marginTop="15dp"
+        android:background="@color/divide" />
 </merge>

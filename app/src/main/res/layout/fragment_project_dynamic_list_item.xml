@@ -8,7 +8,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="18dp"
         android:src="@drawable/ic_default_user" />
 
@@ -16,7 +16,7 @@
         android:id="@+id/layout0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="18dp"
         android:layout_toRightOf="@id/icon"
         android:layout_marginRight="12dp"
         android:orientation="vertical">
