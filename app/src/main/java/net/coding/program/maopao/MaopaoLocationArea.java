@@ -3,6 +3,7 @@ package net.coding.program.maopao;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.Maopao;
@@ -30,7 +31,7 @@ public class MaopaoLocationArea {
             displayView.setVisibility(View.VISIBLE);
             hiddenView.setVisibility(View.GONE);
             final LocationCoord locationCoord = LocationCoord.parse(data.coord);
-            if (data.coord != null) {
+            if (locationCoord != null) {
                 displayView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
