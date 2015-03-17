@@ -115,7 +115,7 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void loginOut() {
-        XGPushManager.unregisterPush(getActivity().getApplicationContext());
+        XGPushManager.registerPush(getActivity(), "*");
         AccountInfo.loginOut(getActivity());
         startActivity(new Intent(getActivity(), LoginActivity_.class));
         getActivity().finish();

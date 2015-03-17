@@ -15,6 +15,7 @@ import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
 import net.coding.program.MyApp;
+import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
 import net.coding.program.model.AccountInfo;
 
@@ -88,7 +89,7 @@ public class PushReceiver extends XGPushBaseReceiver {
 
         if (url.isEmpty()) {
             Log.e("", "收到空消息");
-//            return;
+            return;
         }
 
         builder = new NotificationCompat.Builder(context)
@@ -98,7 +99,7 @@ public class PushReceiver extends XGPushBaseReceiver {
                 .setDefaults(Notification.DEFAULT_ALL);
 
 
-        Intent resultIntent = new Intent(MyApp.PushClickBroadcast);
+        Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
         resultIntent.putExtra("data", url);
         resultIntent.putExtra("id", id);
 

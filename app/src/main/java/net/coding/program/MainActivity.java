@@ -1,6 +1,5 @@
 package net.coding.program;
 
-import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,20 +40,19 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
-import java.util.HashSet;
 import java.util.List;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
 
+    public static final String TAG = "MainActivity";
+
     NavigationDrawerFragment_ mNavigationDrawerFragment;
     String mTitle;
 
     @Extra
     String mPushUrl;
-
-//    HashSet<String> mPushOpened = new HashSet();
 
     @StringArrayRes
     String drawer_title[];
@@ -68,20 +67,6 @@ public class MainActivity extends BaseActivity
 
     boolean mFirstEnter = true;
     private View actionbarCustom;
-
-    static private boolean mJumpNewIntent = false;
-
-    // 防止在onNewIntent中重复打开
-    public static void setJumpNewIntent() {
-        mJumpNewIntent = true;
-    }
-
-    public static boolean getJumpNewIntent() {
-        boolean old = mJumpNewIntent;
-        mJumpNewIntent = false;
-        return old;
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,30 +91,27 @@ public class MainActivity extends BaseActivity
 //            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
             mTitle = savedInstanceState.getString("mTitle");
         }
-    }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
+        Log.d(TAG, "onCreate");
 
-//        if (mPushUrl != null && !mPushOpened.contains(mPushUrl)) {
-//            mPushOpened.add(mPushUrl);
-//        }
-
-        if (!getJumpNewIntent()) {
-            if (mPushUrl != null) {
-                URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
-            }
+        if (mPushUrl != null) {
+            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
         }
     }
+
 
     @Override
     protected void onDestroy() {
         unregisterReceiver(mUpdatePushReceiver);
 
         super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
         MyApp.setMainActivityState(false);
+
+        super.finish();
     }
 
     // 信鸽文档推荐调用，防止在小米手机上收不到推送
@@ -146,7 +128,7 @@ public class MainActivity extends BaseActivity
             String globalKey = MyApp.sUserObject.global_key;
             XGPushManager.registerPush(this, globalKey);
         } else {
-            XGPushManager.unregisterPush(this);
+            XGPushManager.registerPush(this, "*");
         }
     }
 
@@ -174,6 +156,7 @@ public class MainActivity extends BaseActivity
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             String[] strings = getResources().getStringArray(R.array.maopao_action_types);
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment;
