@@ -51,7 +51,7 @@ public class MyApp extends Application {
 
         initImageLoader(this);
 
-        // 只在主进程初始化lbs
+        // 鍙湪涓昏繘绋嬪垵濮嬪寲lbs
         if(this.getPackageName().equals(getProcessName(this))){
             SDKInitializer.initialize(this);
         }
