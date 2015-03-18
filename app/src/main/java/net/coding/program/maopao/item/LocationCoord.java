@@ -10,15 +10,14 @@ import net.coding.program.model.LocationObject;
  */
 public class LocationCoord {
     // 经纬度均使用百度经纬度坐标(bd09ll),
-    public String address;
     public double latitude, longitude;
-    public static final String FORMAT_VERSION = "1";
+    public boolean isCustom = false;
 
     public static LocationCoord from(LocationObject locationObject) {
         LocationCoord locationCoord = new LocationCoord();
         locationCoord.latitude = locationObject.latitude;
         locationCoord.longitude = locationObject.longitude;
-        locationCoord.address = locationObject.address;
+        locationCoord.isCustom = locationObject.type == LocationObject.Type.newCustom;
         return locationCoord;
     }
 
@@ -30,7 +29,7 @@ public class LocationCoord {
                 try {
                     result.latitude = Double.parseDouble(parts[0]);
                     result.longitude = Double.parseDouble(parts[1]);
-                    result.address = parts.length > 2 ? parts[2] : "不详";
+                    result.isCustom = parts.length > 2 && !("0".equals(parts[2].trim()));
                 } catch (Throwable e) {
                     Log.e("LocationCoord", "invalid coord format", e);
                     return null;
@@ -43,8 +42,6 @@ public class LocationCoord {
 
     @Override
     public String toString() {
-        return String.format("%.4f,%.4f", latitude, longitude);
-//        String output = String.format("%f,%f", latitude, longitude);
-//        return output;
+        return  String.format("%f,%f,%d", latitude, longitude, (isCustom?1:0));
     }
 }

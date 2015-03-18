@@ -47,7 +47,7 @@ public class BaiduLbsLoader {
         params.put("ak", ak);
         UserObject userObject = AccountInfo.loadAccount(context);
         if (userObject != null) {
-            params.put("filter", String.format("userid:[%d,%d]", userObject.id, userObject.id));
+            params.put("filter", String.format("user_id:[%d]", userObject.id));
         }
         params.put("geotable_id", geotable);
         params.put("q", keyword);
@@ -127,7 +127,7 @@ public class BaiduLbsLoader {
         params.put("latitude", String.valueOf(latitude));
         params.put("longitude", String.valueOf(longitude));
         params.put("title", name);
-        params.put("userid", getUserId(context));
+        params.put("user_id", getUserId(context));
 
         try {
             params.put("sn", sn(path, params));

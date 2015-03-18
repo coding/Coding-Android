@@ -59,7 +59,7 @@ public class LocationEditActivity extends BaseActivity {
                 if (!success) {
                     Toast.makeText(LocationEditActivity.this, "保存失败，请重试", Toast.LENGTH_SHORT).show();
                 } else {
-                    final LocationObject data = LocationObject.custom(id, customName, customAddress, latitude, longitude);
+                    final LocationObject data = LocationObject.newCustom(id, customName, customAddress, latitude, longitude);
                     data.city = city;
                     Intent intent = new Intent();
                     intent.putExtra("location", data);

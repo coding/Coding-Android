@@ -65,4 +65,20 @@
         android:background="@drawable/line_gray"
         android:layout_width="match_parent"
         android:layout_height="1px" />
+
+    <TextView
+        android:id="@+id/customText"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:includeFontPadding="false"
+        android:paddingTop="2dp"
+        android:gravity="center"
+        android:text="此地点为用户创建"
+        android:textColor="#888888"
+        android:textSize="15sp" />
 </LinearLayout>

@@ -20,17 +20,20 @@ public class LocationDetailActivity extends BaseActivity {
     @ViewById
     TextView nameText, addressText;
     @ViewById
-    View map_button;
+    View map_button, customText;
     @Extra
     double latitude, longitude;
     @Extra
-    String name, address, shareId;
+    String name, address;
+    @Extra
+    boolean isCustom;
 
     @AfterViews
     void afterViews() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         nameText.setText(name);
         addressText.setText(address);
+        customText.setVisibility(isCustom? View.VISIBLE:View.GONE);
         if (address != null) {
             map_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -41,16 +44,6 @@ public class LocationDetailActivity extends BaseActivity {
                 }
             });
         }
-//        BaiduLbsLoader.requestLocationObject(this, shareId, new BaiduLbsLoader.LocationDetailListner(){
-//            @Override
-//            public void onReceiveLocationObject(LocationObject locationObject) {
-//                if(LocationDetailActivity.this.isFinishing()) return;
-//                if(locationObject == null) return;
-//                addressText.setText(address= locationObject.address);
-//                latitude = locationObject.latitude;
-//                longitude = locationObject.longitude;
-//            }
-//        });
     }
 
     @OptionsItem(android.R.id.home)
