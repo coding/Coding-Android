@@ -11,6 +11,20 @@
         <item name="android:windowBackground">@drawable/transparent</item>
     </style>
 
+    <!--透明的actionbar-->
+
+    <style name="TranslateActionbar" parent="Theme.AppCompat">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@color/transparent</item>
+
+        <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
+    </style>
+
+    <style name="MyApp.PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="android:popupBackground">@drawable/white</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->

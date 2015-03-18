@@ -30,7 +30,6 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -281,7 +280,8 @@
             android:name=".user.UserDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_detail"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslateActionbar" >
             <intent-filter>
                 <data
                     android:host="UserDetailActivity_"
@@ -433,12 +433,16 @@
             android:name=".MyPushReceiver"
             android:enabled="true"
             android:exported="false" >
-
             <intent-filter>
                 <action android:name="PushClickBroadcast" />
             </intent-filter>
-
         </receiver>
+
+        <activity
+            android:name=".user.UserDetailMoreActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_user_detail_more" >
+        </activity>
     </application>
 
 </manifest>

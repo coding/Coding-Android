@@ -163,7 +163,7 @@ public class Global {
         }
     };
 
-    private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%sx%s";
+    private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
     public static String makeSmallUrl(ImageView view, String url) {
         String realUrl = url.split("\\?")[0];
 
@@ -181,14 +181,44 @@ public class Global {
             // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
             if (width.isEmpty() && height.isEmpty()) {
                 height = String.valueOf(Global.dpToPx(200));
+                width = String.valueOf(Global.dpToPx(200));
 
             }
-            return String.format(IMAGE_URL_SCAL, realUrl, width, height);
+            return String.format(IMAGE_URL_SCAL, realUrl, width);
         } else {
             return realUrl;
         }
-
     }
+
+
+    // 7牛图片接口，用法如下
+    // http://developer.qiniu.com/docs/v6/api/reference/fop/image/imageview2.html
+//    private static final String IMAGE_URL_CROP = "%s/?imageView2/4/w/%s/h/%s";
+//    public static String makeSmallUrl(ImageView view, String url, int minWidth) {
+//        String realUrl = url.split("\\?")[0];
+//
+//        if (url.indexOf("http") == 0) {
+//            // 头像再裁剪需要算坐标，就不改参数了
+//            // https://dn-coding-net-production-static.qbox.me/c28b97dd-61f2-41d4-bd7e-b04f0c634751.jpg?imageMogr2/auto-orient/format/jpeg/crop/!164x164a568a38
+//            if (url.contains("/crop/")) {
+//                return url;
+//            }
+//
+//            ViewGroup.LayoutParams lp = view.getLayoutParams();
+//
+//            String width = intToString(Math.max(lp.width, lp.height));
+//            String height = intToString(Math.min(lp.width, lp.height));
+//
+//            // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
+//            if (width.isEmpty() && height.isEmpty()) {
+//                height = String.valueOf(Global.dpToPx(200));
+//            }
+//            return String.format(IMAGE_URL_CROP, realUrl, width, height);
+//        } else {
+//            return realUrl;
+//        }
+//
+//    }
 
     public static String makeLargeUrl(String url) {
         final int MAX = 4096; // ImageView显示的图片不能大于这个数

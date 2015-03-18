@@ -110,7 +110,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         }
 
         String lastInput = AccountInfo.loadMessageDraft(this, mGlobalKey);
-        mEnterLayout.inputText(lastInput);
+        mEnterLayout.setText(lastInput);
     }
 
     void initControl() {

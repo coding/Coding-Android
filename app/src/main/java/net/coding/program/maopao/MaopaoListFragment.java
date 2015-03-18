@@ -350,7 +350,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             setRefreshing(false);
             if (code == 0) {
                 if (id == UPDATE_ALL_INT) {
-                    listView.setSelection(0);
                     mData.clear();
                 }
 
@@ -375,7 +374,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     mAdapter.notifyDataSetChanged();
 
                     if (oldId == UPDATE_ALL_INT) {
-                        listView.smoothScrollToPosition(0);
+                        listView.smoothScrollToPositionFromTop(0, 10000);
                     }
                 }
 
@@ -742,7 +741,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
     public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
-    public final static int TAG_MAOPAO = R.id.maopao;
+    public final static int TAG_MAOPAO = R.id.clickMaopao;
     public final static int TAG_COMMENT = R.id.comment;
 
     public static class ClickImageParam {
