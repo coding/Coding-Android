@@ -31,6 +31,7 @@ public class Maopao {
         public String device = "";
         public String location = "";
         public String coord = "";
+        public String address = "";
 
         public MaopaoObject(JSONObject json) throws JSONException {
             activity_id = json.optString("activity_id");
@@ -66,6 +67,7 @@ public class Maopao {
             device = json.optString("device");
             location = json.optString("location");
             coord = json.optString("coord");
+            address = json.optString("address");
         }
     }
 

@@ -37,7 +37,7 @@ public class MaopaoLocationArea {
                     public void onClick(View v) {
                         LocationDetailActivity_.intent(v.getContext())
                                 .name(data.location)
-                                .address(locationCoord.address)
+                                .address(data.address)
                                 .latitude(locationCoord.latitude)
                                 .longitude(locationCoord.longitude)
                                 .start();

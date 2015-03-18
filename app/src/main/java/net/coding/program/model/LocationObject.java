@@ -52,7 +52,7 @@ public class LocationObject implements Serializable {
         return locationObject;
     }
 
-    public static LocationObject custom(String id, String name, String address, double latitude, double longitude){
+    public static LocationObject newCustom(String id, String name, String address, double latitude, double longitude){
         LocationObject locationObject = new LocationObject(Type.Custom, id, name, address);
         locationObject.latitude = latitude;
         locationObject.longitude = longitude;
