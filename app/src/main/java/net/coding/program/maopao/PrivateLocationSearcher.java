@@ -41,7 +41,7 @@ public class PrivateLocationSearcher extends LocationSearcher {
     }
 
     protected void doSearch(int page) {
-        BaiduLbsLoader.search(context, getKeyword(), latitude, longitude, page, callback);
+        BaiduLbsLoader.searchCustom(context, getKeyword(), latitude, longitude, page, callback);
     }
 
     @Override
