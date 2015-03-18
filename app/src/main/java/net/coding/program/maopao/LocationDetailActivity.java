@@ -31,6 +31,8 @@ public class LocationDetailActivity extends BaseActivity {
     @AfterViews
     void afterViews() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(name == null) name = "";
+        name = name.replaceFirst(".*·","");
         nameText.setText(name);
         addressText.setText(address);
         customText.setVisibility(isCustom? View.VISIBLE:View.GONE);

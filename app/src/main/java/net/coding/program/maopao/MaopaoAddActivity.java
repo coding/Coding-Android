@@ -334,7 +334,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         if(TextUtils.isEmpty(src)) return "";
         if(src.length() <= maxLength) return src;
         if(maxLength < 1) throw new IllegalArgumentException("maxLength");
-        return src.substring(0,maxLength) + "…";
+        return src.substring(0, maxLength - 1) + "…";
     }
 
     final String HOST_IMAGE = Global.HOST + "/api/tweet/insert_image";

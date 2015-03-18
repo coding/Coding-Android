@@ -3,7 +3,6 @@ package net.coding.program.maopao;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.Maopao;
@@ -35,12 +34,25 @@ public class MaopaoLocationArea {
                 displayView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        LocationDetailActivity_.intent(v.getContext())
-                                .name(data.location)
-                                .address(data.address)
-                                .latitude(locationCoord.latitude)
-                                .longitude(locationCoord.longitude)
-                                .start();
+                        if(data == null || data.location == null || locationCoord == null) return;
+                        // 根据是否存在特殊字符来判断一个位置是否只是城市
+                        if (data.location.indexOf("·") >= 0) {
+                            LocationDetailActivity_.intent(v.getContext())
+                                    .name(data.location)
+                                    .address(data.address)
+                                    .latitude(locationCoord.latitude)
+                                    .longitude(locationCoord.longitude)
+                                    .isCustom(locationCoord.isCustom)
+                                    .start();
+                        } else {
+                            // 城市直接进入地图而不经过详情页(因为无详细地址)
+                            LocationMapActivity_.intent(v.getContext())
+                                    .name(data.location)
+                                    .address(data.address)
+                                    .latitude(locationCoord.latitude)
+                                    .longitude(locationCoord.longitude)
+                                    .start();
+                        }
                     }
                 });
             } else {

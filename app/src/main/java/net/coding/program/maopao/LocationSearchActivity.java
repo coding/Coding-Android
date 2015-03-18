@@ -43,7 +43,7 @@ import java.util.List;
 public class LocationSearchActivity extends BaseActivity implements FootUpdate.LoadMore {
 
     // 行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,结婚,丽人,金融,运动健身,医疗,教育,培训机构,交通设施,自然地物,政府机构,门址,道路
-    private static final String RECOMMEND_KEYS = "公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,运动健身,医疗,教育,政府机构,道路";
+    private static final String RECOMMEND_KEYS = "公司企业$美食$生活服务$道路$旅游景点$医疗$休闲娱乐$宾馆";
 
     @ViewById
     ListView listView;
@@ -207,7 +207,7 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
 
     private class ChooseAdapter extends LocationAdapter implements LocationSearcher.SearchResultListener {
 
-        LocationSearcherGroup searcher = new LocationSearcherGroup(RECOMMEND_KEYS.split(","));
+        LocationSearcherGroup searcher = new LocationSearcherGroup(RECOMMEND_KEYS);
 
         @Override
         public void bindItem(LocationItem locationItem, int position, LocationObject data) {

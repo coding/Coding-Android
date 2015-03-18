@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Neutra on 2015/3/12.
  */
 public class LocationSearcherGroup {
-    private PublicLocationSearcher[] publicSearchers;
+    private PublicLocationSearcher publicSearcher;
     private PrivateLocationSearcher privateSearcher;
     private LocationSearcher.SearchResultListener listener;
     private LocationSearcher.SearchResultListener itemListener = new PublicLocationSearcher.SearchResultListener() {
@@ -23,7 +23,7 @@ public class LocationSearcherGroup {
         public void onSearchResult(List<LocationObject> locations) {
             if (locations != null) resultBuffer.addAll(locations);
             if (!isSearching()) {
-                // onSearchResult后可能立刻就会重新搜索， 所以要输出的列表放到另一个对象中
+                // onSearchResult后可能立刻会重新搜索， 所以要输出的列表放到另一个对象中
                 List<LocationObject> temp = new ArrayList<>(resultBuffer);
                 resultBuffer.clear();
                 Collections.sort(temp, new Comparator<LocationObject>() {
@@ -39,36 +39,29 @@ public class LocationSearcherGroup {
 
     private List<LocationObject> resultBuffer = new ArrayList<>();
 
-    public LocationSearcherGroup(String[] keywords) {
-        if (keywords == null || keywords.length < 1) throw new IllegalArgumentException("keywords");
-        publicSearchers = new PublicLocationSearcher[keywords.length];
-        for (int i = keywords.length - 1; i >= 0; --i) {
-            publicSearchers[i] = new PublicLocationSearcher();
-            publicSearchers[i].setKeyword(keywords[i]);
-        }
+    public LocationSearcherGroup(String keyword) {
+        if (keyword == null) throw new IllegalArgumentException("keywords");
+        publicSearcher = new PublicLocationSearcher();
+        publicSearcher.setKeyword(keyword);
         privateSearcher = new PrivateLocationSearcher();
         privateSearcher.setKeyword("");
     }
 
     public LocationSearcherGroup() {
-        publicSearchers = new PublicLocationSearcher[]{new PublicLocationSearcher()};
+        publicSearcher = new PublicLocationSearcher();
         privateSearcher = new PrivateLocationSearcher();
     }
 
     public synchronized void destory() {
         resultBuffer.clear();
         privateSearcher.destory();
-        for (LocationSearcher searcher : publicSearchers) {
-            searcher.destory();
-        }
+        publicSearcher.destory();
     }
 
     public synchronized void configure(Context context, LatLng latLng, final PublicLocationSearcher.SearchResultListener listener) {
         this.listener = listener;
         privateSearcher.configure(context, latLng, itemListener);
-        for (LocationSearcher item : publicSearchers) {
-            item.configure(context, latLng, itemListener);
-        }
+        publicSearcher.configure(context, latLng, itemListener);
     }
 
     public synchronized void search() {
@@ -76,33 +69,19 @@ public class LocationSearcherGroup {
         if (isSearching()) return;
         resultBuffer.clear();
         privateSearcher.search();
-        for (LocationSearcher item : publicSearchers) {
-            item.search();
-        }
+        publicSearcher.search();
     }
 
     public synchronized boolean isSearching() {
-        for (LocationSearcher searcher : publicSearchers) {
-            if (!searcher.isSearching()) {
-                return false;
-            }
-        }
-        return privateSearcher.isSearching();
+        return publicSearcher.isSearching() || privateSearcher.isSearching();
     }
 
     public synchronized boolean isComplete() {
-        for (LocationSearcher searcher : publicSearchers) {
-            if (!searcher.isComplete()) {
-                return false;
-            }
-        }
-        return privateSearcher.isComplete();
+        return publicSearcher.isComplete() && privateSearcher.isComplete();
     }
 
     public synchronized void setKeyword(String keyword) {
-        for (LocationSearcher searcher : publicSearchers) {
-            searcher.setKeyword(keyword);
-        }
+        publicSearcher.setKeyword(keyword);
         privateSearcher.setKeyword(keyword);
     }
 
