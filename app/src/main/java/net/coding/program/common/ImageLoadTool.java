@@ -1,10 +1,15 @@
 package net.coding.program.common;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.AnimatedStateListDrawable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.R;
 
@@ -65,9 +70,14 @@ public class ImageLoadTool {
         imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, options);
     }
 
+    public void loadImage(ImageView imageView, String url, SimpleImageLoadingListener animate) {
+        imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, options, animate);
+    }
+
     public void loadImage(ImageView imageView, String url, DisplayImageOptions imageOptions) {
         imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, imageOptions);
     }
+
 
     public void loadImageFromUrl(ImageView imageView, String url) {
         imageLoader.displayImage(url, imageView, options);
@@ -76,5 +86,6 @@ public class ImageLoadTool {
     public void loadImageFromUrl(ImageView imageView, String url, DisplayImageOptions displayImageOptions) {
         imageLoader.displayImage(url, imageView, displayImageOptions);
     }
+
 }
 

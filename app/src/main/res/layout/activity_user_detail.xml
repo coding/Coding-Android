@@ -1,154 +1,266 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/divide_15_e5">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="#f2f2f2"
-        tools:context="net.coding.program.user.UserDetailActivity"
-        android:id="@+id/layoutHead">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="15dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="21dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/ic_lancher" />
-
-
-        <ImageView
-            android:id="@+id/sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/icon"
-            android:layout_marginLeft="-38dp"
-            android:layout_marginTop="3dp"
-            android:layout_toEndOf="@id/icon"
-            android:layout_toRightOf="@id/icon"
-            android:src="@android:color/transparent" />
-
-        <TextView
-            android:id="@+id/name"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_toRightOf="@id/icon"
-            android:textColor="@color/font_black_content"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:textSize="18sp"
+            app:cardCornerRadius="0dp"
+            app:contentPaddingLeft="0dp"
+            app:contentPaddingRight="0dp">
 
-            />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="17dp">
 
-        <TextView
-            android:id="@+id/slogan"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="188dp"
+                    android:id="@+id/userBackgroundLayout">
+
+                    <ImageView
+                        android:id="@+id/userBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/user_home_bg" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#33000000" />
+                </FrameLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/icon"
+                    android:layout_width="83dp"
+                    android:layout_height="83dp"
+                    android:layout_alignBottom="@id/userBackgroundLayout"
+                    android:layout_marginBottom="-27dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userBackgroundLayout"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="44dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="chenchao"
+                    android:textColor="@color/font_black_content"
+                    android:textSize="18sp" />
+
+
+                <ImageView
+                    android:id="@+id/sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@id/name"
+                    android:src="@drawable/ic_sex_boy" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_alignLeft="@id/name"
+                    android:layout_below="@id/name"
+                    android:gravity="bottom"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/fans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="粉丝"
+                        android:textColor="@color/font_black_comment"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="13dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/divide_line_color" />
+
+                    <TextView
+                        android:id="@+id/follows"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="关注"
+                        android:textColor="@color/font_black_comment"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+
+                <CheckBox
+                    android:id="@+id/followCheckbox"
+                    android:layout_width="83dp"
+                    android:layout_height="33dp"
+                    android:layout_alignLeft="@+id/name"
+                    android:layout_below="@+id/linearLayout1"
+                    android:layout_marginTop="17dp"
+                    android:button="@drawable/checkbox_fans"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <include layout="@layout/divide_15" />
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/name"
-            android:layout_below="@id/name"
-            android:layout_marginTop="7dp"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="@color/font_gray"
-            android:textSize="16sp" />
+            app:cardCornerRadius="0dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/sendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/slogan"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/icon"
-            android:src="@drawable/ic_send_message" />
+                <include
+                    android:id="@+id/pos0"
+                    layout="@layout/list_item_2_text" />
 
-        <CheckBox
-            android:id="@+id/followCheckbox"
-            android:layout_width="83dp"
-            android:layout_height="33dp"
-            android:visibility="invisible"
-            android:layout_alignTop="@id/sendMessage"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/sendMessage"
-            android:button="@drawable/checkbox_fans" />
+                <include layout="@layout/divide_1_12" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout1"
+                <include
+                    android:id="@+id/pos1"
+                    layout="@layout/list_item_2_text" />
+
+                <include layout="@layout/divide_1_12" />
+
+                <include
+                    android:id="@+id/pos2"
+                    layout="@layout/list_item_2_text" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <include layout="@layout/divide_15" />
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/clickProject"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15sp"
+                    android:paddingRight="15sp">
+
+                    <View
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:background="@drawable/user_home_project"
+                        android:layout_marginRight="15dp" />
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="TA的项目"
+                        android:textColor="#222222"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/user_home_arrow" />
+
+                </LinearLayout>
+
+                <include layout="@layout/divide_1_12" />
+
+
+                <LinearLayout
+                    android:id="@+id/clickMaopao"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15sp"
+                    android:paddingRight="15sp">
+
+                    <View
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:background="@drawable/user_home_maopao"
+                        android:layout_marginRight="15dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="TA的冒泡"
+                        android:textColor="#222222"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/user_home_arrow" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <include layout="@layout/divide_15" />
+
+        <RelativeLayout
+            android:id="@+id/sendMessageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/divide_15_e5"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
 
             <TextView
-                android:id="@+id/fans"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
+                android:id="@+id/sendMessage"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:background="@drawable/button_round_green"
                 android:gravity="center"
-                android:text="粉丝"
-                android:textColor="@color/font_black_comment"
+                android:text="发消息"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:background="@color/divide_line_color" />
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/follows"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textColor="@color/font_black_comment"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="关注"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:background="@color/divide_line_color" />
-
-            <TextView
-                android:id="@+id/maopao"
-                android:textColor="@color/font_black_comment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="冒泡"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_above="@id/linearLayout1"
-            android:background="@color/divide_line_color" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divide_line_color" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

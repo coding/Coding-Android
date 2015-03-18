@@ -44,6 +44,9 @@ public class PublicProjectHomeFragment extends BaseFragment {
     TextView projectName;
 
     @ViewById
+    TextView description;
+
+    @ViewById
     TextView projectAuthor;
 
     @ViewById
@@ -72,6 +75,12 @@ public class PublicProjectHomeFragment extends BaseFragment {
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         projectAuthor.setText(mProjectObject.owner_user_name);
+
+        if (mProjectObject.description.isEmpty()) {
+            description.setVisibility(View.GONE);
+        } else {
+            description.setText(mProjectObject.description);
+        }
 
         View root = getView();
         initHead2();
@@ -154,9 +163,9 @@ public class PublicProjectHomeFragment extends BaseFragment {
         };
 
         int[][] titlesColors = new int[][]{
-                new int[]{0xff666666, 0xff3bbd79},
-                new int[]{0xff666666, 0xff3bbd79},
-                new int[]{0xff666666, 0xff666666},
+                new int[]{0xff222222, 0xff3bbd79},
+                new int[]{0xff222222, 0xff3bbd79},
+                new int[]{0xff222222, 0xff666666},
         };
 
         int[][] icons = new int[][]{

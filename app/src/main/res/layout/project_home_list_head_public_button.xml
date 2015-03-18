@@ -22,9 +22,9 @@
         android:textSize="13sp" />
 
     <View
-        android:layout_width="0.5dp"
+        android:layout_width="1dp"
         android:layout_height="12dp"
-        android:background="#ffdddddd"
+        android:background="#ffcacaca"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp" />
 
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2015"
-        android:textColor="@color/font_black_6"
+        android:textColor="@color/font_black_2"
         android:textSize="12sp" />
 
 </LinearLayout>

@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.project.detail.TopicAddActivity">
     <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="编辑"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_copy_link"
         android:title="@string/copy_link"
         app:showAsAction="never" />

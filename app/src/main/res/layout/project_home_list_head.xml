@@ -6,74 +6,88 @@
     android:longClickable="false"
     android:orientation="vertical">
 
-    <include layout="@layout/project_home_list_head_head" />
 
-    <RelativeLayout
-        android:layout_marginTop="22dp"
-        android:layout_marginBottom="22dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"
+    <android.support.v7.widget.CardView
+        cardCornerRadius="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/button0"
-            layout="@layout/project_home_list_head_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/button1"
-            layout="@layout/project_home_list_head_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            <include layout="@layout/project_home_list_head_head" />
 
-        <include
-            android:id="@+id/button2"
-            layout="@layout/project_home_list_head_button"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="22dp"
+                android:layout_marginLeft="33dp"
+                android:layout_marginRight="33dp"
+                android:layout_marginTop="22dp">
 
-        <include
-            android:layout_marginTop="28dp"
-            android:id="@+id/button3"
-            android:layout_below="@id/button0"
-            layout="@layout/project_home_list_head_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/button0"
+                    layout="@layout/project_home_list_head_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        <include
-            android:layout_alignTop="@id/button3"
-            android:id="@+id/button4"
-            android:layout_centerHorizontal="true"
-            layout="@layout/project_home_list_head_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/button1"
+                    layout="@layout/project_home_list_head_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true" />
 
-        <include
-            android:layout_alignTop="@id/button3"
-            android:id="@+id/button5"
-            layout="@layout/project_home_list_head_button"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/button2"
+                    layout="@layout/project_home_list_head_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
 
-    </RelativeLayout>
-    
+                <include
+                    android:id="@+id/button3"
+                    layout="@layout/project_home_list_head_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/button0"
+                    android:layout_marginTop="28dp" />
+
+                <include
+                    android:id="@+id/button4"
+                    layout="@layout/project_home_list_head_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/button3"
+                    android:layout_centerHorizontal="true" />
+
+                <include
+                    android:id="@+id/button5"
+                    layout="@layout/project_home_list_head_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/button3" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="12dp"
         android:background="#ffe5e5e5" />
+
     <TextView
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:text="最近动态"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:gravity="center_vertical|left"
-        android:textColor="#ff000000"/>
+        android:text="最近动态"
+        android:textColor="#ff000000" />
 
 
 </LinearLayout>

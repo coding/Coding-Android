@@ -102,6 +102,12 @@
         <item>个性标签</item>
     </string-array>
 
+    <string-array name="user_detail_activity_list_first">
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>个性标签</item>
+    </string-array>
+
     <string-array name="user_detail_list_first">
         <item>加入时间</item>
         <item>最后活动</item>
@@ -109,6 +115,19 @@
         <item>公司</item>
         <item>工作</item>
         <item>地区</item>
+        <item>个性标签</item>
+    </string-array>
+
+    <string-array name="user_detail_more_list_first">
+        <item>加入时间</item>
+        <item>最后活动</item>
+        <item>个性后缀</item>
+        <item>性别</item>
+        <item>生日</item>
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>公司</item>
+        <item>职位</item>
         <item>个性标签</item>
     </string-array>
 

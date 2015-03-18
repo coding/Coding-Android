@@ -16,6 +16,8 @@
             android:layout_height="60dp"
             android:id="@+id/icon"
             android:scaleType="centerCrop"
+            android:background="@drawable/round_icon_path"
+            android:padding="1dp"
             android:src="@drawable/ic_default_image" />
 
         <com.readystatesoftware.viewbadger.BadgeView
@@ -28,7 +30,6 @@
             android:layout_alignRight="@id/icon"
             android:layout_marginRight="-12dp"
             android:layout_marginTop="-9dp" />
-
 
         <TextView
             android:layout_marginLeft="10dp"

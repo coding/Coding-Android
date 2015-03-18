@@ -134,7 +134,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         MaopaoDraft draft = AccountInfo.loadMaopaoDraft(this);
         if (!draft.isEmpty()) {
-            mEnterLayout.inputText(draft.getInput());
+            mEnterLayout.setText(draft.getInput());
             mData = draft.getPhotos();
             adapter.notifyDataSetChanged();
         }
@@ -325,7 +325,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 setResult(Activity.RESULT_OK, intent);
 
                 // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
-                mEnterLayout.inputText("");
+                mEnterLayout.clearContent();
                 mData.clear();
 
                 finish();

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
@@ -194,6 +196,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected void iconfromNetwork(ImageView view, String url) {
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url));
+    }
+
+    protected void iconfromNetwork(ImageView view, String url, SimpleImageLoadingListener animate) {
+        imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url), animate);
     }
 
     protected void imagefromNetwork(ImageView view, String url) {

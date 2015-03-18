@@ -246,6 +246,10 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url));
     }
 
+//    protected void iconfromNetwork(ImageView view, String url, int minWitdh) {
+//        imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url, minWitdh));
+//    }
+
     protected void iconfromNetwork(ImageView view, String url, DisplayImageOptions options) {
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url), options);
     }

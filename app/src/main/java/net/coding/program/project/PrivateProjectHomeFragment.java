@@ -19,7 +19,8 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 
     @AfterViews
     public void init2() {
-        View head = mInflater.inflate(R.layout.project_home_list_head, listView, false);
+//        View head = mInflater.inflate(R.layout.project_home_list_head, listView, false);
+        View head = View.inflate(getActivity(), R.layout.project_home_list_head, null);
 
         final String buttonTitle[] = new String[] {
                 "动态",

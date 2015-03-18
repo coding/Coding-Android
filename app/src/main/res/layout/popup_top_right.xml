@@ -7,6 +7,6 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="140dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"></ListView>
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.FileUrlActivity_;
 import net.coding.program.ImagePagerActivity_;
+import net.coding.program.TestActivity;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.maopao.MaopaoDetailActivity;
@@ -51,6 +52,7 @@ public class URLSpanNoUnderline extends URLSpan {
     }
 
     public static boolean openActivityByUri(Context context, String uriString, boolean newTask, boolean defaultIntent) {
+        Log.d("", "yes reload");
         Intent intent = new Intent();
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

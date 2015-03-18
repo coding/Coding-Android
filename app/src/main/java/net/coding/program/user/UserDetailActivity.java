@@ -1,6 +1,7 @@
 package net.coding.program.user;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -10,13 +11,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
@@ -48,28 +49,25 @@ public class UserDetailActivity extends BaseActivity {
     String globalKey;
 
     @ViewById
-    ViewGroup layoutHead;
-
-    @ViewById
     ImageView icon;
 
     @ViewById
     TextView name;
 
     @ViewById
-    TextView slogan;
-
-    @ViewById
-    ImageView sendMessage;
+    View sendMessage;
 
     @ViewById
     CheckBox followCheckbox;
 
     @ViewById
-    ImageView sex;
+    ImageView userBackground;
 
     @ViewById
-    ListView listView;
+    ImageView sex;
+
+    @StringArrayRes
+    String[] user_detail_activity_list_first;
 
     @StringArrayRes
     String[] user_detail_list_first;
@@ -81,6 +79,8 @@ public class UserDetailActivity extends BaseActivity {
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        initListFirst();
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
@@ -98,6 +98,18 @@ public class UserDetailActivity extends BaseActivity {
 
             getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
         }
+
+        userBackground.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ViewGroup.LayoutParams lp = userBackground.getLayoutParams();
+                if (lp.width > 0) {
+                    lp.height = lp.width * 560 / 1080;
+                    userBackground.setLayoutParams(lp);
+                    userBackground.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            }
+        });
     }
 
     @Override
@@ -122,17 +134,12 @@ public class UserDetailActivity extends BaseActivity {
         getSupportActionBar().setTitle("个人主页");
     }
 
-    @Click
-    void layoutHead() {
-        if (isMe) {
-            action_edit();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
         if (isMe) {
-            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.user_detail_me, menu);
+        } else {
             inflater.inflate(R.menu.user_detail, menu);
         }
 
@@ -146,6 +153,20 @@ public class UserDetailActivity extends BaseActivity {
                 .startForResult(RESULT_EDIT);
     }
 
+    @OptionsItem
+    public final void action_more_detail() {
+        UserDetailMoreActivity_.intent(this)
+                .mUserObject(mUserObject)
+                .start();
+    }
+
+    @OptionsItem
+    public final void action_copy_link() {
+        String link = Global.HOST + mUserObject.path;
+        Global.copy(this, link);
+        showButtomToast("已复制链接 " + link);
+    }
+
     public final int RESULT_EDIT = 0;
 
     @OnActivityResult(RESULT_EDIT)
@@ -157,31 +178,10 @@ public class UserDetailActivity extends BaseActivity {
         isMe = true;
         invalidateOptionsMenu();
 
-        sendMessage.setVisibility(View.GONE);
         followCheckbox.setVisibility(View.GONE);
-
-        layoutHead.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // 将head高度设置为150dp
-                if (layoutHead.getHeight() > 0) {
-                    ViewGroup.LayoutParams params = layoutHead.getLayoutParams();
-                    params.height = Global.dpToPx(150);
-                    layoutHead.setLayoutParams(params);
-                    layoutHead.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            }
-        });
+        findViewById(R.id.sendMessageLayout).setVisibility(View.GONE);
     }
 
-    View.OnClickListener onClickMaopao = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(UserDetailActivity.this, UserMaopaoActivity.class);
-            intent.putExtra(UserMaopaoActivity.PARAM_ID, mUserObject.id);
-            startActivity(intent);
-        }
-    };
 
     View.OnClickListener onClickFans = new View.OnClickListener() {
         @Override
@@ -230,19 +230,13 @@ public class UserDetailActivity extends BaseActivity {
                 mUserObject.tags_str
         };
 
-        iconfromNetwork(icon, mUserObject.avatar);
+        iconfromNetwork(icon, mUserObject.avatar, new AnimateFirstDisplayListener());
         icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
 
         sex.setImageResource(sexs[mUserObject.sex]);
 
         name.setText(mUserObject.name);
-
-        String sloganString = mUserObject.slogan;
-        if (sloganString.isEmpty()) {
-            sloganString = "未填写座右铭";
-        }
-        slogan.setText(sloganString);
 
         // 自己的页面不显示 关注
         if (!isMe) {
@@ -272,12 +266,37 @@ public class UserDetailActivity extends BaseActivity {
         follows.setText(createSpan(String.format("关注  %d", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
 
-        TextView maopao = (TextView) findViewById(R.id.maopao);
-        maopao.setOnClickListener(onClickMaopao);
-        maopao.setText(createSpan(String.format("冒泡  %d", mUserObject.tweets_count)));
-
-        listView.setAdapter(baseAdapter);
+        setListData();
     }
+
+    private void initListFirst() {
+        for (int i = 0; i < items.length; ++i) {
+            View parent = findViewById(items[i]);
+            TextView first = (TextView) parent.findViewById(R.id.first);
+            first.setText(user_detail_activity_list_first[i]);
+        }
+    }
+
+    private final int[] items = new int[]{
+            R.id.pos0,
+            R.id.pos1,
+            R.id.pos2
+    };
+
+    private void setListData() {
+        String[] secondContents = new String[]{
+                mUserObject.location,
+                mUserObject.slogan,
+                mUserObject.tags_str
+        };
+
+        for (int i = 0; i < items.length; ++i) {
+            View parent = findViewById(items[i]);
+            TextView second = (TextView) parent.findViewById(R.id.second);
+            second.setText(secondContents[i]);
+        }
+    }
+
 
     private SpannableString createSpan(String s) {
         SpannableString itemContent = new SpannableString(s);
@@ -341,60 +360,25 @@ public class UserDetailActivity extends BaseActivity {
         onBackPressed();
     }
 
+    @Click
+    public void clickProject() {
+    }
 
-    BaseAdapter baseAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return user_detail_list_first.length;
-        }
+    @Click
+    public void clickMaopao() {
+        Intent intent = new Intent(UserDetailActivity.this, UserMaopaoActivity.class);
+        intent.putExtra(UserMaopaoActivity.PARAM_ID, mUserObject.id);
+        startActivity(intent);
+    }
 
-        @Override
-        public Object getItem(int position) {
-            return user_detail_list_first[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
+    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.list_item_2_text_divide_head, parent, false);
-                holder = new ViewHolder();
-                holder.first = (TextView) convertView.findViewById(R.id.first);
-                holder.second = (TextView) convertView.findViewById(R.id.second);
-                holder.headDivide = convertView.findViewById(R.id.headDivide);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            if (loadedImage != null) {
+                ImageView imageView = (ImageView) view;
+                FadeInBitmapDisplayer.animate(imageView, 300);
             }
-
-            holder.first.setText(user_detail_list_first[position]);
-
-            String secondString = user_detail_list_second[position];
-            if (secondString.isEmpty()) {
-                secondString = "未填写";
-            }
-            holder.second.setText(secondString);
-
-            if (position == 0 ||
-                    position == 3 ||
-                    position == 6) {
-                holder.headDivide.setVisibility(View.VISIBLE);
-            } else {
-                holder.headDivide.setVisibility(View.GONE);
-            }
-
-            return convertView;
         }
-    };
-
-    static class ViewHolder {
-        TextView first;
-        TextView second;
-        View headDivide;
     }
 }
