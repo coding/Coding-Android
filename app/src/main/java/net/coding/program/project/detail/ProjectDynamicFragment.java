@@ -136,7 +136,8 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
     @AfterViews
     final protected void init() {
-        super.init();
+        initRefreshLayout();
+
         mLoadingAnimation = new LoadingAnimation();
         mLoadingAnimation.startAnimation();
 

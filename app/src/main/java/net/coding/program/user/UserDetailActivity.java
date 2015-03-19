@@ -28,6 +28,9 @@ import net.coding.program.common.Global;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
+import net.coding.program.project.MyProjectActivity_;
+import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.project.detail.ProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -259,11 +262,11 @@ public class UserDetailActivity extends BaseActivity {
         }
 
         TextView fans = (TextView) findViewById(R.id.fans);
-        fans.setText(createSpan(String.format("粉丝  %d", mUserObject.fans_count)));
+        fans.setText(createSpan(String.format("%d  粉丝", mUserObject.fans_count)));
         fans.setOnClickListener(onClickFans);
 
         TextView follows = (TextView) findViewById(R.id.follows);
-        follows.setText(createSpan(String.format("关注  %d", mUserObject.follows_count)));
+        follows.setText(createSpan(String.format("%d  关注", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
 
         setListData();
@@ -284,6 +287,8 @@ public class UserDetailActivity extends BaseActivity {
     };
 
     private void setListData() {
+
+
         String[] secondContents = new String[]{
                 mUserObject.location,
                 mUserObject.slogan,
@@ -293,7 +298,13 @@ public class UserDetailActivity extends BaseActivity {
         for (int i = 0; i < items.length; ++i) {
             View parent = findViewById(items[i]);
             TextView second = (TextView) parent.findViewById(R.id.second);
-            second.setText(secondContents[i]);
+            String contentString = secondContents[i];
+            if (contentString.isEmpty()) {
+                contentString = "未填写";
+                second.setTextColor(getResources().getColor(R.color.font_gray));
+            }
+
+            second.setText(contentString);
         }
     }
 
@@ -301,7 +312,7 @@ public class UserDetailActivity extends BaseActivity {
     private SpannableString createSpan(String s) {
         SpannableString itemContent = new SpannableString(s);
         final ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.font_green));
-        itemContent.setSpan(colorSpan, 3, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(colorSpan, 0, itemContent.length() - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return itemContent;
     }
 
@@ -362,6 +373,11 @@ public class UserDetailActivity extends BaseActivity {
 
     @Click
     public void clickProject() {
+        if (mUserObject.isMe()) {
+            MyProjectActivity_.intent(this).start();
+        } else {
+            UserProjectActivity_.intent(this).mUserObject(mUserObject).start();
+        }
     }
 
     @Click

@@ -1,10 +1,13 @@
 package net.coding.program.project;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 
@@ -64,6 +67,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
     private String hostGitTree;
 
     private String httpProjectObject;
+    private String forkUrl;
 
     @AfterViews
     final void init() {
@@ -134,6 +138,18 @@ public class PublicProjectHomeFragment extends BaseFragment {
         } else if (tag.equals(mUrlWatch) || tag.equals(mUrlUnwatch)) {
             if (code != 0) {
                 mButtonWatch.changeState();
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(forkUrl)) {
+            showProgressBar(false);
+            if (code == 0) {
+                ProjectObject projectObject = new ProjectObject(respanse.optJSONObject("data"));
+                ProjectHomeActivity_
+                        .intent(this)
+                        .mProjectObject(projectObject)
+                        .start();
+                mButtonFork.changeState();
+            } else {
                 showErrorMsg(code, respanse);
             }
         }
@@ -233,7 +249,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
     }
 
     @Click
-    final void buttonStar(View v) {
+    protected final void buttonStar(View v) {
         mButtonStar.changeState();
         if (mButtonStar.isChecked()) {
             postNetwork(mUrlStar);
@@ -243,12 +259,28 @@ public class PublicProjectHomeFragment extends BaseFragment {
     }
 
     @Click
-    final void buttonWatch(View v) {
+    protected final void buttonWatch(View v) {
         mButtonWatch.changeState();
         if (mButtonWatch.isChecked()) {
             postNetwork(mUrlWatch);
         } else {
             postNetwork(mUrlUnwatch);
+        }
+    }
+
+    @Click
+    protected final void buttonFork(View v) {
+        if (mProjectObject.isMy()) {
+            showButtomToast("不能fork自己的项目");
+        } else {
+            forkUrl = Global.HOST + "/api" + mProjectObject.backend_project_path + "/git/fork";
+            showDialog("fork", "fork将会将此项目复制到您的个人空间，确定要fork吗?", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    getNetwork(forkUrl);
+                    showProgressBar(true, "正在fork项目");
+                }
+            });
         }
     }
 

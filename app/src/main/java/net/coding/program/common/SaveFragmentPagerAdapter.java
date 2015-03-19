@@ -36,7 +36,7 @@ public abstract class SaveFragmentPagerAdapter extends FragmentPagerAdapter {
             }
         }
 
-        mList.add(new WeakReference<Fragment>(fragment));
+        mList.add(new WeakReference(fragment));
     }
 
     protected SaveFragmentPagerAdapter(FragmentManager fm) {

@@ -1,5 +1,6 @@
 package net.coding.program.model;
 
+import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 
 import org.json.JSONException;
@@ -39,6 +40,10 @@ public class UserObject implements Serializable {
     public long updated_at;
     public int tweets_count;
     public String email = "";
+
+    public boolean isMe() {
+        return MyApp.sUserObject.id == id;
+    }
 
     public UserObject(JSONObject json) throws JSONException {
         avatar = Global.replaceAvatar(json);

@@ -67,7 +67,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
 
         mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
         mSearchData = new ArrayList(mData);

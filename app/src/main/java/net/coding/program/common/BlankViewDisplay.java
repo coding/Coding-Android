@@ -12,6 +12,7 @@ import net.coding.program.project.detail.ProjectDynamicFragment;
 import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicListFragment;
+import net.coding.program.user.UserProjectListFragment;
 
 /**
  * Created by chaochen on 14-10-24.
@@ -75,6 +76,9 @@ public class BlankViewDisplay {
             } else if (fragment instanceof AttachmentsActivity) {
                 iconId = R.drawable.ic_exception_blank_task;
                 text = "此文件夹为空";
+            } else if (fragment instanceof UserProjectListFragment) {
+                iconId = R.drawable.ic_exception_blank_task;
+                text = "还没有项目";
             }
 
         } else {

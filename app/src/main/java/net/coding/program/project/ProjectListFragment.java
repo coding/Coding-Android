@@ -65,7 +65,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
         listView.setAdapter(myAdapter);
 
 //        if (mData.size() == 0) {

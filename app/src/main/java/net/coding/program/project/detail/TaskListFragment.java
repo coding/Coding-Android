@@ -163,7 +163,7 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
 
         mData = AccountInfo.loadTasks(getActivity(), mProjectObject.getId(), mMembers.id);
 

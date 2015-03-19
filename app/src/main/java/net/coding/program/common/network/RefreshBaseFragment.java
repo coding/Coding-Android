@@ -12,17 +12,17 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
     public static final String UPDATE_ALL = "99999999";
     public static final int UPDATE_ALL_INT = 99999999;
 
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    protected void setRefreshing(boolean refreshing) {
+    protected final void setRefreshing(boolean refreshing) {
         swipeRefreshLayout.setRefreshing(refreshing);
     }
 
-    protected boolean isRefreshing() {
+    protected final boolean isRefreshing() {
         return swipeRefreshLayout.isRefreshing();
     }
 
-    protected void init() {
+    protected final void initRefreshLayout() {
         swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.green);

@@ -90,7 +90,8 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
+
         showDialogLoading();
         initBottomPop();
         HOST_FOLDER = String.format(HOST_FOLDER, mProjectObject.getId());

@@ -58,7 +58,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
         showDialogLoading();
 
         mFootUpdate.init(listView, mInflater, this);

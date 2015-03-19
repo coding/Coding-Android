@@ -69,7 +69,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
 
         myImageGetter = new MyImageGetter(getActivity());
         mData = AccountInfo.loadMessageUsers(getActivity());

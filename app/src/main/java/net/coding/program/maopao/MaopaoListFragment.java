@@ -105,7 +105,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
 
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34

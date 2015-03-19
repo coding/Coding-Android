@@ -1,5 +1,6 @@
 package net.coding.program.model;
 
+import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 
 import org.json.JSONException;
@@ -14,7 +15,7 @@ import java.io.Serializable;
 public class ProjectObject implements Serializable {
     public String backend_project_path = "";
     public String name = "";
-    public String owner_id = "";
+    public int owner_id;
     public String owner_user_home = "";
     public String owner_user_name = "";
     public String owner_user_picture = "";
@@ -44,7 +45,7 @@ public class ProjectObject implements Serializable {
     public ProjectObject(JSONObject json) throws JSONException {
         backend_project_path = json.optString("backend_project_path");
         name = json.optString("name");
-        owner_id = json.optString("owner_id");
+        owner_id = json.optInt("owner_id");
         owner_user_home = json.optString("owner_user_home");
         owner_user_name = json.optString("owner_user_name");
         owner_user_picture = json.optString("owner_user_picture");
@@ -109,5 +110,9 @@ public class ProjectObject implements Serializable {
 
     public String getHttpProjectObject() {
         return Global.HOST + "/api" + backend_project_path;
+    }
+
+    public boolean isMy() {
+        return MyApp.sUserObject.id == owner_id;
     }
 }

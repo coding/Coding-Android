@@ -152,6 +152,7 @@
                     android:layout_height="20dp"
                     android:singleLine="true"
                     android:ellipsize="end"
+                    android:textSize="12sp"
                     android:text="北京"
                     android:gravity="bottom"
                     android:textColor="@color/font_green" />
@@ -170,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:ellipsize="end"
+                        android:textSize="13sp"
                         android:gravity="center_vertical"
                         android:text="来自 iPhone 6"
                         android:textColor="@color/font_gray" />
@@ -178,6 +180,7 @@
                         android:id="@+id/locationBottom"
                         android:layout_width="0dp"
                         android:layout_weight="1"
+                        android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:ellipsize="end"
@@ -188,6 +191,7 @@
                     <TextView
                         android:id="@+id/maopaoDelete"
                         android:layout_width="wrap_content"
+                        android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:text="删除"
                         android:gravity="center_vertical"

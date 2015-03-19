@@ -73,7 +73,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @AfterViews
     protected void init() {
-        super.init();
+        initRefreshLayout();
         showDialogLoading();
 
         listView.setAdapter(adapter);
