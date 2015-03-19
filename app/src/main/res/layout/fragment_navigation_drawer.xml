@@ -24,11 +24,10 @@
 
             <View
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="14.5dp"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
-                android:src="@drawable/navigation_user_sharow"
-                android:layout_marginLeft="30dp"
-                android:visibility="gone" />
+                android:src="@drawable/navigation_user_sharow" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleIcon"
@@ -112,7 +111,6 @@
                 android:layout_weight="1"
                 android:background="@color/drawer_bg_color_normal"
                 android:gravity="center">
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -247,8 +245,12 @@
 
             </RelativeLayout>
 
-            <RadioButton
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divide_15_e5" />
 
+            <RadioButton
                 android:id="@+id/radio4"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -261,6 +263,22 @@
                 android:paddingLeft="17dp"
                 android:paddingRight="0dp"
                 android:text="设置"
+                android:textColor="@drawable/drawer_selector_font"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/buttonFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/drawer_selector_bg"
+                android:button="@null"
+
+                android:drawableLeft="@drawable/navigation_icon_feedback"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="17dp"
+                android:paddingRight="0dp"
+                android:text="意见反馈"
                 android:textColor="@drawable/drawer_selector_font"
                 android:textSize="17sp" />
 

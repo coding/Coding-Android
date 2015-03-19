@@ -28,9 +28,6 @@ import net.coding.program.common.Global;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
-import net.coding.program.project.MyProjectActivity_;
-import net.coding.program.project.detail.ProjectActivity;
-import net.coding.program.project.detail.ProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -59,6 +56,9 @@ public class UserDetailActivity extends BaseActivity {
 
     @ViewById
     View sendMessage;
+
+    @ViewById
+    View icon_sharow;
 
     @ViewById
     CheckBox followCheckbox;
@@ -90,7 +90,6 @@ public class UserDetailActivity extends BaseActivity {
                 setTitleMyPage();
                 resizeHead();
             }
-
             getNetwork(HOST_USER_INFO + globalKey, HOST_USER_INFO);
         } else {
             String name = getIntent().getData().getQueryParameter("name");
@@ -135,6 +134,8 @@ public class UserDetailActivity extends BaseActivity {
 
     private void setTitleMyPage() {
         getSupportActionBar().setTitle("个人主页");
+        ((TextView) findViewById(R.id.titleProject)).setText("我的项目");
+        ((TextView) findViewById(R.id.titleMaopao)).setText("我的冒泡");
     }
 
     @Override
@@ -288,7 +289,6 @@ public class UserDetailActivity extends BaseActivity {
 
     private void setListData() {
 
-
         String[] secondContents = new String[]{
                 mUserObject.location,
                 mUserObject.slogan,
@@ -373,11 +373,7 @@ public class UserDetailActivity extends BaseActivity {
 
     @Click
     public void clickProject() {
-        if (mUserObject.isMe()) {
-            MyProjectActivity_.intent(this).start();
-        } else {
-            UserProjectActivity_.intent(this).mUserObject(mUserObject).start();
-        }
+        UserProjectActivity_.intent(this).mUserObject(mUserObject).start();
     }
 
     @Click
@@ -393,7 +389,8 @@ public class UserDetailActivity extends BaseActivity {
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             if (loadedImage != null) {
                 ImageView imageView = (ImageView) view;
-                FadeInBitmapDisplayer.animate(imageView, 300);
+                ((View) imageView.getParent()).setVisibility(View.VISIBLE);
+                FadeInBitmapDisplayer.animate((View) imageView.getParent(), 300);
             }
         }
     }

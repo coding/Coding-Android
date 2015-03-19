@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_icon_path"
+            android:padding="1dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_default_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_alignTop="@+id/icon"
+            android:layout_alignBottom="@+id/icon">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/icon"
+                android:layout_marginRight="@dimen/padding_15"
+                android:layout_toRightOf="@id/icon"
+                android:singleLine="true"
+                android:text="Medium Text"
+                android:textColor="@color/font_black_content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/name"
+                android:layout_below="@id/name"
+                android:layout_marginRight="@dimen/padding_15"
+                android:layout_marginTop="1dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/font_black_comment"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/icon"
+                    android:layout_alignLeft="@+id/name"
+                    android:drawableLeft="@drawable/project_home_button_public_star"
+                    android:drawablePadding="3dp"
+                    android:text="122"
+                    android:textColor="@color/font_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/watch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/star"
+                    android:drawableLeft="@drawable/project_home_button_public_watch"
+                    android:drawablePadding="3dp"
+                    android:text="122"
+                    android:textColor="@color/font_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/folk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/watch"
+                    android:drawableLeft="@drawable/project_home_button_public_fork"
+                    android:drawablePadding="3dp"
+                    android:text="122"
+
+                    android:textColor="@color/font_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

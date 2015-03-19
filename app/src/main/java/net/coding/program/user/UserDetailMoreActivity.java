@@ -95,16 +95,16 @@ public class UserDetailMoreActivity extends BaseActivity {
         jobTextView = (TextView) jobLayout.findViewById(R.id.second);
         tagsTextView = (TextView) tagsLayout.findViewById(R.id.second);
 
-        createAtTextView.setText(Global.dayToNow(mUserObject.created_at));
-        lastLoginTextView.setText(Global.dayToNow(mUserObject.last_activity_at));
-        globalKeyTextView.setText(mUserObject.global_key);
-        sexTextView.setText(sexs[mUserObject.sex]);
-        birthdayTextView.setText(mUserObject.birthday);
-        locateTextView.setText(mUserObject.location);
-        loginsTextView.setText(mUserObject.slogan);
-        companyTextView.setText(mUserObject.company);
-        jobTextView.setText(mUserObject.job_str);
-        tagsTextView.setText(mUserObject.tags_str);
+        createAtTextView.setText(notEmpty(Global.dayToNow(mUserObject.created_at)));
+        lastLoginTextView.setText(notEmpty(Global.dayToNow(mUserObject.last_activity_at)));
+        globalKeyTextView.setText(notEmpty(mUserObject.global_key));
+        sexTextView.setText(notEmpty(sexs[mUserObject.sex]));
+        birthdayTextView.setText(notEmpty(mUserObject.birthday));
+        locateTextView.setText(notEmpty(mUserObject.location));
+        loginsTextView.setText(notEmpty(mUserObject.slogan));
+        companyTextView.setText(notEmpty(mUserObject.company));
+        jobTextView.setText(notEmpty(mUserObject.job_str));
+        tagsTextView.setText(notEmpty(mUserObject.tags_str));
     }
 
     @OptionsItem(android.R.id.home)
@@ -112,44 +112,11 @@ public class UserDetailMoreActivity extends BaseActivity {
         finish();
     }
 
+    private String notEmpty(String s) {
+        if (s.isEmpty()) {
+            return "未填写";
+        }
 
-//    @Click
-//    protected final void createAtLayout() {
-//    }
-//
-//    @Click
-//    protected final void lastLoginLayout() {
-//    }
-//
-//    @Click
-//    protected final void globalKeyLayout() {
-//    }
-//
-//    @Click
-//    protected final void sexLayout() {
-//    }
-//
-//    @Click
-//    protected final void birthdayLayout() {
-//    }
-//
-//    @Click
-//    protected final void locateLayout() {
-//    }
-//
-//    @Click
-//    protected final void loginsLayout() {
-//    }
-//
-//    @Click
-//    protected final void companyLayout() {
-//    }
-//
-//    @Click
-//    protected final void jobLayout() {
-//    }
-//
-//    @Click
-//    protected final void tagsLayout() {
-//    }
+        return s;
+    }
 }

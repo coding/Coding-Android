@@ -1,9 +1,6 @@
 package net.coding.program.user;
 
 
-import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,9 +8,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.readystatesoftware.viewbadger.BadgeView;
-
-import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -59,9 +53,9 @@ public class UserProjectListFragment extends RefreshBaseFragment {
 
         listView.setAdapter(mAdapter);
         if (mType == 0) {
-             mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=joined";
+            mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=joined";
         } else {
-             mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=stared";
+            mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=stared";
         }
 
         loadMore();
@@ -140,17 +134,34 @@ public class UserProjectListFragment extends RefreshBaseFragment {
         }
 
         @Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            ProjectObject item = (ProjectObject) getItem(position);
+            if (item.description.isEmpty()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             final ViewHolder holder;
             if (convertView == null) {
-                view = mInflater.inflate(R.layout.project_all_list_item, parent, false);
+                int layoutRes = getItemViewType(position) == 0 ? R.layout.user_project_all_list_item : R.layout.user_project_all_list_item2;
+                view = mInflater.inflate(layoutRes, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) view.findViewById(R.id.name);
                 holder.image = (ImageView) view.findViewById(R.id.icon);
-                holder.content = (TextView) view.findViewById(R.id.comment);
-                holder.badge = (BadgeView) view.findViewById(R.id.badge);
-                holder.privateIcon = view.findViewById(R.id.privateIcon);
+                holder.descrip = (TextView) view.findViewById(R.id.description);
+                holder.star = (TextView) view.findViewById(R.id.star);
+                holder.watch = (TextView) view.findViewById(R.id.watch);
+                holder.fork = (TextView) view.findViewById(R.id.folk);
 
                 view.setTag(holder);
             } else {
@@ -160,23 +171,14 @@ public class UserProjectListFragment extends RefreshBaseFragment {
             ProjectObject item = (ProjectObject) getItem(position);
 
             holder.name.setText(item.name);
-
-            holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
-            String ownerName = item.isPublic() ? item.name : ("      " + item.owner_user_name);
-            holder.content.setText(ownerName);
-
-            int count = item.un_read_activities_count;
-            if (count > 0) {
-                String countString = count > 99 ? "99+" : ("" + count);
-                holder.badge.setText(countString);
-                holder.badge.setVisibility(View.VISIBLE);
-            } else {
-                holder.badge.setVisibility(View.INVISIBLE);
-            }
+            holder.descrip.setText(item.description);
+            holder.star.setText(String.valueOf(item.star_count));
+            holder.watch.setText(String.valueOf(item.watch_count));
+            holder.fork.setText(String.valueOf(item.fork_count));
 
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
 
-            if (position == (getCount() -1)) {
+            if (position == (getCount() - 1)) {
                 loadMore();
             }
 
@@ -187,8 +189,9 @@ public class UserProjectListFragment extends RefreshBaseFragment {
     private static class ViewHolder {
         TextView name;
         ImageView image;
-        TextView content;
-        BadgeView badge;
-        View privateIcon;
+        TextView descrip;
+        TextView star;
+        TextView watch;
+        TextView fork;
     }
 }

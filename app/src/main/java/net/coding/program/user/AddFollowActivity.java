@@ -72,6 +72,16 @@ public class AddFollowActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    UserObject userObject = mData.get((int) id);
+                    UserDetailActivity_
+                            .intent(AddFollowActivity.this)
+                            .globalKey(userObject.global_key)
+                            .start();
+                }
+            });
         } else {
             urlAddUser = String.format(Global.HOST + "/api/project/%d/members/add?", mProjectObject.getId());
             getSupportActionBar().setTitle("添加项目成员");

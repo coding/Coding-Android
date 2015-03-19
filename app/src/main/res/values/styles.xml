@@ -17,6 +17,8 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@color/transparent</item>
+        <item name="color">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
 
         <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
     </style>

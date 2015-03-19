@@ -27,4 +27,6 @@
     <dimen name="emoji_normal">24dp</dimen>
     <dimen name="emoji_monkey">60dp</dimen>
 
+    <dimen name="padding_15">15dp</dimen>
+
 </resources>
