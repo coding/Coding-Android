@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="63dp">
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|left"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/primary"
+            android:text=""
+            android:hint="不显示位置"
+            android:textColorHint="@color/green"
+            android:includeFontPadding="false"
+            android:textColor="#222222"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/secondary"
+            android:text=""
+            android:includeFontPadding="false"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/checkbox"
+        android:visibility="invisible"
+        android:src="@drawable/ic_location_list_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

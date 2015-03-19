@@ -1,9 +1,13 @@
 package net.coding.program;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -13,6 +17,8 @@ import net.coding.program.common.Unread;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.MyImageDownloader;
+
+import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-9.
@@ -45,6 +51,11 @@ public class MyApp extends Application {
 
         initImageLoader(this);
 
+        // 只在主进程初始化lbs
+        if(this.getPackageName().equals(getProcessName(this))){
+            SDKInitializer.initialize(this);
+        }
+
         sScale = getResources().getDisplayMetrics().density;
         sWidthPix = getResources().getDisplayMetrics().widthPixels;
         sWidthDp = (int) (sWidthPix / sScale);
@@ -72,4 +83,15 @@ public class MyApp extends Application {
         ImageLoader.getInstance().init(config);
     }
 
+
+    private static String getProcessName(Context context) {
+        ActivityManager actMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appList = actMgr.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo info : appList) {
+            if (info.pid == android.os.Process.myPid()) {
+                return info.processName;
+            }
+        }
+        return "";
+    }
 }

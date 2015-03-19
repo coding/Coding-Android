@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e5e5e5"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="coding"
+        android:textColor="#222222"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <View
+        android:background="@drawable/line_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:id="@+id/map_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="15dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="位置"
+            android:textColor="#666666"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/addressText"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#222222"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_list_right_arr" />
+    </LinearLayout>
+
+    <View
+        android:background="@drawable/line_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <TextView
+        android:id="@+id/customText"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:includeFontPadding="false"
+        android:paddingTop="2dp"
+        android:gravity="center"
+        android:text="此地点为用户创建"
+        android:textColor="#888888"
+        android:textSize="15sp" />
+</LinearLayout>

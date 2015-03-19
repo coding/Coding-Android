@@ -140,41 +140,71 @@
 
             <LinearLayout
                 android:id="@+id/goodCommentLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/photoType"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:id="@+id/locationTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:layout_marginRight="5dp"
-                    android:text=""
-                    android:textColor="@color/font_gray" />
+                    android:text="北京"
+                    android:gravity="bottom"
+                    android:textColor="@color/font_green" />
 
-                <TextView
-                    android:id="@+id/maopaoDelete"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="删除"
-                    android:textColor="@color/font_gray" />
+                    android:gravity="center_vertical|right"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/likeBtn"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:button="@drawable/checkbox_good" />
+                    <TextView
+                        android:id="@+id/photoType"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:text="来自 iPhone 6"
+                        android:textColor="@color/font_gray" />
 
-                <CheckBox
-                    android:id="@+id/commentBtn"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:button="@drawable/checkbox_comment" />
+                    <TextView
+                        android:id="@+id/locationBottom"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:text="北京"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_green" />
+
+                    <TextView
+                        android:id="@+id/maopaoDelete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="删除"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_gray" />
+
+                    <CheckBox
+                        android:id="@+id/likeBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:button="@drawable/checkbox_good" />
+
+                    <CheckBox
+                        android:id="@+id/commentBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:button="@drawable/checkbox_comment" />
+                </LinearLayout>
             </LinearLayout>
 
 

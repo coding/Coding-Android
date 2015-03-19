@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="位置名称"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/nameText"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="所在地区"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/areaText"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:editable="false"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="详细地址"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/addressText"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="街道门牌信息"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#222222"
+                android:textColorHint="#a3a3a3"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_gray" />
+    </LinearLayout>
+</LinearLayout>
