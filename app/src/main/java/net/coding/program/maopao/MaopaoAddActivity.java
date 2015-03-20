@@ -323,7 +323,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         if(currentLocation != null && !TextUtils.isEmpty(locationText.getText())) {
             String locationName = currentLocation.type == LocationObject.Type.City?
                     currentLocation.name : currentLocation.city + "·" + currentLocation.name;
-            params.put("location", ensureLength(locationName,16));
+            params.put("location", ensureLength(locationName,32));
             params.put("coord", ensureLength(LocationCoord.from(currentLocation).toString(),32));
             params.put("address", ensureLength(currentLocation.address,64));
         }

@@ -1,6 +1,7 @@
 package net.coding.program.maopao;
 
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -75,9 +76,10 @@ public class LocationMapActivity extends BaseActivity {
                     .inflate(R.layout.locatino_map_point, null);
             TextView textView = (TextView) view.findViewById(R.id.textView);
             textView.setText(marker.getTitle());
+            int yOffset = (int)(0.5f+TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics()));
             mapView.getMap().showInfoWindow(new InfoWindow(
                     BitmapDescriptorFactory.fromView(textView),
-                    new LatLng(latitude, longitude), -80, null));
+                    new LatLng(latitude, longitude), -yOffset, null));
             isInfoWindowShown = true;
         }
     }

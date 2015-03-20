@@ -525,8 +525,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
                 holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);
 
-                holder.locationTop = (TextView) convertView.findViewById(R.id.locationTop);
-                holder.locationBottom = (TextView) convertView.findViewById(R.id.locationBottom);
+                holder.location = (TextView) convertView.findViewById(R.id.location);
                 holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
                 holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
@@ -563,7 +562,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.commentLikeArea.setVisibility(View.GONE);
             }
 
-            MaopaoLocationArea.bind(holder.locationTop, holder.locationBottom, data);
+            MaopaoLocationArea.bind(holder.location, data);
 
             String device = data.device;
             if (!device.isEmpty()) {
@@ -743,8 +742,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         CommentArea commentArea;
 
         View likeAreaDivide;
-        TextView locationTop;
-        TextView locationBottom;
+        TextView location;
     }
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
