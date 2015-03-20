@@ -373,7 +373,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     mAdapter.notifyDataSetChanged();
 
                     if (oldId == UPDATE_ALL_INT) {
-                        listView.smoothScrollToPositionFromTop(0, 10000);
+                        // 当单个的冒泡item大于一屏时，smoothScrollToPosition(0)不会滚动到listview的顶端
+                        listView.setSelectionAfterHeaderView();
                     }
                 }
 

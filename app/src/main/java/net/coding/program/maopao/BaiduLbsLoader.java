@@ -27,10 +27,9 @@ import java.util.Map.Entry;
 
 public class BaiduLbsLoader {
     // 以下需coding修改成官方版
-    private static final String geotable = "95956";
-    private static final String ak = "sXosVPjCcDXGkQG7YFKfpNof";
-    private static final String sk = "qRxSyyCxklLkAbZgaIbG6IxGtSXfQ9vP";
-
+    private static final String geotable = "";
+    private static final String ak = "";
+    private static final String sk = "";
 
     private static final String host = "http://api.map.baidu.com";
     private static final int PAGE_SIZE = 20; // 每页数量10~20,超过20服务器也只会返回20个

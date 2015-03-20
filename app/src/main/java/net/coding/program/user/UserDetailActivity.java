@@ -244,7 +244,7 @@ public class UserDetailActivity extends BaseActivity {
 
         // 自己的页面不显示 关注
         if (!isMe) {
-            int followId = mUserObject.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
+            int followId = mUserObject.follow ? R.drawable.checkbox_fans_big : R.drawable.checkbox_follow_big;
             followCheckbox.setVisibility(View.VISIBLE);
             followCheckbox.setButtonDrawable(followId);
             followCheckbox.setChecked(mUserObject.followed);

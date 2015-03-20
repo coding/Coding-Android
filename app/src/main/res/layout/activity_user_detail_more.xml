@@ -118,9 +118,37 @@
 
             <include layout="@layout/divide_1_12" />
 
-            <include
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tagsLayout"
-                layout="@layout/list_item_2_text_align_right" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="48dp"
+                android:paddingLeft="@dimen/padding_15"
+                android:paddingRight="@dimen/padding_15" >
+
+                <TextView
+                    android:id="@+id/first"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/font_black_2"
+                    android:text="性别"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/second"
+                    android:textColor="@color/font_gray"
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/first"
+                    android:layout_toRightOf="@+id/first"
+                    android:gravity="right"
+                    android:ellipsize="end"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
         </LinearLayout>
 
 

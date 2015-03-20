@@ -27,8 +27,8 @@
 
         <CheckBox
             android:id="@+id/followMutual"
-            android:layout_width="83dp"
-            android:layout_height="33dp"
+            android:layout_width="73.5dp"
+            android:layout_height="30dp"
             android:focusable="false"
             android:background="@null"
             android:button="@drawable/checkbox_follow" />

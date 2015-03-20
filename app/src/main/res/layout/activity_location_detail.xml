@@ -56,8 +56,7 @@
             android:singleLine="true"
             android:text=""
             android:textColor="#222222"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="wrap_content"

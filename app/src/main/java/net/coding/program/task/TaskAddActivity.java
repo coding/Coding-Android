@@ -677,7 +677,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
     private void descriptionButtonUpdate(boolean loading) {
         if (loading) {
-            descriptionButton.setText("载入备注中");
+            descriptionButton.setText("载入描述中");
             descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
             descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
         } else {
@@ -1057,6 +1057,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             TaskDescriptionActivity_
                     .intent(TaskAddActivity.this)
                     .taskId(0)
+                    .projectId(mSingleTask.project.getId())
                     .descriptionData(descriptionDataNew)
                     .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
         }

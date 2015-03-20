@@ -262,7 +262,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             showDialog("冒泡", "放弃此次冒泡机会？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    finishWithoutSave();
                 }
             });
         }
@@ -322,7 +322,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         params.put("device", Build.MODEL);
         if(currentLocation != null && !TextUtils.isEmpty(locationText.getText())) {
             String locationName = currentLocation.type == LocationObject.Type.City?
-                    currentLocation.name : currentLocation.city + "·" + currentLocation.name;
+                    currentLocation.name : currentLocation.city + MaopaoLocationArea.MAOPAO_LOCATION_DIVIDE + currentLocation.name;
             params.put("location", ensureLength(locationName,32));
             params.put("coord", ensureLength(LocationCoord.from(currentLocation).toString(),32));
             params.put("address", ensureLength(currentLocation.address,64));
@@ -339,6 +339,13 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     final String HOST_IMAGE = Global.HOST + "/api/tweet/insert_image";
 
+    private void finishWithoutSave() {
+        // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
+        mEnterLayout.clearContent();
+        mData.clear();
+        finish();
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(sendUrl)) {
@@ -353,11 +360,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 intent.putExtra(ListModify.DATA, maopaoObject);
                 setResult(Activity.RESULT_OK, intent);
 
-                // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
-                mEnterLayout.clearContent();
-                mData.clear();
-
-                finish();
+                finishWithoutSave();
             } else {
                 showErrorMsg(code, respanse);
             }

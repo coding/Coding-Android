@@ -5,16 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.BaseActivity;
@@ -41,30 +31,52 @@ import java.util.List;
 @EActivity(R.layout.activity_project)
 public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
+    public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[] {
+            ProjectJumpParam.JumpType.typeDynamic,
+            ProjectJumpParam.JumpType.typeTask,
+            ProjectJumpParam.JumpType.typeTopic,
+            ProjectJumpParam.JumpType.typeDocument,
+            ProjectJumpParam.JumpType.typeCode,
+            ProjectJumpParam.JumpType.typeMember,
+    };
+    public static final ProjectJumpParam.JumpType[] PUBLIC_JUMP_TYPES = new ProjectJumpParam.JumpType[] {
+            ProjectJumpParam.JumpType.typeDynamic,
+            ProjectJumpParam.JumpType.typeTopic,
+            ProjectJumpParam.JumpType.typeCode,
+            ProjectJumpParam.JumpType.typeMember,
+    };
     @Extra
     ProjectObject mProjectObject;
 
     @Extra
     ProjectJumpParam mJumpParam;
 
+//    @Extra
+//    int mPos = 0;
     @Extra
-    int mPos = 0;
+    ProjectJumpParam.JumpType mJumpType = ProjectJumpParam.JumpType.typeDynamic;
 
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
+
 
     public static class ProjectJumpParam implements Serializable {
         public String mProject;
         public String mUser;
-        public String mDefault = ""; // 如果为""就说明要跳转到
 
+        public enum JumpType {
+            typeDynamic,
+            typeTask,
+            typeTopic,
+            typeDocument,
+            typeCode,
+            typeMember,
+            typeHome
+        }
 
-        public ProjectJumpParam(String mUser, String mProject, String defaultSelect) {
+        public ProjectJumpParam(String mUser, String mProject) {
             this.mUser = mUser;
             this.mProject = mProject;
-
-            if (defaultSelect != null) {
-                this.mDefault = defaultSelect;
-            }
+//            this.mJumpType = mJumpType;
         }
     }
 
@@ -148,8 +160,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             spinnerFragments.add(insertAttPos, ProjectAttachmentFragment_.class);
             project_activity_action_list.add(insertAttPos, "项目文档");
         }
-
-        selectFragment(mPos);
+        selectFragment(getJumpPos());
 
 //        mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
 
@@ -175,6 +186,24 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
 //        if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
 //            spinner.setSelection(1);
 //        }
+    }
+
+    private int getJumpPos() {
+        if (mProjectObject.isPublic()) {
+            for (int i = 0; i < PUBLIC_JUMP_TYPES.length; ++i) {
+                if (PUBLIC_JUMP_TYPES[i] == mJumpType) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < PRIVATE_JUMP_TYPES.length; ++i) {
+                if (PRIVATE_JUMP_TYPES[i] == mJumpType) {
+                    return i;
+                }
+            }
+        }
+
+        return 0;
     }
 
     private void selectFragment(int position) {

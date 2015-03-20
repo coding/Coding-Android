@@ -27,7 +27,6 @@
         android:layout_toRightOf="@+id/first"
         android:gravity="right"
         android:ellipsize="end"
-        android:singleLine="true"
         android:textSize="16sp" />
 
 </RelativeLayout>

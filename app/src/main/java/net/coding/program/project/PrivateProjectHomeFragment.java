@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectDynamicFragment;
 
@@ -59,7 +60,7 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
                 public void onClick(View v) {
                     ProjectActivity_.intent(PrivateProjectHomeFragment.this)
                             .mProjectObject(mProjectObject)
-                            .mPos(pos)
+                            .mJumpType(ProjectActivity.PRIVATE_JUMP_TYPES[pos])
                             .start();
                 }
             });

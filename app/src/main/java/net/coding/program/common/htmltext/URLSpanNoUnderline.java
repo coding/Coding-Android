@@ -19,6 +19,7 @@ import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.AttachmentsActivity_;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
@@ -70,7 +71,23 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
-        // 项目讨论
+        // 项目讨论列表
+        // https://coding.net/u/8206503/p/TestIt2/topic/mine
+        final String topicList = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/(mine|all)$";
+        pattern = Pattern.compile(topicList);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, ProjectActivity_.class);
+            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(
+                    matcher.group(1), matcher.group(2)
+            );
+            intent.putExtra("mJumpParam", param);
+            intent.putExtra("mJumpType", ProjectActivity.ProjectJumpParam.JumpType.typeTopic);
+            context.startActivity(intent);
+            return true;
+        }
+
+        // 单个项目讨论
         // https://coding.net/u/8206503/p/AndroidCoding/topic/9638?page=1
         final String topic = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?$";
         pattern = Pattern.compile(topic);
@@ -88,13 +105,13 @@ public class URLSpanNoUnderline extends URLSpan {
         // 项目
         // https://coding.net/u/8206503/p/AndroidCoding
         //
-        final String project = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)(/topic)?$";
+        final String project = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)$";
         pattern = Pattern.compile(project);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
-            intent.setClass(context, ProjectActivity_.class);
+            intent.setClass(context, ProjectHomeActivity_.class);
             ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(
-                    matcher.group(1), matcher.group(2), matcher.group(3)
+                    matcher.group(1), matcher.group(2)
             );
             intent.putExtra("mJumpParam", param);
             context.startActivity(intent);

@@ -51,10 +51,12 @@ public class MyApp extends Application {
 
         initImageLoader(this);
 
-        // 只在主进程初始化lbs
-        if(this.getPackageName().equals(getProcessName(this))){
-            SDKInitializer.initialize(this);
-        }
+        try { // x86的机器上会抛异常，大概是因为百度没有提供x86的.so文件
+            // 只在主进程初始化lbs
+            if (this.getPackageName().equals(getProcessName(this))) {
+                SDKInitializer.initialize(this);
+            }
+        } catch (Exception e) {}
 
         sScale = getResources().getDisplayMetrics().density;
         sWidthPix = getResources().getDisplayMetrics().widthPixels;

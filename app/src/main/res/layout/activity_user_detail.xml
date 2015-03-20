@@ -37,8 +37,8 @@
 
             <RelativeLayout
                 android:id="@+id/icon_sharow"
-                android:layout_width="86.5dp"
-                android:layout_height="86.5dp"
+                android:layout_width="87dp"
+                android:layout_height="87dp"
                 android:layout_alignBottom="@id/userBackgroundLayout"
                 android:layout_marginBottom="-27dp"
                 android:layout_marginLeft="15dp"
@@ -117,12 +117,12 @@
 
             <CheckBox
                 android:id="@+id/followCheckbox"
-                android:layout_width="83dp"
-                android:layout_height="33dp"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
                 android:layout_alignLeft="@+id/name"
                 android:layout_below="@+id/linearLayout1"
                 android:layout_marginTop="17dp"
-                android:button="@drawable/checkbox_fans"
+                android:button="@drawable/checkbox_fans_big"
                 android:visibility="visible" />
 
         </RelativeLayout>

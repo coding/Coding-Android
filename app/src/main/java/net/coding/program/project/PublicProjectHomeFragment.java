@@ -2,12 +2,10 @@ package net.coding.program.project;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 
@@ -16,7 +14,9 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -99,37 +99,49 @@ public class PublicProjectHomeFragment extends BaseFragment {
         getNetwork(httpProjectObject);
     }
 
+    private void showEmptyReadme() {
+        readme.setText("README.md");
+        needReadme.setVisibility(View.VISIBLE);
+        webView.setVisibility(View.GONE);
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(hostGitTree)) {
             if (code == 0) {
                 JSONObject readmeJson = respanse.optJSONObject("data").optJSONObject("readme");
-                String readmeName = readmeJson.optString("name", "");
-                readme.setText(readmeName);
+                if (readmeJson == null) {
+                    showEmptyReadme();
 
-                String readmeHtml = readmeJson.optString("preview", "");
-                if (readmeHtml.isEmpty()) {
-                    needReadme.setVisibility(View.VISIBLE);
-                    webView.setVisibility(View.GONE);
                 } else {
-                    needReadme.setVisibility(View.GONE);
-                    webView.setVisibility(View.VISIBLE);
+                    String readmeHtml = readmeJson.optString("preview", "");
+                    if (readmeHtml.isEmpty()) {
+                        showEmptyReadme();
 
-                    webView.getSettings().setJavaScriptEnabled(true);
-                    webView.setBackgroundColor(0);
-                    webView.getBackground().setAlpha(0);
+                    } else {
+                        String readmeName = readmeJson.optString("name", "");
+                        readme.setText(readmeName);
 
-                    String bubble = "${webview_content}";
-                    try {
-                        bubble = readTextFile(getResources().getAssets().open("bubble"));
-                    } catch (Exception e) {
-                        Global.errorLog(e);
+                        needReadme.setVisibility(View.GONE);
+                        webView.setVisibility(View.VISIBLE);
+
+                        webView.getSettings().setJavaScriptEnabled(true);
+                        webView.setBackgroundColor(0);
+                        webView.getBackground().setAlpha(0);
+
+                        String bubble = "${webview_content}";
+                        try {
+                            bubble = readTextFile(getResources().getAssets().open("bubble"));
+                        } catch (Exception e) {
+                            Global.errorLog(e);
+                        }
+
+                        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+                        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
+                        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
                     }
-
-                    webView.getSettings().setDefaultTextEncodingName("UTF-8");
-                    webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                    webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
                 }
+
 
             } else {
                 showErrorMsg(code, respanse);
@@ -154,10 +166,14 @@ public class PublicProjectHomeFragment extends BaseFragment {
         } else if (tag.equals(forkUrl)) {
             showProgressBar(false);
             if (code == 0) {
-                ProjectObject projectObject = new ProjectObject(respanse.optJSONObject("data"));
+                JSONObject jsonData = respanse.getJSONObject("data");
+                String projectName = jsonData.optString("name");
+                DynamicObject.Owner owner = new DynamicObject.Owner(jsonData.optJSONObject("owner"));
+                ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(owner.global_key,
+                        projectName);
                 ProjectHomeActivity_
                         .intent(this)
-                        .mProjectObject(projectObject)
+                        .mJumpParam(param)
                         .start();
                 mButtonFork.changeState();
             } else {
@@ -238,7 +254,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
                 public void onClick(View v) {
                     ProjectActivity_.intent(PublicProjectHomeFragment.this)
                             .mProjectObject(mProjectObject)
-                            .mPos(pos)
+                            .mJumpType(ProjectActivity.PUBLIC_JUMP_TYPES[pos])
                             .start();
                 }
             });

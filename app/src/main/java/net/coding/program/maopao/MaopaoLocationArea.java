@@ -11,6 +11,9 @@ import net.coding.program.model.Maopao;
  * Created by Neutra on 2015/3/14.
  */
 public class MaopaoLocationArea {
+
+    public static final String MAOPAO_LOCATION_DIVIDE = " · ";
+
     public static void bind(TextView locationView, final Maopao.MaopaoObject data) {
         if (TextUtils.isEmpty(data.location)) {
             locationView.setVisibility(View.GONE);
@@ -25,7 +28,7 @@ public class MaopaoLocationArea {
                     public void onClick(View v) {
                         if(data == null || data.location == null || locationCoord == null) return;
                         // 根据是否存在特殊字符来判断一个位置是否只是城市
-                        if (data.location.indexOf("·") >= 0) {
+                        if (data.location.indexOf(MAOPAO_LOCATION_DIVIDE) >= 0) {
                             LocationDetailActivity_.intent(v.getContext())
                                     .name(data.location)
                                     .address(data.address)

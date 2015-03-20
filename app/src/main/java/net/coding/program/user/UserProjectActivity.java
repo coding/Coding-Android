@@ -3,6 +3,7 @@ package net.coding.program.user;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
 import net.coding.program.BaseActivity;
@@ -26,8 +27,7 @@ public class UserProjectActivity extends BaseActivity {
     @Extra
     UserObject mUserObject;
 
-    @StringArrayRes
-    String[] user_program_title;
+    String[] fragmentTitles;
 
     @ViewById
     WechatTab tabs;
@@ -37,7 +37,16 @@ public class UserProjectActivity extends BaseActivity {
 
     @AfterViews
     protected final void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if (mUserObject.isMe()) {
+            fragmentTitles = getResources().getStringArray(R.array.user_me_program_title);
+            actionBar.setTitle("我的项目");
+        } else {
+            fragmentTitles = getResources().getStringArray(R.array.user_program_title);
+            actionBar.setTitle("TA的项目");
+        }
 
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
@@ -60,12 +69,12 @@ public class UserProjectActivity extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return user_program_title[position];
+            return fragmentTitles[position];
         }
 
         @Override
         public int getCount() {
-            return user_program_title.length;
+            return fragmentTitles.length;
         }
 
         @Override

@@ -232,7 +232,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
                 adapter.notifyDataSetChanged();
 
-                if (isLoadingFirstPage(tag)) {
+                if (isLoadingLastPage(tag)) {
                     mFootUpdate.dismiss();
                 } else {
                     mFootUpdate.showLoading();
