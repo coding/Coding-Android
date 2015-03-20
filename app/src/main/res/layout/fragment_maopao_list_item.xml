@@ -177,18 +177,6 @@
                         android:textColor="@color/font_gray" />
 
                     <TextView
-                        android:id="@+id/locationBottom"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:textSize="13sp"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:text="北京"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/font_green" />
-
-                    <TextView
                         android:id="@+id/maopaoDelete"
                         android:layout_width="wrap_content"
                         android:textSize="13sp"
