@@ -121,6 +121,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         } else {
             owerGlobar = topicObject.owner.global_key;
+            getSupportActionBar().setTitle(topicObject.project.name);
 
             urlTopic = String.format(Global.HOST + "/api/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
@@ -128,6 +129,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     private void initData() {
+        getSupportActionBar().setTitle(topicObject.project.name);
         updateHeadData();
         urlCommentSend = String.format(urlCommentSend, topicObject.project_id, topicObject.id);
         urlCommentList = String.format(urlCommentList, topicObject.id);

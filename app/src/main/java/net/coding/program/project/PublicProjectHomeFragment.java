@@ -56,6 +56,9 @@ public class PublicProjectHomeFragment extends BaseFragment {
     WebView webView;
 
     @ViewById
+    View needReadme;
+
+    @ViewById
     TextView readme;
 
     @ViewById
@@ -105,20 +108,28 @@ public class PublicProjectHomeFragment extends BaseFragment {
                 readme.setText(readmeName);
 
                 String readmeHtml = readmeJson.optString("preview", "");
-                webView.getSettings().setJavaScriptEnabled(true);
-                webView.setBackgroundColor(0);
-                webView.getBackground().setAlpha(0);
+                if (readmeHtml.isEmpty()) {
+                    needReadme.setVisibility(View.VISIBLE);
+                    webView.setVisibility(View.GONE);
+                } else {
+                    needReadme.setVisibility(View.GONE);
+                    webView.setVisibility(View.VISIBLE);
 
-                String bubble = "${webview_content}";
-                try {
-                    bubble = readTextFile(getResources().getAssets().open("bubble"));
-                } catch (Exception e) {
-                    Global.errorLog(e);
+                    webView.getSettings().setJavaScriptEnabled(true);
+                    webView.setBackgroundColor(0);
+                    webView.getBackground().setAlpha(0);
+
+                    String bubble = "${webview_content}";
+                    try {
+                        bubble = readTextFile(getResources().getAssets().open("bubble"));
+                    } catch (Exception e) {
+                        Global.errorLog(e);
+                    }
+
+                    webView.getSettings().setDefaultTextEncodingName("UTF-8");
+                    webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
+                    webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
                 }
-
-                webView.getSettings().setDefaultTextEncodingName("UTF-8");
-                webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
 
             } else {
                 showErrorMsg(code, respanse);

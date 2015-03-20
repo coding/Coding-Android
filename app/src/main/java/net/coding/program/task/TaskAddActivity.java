@@ -207,6 +207,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         selectMember();
 
         if (mSingleTask.isEmpty()) {
+            getSupportActionBar().setTitle("新建任务");
             status.setText("未完成");
             linearlayout2.setVisibility(View.GONE);
             mEnterLayout.hide();
@@ -214,8 +215,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             findViewById(R.id.layoutListHeadBottom).setVisibility(View.GONE);
 
         } else {
+            getSupportActionBar().setTitle(mSingleTask.project.name);
             title.setText(mSingleTask.content);
-            getSupportActionBar().setTitle("编辑任务");
 
             setStatus();
             setPriority();

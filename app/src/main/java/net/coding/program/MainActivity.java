@@ -88,14 +88,13 @@ public class MainActivity extends BaseActivity
 
         if (savedInstanceState != null) {
             mSelectPos = savedInstanceState.getInt("pos", 0);
-//            mPushOpened = (HashSet<String>) savedInstanceState.getSerializable("mPushOpened");
             mTitle = savedInstanceState.getString("mTitle");
         }
 
-        Log.d(TAG, "onCreate");
-
         if (mPushUrl != null) {
             URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
+            mPushUrl = null;
+            getIntent().getExtras().remove("mPushUrl");
         }
     }
 

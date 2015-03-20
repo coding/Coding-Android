@@ -132,6 +132,17 @@
             android:layout_marginRight="12dp"
             android:background="#ffe5e5e5" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/needReadme"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"
+            android:text="我们推荐每个项目都新建一个README文件"/>
+
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
@@ -145,5 +156,8 @@
             android:lineSpacingMultiplier="1.1"
             android:textColor="@color/font_black_content"
             android:textSize="15sp" />
+
+        <include layout="@layout/divide_15_top" />
+
     </LinearLayout>
 </ScrollView>
