@@ -165,9 +165,9 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
             String contentString;
             if (comment.id == 0) {
-                contentString = input;
+                contentString = Global.encodeInput("", input);
             } else {
-                contentString = String.format("@%s : %s", comment.owner.name, input);
+                contentString = Global.encodeInput(comment.owner.name, input);
             }
             params.put("content", contentString);
             postNetwork(uri, params, ADD_COMMENT, 0, comment);

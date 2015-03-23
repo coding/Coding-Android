@@ -24,7 +24,9 @@ import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.project.detail.TopicEditFragment;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -34,7 +36,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 @EFragment(R.layout.fragment_mdedit)
-public abstract class MDEditFragment extends BaseFragment {
+public class MDEditFragment extends BaseFragment {
 
     @ViewById
     protected EditText edit;
@@ -43,7 +45,23 @@ public abstract class MDEditFragment extends BaseFragment {
     private Uri fileCropUri;
 
     private final String tipFont = "在此输入文字";
-    private final String host_upload_photo = "https://coding.net/api/project/%d/file/upload";
+//    private final String host_upload_photo = "https://coding.net/api/project/%d/file/upload";
+
+    private final String HOST_UPLOAD_PHOTO_PUBLIC = Global.HOST + "/api/project/%d/upload_public_image";
+    private final String HOST_UPLOAD_PHOTO_PRIVATE = Global.HOST + "/api/project/%d/file/upload";
+
+    private String hostUploadPhoto = "";
+
+    @AfterViews
+    protected final void initBase1() {
+        TopicEditFragment.SaveData projectData = (TopicEditFragment.SaveData) getActivity();
+        int projectId = projectData.getProjectId();
+        if (projectData.isProjectPublic()) {
+            hostUploadPhoto = String.format(HOST_UPLOAD_PHOTO_PUBLIC, projectId);
+        } else {
+            hostUploadPhoto = String.format(HOST_UPLOAD_PHOTO_PRIVATE, projectId);
+        }
+    }
 
     @Click
     public void mdBold(View v) {
@@ -132,28 +150,31 @@ public abstract class MDEditFragment extends BaseFragment {
                         fileUri = data.getData();
                         File outputFile = new PhotoOperate(getActivity()).scal(fileUri);
 
-                        String uri = String.format(host_upload_photo, getProjectId());
 
                         RequestParams params = new RequestParams();
                         params.put("dir", 0);
                         params.put("file", outputFile);
-                        postNetwork(uri, params, host_upload_photo);
+                        postNetwork(hostUploadPhoto, params, hostUploadPhoto);
                     }
                 } catch (Exception e) {
                     showProgressBar(false);
                 }
             }
-
         }
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(host_upload_photo)) {
+        if (tag.equals(hostUploadPhoto)) {
             showProgressBar(false);
             if (code == 0) {
-                AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
-                String fileUri = fileObject.owner_preview;
+                String fileUri;
+                if (((TopicEditFragment.SaveData) getActivity()).isProjectPublic()) {
+                    fileUri = respanse.optString("data", "");
+                } else {
+                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
+                    fileUri = fileObject.owner_preview;
+                }
                 String mdPhotoUri = String.format("![图片](%s)\n", fileUri);
                 insertString(mdPhotoUri, "", "");
             } else {
@@ -161,8 +182,6 @@ public abstract class MDEditFragment extends BaseFragment {
             }
         }
     }
-
-    abstract public int getProjectId();
 
     private void insertString(String begin, String middle, String end) {
         edit.requestFocus();

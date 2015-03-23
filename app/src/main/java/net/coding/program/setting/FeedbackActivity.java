@@ -15,7 +15,17 @@ public class FeedbackActivity extends TopicAddActivity {
 
     @Override
     protected int getTopicId() {
-        return 182;
+        return 39583;
+    }
+
+    @Override
+    public int getProjectId() {
+        return 39583;
+    }
+
+    @Override
+    public boolean isProjectPublic() {
+        return true;
     }
 
     @Override

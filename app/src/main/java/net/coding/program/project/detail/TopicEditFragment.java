@@ -61,11 +61,6 @@ public class TopicEditFragment extends MDEditFragment {
                         !edit.getText().toString().equals(mOldData.content);
     }
 
-    @Override
-    public int getProjectId() {
-        return ((SaveData) (getActivity())).getProjectId();
-    }
-
     public interface SaveData {
         public void saveData(TopicAddActivity.TopicData data);
 
@@ -78,6 +73,8 @@ public class TopicEditFragment extends MDEditFragment {
         public void exit();
 
         public int getProjectId();
+
+        boolean isProjectPublic();
 
     }
 }

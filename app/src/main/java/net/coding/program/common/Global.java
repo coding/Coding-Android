@@ -39,6 +39,7 @@ import org.xml.sax.XMLReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,22 @@ public class Global {
     public static void errorLog(Exception e) {
         e.printStackTrace();
         Log.e("", "" + e);
+    }
+
+    public static String encodeInput(String at, String input) {
+        if (at == null || at.isEmpty()) {
+            return input;
+        }
+
+        return String.format("@%s %s", at, input);
+    }
+
+    public static String encodeUtf8(String s) {
+        try {
+            return  URLEncoder.encode(s, "utf-8");
+        } catch (Exception e) { }
+
+        return "";
     }
 
 //    public static void syncCookie(Context context) {

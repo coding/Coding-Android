@@ -44,7 +44,6 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
 
     String HOST_DESCRIPTION = Global.HOST + "/api/task/%s/description";
 
-
     boolean editMode = false;
 
     String preViewHtml = "";
@@ -206,5 +205,11 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     @Override
     public int getProjectId() {
         return projectId;
+    }
+
+    // 有任务的项目必定是私有项目
+    @Override
+    public boolean isProjectPublic() {
+        return false;
     }
 }

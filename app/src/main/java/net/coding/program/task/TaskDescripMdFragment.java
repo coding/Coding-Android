@@ -115,8 +115,4 @@ public class TaskDescripMdFragment extends MDEditFragment {
         inflater.inflate(R.menu.menu_task_description_edit, menu);
     }
 
-    @Override
-    public int getProjectId() {
-        return ((TopicEditFragment.SaveData) getActivity()).getProjectId();
-    }
 }

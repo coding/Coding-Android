@@ -57,7 +57,7 @@ public class LocationProvider {
                     }
                 } else {
                     // 大多数情况下，将"广州市"直接显示成"广州"
-                    city = city.replaceFirst("市$", "");
+                    city = city.replaceFirst("市.*$", "");
                 }
                 locationClient.stop();
                 listener.onLocationResult(success, city, bdLocation.getCity() + bdLocation.getDistrict(), bdLocation.getLatitude(), bdLocation.getLongitude());

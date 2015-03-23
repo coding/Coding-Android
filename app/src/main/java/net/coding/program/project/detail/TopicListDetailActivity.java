@@ -349,7 +349,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             TopicObject comment = (TopicObject) message.getTag();
             if (comment != null && comment.parent_id != 0) {
-                input = String.format("@%s : ", comment.owner.name) + input;
+                input = Global.encodeInput(comment.owner.name, input);
+            } else {
+                input = Global.encodeInput("", input);
             }
             params.put("content", input);
 

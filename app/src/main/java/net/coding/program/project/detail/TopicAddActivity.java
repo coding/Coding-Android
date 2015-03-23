@@ -186,4 +186,9 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     public int getProjectId() {
         return projectObject.getId();
     }
+
+    @Override
+    public boolean isProjectPublic() {
+        return projectObject.isPublic();
+    }
 }

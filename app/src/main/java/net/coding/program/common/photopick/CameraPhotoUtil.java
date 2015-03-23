@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by chaochen on 15/1/13.
  */
-public class CameraPhotoUtil {
+public class  CameraPhotoUtil {
     public static Uri getOutputMediaFileUri() {
         File mediaStorageDir = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),

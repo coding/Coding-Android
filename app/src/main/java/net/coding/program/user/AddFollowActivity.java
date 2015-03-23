@@ -28,10 +28,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_add_follow)
@@ -60,7 +62,13 @@ public class AddFollowActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == flag) {
-                getNetwork(String.format(HOST_SEARCH_USER, (String) msg.obj), HOST_SEARCH_USER);
+                String input = "";
+                try {
+                    input = URLEncoder.encode((String) msg.obj, "utf-8");
+                } catch (Exception e) {
+                }
+
+                getNetwork(String.format(HOST_SEARCH_USER, input), HOST_SEARCH_USER);
             }
         }
     };

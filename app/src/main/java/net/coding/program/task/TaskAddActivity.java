@@ -1076,11 +1076,13 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             Object item = mEnterLayout.content.getTag();
             if (item != null && (item instanceof TaskObject.TaskComment)) {
                 TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
-                String at = String.format("@%s ", comment.owner.name);
-                s = at + s;
+                s = Global.encodeInput(comment.owner.name, s);
+            } else {
+                s = Global.encodeInput("", s);
             }
 
             RequestParams params = new RequestParams();
+
             params.put("content", s);
 
             postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);

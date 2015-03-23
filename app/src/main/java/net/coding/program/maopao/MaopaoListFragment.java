@@ -254,7 +254,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             if (commentObject.id == 0) {
                 commentString = input;
             } else {
-                commentString = String.format("@%s : %s", commentObject.owner.name, input);
+                commentString = Global.encodeInput(commentObject.owner.name, input);
             }
             params.put("content", commentString);
             postNetwork(uri, params, URI_COMMENT, 0, commentObject);
