@@ -87,10 +87,12 @@ public class ImagePagerFragment extends BaseFragment {
             .Builder()
             .showImageForEmptyUri(R.drawable.ic_default_image)
             .showImageOnFail(R.drawable.ic_default_image)
+            .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheOnDisk(true)
-            .cacheInMemory(false)
+            .resetViewBeforeLoading(true)
+            .cacheInMemory(true)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .build();
 
     @AfterViews
@@ -140,6 +142,7 @@ public class ImagePagerFragment extends BaseFragment {
             image = photoView;
             rootLayout.addView(image);
         }
+
 
 
         getImageLoad().imageLoader.loadImage(uri, null, optionsImage, new SimpleImageLoadingListener() {

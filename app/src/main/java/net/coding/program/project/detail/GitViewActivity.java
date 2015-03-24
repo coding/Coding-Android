@@ -142,6 +142,7 @@ public class GitViewActivity extends CustomMoreActivity {
                     } else {
                         try {
                             template = readTextFile(getAssets().open("code"));
+                            mFile.data = mFile.data.replace("<", "&lt;").replace(">", "&gt;");
                             webview.loadDataWithBaseURL("about:blank", template.replace("${file_code}", mFile.data).replace("${file_lang}", mFile.lang), "text/html", "UTF-8", null);
                         } catch (Exception e) {
                             Global.errorLog(e);
