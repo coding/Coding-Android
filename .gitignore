@@ -37,3 +37,4 @@ local.properties
 gradlew
 gradlew.bat
 gradle.properties
+app/manifest-merger-release-report.txt

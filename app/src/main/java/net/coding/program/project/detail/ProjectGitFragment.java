@@ -72,7 +72,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     View blankLayout;
 
     @AfterViews
-    protected void init() {
+    protected final void init() {
         initRefreshLayout();
         showDialogLoading();
 

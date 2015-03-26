@@ -43,7 +43,7 @@ import java.util.List;
 public class LocationSearchActivity extends BaseActivity implements FootUpdate.LoadMore {
 
     // 行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,结婚,丽人,金融,运动健身,医疗,教育,培训机构,交通设施,自然地物,政府机构,门址,道路
-    private static final String RECOMMEND_KEYS = "公司企业$美食$生活服务$道路$旅游景点$医疗$休闲娱乐$宾馆";
+    private static final String RECOMMEND_KEYS = "美食$休闲娱乐$公司企业$旅游景点$道路$宾馆$生活服务$医疗";
 
     @ViewById
     ListView listView;

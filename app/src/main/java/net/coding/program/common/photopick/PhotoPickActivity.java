@@ -64,6 +64,9 @@ public class PhotoPickActivity extends BaseActivity {
 
     public static class ImageInfo implements Serializable {
         public String path;
+        public long photoId;
+        public int width;
+        public int height;
 
         public ImageInfo(String path) {
             this.path = path;
@@ -108,7 +111,13 @@ public class PhotoPickActivity extends BaseActivity {
 
         displayTime(0);
 
-        String[] projection = {MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME};
+        String[] projection = {MediaStore.Images.ImageColumns._ID,
+                MediaStore.Images.ImageColumns.DATA,
+                MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.ImageColumns.WIDTH,
+                MediaStore.Images.ImageColumns.HEIGHT,
+                MediaStore.Images.ImageColumns.MINI_THUMB_MAGIC};
+
         String selection = "";
         String[] selectionArgs = null;
         Cursor mImageExternalCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.MediaColumns.DATE_ADDED + " DESC");
@@ -123,14 +132,20 @@ public class PhotoPickActivity extends BaseActivity {
             String s0 = mImageExternalCursor.getString(0);
             String s1 = mImageExternalCursor.getString(1);
             String s2 = mImageExternalCursor.getString(2);
+            int width = mImageExternalCursor.getInt(3);
+            int height = mImageExternalCursor.getInt(4);
+            long thumbnailId = mImageExternalCursor.getLong(5);
 
-            String s = String.format("%s,%s,%s", s0, s1, s2);
+            String s = String.format("%s,%s,%s, %s, %s, %s", s0, s1, s2, width, height, thumbnailId);
             Log.d("", "sss " + s);
             if (s1.endsWith(".png") || s1.endsWith(".jpg") || s1.endsWith(".PNG") || s1.endsWith(".JPG") ||
                     s1.endsWith(".jpeg") || s1.endsWith(".JPEG")) {
                 s1 = "file://" + s1;
             }
             ImageInfo imageInfo = new ImageInfo(s1);
+            imageInfo.photoId = Long.valueOf(s0);
+            imageInfo.width = width;
+            imageInfo.height = height;
 
             ArrayList<ImageInfo> value = mFolders.get(s2);
             if (value == null) {
@@ -440,9 +455,17 @@ public class PhotoPickActivity extends BaseActivity {
 
                 ImageInfo data = (ImageInfo) getItem(position);
                 ImageLoader imageLoader = ImageLoader.getInstance();
-                imageLoader.displayImage(data.path, holder.icon, optionsImage);
 
-                ((GridViewCheckTag) holder.check.getTag()).path = data.path;
+//                holder.icon.setImageBitmap(MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(), 10797, MediaStore.Images.Thumbnails.MINI_KIND, null));
+
+                Cursor c = MediaStore.Images.Thumbnails.queryMiniThumbnail(getContentResolver(), data.photoId, MediaStore.Images.Thumbnails.MINI_KIND, new String[] {MediaStore.Images.Thumbnails.DATA});
+                if (c!=null && c.moveToNext()) {
+                    imageLoader.displayImage("file://" + c.getString(0), holder.icon, optionsImage);
+                }
+
+//                imageLoader.displayImage(data.path, holder.icon, optionsImage);
+
+                        ((GridViewCheckTag) holder.check.getTag()).path = data.path;
 
                 boolean picked = isPicked(data.path);
                 holder.check.setChecked(picked);

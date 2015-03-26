@@ -3,11 +3,8 @@ package net.coding.program;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -28,6 +25,7 @@ public class MyApp extends Application {
     public static float sScale;
     public static int sWidthDp;
     public static int sWidthPix;
+    public static int sHeightPix;
 
     public static int sEmojiNormal;
     public static int sEmojiMonkey;
@@ -60,6 +58,7 @@ public class MyApp extends Application {
 
         sScale = getResources().getDisplayMetrics().density;
         sWidthPix = getResources().getDisplayMetrics().widthPixels;
+        sHeightPix = getResources().getDisplayMetrics().heightPixels;
         sWidthDp = (int) (sWidthPix / sScale);
 
         sEmojiNormal = getResources().getDimensionPixelSize(R.dimen.emoji_normal);

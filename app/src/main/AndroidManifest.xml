@@ -402,7 +402,8 @@
             android:name=".project.detail.GitViewActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_git_tree"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation"
+            android:screenOrientation="unspecified" />
         <activity
             android:name=".setting.NotifySetting_"
             android:icon="@drawable/ic_lancher"

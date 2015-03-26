@@ -6,21 +6,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.ImageSizeUtils;
 
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
@@ -40,6 +43,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 
+import it.sephiroth.android.library.imagezoom.ImageViewTouch;
+import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -87,10 +92,12 @@ public class ImagePagerFragment extends BaseFragment {
             .Builder()
             .showImageForEmptyUri(R.drawable.ic_default_image)
             .showImageOnFail(R.drawable.ic_default_image)
+            .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheOnDisk(true)
+            .resetViewBeforeLoading(true)
             .cacheInMemory(false)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.EXACTLY)
             .build();
 
     @AfterViews
@@ -116,6 +123,21 @@ public class ImagePagerFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        if (image != null) {
+            if (image instanceof GifImageView) {
+                ((GifImageView) image).setImageURI(null);
+            } else if (image instanceof ImageViewTouch) {
+                try {
+                    ((BitmapDrawable) ((ImageViewTouch) image).getDrawable()).getBitmap().recycle();
+                } catch (Exception e) { }
+            }
+        }
+
+        super.onDestroyView();
+    }
+
     private void showPhoto(boolean isGif) {
         if (!isAdded()) {
             return;
@@ -128,21 +150,31 @@ public class ImagePagerFragment extends BaseFragment {
             rootLayout.addView(image);
 
         } else {
-            SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+//            SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+//            photoView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    getActivity().onBackPressed();
+//                }
+//            });
+//
+//            image = photoView;
+            ImageViewTouch imageViewTouch = (ImageViewTouch) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+            imageViewTouch.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+//            imageViewTouch.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    getActivity().onBackPressed();
+//                }
+//            });
 
-            photoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().onBackPressed();
-                }
-            });
-
-            image = photoView;
+            image = imageViewTouch;
             rootLayout.addView(image);
         }
 
 
-        getImageLoad().imageLoader.loadImage(uri, null, optionsImage, new SimpleImageLoadingListener() {
+        ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+        getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
 
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
@@ -155,28 +187,28 @@ public class ImagePagerFragment extends BaseFragment {
                             return;
                         }
 
-                        String message;
-                        switch (failReason.getType()) {
-                            case IO_ERROR:
-                                message = "IO错误";
-                                break;
-                            case DECODING_ERROR:
-                                message = "图片编码错误";
-                                break;
-                            case NETWORK_DENIED:
-                                message = "载入图片超时";
-                                break;
-                            case OUT_OF_MEMORY:
-                                message = "内存不足";
-                                break;
-                            case UNKNOWN:
-                                message = "未知错误";
-                                break;
-                            default:
-                                message = "未知错误";
-                                break;
-                        }
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+//                        String message;
+//                        switch (failReason.getType()) {
+//                            case IO_ERROR:
+//                                message = "IO错误";
+//                                break;
+//                            case DECODING_ERROR:
+//                                message = "图片编码错误";
+//                                break;
+//                            case NETWORK_DENIED:
+//                                message = "载入图片超时";
+//                                break;
+//                            case OUT_OF_MEMORY:
+//                                message = "内存不足";
+//                                break;
+//                            case UNKNOWN:
+//                                message = "未知错误";
+//                                break;
+//                            default:
+//                                message = "未知错误";
+//                                break;
+//                        }
+//                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
                         circleLoading.setVisibility(View.GONE);
                     }
@@ -233,11 +265,18 @@ public class ImagePagerFragment extends BaseFragment {
                             } catch (Exception e) {
                                 Global.errorLog(e);
                             }
-                        } else if (image instanceof SubsamplingScaleImageView) {
-                            File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-
+//                        } else if (image instanceof SubsamplingScaleImageView) {
+//                            File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+//
+//                            try {
+//                                ((SubsamplingScaleImageView) image).setImageUri(Uri.fromFile(file));
+//                            } catch (Exception e) {
+//                                Global.errorLog(e);
+//                            }
+//                        }
+                        } else if (image instanceof ImageViewTouch) {
                             try {
-                                ((SubsamplingScaleImageView) image).setImageUri(Uri.fromFile(file));
+                                ((ImageViewTouch) image).setImageBitmap(loadedImage);
                             } catch (Exception e) {
                                 Global.errorLog(e);
                             }

@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +35,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     private final String HOST_LIST_BRANCHES = Global.HOST + "/api/user/%s/project/%s/git/list_branches";
     private final String HOST_LIST_TAG = Global.HOST + "/api/user/%s/project/%s/git/list_tags";
 
-    private ArrayList<String> mDataVers[] = new ArrayList[]{new ArrayList(), new ArrayList()};
+    private ArrayList<BrancheItem> mDataVers[] = new ArrayList[]{new ArrayList(), new ArrayList()};
 
     @ViewById
     TextView versionButton;
@@ -50,7 +51,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     // 父类已经使用了 init，子类就不能再用这个名字，否则 init 会调用两次
     @AfterViews
-    protected void init2() {
+    protected final void init2() {
         setHasOptionsMenu(true);
 
         String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectObject.owner_user_name, mProjectObject.name);
@@ -71,13 +72,16 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String data = (String) versionAdapter.getChild(groupPosition, childPosition);
-                mVersion = data;
-
-                versionButton.performClick();
-                onRefresh();
+                setBranch(data);
                 return true;
             }
         });
+    }
+
+    private void setBranch(String name) {
+        mVersion = name;
+        versionButton.performClick();
+        onRefresh();
     }
 
     @Click
@@ -107,12 +111,16 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         versionButton.setText(mVersion);
     }
 
-    private void parseVersion(ArrayList<String> data, int code, JSONObject respanse) {
+    private void parseVersion(ArrayList<BrancheItem> data, int code, JSONObject respanse) {
         if (code == 0) {
             JSONArray array = respanse.optJSONArray("data");
             data.clear();
             for (int i = 0; i < array.length(); ++i) {
-                data.add(array.optJSONObject(i).optString("name", ""));
+                BrancheItem item = new BrancheItem(array.optJSONObject(i));
+                data.add(item);
+                if (item.is_default_branch) {
+                    setBranch(item.name);
+                }
             }
 
             ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
@@ -184,8 +192,8 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_child, parent, false);
             }
 
-            String data = (String) getChild(groupPosition, childPosition);
-            ((TextView) convertView).setText(data);
+            BrancheItem data = (BrancheItem) getChild(groupPosition, childPosition);
+            ((TextView) convertView).setText(data.name);
 
             return convertView;
         }
@@ -253,6 +261,18 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
         if (show) {
             versionLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public static class BrancheItem implements Serializable {
+        public String name = "";
+        public boolean is_default_branch;
+        public boolean is_protected;
+
+        public BrancheItem(JSONObject jsonObject) {
+            this.name = jsonObject.optString("name", "");
+            this.is_default_branch = jsonObject.optBoolean("is_default_branch", false);
+            this.is_protected = jsonObject.optBoolean("is_protected", false);
         }
     }
 
