@@ -115,8 +115,11 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
     @Override
     public void onRefresh() {
-        mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
-        mMaopaoObject = null;
+        if (mMaopaoObject != null) {
+            mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+            mMaopaoObject = null;
+        }
+
         loadData();
     }
 
@@ -428,6 +431,9 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             if (code == 0) {
                 mMaopaoObject = new Maopao.MaopaoObject(respanse.getJSONObject("data"));
                 initData();
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+                showErrorMsg(code, respanse);
             }
         } else if (tag.equals(URI_COMMENT_DELETE)) {
             if (code == 0) {

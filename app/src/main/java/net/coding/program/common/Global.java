@@ -136,7 +136,7 @@ public class Global {
         cmb.setText(content);
     }
 
-    public static String replaceAvatar(JSONObject json) throws JSONException {
+    public static String replaceAvatar(JSONObject json) {
         return replaceUrl(json, "avatar");
     }
 
@@ -152,7 +152,7 @@ public class Global {
         return s;
     }
 
-    public static String replaceUrl(JSONObject json, String name) throws JSONException {
+    public static String replaceUrl(JSONObject json, String name) {
         String s = json.optString(name);
         if (s.indexOf("/static") == 0) {
             return Global.HOST + s;

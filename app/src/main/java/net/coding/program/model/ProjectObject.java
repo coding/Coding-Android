@@ -96,6 +96,11 @@ public class ProjectObject implements Serializable {
         return Global.HOST + "/api" + backend_project_path + "/git/tree/" + version;
     }
 
+
+    public String getProjectGit() {
+        return Global.HOST + "/api" + backend_project_path + "/git";
+    }
+
     public String getHttpStar(boolean star) {
         return getHttpUrl(star ? "/star" : "/unstar");
     }

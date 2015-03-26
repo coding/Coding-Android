@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -31,10 +33,10 @@ import java.util.ArrayList;
 @EFragment(R.layout.project_git_fragment_main)
 public class ProjectGitFragmentMain extends ProjectGitFragment {
 
-    private final String HOST_LIST_BRANCHES = Global.HOST + "/api/user/%s/project/%s/git/list_branches";
+    private final String HOST_LIST_BRANCHES = Global.HOST + "/api/user/%s/project/%s/git/branches?pageSize=1000";
     private final String HOST_LIST_TAG = Global.HOST + "/api/user/%s/project/%s/git/list_tags";
 
-    private ArrayList<String> mDataVers[] = new ArrayList[]{new ArrayList(), new ArrayList()};
+    private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList(), new ArrayList()};
 
     @ViewById
     TextView versionButton;
@@ -70,35 +72,54 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         versionList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String data = (String) versionAdapter.getChild(groupPosition, childPosition);
-                mVersion = data;
-
-                versionButton.performClick();
-                onRefresh();
+                BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
+                switchVersion(data.name);
                 return true;
             }
         });
     }
 
     @Click
-    void versionButton() {
+    protected final void versionButton() {
         showList(versionLayout.getVisibility() != View.VISIBLE);
     }
 
     @Click
-    void versionLayout() {
+    protected final void versionLayout() {
         showList(versionLayout.getVisibility() != View.VISIBLE);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LIST_BRANCHES)) {
-            parseVersion(mDataVers[0], code, respanse);
+            if (code == 0) {
+                JSONObject jsonData = respanse.optJSONObject("data");
+                if (jsonData == null) {
+                    if (mDataVers[0].isEmpty()) {
+                        hideProgressDialog();
+                        getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
+                        BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
+                    }
+                } else {
+                    parseVersion(mDataVers[0], jsonData.optJSONArray("list"));
+                }
+            } else {
+                showErrorMsg(code, respanse);
+            }
         } else if (tag.equals(HOST_LIST_TAG)) {
-            parseVersion(mDataVers[1], code, respanse);
+            if (code == 0) {
+                parseVersion(mDataVers[1], respanse.optJSONArray("data"));
+            } else {
+                showErrorMsg(code, respanse);
+            }
         } else {
             super.parseJson(code, respanse, tag, pos, data);
         }
+    }
+
+    private void switchVersion(String name) {
+        mVersion = name;
+        onRefresh();
     }
 
     @Override
@@ -107,19 +128,20 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         versionButton.setText(mVersion);
     }
 
-    private void parseVersion(ArrayList<String> data, int code, JSONObject respanse) {
-        if (code == 0) {
-            JSONArray array = respanse.optJSONArray("data");
-            data.clear();
-            for (int i = 0; i < array.length(); ++i) {
-                data.add(array.optJSONObject(i).optString("name", ""));
+    private void parseVersion(ArrayList<BranchItem> data, JSONArray jsonArray) {
+        data.clear();
+        int len = jsonArray.length();
+        for (int i = 0; i < len; ++i) {
+            BranchItem item = new BranchItem(jsonArray.optJSONObject(i));
+            data.add(item);
+
+            if (item.is_default_branch) {
+                switchVersion(item.name);
             }
-
-            ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
-
-        } else {
-            showErrorMsg(code, respanse);
         }
+
+        ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
+
     }
 
     ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
@@ -184,8 +206,8 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_child, parent, false);
             }
 
-            String data = (String) getChild(groupPosition, childPosition);
-            ((TextView) convertView).setText(data);
+            BranchItem data = (BranchItem) getChild(groupPosition, childPosition);
+            ((TextView) convertView).setText(data.name);
 
             return convertView;
         }
@@ -253,6 +275,18 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
         if (show) {
             versionLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public static final class BranchItem implements Serializable {
+        String name = "";// "raml-doc",
+        boolean is_default_branch; // false,
+        boolean is_protected; // false
+
+        BranchItem(JSONObject json) {
+            name = json.optString("name", "");
+            is_default_branch = json.optBoolean("is_default_branch");
+            is_protected = json.optBoolean("is_protected");
         }
     }
 

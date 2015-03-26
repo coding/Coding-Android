@@ -45,7 +45,7 @@ public class UserObject implements Serializable {
         return MyApp.sUserObject.id == id;
     }
 
-    public UserObject(JSONObject json) throws JSONException {
+    public UserObject(JSONObject json) {
         avatar = Global.replaceAvatar(json);
         slogan = json.optString("slogan");
         tags = json.optString("tags");
