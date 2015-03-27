@@ -102,5 +102,4 @@ public class SendEmailBaseActivity extends BaseAnnotationActivity {
         return false;
     }
 
-
 }

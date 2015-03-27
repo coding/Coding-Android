@@ -99,34 +99,18 @@ public class Global {
         return "";
     }
 
-//    public static void syncCookie(Context context) {
-//        CookieSyncManager.createInstance(context);
-//        CookieManager cookieManager = CookieManager.getInstance();
-//
-//        PersistentCookieStore myCookieStore = new PersistentCookieStore(context);
-//        List<Cookie> cookies = myCookieStore.getCookies();
-//        for (Cookie eachCookie : cookies) {
-//            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
-//            cookieManager.setCookie(Global.HOST, cookieString);
-//        }
-//
-//        CookieSyncManager.getInstance().sync();
-//    }
-
-
     public static void syncCookie(Context context) {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         List<Cookie> cookies = cookieStore.getCookies();
 
+        CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
-
         for (int i = 0; i < cookies.size(); i++) {
             Cookie eachCookie = cookies.get(i);
             String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
             cookieManager.setCookie(Global.HOST, cookieString);
         }
 
-        CookieSyncManager.createInstance(context);
         CookieSyncManager.getInstance().sync();
 
     }
