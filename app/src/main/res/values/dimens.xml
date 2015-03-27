@@ -29,4 +29,6 @@
 
     <dimen name="padding_15">15dp</dimen>
 
+    <dimen name="edit_height">50dp</dimen>
+
 </resources>

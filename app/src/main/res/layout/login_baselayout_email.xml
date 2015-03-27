@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.coding.program.common.LoginEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/editName"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/edit_height"
+    android:hint="邮箱"
+    android:inputType="textEmailAddress"
+    android:maxLines="1"
+    android:background="@null"
+    android:singleLine="true"
+    android:textCursorDrawable="@null"
+    android:layout_marginLeft="@dimen/padding_15"
+    android:layout_marginRight="@dimen/padding_15"
+    android:textSize="18sp" />
