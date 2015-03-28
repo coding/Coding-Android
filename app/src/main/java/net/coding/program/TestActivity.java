@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class TestActivity extends ActionBarActivity {
@@ -14,8 +15,13 @@ public class TestActivity extends ActionBarActivity {
         setContentView(R.layout.activity_test);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
+    public void click1(View v) {
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

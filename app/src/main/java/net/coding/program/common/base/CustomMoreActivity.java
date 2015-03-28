@@ -62,8 +62,12 @@ public abstract class CustomMoreActivity extends BaseActivity {
             switch (position) {
                 case 0:
                     String link = getLink();
-                    Global.copy(CustomMoreActivity.this, link);
-                    showButtomToast("已复制链接 " + link);
+                    if (link.isEmpty()) {
+                        showButtomToast("复制链接失败");
+                    } else {
+                        Global.copy(CustomMoreActivity.this, link);
+                        showButtomToast("已复制链接 " + link);
+                    }
                     break;
             }
             mRightTopPopupWindow.dismiss();

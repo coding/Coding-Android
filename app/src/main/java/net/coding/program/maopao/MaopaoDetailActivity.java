@@ -153,6 +153,11 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     View.OnClickListener onClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (mMaopaoObject == null) {
+                showButtomToast(R.string.maopao_load_fail_comment);
+                return;
+            }
+
             EditText content = mEnterLayout.content;
             String input = content.getText().toString();
 
@@ -161,7 +166,6 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             }
 
             Maopao.Comment comment = (Maopao.Comment) content.getTag();
-            // TODO comment可能为空
             String uri = String.format(ADD_COMMENT, comment.tweet_id);
 
             RequestParams params = new RequestParams();
@@ -535,6 +539,10 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
     @Override
     protected String getLink() {
+        if (mMaopaoObject == null) {
+            return "";
+        }
+
         return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
     }
 

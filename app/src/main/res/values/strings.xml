@@ -98,5 +98,7 @@
     <string name="title_activity_resend_email">用户激活</string>
     <string name="title_activity_reset_password_base">ResetPasswordBaseActivity</string>
     <string name="title_activity_user_active">用户激活</string>
+    <string name="maopao_load_fail">冒泡载入失败</string>
+    <string name="maopao_load_fail_comment">冒泡载入失败，不能发送评论</string>
 
 </resources>
