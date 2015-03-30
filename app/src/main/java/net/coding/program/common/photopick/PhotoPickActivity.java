@@ -32,6 +32,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CameraPreview;
+import net.coding.program.common.Global;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class PhotoPickActivity extends BaseActivity {
     }
 
     LinkedHashMap<String, ArrayList<ImageInfo>> mFolders = new LinkedHashMap();
-    ArrayList<String> mFoldersData = new ArrayList();
+    ArrayList<String> mFoldersName = new ArrayList();
 
     ArrayList<ImageInfo> mPickData = new ArrayList();
 
@@ -117,9 +118,9 @@ public class PhotoPickActivity extends BaseActivity {
 
         displayTime(0);
 
-        ArrayList<ImageInfo> allPhoto = new ArrayList<ImageInfo>();
+        ArrayList<ImageInfo> allPhoto = new ArrayList();
         allPhoto.add(new ImageInfo(CameraItem));
-        mFoldersData.add(allPhotos);
+        mFoldersName.add(allPhotos);
 
         while (mImageExternalCursor.moveToNext()) {
             String s0 = mImageExternalCursor.getString(0);
@@ -128,8 +129,7 @@ public class PhotoPickActivity extends BaseActivity {
 
             String s = String.format("%s,%s,%s", s0, s1, s2);
             Log.d("", "sss " + s);
-            if (s1.endsWith(".png") || s1.endsWith(".jpg") || s1.endsWith(".PNG") || s1.endsWith(".JPG") ||
-                    s1.endsWith(".jpeg") || s1.endsWith(".JPEG")) {
+            if (Global.isImageUri(s1)) {
                 s1 = "file://" + s1;
             }
             ImageInfo imageInfo = new ImageInfo(s1);
@@ -138,17 +138,16 @@ public class PhotoPickActivity extends BaseActivity {
             if (value == null) {
                 value = new ArrayList<ImageInfo>();
                 mFolders.put(s2, value);
-                mFoldersData.add(s2);
+                mFoldersName.add(s2);
             }
             allPhoto.add(imageInfo);
-
             value.add(imageInfo);
         }
         mFolders.put(allPhotos, allPhoto);
 
         displayTime(1);
 
-        mPhotoAdapter.setData(mFolders.get(mFoldersData.get(0)));
+        mPhotoAdapter.setData(mFolders.get(mFoldersName.get(0)));
         mListView.setAdapter(mFoldAdapter);
         mListView.setOnItemClickListener(mOnItemClick);
 
@@ -166,7 +165,7 @@ public class PhotoPickActivity extends BaseActivity {
             }
         });
 
-        String folderName = mFoldersData.get(0);
+        String folderName = mFoldersName.get(0);
         mFoldName.setText(folderName);
     }
 
@@ -188,7 +187,7 @@ public class PhotoPickActivity extends BaseActivity {
     ListView.OnItemClickListener mOnItemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String folderName = mFoldersData.get((int) id);
+            String folderName = mFoldersName.get((int) id);
             mPhotoAdapter.setData(mFolders.get(folderName));
             mPhotoAdapter.notifyDataSetChanged();
             mFoldName.setText(folderName);
@@ -537,12 +536,12 @@ public class PhotoPickActivity extends BaseActivity {
     BaseAdapter mFoldAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
-            return mFoldersData.size();
+            return mFoldersName.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mFoldersData.get(position);
+            return mFoldersName.get(position);
         }
 
         @Override
@@ -572,8 +571,15 @@ public class PhotoPickActivity extends BaseActivity {
 
             holder.foldName.setText(name);
             holder.photoCount.setText(String.format("%d张", count));
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(uri, holder.foldIcon, optionsImage);
+
+            // 如果是照相机，就用下一张图片
+            if (uri.equals(CameraItem)) {
+                if (imageInfos.size() >= 2) {
+                    uri = imageInfos.get(1).path;
+                }
+            }
+
+            ImageLoader.getInstance().displayImage(uri, holder.foldIcon, optionsImage);
 
             if (mFoldName.getText().toString().equals(name)) {
                 holder.check.setVisibility(View.VISIBLE);

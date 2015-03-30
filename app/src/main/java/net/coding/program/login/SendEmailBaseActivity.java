@@ -1,6 +1,7 @@
 package net.coding.program.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.widget.Button;
 import android.widget.EditText;

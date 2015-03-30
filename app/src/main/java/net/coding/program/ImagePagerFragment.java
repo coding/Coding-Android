@@ -126,6 +126,12 @@ public class ImagePagerFragment extends BaseFragment {
         if (isGif) {
             GifImageView gifView = (GifImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
             image = gifView;
+            gifView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().onBackPressed();
+                }
+            });
 
             rootLayout.addView(image);
 

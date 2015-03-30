@@ -1,5 +1,7 @@
 package net.coding.program.login;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,9 +19,11 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 
+import org.androidannotations.annotations.AfterExtras;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
@@ -50,15 +54,34 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
             return;
         }
 
+        String key = getKey();
+        if (key.isEmpty()) {
+            showMiddleToast("链接没有带key");
+            return;
+        }
+
         String sha1Password = getSHA1Password();
 
-        String key = "eee";
         RequestParams params = new RequestParams();
         params.add("email", getEmail());
         params.add("key", key);
         params.add("password", sha1Password);
         params.add("confirm_password", sha1Password);
         postNetwork(getRequestHost(), params, HOST_REQUEST_TAG);
+    }
+
+    private String getKey() {
+        String key = "";
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            key = uri.getQueryParameter("key");
+        }
+
+        if (key == null) {
+            key = "";
+        }
+
+        return key;
     }
 
     abstract String getRequestHost();

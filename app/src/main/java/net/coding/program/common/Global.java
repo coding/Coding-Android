@@ -32,7 +32,6 @@ import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 
 import org.apache.http.cookie.Cookie;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
@@ -93,10 +92,20 @@ public class Global {
 
     public static String encodeUtf8(String s) {
         try {
-            return  URLEncoder.encode(s, "utf-8");
-        } catch (Exception e) { }
+            return URLEncoder.encode(s, "utf-8");
+        } catch (Exception e) {
+        }
 
         return "";
+    }
+
+    public static boolean isImageUri(String s1) {
+        s1 = s1.toLowerCase();
+        return s1.endsWith(".png")
+                || s1.endsWith(".jpg")
+                || s1.endsWith(".jpeg")
+                || s1.endsWith(".bmp")
+                || s1.endsWith(".gif");
     }
 
     public static void syncCookie(Context context) {
@@ -165,6 +174,7 @@ public class Global {
     };
 
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
+
     public static String makeSmallUrl(ImageView view, String url) {
         String realUrl = url.split("\\?")[0];
 
