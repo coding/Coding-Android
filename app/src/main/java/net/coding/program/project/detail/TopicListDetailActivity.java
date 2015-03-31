@@ -26,6 +26,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
@@ -35,6 +36,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
 
@@ -446,6 +448,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         }
     }
 
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
+
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -464,18 +468,17 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            HtmlCommentHolder holder;
+            ImageCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_maopao_detail_item, parent, false);
-                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser);
+                convertView = mInflater.inflate(R.layout.activity_task_comment_item, parent, false);
+                holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
-
             } else {
-                holder = (HtmlCommentHolder) convertView.getTag(R.id.layout);
+                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
             }
 
             TopicObject data = (TopicObject) getItem(position);
-            holder.setContent(data);
+            holder.setTaskCommentContent(data);
 
             return convertView;
         }

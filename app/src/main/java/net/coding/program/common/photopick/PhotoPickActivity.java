@@ -48,7 +48,7 @@ public class PhotoPickActivity extends BaseActivity {
     LayoutInflater mInflater;
 
     public static final String EXTRA_MAX = "EXTRA_MAX";
-    private int mMaxPick = 5;
+    private int mMaxPick = 6;
 
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
@@ -85,6 +85,7 @@ public class PhotoPickActivity extends BaseActivity {
     private void displayTime(int pos) {
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +94,7 @@ public class PhotoPickActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("图片");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        mMaxPick = getIntent().getIntExtra(EXTRA_MAX, 5);
+        mMaxPick = getIntent().getIntExtra(EXTRA_MAX, 6);
 
         mInflater = getLayoutInflater();
         mGridView = (GridView) findViewById(R.id.gridView);

@@ -16,6 +16,9 @@ import android.widget.Toast;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.maopao.MaopaoAddActivity;
+import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.maopao.MaopaoListFragment;
 
 import java.util.ArrayList;
 
@@ -32,7 +35,7 @@ public class PhotoPickDetailActivity extends UmengActivity {
     private ViewPager mViewPager;
     private CheckBox mCheckBox;
 
-    private int mMaxPick = 5;
+    private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
     private MenuItem mMenuSend;
     private final String actionbarTitle = "%d/%d";
 

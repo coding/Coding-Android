@@ -48,6 +48,16 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
 
     private final String HOST_REQUEST_TAG = "HOST_REQUEST_TAG";
 
+    @AfterViews
+    protected final void testInit() {
+        String key = getKey();
+        if (key.isEmpty()) {
+            showMiddleToast("链接没有带key");
+        } else {
+            showMiddleToast(key);
+        }
+    }
+
     @Click
     protected final void loginButton() {
         if (!checkFormat()) {

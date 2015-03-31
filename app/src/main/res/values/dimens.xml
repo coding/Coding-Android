@@ -31,4 +31,7 @@
 
     <dimen name="edit_height">50dp</dimen>
 
+    <dimen name="comment_image_width">32dp</dimen>
+    <dimen name="comment_image_margin">8dp</dimen>
+
 </resources>

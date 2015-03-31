@@ -120,4 +120,15 @@ public class ProjectObject implements Serializable {
     public boolean isMy() {
         return MyApp.sUserObject.id == owner_id;
     }
+
+    /*
+     * 上传图片的链接，公开项目和私有项目的链接是不同的
+     */
+    public String getHttpUploadPhoto() {
+        if (is_public) {
+            return Global.HOST + "/api/project/" + id + "/upload_public_image";
+        } else {
+            return Global.HOST + "/api/project/" + id + "/file/upload";
+        }
+    }
 }

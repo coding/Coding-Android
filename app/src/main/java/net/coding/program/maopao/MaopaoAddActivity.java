@@ -65,7 +65,7 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_maopao_add)
 public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
-    final int PHOTO_MAX_COUNT = 6;
+    public static final int PHOTO_MAX_COUNT = 6;
 
     final String sendUrl = Global.HOST + "/api/tweet";
 

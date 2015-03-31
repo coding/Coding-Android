@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/comment_image_width"
+    android:layout_height="@dimen/comment_image_width"
+    android:scaleType="centerCrop"
+    android:layout_marginRight="@dimen/comment_image_margin"/>
