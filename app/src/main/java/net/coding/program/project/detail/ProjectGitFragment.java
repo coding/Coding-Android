@@ -63,7 +63,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     GitFileInfoObject mGitFileInfoObject;
 
     @FragmentArg
-    String mVersion = MASTER;
+    String mVersion = "";
 
     @ViewById
     ListView listView;
@@ -96,8 +96,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             getActionBarActivity().getSupportActionBar().setTitle(mGitFileInfoObject.name);
         }
 
-        host_git_tree_url = String.format(HOST_GIT_TREE, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
-        getNetwork(host_git_tree_url, HOST_GIT_TREE);
+        if (!mVersion.isEmpty()) {
+            host_git_tree_url = String.format(HOST_GIT_TREE, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+            getNetwork(host_git_tree_url, HOST_GIT_TREE);
+        }
     }
 
     @Override

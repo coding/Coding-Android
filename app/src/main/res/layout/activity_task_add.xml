@@ -20,6 +20,6 @@
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false" />
 
-    <include layout="@layout/common_enter" />
+    <include layout="@layout/common_enter_image" />
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -36,15 +37,16 @@ import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.maopao.item.ContentAreaBase;
+import net.coding.program.common.enter.ImageCommentLayout;
+import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersActivity_;
@@ -62,6 +64,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -103,7 +106,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     TaskParams mNewParam;
     TaskParams mOldParam;
 
-    EnterLayout mEnterLayout;
+    //    EnterLayout mEnterLayout;
+    ImageCommentLayout mEnterComment;
 
     final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
 
@@ -125,7 +129,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private void initControl() {
-        mEnterLayout = new EnterLayout(this, mOnClickSendText, EnterLayout.Type.TextOnly);
+        mEnterComment = new ImageCommentLayout(this, mOnClickSendText, getImageLoad());
 
         // 单独提出来是因为弹出软键盘时，由于head太长，导致 title 会被顶到消失，现在的解决方法是 edit作为一个单独的head加载
         View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, null);
@@ -196,7 +200,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         mNewParam = new TaskParams(mSingleTask);
         mOldParam = new TaskParams(mSingleTask);
 
-        mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW, mSingleTask.project));
+        mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW, mSingleTask.project));
 
         setHeadData();
         addFoot();
@@ -210,7 +214,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             getSupportActionBar().setTitle("新建任务");
             status.setText("未完成");
             linearlayout2.setVisibility(View.GONE);
-            mEnterLayout.hide();
+            mEnterComment.hide();
 
             findViewById(R.id.layoutListHeadBottom).setVisibility(View.GONE);
 
@@ -235,6 +239,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
         if (!mSingleTask.isEmpty()) {
             CommentBackup.BackupParam param = new CommentBackup.BackupParam(CommentBackup.Type.Task, mSingleTask.getId(), 0);
+            EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
             mEnterLayout.content.setTag(param);
             mEnterLayout.restoreLoad(param);
         }
@@ -590,6 +595,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 TaskObject.TaskComment item = new TaskObject.TaskComment(respanse.getJSONObject("data"));
                 mData.add(0, item);
 
+                EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
                 mEnterLayout.restoreDelete(data);
 
                 mEnterLayout.clearContent();
@@ -672,6 +678,22 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
 
             hideProgressDialog();
+        } else if (tag.equals(tagUrlCommentPhoto)) {
+            if (code == 0) {
+                String fileUri;
+                if (mSingleTask.project.isPublic()) {
+                    fileUri = respanse.optString("data", "");
+                } else {
+                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
+                    fileUri = fileObject.owner_preview;
+                }
+                String mdPhotoUri = String.format("\n![图片](%s)", fileUri);
+//                insertString(mdPhotoUri, "", "");
+                sendComment(mEnterComment.getEnterLayout().getContent() + mdPhotoUri);
+            } else {
+                showErrorMsg(code, respanse);
+                showProgressBar(false);
+            }
         }
     }
 
@@ -701,6 +723,24 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     public static final int RESULT_REQUEST_DESCRIPTION = 4;
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
     public static final int RESULT_REQUEST_PHOTO = 1005;
+
+    @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
+    final void commentImage(int result, Intent data) {
+        if (result == RESULT_OK) {
+            mEnterComment.onActivityResult(
+                    ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE,
+                    data);
+        }
+    }
+
+    @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE_DETAIL)
+    final void commentImageDetail(int result, Intent data) {
+        if (result == RESULT_OK) {
+            mEnterComment.onActivityResult(
+                    ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE_DETAIL,
+                    data);
+        }
+    }
 
     @OnActivityResult(RESULT_REQUEST_DESCRIPTION)
     void resultDescription(int result, Intent data) {
@@ -749,7 +789,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
-                mEnterLayout.insertText(name);
+                mEnterComment.getEnterLayout().insertText(name);
             }
 
         } else {
@@ -933,7 +973,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_maopao_detail_item, parent, false);
+                convertView = mInflater.inflate(R.layout.activity_task_comment_item, parent, false);
                 holder = new ImageCommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
 
@@ -965,6 +1005,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                     }
                 });
             } else {
+                EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
                 mEnterLayout.content.setTag(comment);
                 String format = "回复 %s";
                 mEnterLayout.content.setHint(String.format(format, comment.owner.name));
@@ -975,22 +1016,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     };
-
-    // 任务的评论是可以带图片的，虽然现在没有显示的要求，但以后不好说，所以使用contentArea;
-    private static class ImageCommentHolder extends BaseCommentHolder {
-
-        private ContentAreaBase contentArea;
-
-        public ImageCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
-            super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser);
-            contentArea = new ContentAreaBase(convertView, onClickComment, imageGetter);
-        }
-
-        public void setTaskCommentContent(TaskObject.TaskComment comment) {
-            super.setContent(comment);
-            contentArea.setData(comment);
-        }
-    }
 
     public static class TaskJumpParams implements Serializable {
         public String userKey;
@@ -1067,29 +1092,56 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     View.OnClickListener mOnClickSendText = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String s = mEnterLayout.getContent();
-
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
-                return;
-            }
-
-            Object item = mEnterLayout.content.getTag();
-            if (item != null && (item instanceof TaskObject.TaskComment)) {
-                TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
-                s = Global.encodeInput(comment.owner.name, s);
-            } else {
-                s = Global.encodeInput("", s);
-            }
-
-            RequestParams params = new RequestParams();
-
-            params.put("content", s);
-
-            postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
-
-            showProgressBar(true, R.string.sending_comment);
+            uploadImage(v);
         }
     };
+
+    private void sendComment(String input) {
+        EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
+        String s = input;
+
+        if (EmojiFilter.containsEmptyEmoji(this, s)) {
+            return;
+        }
+
+        Object item = mEnterLayout.content.getTag();
+        if (item != null && (item instanceof TaskObject.TaskComment)) {
+            TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
+            s = Global.encodeInput(comment.owner.name, s);
+        } else {
+            s = Global.encodeInput("", s);
+        }
+
+        RequestParams params = new RequestParams();
+
+        params.put("content", s);
+
+        postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
+
+        showProgressBar(true, R.string.sending_comment);
+    }
+
+    private void uploadImage(View v) {
+        ArrayList<PhotoPickActivity.ImageInfo> photos = mEnterComment.getPickPhotos();
+        if (photos.isEmpty()) {
+            sendComment(mEnterComment.getEnterLayout().getContent());
+        } else {
+            try {
+                String url = mSingleTask.project.getHttpUploadPhoto();
+                RequestParams params = new RequestParams();
+                params.put("dir", 0);
+                Uri uri = Uri.parse(photos.get(0).path);
+                File file = new PhotoOperate(this).scal(uri);
+                params.put("file", file);
+                postNetwork(url, params, tagUrlCommentPhoto);
+                showProgressBar(true);
+            } catch (Exception e) {
+                showProgressBar(false);
+            }
+        }
+    }
+
+    final String tagUrlCommentPhoto = "tagUrlCommentPhoto";
 
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 

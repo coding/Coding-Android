@@ -33,6 +33,7 @@ import net.coding.program.ImagePagerActivity_;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.TestActivity;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhotoOperate;
@@ -64,7 +65,7 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_maopao_add)
 public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
-    final int PHOTO_MAX_COUNT = 6;
+    public static final int PHOTO_MAX_COUNT = 6;
 
     final String sendUrl = Global.HOST + "/api/tweet";
 
@@ -152,6 +153,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
 
         locationText.setText(currentLocation.name);
+
+        Global.popSoftkeyboard(this, message, false);
     }
 
     private void updateAddButton() {

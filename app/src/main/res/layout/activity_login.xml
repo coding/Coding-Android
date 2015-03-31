@@ -131,17 +131,30 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/loginFail"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="12dp"
+                android:gravity="center"
+                android:text="无法登录？"
+                android:textColor="@color/font_white_disable"
+                android:textSize="16sp" />
+
+            <TextView
                 android:id="@+id/register"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="12dp"
                 android:gravity="center"
-                android:text="注册帐号"
-                android:drawableRight="@drawable/arrow_login"
+                android:text="去注册"
                 android:textColor="@color/font_white_disable"
                 android:textSize="16sp" />
+
+
 
         </RelativeLayout>
     </LinearLayout>

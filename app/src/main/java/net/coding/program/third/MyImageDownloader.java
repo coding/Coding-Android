@@ -1,15 +1,21 @@
 package net.coding.program.third;
 
 import android.content.Context;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
+import com.loopj.android.http.PersistentCookieStore;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import net.coding.program.common.Global;
+
+import org.apache.http.cookie.Cookie;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -49,6 +55,21 @@ public class MyImageDownloader extends BaseImageDownloader {
             ((HttpsURLConnection) conn).setSSLSocketFactory(sf);
         }
 
+        if (url.startsWith(Global.HOST)) {
+            PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+            List<Cookie> cookies = cookieStore.getCookies();
+
+            String sid = "";
+            for (Cookie item : cookies) {
+                if (item.getName().equals("sid")) {
+                    sid = "sid=" + item.getValue();
+                    break;
+                }
+            }
+
+            conn.setRequestProperty("Cookie", sid);
+        }
+
         return conn;
     }
 
@@ -67,6 +88,4 @@ public class MyImageDownloader extends BaseImageDownloader {
             // Not implemented
         }
     }};
-
-
 }

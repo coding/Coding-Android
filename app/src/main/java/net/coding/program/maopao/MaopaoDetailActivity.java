@@ -115,8 +115,11 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
     @Override
     public void onRefresh() {
-        mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
-        mMaopaoObject = null;
+        if (mMaopaoObject != null) {
+            mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+            mMaopaoObject = null;
+        }
+
         loadData();
     }
 
@@ -150,6 +153,11 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     View.OnClickListener onClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (mMaopaoObject == null) {
+                showButtomToast(R.string.maopao_load_fail_comment);
+                return;
+            }
+
             EditText content = mEnterLayout.content;
             String input = content.getText().toString();
 
@@ -158,7 +166,6 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             }
 
             Maopao.Comment comment = (Maopao.Comment) content.getTag();
-            // TODO comment可能为空
             String uri = String.format(ADD_COMMENT, comment.tweet_id);
 
             RequestParams params = new RequestParams();
@@ -428,6 +435,9 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             if (code == 0) {
                 mMaopaoObject = new Maopao.MaopaoObject(respanse.getJSONObject("data"));
                 initData();
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+                showErrorMsg(code, respanse);
             }
         } else if (tag.equals(URI_COMMENT_DELETE)) {
             if (code == 0) {
@@ -529,6 +539,10 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
     @Override
     protected String getLink() {
+        if (mMaopaoObject == null) {
+            return "";
+        }
+
         return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
     }
 

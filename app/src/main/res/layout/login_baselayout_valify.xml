@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/captchaLayout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/edit_height"
+    android:layout_marginLeft="@dimen/padding_15"
+    android:layout_marginRight="@dimen/padding_15" >
+
+    <EditText
+        android:id="@+id/editValify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:textSize="18sp"
+        android:textCursorDrawable="@null"
+        android:hint="验证码"
+        android:singleLine="true" />
+
+    <ImageView
+        android:layout_alignParentRight="true"
+        android:id="@+id/imageValify"
+        android:layout_width="72dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter" />
+
+</RelativeLayout>

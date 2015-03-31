@@ -1,6 +1,8 @@
 package net.coding.program;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +28,12 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.login.ResetPasswordActivity;
+import net.coding.program.login.ResetPasswordActivity_;
+import net.coding.program.login.SendEmailActiveActivity;
+import net.coding.program.login.SendEmailActiveActivity_;
+import net.coding.program.login.SendEmailPasswordActivity_;
+import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -105,7 +113,7 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
-        try { // TODO 图片载入可能失败（小米2s 4.1)，没有测试机器，原因不明，只好先这么处理
+        try { // TODO 图片载入可能失败，因为图片没有下载完
             BitmapDrawable bitmapDrawable;
             if (background == null) {
                 bitmapDrawable = createBlur();
@@ -210,7 +218,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Click
-    void loginButton() {
+    protected final void loginButton() {
         try {
             String name = editName.getText().toString();
             String password = editPassword.getText().toString();
@@ -240,6 +248,32 @@ public class LoginActivity extends BaseActivity {
         } catch (Exception e) {
             Global.errorLog(e);
         }
+    }
+
+    @Click
+    protected final void loginFail() {
+        String[] listTitles = getResources().getStringArray(R.array.dialog_login_fail_help);
+        new AlertDialog.Builder(this).setItems(listTitles, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    SendEmailPasswordActivity_
+                            .intent(LoginActivity.this)
+                            .start();
+//                    ResetPasswordActivity_
+//                            .intent(LoginActivity.this)
+//                            .start();
+
+                } else if (which == 1) {
+                    SendEmailActiveActivity_
+                            .intent(LoginActivity.this)
+                            .start();
+//                    UserActiveActivity_
+//                            .intent(LoginActivity.this)
+//                            .start();
+                }
+            }
+        }).show();
     }
 
     private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";

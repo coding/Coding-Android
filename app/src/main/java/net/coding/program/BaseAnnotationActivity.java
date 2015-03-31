@@ -9,12 +9,12 @@ import org.androidannotations.annotations.OptionsItem;
 public class BaseAnnotationActivity extends BaseActivity {
 
     @AfterViews
-    protected void annotationDispayHomeAsUp() {
+    protected final void annotationDispayHomeAsUp() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @OptionsItem(android.R.id.home)
-    protected void annotaionClose() {
+    protected final void annotaionClose() {
         onBackPressed();
     }
 }

@@ -88,6 +88,8 @@ public class HtmlContent {
             return "";
         }
 
+        s = s.replaceAll("( ?<br> ?)+", "<br>").replaceAll("( ?<br> ?\n?)+$", "");
+
         return s;
     }
 

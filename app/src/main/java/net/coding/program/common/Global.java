@@ -32,7 +32,6 @@ import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 
 import org.apache.http.cookie.Cookie;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
@@ -93,40 +92,34 @@ public class Global {
 
     public static String encodeUtf8(String s) {
         try {
-            return  URLEncoder.encode(s, "utf-8");
-        } catch (Exception e) { }
+            return URLEncoder.encode(s, "utf-8");
+        } catch (Exception e) {
+        }
 
         return "";
     }
 
-//    public static void syncCookie(Context context) {
-//        CookieSyncManager.createInstance(context);
-//        CookieManager cookieManager = CookieManager.getInstance();
-//
-//        PersistentCookieStore myCookieStore = new PersistentCookieStore(context);
-//        List<Cookie> cookies = myCookieStore.getCookies();
-//        for (Cookie eachCookie : cookies) {
-//            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
-//            cookieManager.setCookie(Global.HOST, cookieString);
-//        }
-//
-//        CookieSyncManager.getInstance().sync();
-//    }
-
+    public static boolean isImageUri(String s1) {
+        s1 = s1.toLowerCase();
+        return s1.endsWith(".png")
+                || s1.endsWith(".jpg")
+                || s1.endsWith(".jpeg")
+                || s1.endsWith(".bmp")
+                || s1.endsWith(".gif");
+    }
 
     public static void syncCookie(Context context) {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         List<Cookie> cookies = cookieStore.getCookies();
 
+        CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
-
         for (int i = 0; i < cookies.size(); i++) {
             Cookie eachCookie = cookies.get(i);
             String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
             cookieManager.setCookie(Global.HOST, cookieString);
         }
 
-        CookieSyncManager.createInstance(context);
         CookieSyncManager.getInstance().sync();
 
     }
@@ -136,7 +129,7 @@ public class Global {
         cmb.setText(content);
     }
 
-    public static String replaceAvatar(JSONObject json) throws JSONException {
+    public static String replaceAvatar(JSONObject json) {
         return replaceUrl(json, "avatar");
     }
 
@@ -152,7 +145,7 @@ public class Global {
         return s;
     }
 
-    public static String replaceUrl(JSONObject json, String name) throws JSONException {
+    public static String replaceUrl(JSONObject json, String name) {
         String s = json.optString(name);
         if (s.indexOf("/static") == 0) {
             return Global.HOST + s;
@@ -181,6 +174,7 @@ public class Global {
     };
 
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
+
     public static String makeSmallUrl(ImageView view, String url) {
         String realUrl = url.split("\\?")[0];
 

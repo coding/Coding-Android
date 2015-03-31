@@ -14,6 +14,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.model.Depot;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
@@ -68,6 +69,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
     ProjectMarkButton mButtonWatch;
     ProjectMarkButton mButtonFork;
     private String hostGitTree;
+    private String hostProjectGit;
 
     private String httpProjectObject;
     private String forkUrl;
@@ -93,8 +95,9 @@ public class PublicProjectHomeFragment extends BaseFragment {
         initHead2();
         initHead3(root);
 
-        hostGitTree = mProjectObject.getHttpGitTree("master");
-        getNetwork(hostGitTree, hostGitTree);
+        hostProjectGit = mProjectObject.getProjectGit();
+        getNetwork(hostProjectGit);
+
         httpProjectObject = mProjectObject.getHttpProjectObject();
         getNetwork(httpProjectObject);
     }
@@ -177,6 +180,16 @@ public class PublicProjectHomeFragment extends BaseFragment {
                         .start();
                 mButtonFork.changeState();
             } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(hostProjectGit)) {
+            if (code == 0) {
+                JSONObject jsonObject = respanse.getJSONObject("data").getJSONObject("depot");
+                Depot depot = new Depot(jsonObject);
+                hostGitTree = mProjectObject.getHttpGitTree(depot.getDefault_branch());
+                getNetwork(hostGitTree, hostGitTree);
+            } else {
+                showProgressBar(false);
                 showErrorMsg(code, respanse);
             }
         }

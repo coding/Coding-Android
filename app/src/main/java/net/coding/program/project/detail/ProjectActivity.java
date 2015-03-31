@@ -51,8 +51,6 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     @Extra
     ProjectJumpParam mJumpParam;
 
-//    @Extra
-//    int mPos = 0;
     @Extra
     ProjectJumpParam.JumpType mJumpType = ProjectJumpParam.JumpType.typeDynamic;
 
