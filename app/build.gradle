@@ -36,7 +36,7 @@ dependencies {
     compile 'com.daimajia.swipelayout:library:1.1.7@aar'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.melnykov:floatingactionbutton:1.1.0'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.0'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.android.support:support-v13:21.0.3'
     compile 'com.ms-square:etsyblur:0.1.0'

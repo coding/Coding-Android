@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -258,10 +259,17 @@ public class ImagePagerFragment extends BaseFragment {
 
                         if (image instanceof GifImageView) {
                             File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                            if (file.exists()) {
+                                Log.d("", "yyy");
+                            } else {
+                                Log.d("", "nnn");
+                            }
 
                             // 看umeng有报错，bad file descriptor，可能有些gif有问题
                             try {
-                                ((GifImageView) image).setImageURI(Uri.fromFile(file));
+                                Uri uri1 = Uri.fromFile(file);
+                                ((GifImageView) image).setImageURI(uri1);
+//                                ((GifImageView) image).setImageURI(file.);
                             } catch (Exception e) {
                                 Global.errorLog(e);
                             }
