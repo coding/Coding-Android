@@ -20,6 +20,7 @@ import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.init.create.ProjectCreateActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -89,6 +90,12 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     @OptionsItem
     void action_search() {
         SearchProjectActivity_.intent(this).start();
+    }
+
+
+    @OptionsItem
+    void action_create(){
+        ProjectCreateActivity_.intent(this).start();
     }
 
     boolean requestOk = true;

@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +31,10 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectFragment_;
+import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.init.setting.ProjectAdvanceSetActivity;
 import net.coding.program.setting.SettingFragment_;
 import net.coding.program.task.TaskFragment_;
 
@@ -384,6 +388,24 @@ public class MainActivity extends BaseActivity
 
             return convertView;
         }
+    }
+
+    //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
+    @Override
+    protected void onNewIntent(Intent intent) {
+        String action=intent.getStringExtra("action");
+        if (!TextUtils.isEmpty(action)&&action.equals(InitProUtils.FLAG_REFRESH)){
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            for (Fragment item : fragments) {
+                if (item instanceof ProjectFragment) {
+                    if (item.isAdded()){
+                        ((ProjectFragment) item).onRefresh();
+                    }
+                    break;
+                }
+            }
+        }
+        super.onNewIntent(intent);
     }
 
     @Override

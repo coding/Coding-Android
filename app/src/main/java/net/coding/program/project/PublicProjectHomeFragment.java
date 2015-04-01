@@ -2,6 +2,7 @@ package net.coding.program.project;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.init.setting.ProjectSetActivity;
+import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -63,6 +66,9 @@ public class PublicProjectHomeFragment extends BaseFragment {
 
     @ViewById
     View buttonStar, buttonWatch, buttonFork;
+
+    @ViewById
+    View projectHeaderLayout;
 
     ProjectMarkButton mButtonStar;
     ProjectMarkButton mButtonWatch;
@@ -309,6 +315,13 @@ public class PublicProjectHomeFragment extends BaseFragment {
                 }
             });
         }
+    }
+
+    @Click
+    protected void projectHeaderLayout(){
+        Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
+        intent.putExtra("projectObject",mProjectObject);
+        startActivity(intent);
     }
 
     class ProjectMarkButton {

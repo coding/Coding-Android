@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <include layout="@layout/divide_15_top_bottom" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/init_common_but"
+        android:clickable="true"
+        android:padding="14dp"
+        android:id="@+id/projectPrivate"
+        android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="私有"
+            android:textSize="20sp"
+            android:textColor="@color/font_black_2"
+            android:id="@+id/privateTitle"
+            />
+
+
+        <ImageView android:layout_width="20dp"
+            android:id="@+id/iconPrivateRight"
+            android:src="@drawable/pick_photo_list_checked"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="20dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="14dp"
+        android:background="@color/divide"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/init_common_but"
+        android:clickable="true"
+        android:padding="14dp"
+        android:id="@+id/projectPublic"
+        android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="公开"
+            android:textSize="20sp"
+            android:textColor="@color/font_black_2"
+            android:id="@+id/publicText"
+            />
+
+
+        <ImageView android:layout_width="20dp"
+            android:id="@+id/iconPublicRight"
+            android:src="@drawable/pick_photo_list_checked"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_height="20dp"/>
+    </RelativeLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@drawable/divide_15_top" />
+
+
+
+</LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/maskInfo"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="28dp"
+        android:visibility="gone"
+        android:text="公开项目是完全公开的，包括源码，项目讨论，质量控制等，只有项目成员可以编辑该项目，但任何用户都可以进行 fork，关注，收藏等操作。\n \n私有项目只对项目成员可见，并不会公开展示于项目成员的个人页面上。只有项目创建者才能添加项目成员，项目的所有内容和更新都只有项目上的成员可以进行操作和查看。"
+        />
+
+</FrameLayout>

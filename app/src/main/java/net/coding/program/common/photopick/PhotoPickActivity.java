@@ -90,6 +90,10 @@ public class PhotoPickActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //需加入此行代码，我这里会报错。
+        setContentView(R.layout.activity_photo_pick);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("图片");
         actionBar.setDisplayHomeAsUpEnabled(true);

@@ -1,5 +1,6 @@
 package net.coding.program.project;
 
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectDynamicFragment;
+import net.coding.program.project.init.setting.ProjectSetActivity;
+import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -22,6 +25,15 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
     public void init2() {
 //        View head = mInflater.inflate(R.layout.project_home_list_head, listView, false);
         View head = View.inflate(getActivity(), R.layout.project_home_list_head, null);
+
+        head.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
+                intent.putExtra("projectObject",mProjectObject);
+                startActivity(intent);
+            }
+        });
 
         final String buttonTitle[] = new String[] {
                 "动态",
