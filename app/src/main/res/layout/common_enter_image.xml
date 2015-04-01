@@ -22,11 +22,10 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/message_button_add"
+                android:background="@drawable/ic_comment_camera"
                 android:padding="5dp" />
 
         </RelativeLayout>
-
 
         <EditText
             android:id="@+id/comment"
@@ -48,7 +47,6 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/message_button_add"
                 android:padding="5dp" />
-
 
             <TextView
                 android:id="@+id/sendText"

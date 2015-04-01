@@ -67,6 +67,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @EActivity(R.layout.activity_task_add)
 public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet {
@@ -311,7 +312,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         });
     }
-
 
     private void setHeadData() {
         title.addTextChangedListener(new TextWatcher() {
@@ -602,6 +602,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 mEnterLayout.hideKeyboard();
                 mEnterLayout.content.setHint("");
                 mEnterLayout.content.setTag(null);
+                mEnterComment.clearContent();
 
                 commentAdpter.notifyDataSetChanged();
                 updateCommentCount();
@@ -688,8 +689,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                     fileUri = fileObject.owner_preview;
                 }
                 String mdPhotoUri = String.format("\n![图片](%s)", fileUri);
-//                insertString(mdPhotoUri, "", "");
-                sendComment(mEnterComment.getEnterLayout().getContent() + mdPhotoUri);
+                mSendedImages.put((String) data, mdPhotoUri);
+                sendCommentAll();
             } else {
                 showErrorMsg(code, respanse);
                 showProgressBar(false);
@@ -1092,7 +1093,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     View.OnClickListener mOnClickSendText = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            uploadImage(v);
+            sendCommentAll();
         }
     };
 
@@ -1121,27 +1122,41 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         showProgressBar(true, R.string.sending_comment);
     }
 
-    private void uploadImage(View v) {
+    HashMap<String, String> mSendedImages = new HashMap<>();
+
+    private void sendCommentAll() {
+        showProgressBar(true);
+
         ArrayList<PhotoPickActivity.ImageInfo> photos = mEnterComment.getPickPhotos();
-        if (photos.isEmpty()) {
-            sendComment(mEnterComment.getEnterLayout().getContent());
-        } else {
-            try {
-                String url = mSingleTask.project.getHttpUploadPhoto();
-                RequestParams params = new RequestParams();
-                params.put("dir", 0);
-                Uri uri = Uri.parse(photos.get(0).path);
-                File file = new PhotoOperate(this).scal(uri);
-                params.put("file", file);
-                postNetwork(url, params, tagUrlCommentPhoto);
-                showProgressBar(true);
-            } catch (Exception e) {
-                showProgressBar(false);
+        for (PhotoPickActivity.ImageInfo item : photos) {
+            String imagePath = item.path;
+            if (!mSendedImages.containsKey(imagePath)) {
+                try {
+                    String url = mSingleTask.project.getHttpUploadPhoto();
+                    RequestParams params = new RequestParams();
+                    params.put("dir", 0);
+                    Uri uri = Uri.parse(imagePath);
+                    File file = new PhotoOperate(this).scal(uri);
+                    params.put("file", file);
+                    tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
+                    postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);
+                    showProgressBar(true);
+                } catch (Exception e) {
+                    showProgressBar(false);
+                }
+
+                return;
             }
         }
+
+        String send = mEnterComment.getEnterLayout().getContent();
+        for (PhotoPickActivity.ImageInfo item : photos) {
+            send += mSendedImages.get(item.path);
+        }
+        sendComment(send);
     }
 
-    final String tagUrlCommentPhoto = "tagUrlCommentPhoto";
+    String tagUrlCommentPhoto = "";
 
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 

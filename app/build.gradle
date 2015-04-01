@@ -45,7 +45,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.0.0'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile files('libs/BaiduLBS_Android.jar')
-    compile 'it.sephiroth.android.library.imagezoom:imagezoom:+'
+//    compile 'it.sephiroth.android.library.imagezoom:imagezoom:+'
+    compile 'com.github.chrisbanes.photoview:library:1.2.2'
 }
 
 //################

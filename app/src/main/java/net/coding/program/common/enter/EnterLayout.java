@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -61,31 +60,11 @@ public class EnterLayout {
 
         content = (EditText) activity.findViewById(R.id.comment);
 
-        if (mType == Type.Default) {
-            content.addTextChangedListener(new SimpleTextWatcher() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (s.length() > 0) {
-                        sendText.setVisibility(View.VISIBLE);
-                        send.setVisibility(View.GONE);
-                    } else {
-                        sendText.setVisibility(View.GONE);
-                        send.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-        }
 
         content.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    sendText.setBackgroundResource(R.drawable.edit_send_green);
-                    sendText.setTextColor(0xffffffff);
-                } else {
-                    sendText.setBackgroundResource(R.drawable.edit_send);
-                    sendText.setTextColor(0xff999999);
-                }
+                updateSendButtonStyle();
             }
         });
         content.setText("");
@@ -107,6 +86,30 @@ public class EnterLayout {
                 }
             }
         });
+    }
+
+    public void updateSendButtonStyle() {
+        if (mType == Type.Default) {
+            if (sendButtonEnable()) {
+                sendText.setVisibility(View.VISIBLE);
+                send.setVisibility(View.GONE);
+            } else {
+                sendText.setVisibility(View.GONE);
+                send.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (sendButtonEnable()) {
+            sendText.setBackgroundResource(R.drawable.edit_send_green);
+            sendText.setTextColor(0xffffffff);
+        } else {
+            sendText.setBackgroundResource(R.drawable.edit_send);
+            sendText.setTextColor(0xff999999);
+        }
+    }
+
+    protected boolean sendButtonEnable() {
+        return content.getText().length() > 0;
     }
 
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {

@@ -33,7 +33,14 @@ public class ImageCommentLayout {
     private ArrayList<PhotoPickActivity.ImageInfo> mArrayImages = new ArrayList();
 
     public ImageCommentLayout(Activity activity, View.OnClickListener onClickSend, ImageLoadTool imageLoader) {
-        mEnterLayout = new EnterLayout(activity, onClickSend, EnterLayout.Type.TextOnly);
+        mEnterLayout = new EnterLayout(activity, onClickSend, EnterLayout.Type.TextOnly) {
+            @Override
+            protected boolean sendButtonEnable() {
+                return getContent().length() > 0 ||
+                        !mArrayImages.isEmpty();
+            }
+        };
+
         mActivity = activity;
         mImageLoader = imageLoader;
 
@@ -98,6 +105,13 @@ public class ImageCommentLayout {
         }
     }
 
+    public void clearContent() {
+        mEnterLayout.hideKeyboard();
+        mEnterLayout.clearContent();
+        mArrayImages.clear();
+        updateCommentImage();
+    }
+
     private void updateCommentImage() {
         String s = "";
         int i = 0;
@@ -116,6 +130,7 @@ public class ImageCommentLayout {
             mImageViews[i].setVisibility(View.INVISIBLE);
         }
 
+        mEnterLayout.updateSendButtonStyle();
     }
 
     public ArrayList<PhotoPickActivity.ImageInfo> getPickPhotos() {

@@ -19,7 +19,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/common_enter" />
+    <include layout="@layout/common_enter_image" />
     <!--<LinearLayout-->
     <!--android:id="@+id/sendLayout"-->
     <!--android:layout_width="match_parent"-->
