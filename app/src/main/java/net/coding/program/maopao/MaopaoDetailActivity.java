@@ -233,7 +233,8 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         webView.getBackground().setAlpha(0);
 
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
-        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", mMaopaoObject.content), "text/html", "UTF-8", null);
+        String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
+        webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClient(this));
 
         mListHead.setOnClickListener(new View.OnClickListener() {

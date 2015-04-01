@@ -36,6 +36,7 @@ import net.coding.program.R;
 import net.coding.program.TestActivity;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.PhoneType;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
@@ -566,6 +567,11 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     @Click(R.id.locationText)
     void chooseLocation(){
+        if (PhoneType.isX86()) {
+            showMiddleToast("定位功能不支持x86的手机");
+            return;
+        }
+
         LocationSearchActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
     }
 
