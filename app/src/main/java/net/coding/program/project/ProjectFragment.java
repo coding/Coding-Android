@@ -124,6 +124,18 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
+        for (WeakReference<Fragment> item : fragmentList) {
+            Fragment fragment = item.get();
+            if (fragment instanceof ProjectListFragment) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private class MyPagerAdapter extends SaveFragmentPagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {

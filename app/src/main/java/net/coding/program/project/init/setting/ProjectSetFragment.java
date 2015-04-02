@@ -33,7 +33,11 @@ import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.ProjectHomeActivity;
+import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -118,6 +122,7 @@ public class ProjectSetFragment extends BaseFragment{
                 updateSendButton();
             }
         });
+        Global.popSoftkeyboard(getActivity(), description, false);
     }
 
     @Click
@@ -219,9 +224,11 @@ public class ProjectSetFragment extends BaseFragment{
         showProgressBar(false);
         if (tag.equals(host)) {
             if (code == 0) {
-                /*mProjectObject = new ProjectObject(respanse.getJSONObject("data"));*/
                 showButtomToast("修改成功");
                 isBackToRefresh=true;
+                mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
+                InitProUtils.hideSoftInput(getActivity());
+                backToRefresh();
             } else {
                 isBackToRefresh=false;
                 showErrorMsg(code, respanse);
@@ -229,6 +236,7 @@ public class ProjectSetFragment extends BaseFragment{
         }else {
             if (code == 0) {
                 showButtomToast("图片上传成功...");
+                mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
                 isBackToRefresh=true;
             } else {
                 isBackToRefresh=false;
@@ -283,4 +291,10 @@ public class ProjectSetFragment extends BaseFragment{
     }
 
 
+    public void backToRefresh() {
+        Intent intent=new Intent();
+        intent.putExtra("projectObject",mProjectObject);
+        getActivity().setResult(Activity.RESULT_OK,intent);
+        getActivity().finish();
+    }
 }

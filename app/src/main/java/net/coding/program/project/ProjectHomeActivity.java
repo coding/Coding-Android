@@ -8,6 +8,7 @@ import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -37,10 +38,11 @@ public class ProjectHomeActivity extends BaseActivity {
 
     String mProjectUrl;
 
+    private Fragment mCurrentFragment;
+
     @AfterViews
     protected void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (mProjectObject != null) {
             initFragment();
         } else {
@@ -78,10 +80,23 @@ public class ProjectHomeActivity extends BaseActivity {
                 .beginTransaction()
                 .add(R.id.container, fragment)
                 .commit();
+        mCurrentFragment=fragment;
     }
 
     @OptionsItem(android.R.id.home)
     final protected void clickBack() {
+        if (mCurrentFragment instanceof PublicProjectHomeFragment){
+            if (((PublicProjectHomeFragment) mCurrentFragment).isBackToRefresh){
+                InitProUtils.backIntentToMain(this);
+                return;
+            }
+        }
+        if (mCurrentFragment instanceof PrivateProjectHomeFragment){
+            if (((PrivateProjectHomeFragment) mCurrentFragment).isBackToRefresh){
+                InitProUtils.backIntentToMain(this);
+                return;
+            }
+        }
         finish();
     }
 }

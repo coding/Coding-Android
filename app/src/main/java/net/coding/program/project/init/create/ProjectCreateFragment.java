@@ -131,6 +131,7 @@ public class ProjectCreateFragment extends BaseFragment{
                 updateSendButton();
             }
         });
+        Global.popSoftkeyboard(getActivity(), description, false);
     }
 
     @Click

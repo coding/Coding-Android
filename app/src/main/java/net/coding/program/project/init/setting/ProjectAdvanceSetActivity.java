@@ -94,11 +94,10 @@ public class ProjectAdvanceSetActivity extends BaseActivity{
 
     void action_delete(String pwd){
         hostDelete=host+mProjectObject.getId();
-        Log.d(TAG,"hostUrl="+hostDelete);
         RequestParams params=new RequestParams();
         params.put("user_name", AccountInfo.loadAccount(this).name);
         params.put("name",mProjectObject.name);
-        params.put("porject_id",""+mProjectObject.getId());
+        params.put("project_id",""+mProjectObject.getId());
         try {
             params.put("password",SimpleSHA1.sha1(pwd));
         } catch (Exception e) {

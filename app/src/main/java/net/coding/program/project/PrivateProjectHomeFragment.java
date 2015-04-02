@@ -1,6 +1,8 @@
 package net.coding.program.project;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectDynamicFragment;
+import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -97,10 +100,9 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
             view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
                     intent.putExtra("projectObject",mProjectObject);
-                    startActivity(intent);
+                    startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
                 }
             });
 
@@ -109,5 +111,18 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
         }
     }
 
+    boolean isBackToRefresh=false;
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode== InitProUtils.REQUEST_PRO_UPDATE){
+            if (resultCode== Activity.RESULT_OK){
+                mProjectObject= (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
+                initHeadHead(getView());
+                onRefresh();
+                isBackToRefresh=true;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
