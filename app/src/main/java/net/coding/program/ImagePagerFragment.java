@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -43,9 +44,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 import pl.droidsonroids.gif.GifImageView;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by chaochen on 14-9-7.
@@ -128,9 +129,9 @@ public class ImagePagerFragment extends BaseFragment {
         if (image != null) {
             if (image instanceof GifImageView) {
                 ((GifImageView) image).setImageURI(null);
-            } else if (image instanceof ImageViewTouch) {
+            } else if (image instanceof PhotoView) {
                 try {
-                    ((BitmapDrawable) ((ImageViewTouch) image).getDrawable()).getBitmap().recycle();
+                    ((BitmapDrawable) ((PhotoView) image).getDrawable()).getBitmap().recycle();
                 } catch (Exception e) { }
             }
         }
@@ -146,31 +147,28 @@ public class ImagePagerFragment extends BaseFragment {
         if (isGif) {
             GifImageView gifView = (GifImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
             image = gifView;
-
             rootLayout.addView(image);
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().onBackPressed();
+                }
+            });
 
         } else {
-//            SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
-//            photoView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    getActivity().onBackPressed();
-//                }
-//            });
-//
-//            image = photoView;
-            ImageViewTouch imageViewTouch = (ImageViewTouch) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
-            imageViewTouch.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-//            imageViewTouch.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    getActivity().onBackPressed();
-//                }
-//            });
-
-            image = imageViewTouch;
+            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+            image = photoView;
             rootLayout.addView(image);
+
+            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+                @Override
+                public void onPhotoTap(View view, float v, float v2) {
+                    getActivity().onBackPressed();
+                }
+            });
         }
+
 
 
         ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
@@ -258,10 +256,17 @@ public class ImagePagerFragment extends BaseFragment {
 
                         if (image instanceof GifImageView) {
                             File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                            if (file.exists()) {
+                                Log.d("", "yyy");
+                            } else {
+                                Log.d("", "nnn");
+                            }
 
                             // 看umeng有报错，bad file descriptor，可能有些gif有问题
                             try {
-                                ((GifImageView) image).setImageURI(Uri.fromFile(file));
+                                Uri uri1 = Uri.fromFile(file);
+                                ((GifImageView) image).setImageURI(uri1);
+//                                ((GifImageView) image).setImageURI(file.);
                             } catch (Exception e) {
                                 Global.errorLog(e);
                             }
@@ -274,9 +279,10 @@ public class ImagePagerFragment extends BaseFragment {
 //                                Global.errorLog(e);
 //                            }
 //                        }
-                        } else if (image instanceof ImageViewTouch) {
+                        } else if (image instanceof PhotoView) {
                             try {
-                                ((ImageViewTouch) image).setImageBitmap(loadedImage);
+//                                ((ImageViewTouch) image).setImageBitmap(loadedImage, matrix, 0.5f, 2.0f);
+                                ((PhotoView) image).setImageBitmap(loadedImage);
                             } catch (Exception e) {
                                 Global.errorLog(e);
                             }

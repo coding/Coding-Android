@@ -62,13 +62,7 @@ public class AddFollowActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == flag) {
-                String input = "";
-                try {
-                    input = URLEncoder.encode((String) msg.obj, "utf-8");
-                } catch (Exception e) {
-                }
-
-                getNetwork(String.format(HOST_SEARCH_USER, input), HOST_SEARCH_USER);
+                getNetwork(String.format(HOST_SEARCH_USER, Global.encodeUtf8((String) msg.obj)), HOST_SEARCH_USER);
             }
         }
     };

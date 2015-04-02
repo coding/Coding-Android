@@ -3,6 +3,7 @@ package net.coding.program;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -10,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import net.coding.program.common.PhoneType;
 import net.coding.program.common.Unread;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -49,12 +51,13 @@ public class MyApp extends Application {
 
         initImageLoader(this);
 
-        try { // x86的机器上会抛异常，大概是因为百度没有提供x86的.so文件
+        if (!PhoneType.isX86()) {
+            // x86的机器上会抛异常，因为百度没有提供x86的.so文件
             // 只在主进程初始化lbs
             if (this.getPackageName().equals(getProcessName(this))) {
                 SDKInitializer.initialize(this);
             }
-        } catch (Exception e) {}
+        }
 
         sScale = getResources().getDisplayMetrics().density;
         sWidthPix = getResources().getDisplayMetrics().widthPixels;

@@ -89,6 +89,11 @@
         <item>十万火急</item>
     </string-array>
 
+    <string-array name="dialog_login_fail_help">
+        <item>找回密码</item>
+        <item>重发激活邮件</item>
+    </string-array>
+
     <string-array name="strings_priority_inverse">
         <item>十万火急</item>
         <item>优先处理</item>

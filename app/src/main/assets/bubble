@@ -6,6 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
+    <base href="https://coding.net">
     <title>冒泡详情</title>
     <style type="text/css">/*
 
@@ -521,7 +522,19 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .webview-detail pre code:before, .webview-detail pre code:after, .webview-detail pre tt:before, .webview-detail pre tt:after {
     content: normal
 }
+
+.webview-detail img.bubble-markdown-image{
+  display: block;
+}
 </style>
+	<style type="text/css">
+		html,body{
+			font-family: '微软雅黑','Helvetica Neue',sans-serif,SimHei;
+			-webkit-font-smoothing: antialiased;
+			font-size: 16px;
+			margin: 10px;
+		}
+	</style>
 </head>
 <body>
 <article class="webview-detail">${webview_content}</article>
@@ -547,7 +560,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
             monkey.each(function(){
                 var title = $(this).attr('title'),
                     url = $(this).attr('src');
-                $(this).replaceWith([':', title , '@', url, ':'].join(''));
+                $(this).replaceWith([':', title , '@', url, ': '].join(''));
             });
             return ctn;
         };

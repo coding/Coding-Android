@@ -557,15 +557,16 @@ public class DynamicObject {
             }
 
             String content = "";
-            Commit commit = commits.get(0);
-            content += commit.committer.getHtml();
-            content += ":" + commit.short_message;
 
-            for (int i = 1; i < commits.size(); ++i) {
-                content += "<br/>";
-                commit = commits.get(i);
-                content += commit.committer.getHtml();
-                content += ":" + commit.short_message;
+            for (int i = 0; i < commits.size(); ++i) {
+                Commit commit = commits.get(i);
+                String singleContent = String.format("%s : [%s] %s", commit.committer.getHtml(), commit.sha, commit.short_message);
+
+                if (i > 0) {
+                    content += "<br/>";
+                }
+
+                content += singleContent;
             }
 
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
@@ -882,7 +883,11 @@ public class DynamicObject {
         public String short_message = "";
 
         public Commit(JSONObject json) throws JSONException {
-            sha = json.optString("sha");
+            sha = json.optString("sha", "");
+            if (sha.length() >= 7) {
+                sha = sha.substring(0, 7);
+            }
+
             short_message = json.optString("short_message");
             if (json.has("committer")) {
                 committer = new Committer(json.optJSONObject("committer"));

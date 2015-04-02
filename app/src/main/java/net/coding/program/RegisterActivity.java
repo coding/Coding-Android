@@ -55,6 +55,9 @@ public class RegisterActivity extends BaseAnnotationActivity {
     View captchaLayout;
 
     @ViewById
+    View valifyDivide;
+
+    @ViewById
     View loginButton;
 
     @ViewById
@@ -68,6 +71,7 @@ public class RegisterActivity extends BaseAnnotationActivity {
         editValify.addTextChangedListener(textWatcher);
         upateLoginButton();
         needCaptcha();
+        showValify(false);
     }
 
     private void needCaptcha() {
@@ -107,6 +111,12 @@ public class RegisterActivity extends BaseAnnotationActivity {
         } catch (Exception e) {
             Global.errorLog(e);
         }
+    }
+
+    private void showValify(boolean show) {
+        int visable = show ? View.VISIBLE : View.GONE;
+        captchaLayout.setVisibility(visable);
+        valifyDivide.setVisibility(visable);
     }
 
     @Click
@@ -160,7 +170,7 @@ public class RegisterActivity extends BaseAnnotationActivity {
         } else if (tag.equals(HOST_NEED_CAPTCHA)) {
             if (code == 0) {
                 if (respanse.getBoolean("data")) {
-                    captchaLayout.setVisibility(View.VISIBLE);
+                    showValify(true);
                     downloadValifyPhoto();
                 }
             } else {

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.Gravity;
@@ -26,15 +27,20 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.enter.ImageCommentLayout;
+import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.maopao.item.ImageCommentHolder;
+import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
 
@@ -48,8 +54,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @EActivity(R.layout.activity_topic_list_detail)
 public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
@@ -81,7 +89,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     @ViewById
     SwipeRefreshLayout swipeRefreshLayout;
 
-    EnterLayout mEnterLayout;
+    //    EnterLayout mEnterLayout;
+    ImageCommentLayout mEnterComment;
 
     String owerGlobar = "";
 
@@ -104,7 +113,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         loadData();
 
-        mEnterLayout = new EnterLayout(this, mOnClickSend, EnterLayout.Type.TextOnly);
+        mEnterComment = new ImageCommentLayout(this, mOnClickSend, getImageLoad());
 
         prepareComment();
     }
@@ -144,8 +153,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     void onResultAt(int requestCode, Intent data) {
         if (requestCode == Activity.RESULT_OK) {
             String name = data.getStringExtra("name");
-            mEnterLayout.insertText(name);
-            mEnterLayout.popKeyboard();
+            mEnterComment.getEnterLayout().insertText(name);
+            mEnterComment.getEnterLayout().popKeyboard();
         }
     }
 
@@ -156,6 +165,24 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             topicTitleTextView.setText(topicObject.title);
             setTopicWebView(this, webView, bubble, topicObject.content);
             mResultData.putExtra("topic", topicObject);
+        }
+    }
+
+    @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
+    final void commentImage(int result, Intent data) {
+        if (result == RESULT_OK) {
+            mEnterComment.onActivityResult(
+                    ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE,
+                    data);
+        }
+    }
+
+    @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE_DETAIL)
+    final void commentImageDetail(int result, Intent data) {
+        if (result == RESULT_OK) {
+            mEnterComment.onActivityResult(
+                    ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE_DETAIL,
+                    data);
         }
     }
 
@@ -283,7 +310,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     View mListHead;
 
     private void updateHeadData() {
-        mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
+        mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
 
         if (mListHead == null) {
             mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
@@ -320,7 +347,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             @Override
             public void onClick(View v) {
                 prepareComment();
-                mEnterLayout.popKeyboard();
+                mEnterComment.getEnterLayout().popKeyboard();
             }
         });
 
@@ -328,38 +355,74 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     private void prepareComment() {
-        EditText message = mEnterLayout.content;
+        EditText message = mEnterComment.getEnterLayout().content;
         message.setHint("发表评论");
         message.setTag(topicObject);
 
-        mEnterLayout.restoreLoad(topicObject);
+        mEnterComment.getEnterLayout().restoreLoad(topicObject);
     }
 
     View.OnClickListener mOnClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String input = mEnterLayout.getContent();
-
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
-                return;
-            }
-
-            RequestParams params = new RequestParams();
-            EditText message = mEnterLayout.content;
-
-            TopicObject comment = (TopicObject) message.getTag();
-            if (comment != null && comment.parent_id != 0) {
-                input = Global.encodeInput(comment.owner.name, input);
-            } else {
-                input = Global.encodeInput("", input);
-            }
-            params.put("content", input);
-
-            postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
-
-            showProgressBar(true, R.string.sending_comment);
+            sendCommentAll();
         }
     };
+
+    String tagUrlCommentPhoto = "";
+
+    HashMap<String, String> mSendedImages = new HashMap<>();
+
+    private void sendCommentAll() {
+        showProgressBar(true);
+
+        ArrayList<PhotoPickActivity.ImageInfo> photos = mEnterComment.getPickPhotos();
+        for (PhotoPickActivity.ImageInfo item : photos) {
+            String imagePath = item.path;
+            if (!mSendedImages.containsKey(imagePath)) {
+                try {
+                    String url = topicObject.project.getHttpUploadPhoto();
+                    RequestParams params = new RequestParams();
+                    params.put("dir", 0);
+                    Uri uri = Uri.parse(imagePath);
+                    File file = new PhotoOperate(this).scal(uri);
+                    params.put("file", file);
+                    tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
+                    postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);
+                    showProgressBar(true);
+                } catch (Exception e) {
+                    showProgressBar(false);
+                }
+
+                return;
+            }
+        }
+
+        String send = mEnterComment.getEnterLayout().getContent();
+        for (PhotoPickActivity.ImageInfo item : photos) {
+            send += mSendedImages.get(item.path);
+        }
+        sendComment(send);
+    }
+
+    private void sendComment(String send) {
+        String input = send;
+
+        RequestParams params = new RequestParams();
+        EditText message = mEnterComment.getEnterLayout().content;
+
+        TopicObject comment = (TopicObject) message.getTag();
+        if (comment != null && comment.parent_id != 0) {
+            input = Global.encodeInput(comment.owner.name, input);
+        } else {
+            input = Global.encodeInput("", input);
+        }
+        params.put("content", input);
+
+        postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
+
+        showProgressBar(true, R.string.sending_comment);
+    }
 
     @OptionsItem(android.R.id.home)
     void back() {
@@ -398,10 +461,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
                 mData.add(new TopicObject(jsonObject));
 
-                mEnterLayout.restoreDelete(data);
-
-                mEnterLayout.clearContent();
-                mEnterLayout.hideKeyboard();
+                EnterLayout enterLayout = mEnterComment.getEnterLayout();
+                enterLayout.restoreDelete(data);
+                mEnterComment.clearContent();
                 baseAdapter.notifyDataSetChanged();
                 showButtomToast("发送评论成功");
             } else {
@@ -443,8 +505,26 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             } else {
                 showButtomToast(R.string.delete_fail);
             }
+        } else if (tag.equals(tagUrlCommentPhoto)) {
+            if (code == 0) {
+                String fileUri;
+                if (topicObject.project.isPublic()) {
+                    fileUri = respanse.optString("data", "");
+                } else {
+                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
+                    fileUri = fileObject.owner_preview;
+                }
+                String mdPhotoUri = String.format("\n![图片](%s)", fileUri);
+                mSendedImages.put((String) data, mdPhotoUri);
+                sendCommentAll();
+            } else {
+                showErrorMsg(code, respanse);
+                showProgressBar(false);
+            }
         }
     }
+
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
 
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
@@ -464,18 +544,17 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            HtmlCommentHolder holder;
+            ImageCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_maopao_detail_item, parent, false);
-                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser);
+                convertView = mInflater.inflate(R.layout.activity_task_comment_item, parent, false);
+                holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
-
             } else {
-                holder = (HtmlCommentHolder) convertView.getTag(R.id.layout);
+                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
             }
 
             TopicObject data = (TopicObject) getItem(position);
-            holder.setContent(data);
+            holder.setTaskCommentContent(data);
 
             return convertView;
         }
@@ -500,13 +579,14 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 CustomDialog.dialogTitleLineColor(TopicListDetailActivity.this, dialog);
 
             } else {
-                EditText message = mEnterLayout.content;
+                EnterLayout enterLayout = mEnterComment.getEnterLayout();
+                EditText message = enterLayout.content;
                 message.setHint("回复 " + comment.owner.name);
 
                 message.setTag(comment);
-                mEnterLayout.popKeyboard();
+                enterLayout.popKeyboard();
 
-                mEnterLayout.restoreLoad(comment);
+                enterLayout.restoreLoad(comment);
             }
         }
     };

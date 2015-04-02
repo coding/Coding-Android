@@ -274,7 +274,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -506,8 +506,61 @@
         </activity>
         <activity
             android:name=".project.MyProjectActivity_"
+            android:label="@string/title_activity_my_project"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- <activity -->
+        <!-- android:name=".login.SendEmailBaseActivity" -->
+        <!-- android:label="@string/title_activity_base_reset_password" > -->
+        <!-- </activity> -->
+        <activity
+            android:name=".login.SendEmailPasswordActivity_"
+            android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".login.SendEmailActiveActivity_"
+            android:label="@string/title_activity_resend_email"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".login.ResetPasswordBaseActivity_"
+            android:label="@string/title_activity_reset_password_base"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".login.UserActiveActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_my_project" >
+            android:label="@string/title_activity_user_active" >
+
+            <intent-filter>
+                <data
+                    android:host="UserActiveActivity_"
+                    android:scheme="coding-net" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".login.ResetPasswordActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_reset_password" >
+
+            <intent-filter>
+                <data
+                    android:host="ResetPasswordActivity_"
+                    android:scheme="coding-net" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".project.init.create.ProjectCreateActivity_"

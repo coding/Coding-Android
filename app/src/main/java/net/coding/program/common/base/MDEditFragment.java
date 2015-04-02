@@ -149,8 +149,6 @@ public class MDEditFragment extends BaseFragment {
                         setProgressBarProgress(30);
                         fileUri = data.getData();
                         File outputFile = new PhotoOperate(getActivity()).scal(fileUri);
-
-
                         RequestParams params = new RequestParams();
                         params.put("dir", 0);
                         params.put("file", outputFile);

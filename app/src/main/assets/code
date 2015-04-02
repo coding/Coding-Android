@@ -269,6 +269,10 @@ $(function () {
 		data: code.html(),
 		lang: '${file_lang}'
 	};
+	file.data = file.data.
+		replace(/&amp;/gm, '&').
+		replace(/&lt;/gm, '<').
+		replace(/&gt;/gm, '>');
 	var html = buildCodeBlock(file.data, file.lang);
 	$('#code-view').html(html);
 });

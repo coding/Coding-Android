@@ -54,7 +54,8 @@ public class HtmlContent {
                 .replaceAll(REGX_PHOTO, REPLACE_PHOTO)
                 .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
                 .replaceAll(REGX_CODE, REPLACE_CODE)
-                .replaceAll(REGX_HTML, "$2");
+                .replaceAll(REGX_HTML, "$2")
+                .replace("<sup>", "");
     }
 
     private static Global.MessageParse createMessageParse(String s, String regx) {
@@ -87,6 +88,8 @@ public class HtmlContent {
         if (temp.isEmpty()) {
             return "";
         }
+
+        s = s.replaceAll("( ?<br> ?)+", "<br>").replaceAll("( ?<br> ?\n?)+$", "");
 
         return s;
     }
