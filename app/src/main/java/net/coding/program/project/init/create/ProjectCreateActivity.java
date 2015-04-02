@@ -1,6 +1,9 @@
 package net.coding.program.project.init.create;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 
 import net.coding.program.R;
 import org.androidannotations.annotations.AfterViews;
@@ -28,6 +31,18 @@ public class ProjectCreateActivity extends ActionBarActivity{
     @OptionsItem(android.R.id.home)
     protected final void back() {
         finish();
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+
+        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            if(getCurrentFocus()!=null && getCurrentFocus().getWindowToken()!=null){
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+        return super.onTouchEvent(event);
     }
 
 }

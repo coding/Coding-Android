@@ -7,6 +7,6 @@
         android:id="@+id/action_finish"
         android:title="完成"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_menu_ok"
+        android:icon="@drawable/ic_menu_ok_unable"
         app:showAsAction="always" />
 </menu>

@@ -2,16 +2,23 @@ package net.coding.program.project.init.create;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,6 +85,9 @@ public class ProjectCreateFragment extends BaseFragment{
 
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
 
+
+    MenuItem mMenuSave;
+
     @ViewById
     ImageView projectIcon;
 
@@ -105,6 +115,22 @@ public class ProjectCreateFragment extends BaseFragment{
                 defaultIconUrl=InitProUtils.getDefaultIconPath(getActivity(),loadedImage,imageUri);
             }
         });
+        projectName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateSendButton();
+            }
+        });
     }
 
     @Click
@@ -118,6 +144,7 @@ public class ProjectCreateFragment extends BaseFragment{
     void projectIcon(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("选择图片")
+                .setCancelable(true)
                 .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -199,11 +226,19 @@ public class ProjectCreateFragment extends BaseFragment{
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        mMenuSave = menu.findItem(R.id.action_finish);
+        updateSendButton();
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean handled = super.onOptionsItemSelected(item);
         if (handled) {
             return true;
         }
+
         int itemId_ = item.getItemId();
         if (itemId_ == R.id.action_finish) {
             action_done();
@@ -211,6 +246,30 @@ public class ProjectCreateFragment extends BaseFragment{
         }
         return false;
     }
+
+    private void updateSendButton() {
+        if (projectName.getText().toString().isEmpty()
+                ) {
+            enableSendButton(false);
+        } else {
+            enableSendButton(true);
+        }
+    }
+
+    private void enableSendButton(boolean enable) {
+        if (mMenuSave == null) {
+            return;
+        }
+
+        if (enable) {
+            mMenuSave.setIcon(R.drawable.ic_menu_ok);
+            mMenuSave.setEnabled(true);
+        } else {
+            mMenuSave.setIcon(R.drawable.ic_menu_ok_unable);
+            mMenuSave.setEnabled(false);
+        }
+    }
+
 
     private void action_done() {
         initProjectInfo();
@@ -227,9 +286,9 @@ public class ProjectCreateFragment extends BaseFragment{
             return;
         }
         projectInfo.description=description.getText().toString().trim();
-        projectInfo.type="1";
+        projectInfo.type="2";//默认私有
         if (currentType.equals(ProjectTypeActivity.TYPE_PUBLIC)){
-            projectInfo.type="2";
+            projectInfo.type="1";
         }
         projectInfo.gitEnable="true";
         projectInfo.gitReadmeEnabled="false";
@@ -344,5 +403,7 @@ public class ProjectCreateFragment extends BaseFragment{
         }
 
     }
+
+
 
 }

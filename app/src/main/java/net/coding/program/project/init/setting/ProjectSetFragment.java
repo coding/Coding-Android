@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -68,6 +72,8 @@ public class ProjectSetFragment extends BaseFragment{
 
     private Uri fileCropUri;
 
+    MenuItem mMenuSave;
+
     @ViewById
     ImageView projectIcon;
 
@@ -96,12 +102,29 @@ public class ProjectSetFragment extends BaseFragment{
         if (!mProjectObject.isPublic()){
             iconPrivate.setVisibility(View.VISIBLE);
         }
+        description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateSendButton();
+            }
+        });
     }
 
     @Click
     void projectIcon(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("选择图片")
+                .setCancelable(true)
                 .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -135,6 +158,36 @@ public class ProjectSetFragment extends BaseFragment{
         Intent intent=new Intent(getActivity(),ProjectAdvanceSetActivity_.class);
         intent.putExtra("projectObject",mProjectObject);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        mMenuSave = menu.findItem(R.id.action_finish);
+        updateSendButton();
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void updateSendButton() {
+        String text=description.getText().toString().trim();
+        if (text.isEmpty()||text.equals(mProjectObject.description)){
+            enableSendButton(false);
+        }else {
+            enableSendButton(true);
+        }
+    }
+
+    private void enableSendButton(boolean enable) {
+        if (mMenuSave == null) {
+            return;
+        }
+
+        if (enable) {
+            mMenuSave.setIcon(R.drawable.ic_menu_ok);
+            mMenuSave.setEnabled(true);
+        } else {
+            mMenuSave.setIcon(R.drawable.ic_menu_ok_unable);
+            mMenuSave.setEnabled(false);
+        }
     }
 
     @Override
@@ -175,7 +228,6 @@ public class ProjectSetFragment extends BaseFragment{
             }
         }else {
             if (code == 0) {
-                /*mProjectObject = new ProjectObject(respanse.getJSONObject("data"));*/
                 showButtomToast("图片上传成功...");
                 isBackToRefresh=true;
             } else {

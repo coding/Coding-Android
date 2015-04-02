@@ -1,8 +1,11 @@
 package net.coding.program.project.init.setting;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 
 import net.coding.program.R;
 import net.coding.program.model.ProjectObject;
@@ -49,6 +52,18 @@ public class ProjectSetActivity extends ActionBarActivity{
             InitProUtils.intentToMain(this);
         }
         finish();
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+
+        InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            if(getCurrentFocus()!=null && getCurrentFocus().getWindowToken()!=null){
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+        return super.onTouchEvent(event);
     }
 
 

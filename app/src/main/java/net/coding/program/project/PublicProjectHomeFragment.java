@@ -101,6 +101,8 @@ public class PublicProjectHomeFragment extends BaseFragment {
         initHead2();
         initHead3(root);
 
+        isEnableProjectSet(root);
+
         hostProjectGit = mProjectObject.getProjectGit();
         getNetwork(hostProjectGit);
 
@@ -330,11 +332,21 @@ public class PublicProjectHomeFragment extends BaseFragment {
         }
     }
 
-    @Click
-    protected void projectHeaderLayout(){
-        Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
-        intent.putExtra("projectObject",mProjectObject);
-        startActivity(intent);
+    private void isEnableProjectSet(View view){
+        if (mProjectObject.isMy()){
+            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
+                    intent.putExtra("projectObject",mProjectObject);
+                    startActivity(intent);
+                }
+            });
+
+        }else {
+            view.findViewById(R.id.iconRight).setVisibility(View.GONE);
+        }
     }
 
     class ProjectMarkButton {

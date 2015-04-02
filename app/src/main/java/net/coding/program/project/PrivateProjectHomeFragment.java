@@ -12,7 +12,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectDynamicFragment;
-import net.coding.program.project.init.setting.ProjectSetActivity;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,14 +25,7 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 //        View head = mInflater.inflate(R.layout.project_home_list_head, listView, false);
         View head = View.inflate(getActivity(), R.layout.project_home_list_head, null);
 
-        head.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
-                intent.putExtra("projectObject",mProjectObject);
-                startActivity(intent);
-            }
-        });
+        isEnableProjectSet(head);
 
         final String buttonTitle[] = new String[] {
                 "动态",
@@ -99,5 +91,23 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
         ((TextView) view.findViewById(R.id.projectAuthor)).setText("      " + mProjectObject.owner_user_name);
 
     }
+
+    private void isEnableProjectSet(View view){
+        if (mProjectObject.isMy()){
+            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
+                    intent.putExtra("projectObject",mProjectObject);
+                    startActivity(intent);
+                }
+            });
+
+        }else {
+            view.findViewById(R.id.iconRight).setVisibility(View.GONE);
+        }
+    }
+
 
 }
