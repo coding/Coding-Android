@@ -21,6 +21,7 @@ import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity;
 import net.coding.program.MainActivity_;
 import net.coding.program.R;
+import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -69,8 +70,9 @@ public class ProjectAdvanceSetActivity extends BaseActivity{
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry, null);
         final EditText edit1= (EditText) textEntryView.findViewById(R.id.edit1);
-        new AlertDialog.Builder(this,R.style.ThemeHoloLightDialogAlert)
-                .setTitle("需要验证密码：")
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog= builder
+                .setTitle("需要验证密码")
                 .setView(textEntryView)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -86,9 +88,8 @@ public class ProjectAdvanceSetActivity extends BaseActivity{
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                     }
-                })
-                .create()
-                .show();
+                }).show();
+        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     void action_delete(String pwd){

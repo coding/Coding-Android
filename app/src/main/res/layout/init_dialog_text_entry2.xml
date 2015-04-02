@@ -17,34 +17,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="14dp"
+    >
 
     <TextView 
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dip"
-        android:layout_marginRight="20dip"
-        android:text="这是一个危险的操作，请提供登录密码确认"
+        android:text="项目名只允许字母、数字或者下划线（_）、中划线（-），必须以字母或者数字开头，且不能以.git结尾"
         android:gravity="left"
-        android:textColor="@color/init_advance_text_red"
+        android:textColor="@color/font_black_2"
         android:textAppearance="?android:attr/textAppearanceMedium"
         />
-            
-    <EditText
-        android:id="@+id/edit1"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dip"
-        android:layout_marginRight="20dip"
-        android:scrollHorizontally="true"
-        android:autoText="false"
-        android:capitalize="none"
-        android:inputType="textPassword"
-        android:gravity="fill_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/edit"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
+
 </LinearLayout>

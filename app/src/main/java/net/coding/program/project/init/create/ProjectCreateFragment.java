@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
@@ -70,6 +74,10 @@ public class ProjectCreateFragment extends BaseFragment{
 
     private Uri fileCropUri;
 
+    private String defaultIconUrl;
+
+    private ImageLoadTool imageLoadTool = new ImageLoadTool();
+
     @ViewById
     ImageView projectIcon;
 
@@ -85,11 +93,18 @@ public class ProjectCreateFragment extends BaseFragment{
     @ViewById
     TextView projectTypeText;
 
+
     @AfterViews
     protected void init(){
         projectInfo=new ProjectInfo();
         projectTypeText.setText(currentType);
-        iconfromNetwork(projectIcon, IconRandom.getRandomUrl(), ImageLoadTool.optionsRounded2);
+        imageLoadTool.loadImage(projectIcon, IconRandom.getRandomUrl(), ImageLoadTool.optionsRounded2, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                super.onLoadingComplete(imageUri, view, loadedImage);
+                defaultIconUrl=InitProUtils.getDefaultIconPath(getActivity(),loadedImage,imageUri);
+            }
+        });
     }
 
     @Click
@@ -203,6 +218,10 @@ public class ProjectCreateFragment extends BaseFragment{
 
     private void initProjectInfo(){
         projectInfo.name=projectName.getText().toString().trim();
+        if (TextUtils.isEmpty(projectInfo.name)){
+            showButtomToast("项目名不能为空...");
+            return;
+        }
         if (!InitProUtils.textValidate(projectInfo.name)){
             showWarningDialog();
             return;
@@ -237,29 +256,15 @@ public class ProjectCreateFragment extends BaseFragment{
         try {
             if (!TextUtils.isEmpty(projectInfo.icon)){
                 Log.d(TAG,"icon="+projectInfo.icon);
-                /*File outputFile = new PhotoOperate(getActivity()).scal(Uri.parse(projectInfo.icon));*/
                 params.put("icon",new File(projectInfo.icon));
+            }else if (!TextUtils.isEmpty(defaultIconUrl)){
+                params.put("icon",new File(defaultIconUrl));
             }
         } catch (Exception e) {
-            showMiddleToast("缩放图片失败");
+            Log.d(TAG,""+e.toString());
         }
+
         postNetwork(host, params, host);
-
-/*        params.setHttpEntityIsRepeatable(true);
-        params.setUseJsonStreamer(false);
-
-        AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
-        client.post(host,params,new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(TAG,"onFailure--"+responseString);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.d(TAG,"onSuccess-"+responseString);
-            }
-        });*/
     }
 
     @Override
@@ -276,9 +281,11 @@ public class ProjectCreateFragment extends BaseFragment{
     }
 
     private void showWarningDialog(){
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry2, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog dialog = builder.setTitle("提示")
-                .setMessage("项目名只允许字母、数字或者下划线（_）、中划线（-），必须以字母或者数字开头，且不能以.git结尾")
+                .setView(textEntryView)
                 .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -305,11 +312,30 @@ public class ProjectCreateFragment extends BaseFragment{
     public static class IconRandom{
 
         public static String[] iconUrls={
+                "https://coding.net/static/project_icon/scenery-1.png",
+                "https://coding.net/static/project_icon/scenery-2.png",
+                "https://coding.net/static/project_icon/scenery-3.png",
+                "https://coding.net/static/project_icon/scenery-4.png",
+                "https://coding.net/static/project_icon/scenery-5.png",
+                "https://coding.net/static/project_icon/scenery-6.png",
+                "https://coding.net/static/project_icon/scenery-7.png",
+                "https://coding.net/static/project_icon/scenery-8.png",
+                "https://coding.net/static/project_icon/scenery-9.png",
                 "https://coding.net/static/project_icon/scenery-10.png",
-                "https://coding.net/static/project_icon/scenery-23.png",
                 "https://coding.net/static/project_icon/scenery-11.png",
+                "https://coding.net/static/project_icon/scenery-12.png",
+                "https://coding.net/static/project_icon/scenery-13.png",
+                "https://coding.net/static/project_icon/scenery-14.png",
+                "https://coding.net/static/project_icon/scenery-15.png",
+                "https://coding.net/static/project_icon/scenery-16.png",
+                "https://coding.net/static/project_icon/scenery-17.png",
+                "https://coding.net/static/project_icon/scenery-18.png",
+                "https://coding.net/static/project_icon/scenery-19.png",
                 "https://coding.net/static/project_icon/scenery-20.png",
-                "https://coding.net/static/project_icon/scenery-19.png"
+                "https://coding.net/static/project_icon/scenery-21.png",
+                "https://coding.net/static/project_icon/scenery-22.png",
+                "https://coding.net/static/project_icon/scenery-23.png",
+                "https://coding.net/static/project_icon/scenery-24.png"
         };
 
         public static String getRandomUrl(){
