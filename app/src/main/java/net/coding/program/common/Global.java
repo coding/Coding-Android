@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.loopj.android.http.PersistentCookieStore;
@@ -97,6 +99,19 @@ public class Global {
         }
 
         return "";
+    }
+
+    public static void initWebView(WebView webView) {
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        // 防止webview滚动时背景变成黑色
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            webView.setBackgroundColor(0x00000000);
+        } else {
+            webView.setBackgroundColor(Color.argb(1, 0, 0, 0));
+        }
+
+        webView.getSettings().setDefaultTextEncodingName("UTF-8");
     }
 
     public static boolean isImageUri(String s1) {

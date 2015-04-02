@@ -115,12 +115,8 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
             View custom = getActivity().getLayoutInflater().inflate(R.layout.task_description_dialog, null);
             WebView webView = (WebView) custom.findViewById(R.id.webview);
 
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.setBackgroundColor(0);
-            webView.getBackground().setAlpha(0);
-            webView.getSettings().setDefaultTextEncodingName("UTF-8");
+            Global.initWebView(webView);
             webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
-
 
             builder.setView(custom)
                     .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {

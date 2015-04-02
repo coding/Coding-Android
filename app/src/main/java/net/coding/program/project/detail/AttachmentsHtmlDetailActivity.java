@@ -52,11 +52,8 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
         urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
 
-        webview.getSettings().setJavaScriptEnabled(true);
-        //webview.setBackgroundColor(0);
-        //webview.getBackground().setAlpha(0);
+        Global.initWebView(webview);
 
-        webview.getSettings().setDefaultTextEncodingName("UTF-8");
         showDialogLoading();
         getNetwork(urlFiles, urlFiles);
     }

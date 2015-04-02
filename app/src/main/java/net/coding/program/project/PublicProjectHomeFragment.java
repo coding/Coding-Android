@@ -138,9 +138,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
                         needReadme.setVisibility(View.GONE);
                         webView.setVisibility(View.VISIBLE);
 
-                        webView.getSettings().setJavaScriptEnabled(true);
-                        webView.setBackgroundColor(0);
-                        webView.getBackground().setAlpha(0);
+                        Global.initWebView(webView);
 
                         String bubble = "${webview_content}";
                         try {
@@ -149,7 +147,6 @@ public class PublicProjectHomeFragment extends BaseFragment {
                             Global.errorLog(e);
                         }
 
-                        webView.getSettings().setDefaultTextEncodingName("UTF-8");
                         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
                         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
                     }

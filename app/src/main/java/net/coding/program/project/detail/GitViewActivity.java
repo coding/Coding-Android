@@ -94,11 +94,9 @@ public class GitViewActivity extends CustomMoreActivity {
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
         urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mGitFileInfoObject.path);
-        webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setBuiltInZoomControls(true);
+        Global.initWebView(webview);
 
-        //webview.setBackgroundColor(0);
-        //webview.getBackground().setAlpha(0);
         mArrayUri = new ArrayList();
         adapter = new ImagePager(getSupportFragmentManager());
         pager.setAdapter(adapter);

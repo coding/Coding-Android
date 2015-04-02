@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.Gravity;
@@ -298,12 +300,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     String bubble;
 
     static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setBackgroundColor(0);
-        webView.getBackground().setAlpha(0);
+        Global.initWebView(webView);
         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context));
-
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
     }
 

@@ -228,11 +228,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         name.setTag(mMaopaoObject.owner.global_key);
 
         WebView webView = (WebView) mListHead.findViewById(R.id.comment);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setBackgroundColor(0);
-        webView.getBackground().setAlpha(0);
-
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        Global.initWebView(webView);
         String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
         webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClient(this));

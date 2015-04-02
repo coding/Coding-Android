@@ -19,8 +19,7 @@ public class TermsActivity extends BaseActivity {
         setContentView(R.layout.activity_terms);
 
         WebView webView = (WebView) findViewById(R.id.webview);
-        webView.setBackgroundColor(0);
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        Global.initWebView(webView);
 
         try {
             webView.loadDataWithBaseURL(null, Global.readTextFile(getAssets().open("terms")), "text/html", "UTF-8", null);
