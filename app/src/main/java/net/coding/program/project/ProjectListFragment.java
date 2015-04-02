@@ -21,6 +21,9 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.user.UserProjectActivity;
+import net.coding.program.user.UserProjectListFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

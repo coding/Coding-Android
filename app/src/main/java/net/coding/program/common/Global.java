@@ -317,6 +317,10 @@ public class Global {
         return outputStream.toString();
     }
 
+    public static boolean isGif(String uri) {
+        return uri.toLowerCase().endsWith(".gif");
+    }
+
     public static class MessageParse {
         public String text = "";
         public ArrayList<String> uris = new ArrayList<String>();
@@ -353,7 +357,7 @@ public class Global {
         }
 
         long month = day / 30;
-        if (month < 11) {
+        if (month < 12) {
             return month + "个月前";
         }
 

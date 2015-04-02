@@ -6,14 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,7 +22,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.utils.ImageSizeUtils;
 
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
@@ -120,7 +117,7 @@ public class ImagePagerFragment extends BaseFragment {
                 }
             }
         } else {
-            showPhoto(isGif(uri));
+            showPhoto(Global.isGif(uri));
         }
     }
 
@@ -321,10 +318,6 @@ public class ImagePagerFragment extends BaseFragment {
                 showErrorMsg(code, response);
             }
         }
-    }
-
-    private boolean isGif(String uri) {
-        return uri.toLowerCase().endsWith(".gif");
     }
 
     private AsyncHttpClient client;

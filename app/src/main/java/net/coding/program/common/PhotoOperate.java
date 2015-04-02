@@ -38,6 +38,10 @@ public class PhotoOperate {
     public File scal(Uri fileUri) throws Exception {
         String path = Global.getPath(context, fileUri);
         File outputFile = new File(path);
+        if (Global.isGif(path)) {
+            return outputFile;
+        }
+
         long fileSize = outputFile.length();
         final long fileMaxSize = 200 * 1024;
         if (fileSize >= fileMaxSize) {

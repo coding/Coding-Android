@@ -1,35 +1,23 @@
 package net.coding.program.login;
 
-import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.BaseAnnotationActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 
-import org.androidannotations.annotations.AfterExtras;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.annotation.AnnotationFormatError;
 
 @EActivity(R.layout.activity_reset_password_base)
 public abstract class ResetPasswordBaseActivity extends BaseActivity {
@@ -155,7 +143,8 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
         String sha1 = "";
         try {
             sha1 = SimpleSHA1.sha1(editPassword.getText().toString());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return sha1;
     }
 

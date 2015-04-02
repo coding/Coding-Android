@@ -524,11 +524,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".login.ResetPasswordBaseActivity_"
-            android:label="@string/title_activity_reset_password_base"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".login.UserActiveActivity_"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_user_active" >
