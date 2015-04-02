@@ -6,6 +6,15 @@
     android:layout_height="fill_parent"
     android:background="#000000">
 
+    <ImageView
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/image_not_exist"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:id="@+id/imageLoadFail"/>
+
     <com.github.lzyzsd.circleprogress.DonutProgress
         android:id="@+id/circleLoading"
         android:layout_width="50dp"

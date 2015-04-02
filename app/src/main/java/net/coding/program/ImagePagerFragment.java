@@ -58,6 +58,9 @@ public class ImagePagerFragment extends BaseFragment {
     DonutProgress circleLoading;
 
     @ViewById
+    View imageLoadFail;
+
+    @ViewById
     ViewGroup rootLayout;
 
     View image;
@@ -88,8 +91,8 @@ public class ImagePagerFragment extends BaseFragment {
 
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
-            .showImageForEmptyUri(R.drawable.ic_default_image)
-            .showImageOnFail(R.drawable.ic_default_image)
+            .showImageForEmptyUri(R.drawable.image_not_exist)
+            .showImageOnFail(R.drawable.image_not_exist)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheOnDisk(true)
             .resetViewBeforeLoading(true)
@@ -166,8 +169,6 @@ public class ImagePagerFragment extends BaseFragment {
             });
         }
 
-
-
         ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
         getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
 
@@ -206,6 +207,7 @@ public class ImagePagerFragment extends BaseFragment {
 //                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
                         circleLoading.setVisibility(View.GONE);
+                        imageLoadFail.setVisibility(View.VISIBLE);
                     }
 
                     @Override

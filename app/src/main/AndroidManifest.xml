@@ -530,8 +530,9 @@
 
             <intent-filter>
                 <data
-                    android:host="UserActiveActivity_"
-                    android:scheme="coding-net" />
+                    android:host="coding.net"
+                    android:scheme="coding-net"
+                    android:path="/activate"/>
 
                 <action android:name="android.intent.action.VIEW" />
 

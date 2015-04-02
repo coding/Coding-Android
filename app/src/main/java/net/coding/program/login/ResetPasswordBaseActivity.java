@@ -38,11 +38,18 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
 
     @AfterViews
     protected final void testInit() {
-        String key = getKey();
+        String key = getDataFromIntent("key");
         if (key.isEmpty()) {
             showMiddleToast("链接没有带key");
         } else {
             showMiddleToast(key);
+        }
+
+        String email = getDataFromIntent("email");
+        if (email.isEmpty()) {
+            showMiddleToast("链接没有带Email");
+        } else {
+            editName.setText(email);
         }
     }
 
@@ -52,7 +59,7 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
             return;
         }
 
-        String key = getKey();
+        String key = getDataFromIntent("key");
         if (key.isEmpty()) {
             showMiddleToast("链接没有带key");
             return;
@@ -68,11 +75,12 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
         postNetwork(getRequestHost(), params, HOST_REQUEST_TAG);
     }
 
-    private String getKey() {
+
+    private String getDataFromIntent(String key1) {
         String key = "";
         Uri uri = getIntent().getData();
         if (uri != null) {
-            key = uri.getQueryParameter("key");
+            key = uri.getQueryParameter(key1);
         }
 
         if (key == null) {

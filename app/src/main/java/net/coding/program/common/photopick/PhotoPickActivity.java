@@ -53,12 +53,12 @@ public class PhotoPickActivity extends BaseActivity {
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
-            .showImageForEmptyUri(R.drawable.ic_default_image)
-            .showImageOnFail(R.drawable.ic_default_image)
+            .showImageForEmptyUri(R.drawable.image_not_exist)
+            .showImageOnFail(R.drawable.image_not_exist)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .build();
 
     private TextView mPreView;
@@ -460,14 +460,14 @@ public class PhotoPickActivity extends BaseActivity {
 
 //                holder.icon.setImageBitmap(MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(), 10797, MediaStore.Images.Thumbnails.MINI_KIND, null));
 
-                Cursor c = MediaStore.Images.Thumbnails.queryMiniThumbnail(getContentResolver(), data.photoId, MediaStore.Images.Thumbnails.MINI_KIND, new String[] {MediaStore.Images.Thumbnails.DATA});
-                if (c!=null && c.moveToNext()) {
-                    imageLoader.displayImage("file://" + c.getString(0), holder.icon, optionsImage);
-                }
+//                Cursor c = MediaStore.Images.Thumbnails.queryMiniThumbnail(getContentResolver(), data.photoId, MediaStore.Images.Thumbnails.MINI_KIND, new String[]{MediaStore.Images.Thumbnails.DATA});
+//                if (c != null && c.moveToNext()) {
+//                    imageLoader.displayImage("file://" + c.getString(0), holder.icon, optionsImage);
+//                }
 
-//                imageLoader.displayImage(data.path, holder.icon, optionsImage);
+                imageLoader.displayImage(data.path, holder.icon, optionsImage);
 
-                        ((GridViewCheckTag) holder.check.getTag()).path = data.path;
+                ((GridViewCheckTag) holder.check.getTag()).path = data.path;
 
                 boolean picked = isPicked(data.path);
                 holder.check.setChecked(picked);
