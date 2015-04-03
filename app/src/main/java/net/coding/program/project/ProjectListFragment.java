@@ -1,5 +1,6 @@
 package net.coding.program.project;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -19,7 +20,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -132,7 +133,20 @@ public class ProjectListFragment extends RefreshBaseFragment {
 //        intent.putExtra("mProjectObject", item);
 //        getActivity().startActivity(intent);
 
-        ProjectHomeActivity_.intent(this).mProjectObject(item).start();
+        ProjectHomeActivity_.intent(getParentFragment()).mProjectObject(item).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==InitProUtils.REQUEST_PRO_UPDATE){
+            if (resultCode== Activity.RESULT_OK){
+                String action=data.getStringExtra("action");
+                if (action.equals(InitProUtils.FLAG_REFRESH)){
+                    onRefresh();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     class MyAdapter extends BaseAdapter {

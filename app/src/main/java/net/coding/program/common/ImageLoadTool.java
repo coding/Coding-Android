@@ -78,6 +78,9 @@ public class ImageLoadTool {
         imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, imageOptions);
     }
 
+    public void loadImage(ImageView imageView, String url, DisplayImageOptions displayImageOptions,SimpleImageLoadingListener animate) {
+        imageLoader.displayImage(url, imageView, displayImageOptions,animate);
+    }
 
     public void loadImageFromUrl(ImageView imageView, String url) {
         imageLoader.displayImage(url, imageView, options);
@@ -86,6 +89,8 @@ public class ImageLoadTool {
     public void loadImageFromUrl(ImageView imageView, String url, DisplayImageOptions displayImageOptions) {
         imageLoader.displayImage(url, imageView, displayImageOptions);
     }
+
+
 
 }
 

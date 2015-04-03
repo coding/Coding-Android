@@ -562,6 +562,26 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".project.init.create.ProjectCreateActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_project_create" >
+        </activity>
+        <activity
+            android:name=".project.init.create.ProjectTypeActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_project_type" >
+        </activity>
+        <activity
+            android:name=".project.init.setting.ProjectSetActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_project_set" >
+        </activity>
+        <activity
+            android:name=".project.init.setting.ProjectAdvanceSetActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_project_advance_set" >
+        </activity>
     </application>
 
 </manifest>

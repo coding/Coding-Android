@@ -20,6 +20,7 @@ import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.init.create.ProjectCreateActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -91,6 +92,12 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         SearchProjectActivity_.intent(this).start();
     }
 
+
+    @OptionsItem
+    void action_create(){
+        ProjectCreateActivity_.intent(this).start();
+    }
+
     boolean requestOk = true;
 
     @Override
@@ -115,6 +122,18 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
+        for (WeakReference<Fragment> item : fragmentList) {
+            Fragment fragment = item.get();
+            if (fragment instanceof ProjectListFragment) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private class MyPagerAdapter extends SaveFragmentPagerAdapter {

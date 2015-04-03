@@ -23,7 +23,6 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.project.SearchProjectActivity;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;

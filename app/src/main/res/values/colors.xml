@@ -66,4 +66,11 @@
 
     <color name="menu_item_text_disable">#84878c</color>
 
+
+    <color name="init_light_gray">#e2e2e2</color>
+    <color name="init_advance_header_bg">#f7f3d6</color>
+    <color name="init_advance_text_gray">#666666</color>
+    <color name="init_advance_text_red">#f34a4a</color>
+    <color name="init_common_bg">#e5e5e5</color>
+
 </resources>

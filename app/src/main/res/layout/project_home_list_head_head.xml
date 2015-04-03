@@ -5,6 +5,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@drawable/init_common_but"
+        android:clickable="true"
+        android:id="@+id/projectHeaderLayout"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -73,6 +76,15 @@
             android:layout_marginTop="4.5dp"
             android:background="@drawable/ic_project_private1"
             android:visibility="gone" />
+
+        <ImageView android:layout_width="wrap_content"
+            android:id="@+id/iconRight"
+            android:src="@drawable/ic_list_right_arr"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:layout_height="wrap_content"/>
+
     </RelativeLayout>
 
     <View
