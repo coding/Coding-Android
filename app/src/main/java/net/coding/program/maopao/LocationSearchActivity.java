@@ -364,6 +364,12 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
         }
     }
 
+    static public int sSearchPos = 0;
+
+    public static int getSearchPos() {
+        return sSearchPos;
+    }
+
     private void initActionView(MenuItem searchItem) {
         if (searchView != null) return;
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -381,6 +387,7 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
 
             @Override
             public boolean onQueryTextChange(String s) {
+                ++sSearchPos;
                 searchAdapter.reload(searchView.getQuery().toString());
                 return true;
             }

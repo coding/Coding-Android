@@ -22,13 +22,13 @@ import java.util.regex.Pattern;
  */
 public class InitProUtils {
 
-    public static final String FLAG_REFRESH="init.pro.refresh";
+    public static final String FLAG_REFRESH = "init.pro.refresh";
 
-    public static final int REQUEST_PRO_UPDATE=1001;
+    public static final int REQUEST_PRO_UPDATE = 1001;
 
 
     //跳转到主界面并刷新项目列表
-    public static void intentToMain(Context context){
+    public static void intentToMain(Context context) {
         Intent intent = new Intent(context, MainActivity_.class);
         intent.putExtra("action", FLAG_REFRESH);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -36,26 +36,26 @@ public class InitProUtils {
     }
 
     //返回到主界面并刷新项目列表
-    public static void backIntentToMain(Activity activity){
+    public static void backIntentToMain(Activity activity) {
         Intent intent = new Intent();
         intent.putExtra("action", FLAG_REFRESH);
         activity.setResult(Activity.RESULT_OK, intent);
         activity.finish();
     }
 
-    public static boolean textValidate(String text){
-        if (TextUtils.isEmpty(text)){
+    public static boolean textValidate(String text) {
+        if (TextUtils.isEmpty(text)) {
             return false;
         }
-        Matcher matcher= Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9_-]+$").matcher(text);
-        if (matcher.find()){
+        Matcher matcher = Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9_-]+$").matcher(text);
+        if (matcher.find()) {
             return true;
         }
         return false;
     }
 
-   public  static boolean  saveBitmap2file(Bitmap bmp,String filename){
-        Bitmap.CompressFormat format= Bitmap.CompressFormat.PNG;
+    public static boolean saveBitmap2file(Bitmap bmp, String filename) {
+        Bitmap.CompressFormat format = Bitmap.CompressFormat.PNG;
         int quality = 100;
         OutputStream stream = null;
         try {
@@ -67,22 +67,22 @@ public class InitProUtils {
         return bmp.compress(format, quality, stream);
     }
 
-    private static String getDefaultIconName(String iconUrl){
-        String regEx="[^0-9]";
+    private static String getDefaultIconName(String iconUrl) {
+        String regEx = "[^0-9]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(iconUrl);
         return m.replaceAll("").trim();
     }
 
     //默认的随机图片上传处理相关，目前的处理方式不是很理想,后期建议接口能够避免上传默认图片文件，改为上传图片url
-    public static String getDefaultIconPath(Context context,Bitmap bitmap,String iconUrl){
-        String defaultIconName=getDefaultIconName(iconUrl)+".png";
-        File defaultIcon=new File(getDiskCacheDir(context,"icon"),defaultIconName);
-        if (defaultIcon.exists()){
+    public static String getDefaultIconPath(Context context, Bitmap bitmap, String iconUrl) {
+        String defaultIconName = getDefaultIconName(iconUrl) + ".png";
+        File defaultIcon = new File(getDiskCacheDir(context, "icon"), defaultIconName);
+        if (defaultIcon.exists()) {
             return defaultIcon.getAbsolutePath();
         }
-        String pathCacheDiskPath=getDiskCacheDir(context,"icon").getAbsolutePath();
-        if (saveBitmap2file(bitmap,pathCacheDiskPath+File.separator+defaultIconName)){
+        String pathCacheDiskPath = getDiskCacheDir(context, "icon").getAbsolutePath();
+        if (saveBitmap2file(bitmap, pathCacheDiskPath + File.separator + defaultIconName)) {
             return defaultIcon.getAbsolutePath();
         }
         return null;
@@ -96,16 +96,16 @@ public class InitProUtils {
         } else {
             cachePath = context.getCacheDir().getPath();
         }
-        File cacheFilePath=new File(cachePath + File.separator + uniqueName);
-        if (!cacheFilePath.exists()){
+        File cacheFilePath = new File(cachePath + File.separator + uniqueName);
+        if (!cacheFilePath.exists()) {
             cacheFilePath.mkdir();
         }
         return cacheFilePath;
     }
 
-    public static void hideSoftInput(Activity activity){
+    public static void hideSoftInput(Activity activity) {
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(activity.getCurrentFocus()!=null && activity.getCurrentFocus().getWindowToken()!=null){
+        if (activity.getCurrentFocus() != null && activity.getCurrentFocus().getWindowToken() != null) {
             manager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }

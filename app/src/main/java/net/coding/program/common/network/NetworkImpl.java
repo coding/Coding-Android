@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 public class NetworkImpl {
     public static final int NETWORK_ERROR = -1;
+    public static final int NETWORK_ERROR_SERVICE = -2;
     private final NetworkCallback callback;
 
     public HashMap<String, PageInfo> mPages = new HashMap<String, PageInfo>();
@@ -85,7 +86,11 @@ public class NetworkImpl {
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
-                    callback.parseJson(NETWORK_ERROR, errorResponse, tag, dataPos, data);
+                    int translateStatusCode = translateErrorCode(statusCode);
+                    if (errorResponse == null) {
+                        errorResponse = makeErrorJson(statusCode);
+                    }
+                    callback.parseJson(translateStatusCode, errorResponse, tag, dataPos, data);
                     if (isPageRequest(tag)) {
 //                        callback.setPageBottom(NetworkCallback.PageStyle.LoadingFail);
                     }
@@ -99,7 +104,10 @@ public class NetworkImpl {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 try {
-                    callback.parseJson(NETWORK_ERROR, new JSONObject(""), tag, dataPos, data);
+                    int translateErrorCode = translateErrorCode(statusCode);
+                    JSONObject json = makeErrorJson(statusCode);
+
+                    callback.parseJson(translateErrorCode, json, tag, dataPos, data);
                     if (isPageRequest(tag)) {
 //                        callback.setPageBottom(NetworkCallback.PageStyle.LoadingFail);
                     }
@@ -108,6 +116,30 @@ public class NetworkImpl {
                     Global.errorLog(e);
                 }
                 mUpdateing.put(tag, false);
+            }
+
+            private int translateErrorCode(int statusCode) {
+                if (statusCode == 0) { // 我这里的设计有问题，statusCode为0的时候表示网络不通，而code==0又表示请求成功，parseJson函数的第一个参数是以0来表示成功的
+                    statusCode = NETWORK_ERROR;
+                } else {
+                    statusCode = NETWORK_ERROR_SERVICE;
+                }
+
+                return statusCode;
+            }
+
+            private JSONObject makeErrorJson(int statusCode) {
+                JSONObject json = new JSONObject();
+                try {
+                    JSONObject jsonErrorMsg = new JSONObject();
+                    jsonErrorMsg.put("msg", "服务器内部错误，有人要扣奖金了");
+
+                    json.put("code", statusCode);
+                    json.put("msg", jsonErrorMsg);
+                } catch (Exception e) {
+                }
+
+                return json;
             }
 
             @Override

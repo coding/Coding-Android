@@ -85,8 +85,8 @@ public class LoginActivity extends BaseActivity {
     final double scaleFactor = 16;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.icon_user_monkey_circle)
-            .showImageOnFail(R.drawable.icon_user_monkey_circle)
+            .showImageForEmptyUri(R.drawable.icon_user_monkey)
+            .showImageOnFail(R.drawable.icon_user_monkey)
             .resetViewBeforeLoading(true)
             .cacheOnDisk(true)
             .imageScaleType(ImageScaleType.EXACTLY)
@@ -362,7 +362,8 @@ public class LoginActivity extends BaseActivity {
     TextWatcher textWatcherName = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
-            userIcon.setImageResource(R.drawable.icon_user_monkey_circle);
+            userIcon.setImageResource(R.drawable.icon_user_monkey);
+//            userIcon.setBackgroundResource(R.drawable.icon_user_monkey);
         }
     };
 

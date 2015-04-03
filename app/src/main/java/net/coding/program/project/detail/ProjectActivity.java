@@ -27,6 +27,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_project)
 public class ProjectActivity extends BaseActivity implements NetworkCallback {
@@ -58,8 +60,8 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
 
     public static class ProjectJumpParam implements Serializable {
-        public String mProject;
-        public String mUser;
+        public String mProject = "";
+        public String mUser = "";
 
         public enum JumpType {
             typeDynamic,
@@ -75,6 +77,15 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             this.mUser = mUser;
             this.mProject = mProject;
 //            this.mJumpType = mJumpType;
+        }
+
+        public ProjectJumpParam(String path) {
+            Pattern pattern = Pattern.compile("^/u/(\\w*)/p/(\\w*)$");
+            Matcher matcher = pattern.matcher(path);
+            if (matcher.find()) {
+                this.mUser = matcher.group(1);
+                this.mProject = matcher.group(2);
+            }
         }
     }
 

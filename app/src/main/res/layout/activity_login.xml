@@ -38,16 +38,17 @@
             android:paddingLeft="22dp"
             android:paddingRight="22dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/userIcon"
                 android:layout_width="83dp"
                 android:layout_height="83dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="60dp"
-                android:src="@drawable/icon_user_monkey_circle"
+                android:src="@drawable/icon_user_monkey"
                 app:border_color="#ffffffff"
-                app:border_width="2dp" />
+                app:border_width="1.5dp" />
 
             <net.coding.program.common.LoginEditText
                 android:id="@+id/editName"

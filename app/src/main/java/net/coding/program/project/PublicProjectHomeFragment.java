@@ -151,8 +151,8 @@ public class PublicProjectHomeFragment extends BaseFragment {
                         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
                     }
                 }
-
-
+            } else if (code == 1209) {
+                showEmptyReadme();
             } else {
                 showErrorMsg(code, respanse);
             }

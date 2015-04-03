@@ -67,6 +67,8 @@ public class BaiduLbsLoader {
             return;
         }
         AsyncHttpClient client = new AsyncHttpClient();
+
+        final int searchPos = LocationSearchActivity.getSearchPos();
         client.get(context, url, new SearchResponseHandler(listener){
             @Override
             protected LocationObject parseItem(JSONObject json) {
@@ -88,7 +90,9 @@ public class BaiduLbsLoader {
             protected void parseResult(JSONObject json, LbsResultListener listener) {
                 int lastPage = (json.optInt("total", 0) + PAGE_SIZE - 1) / PAGE_SIZE - 1;
                 JSONArray array = json.optJSONArray("contents");
-                listener.onSearchResult(true, parseList(array), page < lastPage && array.length() >= PAGE_SIZE);
+                if (searchPos == LocationSearchActivity.getSearchPos()) {
+                    listener.onSearchResult(true, parseList(array), page < lastPage && array.length() >= PAGE_SIZE);
+                }
             }
         });
     }
@@ -110,6 +114,8 @@ public class BaiduLbsLoader {
             listener.onSearchResult(false, null, false);
             return;
         }
+
+        final int searchPos = LocationSearchActivity.getSearchPos();
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(context, url, new SearchResponseHandler(listener){
             @Override
@@ -132,7 +138,9 @@ public class BaiduLbsLoader {
             protected void parseResult(JSONObject json, LbsResultListener listener) {
                 int lastPage = (json.optInt("total", 0) + PAGE_SIZE - 1) / PAGE_SIZE - 1;
                 JSONArray array = json.optJSONArray("results");
-                listener.onSearchResult(true, parseList(array), page < lastPage && array.length() >= PAGE_SIZE);
+                if (searchPos == LocationSearchActivity.getSearchPos()) {
+                    listener.onSearchResult(true, parseList(array), page < lastPage && array.length() >= PAGE_SIZE);
+                }
             }
         });
     }

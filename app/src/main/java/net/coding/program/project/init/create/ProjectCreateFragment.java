@@ -2,7 +2,6 @@ package net.coding.program.project.init.create;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,29 +15,23 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.network.BaseFragment;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.CameraPhotoUtil;
-import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.project.ProjectHomeActivity;
+import net.coding.program.project.ProjectHomeActivity_;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -46,13 +39,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by jack wang on 2015/3/31.
@@ -60,9 +50,9 @@ import java.util.Random;
 
 @EFragment(R.layout.init_fragment_project_create)
 @OptionsMenu(R.menu.menu_fragment_create)
-public class ProjectCreateFragment extends BaseFragment{
+public class ProjectCreateFragment extends BaseFragment {
 
-    private static final String TAG="ProjectCreateFragment";
+    private static final String TAG = "ProjectCreateFragment";
 
     public static final int RESULT_REQUEST_PHOTO = 2003;
 
@@ -73,7 +63,7 @@ public class ProjectCreateFragment extends BaseFragment{
 
     final String host = Global.HOST + "/api/project";
 
-    String currentType=ProjectTypeActivity.TYPE_PRIVATE;
+    String currentType = ProjectTypeActivity.TYPE_PRIVATE;
 
     ProjectInfo projectInfo;
 
@@ -84,7 +74,6 @@ public class ProjectCreateFragment extends BaseFragment{
     private String defaultIconUrl;
 
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
-
 
     MenuItem mMenuSave;
 
@@ -103,16 +92,15 @@ public class ProjectCreateFragment extends BaseFragment{
     @ViewById
     TextView projectTypeText;
 
-
     @AfterViews
-    protected void init(){
-        projectInfo=new ProjectInfo();
+    protected void init() {
+        projectInfo = new ProjectInfo();
         projectTypeText.setText(currentType);
         imageLoadTool.loadImage(projectIcon, IconRandom.getRandomUrl(), ImageLoadTool.optionsRounded2, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 super.onLoadingComplete(imageUri, view, loadedImage);
-                defaultIconUrl=InitProUtils.getDefaultIconPath(getActivity(),loadedImage,imageUri);
+                defaultIconUrl = InitProUtils.getDefaultIconPath(getActivity(), loadedImage, imageUri);
             }
         });
         projectName.addTextChangedListener(new TextWatcher() {
@@ -135,14 +123,14 @@ public class ProjectCreateFragment extends BaseFragment{
     }
 
     @Click
-    void item(){
-        Intent intent=new Intent(getActivity(),ProjectTypeActivity_.class);
-        intent.putExtra("type",currentType);
+    void item() {
+        Intent intent = new Intent(getActivity(), ProjectTypeActivity_.class);
+        intent.putExtra("type", currentType);
         startActivityForResult(intent, RESULT_REQUEST_PICK_TYPE);
     }
 
     @Click
-    void projectIcon(){
+    void projectIcon() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("选择图片")
                 .setCancelable(true)
@@ -191,21 +179,21 @@ public class ProjectCreateFragment extends BaseFragment{
                 try {
                     String filePath = Global.getPath(getActivity(), fileCropUri);
                     projectIcon.setImageURI(fileCropUri);
-                    projectInfo.icon=filePath;
+                    projectInfo.icon = filePath;
 
                 } catch (Exception e) {
                 }
             }
-        }else if (requestCode==RESULT_REQUEST_PICK_TYPE){
-            if (resultCode==Activity.RESULT_OK){
-                String type=data.getStringExtra("type");
-                if (TextUtils.isEmpty(type)){
+        } else if (requestCode == RESULT_REQUEST_PICK_TYPE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String type = data.getStringExtra("type");
+                if (TextUtils.isEmpty(type)) {
                     return;
                 }
-                currentType=type;
+                currentType = type;
                 projectTypeText.setText(currentType);
             }
-        }else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -276,52 +264,52 @@ public class ProjectCreateFragment extends BaseFragment{
         initProjectInfo();
     }
 
-    private void initProjectInfo(){
-        projectInfo.name=projectName.getText().toString().trim();
-        if (TextUtils.isEmpty(projectInfo.name)){
+    private void initProjectInfo() {
+        projectInfo.name = projectName.getText().toString().trim();
+        if (TextUtils.isEmpty(projectInfo.name)) {
             showButtomToast("项目名不能为空...");
             return;
         }
-        if (!InitProUtils.textValidate(projectInfo.name)){
+        if (!InitProUtils.textValidate(projectInfo.name)) {
             showWarningDialog();
             return;
         }
-        projectInfo.description=description.getText().toString().trim();
-        projectInfo.type="2";//默认私有
-        if (currentType.equals(ProjectTypeActivity.TYPE_PUBLIC)){
-            projectInfo.type="1";
+        projectInfo.description = description.getText().toString().trim();
+        projectInfo.type = "2";//默认私有
+        if (currentType.equals(ProjectTypeActivity.TYPE_PUBLIC)) {
+            projectInfo.type = "1";
         }
-        projectInfo.gitEnable="true";
-        projectInfo.gitReadmeEnabled="false";
-        projectInfo.gitIgnore="no";
-        projectInfo.gitLicense="no";
-        projectInfo.importFrom="";
-        projectInfo.vcsType="git";
+        projectInfo.gitEnable = "true";
+        projectInfo.gitReadmeEnabled = "false";
+        projectInfo.gitIgnore = "no";
+        projectInfo.gitLicense = "no";
+        projectInfo.importFrom = "";
+        projectInfo.vcsType = "git";
         /*projectInfo.icon="";*/
-        showProgressBar(true,"正在创建项目...");
+        showProgressBar(true, "正在创建项目...");
         createProject();
     }
 
-    private void createProject(){
-        RequestParams params=new RequestParams();
-        params.put("name",projectInfo.name);
-        params.put("description",projectInfo.description);
-        params.put("type",projectInfo.type);
-        params.put("gitEnabled",projectInfo.gitEnable);
-        params.put("gitReadmeEnabled",projectInfo.gitReadmeEnabled);
-        params.put("gitIgnore",projectInfo.gitIgnore);
-        params.put("gitLicense",projectInfo.gitLicense);
-        params.put("importFrom",projectInfo.importFrom);
-        params.put("vcsType",projectInfo.vcsType);
+    private void createProject() {
+        RequestParams params = new RequestParams();
+        params.put("name", projectInfo.name);
+        params.put("description", projectInfo.description);
+        params.put("type", projectInfo.type);
+        params.put("gitEnabled", projectInfo.gitEnable);
+        params.put("gitReadmeEnabled", projectInfo.gitReadmeEnabled);
+        params.put("gitIgnore", projectInfo.gitIgnore);
+        params.put("gitLicense", projectInfo.gitLicense);
+        params.put("importFrom", projectInfo.importFrom);
+        params.put("vcsType", projectInfo.vcsType);
         try {
-            if (!TextUtils.isEmpty(projectInfo.icon)){
-                Log.d(TAG,"icon="+projectInfo.icon);
-                params.put("icon",new File(projectInfo.icon));
-            }else if (!TextUtils.isEmpty(defaultIconUrl)){
-                params.put("icon",new File(defaultIconUrl));
+            if (!TextUtils.isEmpty(projectInfo.icon)) {
+                Log.d(TAG, "icon=" + projectInfo.icon);
+                params.put("icon", new File(projectInfo.icon));
+            } else if (!TextUtils.isEmpty(defaultIconUrl)) {
+                params.put("icon", new File(defaultIconUrl));
             }
         } catch (Exception e) {
-            Log.d(TAG,""+e.toString());
+            Log.d(TAG, "" + e.toString());
         }
 
         postNetwork(host, params, host);
@@ -332,7 +320,13 @@ public class ProjectCreateFragment extends BaseFragment{
         showProgressBar(false);
         if (tag.equals(host)) {
             if (code == 0) {
-                InitProUtils.intentToMain(getActivity());
+//                InitProUtils.intentToMain(getActivity());
+                String path = respanse.optString("data");
+                ProjectHomeActivity_
+                        .intent(this)
+                        .mJumpParam(new ProjectActivity.ProjectJumpParam(path))
+                        .start();
+                getActivity().finish();
                 showButtomToast("项目创建成功...");
             } else {
                 showErrorMsg(code, respanse);
@@ -340,7 +334,7 @@ public class ProjectCreateFragment extends BaseFragment{
         }
     }
 
-    private void showWarningDialog(){
+    private void showWarningDialog() {
         LayoutInflater factory = LayoutInflater.from(getActivity());
         final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry2, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -356,7 +350,7 @@ public class ProjectCreateFragment extends BaseFragment{
         CustomDialog.dialogTitleLineColor(getActivity(), dialog);
     }
 
-    public final class ProjectInfo{
+    public final class ProjectInfo {
         String name;
         String description;
         String type;
@@ -369,9 +363,9 @@ public class ProjectCreateFragment extends BaseFragment{
         String icon;
     }
 
-    public static class IconRandom{
+    public static class IconRandom {
 
-        public static String[] iconUrls={
+        public static String[] iconUrls = {
                 "https://coding.net/static/project_icon/scenery-1.png",
                 "https://coding.net/static/project_icon/scenery-2.png",
                 "https://coding.net/static/project_icon/scenery-3.png",
@@ -398,13 +392,12 @@ public class ProjectCreateFragment extends BaseFragment{
                 "https://coding.net/static/project_icon/scenery-24.png"
         };
 
-        public static String getRandomUrl(){
-            int index=(int)(Math.random()*iconUrls.length);
+        public static String getRandomUrl() {
+            int index = (int) (Math.random() * iconUrls.length);
             return iconUrls[index];
         }
 
     }
-
 
 
 }
