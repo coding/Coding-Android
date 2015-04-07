@@ -14,6 +14,7 @@ import net.coding.program.ImagePagerActivity_;
 import net.coding.program.TestActivity;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.message.MessageListActivity_;
@@ -244,6 +245,7 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
+        // 图片链接
         final String imageSting = "(http|https):.*?.[.]{1}(gif|jpg|png|bmp)";
         pattern = Pattern.compile(imageSting);
         matcher = pattern.matcher(uriString);
@@ -254,16 +256,17 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
-//        // 加了自定义图片前缀的链接
-//        if (uriString.indexOf(HtmlContent.TYPE_IMAGE_HEAD) == 0) {
-////            String imageUrl = uriString.replaceFirst(HtmlContent.TYPE_IMAGE_HEAD, "");
-////                intent.setClass(context, ImagePagerActivity_.class);
-////                intent.putExtra("mSingleUri", imageUrl);
-////                intent.putExtra("isPrivate", true);
-////                context.startActivity(intent);
-//
-//            return true;
-//        }
+        // 跳转图片链接
+        // https://coding.net/api/project/78813/files/137849/imagePreview
+        final String imageJumpString = Global.HOST + "/api/project/\\d+/files/\\d+/imagePreview";
+        pattern = Pattern.compile(imageJumpString);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, ImagePagerActivity_.class);
+            intent.putExtra("mSingleUri", uriString);
+            context.startActivity(intent);
+            return true;
+        }
 
         try {
             if (defaultIntent) {

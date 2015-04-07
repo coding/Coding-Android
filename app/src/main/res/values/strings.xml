@@ -34,7 +34,7 @@
     <string name="title_activity_like_users_list">点赞的用户</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_maopao_detail">冒泡详情</string>
-    <string name="title_activity_user_maopao">所有冒泡</string>
+    <string name="title_activity_user_maopao">冒泡</string>
     <string name="btn_dialog_done">完成</string>
     <string name="btn_dialog_cancel">取消</string>
     <string name="hint_loading">正在加载中…</string>

@@ -22,12 +22,12 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-//    SetTimeType mTimeType = SetTimeType.Cannel;
+    //    SetTimeType mTimeType = SetTimeType.Cannel;
 // 小米手机不管按那个按钮都会调用 onDataSet，只好在click事件里面做标记
 //    enum SetTimeType {
 //        Cannel, Set, Clear;
 //    };
-private DateSet mDateSet;
+    private DateSet mDateSet;
 
 
     @Override
@@ -54,27 +54,28 @@ private DateSet mDateSet;
         if (getArguments().getBoolean("clear", false)) {
             datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "清除", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                        mDateSet.dateSetResult("", true);
+                    mDateSet.dateSetResult("", true);
                     dialog.cancel();
-                }
-            });
-            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    DatePicker datePicker = datePickerDialog.getDatePicker();
-                    dateSet(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
-                    dialog.cancel();
-
                 }
             });
         }
+
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatePicker datePicker = datePickerDialog.getDatePicker();
+                dateSet(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                dialog.cancel();
+
+            }
+        });
 
         LinearLayout layoutParent = (LinearLayout) datePickerDialog.getDatePicker().getChildAt(0);
         LinearLayout layout = (LinearLayout) layoutParent.getChildAt(0);

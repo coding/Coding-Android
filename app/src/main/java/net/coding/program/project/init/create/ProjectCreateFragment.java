@@ -29,8 +29,10 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectHomeActivity;
 import net.coding.program.project.ProjectHomeActivity_;
+import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
@@ -326,7 +328,9 @@ public class ProjectCreateFragment extends BaseFragment {
                         .intent(this)
                         .mJumpParam(new ProjectActivity.ProjectJumpParam(path))
                         .start();
+                getActivity().sendBroadcast(new Intent(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT));
                 getActivity().finish();
+
                 showButtomToast("项目创建成功...");
             } else {
                 showErrorMsg(code, respanse);

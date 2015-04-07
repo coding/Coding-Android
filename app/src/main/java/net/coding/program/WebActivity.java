@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public class WebActivity extends UmengActivity {
 
     @Extra
-    String url = "https://coding.net";
+    String url = Global.HOST;
 
     @ViewById
     WebView webView;

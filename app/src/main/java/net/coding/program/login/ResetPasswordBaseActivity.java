@@ -42,7 +42,7 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
         if (key.isEmpty()) {
             showMiddleToast("链接没有带key");
         } else {
-            showMiddleToast(key);
+//            showMiddleToast(key);
         }
 
         String email = getDataFromIntent("email");

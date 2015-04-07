@@ -530,12 +530,8 @@
 
             <intent-filter>
                 <data
-                    android:host="coding.net"
                     android:scheme="https"
-                    android:path="/activate"/>
-                <data
                     android:host="coding.net"
-                    android:scheme="http"
                     android:path="/activate"/>
 
                 <action android:name="android.intent.action.VIEW" />
@@ -552,13 +548,9 @@
 
             <intent-filter>
                 <data
+                    android:scheme="https"
                     android:host="coding.net"
-                    android:path="/user/resetPassword"
-                    android:scheme="https" />
-                <data
-                    android:host="coding.net"
-                    android:path="/user/resetPassword"
-                    android:scheme="http" />
+                    android:path="/user/resetPassword"/>
 
                 <action android:name="android.intent.action.VIEW" />
 

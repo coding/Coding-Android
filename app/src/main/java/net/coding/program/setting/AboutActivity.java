@@ -66,7 +66,7 @@ public class AboutActivity extends UmengActivity {
 
     @Click
     void codingWebsite() {
-        WebActivity_.intent(this).url("https://coding.net").start();
+        WebActivity_.intent(this).url(Global.HOST).start();
     }
 //
 //    @Click

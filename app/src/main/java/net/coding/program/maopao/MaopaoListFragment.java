@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -113,6 +114,15 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
 
         mData = AccountInfo.loadMaopao(getActivity(), mType.toString(), userId);
+
+        if (userId != 0) {
+            ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            if (userId == MyApp.sUserObject.id) {
+                actionBar.setTitle("我的冒泡");
+            } else {
+                actionBar.setTitle("TA的冒泡");
+            }
+        }
 
         if (mData.isEmpty()) {
             showDialogLoading();

@@ -373,7 +373,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 bundle.putBoolean("clear", true);
                 newFragment.setArguments(bundle);
 
-
                 newFragment.setCancelable(true);
                 newFragment.show(getSupportFragmentManager(), "datePicker");
                 getSupportFragmentManager().executePendingTransactions();
