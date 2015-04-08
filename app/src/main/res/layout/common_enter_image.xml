@@ -61,12 +61,13 @@
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
-    <LinearLayout
+
+    <org.apmem.tools.layouts.FlowLayout
         android:id="@+id/imageLayout"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_15"
         android:gravity="center_vertical"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
 

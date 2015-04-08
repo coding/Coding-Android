@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.coding.program.R;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.photopick.PhotoPickDetailActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
+import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.maopao.item.ContentAreaMuchImages;
 
 import java.util.ArrayList;
 
@@ -26,8 +30,8 @@ public class ImageCommentLayout {
     private EnterLayout mEnterLayout;
     private View mRootLayout;
 
-    private LinearLayout imagesLayout;
-    private ImageView mImageViews[];
+    private ViewGroup mFlowLayout;
+    private ArrayList<ImageView> mImageViews = new ArrayList();
     private Activity mActivity;
     private ImageLoadTool mImageLoader;
     private ArrayList<PhotoPickActivity.ImageInfo> mArrayImages = new ArrayList();
@@ -41,8 +45,8 @@ public class ImageCommentLayout {
             }
         };
 
-        mActivity = activity;
         mImageLoader = imageLoader;
+        mActivity = activity;
 
         View v = activity.findViewById(R.id.commonEnterRoot);
         mRootLayout = v;
@@ -50,22 +54,13 @@ public class ImageCommentLayout {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, PhotoPickActivity.class);
+                intent.putExtra(PhotoPickActivity.EXTRA_PICKED, mArrayImages);
                 mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);
             }
         });
 
-        imagesLayout = (LinearLayout) v.findViewById(R.id.imageLayout);
-        LayoutInflater inflater = LayoutInflater.from(v.getContext());
-        mImageViews = new ImageView[MaopaoAddActivity.PHOTO_MAX_COUNT];
-        for (int i = 0; i < MaopaoAddActivity.PHOTO_MAX_COUNT; ++i) {
-            mImageViews[i] = (ImageView) inflater.inflate(R.layout.common_enter_image_imageitem, imagesLayout, false);
-            mImageViews[i].setVisibility(View.INVISIBLE);
-            imagesLayout.addView(mImageViews[i]);
-            mImageViews[i].setTag(R.id.image, i);
-            mImageViews[i].setOnClickListener(mClickImage);
-        }
-
-        imagesLayout.setVisibility(View.GONE);
+        mFlowLayout = (ViewGroup) v.findViewById(R.id.imageLayout);
+        mFlowLayout.setVisibility(View.GONE);
     }
 
     private View.OnClickListener mClickImage = new View.OnClickListener() {
@@ -74,6 +69,7 @@ public class ImageCommentLayout {
             int pos = (int) v.getTag(R.id.image);
             Intent intent = new Intent(mActivity, PhotoPickDetailActivity.class);
             intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, pos);
+            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, MaopaoAddActivity.PHOTO_MAX_COUNT);
             intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mArrayImages);
             intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mArrayImages);
             mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE_DETAIL);
@@ -95,6 +91,7 @@ public class ImageCommentLayout {
 
         if (RESULT_TYPE == RESULT_REQUEST_COMMENT_IMAGE) {
             ArrayList<PhotoPickActivity.ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
+            mArrayImages.clear();
             mArrayImages.addAll(images);
             updateCommentImage();
 
@@ -113,21 +110,34 @@ public class ImageCommentLayout {
     }
 
     private void updateCommentImage() {
-        String s = "";
-        int i = 0;
-        if (mArrayImages.isEmpty()) {
-            imagesLayout.setVisibility(View.GONE);
-        } else {
-            imagesLayout.setVisibility(View.VISIBLE);
+        final int imageUrlCount = mArrayImages.size();
+        if (imageUrlCount == 0) {
+            mFlowLayout.setVisibility(View.GONE);
+            mFlowLayout.removeAllViews();
+            return;
         }
 
-        for (; i < mArrayImages.size(); ++i) {
-            mImageViews[i].setVisibility(View.VISIBLE);
-            mImageLoader.loadImage(mImageViews[i], mArrayImages.get(i).path);
+        mFlowLayout.setVisibility(View.VISIBLE);
+        int count = mFlowLayout.getChildCount();
+
+        if (imageUrlCount > count) {
+            int need = imageUrlCount - count;
+            LayoutInflater inflater = LayoutInflater.from(mFlowLayout.getContext());
+            for (int i = 0; i < need; ++i) {
+                inflater.inflate(R.layout.comment_image, mFlowLayout);
+            }
+        } else if (imageUrlCount < count) {
+            int release = count - imageUrlCount;
+            for (int i = 0; i < release; ++i) {
+                mFlowLayout.removeViewAt(count - 1 - i);
+            }
         }
 
-        for (; i < mImageViews.length; ++i) {
-            mImageViews[i].setVisibility(View.INVISIBLE);
+        for (int i = 0; i < imageUrlCount; ++i) {
+            ImageView image = (ImageView) mFlowLayout.getChildAt(i);
+            image.setOnClickListener(mClickImage);
+            image.setTag(R.id.image, i);
+            mImageLoader.loadImage(image, mArrayImages.get(i).path, ContentAreaMuchImages.imageOptions);
         }
 
         mEnterLayout.updateSendButtonStyle();

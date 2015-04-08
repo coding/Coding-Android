@@ -3,4 +3,5 @@
     android:layout_width="@dimen/comment_image_width"
     android:layout_height="@dimen/comment_image_width"
     android:scaleType="centerCrop"
-    android:layout_marginRight="@dimen/comment_image_margin"/>
+    android:layout_marginRight="@dimen/comment_image_margin"
+    android:layout_marginBottom="@dimen/comment_image_margin" />

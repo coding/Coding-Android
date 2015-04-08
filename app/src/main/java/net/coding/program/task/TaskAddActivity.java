@@ -218,6 +218,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             mEnterComment.hide();
 
             findViewById(R.id.layoutListHeadBottom).setVisibility(View.GONE);
+            findViewById(R.id.line2_comment_off).setVisibility(View.VISIBLE);
+            findViewById(R.id.line2_comment_on).setVisibility(View.GONE);
 
         } else {
             getSupportActionBar().setTitle(mSingleTask.project.name);
@@ -226,6 +228,9 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             setStatus();
             setPriority();
             linearlayout2.setVisibility(View.VISIBLE);
+
+            findViewById(R.id.line2_comment_off).setVisibility(View.GONE);
+            findViewById(R.id.line2_comment_on).setVisibility(View.VISIBLE);
         }
 
         setDeadline();
@@ -699,18 +704,12 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
     private void descriptionButtonUpdate(boolean loading) {
         if (loading) {
-            descriptionButton.setText("载入描述中");
-            descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
-            descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
+            descriptionButton.setText("查看描述");
         } else {
             if (descriptionDataNew.markdown.isEmpty()) {
                 descriptionButton.setText("添加描述");
-                descriptionButton.setTextColor(getResources().getColor(R.color.font_black_comment));
-                descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_grey), null);
             } else {
                 descriptionButton.setText("查看描述");
-                descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
-                descriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.icon_arrow_green), null);
             }
 
         }
@@ -973,7 +972,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_task_comment_item, parent, false);
+                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image, parent, false);
                 holder = new ImageCommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
 

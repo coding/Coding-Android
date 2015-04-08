@@ -529,10 +529,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 </style>
 	<style type="text/css">
 		html,body{
-			font-family: '微软雅黑','Helvetica Neue',sans-serif,SimHei;
-			-webkit-font-smoothing: antialiased;
 			font-size: 16px;
-			margin: 10px;
 		}
 	</style>
 </head>

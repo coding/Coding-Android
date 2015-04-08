@@ -3,7 +3,7 @@
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp">
+    android:background="@color/white">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/icon"
         android:layout_toRightOf="@+id/icon"
+        android:id="@+id/layout_1"
         android:orientation="vertical">
 
         <LinearLayout
@@ -38,56 +39,21 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/font_black_content"
                 android:textSize="15sp" />
-
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/imagesLayout0"
+        <org.apmem.tools.layouts.FlowLayout
+            android:id="@+id/flowLayout"
             android:layout_width="wrap_content"
-            android:visibility="visible"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
-
-            <include
-                layout="@layout/comment_image"
-                android:id="@+id/image0" />
-
-            <include
-                layout="@layout/comment_image"
-                android:id="@+id/image1" />
-
-            <include
-                layout="@layout/comment_image"
-                android:id="@+id/image2" />
-
-            <include
-                layout="@layout/comment_image"
-                android:id="@+id/image3" />
-
-            <include
-                layout="@layout/comment_image"
-                android:id="@+id/image4" />
-
-            <include
-                layout="@layout/comment_image"
-                android:id="@+id/image5" />
-        </LinearLayout>
+            android:visibility="visible" />
 
         <LinearLayout
-            android:id="@+id/imagesLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/name"
@@ -114,4 +80,12 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <include
+        layout="@layout/divide_1"
+        android:layout_below="@id/layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp" />
+
 </RelativeLayout>

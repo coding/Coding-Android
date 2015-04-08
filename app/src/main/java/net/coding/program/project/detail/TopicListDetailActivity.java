@@ -544,7 +544,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_task_comment_item, parent, false);
+                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image, parent, false);
                 holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
             } else {

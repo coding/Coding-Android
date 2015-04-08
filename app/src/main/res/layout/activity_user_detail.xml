@@ -188,10 +188,7 @@
                     android:textColor="#222222"
                     android:textSize="16sp" />
 
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/user_home_arrow" />
+                <include layout="@layout/list_item_common_arrow" />
 
             </LinearLayout>
 
@@ -223,10 +220,7 @@
                     android:textColor="#222222"
                     android:textSize="16sp" />
 
-                <View
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:background="@drawable/user_home_arrow" />
+                <include layout="@layout/list_item_common_arrow" />
 
             </LinearLayout>
         </LinearLayout>

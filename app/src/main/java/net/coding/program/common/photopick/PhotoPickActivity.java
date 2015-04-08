@@ -33,6 +33,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CameraPreview;
 import net.coding.program.common.Global;
+import net.coding.program.maopao.MaopaoAddActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ public class PhotoPickActivity extends BaseActivity {
     LayoutInflater mInflater;
 
     public static final String EXTRA_MAX = "EXTRA_MAX";
-    private int mMaxPick = 6;
+    public static final String EXTRA_PICKED = "EXTRA_PICKED"; // mPickData
+    private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
 
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
@@ -97,7 +99,12 @@ public class PhotoPickActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("图片");
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         mMaxPick = getIntent().getIntExtra(EXTRA_MAX, 6);
+        Object extraPicked = getIntent().getSerializableExtra(EXTRA_PICKED);
+        if (extraPicked != null) {
+            mPickData = (ArrayList<ImageInfo>) extraPicked;
+        }
 
         mInflater = getLayoutInflater();
         mGridView = (GridView) findViewById(R.id.gridView);

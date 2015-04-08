@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/list_divider_big" />
+        <!--<include layout="@layout/list" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -31,7 +31,8 @@
         </RelativeLayout>
 
 
-        <include layout="@layout/list_divider_big" />
+        <!--<include layout="@layout/list_divider_big" />-->
+        <include layout="@layout/divide_15_top_bottom" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,7 +62,9 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/list_divider_big" />
+        <!--<include layout="@layout/list_divider_big" />-->
+
+        <include layout="@layout/divide_15_top_bottom" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -82,7 +85,8 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/list_divider_big" />
+        <!--<include layout="@layout/list_divider_big" />-->
+        <include layout="@layout/divide_15_top_bottom" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -125,6 +129,7 @@
 
         </RelativeLayout>
 
+        <include layout="@layout/divide_15_top" />
 
         <Button
             android:id="@+id/loginOut"
@@ -133,7 +138,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/setting_button_esc"
             android:text="退出"
             android:textColor="#ffffff" />

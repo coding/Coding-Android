@@ -13,15 +13,15 @@ import net.coding.program.model.TopicObject;
 
 /**
  * Created by chenchao on 15/3/31.
- * 可以带6张小图片的评论item
+ * 可以带多张小图片的评论item
  */
 public class ImageCommentHolder extends BaseCommentHolder {
 
-    private ContentAreaImages contentArea;
+    private ContentAreaMuchImages contentArea;
 
     public ImageCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
         super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser);
-        contentArea = new ContentAreaImages(convertView, onClickComment, clickImage, imageGetter, imageLoadTool, Global.dpToPx(32)); //
+        contentArea = new ContentAreaMuchImages(convertView, onClickComment, clickImage, imageGetter, imageLoadTool, Global.dpToPx(32)); //
     }
 
     public void setTaskCommentContent(BaseComment comment) {

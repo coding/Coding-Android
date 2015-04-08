@@ -32,12 +32,15 @@
             android:layout_marginLeft="15dp"
             android:layout_marginStart="29dp"
             android:layout_marginTop="3dp"
-            android:layout_toEndOf="@+id/projectIcon"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:layout_toRightOf="@+id/projectIcon"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/font_black_2"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_toLeftOf="@+id/iconRight"
+            android:layout_toStartOf="@+id/iconRight" />
 
         <TextView
             android:id="@+id/recommendIcon"

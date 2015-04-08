@@ -153,7 +153,7 @@ public class PhotoPickDetailActivity extends UmengActivity {
     }
 
     private void updateDataPickCount() {
-        String send = String.format("发送(%d/%d)", mPickPhotos.size(), mMaxPick);
+        String send = String.format("确定(%d/%d)", mPickPhotos.size(), mMaxPick);
         mMenuSend.setTitle(send);
     }
 

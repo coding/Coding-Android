@@ -35,6 +35,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
@@ -770,6 +771,16 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             urls = urlsParam;
             pos = posParam;
             needEdit = needEditParam;
+        }
+
+        public ClickImageParam(ArrayList<PhotoPickActivity.ImageInfo> urlsParam, int posParam) {
+            urls = new ArrayList();
+            for (PhotoPickActivity.ImageInfo item : urlsParam) {
+                urls.add(item.path);
+            }
+
+            pos = posParam;
+            needEdit = true;
         }
 
         public ClickImageParam(String url) {
