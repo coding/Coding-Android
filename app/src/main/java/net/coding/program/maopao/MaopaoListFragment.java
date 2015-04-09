@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.melnykov.fab.FloatingActionButton;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
@@ -44,6 +45,7 @@ import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
@@ -89,6 +91,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     @ViewById
     View commonEnterRoot;
+
+    @ViewById
+    FloatingActionButton floatButton;
 
     EnterEmojiLayout mEnterLayout;
     int needScrollY = 0;
@@ -139,6 +144,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
         if (mType == Type.hot) {
             mNoMore = true;
+        }
+
+        if (mType != Type.user) {
+            floatButton.attachToListView(listView);
+        } else {
+            floatButton.hide(false);
         }
 
         addDoubleClickActionbar();
@@ -225,17 +236,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         getNetwork(createUrl(), maopaoUrlFormat);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mType != Type.user) {
-            inflater.inflate(R.menu.maopao_add, menu);
-        }
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @OptionsItem
-    void action_add_maopao() {
+    @Click
+    protected  final void floatButton() {
         Intent intent = new Intent(getActivity(), MaopaoAddActivity_.class);
         startActivityForResult(intent, RESULT_EDIT_MAOPAO);
     }

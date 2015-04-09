@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:orientation="vertical"
     tools:context=".project.detail.ProjectTaskFragment">
 
 
@@ -13,15 +14,33 @@
         android:layout_height="77dip"
         android:background="@android:color/transparent" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pagerProjectTask"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pagerProjectTask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/floatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_menu_add"
+            fab:fab_colorNormal="@color/font_green"
+            fab:fab_colorPressed="@color/font_green_1"/>
+
+    </FrameLayout>
 
     <include
         android:id="@+id/blankLayout"
         layout="@layout/view_exception"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
 </LinearLayout>

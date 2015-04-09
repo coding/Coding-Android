@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.fab.ScrollDirectionListener;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -98,7 +100,7 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
     }
 
     @OptionsItem
-    void action_add() {
+    public void action_add() {
         mNeedUpdate = true;
         Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
         TaskObject.SingleTask task = new TaskObject.SingleTask();
@@ -115,9 +117,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mShowAdd && !mProjectObject.isEmpty()) {
-            inflater.inflate(R.menu.project_task, menu);
-        }
         inflater.inflate(R.menu.common_more, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -206,6 +205,74 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
                 return true;
             }
         });
+
+//        if (getParentFragment() instanceof FloatButton) {
+//            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//                private int mLastScrollY;
+//                private int mPreviousFirstVisibleItem;
+//                private int mScrollThreshold;
+//
+//                @Override
+//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                    if(totalItemCount == 0) return;
+//                    if (isSameRow(firstVisibleItem)) {
+//                        int newScrollY = getTopItemScrollY(view);
+//                        boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
+//                        if (isSignificantDelta) {
+//                            if (mLastScrollY > newScrollY) {
+//                                onScrollUp();
+//                            } else {
+//                                onScrollDown();
+//                            }
+//                        }
+//                        mLastScrollY = newScrollY;
+//                    } else {
+//                        if (firstVisibleItem > mPreviousFirstVisibleItem) {
+//                            onScrollUp();
+//                        } else {
+//                            onScrollDown();
+//                        }
+//
+//                        mLastScrollY = getTopItemScrollY(view);
+//                        mPreviousFirstVisibleItem = firstVisibleItem;
+//                    }
+//                }
+//
+//                private boolean isSameRow(int firstVisibleItem) {
+//                    return firstVisibleItem == mPreviousFirstVisibleItem;
+//                }
+//
+//                private int getTopItemScrollY(AbsListView mListView) {
+//                    if (mListView == null || mListView.getChildAt(0) == null) return 0;
+//                    View topChild = mListView.getChildAt(0);
+//                    return topChild.getTop();
+//                }
+//
+////                private ScrollDirectionListener mScrollDirectionListener;
+////                private AbsListView.OnScrollListener mOnScrollListener;
+////
+////                private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
+////                    mScrollDirectionListener = scrollDirectionListener;
+////                }
+////
+////                public void setOnScrollListener(AbsListView.OnScrollListener onScrollListener) {
+////                    mOnScrollListener = onScrollListener;
+////                }
+//
+//
+//                @Override
+//                public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                }
+//
+//                private void onScrollDown() {
+//                    ((FloatButton) getParentFragment()).showFloatButton(true);
+//                }
+//
+//                private void onScrollUp() {
+//                    ((FloatButton) getParentFragment()).showFloatButton(false);
+//                }
+//            });
+//        }
 
         urlAll = String.format(createHost(mMembers.user.global_key, "/all"));
 
@@ -619,5 +686,9 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
         } else {
             return Global.HOST + mProjectObject.project_path + "/tasks/user/" + mMembers.user.global_key + "/all";
         }
+    }
+
+    public interface FloatButton {
+        void showFloatButton(boolean show);
     }
 }

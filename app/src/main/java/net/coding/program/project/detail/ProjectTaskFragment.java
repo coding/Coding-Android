@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -25,6 +27,7 @@ import net.coding.program.task.TaskListUpdate;
 import net.coding.program.third.MyPagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.fragment_project_task)
-public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate {
+public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -51,10 +54,13 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     @ViewById
     View blankLayout;
 
+    @ViewById
+    FloatingActionButton floatButton;
+
     private MyPagerAdapter adapter;
 
     @AfterViews
-    void init() {
+    protected final void init() {
         showDialogLoading();
         tabs.setLayoutInflater(mInflater);
 
@@ -174,7 +180,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         List<WeakReference<Fragment>> fragmentArray = adapter.getFragments();
         for (WeakReference<Fragment> ref : fragmentArray) {
             Fragment item = ref.get();
-            if (item != null && item instanceof TaskListUpdate) {
+            if (item instanceof TaskListUpdate) {
                 ((TaskListUpdate) item).taskListUpdate();
             }
         }
@@ -261,4 +267,24 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         }
     }
 
+    @Click
+    public final void floatButton() {
+        Fragment page = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.pagerProjectTask + ":" + pager.getCurrentItem());
+
+
+//        return "android:switcher:" + viewId + ":" + id;
+        if (page instanceof TaskListFragment) {
+            ((TaskListFragment) page).action_add();
+        }
+
+    }
+
+    @Override
+    public void showFloatButton(boolean show) {
+        if (show) {
+            floatButton.show();
+        } else {
+            floatButton.hide();
+        }
+    }
 }

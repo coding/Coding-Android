@@ -315,15 +315,11 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_USER_INFO)) {
             if (code == 0) {
-                if (code == 0) {
                     mUserObject = new UserObject(respanse.getJSONObject("data"));
                     initControl();
-                } else {
-                    showErrorMsg(code, respanse);
-                }
-
             } else {
                 hideProgressDialog();
+                showProgressBar(false);
                 showErrorMsg(code, respanse);
             }
 

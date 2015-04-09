@@ -10,10 +10,4 @@
         app:showAsAction="always"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
-    <item
-        android:id="@+id/action_add"
-        android:title="添加"
-        android:icon="@drawable/ic_menu_add"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
 </menu>

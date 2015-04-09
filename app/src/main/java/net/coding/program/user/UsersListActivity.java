@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.melnykov.fab.FloatingActionButton;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
@@ -25,13 +26,16 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
+import net.coding.program.project.detail.TaskListFragment;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,14 +43,15 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/*
+ * 粉丝，关注的人列表
+ */
 @EActivity(R.layout.activity_users_list)
 public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMore {
 
     public static enum Friend {
         Follow, Fans
-    }
-
-    ;
+    };
 
     @Extra
     Friend type;
@@ -87,12 +92,14 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     public static final String RESULT_EXTRA_NAME = "name";
     public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
 
-
     ArrayList<UserObject> mData = new ArrayList<UserObject>();
     ArrayList<UserObject> mSearchData = new ArrayList<UserObject>();
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    FloatingActionButton floatButton;
 
     @Override
     protected void initSetting() {
@@ -103,7 +110,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     }
 
     @AfterViews
-    void init() {
+    protected final void init() {
         if (mUserParam != null && mUserParam.mUser.global_key.equals("coding")) {
             showButtomToast("这个不能看：）");
             finish();
@@ -123,6 +130,12 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
         loadMore();
+
+        if (type == Friend.Follow && isMyFriendList()) {
+            floatButton.attachToListView(listView);
+        } else {
+            floatButton.setVisibility(View.GONE);
+        }
 
         if (select) {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -264,6 +277,11 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             initSetting();
             loadMore();
         }
+    }
+
+    @Click
+    public final void floatButton() {
+        action_add();
     }
 
     @OptionsItem

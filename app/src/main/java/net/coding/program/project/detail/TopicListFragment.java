@@ -259,7 +259,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                     }
 
                     Serializable topicObject = data.getSerializableExtra("topic");
-                    if (topicObject != null && topicObject instanceof TopicObject) {
+                    if (topicObject instanceof TopicObject) {
                         TopicObject topicData = (TopicObject) topicObject;
 
                         for (int i = 0; i < mData.size(); ++i) {

@@ -6,6 +6,7 @@
     tools:context="net.coding.program.maopao.MaopaoListFragment">
 
     <FrameLayout
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -28,6 +29,19 @@
             layout="@layout/view_exception"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/floatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_menu_edit"
+            fab:fab_colorNormal="@color/font_green"
+            fab:fab_colorPressed="@color/font_green_1" />
+            <!--fab:fab_colorRipple="@color/ripple"-->
+
     </FrameLayout>
 
     <include layout="@layout/common_enter_emoji" />

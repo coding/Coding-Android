@@ -564,6 +564,10 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         updateTabStyles();
     }
 
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
     public int getTabPaddingLeftRight() {
         return tabPadding;
     }

@@ -313,7 +313,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
         for (WeakReference<Fragment> item : mFragments) {
             Fragment f = item.get();
-            if (f != null && f instanceof ProjectAttachmentFragment_) {
+            if (f instanceof ProjectAttachmentFragment_) {
                 ((ProjectAttachmentFragment_) f).onFileResult(resultCode, data);
             }
         }
