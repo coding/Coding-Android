@@ -71,7 +71,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     final String HOST_MESSAGE_SEND = Global.HOST + "/api/message/send?";
     final String hostDeleteMessage = Global.HOST + "/api/message/%s";
     final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
-    String url;
+    String url = "";
 
     ClickSmallImage clickImage = new ClickSmallImage(this);
 
@@ -223,6 +223,12 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
     @Override
     public void onRefresh() {
+        if (url == null || url.isEmpty()) {
+            showProgressBar(false);
+            showButtomToast("刷新数据失败");
+            return;
+        }
+
         getNextPageNetwork(url, url);
     }
 
