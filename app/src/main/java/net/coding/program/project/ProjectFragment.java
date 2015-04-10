@@ -92,8 +92,8 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     @OptionsItem
     void action_search() {
         SearchProjectActivity_.intent(this).start();
+        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
-
 
     @OptionsItem
     void action_create(){

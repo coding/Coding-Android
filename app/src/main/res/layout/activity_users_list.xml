@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_menu_edit"
+        android:src="@drawable/ic_menu_add"
         fab:fab_colorNormal="@color/font_green"
         fab:fab_colorPressed="@color/font_green_1" />
 

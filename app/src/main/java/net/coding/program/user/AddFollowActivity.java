@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,7 +22,6 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 
@@ -28,12 +30,10 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_add_follow)
@@ -52,9 +52,6 @@ public class AddFollowActivity extends BaseActivity {
 
     @ViewById
     ListView listView;
-
-    @ViewById
-    EditText name;
 
     int flag = 0;
 
@@ -110,13 +107,6 @@ public class AddFollowActivity extends BaseActivity {
             });
         }
         listView.setAdapter(baseAdapter);
-
-        name.addTextChangedListener(new SimpleTextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                search(s.toString());
-            }
-        });
     }
 
     @Override
@@ -160,6 +150,33 @@ public class AddFollowActivity extends BaseActivity {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_follow_activity, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        menuItem.expandActionView();
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.onActionViewExpanded();
+        searchView.setIconified(false);
+        searchView.setQueryHint("用户名，email，个性后缀");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                search(s.toString());
+                return true;
+            }
+        });
+
+        return true;
     }
 
     void search(String s) {
@@ -281,6 +298,6 @@ public class AddFollowActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         setResult(mNeedUpdate ? RESULT_OK : RESULT_CANCELED);
-        super.onBackPressed();
+        finish();
     }
 }

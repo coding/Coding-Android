@@ -1,13 +1,12 @@
 package net.coding.program.project;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.view.View;
-import android.widget.EditText;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 
@@ -27,7 +26,7 @@ public class SearchProjectActivity extends BaseActivity {
     @ViewById
     View emptyView, container;
 
-    EditText editText;
+    SearchView editText;
     private ProjectListFragment searchFragment;
 
     @AfterViews
@@ -37,13 +36,19 @@ public class SearchProjectActivity extends BaseActivity {
         actionBar.setDisplayShowCustomEnabled(true);
 
         actionBar.setCustomView(R.layout.activity_search_project_actionbar);
-//        actionBar.setTitle(R.string.title_activity_search_project);
 
-        editText = (EditText) findViewById(R.id.editText);
-        editText.addTextChangedListener(new SimpleTextWatcher() {
+        editText = (SearchView) findViewById(R.id.editText);
+        editText.onActionViewExpanded();
+        editText.setIconified(false);
+
+        editText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public boolean onQueryTextChange(String s) {
                 mSearchData.clear();
                 if (s.length() > 0) {
                     String enter = s.toString().toLowerCase();
@@ -66,6 +71,7 @@ public class SearchProjectActivity extends BaseActivity {
                 }
 
                 getSupportActionBar().setTitle(R.string.title_activity_search_project);
+                return true;
             }
         });
 
@@ -79,6 +85,12 @@ public class SearchProjectActivity extends BaseActivity {
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, 0);
     }
 
     private void updateSearchResult() {
