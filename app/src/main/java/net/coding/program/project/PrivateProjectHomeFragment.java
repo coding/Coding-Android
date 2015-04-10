@@ -115,8 +115,8 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode== InitProUtils.REQUEST_PRO_UPDATE){
-            if (resultCode== Activity.RESULT_OK){
+        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE){
+            if (resultCode == Activity.RESULT_OK){
                 mProjectObject= (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
                 initHeadHead(getView());
                 onRefresh();

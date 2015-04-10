@@ -2,6 +2,7 @@ package net.coding.program.project;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +113,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
         }
     }
 
-    final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
+    public static final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -127,16 +128,19 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
     @ItemClick
     public void listView(ProjectObject item) {
-        if (item.un_read_activities_count > 0) {
+//        if (item.un_read_activities_count > 0) {
+        // 调用此函数，则按hot排序时项目会排序到有动态的项目后面
             String s = String.format(HOST_VISTIT, item.getId());
             getNetwork(s, HOST_VISTIT, 0, item.getId());
+//        }
+
+        // 在搜索界面不是嵌套的，getParentFragment会返回null
+        Fragment fragment = getParentFragment();
+        if (fragment == null) {
+            fragment = this;
         }
 
-//        Intent intent = new Intent(getActivity(), ProjectActivity_.class);
-//        intent.putExtra("mProjectObject", item);
-//        getActivity().startActivity(intent);
-
-        ProjectHomeActivity_.intent(getParentFragment()).mProjectObject(item).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+        ProjectHomeActivity_.intent(fragment).mProjectObject(item).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
     }
 
     @Override

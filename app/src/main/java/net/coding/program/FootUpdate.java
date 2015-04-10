@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.network.NetworkImpl;
 
 import java.lang.reflect.Method;
 
@@ -121,6 +122,22 @@ public class FootUpdate {
         } else {
             mLayout.setVisibility(View.INVISIBLE);
             mLayout.setPadding(0, -mLayout.getHeight(), 0, 0);
+        }
+    }
+
+    public void updateState(int code, boolean isLastPage, int locatedSize) {
+        if (code == 0) {
+            if (isLastPage) {
+                dismiss();
+            } else {
+                showLoading();
+            }
+        } else {
+            if (locatedSize > 0) {
+                showFail();
+            } else {
+                dismiss(); // 显示猴子照片
+            }
         }
     }
 

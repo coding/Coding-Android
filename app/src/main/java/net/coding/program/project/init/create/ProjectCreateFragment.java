@@ -27,6 +27,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.project.ProjectFragment;
@@ -105,16 +106,8 @@ public class ProjectCreateFragment extends BaseFragment {
                 defaultIconUrl = InitProUtils.getDefaultIconPath(getActivity(), loadedImage, imageUri);
             }
         });
-        projectName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+        projectName.addTextChangedListener(new SimpleTextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -166,7 +159,6 @@ public class ProjectCreateFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
@@ -261,7 +253,6 @@ public class ProjectCreateFragment extends BaseFragment {
         }
     }
 
-
     private void action_done() {
         initProjectInfo();
     }
@@ -327,8 +318,8 @@ public class ProjectCreateFragment extends BaseFragment {
                 ProjectHomeActivity_
                         .intent(this)
                         .mJumpParam(new ProjectActivity.ProjectJumpParam(path))
+                        .mNeedUpdateList(true)
                         .start();
-                getActivity().sendBroadcast(new Intent(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT));
                 getActivity().finish();
 
                 showButtomToast("项目创建成功...");

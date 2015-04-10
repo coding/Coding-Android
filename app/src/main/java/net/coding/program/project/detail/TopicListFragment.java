@@ -116,26 +116,17 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 }
             }
 
-            if (isLoadingLastPage(tag)) {
-                mFootUpdate.dismiss();
-            } else {
-                mFootUpdate.showLoading();
-            }
-
             BlankViewDisplay.setBlank(mData.size(), TopicListFragment.this, true, blankLayout, onClickRetry);
 
             baseAdapter.notifyDataSetChanged();
         } else {
             showErrorMsg(code, respanse);
 
-            if (mData.size() > 0) {
-                mFootUpdate.showFail();
-            } else {
-                mFootUpdate.dismiss();
-            }
 
             BlankViewDisplay.setBlank(mData.size(), TopicListFragment.this, false, blankLayout, onClickRetry);
         }
+
+        mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
     }
 
     View.OnClickListener onClickUser = new View.OnClickListener() {

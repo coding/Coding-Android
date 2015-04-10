@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
+import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
@@ -62,7 +63,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @EActivity(R.layout.activity_topic_list_detail)
-public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
+public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
 
     @Extra
     TopicObject topicObject;
@@ -96,7 +97,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String owerGlobar = "";
 
-    String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=200";
+    String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=20";
 
     String urlCommentSend = Global.HOST + "/api/project/%s/topic?parent=%s";
 
@@ -113,6 +114,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.green);
 
+        mFootUpdate.init(listView, mInflater, this);
+
         loadData();
 
         mEnterComment = new ImageCommentLayout(this, mOnClickSend, getImageLoad());
@@ -123,6 +126,11 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     @Override
     public void onRefresh() {
         loadData();
+    }
+
+    @Override
+    public void loadMore() {
+        getNextPageNetwork(urlCommentList, urlCommentList);
     }
 
     private void loadData() {
@@ -145,7 +153,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         urlCommentSend = String.format(urlCommentSend, topicObject.project_id, topicObject.id);
         urlCommentList = String.format(urlCommentList, topicObject.id);
 
-        getNetwork(urlCommentList, urlCommentList);
+        loadMore();
     }
 
     final int RESULT_AT = 1;
@@ -434,7 +442,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlCommentList)) {
             if (code == 0) {
-                mData.clear();
+                if (isLoadingFirstPage(tag)) {
+                    mData.clear();
+                }
 
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
@@ -446,6 +456,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 showErrorMsg(code, respanse);
                 baseAdapter.notifyDataSetChanged();
             }
+            mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
         } else if (tag.equals(urlCommentSend)) {
             showProgressBar(false);
@@ -553,6 +564,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             TopicObject data = (TopicObject) getItem(position);
             holder.setTaskCommentContent(data);
+
+            loadMore();
 
             return convertView;
         }

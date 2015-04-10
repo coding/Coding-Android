@@ -1,5 +1,6 @@
 package net.coding.program.project;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
 
@@ -29,6 +30,9 @@ public class ProjectHomeActivity extends BaseActivity {
 
     @Extra
     ProjectActivity.ProjectJumpParam mJumpParam;
+
+    @Extra
+    boolean mNeedUpdateList = false; // 需要更新项目列表的排序
 
     @ViewById
     FrameLayout container;
@@ -60,10 +64,21 @@ public class ProjectHomeActivity extends BaseActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(ProjectListFragment.HOST_VISTIT)) {
+            if (code == 0) {
+                sendBroadcast(new Intent(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT));
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 
     private void initFragment() {
+        if (mNeedUpdateList) {
+            String url = String.format(ProjectListFragment.HOST_VISTIT, mProjectObject.getId());
+            getNetwork(url, ProjectListFragment.HOST_VISTIT);
+        }
+
         Fragment fragment;
         if (mProjectObject.isPublic()) {
             fragment = PublicProjectHomeFragment_.builder()

@@ -350,11 +350,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
                 AccountInfo.saveMessages(this, mUserObject.global_key, mData);
 
-                if (isLoadingLastPage(tag)) {
-                    mFootUpdate.dismiss();
-                } else {
-                    mFootUpdate.showLoading();
-                }
                 // 为空就为空，不显示猴子
 //                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
 
@@ -368,15 +363,11 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                 }
 
             } else {
-                if (mData.size() > 0) {
-                    mFootUpdate.showFail();
-                } else {
-                    mFootUpdate.dismiss();
-                }
 
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
                 showErrorMsg(code, respanse);
             }
+            mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
         } else if (tag.indexOf(HOST_MESSAGE_SEND) == 0) {
             if (code == 0) {

@@ -84,11 +84,7 @@ public class UserProjectListFragment extends RefreshBaseFragment {
                     mData.add(projectObject);
                 }
 
-                if (isLoadingLastPage(tag)) {
-                    mFootUpdate.dismiss();
-                } else {
-                    mFootUpdate.showLoading();
-                }
+                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
 
                 mAdapter.notifyDataSetChanged();

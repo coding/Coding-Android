@@ -74,6 +74,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         myImageGetter = new MyImageGetter(getActivity());
         mData = AccountInfo.loadMessageUsers(getActivity());
         initHead();
+
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -232,22 +233,24 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
                 adapter.notifyDataSetChanged();
 
-                if (isLoadingLastPage(tag)) {
-                    mFootUpdate.dismiss();
-                } else {
-                    mFootUpdate.showLoading();
-                }
+//                if (isLoadingLastPage(tag)) {
+//                    mFootUpdate.dismiss();
+//                } else {
+//                    mFootUpdate.showLoading();
+//                }
 //                BlankViewDisplay.setBlank(mData.size(), UsersListFragment.this, true, blankLayout);
+
 
             } else {
                 showErrorMsg(code, respanse);
-                if (mData.size() > 0) {
-                    mFootUpdate.showFail();
-                } else {
-                    mFootUpdate.dismiss(); // 显示猴子照片
-                }
+//                if (mData.size() > 0) {
+//                    mFootUpdate.showFail();
+//                } else {
+//                    mFootUpdate.dismiss(); // 显示猴子照片
+//                }
 //                BlankViewDisplay.setBlank(mData.size(), UsersListFragment.this, false, blankLayout, onClickRetry);
             }
+            mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
             mUpdateAll = false;
 

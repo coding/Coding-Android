@@ -360,7 +360,6 @@ public class PublicProjectHomeFragment extends BaseFragment {
         }
     }
 
-
     boolean isBackToRefresh=false;
 
     @Override
