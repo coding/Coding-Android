@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -151,6 +152,9 @@ public class MainActivity extends BaseActivity
         startService(intent);
 
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater(), maopao_action_types);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.setCustomView(R.layout.actionbar_custom_spinner);
@@ -299,10 +303,11 @@ public class MainActivity extends BaseActivity
             actionBar.setDisplayShowCustomEnabled(false);
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setTitle(mTitle);
-            actionBar.setIcon(R.drawable.ic_lancher);
+//            actionBar.setIcon(R.drawable.ic_lancher);
         } else {
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setCustomView(actionbarCustom);
+            actionBar.setTitle("");
 //             Spinner   spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
 //            spinner.setSelection(1);
 //            spinner.setSelection(0);

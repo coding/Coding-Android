@@ -304,7 +304,6 @@ public class NavigationDrawerFragment extends BaseFragment {
         ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayShowCustomEnabled(false);
-        actionBar.setTitle("Coding");
     }
 
     public static interface NavigationDrawerCallbacks {

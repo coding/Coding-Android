@@ -12,14 +12,12 @@
     </style>
 
     <!--透明的actionbar-->
-
     <style name="TranslateActionbar" parent="Theme.AppCompat">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@color/transparent</item>
         <item name="color">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
-
         <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
     </style>
 
@@ -51,10 +49,19 @@
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
     </style>
 
+    <!--没有icon的actionbar -->
+    <style name="NoIconActionbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
+    </style>
+
+    <!--主窗口的theme-->
+    <style name="ActionbarSpannerTheme" parent="AppThemeNoActionbar">
+        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+    </style>
+
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
-        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
         <item name="android:windowBackground">@color/stand_bg</item>
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
@@ -62,6 +69,10 @@
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
         <item name="android:actionModeBackground">@drawable/gray_drawable</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
+
+
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
 
         <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
         <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
@@ -87,22 +98,11 @@
         <item name="android:dividerHeight">1dp</item>
     </style>
 
-    <style name="ActionbarSpannerTheme" parent="AppTheme">
-        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
-        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+    <!--<style name="AppThemeNoActionbarTemp" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <style name="AppThemeNoActionbarTemp" parent="Base.Theme.AppCompat.Light.DarkActionBar">
 
     </style>
 
-    <style name="ActionbarSpannerNoIconTheme" parent="ActionbarSpannerTheme">
-        <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->
-    </style>
-
-    <!-- ActionBar styles -->
-
-    <!--<style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">--><!--<item name="android:background">@drawable/gray_drawable</item>--><!--<item name="background">@drawable/gray_drawable</item>--><!--</style>-->
-
-
-    <!--<style name="ActionBarStyle" parent="MyActionBar">--><!--<item name="android:displayOptions">showTitle</item>--><!--</style>-->
 
     <style name="ActionbarNoIcon" parent="AppTheme">
         <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->

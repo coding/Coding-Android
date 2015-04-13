@@ -73,6 +73,10 @@ public class ProjectListFragment extends RefreshBaseFragment {
         initRefreshLayout();
         listView.setAdapter(myAdapter);
 
+        if (getParentFragment() == null) { // 搜索
+            disableRefreshing();
+        }
+
 //        if (mData.size() == 0) {
 //            layout.setVisibility(View.VISIBLE);
 //            if (mRequestOk) {
