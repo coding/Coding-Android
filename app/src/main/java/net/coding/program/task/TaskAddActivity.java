@@ -1100,6 +1100,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         String s = input;
 
         if (EmojiFilter.containsEmptyEmoji(this, s)) {
+            showProgressBar(false);
             return;
         }
 

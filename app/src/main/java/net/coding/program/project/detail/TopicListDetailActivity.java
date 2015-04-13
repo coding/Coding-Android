@@ -413,11 +413,13 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     private void sendComment(String send) {
         String input = send;
+        if (EmojiFilter.containsEmptyEmoji(this, input)) {
+            showProgressBar(false);
+            return;
+        }
 
         RequestParams params = new RequestParams();
-        EditText message = mEnterComment.getEnterLayout().content;
-
-        TopicObject comment = (TopicObject) message.getTag();
+        TopicObject comment = (TopicObject) mEnterComment.getEnterLayout().content.getTag();
         if (comment != null && comment.parent_id != 0) {
             input = Global.encodeInput(comment.owner.name, input);
         } else {
