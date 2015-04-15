@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -388,9 +389,8 @@ public class MainActivity extends BaseActivity
             if (checkPos == position) {
                 convertView.setBackgroundColor(getResources().getColor(R.color.green));
             } else {
-                convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
+                convertView.setBackgroundColor(getResources().getColor(R.color.white));
             }
-
             return convertView;
         }
     }

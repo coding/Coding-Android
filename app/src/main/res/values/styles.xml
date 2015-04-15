@@ -94,8 +94,8 @@
     </style>
 
     <style name="SpinnerDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:divider">@color/spinner_divider</item>
-        <item name="android:dividerHeight">1dp</item>
+        <item name="android:divider">@color/white</item>
+        <item name="android:dividerHeight">0dp</item>
     </style>
 
     <!--<style name="AppThemeNoActionbarTemp" parent="Theme.AppCompat.Light.DarkActionBar">-->
