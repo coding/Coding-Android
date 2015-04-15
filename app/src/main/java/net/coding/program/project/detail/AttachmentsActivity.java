@@ -152,8 +152,10 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.project_attachment_file, menu);
 
-        if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0"))
-            menu.findItem(R.id.action_new_folder).setVisible(false);
+        if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
+//            menu.findItem(R.id.action_new_folder).setVisible(false);
+            findViewById(R.id.common_folder_bottom_add).setEnabled(false);
+        }
         return true;
     }
 
@@ -375,8 +377,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
     private boolean isUploading = false;
 
-    @OptionsItem
-    void action_upload() {
+    @Click
+    protected final void common_folder_bottom_upload() {
         if (isUploading) {
             return;
         }
@@ -1344,8 +1346,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
     }
 
-    @OptionsItem
-    void action_new_folder() {
+    @Click
+    protected final void common_folder_bottom_add() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
         LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);

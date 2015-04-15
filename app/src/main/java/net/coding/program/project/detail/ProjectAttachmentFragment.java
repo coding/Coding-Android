@@ -34,6 +34,7 @@ import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
@@ -51,7 +52,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yangzhen on 2014/10/25.
  */
-@EFragment(R.layout.common_refresh_listview)
+@EFragment(R.layout.folder_main_refresh_listview)
 @OptionsMenu(R.menu.project_attachment_folder)
 public class ProjectAttachmentFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
@@ -90,6 +91,9 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
 
     @AfterViews
     protected void init() {
+        // 根目录下不能上传文件
+        getView().findViewById(R.id.common_folder_bottom_upload).setEnabled(false);
+
         initRefreshLayout();
 
         showDialogLoading();
@@ -136,8 +140,8 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         getNetwork(HOST_FILECOUNT, HOST_FILECOUNT);
     }
 
-    @OptionsItem
-    void action_add_folder() {
+    @Click
+    void common_folder_bottom_add() {
         doNowFolder();
     }
 

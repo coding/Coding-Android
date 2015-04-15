@@ -9,19 +9,6 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_new_folder"
-        android:icon="@drawable/ic_menu_folder"
-        android:title="@string/action_new_folder"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_upload"
-        android:icon="@drawable/ic_menu_upload"
-        android:title="@string/action_upload"
-        app:showAsAction="always" />
-
-
-    <item
         android:id="@+id/action_more"
         android:title="@string/action_more"
         android:icon="@drawable/ic_action_overflow"

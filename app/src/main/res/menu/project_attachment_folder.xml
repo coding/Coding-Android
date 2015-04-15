@@ -8,11 +8,6 @@
         app:showAsAction="withText|ifRoom" />-->
     <!--ic_menu_new_folder-->
     <item
-        android:id="@+id/action_add_folder"
-        android:icon="@drawable/ic_menu_add"
-        android:title="@string/action_new"
-        app:showAsAction="withText|ifRoom" />
-    <item
         android:id="@+id/action_more"
         android:title="@string/action_more"
         android:icon="@drawable/ic_action_overflow"

@@ -11,6 +11,10 @@
     <item name="drawer_bg_color_bottom" type="color">#ff1e2733</item>
 
 
+    <item name="button_disable" type="color">#ffc6c6c6</item>
+    <item name="button_parent" type="color">#ffeeeeee</item>
+
+
     <item name="line_green" type="drawable">#ff3bbd79</item>
     <item name="line_gray" type="drawable">#ffc7cacc</item>
     <color name="background_tab_pressed">#ffffff</color>
