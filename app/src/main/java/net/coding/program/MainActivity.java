@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,7 +35,6 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectFragment_;
 import net.coding.program.project.init.InitProUtils;
-import net.coding.program.project.init.setting.ProjectAdvanceSetActivity;
 import net.coding.program.setting.SettingFragment_;
 import net.coding.program.task.TaskFragment_;
 
@@ -387,9 +385,9 @@ public class MainActivity extends BaseActivity
             icon.setImageResource(spinnerIcons[position]);
 
             if (checkPos == position) {
-                convertView.setBackgroundColor(getResources().getColor(R.color.green));
+                convertView.setBackgroundColor(getResources().getColor(R.color.divide_15_e5));
             } else {
-                convertView.setBackgroundColor(getResources().getColor(R.color.white));
+                convertView.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
             return convertView;
         }
@@ -398,12 +396,12 @@ public class MainActivity extends BaseActivity
     //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
     @Override
     protected void onNewIntent(Intent intent) {
-        String action=intent.getStringExtra("action");
-        if (!TextUtils.isEmpty(action)&&action.equals(InitProUtils.FLAG_REFRESH)){
+        String action = intent.getStringExtra("action");
+        if (!TextUtils.isEmpty(action) && action.equals(InitProUtils.FLAG_REFRESH)) {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
             for (Fragment item : fragments) {
                 if (item instanceof ProjectFragment) {
-                    if (item.isAdded()){
+                    if (item.isAdded()) {
                         ((ProjectFragment) item).onRefresh();
                     }
                     break;
