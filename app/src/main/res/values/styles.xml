@@ -69,8 +69,6 @@
         <!--<item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>-->
         <!--<item name="android:windowActionModeOverlay">true</item>-->
 
-        <!--&lt;!&ndash;<item name="android:background">@drawable/gray_drawable</item>&ndash;&gt;-->
-
         <!--<item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>-->
         <!--<item name="android:actionMenuTextColor">@color/white</item>-->
 
@@ -96,6 +94,8 @@
         <item name="android:actionMenuTextColor">@color/white</item>
 
 
+        <!--抽屉导航的旋转箭头-->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <!--<item name="android:icon">@android:color/transparent</item>-->
         <!--<item name="icon">@android:color/transparent</item>-->
@@ -108,6 +108,10 @@
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
     </style>
 
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
