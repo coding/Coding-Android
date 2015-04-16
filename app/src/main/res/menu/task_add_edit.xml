@@ -1,5 +1,5 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_save"
@@ -8,7 +8,24 @@
 
     <item
         android:id="@+id/action_more"
-        android:title="@string/action_more"
         android:icon="@drawable/ic_action_overflow"
-        app:showAsAction="withText|always" />
+        android:title="@string/action_more"
+        app:showAsAction="withText|always">
+        <menu>
+            <item
+                android:id="@+id/action_copy"
+                android:icon="@drawable/ic_menu_link"
+                android:orderInCategory="100"
+                android:title="复制链接"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/action_delete"
+                android:icon="@drawable/ic_menu_delete_selector"
+                android:orderInCategory="100"
+                android:title="删除任务"
+                app:showAsAction="always" />
+
+        </menu>
+    </item>
 </menu>

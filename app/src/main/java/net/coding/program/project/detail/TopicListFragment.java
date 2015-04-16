@@ -271,11 +271,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     }
 
     @Override
-    protected View getAnchorView() {
-        return listView;
-    }
-
-    @Override
     protected String getLink() {
         if (isAll()) {
             return mProjectObject.getPath() + "/topic/all";

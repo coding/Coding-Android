@@ -551,11 +551,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     }
 
     @Override
-    protected View getAnchorView() {
-        return listView;
-    }
-
-    @Override
     protected String getLink() {
         return mProjectObject.getPath() + "/members/" + mMember.user.global_key;
     }

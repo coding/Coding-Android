@@ -12,7 +12,7 @@
     </style>
 
     <!--透明的actionbar-->
-    <style name="TranslateActionbar" parent="Theme.AppCompat">
+    <style name="TranslateActionbar" parent="AppTheme">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@color/transparent</item>
@@ -41,6 +41,10 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+
+
         <item name="colorPrimary">@drawable/gray_drawable</item>
         <!--<item name="android:textColorPrimary">@drawable/</item>-->
         <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
@@ -60,6 +64,44 @@
         <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
         <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
     </style>
+    <style name="ActionbarSpannerTheme1" parent="AppThemeNoActionbar1">
+        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+    </style>
+    <style name="AppThemeNoActionbar1" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
+        <item name="android:windowBackground">@color/stand_bg</item>
+        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
+        <item name="android:actionModeBackground">@drawable/gray_drawable</item>
+        <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+        <!--<item name="android:background">@drawable/gray_drawable</item>-->
+
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+
+
+        <item name="colorPrimary">@drawable/gray_drawable</item>
+
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
+
+        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+
+        <!--<item name="android:background">@drawable/gray_drawable</item>-->
+
+        <item name="colorPrimaryDark">@color/black</item>
+        <!--<item name="android:textColorPrimary">@drawable/</item>-->
+        <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
+        <!--<item name="colorAccent">@color/material_green_A200</item>-->
+
+        <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
+    </style>
+
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
@@ -70,6 +112,7 @@
         <item name="android:actionModeBackground">@drawable/gray_drawable</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
 
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
         <item name="android:icon">@android:color/transparent</item>
         <item name="icon">@android:color/transparent</item>
@@ -86,6 +129,11 @@
         <!--<item name="colorAccent">@color/material_green_A200</item>-->
 
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
+    </style>
+
+    <!--弹出菜单字体颜色-->
+    <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/font_black_2</item>
     </style>
 
     <!--<style name="MyGreenSpinner" parent="android:style/Widget.Holo.Light.Spinner">-->

@@ -675,11 +675,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
     }
 
     @Override
-    protected View getAnchorView() {
-        return listView;
-    }
-
-    @Override
     protected String getLink() {
         if (mMembers.user.global_key.isEmpty()) {
             return Global.HOST + mProjectObject.project_path + "/tasks/user/all";

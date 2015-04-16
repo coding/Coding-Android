@@ -609,11 +609,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     };
 
     @Override
-    protected View getAnchorView() {
-        return listView;
-    }
-
-    @Override
     protected String getLink() {
         return Global.HOST + mProjectObject.project_path + "/attachment";
     }

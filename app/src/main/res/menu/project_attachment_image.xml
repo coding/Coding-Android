@@ -10,9 +10,29 @@
 
     <item
         android:id="@+id/action_more"
-        android:title="@string/action_more"
         android:icon="@drawable/ic_action_overflow"
-        app:showAsAction="always" />
+        android:title="@string/action_more"
+        app:showAsAction="withText|always">
 
+        <menu>
+            <item
+                android:id="@+id/action_download"
+                android:icon="@drawable/ic_popup_attachment_download"
+                android:title="@string/action_save"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_copy"
+                android:icon="@drawable/ic_menu_link"
+                android:title="@string/copy_link"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_delete"
+                android:icon="@drawable/ic_menu_delete_selector"
+                android:title="@string/action_delete"
+                app:showAsAction="always" />
+
+        </menu>
+
+    </item>
 
 </menu>

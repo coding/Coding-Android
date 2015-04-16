@@ -9,17 +9,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -31,10 +28,8 @@ import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
@@ -44,17 +39,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_download)
-@OptionsMenu(R.menu.project_attachment_download)
 public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
@@ -134,6 +126,15 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     SharedPreferences.Editor downloadListEditor;
     private String defaultPath;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.project_attachment_download, menu);
+        if (!mAttachmentFileObject.isOwner()) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
@@ -162,12 +163,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     }
 
     @OptionsItem
-    protected void action_more() {
-        showRightTopPop();
-    }
-
-    //@OptionsItem
-    protected void action_delete() {
+    protected final void action_delete() {
         String messageFormat = "确定要删除文件 \"%s\" 么？";
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDownloadDetailActivity.this);
         builder.setTitle("删除文件").setMessage(String.format(messageFormat, mAttachmentFileObject.name))
@@ -187,7 +183,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
         dialogTitleLineColor(dialog);
-
     }
 
     @AfterViews
@@ -450,26 +445,8 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         }
     }
 
-    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    action_copy();
-                    break;
-                case 1:
-                    if (!mAttachmentFileObject.isOwner()) {
-                        return;
-                    } else {
-                        action_delete();
-                    }
-                    break;
-            }
-            mRightTopPopupWindow.dismiss();
-        }
-    };
-
-    void action_copy() {
+    @OptionsItem
+    protected final void action_copy() {
         String preViewUrl = mAttachmentFileObject.owner_preview;
         int pos = preViewUrl.lastIndexOf("imagePreview");
         if (pos != -1) {
@@ -477,53 +454,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         }
         Global.copy(this, preViewUrl);
         showButtomToast("已复制 " + preViewUrl);
-    }
-
-
-    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
-
-    public void initRightTopPop() {
-        if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
-            //DialogUtil.RightTopPopupItem moveItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_move), R.drawable.ic_menu_move);
-            //popupItemArrayList.add(moveItem);
-
-            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
-            popupItemArrayList.add(copylinkItem);
-
-            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
-            popupItemArrayList.add(deleteItem);
-            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsDownloadDetailActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
-        }
-    }
-
-    public void showRightTopPop() {
-
-        if (mRightTopPopupWindow == null) {
-            initRightTopPop();
-        }
-
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(1);
-
-        if (!mAttachmentFileObject.isOwner()) {
-            deleteItem.enabled = false;
-        } else {
-            deleteItem.enabled = true;
-        }
-
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-
-        Rect rectgle = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-        int StatusBarHeight = rectgle.top;
-        int contentViewTop =
-                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        //int TitleBarHeight= contentViewTop - StatusBarHeight;
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-        mRightTopPopupWindow.showAtLocation(icon, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
-
     }
 
     class DownloadChangeObserver extends ContentObserver {

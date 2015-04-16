@@ -225,11 +225,6 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     }
 
     @Override
-    protected View getAnchorView() {
-        return listView;
-    }
-
-    @Override
     protected String getLink() {
         if (pathStack.peek().isEmpty()) {
             return mProjectObject.getPath() + "/git";

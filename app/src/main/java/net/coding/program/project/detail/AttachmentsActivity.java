@@ -889,12 +889,27 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 case R.id.action_inverse:
                     action_inverse();
                     return true;
+                case R.id.action_move:
+                    action_move();
+                    return true;
+
+                case R.id.action_download:
+                    action_download();
+                    return true;
+
+                case R.id.action_delete:
+                    if (isChooseOthers()) {
+                        showButtomToast("不要选择别人上传的文件");
+                    } else {
+                        action_delete();
+                    }
+                    return true;
                 /*case R.id.action_move:
                     action_move();
                     return true;*/
-                case R.id.action_more:
-                    showRightTopPop();
-                    return true;
+//                case R.id.action_more:
+//                    showRightTopPop();
+//                    return true;
                 default:
                     return false;
             }
@@ -1189,78 +1204,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             mAttachmentFilePopupWindow.dismiss();
         }
     };
-
-    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    action_move();
-                    break;
-                case 1:
-                    action_download();
-                    break;
-                case 2:
-                    if (isChooseOthers()) {
-                        return;
-                    } else {
-                        action_delete();
-                    }
-
-                    break;
-            }
-            mRightTopPopupWindow.dismiss();
-        }
-    };
-
-
-    /**
-     * 为了实现设计的样式，右上角下拉没有用actionbar自带的，而是用了PopupWindow
-     */
-    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
-
-    public void initRightTopPop() {
-        if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
-            DialogUtil.RightTopPopupItem moveItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_move), R.drawable.ic_menu_move);
-            popupItemArrayList.add(moveItem);
-            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_download), R.drawable.ic_menu_download);
-            popupItemArrayList.add(downloadItem);
-            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
-            popupItemArrayList.add(deleteItem);
-            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
-        }
-    }
-
-    public void showRightTopPop() {
-
-        if (mRightTopPopupWindow == null) {
-            initRightTopPop();
-        }
-
-        DialogUtil.RightTopPopupItem moveItem = mRightTopPopupWindow.adapter.getItem(0);
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(2);
-
-        if (isChooseOthers()) {
-            deleteItem.enabled = false;
-        } else {
-            deleteItem.enabled = true;
-        }
-
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-
-        Rect rectgle = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-        int StatusBarHeight = rectgle.top;
-        int contentViewTop =
-                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        //int TitleBarHeight= contentViewTop - StatusBarHeight;
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-        mRightTopPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
-
-    }
 
     /**
      * 是否选中了别人创建的文件，别人创建的文件，没有权限删除
@@ -1595,11 +1538,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         ArrayList<AttachmentFileObject> mFileObjects = new ArrayList<AttachmentFileObject>();
         mFileObjects.add(mFileObject);
         download(mFileObjects);
-    }
-
-    @Override
-    protected View getAnchorView() {
-        return listView;
     }
 
     @Override

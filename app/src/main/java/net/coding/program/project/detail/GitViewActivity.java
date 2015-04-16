@@ -238,11 +238,6 @@ public class GitViewActivity extends CustomMoreActivity {
     }
 
     @Override
-    protected View getAnchorView() {
-        return webview;
-    }
-
-    @Override
     protected String getLink() {
         return mProjectObject.getPath() + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
     }

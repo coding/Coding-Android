@@ -203,7 +203,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             if (topicObject.isMy()) {
                 menuRes = R.menu.topic_detail_modify;
             } else {
-                menuRes = R.menu.common_more;
+                menuRes = R.menu.common_more_copy_link;
             }
             getMenuInflater().inflate(menuRes, menu);
         }
@@ -211,62 +211,12 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         return super.onCreateOptionsMenu(menu);
     }
 
-    @OptionsItem
-    void action_more() {
-        showRightTopPop();
-    }
+
 
     @OptionsItem
     void action_edit() {
         TopicAddActivity_.intent(this).projectObject(topicObject.project).topicObject(topicObject).startForResult(RESULT_EDIT);
     }
-
-    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
-
-    private void initRightTopPop() {
-        if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
-            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
-            popupItemArrayList.add(downloadItem);
-            if (owerGlobar.equals(MyApp.sUserObject.global_key)) {
-                DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.delete_topic), R.drawable.ic_menu_delete_selector);
-                popupItemArrayList.add(deleteItem);
-            }
-            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
-        }
-    }
-
-    private void showRightTopPop() {
-        initRightTopPop();
-
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-
-        Rect rectgle = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-        int StatusBarHeight = rectgle.top;
-        int contentViewTop =
-                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        //int TitleBarHeight= contentViewTop - StatusBarHeight;
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-        mRightTopPopupWindow.showAtLocation(listView, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
-    }
-
-    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    action_copy();
-                    break;
-                case 1:
-                    action_delete();
-                    break;
-            }
-            mRightTopPopupWindow.dismiss();
-        }
-    };
 
     @Override
     public void onBackPressed() {
@@ -291,7 +241,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         });
     }
 
-    void action_copy() {
+    @OptionsItem
+    protected final void action_copy() {
         final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
         String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
         Global.copy(this, url);

@@ -543,8 +543,4 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
     }
 
-    @Override
-    protected View getAnchorView() {
-        return listView;
-    }
 }

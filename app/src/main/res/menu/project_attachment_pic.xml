@@ -12,9 +12,13 @@
         android:id="@+id/action_more"
         android:icon="@drawable/ic_action_overflow"
         android:title="@string/action_more"
-        app:showAsAction="withText|always">
-
+        app:showAsAction="always">
         <menu>
+            <item
+                android:id="@+id/action_download"
+                android:icon="@drawable/ic_popup_attachment_download"
+                android:title="@string/action_save"
+                app:showAsAction="always" />
             <item
                 android:id="@+id/action_copy"
                 android:icon="@drawable/ic_menu_link"
@@ -26,8 +30,9 @@
                 android:title="@string/action_delete"
                 app:showAsAction="always" />
 
-        </menu>
 
+        </menu>
     </item>
+
 
 </menu>

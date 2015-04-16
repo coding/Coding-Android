@@ -519,11 +519,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     @OptionsItem
-    void action_more() {
-        showRightTopPop();
-    }
-
-    @OptionsItem
     void action_copy() {
         final String urlTemplate = Global.HOST + "/u/%s/p/%s/task/%d";
         String url = String.format(urlTemplate, mSingleTask.project.owner_user_name, mSingleTask.project.name, mSingleTask.getId());
@@ -1156,49 +1151,4 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     String tagUrlCommentPhoto = "";
-
-    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
-
-    private void initRightTopPop() {
-        if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
-            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
-            popupItemArrayList.add(copylinkItem);
-            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.delete_task), R.drawable.ic_menu_delete_selector);
-            popupItemArrayList.add(deleteItem);
-            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(this, popupItemArrayList, onRightTopPopupItemClickListener);
-        }
-    }
-
-    private void showRightTopPop() {
-        initRightTopPop();
-
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-
-        Rect rectgle = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-        int StatusBarHeight = rectgle.top;
-        int contentViewTop =
-                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        //int TitleBarHeight= contentViewTop - StatusBarHeight;
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-        mRightTopPopupWindow.showAtLocation(listView, Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
-    }
-
-    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    action_copy();
-                    break;
-                case 1:
-                    action_delete();
-                    break;
-            }
-            mRightTopPopupWindow.dismiss();
-        }
-    };
 }

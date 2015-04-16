@@ -1,16 +1,27 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.WebActivity">
 
     <item
-        android:id="@+id/action_browser"
-        android:title="用浏览器打开"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_copy"
-        android:title="复制链接"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        android:title="@string/action_more"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_browser"
+                android:orderInCategory="100"
+                android:title="用浏览器打开"
+                android:icon="@drawable/ic_menu_link"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_copy"
+                android:orderInCategory="100"
+                android:title="复制链接"
+                android:icon="@drawable/ic_menu_link"
+                app:showAsAction="always" />
+        </menu>
+    </item>
+
 </menu>

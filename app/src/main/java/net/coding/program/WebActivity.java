@@ -38,8 +38,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_web)
-//@OptionsMenu(R.menu.menu_web)
-@OptionsMenu(R.menu.common_more)
+@OptionsMenu(R.menu.menu_web)
 public class WebActivity extends UmengActivity {
 
     @Extra
@@ -177,10 +176,10 @@ public class WebActivity extends UmengActivity {
         }
     }
 
-    @OptionsItem
-    protected void action_more() {
-        showRightTopPop();
-    }
+//    @OptionsItem
+//    protected void action_more() {
+//        showRightTopPop();
+//    }
 
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 
@@ -212,23 +211,34 @@ public class WebActivity extends UmengActivity {
         return webView;
     }
 
+    @OptionsItem
+    protected final void action_browser() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(WebActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @OptionsItem
+    protected final void action_copy() {
+
+        String urlString = webView.getUrl();
+        Global.copy(WebActivity.this, urlString);
+        Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
+    }
+
+
+
     private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    String urlString = webView.getUrl();
-                    Global.copy(WebActivity.this, urlString);
-                    Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 1:
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Toast.makeText(WebActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
-                    }
                     break;
             }
             mRightTopPopupWindow.dismiss();

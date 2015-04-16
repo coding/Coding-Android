@@ -380,11 +380,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     }
 
     @Override
-    protected View getAnchorView() {
-        return listView;
-    }
-
-    @Override
     protected String getLink() {
         return Global.HOST + mProjectObject.project_path + "/members";
     }

@@ -138,7 +138,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionbarSpannerTheme" />
+            android:theme="@style/ActionbarSpannerTheme1" />
         <activity
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"

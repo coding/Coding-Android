@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -45,7 +46,6 @@ import java.util.ArrayList;
  * Created by yangzhen
  */
 @EActivity
-@OptionsMenu(R.menu.project_attachment_image)
 public class AttachmentsDetailBaseActivity extends BaseActivity {
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
 
@@ -96,11 +96,6 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
         dialogTitleLineColor(dialog);
     }
 
-    @OptionsItem
-    protected void action_more() {
-        showRightTopPop();
-    }
-
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,6 +106,15 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
         client = MyAsyncHttpClient.createClient(AttachmentsDetailBaseActivity.this);
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.name);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.project_attachment_image, menu);
+        if (!mAttachmentFileObject.isOwner()) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -164,9 +168,8 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
 
     }
 
-    //@Click(R.id.btnRight)
-    //@OptionsItem
-    protected void action_download() {
+    @OptionsItem
+    protected final void action_download() {
         //showButtomToast("savePic");
         if (mFile != null && mFile.exists() && mFile.isFile() && mFile.length() == mAttachmentFileObject.size) {
             showButtomToast("文件已经下载");
@@ -200,7 +203,8 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
         }
     }
 
-    void action_copy() {
+    @OptionsItem
+    protected final void action_copy() {
         String preViewUrl = mAttachmentFileObject.owner_preview;
         int pos = preViewUrl.lastIndexOf("imagePreview");
         if (pos != -1) {
@@ -250,76 +254,4 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
             }
         });
     }
-
-    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    action_download();
-                    break;
-                case 1:
-                    action_copy();
-                    break;
-
-                case 2:
-                    if (!mAttachmentFileObject.isOwner()) {
-                        return;
-                    } else {
-                        action_delete();
-                    }
-                    break;
-            }
-            mRightTopPopupWindow.dismiss();
-        }
-    };
-
-
-    /**
-     * 为了实现设计的样式，右上角下拉没有用actionbar自带的，而是用了PopupWindow
-     */
-    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
-
-    public void initRightTopPop() {
-        if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
-            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_save), R.drawable.ic_menu_download);
-            popupItemArrayList.add(downloadItem);
-            DialogUtil.RightTopPopupItem copylinkItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
-            popupItemArrayList.add(copylinkItem);
-            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
-            popupItemArrayList.add(deleteItem);
-            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsDetailBaseActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
-        }
-    }
-
-    public void showRightTopPop() {
-
-        if (mRightTopPopupWindow == null) {
-            initRightTopPop();
-        }
-
-        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(2);
-
-        if (!mAttachmentFileObject.isOwner()) {
-            deleteItem.enabled = false;
-        } else {
-            deleteItem.enabled = true;
-        }
-
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-
-        Rect rectgle = new Rect();
-        Window window = getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
-        int StatusBarHeight = rectgle.top;
-        int contentViewTop =
-                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        //int TitleBarHeight= contentViewTop - StatusBarHeight;
-        mRightTopPopupWindow.adapter.notifyDataSetChanged();
-        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-        mRightTopPopupWindow.showAtLocation(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
-
-    }
-
 }
