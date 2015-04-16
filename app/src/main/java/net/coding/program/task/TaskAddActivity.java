@@ -231,6 +231,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
             findViewById(R.id.line2_comment_off).setVisibility(View.GONE);
             findViewById(R.id.line2_comment_on).setVisibility(View.VISIBLE);
+
+            if (mSingleTask.has_description) {
+                descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
+            }
         }
 
         setDeadline();
