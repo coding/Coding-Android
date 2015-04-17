@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:background="@color/task_list_head">
 
-    <include layout="@layout/list_divider_big" />
+    <include layout="@layout/divide_15_bottom" />
 
     <RelativeLayout
         android:id="@+id/feedback"
@@ -68,8 +68,7 @@
 
     </RelativeLayout>
 
-
-    <include layout="@layout/list_divider_big" />
+    <include layout="@layout/divide_15_top_bottom" />
 
     <RelativeLayout
         android:id="@+id/passwordSetting"
@@ -89,4 +88,6 @@
             android:textSize="18sp" />
 
     </RelativeLayout>
+
+    <include layout="@layout/divide_15_top" />
 </LinearLayout>

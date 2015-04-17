@@ -29,7 +29,7 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
-    compile 'se.emilsjolander:stickylistheaders:2.5.1'
+    compile 'se.emilsjolander:stickylistheaders:2.6.0'
     compile 'de.hdodenhof:circleimageview:1.2.2'
     compile 'com.github.rampo.updatechecker:library:2.1.4'
     compile 'com.belerweb:pinyin4j:2.5.0'

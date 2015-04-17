@@ -75,7 +75,6 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
         postNetwork(getRequestHost(), params, HOST_REQUEST_TAG);
     }
 
-
     private String getDataFromIntent(String key1) {
         String key = "";
         Uri uri = getIntent().getData();
@@ -96,8 +95,8 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_REQUEST_TAG)) {
             if (code == 0) {
-                LoginActivity_.intent(this).start();
                 finish();
+                LoginActivity_.intent(this).start();
             } else {
                 showErrorMsg(code, respanse);
             }

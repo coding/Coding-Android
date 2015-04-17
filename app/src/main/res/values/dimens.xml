@@ -34,4 +34,7 @@
     <dimen name="comment_image_width">32dp</dimen>
     <dimen name="comment_image_margin">8dp</dimen>
 
+    <dimen name="spinner_pop_item_width">196dp</dimen>
+    <dimen name="spinner_pop_item_height">48dp</dimen>
+
 </resources>

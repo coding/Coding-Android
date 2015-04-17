@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_height="wrap_content" >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -81,11 +80,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include
-        layout="@layout/divide_1"
-        android:layout_below="@id/layout_1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp" />
+    <!--<include-->
+        <!--layout="@layout/divide_1"-->
+        <!--android:layout_below="@id/layout_1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginTop="10dp" />-->
 
 </RelativeLayout>
