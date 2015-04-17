@@ -23,6 +23,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -127,7 +128,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle();
 
-        mFootUpdate.init(listView, mInflater, this);
+//        mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
         loadMore();
 
@@ -309,7 +310,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                     AccountInfo.saveFriends(this, mData, getType());
                 }
 
-                mSearchData = new ArrayList<UserObject>(mData);
+                mSearchData = new ArrayList(mData);
             } else {
                 showErrorMsg(code, respanse);
             }

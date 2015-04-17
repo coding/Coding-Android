@@ -11,15 +11,14 @@
         android:layout_height="30dp"
         android:background="@color/white"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingLeft="12dp"
-        android:paddingBottom="10dp"
         android:paddingRight="12dp">
 
         <TextView
             android:id="@+id/createrName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:text="Small Text"
             android:textColor="@color/font_gray"
             android:textSize="12sp" />
@@ -28,7 +27,6 @@
             android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_clock"
@@ -36,8 +34,6 @@
             android:text="Small Text"
             android:textColor="@color/font_gray"
             android:textSize="12sp" />
-
-
     </LinearLayout>
 
     <include layout="@layout/divide_1_12" />

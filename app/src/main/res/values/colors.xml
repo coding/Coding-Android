@@ -24,7 +24,7 @@
     <drawable name="black">#ff000000</drawable>
     <color name="black">#ff000000</color>
 
-    <color name="window_background">#ffeeeeee</color>
+    <color name="window_background">#fff3f3f3</color>
 
     <color name="divide_line_color">#dddddd</color>
 

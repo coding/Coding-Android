@@ -232,9 +232,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             findViewById(R.id.line2_comment_off).setVisibility(View.GONE);
             findViewById(R.id.line2_comment_on).setVisibility(View.VISIBLE);
 
-            if (mSingleTask.has_description) {
-                descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
-            }
         }
 
         setDeadline();
@@ -702,15 +699,12 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private void descriptionButtonUpdate(boolean loading) {
-        if (loading) {
-            descriptionButton.setText("查看描述");
+        if (!loading && descriptionDataNew.markdown.isEmpty()) {
+            descriptionButton.setText("添加描述");
+            descriptionButton.setTextColor(getResources().getColor(R.color.font_black_6));
         } else {
-            if (descriptionDataNew.markdown.isEmpty()) {
-                descriptionButton.setText("添加描述");
-            } else {
-                descriptionButton.setText("查看描述");
-            }
-
+            descriptionButton.setText("查看描述");
+            descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
         }
     }
 

@@ -15,6 +15,7 @@
     <style name="TranslateActionbar" parent="AppTheme">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="colorPrimary">@color/transparent</item>
         <item name="color">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
@@ -155,12 +156,6 @@
         <item name="android:divider">@color/white</item>
         <item name="android:dividerHeight">0dp</item>
     </style>
-
-    <!--<style name="AppThemeNoActionbarTemp" parent="Theme.AppCompat.Light.DarkActionBar">-->
-    <style name="AppThemeNoActionbarTemp" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-
-    </style>
-
 
     <style name="ActionbarNoIcon" parent="AppTheme">
         <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->

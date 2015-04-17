@@ -95,12 +95,16 @@ public class SettingFragment extends BaseFragment {
                     editor.commit();
                 }
             }
-        }).setNegativeButton("取消", null);
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        AlertDialog dialog = builder.show();
         ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
-        input.requestFocus();
+//        builder.show();
+//        input.requestFocus();
     }
 
     @Click
