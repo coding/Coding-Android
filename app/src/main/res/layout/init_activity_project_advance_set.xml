@@ -36,7 +36,7 @@
         android:id="@+id/deleteBut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/init_common_but"
+        android:background="@drawable/list_item_selector"
         android:text="删 除 项 目"
         android:textSize="18sp"
         android:textColor="@color/init_advance_text_red"

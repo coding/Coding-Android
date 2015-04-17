@@ -5,7 +5,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@drawable/init_common_but"
         android:clickable="true"
         android:id="@+id/projectHeaderLayout"
         android:layout_height="wrap_content">

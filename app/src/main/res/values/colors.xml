@@ -24,7 +24,7 @@
     <drawable name="black">#ff000000</drawable>
     <color name="black">#ff000000</color>
 
-    <color name="window_background">#fff3f3f3</color>
+    <!--<color name="window_background">#fff3f3f3</color>-->
 
     <color name="divide_line_color">#dddddd</color>
 
@@ -45,7 +45,7 @@
     <color name="divide_15_e5">#ffe4e4e4</color>
 
     <color name="divide">#ffe4e4e4</color>
-    <color name="stand_bg">#f6f6f6</color>
+    <color name="stand_bg">#fff6f6f6</color>
     <color name="stand_tab_bg">#ffffff</color>
 
     <color name="spinner_black">#ff313743</color>

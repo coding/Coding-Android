@@ -2,18 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide_15_e5"
     android:clickable="false"
     android:longClickable="false"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical">
-
         <include layout="@layout/project_home_list_head_head" />
 
         <RelativeLayout
@@ -79,7 +75,6 @@
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15"
         android:gravity="center_vertical|left"
-        android:background="@color/white"
         android:text="最近动态"
         android:textColor="#ff000000" />
 
