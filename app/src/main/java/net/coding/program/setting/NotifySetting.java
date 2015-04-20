@@ -1,6 +1,5 @@
 package net.coding.program.setting;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.widget.CheckBox;
 

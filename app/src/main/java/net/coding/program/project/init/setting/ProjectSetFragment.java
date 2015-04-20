@@ -8,9 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,25 +16,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.network.BaseFragment;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.CameraPhotoUtil;
-import net.coding.program.common.photopick.PhotoPickActivity;
-import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.ProjectHomeActivity;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -44,21 +33,19 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by jack wang on 2015/3/31.
  */
 @EFragment(R.layout.init_fragment_project_set)
 @OptionsMenu(R.menu.menu_fragment_create)
-public class ProjectSetFragment extends BaseFragment{
+public class ProjectSetFragment extends BaseFragment {
 
-    private static final String TAG="ProjectSetFragment";
+    private static final String TAG = "ProjectSetFragment";
 
     public static final int RESULT_REQUEST_PHOTO = 3003;
 
@@ -70,7 +57,7 @@ public class ProjectSetFragment extends BaseFragment{
 
     String iconPath;
 
-    boolean isBackToRefresh=false;
+    boolean isBackToRefresh = false;
 
     private Uri fileUri;
 
@@ -97,13 +84,13 @@ public class ProjectSetFragment extends BaseFragment{
     TextView advanceText;
 
     @AfterViews
-    protected void init(){
-        mProjectObject= (ProjectObject) getArguments().getSerializable("projectObject");
+    protected void init() {
+        mProjectObject = (ProjectObject) getArguments().getSerializable("projectObject");
         advanceText.setText("高级设置");
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         description.setText(mProjectObject.description);
-        if (!mProjectObject.isPublic()){
+        if (!mProjectObject.isPublic()) {
             iconPrivate.setVisibility(View.VISIBLE);
         }
         description.addTextChangedListener(new TextWatcher() {
@@ -126,7 +113,7 @@ public class ProjectSetFragment extends BaseFragment{
     }
 
     @Click
-    void projectIcon(){
+    void projectIcon() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("选择图片")
                 .setCancelable(true)
@@ -159,9 +146,9 @@ public class ProjectSetFragment extends BaseFragment{
 
 
     @Click
-    void item(){
-        Intent intent=new Intent(getActivity(),ProjectAdvanceSetActivity_.class);
-        intent.putExtra("projectObject",mProjectObject);
+    void item() {
+        Intent intent = new Intent(getActivity(), ProjectAdvanceSetActivity_.class);
+        intent.putExtra("projectObject", mProjectObject);
         startActivity(intent);
     }
 
@@ -173,10 +160,10 @@ public class ProjectSetFragment extends BaseFragment{
     }
 
     private void updateSendButton() {
-        String text=description.getText().toString().trim();
-        if (text.isEmpty()||text.equals(mProjectObject.description)){
+        String text = description.getText().toString().trim();
+        if (text.isEmpty() || text.equals(mProjectObject.description)) {
             enableSendButton(false);
-        }else {
+        } else {
             enableSendButton(true);
         }
     }
@@ -203,7 +190,7 @@ public class ProjectSetFragment extends BaseFragment{
         }
         int itemId_ = item.getItemId();
         if (itemId_ == R.id.action_finish) {
-            showProgressBar(true,"正在修改...");
+            showProgressBar(true, "正在修改...");
             action_done();
             return true;
         }
@@ -211,11 +198,11 @@ public class ProjectSetFragment extends BaseFragment{
     }
 
     private void action_done() {
-        RequestParams params=new RequestParams();
-        params.put("name",mProjectObject.name);
-        params.put("description",description.getText().toString().trim());
-        params.put("id",mProjectObject.getId());
-        params.put("default_branch","master");
+        RequestParams params = new RequestParams();
+        params.put("name", mProjectObject.name);
+        params.put("description", description.getText().toString().trim());
+        params.put("id", mProjectObject.getId());
+        params.put("default_branch", "master");
         putNetwork(host, params, host, null);
     }
 
@@ -225,21 +212,21 @@ public class ProjectSetFragment extends BaseFragment{
         if (tag.equals(host)) {
             if (code == 0) {
                 showButtomToast("修改成功");
-                isBackToRefresh=true;
+                isBackToRefresh = true;
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
                 InitProUtils.hideSoftInput(getActivity());
                 backToRefresh();
             } else {
-                isBackToRefresh=false;
+                isBackToRefresh = false;
                 showErrorMsg(code, respanse);
             }
-        }else {
+        } else {
             if (code == 0) {
                 showButtomToast("图片上传成功...");
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                isBackToRefresh=true;
+                isBackToRefresh = true;
             } else {
-                isBackToRefresh=false;
+                isBackToRefresh = false;
                 showErrorMsg(code, respanse);
             }
         }
@@ -261,15 +248,15 @@ public class ProjectSetFragment extends BaseFragment{
                 try {
                     iconPath = Global.getPath(getActivity(), fileCropUri);
                     projectIcon.setImageURI(fileCropUri);
-                    showProgressBar(true,"正在上传图片...");
-                    String uploadUrl=host+"/"+mProjectObject.getId()+"/project_icon";
-                    RequestParams params=new RequestParams();
-                    params.put("file",new File(iconPath));
-                    postNetwork(uploadUrl,params,uploadUrl);
+                    showProgressBar(true, "正在上传图片...");
+                    String uploadUrl = host + "/" + mProjectObject.getId() + "/project_icon";
+                    RequestParams params = new RequestParams();
+                    params.put("file", new File(iconPath));
+                    postNetwork(uploadUrl, params, uploadUrl);
                 } catch (Exception e) {
                 }
             }
-        }else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -292,9 +279,9 @@ public class ProjectSetFragment extends BaseFragment{
 
 
     public void backToRefresh() {
-        Intent intent=new Intent();
-        intent.putExtra("projectObject",mProjectObject);
-        getActivity().setResult(Activity.RESULT_OK,intent);
+        Intent intent = new Intent();
+        intent.putExtra("projectObject", mProjectObject);
+        getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
 }

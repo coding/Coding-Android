@@ -2,7 +2,6 @@ package net.coding.program.project;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 
         isEnableProjectSet(head);
 
-        final String buttonTitle[] = new String[] {
+        final String buttonTitle[] = new String[]{
                 "动态",
                 "任务",
                 "讨论",
@@ -39,7 +38,7 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
                 "成员",
         };
 
-        final int buttonIcon[] = new int[] {
+        final int buttonIcon[] = new int[]{
                 R.drawable.project_button_icon_dynamic,
                 R.drawable.project_button_icon_task,
                 R.drawable.project_button_icon_topic,
@@ -48,7 +47,7 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
                 R.drawable.project_button_icon_member,
         };
 
-        final int buttonId[] = new int[] {
+        final int buttonId[] = new int[]{
                 R.id.button0,
                 R.id.button1,
                 R.id.button2,
@@ -59,7 +58,7 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 
         for (int i = 0; i < buttonId.length; ++i) {
             View button = head.findViewById(buttonId[i]);
-             button.findViewById(R.id.icon).setBackgroundResource(buttonIcon[i]);
+            button.findViewById(R.id.icon).setBackgroundResource(buttonIcon[i]);
             ((TextView) button.findViewById(R.id.title)).setText(buttonTitle[i]);
             final int pos = i;
             button.setOnClickListener(new View.OnClickListener() {
@@ -95,32 +94,32 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 
     }
 
-    private void isEnableProjectSet(View view){
-        if (mProjectObject.isMy()){
+    private void isEnableProjectSet(View view) {
+        if (mProjectObject.isMy()) {
             view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
-                    intent.putExtra("projectObject",mProjectObject);
+                    Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
+                    intent.putExtra("projectObject", mProjectObject);
                     startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
                 }
             });
 
-        }else {
+        } else {
             view.findViewById(R.id.iconRight).setVisibility(View.GONE);
         }
     }
 
-    boolean isBackToRefresh=false;
+    boolean isBackToRefresh = false;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE){
-            if (resultCode == Activity.RESULT_OK){
-                mProjectObject= (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
+        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
+            if (resultCode == Activity.RESULT_OK) {
+                mProjectObject = (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
                 initHeadHead(getView());
                 onRefresh();
-                isBackToRefresh=true;
+                isBackToRefresh = true;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

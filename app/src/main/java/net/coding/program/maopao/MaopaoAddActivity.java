@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +32,6 @@ import net.coding.program.ImagePagerActivity_;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.TestActivity;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhoneType;
@@ -324,20 +322,20 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         params.put("content", content);
         params.put("device", Build.MODEL);
-        if(currentLocation != null && !TextUtils.isEmpty(locationText.getText())) {
-            String locationName = currentLocation.type == LocationObject.Type.City?
+        if (currentLocation != null && !TextUtils.isEmpty(locationText.getText())) {
+            String locationName = currentLocation.type == LocationObject.Type.City ?
                     currentLocation.name : currentLocation.city + MaopaoLocationArea.MAOPAO_LOCATION_DIVIDE + currentLocation.name;
-            params.put("location", ensureLength(locationName,32));
-            params.put("coord", ensureLength(LocationCoord.from(currentLocation).toString(),32));
-            params.put("address", ensureLength(currentLocation.address,64));
+            params.put("location", ensureLength(locationName, 32));
+            params.put("coord", ensureLength(LocationCoord.from(currentLocation).toString(), 32));
+            params.put("address", ensureLength(currentLocation.address, 64));
         }
         postNetwork(sendUrl, params, sendUrl);
     }
 
-    private static String ensureLength(String src,int maxLength){
-        if(TextUtils.isEmpty(src)) return "";
-        if(src.length() <= maxLength) return src;
-        if(maxLength < 1) throw new IllegalArgumentException("maxLength");
+    private static String ensureLength(String src, int maxLength) {
+        if (TextUtils.isEmpty(src)) return "";
+        if (src.length() <= maxLength) return src;
+        if (maxLength < 1) throw new IllegalArgumentException("maxLength");
         return src.substring(0, maxLength - 1) + "…";
     }
 
@@ -418,7 +416,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         private ArrayList<PhotoDataSerializable> photos = new ArrayList();
 
-        public MaopaoDraft() {}
+        public MaopaoDraft() {
+        }
 
         public MaopaoDraft(String input, ArrayList<PhotoData> photos) {
             this.input = input;
@@ -566,7 +565,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     }
 
     @Click(R.id.locationText)
-    void chooseLocation(){
+    void chooseLocation() {
         if (PhoneType.isX86()) {
             showMiddleToast("定位功能不支持x86的手机");
             return;
@@ -576,14 +575,14 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     }
 
     @OnActivityResult(RESULT_REQUEST_LOCATION)
-    void on_RESULT_REQUEST_LOCATION(int result, @OnActivityResult.Extra LocationObject location){
-        if(result == RESULT_OK){
+    void on_RESULT_REQUEST_LOCATION(int result, @OnActivityResult.Extra LocationObject location) {
+        if (result == RESULT_OK) {
             currentLocation = location;
             locationText.setText(currentLocation.name);
             locationText.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
                     currentLocation.type == LocationObject.Type.Undefined
                             ? R.drawable.ic_location_inactive
-                            : R.drawable.ic_location_active), null,null,null);
+                            : R.drawable.ic_location_active), null, null, null);
         }
     }
 }

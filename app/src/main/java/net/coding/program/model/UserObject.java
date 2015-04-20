@@ -3,7 +3,6 @@ package net.coding.program.model;
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;

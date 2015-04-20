@@ -18,7 +18,6 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringArrayRes;
 
 @EActivity(R.layout.activity_user_project)
 @OptionsMenu(R.menu.menu_user_project)

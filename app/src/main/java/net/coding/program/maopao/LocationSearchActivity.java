@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 
@@ -29,7 +28,6 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -253,10 +251,10 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
                     }
                 } else if (selectedLocation.type == LocationObject.Type.Normal) {
                     String distinceKeyName = selectedLocation.name;
-                    String distinceKeyAddr = selectedLocation.address == null ? "": selectedLocation.address;
+                    String distinceKeyAddr = selectedLocation.address == null ? "" : selectedLocation.address;
                     if (distinceKeyName != null) {
                         for (LocationObject item : locations) {
-                            if (!TextUtils.isEmpty(item.address) && !distinceKeyName.equals(item.name) &&!distinceKeyAddr.equals(item.address)) {
+                            if (!TextUtils.isEmpty(item.address) && !distinceKeyName.equals(item.name) && !distinceKeyAddr.equals(item.address)) {
                                 list.add(item);
                             }
                         }
@@ -354,10 +352,10 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
 
         @Override
         public void onSearchResult(List<LocationObject> locations) {
-            if (locations != null){
+            if (locations != null) {
                 list.addAll(locations);
             }
-            if(searcher.isComplete()){
+            if (searcher.isComplete()) {
                 complete();
             }
             searchAdapter.notifyDataSetChanged();

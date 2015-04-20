@@ -1,12 +1,10 @@
 package net.coding.program;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -15,13 +13,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.setting.UpdateTipActivity;
@@ -245,7 +241,6 @@ public class UpdateService extends Service {
 
     private DownloadManager downloadManager;
     private long enqueue = 0;
-
 
 
     private boolean isDownload() {

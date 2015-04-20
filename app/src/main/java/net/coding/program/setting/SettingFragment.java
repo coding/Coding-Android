@@ -20,7 +20,6 @@ import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.project.SearchProjectActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

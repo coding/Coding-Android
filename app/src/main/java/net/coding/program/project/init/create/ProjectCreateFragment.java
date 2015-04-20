@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,10 +29,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
-import net.coding.program.project.ProjectFragment;
-import net.coding.program.project.ProjectHomeActivity;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 

@@ -3,7 +3,6 @@ package net.coding.program.maopao.item;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -15,11 +14,9 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
-import net.coding.program.model.Maopao;
 
 import org.apmem.tools.layouts.FlowLayout;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**

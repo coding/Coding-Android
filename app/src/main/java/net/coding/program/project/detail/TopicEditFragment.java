@@ -1,17 +1,13 @@
 package net.coding.program.project.detail;
 
 
-import android.text.Editable;
-import android.view.View;
 import android.widget.EditText;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MDEditFragment;
-import net.coding.program.common.network.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
@@ -58,7 +54,7 @@ public class TopicEditFragment extends MDEditFragment {
         }
 
         return !title.getText().toString().equals(mOldData.title) ||
-                        !edit.getText().toString().equals(mOldData.content);
+                !edit.getText().toString().equals(mOldData.content);
     }
 
     public interface SaveData {

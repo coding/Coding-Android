@@ -1,8 +1,6 @@
 package net.coding.program.third;
 
 import android.content.Context;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 
 import com.loopj.android.http.PersistentCookieStore;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;

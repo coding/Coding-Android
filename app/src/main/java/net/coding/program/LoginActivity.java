@@ -28,12 +28,8 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.login.ResetPasswordActivity;
-import net.coding.program.login.ResetPasswordActivity_;
-import net.coding.program.login.SendEmailActiveActivity;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
-import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -121,7 +117,8 @@ public class LoginActivity extends BaseActivity {
                 bitmapDrawable = createBlur(background);
             }
             backgroundImage.setImageDrawable(bitmapDrawable);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         needCaptcha();
 

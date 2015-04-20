@@ -6,8 +6,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +13,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
@@ -30,11 +27,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BaseAnnotationActivity {

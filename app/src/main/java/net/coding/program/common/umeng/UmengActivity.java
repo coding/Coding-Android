@@ -1,6 +1,5 @@
 package net.coding.program.common.umeng;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 

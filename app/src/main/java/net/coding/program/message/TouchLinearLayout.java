@@ -1,15 +1,14 @@
 package net.coding.program.message;
 
 import android.content.Context;
-import android.text.method.Touch;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 
 /**
-* Created by chaochen on 15/2/9.
-*/
+ * Created by chaochen on 15/2/9.
+ */
 public class TouchLinearLayout extends LinearLayout {
 
     private long pressTime = 0;

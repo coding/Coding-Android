@@ -1,9 +1,7 @@
 package net.coding.program.login;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,7 +28,7 @@ import java.util.regex.Pattern;
 public class SendEmailBaseActivity extends BaseAnnotationActivity {
 
     @ViewById
-    protected EditText  editValify;
+    protected EditText editValify;
 
     @ViewById
     protected ImageView imageValify;

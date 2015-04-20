@@ -1,15 +1,11 @@
 package net.coding.program;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
@@ -228,7 +224,6 @@ public class WebActivity extends UmengActivity {
         Global.copy(WebActivity.this, urlString);
         Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
     }
-
 
 
     private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {

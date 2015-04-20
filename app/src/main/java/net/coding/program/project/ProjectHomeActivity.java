@@ -15,7 +15,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 import org.json.JSONException;
@@ -95,19 +94,19 @@ public class ProjectHomeActivity extends BaseActivity {
                 .beginTransaction()
                 .add(R.id.container, fragment)
                 .commit();
-        mCurrentFragment=fragment;
+        mCurrentFragment = fragment;
     }
 
     @OptionsItem(android.R.id.home)
     final protected void clickBack() {
-        if (mCurrentFragment instanceof PublicProjectHomeFragment){
-            if (((PublicProjectHomeFragment) mCurrentFragment).isBackToRefresh){
+        if (mCurrentFragment instanceof PublicProjectHomeFragment) {
+            if (((PublicProjectHomeFragment) mCurrentFragment).isBackToRefresh) {
                 InitProUtils.backIntentToMain(this);
                 return;
             }
         }
-        if (mCurrentFragment instanceof PrivateProjectHomeFragment){
-            if (((PrivateProjectHomeFragment) mCurrentFragment).isBackToRefresh){
+        if (mCurrentFragment instanceof PrivateProjectHomeFragment) {
+            if (((PrivateProjectHomeFragment) mCurrentFragment).isBackToRefresh) {
                 InitProUtils.backIntentToMain(this);
                 return;
             }

@@ -1,6 +1,5 @@
 package net.coding.program.common;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;

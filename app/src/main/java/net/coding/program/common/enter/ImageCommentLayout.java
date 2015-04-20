@@ -6,15 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.photopick.PhotoPickDetailActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
-import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.item.ContentAreaMuchImages;
 
 import java.util.ArrayList;

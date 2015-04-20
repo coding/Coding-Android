@@ -1,11 +1,9 @@
 package net.coding.program.project.init.create;
 
-import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MotionEvent;
-import android.view.inputmethod.InputMethodManager;
 
 import net.coding.program.R;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
@@ -14,7 +12,7 @@ import org.androidannotations.annotations.OptionsItem;
  * Created by jack wang on 2015/3/31.
  */
 @EActivity(R.layout.init_activity_common)
-public class ProjectCreateActivity extends ActionBarActivity{
+public class ProjectCreateActivity extends ActionBarActivity {
 
     ProjectCreateFragment fragment;
 

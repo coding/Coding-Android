@@ -17,8 +17,6 @@ import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
-import net.coding.program.maopao.MaopaoDetailActivity;
-import net.coding.program.maopao.MaopaoListFragment;
 
 import java.util.ArrayList;
 

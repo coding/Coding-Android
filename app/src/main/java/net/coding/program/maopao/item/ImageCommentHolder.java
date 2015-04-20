@@ -6,10 +6,7 @@ import android.view.View;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.comment.BaseCommentHolder;
-import net.coding.program.maopao.ContentArea;
 import net.coding.program.model.BaseComment;
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.TopicObject;
 
 /**
  * Created by chenchao on 15/3/31.

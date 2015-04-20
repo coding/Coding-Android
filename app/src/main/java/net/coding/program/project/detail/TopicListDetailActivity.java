@@ -5,19 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebView;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,11 +22,9 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CustomDialog;
-import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
@@ -210,7 +202,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
 
     @OptionsItem

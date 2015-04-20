@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.coding.program.R;
 
@@ -21,11 +20,11 @@ import org.androidannotations.annotations.ViewById;
  */
 @EActivity(R.layout.init_activity_project_type)
 @OptionsMenu(R.menu.menu_project_type_info)
-public class ProjectTypeActivity extends ActionBarActivity{
+public class ProjectTypeActivity extends ActionBarActivity {
 
-    public static final String TYPE_PUBLIC="公开";
+    public static final String TYPE_PUBLIC = "公开";
 
-    public static final String TYPE_PRIVATE="私有";
+    public static final String TYPE_PRIVATE = "私有";
 
     @ViewById
     View projectPrivate;
@@ -45,38 +44,38 @@ public class ProjectTypeActivity extends ActionBarActivity{
     @AfterViews
     protected final void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String type=getIntent().getStringExtra("type");
-        if (type.equals(TYPE_PRIVATE)){
+        String type = getIntent().getStringExtra("type");
+        if (type.equals(TYPE_PRIVATE)) {
             iconPrivateRight.setVisibility(View.VISIBLE);
             iconPublicRight.setVisibility(View.GONE);
-        }else {
+        } else {
             iconPrivateRight.setVisibility(View.GONE);
             iconPublicRight.setVisibility(View.VISIBLE);
         }
     }
 
     @Click
-    void projectPrivate(){
+    void projectPrivate() {
         iconPrivateRight.setVisibility(View.VISIBLE);
         iconPublicRight.setVisibility(View.GONE);
-        Intent intent=new Intent();
-        intent.putExtra("type",TYPE_PRIVATE);
-        setResult(-1,intent);
+        Intent intent = new Intent();
+        intent.putExtra("type", TYPE_PRIVATE);
+        setResult(-1, intent);
         finish();
     }
 
     @Click
-    void projectPublic(){
+    void projectPublic() {
         iconPrivateRight.setVisibility(View.GONE);
         iconPublicRight.setVisibility(View.VISIBLE);
-        Intent intent=new Intent();
-        intent.putExtra("type",TYPE_PUBLIC);
-        setResult(-1,intent);
+        Intent intent = new Intent();
+        intent.putExtra("type", TYPE_PUBLIC);
+        setResult(-1, intent);
         finish();
     }
 
     @Click
-    void maskInfo(){
+    void maskInfo() {
         maskInfo.setVisibility(View.GONE);
     }
 
@@ -87,10 +86,10 @@ public class ProjectTypeActivity extends ActionBarActivity{
 
     @OptionsItem(R.id.action_info)
     protected final void tips() {
-        if (maskInfo.getVisibility()==View.GONE){
+        if (maskInfo.getVisibility() == View.GONE) {
             maskInfo.getBackground().setAlpha(200);
             maskInfo.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             maskInfo.setVisibility(View.GONE);
         }
     }

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
@@ -45,7 +41,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 

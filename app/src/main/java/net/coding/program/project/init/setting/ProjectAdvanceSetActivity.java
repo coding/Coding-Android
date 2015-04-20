@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +13,9 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.LoginActivity_;
-import net.coding.program.MainActivity;
-import net.coding.program.MainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
@@ -36,19 +32,18 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by jack wang on 2015/3/31.
  */
 @EActivity(R.layout.init_activity_project_advance_set)
-public class ProjectAdvanceSetActivity extends BaseActivity{
+public class ProjectAdvanceSetActivity extends BaseActivity {
 
-    private static final String TAG="ProjectAdvanceSetActivity";
+    private static final String TAG = "ProjectAdvanceSetActivity";
 
     final String host = Global.HOST + "/api/project/";
-    String hostDelete ;
+    String hostDelete;
 
     ProjectObject mProjectObject;
 
@@ -58,26 +53,26 @@ public class ProjectAdvanceSetActivity extends BaseActivity{
     @AfterViews
     protected final void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mProjectObject= (ProjectObject) getIntent().getSerializableExtra("projectObject");
+        mProjectObject = (ProjectObject) getIntent().getSerializableExtra("projectObject");
     }
 
     @Click
-    void deleteBut(){
+    void deleteBut() {
         showDeleteDialog();
     }
 
-    void showDeleteDialog(){
+    void showDeleteDialog() {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry, null);
-        final EditText edit1= (EditText) textEntryView.findViewById(R.id.edit1);
+        final EditText edit1 = (EditText) textEntryView.findViewById(R.id.edit1);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog= builder
+        AlertDialog dialog = builder
                 .setTitle("需要验证密码")
                 .setView(textEntryView)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String editStr1=edit1.getText().toString().trim();
-                        if (TextUtils.isEmpty(editStr1)){
+                        String editStr1 = edit1.getText().toString().trim();
+                        if (TextUtils.isEmpty(editStr1)) {
                             Toast.makeText(ProjectAdvanceSetActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
                             return;
                         }
@@ -92,19 +87,19 @@ public class ProjectAdvanceSetActivity extends BaseActivity{
         CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
-    void action_delete(String pwd){
-        hostDelete=host+mProjectObject.getId();
-        RequestParams params=new RequestParams();
+    void action_delete(String pwd) {
+        hostDelete = host + mProjectObject.getId();
+        RequestParams params = new RequestParams();
         params.put("user_name", AccountInfo.loadAccount(this).name);
-        params.put("name",mProjectObject.name);
-        params.put("project_id",""+mProjectObject.getId());
+        params.put("name", mProjectObject.name);
+        params.put("project_id", "" + mProjectObject.getId());
         try {
-            params.put("password",SimpleSHA1.sha1(pwd));
+            params.put("password", SimpleSHA1.sha1(pwd));
         } catch (Exception e) {
             e.printStackTrace();
         }
         AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
-        client.delete(this,hostDelete,null,params,new JsonHttpResponseHandler(){
+        client.delete(this, hostDelete, null, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 showProgressBar(false);
@@ -139,7 +134,7 @@ public class ProjectAdvanceSetActivity extends BaseActivity{
 
             @Override
             public void onStart() {
-                showProgressBar(true,"正在删除项目...");
+                showProgressBar(true, "正在删除项目...");
             }
         });
     }

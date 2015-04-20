@@ -22,7 +22,6 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.init.InitProUtils;
-import net.coding.program.project.init.setting.ProjectSetActivity;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -331,7 +330,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
         }
     }
 
-    private void initHeadHead(){
+    private void initHeadHead() {
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         projectAuthor.setText(mProjectObject.owner_user_name);
@@ -344,30 +343,30 @@ public class PublicProjectHomeFragment extends BaseFragment {
         }
     }
 
-    private void isEnableProjectSet(View view){
-        if (mProjectObject.isMy()){
+    private void isEnableProjectSet(View view) {
+        if (mProjectObject.isMy()) {
             view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(getActivity(), ProjectSetActivity_.class);
-                    intent.putExtra("projectObject",mProjectObject);
+                    Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
+                    intent.putExtra("projectObject", mProjectObject);
                     startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
                 }
             });
 
-        }else {
+        } else {
             view.findViewById(R.id.iconRight).setVisibility(View.GONE);
         }
     }
 
-    boolean isBackToRefresh=false;
+    boolean isBackToRefresh = false;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode== InitProUtils.REQUEST_PRO_UPDATE){
-            if (resultCode== Activity.RESULT_OK){
-                mProjectObject= (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
-                isBackToRefresh=true;
+        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
+            if (resultCode == Activity.RESULT_OK) {
+                mProjectObject = (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
+                isBackToRefresh = true;
                 initHeadHead();
             }
         }

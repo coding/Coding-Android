@@ -3,19 +3,9 @@ package net.coding.program.maopao;
 import android.content.Context;
 
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
-import com.baidu.mapapi.search.poi.PoiDetailResult;
-import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
-import com.baidu.mapapi.search.poi.PoiResult;
-import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.mapapi.search.poi.PoiSortType;
-import com.baidu.mapapi.utils.DistanceUtil;
 
 import net.coding.program.model.LocationObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,10 +1,10 @@
 package net.coding.program.project.detail;
 
-import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
 import net.coding.program.BaseActivity;
@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 @EActivity(R.layout.activity_project)
 public class ProjectActivity extends BaseActivity implements NetworkCallback {
 
-    public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[] {
+    public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
             ProjectJumpParam.JumpType.typeDynamic,
             ProjectJumpParam.JumpType.typeTask,
             ProjectJumpParam.JumpType.typeTopic,
@@ -41,7 +41,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             ProjectJumpParam.JumpType.typeCode,
             ProjectJumpParam.JumpType.typeMember,
     };
-    public static final ProjectJumpParam.JumpType[] PUBLIC_JUMP_TYPES = new ProjectJumpParam.JumpType[] {
+    public static final ProjectJumpParam.JumpType[] PUBLIC_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
             ProjectJumpParam.JumpType.typeDynamic,
             ProjectJumpParam.JumpType.typeTopic,
             ProjectJumpParam.JumpType.typeCode,

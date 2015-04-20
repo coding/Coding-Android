@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.network.NetworkImpl;
 
 import java.lang.reflect.Method;
 

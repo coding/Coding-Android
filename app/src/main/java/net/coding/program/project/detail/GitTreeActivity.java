@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.model.GitFileInfoObject;

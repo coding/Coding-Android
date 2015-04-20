@@ -22,9 +22,6 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
-import net.coding.program.project.detail.ProjectActivity_;
-import net.coding.program.user.UserProjectActivity;
-import net.coding.program.user.UserProjectListFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -134,8 +131,8 @@ public class ProjectListFragment extends RefreshBaseFragment {
     public void listView(ProjectObject item) {
 //        if (item.un_read_activities_count > 0) {
         // 调用此函数，则按hot排序时项目会排序到有动态的项目后面
-            String s = String.format(HOST_VISTIT, item.getId());
-            getNetwork(s, HOST_VISTIT, 0, item.getId());
+        String s = String.format(HOST_VISTIT, item.getId());
+        getNetwork(s, HOST_VISTIT, 0, item.getId());
 //        }
 
         // 在搜索界面不是嵌套的，getParentFragment会返回null
@@ -149,10 +146,10 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==InitProUtils.REQUEST_PRO_UPDATE){
-            if (resultCode== Activity.RESULT_OK){
-                String action=data.getStringExtra("action");
-                if (action.equals(InitProUtils.FLAG_REFRESH)){
+        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String action = data.getStringExtra("action");
+                if (action.equals(InitProUtils.FLAG_REFRESH)) {
                     onRefresh();
                 }
             }

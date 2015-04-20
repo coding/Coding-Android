@@ -1,28 +1,21 @@
 package net.coding.program.project.detail;
 
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebView;
-import android.widget.AdapterView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
-import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;

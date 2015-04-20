@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
-import com.melnykov.fab.ScrollDirectionListener;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -183,10 +181,10 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
 //                if (singleTask.status == 1) {
-                    mNeedUpdate = true;
-                    Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
-                    intent.putExtra("mSingleTask", singleTask);
-                    getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
+                mNeedUpdate = true;
+                Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
+                intent.putExtra("mSingleTask", singleTask);
+                getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
 //                }
             }
         });

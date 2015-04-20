@@ -23,11 +23,9 @@ import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
-import net.coding.program.project.detail.TaskListFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -36,7 +34,6 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +49,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
 
     public static enum Friend {
         Follow, Fans
-    };
+    }
+
+    ;
 
     @Extra
     Friend type;

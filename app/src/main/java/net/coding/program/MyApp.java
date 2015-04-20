@@ -3,7 +3,6 @@ package net.coding.program;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;

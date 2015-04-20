@@ -1,9 +1,9 @@
 package net.coding.program.project.detail;
 
 import android.content.DialogInterface;
-import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
 
@@ -34,7 +34,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     private TopicData modifyData = new TopicData();
 
-    final String HOST_TOPIC_NEW =  Global.HOST + "/api/project/%s/topic?parent=0";
+    final String HOST_TOPIC_NEW = Global.HOST + "/api/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST + "/api/topic/%d";
 
     String url = "";

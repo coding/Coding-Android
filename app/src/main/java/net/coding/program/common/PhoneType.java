@@ -1,9 +1,5 @@
 package net.coding.program.common;
 
-import android.util.Log;
-
-import com.baidu.mapapi.SDKInitializer;
-
 /**
  * Created by chenchao on 15/4/1.
  */

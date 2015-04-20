@@ -3,10 +3,8 @@ package net.coding.program.common.base;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -18,11 +16,9 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
-import net.coding.program.common.ListModify;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
-import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.TopicEditFragment;
 

@@ -1,7 +1,6 @@
 package net.coding.program.maopao;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
 

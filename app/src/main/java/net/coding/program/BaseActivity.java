@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,6 +47,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
     protected void showProgressBar(boolean show) {
         showProgressBar(show, "");
     }
+
     protected void showProgressBar(boolean show, String message) {
         if (show) {
             mProgressDialog.setMessage(message);

@@ -5,24 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -33,13 +26,11 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * 展示某一项目文档目录下面文件的BsseActivity

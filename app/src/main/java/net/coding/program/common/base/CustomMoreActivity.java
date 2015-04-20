@@ -1,21 +1,10 @@
 package net.coding.program.common.base;
 
-import android.graphics.Rect;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.Toast;
-
 import net.coding.program.BaseActivity;
-import net.coding.program.R;
-import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
-
-import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/3/9.
@@ -24,7 +13,7 @@ import java.util.ArrayList;
 @EActivity
 public abstract class CustomMoreActivity extends BaseActivity {
 
-//    protected abstract View getAnchorView();
+    //    protected abstract View getAnchorView();
     protected abstract String getLink();
 
 //    @OptionsItem

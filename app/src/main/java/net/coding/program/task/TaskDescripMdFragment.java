@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MDEditFragment;
-import net.coding.program.project.detail.TopicEditFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
