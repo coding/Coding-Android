@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="32"
-    android:versionName="2.6.1" >
+    android:versionCode="34"
+    android:versionName="2.6.3">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -523,6 +523,13 @@
             android:label="@string/title_activity_resend_email"
             android:screenOrientation="portrait" >
         </activity>
+
+        <!--激活和重置密码的基类，永远不会用，但不声明编译会有error警告-->
+        <activity
+            android:name=".login.SendEmailBaseActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_reset_password" />
+
         <activity
             android:name=".login.UserActiveActivity_"
             android:screenOrientation="portrait"

@@ -68,13 +68,4 @@ public class AboutActivity extends UmengActivity {
     void codingWebsite() {
         WebActivity_.intent(this).url(Global.HOST).start();
     }
-//
-//    @Click
-//    void codingWeibo() {
-//        WebActivity_.intent(this).url("http://www.weibo.com/clouddevelopment").start();
-//    }
-//
-//    @Click
-//    void codingWechat() {
-//    }
 }

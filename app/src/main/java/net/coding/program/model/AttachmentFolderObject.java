@@ -24,8 +24,6 @@ public class AttachmentFolderObject implements Serializable {
     public ArrayList<AttachmentFolderObject> sub_folders = new ArrayList<AttachmentFolderObject>();
     public AttachmentFolderObject parent;
 
-    private String nameTemplate = "%s (%s)";
-
     public AttachmentFolderObject() {
         this.name = "默认文件夹";
         this.file_id = "0";
@@ -56,7 +54,6 @@ public class AttachmentFolderObject implements Serializable {
     public void setCount(Integer count) {
         if (count != null) {
             this.count = count;
-            //this.name = String.format(nameTemplate, name, count);
         }
     }
 
@@ -73,7 +70,7 @@ public class AttachmentFolderObject implements Serializable {
     }
 
     public String getNameCount() {
-        return String.format(nameTemplate, this.name, getTotelCount());
+        return String.format("%s (%s)", this.name, getTotelCount());
     }
 
     /**

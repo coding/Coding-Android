@@ -142,7 +142,7 @@ public class MDEditFragment extends BaseFragment {
                 try {
                     if (data != null) {
                         showProgressBar(true, "正在上传图片...");
-                        setProgressBarProgress(30);
+                        setProgressBarProgress();
                         fileUri = data.getData();
                         File outputFile = new PhotoOperate(getActivity()).scal(fileUri);
                         RequestParams params = new RequestParams();

@@ -2,6 +2,11 @@ package net.coding.program.model;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import org.json.JSONObject;
 
@@ -10,7 +15,7 @@ import java.io.Serializable;
 /**
  * Created by cc191954 on 14-8-7.
  */
-public class UserObject implements Serializable {
+public class UserObject implements Serializable, Comparable {
     public String avatar = "";
     public String slogan = "";
     public String tags = "";
@@ -39,6 +44,7 @@ public class UserObject implements Serializable {
     public long updated_at;
     public int tweets_count;
     public String email = "";
+    private String pingYin = "";
 
     public boolean isMe() {
         return MyApp.sUserObject.id == id;
@@ -76,9 +82,24 @@ public class UserObject implements Serializable {
         status = json.optInt("status");
         tweets_count = json.optInt("tweets_count");
         email = json.optString("email");
+        pingYin = getFirstLetters(name);
     }
 
     public UserObject() {
+    }
+
+    public String getFirstLetter() {
+        String letter = pingYin.substring(0, 1).toUpperCase();
+        if (0 <= letter.compareTo("A") && letter.compareTo("Z") <= 0) {
+            return letter;
+        }
+
+        return "#";
+    }
+
+    @Override
+    public int compareTo(Object another) {
+        return pingYin.compareTo(((UserObject) another).pingYin);
     }
 
     @Override
@@ -156,5 +177,28 @@ public class UserObject implements Serializable {
         result = 31 * result + tweets_count;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
+    }
+
+    public static String getFirstLetters(String chinese) {
+        StringBuffer pybf = new StringBuffer();
+        char[] arr = chinese.toCharArray();
+        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 128) {
+                try {
+                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(arr[i], defaultFormat);
+                    if (temp != null) {
+                        pybf.append(temp[0].charAt(0));
+                    }
+                } catch (BadHanyuPinyinOutputFormatCombination e) {
+                    e.printStackTrace();
+                }
+            } else {
+                pybf.append(arr[i]);
+            }
+        }
+        return pybf.toString().replaceAll("\\W", "").trim();
     }
 }

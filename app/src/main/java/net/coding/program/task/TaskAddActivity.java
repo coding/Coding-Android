@@ -483,7 +483,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 params.put("description", descriptionDataNew.markdown);
             }
             postNetwork(url, params, HOST_TASK_ADD);
-            showProgressBar(true, R.string.create_task_ing);
+            showProgressBar(R.string.create_task_ing);
 
         } else {
             String url = String.format(HOST_TASK_UPDATE, mSingleTask.getId());
@@ -510,7 +510,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
 
             putNetwork(url, params, TAG_TASK_UPDATE);
-            showProgressBar(true, R.string.modify_task_ing);
+            showProgressBar(R.string.modify_task_ing);
         }
     }
 
@@ -1107,7 +1107,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
         postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
 
-        showProgressBar(true, R.string.sending_comment);
+        showProgressBar(R.string.sending_comment);
     }
 
     HashMap<String, String> mSendedImages = new HashMap<>();

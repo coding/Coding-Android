@@ -57,9 +57,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         }
     }
 
-    protected void showProgressBar(boolean show, int messageId) {
+    protected void showProgressBar(int messageId) {
         String message = getString(messageId);
-        showProgressBar(show, message);
+        showProgressBar(true, message);
     }
 
     protected View.OnClickListener mOnClickUser = new View.OnClickListener() {

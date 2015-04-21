@@ -113,8 +113,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
 
-    private String descTemplate = "发布于%s";
-
     ArrayList<AttachmentFileObject> mFilesArray = new ArrayList();
 
     boolean mNoMore = false;
@@ -403,7 +401,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
     private String uploadHitLeftFormat = "正在上传%s项";
     private String uploadHitMiddleFormat = "%s%%";
-    private String uploadHitRightFormat = "%s/S";
     private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
     @ViewById
     ImageView uploadCloseBtn;
@@ -564,8 +561,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         uploadStatusProgress.requestLayout();
         barParamsRemain.weight = 100 - progress;
         uploadStatusProgressRemain.requestLayout();
-        uploadRightHint.setText(String.format(uploadHitRightFormat, Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
-        Log.d(TAG, barParams.weight + " " + barParamsRemain.weight + " " + (bytesWritten / (uploadCurTime - uploadStartTime) * 1000) + " " + String.format(uploadHitRightFormat, Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
+        uploadRightHint.setText(String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
+        Log.d(TAG, barParams.weight + " " + barParamsRemain.weight + " " + (bytesWritten / (uploadCurTime - uploadStartTime) * 1000) + " " + String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
     }
 
     @OnActivityResult(FILE_DELETE_CODE)
@@ -683,7 +680,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             }*/
 
             holder.content.setText(Global.HumanReadableFilesize(data.size));
-            holder.desc.setText(String.format(descTemplate, Global.dayToNow(data.created_at)));
+            holder.desc.setText(String.format("发布于%s", Global.dayToNow(data.created_at)));
             holder.username.setText(data.owner.name);
 
             if (position == mFilesArray.size() - 1) {

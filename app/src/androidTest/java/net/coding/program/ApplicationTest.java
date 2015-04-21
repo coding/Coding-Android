@@ -5,6 +5,7 @@ import android.test.ApplicationTestCase;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
 
 import java.util.concurrent.CountDownLatch;
@@ -70,5 +71,10 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         }
         assertEquals(loginBackground.getPhotoCount(), 5);
+    }
+
+    public void testPinYing() {
+        assertEquals(UserObject.getFirstLetters("陈超").toUpperCase(), "CC");
+        assertEquals(UserObject.getFirstLetters("chenchao").toUpperCase(), "CHENCHAO");
     }
 }

@@ -46,13 +46,13 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         showProgressBar(show, "");
     }
 
-    protected void setProgressBarProgress(int progress) {
+    protected void setProgressBarProgress() {
         if (mProgressDialog == null) {
             return;
         }
 
         mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setProgress(progress);
+        mProgressDialog.setProgress(30);
     }
 
     protected void showProgressBar(boolean show, String message) {
@@ -72,9 +72,9 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         return (ActionBarActivity) getActivity();
     }
 
-    protected void showProgressBar(boolean show, int messageId) {
+    protected void showProgressBar(int messageId) {
         String message = getString(messageId);
-        showProgressBar(show, message);
+        showProgressBar(true, message);
     }
 
     protected boolean progressBarIsShowing() {

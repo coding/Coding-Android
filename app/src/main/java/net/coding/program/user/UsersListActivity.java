@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -26,6 +26,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
+import net.coding.program.third.sidebar.IndexableListView;
+import net.coding.program.third.sidebar.StringMatcher;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -40,6 +42,9 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /*
  * 粉丝，关注的人列表
@@ -96,7 +101,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     ArrayList<UserObject> mSearchData = new ArrayList<UserObject>();
 
     @ViewById
-    ListView listView;
+    IndexableListView listView;
 
     @ViewById
     FloatingActionButton floatButton;
@@ -128,7 +133,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         setTitle();
 
 //        mFootUpdate.init(listView, mInflater, this);
+        adapter.initSection();
         listView.setAdapter(adapter);
+        listView.setFastScrollEnabled(true);
         loadMore();
 
         if (type == Friend.Follow && isMyFriendList()) {
@@ -305,6 +312,8 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                     mData.add(user);
                 }
 
+                Collections.sort(mData);
+
                 if (isMyFriendList()) {
                     AccountInfo.saveFriends(this, mData, getType());
                 }
@@ -340,7 +349,28 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         onBackPressed();
     }
 
-    BaseAdapter adapter = new BaseAdapter() {
+    UserAdapter adapter = new UserAdapter();
+
+    class UserAdapter extends BaseAdapter implements SectionIndexer, StickyListHeadersAdapter {
+
+        public void initSection() {
+            mSectionTitle.clear();
+            mSectionId.clear();
+
+            if (mData.size() > 0) {
+                String lastLetter = "";
+
+                for (int i = 0; i < mData.size(); ++i) {
+                    UserObject item = mData.get(i);
+                    if (!item.getFirstLetter().equals(lastLetter)) {
+                        lastLetter = item.getFirstLetter();
+                        mSectionTitle.add(item.getFirstLetter());
+                        mSectionId.add(i);
+                    }
+                }
+            }
+        }
+
         @Override
         public int getCount() {
             return mSearchData.size();
@@ -393,11 +423,107 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
 
             return convertView;
         }
-    };
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            initSection();
+        }
+
+//        @Override
+//        public Object[] getSections() {
+//            return mSectionTitle.toArray();
+//        }
+//
+//        @Override
+//        public int getPositionForSection(int sectionIndex) {
+//            return sectionIndex;
+//        }
+//
+//        @Override
+//        public int getSectionForPosition(int position) {
+//            for (int i = 0; i < mSectionId.size(); ++i) {
+//                if (position < mSectionId.get(i)) {
+//                    return i - 1;
+//                }
+//            }
+//
+//            return mSectionId.size() - 1;
+//        }
+
+        private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        @Override
+        public int getPositionForSection(int section) {
+            // If there is no item for current section, previous section will be selected
+            for (int i = section; i >= 0; i--) {
+                for (int j = 0; j < getCount(); j++) {
+                    if (i == 0) {
+                        // For numeric section
+                        for (int k = 0; k <= 9; k++) {
+                            if (StringMatcher.match(((UserObject) getItem(j)).getFirstLetter().toUpperCase(), String.valueOf(k)))
+                                return j;
+                        }
+                    } else {
+                        if (StringMatcher.match(((UserObject) getItem(j)).getFirstLetter().toUpperCase(), String.valueOf(mSections.charAt(i))))
+                            return j;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        @Override
+        public int getSectionForPosition(int position) {
+            return 0;
+        }
+
+        @Override
+        public Object[] getSections() {
+            String[] sections = new String[mSections.length()];
+            for (int i = 0; i < mSections.length(); i++)
+                sections[i] = String.valueOf(mSections.charAt(i));
+            return sections;
+        }
+
+
+        @Override
+        public View getHeaderView(int position, View convertView, ViewGroup parent) {
+            HeaderViewHolder holder;
+            if (convertView == null) {
+                holder = new HeaderViewHolder();
+                convertView = getLayoutInflater().inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
+                holder.mHead = (TextView) convertView.findViewById(R.id.head);
+                convertView.setTag(holder);
+            } else {
+                holder = (HeaderViewHolder) convertView.getTag();
+            }
+
+            holder.mHead.setText(mSectionTitle.get(getSectionForPosition(position)));
+            return convertView;
+        }
+
+        class HeaderViewHolder {
+            TextView mHead;
+        }
+
+        @Override
+        public long getHeaderId(int i) {
+            return getSectionForPosition(i);
+        }
+
+        private ArrayList<String> mSectionTitle = new ArrayList();
+        private ArrayList<Integer> mSectionId = new ArrayList();
+
+
+    }
+
+    ;
 
     static class ViewHolder {
         ImageView icon;
         TextView name;
         CheckBox mutual;
     }
+
 }

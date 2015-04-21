@@ -40,10 +40,6 @@ public class EnterEmojiLayout extends EnterLayout {
         Default, SmallOnly
     }
 
-    public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type) {
-        this(activity, sendTextOnClick, type, EmojiType.Default);
-    }
-
     public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type);
 
@@ -187,7 +183,7 @@ public class EnterEmojiLayout extends EnterLayout {
 
 
     public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick) {
-        this(activity, sendTextOnClick, Type.Default);
+        this(activity, sendTextOnClick, Type.Default, EmojiType.Default);
     }
 
     public boolean isEmojiKeyboardShowing() {

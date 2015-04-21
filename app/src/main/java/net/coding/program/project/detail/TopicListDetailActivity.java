@@ -371,7 +371,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
 
-        showProgressBar(true, R.string.sending_comment);
+        showProgressBar(R.string.sending_comment);
     }
 
     @OptionsItem(android.R.id.home)

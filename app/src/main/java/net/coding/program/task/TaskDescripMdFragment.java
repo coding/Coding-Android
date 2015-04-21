@@ -16,8 +16,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 
-import java.util.List;
-
 @EFragment(R.layout.fragment_task_descrip_md)
 public class TaskDescripMdFragment extends MDEditFragment {
 
@@ -95,14 +93,6 @@ public class TaskDescripMdFragment extends MDEditFragment {
             }
         }
     };
-
-    @Override
-    public void onDetach() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        List<Fragment> lists = fragmentManager.getFragments();
-
-        super.onDetach();
-    }
 
     @OptionsItem
     void action_save() {

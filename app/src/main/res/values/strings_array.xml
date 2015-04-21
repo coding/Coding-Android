@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string-array name="drawer_title">
         <item>我的项目</item>
         <item>我的任务</item>
-        <item></item>
+        <item />
         <item>@string/title_activity_message_list</item>
         <item>设置</item>
     </string-array>

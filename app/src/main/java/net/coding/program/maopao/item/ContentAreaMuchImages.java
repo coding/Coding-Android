@@ -27,8 +27,6 @@ public class ContentAreaMuchImages extends ContentAreaBase {
 
     protected ImageLoadTool imageLoad;
 
-    private int contentMarginBottom = 0;
-
     public static DisplayImageOptions imageOptions = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
@@ -49,7 +47,7 @@ public class ContentAreaMuchImages extends ContentAreaBase {
         super(convertView, onClickContent, imageGetterParamer);
 
         imageLoad = loadParams;
-        contentMarginBottom = convertView.getResources().getDimensionPixelSize(R.dimen.message_text_margin_bottom);
+//        contentMarginBottom = convertView.getResources().getDimensionPixelSize(R.dimen.message_text_margin_bottom);
 
         mFlowLayout = (FlowLayout) convertView.findViewById(R.id.flowLayout);
         mOnclickImage = onclickImage;

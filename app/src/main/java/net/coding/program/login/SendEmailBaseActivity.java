@@ -11,7 +11,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import net.coding.program.BaseAnnotationActivity;
-import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 
@@ -24,7 +23,8 @@ import org.apache.http.Header;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@EActivity(R.layout.activity_base_send_email)
+//        (R.layout.activity_base_send_email)
+@EActivity
 public class SendEmailBaseActivity extends BaseAnnotationActivity {
 
     @ViewById

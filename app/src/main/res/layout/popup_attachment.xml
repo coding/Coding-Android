@@ -32,7 +32,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:divider="@color/font_black_content_disabled"
-            android:dividerHeight="0.3dp"></ListView>
+            android:dividerHeight="0.3dp" />
 
         <!--<TextView
             android:id="@+id/move"

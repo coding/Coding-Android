@@ -63,12 +63,11 @@ public class SettingFragment extends BaseFragment {
     @Click
     void downloadPathSetting() {
         final SharedPreferences share = getActivity().getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        String path = "";
-        final String defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        String path;
         if (share.contains(FileUtil.DOWNLOAD_PATH)) {
             path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
         } else {
-            path = defaultPath;
+            path = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

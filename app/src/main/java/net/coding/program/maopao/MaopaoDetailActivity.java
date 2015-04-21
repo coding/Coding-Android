@@ -179,7 +179,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             params.put("content", contentString);
             postNetwork(uri, params, ADD_COMMENT, 0, comment);
 
-            showProgressBar(true, R.string.sending_comment);
+            showProgressBar(R.string.sending_comment);
         }
     };
 

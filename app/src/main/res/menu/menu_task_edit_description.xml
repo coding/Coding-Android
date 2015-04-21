@@ -1,9 +1,0 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/action_save"
-        android:title="保存"
-        android:icon="@drawable/ic_menu_ok"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
-</menu>

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
@@ -234,7 +235,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     @Click
-    protected  final void floatButton() {
+    protected final void floatButton() {
         Intent intent = new Intent(getActivity(), MaopaoAddActivity_.class);
         startActivityForResult(intent, RESULT_EDIT_MAOPAO);
     }
@@ -269,7 +270,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             params.put("content", commentString);
             postNetwork(uri, params, URI_COMMENT, 0, commentObject);
 
-            showProgressBar(true, R.string.sending_comment);
+            showProgressBar(R.string.sending_comment);
         }
     };
 
@@ -657,10 +658,19 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             @Override
             public void onClick(View v) {
                 Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-                MaopaoDetailActivity_
-                        .intent(getActivity())
-                        .mMaopaoObject(data)
-                        .startForResult(RESULT_EDIT_MAOPAO);
+                Fragment parent = getParentFragment();
+                if (parent == null) {
+                    MaopaoDetailActivity_
+                            .intent(MaopaoListFragment.this)
+                            .mMaopaoObject(data)
+                            .startForResult(RESULT_EDIT_MAOPAO);
+                } else {
+                    MaopaoDetailActivity_
+                            .intent(parent)
+                            .mMaopaoObject(data)
+                            .startForResult(RESULT_EDIT_MAOPAO);
+                }
+
             }
         };
 
