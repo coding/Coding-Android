@@ -105,12 +105,14 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 }
             } else {
                 showErrorMsg(code, respanse);
+                hideProgressDialog();
             }
         } else if (tag.equals(HOST_LIST_TAG)) {
             if (code == 0) {
                 parseVersion(mDataVers[1], respanse.optJSONArray("data"));
             } else {
                 showErrorMsg(code, respanse);
+                hideProgressDialog();
             }
         } else {
             super.parseJson(code, respanse, tag, pos, data);

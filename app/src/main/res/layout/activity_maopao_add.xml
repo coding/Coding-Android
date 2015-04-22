@@ -31,7 +31,6 @@
             android:paddingRight="12dp"
             android:gravity="top|left"
             android:textSize="16sp"
-            android:textColor="#999999"
             android:background="@null" />
 
         <RelativeLayout
@@ -142,26 +141,26 @@
         android:stretchMode="none"
         android:gravity="center" />
 
-        <TextView
-            android:id="@+id/locationText"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_location_inactive"
-            android:drawablePadding="4dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="12dp"
-            android:textSize="15sp"
-            android:gravity="center_vertical"
-            android:text=""
-            android:hint="@string/location_undefined"
-            android:textColor="@color/font_black_content"
-            android:textColorHint="@color/font_black_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:layout_marginTop="11dp"
-            android:layout_below="@id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="52dp" />
+    <TextView
+        android:id="@+id/locationText"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_location_inactive"
+        android:drawablePadding="4dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="12dp"
+        android:textSize="15sp"
+        android:gravity="center_vertical"
+        android:text=""
+        android:hint="@string/location_undefined"
+        android:textColor="@color/font_black_content"
+        android:textColorHint="@color/font_black_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:layout_marginTop="11dp"
+        android:layout_below="@id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -173,6 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
             android:background="#cfcfcf" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:gravity="center_vertical"
@@ -180,6 +180,7 @@
             android:background="#e5e5e5"
             android:layout_width="match_parent"
             android:layout_height="43dp">
+
             <CheckBox
                 android:id="@+id/popEmoji"
                 android:layout_width="24dp"
@@ -187,90 +188,92 @@
                 android:background="@null"
                 android:button="@drawable/checkbox_pop_emoji" />
         </LinearLayout>
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
             android:background="#cfcfcf" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/emojiKeyboardLayout"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="gone">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="7.5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/emojiKeyboardLayout"
+            android:focusable="true"
+            android:clickable="true"
+            android:visibility="gone">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
 
             <LinearLayout
-                android:layout_marginTop="7.5dp"
-                android:id="@+id/emojiKeyboardIndicator"
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
-                android:orientation="horizontal"
-                android:gravity="center" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="7.5dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/emoji_line" />
+                <LinearLayout
+                    android:layout_marginTop="7.5dp"
+                    android:id="@+id/emojiKeyboardIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:orientation="horizontal"
+                    android:gravity="center" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:id="@+id/selectEmoji"
-                android:gravity="center_vertical"
-                android:textSize="15sp"
-                android:drawablePadding="3dp"
-                android:drawableLeft="@drawable/ic_emoji_small"
-                android:textColor="@color/font_black_comment"
-                android:text="经典"
-                android:paddingLeft="30dp" />
+            </LinearLayout>
 
             <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
                 android:background="@color/emoji_line" />
 
-            <TextView
-                android:id="@+id/selectMonkey"
-                android:layout_width="120dp"
-                android:gravity="center_vertical"
-                android:layout_height="match_parent"
-                android:drawablePadding="3dp"
-                android:textColor="@color/font_black_comment"
-                android:textSize="15sp"
-                android:drawableLeft="@drawable/ic_emoji_monkey"
-                android:text="洋葱猴"
-                android:paddingLeft="15dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
 
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/emoji_line" />
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/selectEmoji"
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@drawable/ic_emoji_small"
+                    android:textColor="@color/font_black_comment"
+                    android:text="经典"
+                    android:paddingLeft="30dp" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/emoji_line" />
+
+                <TextView
+                    android:id="@+id/selectMonkey"
+                    android:layout_width="120dp"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="3dp"
+                    android:textColor="@color/font_black_comment"
+                    android:textSize="15sp"
+                    android:drawableLeft="@drawable/ic_emoji_monkey"
+                    android:text="洋葱猴"
+                    android:paddingLeft="15dp" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/emoji_line" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
 
     </LinearLayout>
 

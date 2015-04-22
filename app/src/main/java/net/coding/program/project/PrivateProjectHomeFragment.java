@@ -19,12 +19,11 @@ import net.coding.program.project.init.setting.ProjectSetActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 
-@EFragment(R.layout.fragment_project_dynamic)
+@EFragment(R.layout.fragment_project_private)
 public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
 
     @AfterViews
     public void init2() {
-//        View head = mInflater.inflate(R.layout.project_home_list_head, listView, false);
         View head = View.inflate(getActivity(), R.layout.project_home_list_head, null);
 
         isEnableProjectSet(head);

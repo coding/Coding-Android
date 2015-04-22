@@ -85,7 +85,12 @@ public class UserProjectListFragment extends RefreshBaseFragment {
                 }
 
                 mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
-                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
+
+                String tip = BlankViewDisplay.OTHER_PROJECT_BLANK;
+                if (mUserObject.isMe()) {
+                    tip = BlankViewDisplay.MY_PROJECT_BLANK;
+                }
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
 
                 mAdapter.notifyDataSetChanged();
             } else {

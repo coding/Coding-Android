@@ -356,6 +356,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 JSONObject jsonData = respanse.getJSONObject("data");
                 Maopao.MaopaoObject maopaoObject = new Maopao.MaopaoObject(jsonData);
                 maopaoObject.owner = MyApp.sUserObject;
+                maopaoObject.owner_id = MyApp.sUserObject.id;
 
                 Intent intent = new Intent();
                 intent.putExtra(ListModify.TYPE, ListModify.Add);

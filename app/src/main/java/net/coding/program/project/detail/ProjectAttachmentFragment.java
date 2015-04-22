@@ -193,6 +193,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
                 }
                 loadMore();
             } else {
+                hideProgressDialog();
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_FOLDER_NAME)) {

@@ -134,6 +134,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 getNetwork(getMembers, HOST_MEMBERS);
 
             } else {
+                hideProgressDialog();
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mMembersAllAll.size(), this, false, blankLayout, onClickRetry);
             }

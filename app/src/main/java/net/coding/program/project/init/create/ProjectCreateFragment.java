@@ -98,6 +98,10 @@ public class ProjectCreateFragment extends BaseFragment {
         imageLoadTool.loadImage(projectIcon, IconRandom.getRandomUrl(), ImageLoadTool.optionsRounded2, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (!isResumed()) {
+                    return;
+                }
+
                 super.onLoadingComplete(imageUri, view, loadedImage);
                 defaultIconUrl = InitProUtils.getDefaultIconPath(getActivity(), loadedImage, imageUri);
             }

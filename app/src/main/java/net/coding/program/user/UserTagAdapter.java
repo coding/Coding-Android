@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
+import android.widget.Toast;
 
 import net.coding.program.R;
 
@@ -18,6 +19,8 @@ import java.util.HashSet;
  * Created by yangzhen on 2014/10/15.
  */
 public class UserTagAdapter extends BaseAdapter {
+    public static final int MAX_TAG_COUNT = 10;
+
     HashSet hashSet = new HashSet();
     private Context context;
     private LayoutInflater mInflater;
@@ -50,6 +53,10 @@ public class UserTagAdapter extends BaseAdapter {
 
     public String getName(int position) {
         return tagJSONArray.optJSONObject(position).optString("name");
+    }
+
+    private boolean isSelectFill() {
+        return hashSet.size() >= MAX_TAG_COUNT;
     }
 
     @Override
@@ -103,12 +110,18 @@ public class UserTagAdapter extends BaseAdapter {
     }*/
 
     public void setSelectedTag(int position) {
-
         if (!hashSet.contains(Integer.valueOf(position + 1))) {
-            hashSet.add(Integer.valueOf(position + 1));
+            if (!isSelectFill()) {
+                hashSet.add(Integer.valueOf(position + 1));
+            } else {
+                Toast.makeText(context, String.format("最多只能选择%d个标签", UserTagAdapter.MAX_TAG_COUNT),
+                        Toast.LENGTH_SHORT).show();
+            }
         } else {
             hashSet.remove(Integer.valueOf(position + 1));
         }
+
+
         notifyDataSetChanged();
     }
 }
