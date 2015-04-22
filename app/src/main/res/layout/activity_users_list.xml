@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fastScrollEnabled="true"
-        android:paddingRight="30dp"
         android:fastScrollAlwaysVisible="true"
         android:id="@+id/listView" />
 

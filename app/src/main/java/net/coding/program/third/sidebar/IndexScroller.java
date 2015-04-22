@@ -43,11 +43,12 @@ public class IndexScroller {
     private SectionIndexer mIndexer = null;
     private String[] mSections = null;
     private RectF mIndexbarRect;
+    private int mBackgroundColor = Color.TRANSPARENT;
 
-    //	private static final int STATE_HIDDEN = 0;
-    private static final int STATE_SHOWING = 1;
+    private static final int STATE_HIDDEN = 0;
+    //	private static final int STATE_SHOWING = 1;
     private static final int STATE_SHOWN = 2;
-    private static final int STATE_HIDING = 3;
+//	private static final int STATE_HIDING = 3;
 
     public IndexScroller(Context context, ListView lv) {
         mDensity = context.getResources().getDisplayMetrics().density;
@@ -56,23 +57,27 @@ public class IndexScroller {
         setAdapter(mListView.getAdapter());
 
         mIndexbarWidth = 20 * mDensity;
-        mIndexbarMargin = 10 * mDensity;
+//		mIndexbarMargin = 10 * mDensity;
+        mIndexbarMargin = 0 * mDensity;
         mPreviewPadding = 5 * mDensity;
     }
 
     public void draw(Canvas canvas) {
+        if (mState == STATE_HIDDEN)
+            return;
+
         // mAlphaRate determines the rate of opacity
         Paint indexbarPaint = new Paint();
-        indexbarPaint.setColor(Color.BLACK);
-        indexbarPaint.setAlpha((int) (64 * mAlphaRate));
+        indexbarPaint.setColor(mBackgroundColor);
+//		indexbarPaint.setAlpha((int) (64 * mAlphaRate));
         indexbarPaint.setAntiAlias(true);
-        canvas.drawRoundRect(mIndexbarRect, 5 * mDensity, 5 * mDensity, indexbarPaint);
+        canvas.drawRoundRect(mIndexbarRect, 1 * mDensity, 1 * mDensity, indexbarPaint);
 
         if (mSections != null && mSections.length > 0) {
             // Preview is shown when mCurrentSection is set
             if (mCurrentSection >= 0) {
                 Paint previewPaint = new Paint();
-                previewPaint.setColor(Color.BLACK);
+                previewPaint.setColor(mBackgroundColor);
                 previewPaint.setAlpha(96);
                 previewPaint.setAntiAlias(true);
                 previewPaint.setShadowLayer(3, 0, 0, Color.argb(64, 0, 0, 0));
@@ -95,10 +100,10 @@ public class IndexScroller {
             }
 
             Paint indexPaint = new Paint();
-            indexPaint.setColor(Color.WHITE);
-            indexPaint.setAlpha((int) (255 * mAlphaRate));
+            indexPaint.setColor(0xff565656);
+//			indexPaint.setAlpha((int) (255 * mAlphaRate));
             indexPaint.setAntiAlias(true);
-            indexPaint.setTextSize(12 * mScaledDensity);
+            indexPaint.setTextSize(13 * mScaledDensity);
 
             float sectionHeight = (mIndexbarRect.height() - 2 * mIndexbarMargin) / mSections.length;
             float paddingTop = (sectionHeight - (indexPaint.descent() - indexPaint.ascent())) / 2;
@@ -114,13 +119,17 @@ public class IndexScroller {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // If down event occurs inside index bar region, start indexing
-                if (contains(ev.getX(), ev.getY())) {
+                if (mState != STATE_HIDDEN && contains(ev.getX(), ev.getY())) {
+//				setState(STATE_SHOWN);
 
                     // It demonstrates that the motion event started from index bar
                     mIsIndexing = true;
                     // Determine which section the point is in, and move the list to that section
                     mCurrentSection = getSectionByPoint(ev.getY());
                     mListView.setSelection(mIndexer.getPositionForSection(mCurrentSection));
+
+                    mBackgroundColor = 0x4c000000;
+                    mListView.invalidate();
                     return true;
                 }
                 break;
@@ -139,7 +148,12 @@ public class IndexScroller {
                 if (mIsIndexing) {
                     mIsIndexing = false;
                     mCurrentSection = -1;
+
+                    mBackgroundColor = Color.TRANSPARENT;
+                    mListView.invalidate();
                 }
+//			if (mState == STATE_SHOWN)
+//				setState(STATE_HIDING);
                 break;
         }
         return false;
@@ -152,6 +166,23 @@ public class IndexScroller {
                 , mIndexbarMargin
                 , w - mIndexbarMargin
                 , h - mIndexbarMargin);
+    }
+
+    public void show() {
+        setState(STATE_SHOWN);
+    }
+
+    public void hide() {
+        setState(STATE_HIDDEN);
+    }
+
+    private void setState(int state) {
+        if (mState == state)
+            return;
+
+        mState = state;
+        mAlphaRate = mState == STATE_SHOWN ? 1 : 0;
+        mListView.invalidate();
     }
 
     public void setAdapter(Adapter adapter) {
@@ -169,7 +200,7 @@ public class IndexScroller {
 //		switch (mState) {
 //		case STATE_HIDDEN:
 //			// Cancel any fade effect
-////			mHandler.removeMessages(0);
+//			mHandler.removeMessages(0);
 //			break;
 //		case STATE_SHOWING:
 //			// Start to fade in
@@ -182,8 +213,8 @@ public class IndexScroller {
 //			break;
 //		case STATE_HIDING:
 //			// Start to fade out after three seconds
-////			mAlphaRate = 1;
-////			fade(3000);
+//			mAlphaRate = 1;
+//			fade(3000);
 //			break;
 //		}
 //	}

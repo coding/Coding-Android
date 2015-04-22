@@ -136,6 +136,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         adapter.initSection();
         listView.setAdapter(adapter);
         listView.setFastScrollEnabled(true);
+        listView.setFastScrollAlwaysVisible(true);
         loadMore();
 
         if (type == Friend.Follow && isMyFriendList()) {
@@ -395,11 +396,19 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
+                holder.divideTitle = (TextView) convertView.findViewById(R.id.divideTitle);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             final UserObject data = mSearchData.get(position);
+
+            if (isSection(position)) {
+                holder.divideTitle.setVisibility(View.VISIBLE);
+                holder.divideTitle.setText(data.getFirstLetter());
+            } else {
+                holder.divideTitle.setVisibility(View.GONE);
+            }
 
             holder.name.setText(data.name);
             iconfromNetwork(holder.icon, data.avatar);
@@ -430,26 +439,19 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             initSection();
         }
 
-//        @Override
-//        public Object[] getSections() {
-//            return mSectionTitle.toArray();
-//        }
-//
-//        @Override
-//        public int getPositionForSection(int sectionIndex) {
-//            return sectionIndex;
-//        }
-//
-//        @Override
-//        public int getSectionForPosition(int position) {
-//            for (int i = 0; i < mSectionId.size(); ++i) {
-//                if (position < mSectionId.get(i)) {
-//                    return i - 1;
-//                }
-//            }
-//
-//            return mSectionId.size() - 1;
-//        }
+        private boolean isSection(int pos) {
+            if (getCount() == 0) {
+                return true;
+            }
+
+            if (pos == 0) {
+                return true;
+            }
+
+            String currentItem = mData.get(pos).getFirstLetter();
+            String preItem = mData.get(pos - 1).getFirstLetter();
+            return !currentItem.equals(preItem);
+        }
 
         private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -524,6 +526,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         ImageView icon;
         TextView name;
         CheckBox mutual;
+        TextView divideTitle;
     }
 
 }

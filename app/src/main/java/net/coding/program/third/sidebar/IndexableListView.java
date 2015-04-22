@@ -19,16 +19,16 @@ package net.coding.program.third.sidebar;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import net.coding.program.common.Global;
+
 public class IndexableListView extends ListView {
 
-    private boolean mIsFastScrollEnabled = false;
+    private boolean mIsFastScrollEnabled = true;
     private IndexScroller mScroller = null;
-    private GestureDetector mGestureDetector = null;
 
     public IndexableListView(Context context) {
         super(context);
@@ -51,8 +51,16 @@ public class IndexableListView extends ListView {
     public void setFastScrollEnabled(boolean enabled) {
         mIsFastScrollEnabled = enabled;
         if (mIsFastScrollEnabled) {
-            if (mScroller == null)
+            if (mScroller == null) {
                 mScroller = new IndexScroller(getContext(), this);
+                mScroller.show();
+            }
+
+        } else {
+            if (mScroller != null) {
+                mScroller.hide();
+                mScroller = null;
+            }
         }
     }
 
@@ -65,27 +73,13 @@ public class IndexableListView extends ListView {
             mScroller.draw(canvas);
     }
 
+
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        // Intercept ListView's touch event
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         if (mScroller != null && mScroller.onTouchEvent(ev))
             return true;
 
-        if (mGestureDetector == null) {
-            mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
-
-                @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2,
-                                       float velocityX, float velocityY) {
-                    // If fling happens, index bar shows
-                    return super.onFling(e1, e2, velocityX, velocityY);
-                }
-
-            });
-        }
-        mGestureDetector.onTouchEvent(ev);
-
-        return super.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -98,6 +92,15 @@ public class IndexableListView extends ListView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
+        final int minHeight = Global.dpToPx(400); // listview 只有400dp 估计键盘弹出来了
+
+        if (h < minHeight) {
+            mScroller.hide();
+        } else {
+            mScroller.show();
+        }
+
         if (mScroller != null)
             mScroller.onSizeChanged(w, h, oldw, oldh);
     }

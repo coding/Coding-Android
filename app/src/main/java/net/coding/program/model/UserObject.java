@@ -82,7 +82,7 @@ public class UserObject implements Serializable, Comparable {
         status = json.optInt("status");
         tweets_count = json.optInt("tweets_count");
         email = json.optString("email");
-        pingYin = getFirstLetters(name);
+        pingYin = getFirstLetters(name).toUpperCase();
     }
 
     public UserObject() {
