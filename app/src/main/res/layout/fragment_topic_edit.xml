@@ -7,34 +7,76 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="18dp"
         android:background="@null"
-        android:hint="讨论标题"
+        android:hint="标题"
+        android:textColorHint="#a3a3a3"
         android:singleLine="true"
-        android:text="我我问"
+        android:text=""
+        android:textSize="20sp"
         android:textColor="@color/font_black_content" />
+
+    <RelativeLayout
+        android:id="@+id/labelBar"
+        android:layout_marginTop="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="43dp">
+        <TextView
+            android:id="@+id/defaultLabel"
+            android:text="标签"
+            android:textSize="12sp"
+            android:textColor="@color/green"
+            android:drawableLeft="@drawable/ic_project_topic_label"
+            android:drawablePadding="2dp"
+            android:layout_marginLeft="11dp"
+            android:paddingRight="12dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:text="bug"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/green"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/defaultLabel"
+            android:background="@drawable/project_topic_label_bg"
+            android:includeFontPadding="false"
+            android:layout_width="58dp"
+            android:layout_height="20dp" />
+
+        <ImageView
+            android:id="@+id/addLabel"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_project_topic_label_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginBottom="9dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="9dp"
-        android:background="#ffcccccc" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#dddddd" />
 
     <EditText
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_weight="1"
         android:background="@color/transparent"
         android:gravity="start"
-        android:hint="讨论内容"
+        android:hint="讨论内容…"
+        android:textSize="16sp"
+        android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
         android:textColor="@color/font_black_comment" />
 
