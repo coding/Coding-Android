@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import net.coding.program.model.TopicObject;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
@@ -32,19 +34,39 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-@EFragment(R.layout.common_refresh_listview)
+@EFragment(R.layout.fragment_project_topic_list)
 @OptionsMenu(R.menu.project_task)
 public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+
+    private static final int INDEX_DISPLAY_ALL = 0;
+    private static final int INDEX_DISPLAY_MINE = 1;
+    private static final String DISPLAY_ALL = "全部讨论";
+    private static final String DISPLAY_MINE = "我的讨论";
+
+    private static final String LABEL_ALL = "全部标签";
+
+    private static final String ORDER_REPLY_TIME = "最后评论排序";
+    private static final String ORDER_PUBLISH_TIME = "发布时间排序";
+    private static final String ORDER_HOT = "热门排序";
+
+    private static final String URI_FLUSH_COUNT = "%s/api/user/%s/project/%s/topics/count";
+    private static final String URI_FLUSH_LABELS = "%s/api/user/%s/project/%s/topics/labels";
 
     @FragmentArg
     ProjectObject mProjectObject;
 
-    @FragmentArg
-    int type;
-
     @ViewById
     ListView listView;
+
+    @ViewById
+    View mask;
+    @ViewById
+    DropdownTabButton chooseAllOrMine,chooseLabel,chooseOrder;
+    @ViewById
+    DropdownListView dropdownAllOrMine,dropdownLabel,dropdownOrder;
+    private DropdownButtonsController dropdownButtonsController = new DropdownButtonsController();
 
     @ViewById
     View blankLayout;
@@ -58,6 +80,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @AfterViews
     protected void init() {
+        dropdownButtonsController.init();
         initRefreshLayout();
         showDialogLoading();
 
@@ -77,7 +100,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     }
 
     private boolean isAll() {
-        return type == 0;
+        return dropdownAllOrMine.current.id == INDEX_DISPLAY_ALL;
     }
 
     @Override
@@ -100,6 +123,16 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if(URI_FLUSH_COUNT.equals(tag)){
+            if(code == 0 && dropdownButtonsController!=null && respanse !=null)
+                dropdownButtonsController.flushCount(respanse.optJSONObject("data"));
+            return;
+        }
+        if(URI_FLUSH_LABELS.equals(tag)){
+            if(code == 0 && dropdownButtonsController!=null && respanse !=null)
+                dropdownButtonsController.flushLabels(respanse.optJSONArray("data"));
+            return;
+        }
         setRefreshing(false);
         hideProgressDialog();
         if (code == 0) {
@@ -278,5 +311,114 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             return mProjectObject.getPath() + "/topic/mine";
         }
 
+    }
+
+    @Click
+    void mask(){
+        dropdownButtonsController.hide();
+    }
+
+    private class DropdownButtonsController implements DropdownListView.Container{
+        DropdownListView currentDropdownList;
+        private List<DropdownItemObject> allOrMyDataset;
+        private List<DropdownItemObject> labelDataset;
+        private List<DropdownItemObject> orderDataset;
+
+        @Override
+        public void show(DropdownListView listView) {
+            if(currentDropdownList != null){
+                currentDropdownList.setVisibility(View.GONE);
+                currentDropdownList.button.setChecked(false);
+            }
+            currentDropdownList = listView;
+            mask.setVisibility(View.VISIBLE);
+            currentDropdownList.setVisibility(View.VISIBLE);
+            currentDropdownList.button.setChecked(true);
+        }
+
+        @Override
+        public void hide() {
+            if(currentDropdownList != null){
+                currentDropdownList.setVisibility(View.GONE);
+                currentDropdownList.button.setChecked(false);
+            }
+            currentDropdownList = null;
+            listView.setVisibility(View.GONE);
+            mask.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void flushTopics() {
+            onRefresh();
+        }
+
+        void init(){
+            dropdownAllOrMine.setVisibility(View.GONE);
+            dropdownLabel.setVisibility(View.GONE);
+            dropdownOrder.setVisibility(View.GONE);
+            mask.setVisibility(View.GONE);
+            initAllOrMy();
+            initLabel();
+            initOrder();
+        }
+
+        private void initAllOrMy(){
+            allOrMyDataset = new ArrayList<>(2);
+            allOrMyDataset.add(new DropdownItemObject(DISPLAY_ALL, INDEX_DISPLAY_ALL));
+            allOrMyDataset.add(new DropdownItemObject(DISPLAY_MINE, INDEX_DISPLAY_MINE));
+            dropdownAllOrMine.bind(allOrMyDataset, chooseAllOrMine, this, null);
+            flushCount();
+        }
+
+        private void initLabel() {
+            labelDataset = new ArrayList<>();
+            labelDataset.add(new DropdownItemObject(LABEL_ALL, -1));
+            dropdownLabel.bind(labelDataset, chooseLabel, this, null);
+            flushLabels();
+        }
+
+        private void initOrder() {
+            orderDataset = new ArrayList<>(3);
+            orderDataset.add(new DropdownItemObject(ORDER_REPLY_TIME, 0));
+            orderDataset.add(new DropdownItemObject(ORDER_PUBLISH_TIME, 1));
+            orderDataset.add(new DropdownItemObject(ORDER_HOT, 2));
+            dropdownOrder.bind(orderDataset, chooseOrder,this, null);
+        }
+
+
+        void flushCount(){
+            String url = String.format(URI_FLUSH_COUNT,Global.HOST,mProjectObject.owner_user_name, mProjectObject.name);
+            getNetwork(url, URI_FLUSH_COUNT);
+        }
+
+        void flushCount(JSONObject json) {
+            if(json == null) return;
+            allOrMyDataset.get(INDEX_DISPLAY_ALL).suffix = String.format(" (%d)" , json.optInt("all", 0));
+            allOrMyDataset.get(INDEX_DISPLAY_MINE).suffix = String.format(" (%d)", json.optInt("my", 0));
+            dropdownAllOrMine.flush();
+        }
+
+        void flushLabels(){
+            String url = String.format(URI_FLUSH_LABELS,Global.HOST,mProjectObject.owner_user_name, mProjectObject.name);
+            getNetwork(url, URI_FLUSH_LABELS);
+        }
+
+        void flushLabels(JSONArray array) {
+            if(array == null) return;
+            // 标签可能被删除，改名等，这时要更新全部标签
+            while(labelDataset.size()>1) labelDataset.remove(labelDataset.size()-1);
+            int oldSelectedId = dropdownLabel.current.id;
+            dropdownLabel.current = null;
+            for(int i=0,n=array.length();i<n;i++){
+                JSONObject data = array.optJSONObject(i);
+                int id = data.optInt("id");
+                String name = data.optString("name");
+                if(TextUtils.isEmpty(name)) continue;
+                DropdownItemObject item = new DropdownItemObject(name,id);
+                labelDataset.add(item);
+                if(oldSelectedId == id && dropdownLabel.current == null) dropdownLabel.current = item;
+            }
+            dropdownLabel.bind(labelDataset, chooseLabel, this, dropdownLabel.current);
+        }
     }
 }

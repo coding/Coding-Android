@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/tabs"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center">
+
+        <net.coding.program.project.detail.DropdownTabButton_
+            android:id="@+id/chooseAllOrMine"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <View
+            android:background="#dddddd"
+            android:layout_width="0.5dp"
+            android:layout_height="18dp" />
+
+
+        <net.coding.program.project.detail.DropdownTabButton_
+            android:id="@+id/chooseLabel"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <View
+            android:background="#dddddd"
+            android:layout_width="0.5dp"
+            android:layout_height="18dp" />
+
+        <net.coding.program.project.detail.DropdownTabButton_
+            android:id="@+id/chooseOrder"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divide" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/common_refresh_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000" />
+
+        <net.coding.program.project.detail.DropdownListView_
+            android:id="@+id/dropdownAllOrMine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />\
+
+        <net.coding.program.project.detail.DropdownListView_
+            android:id="@+id/dropdownLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <net.coding.program.project.detail.DropdownListView_
+            android:id="@+id/dropdownOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+        </FrameLayout>
+</LinearLayout>
