@@ -201,7 +201,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     @OptionsItem
     void action_refresh() {
         showProgressBar(true);
-
         initSetting();
         loadMore();
     }
@@ -223,9 +222,14 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
     @Override
     public void onRefresh() {
+//        if (url == null || url.isEmpty()) {
+//            showProgressBar(false);
+//            showButtomToast("刷新数据失败");
+//            return;
+//        }
+
         if (url == null || url.isEmpty()) {
-            showProgressBar(false);
-            showButtomToast("刷新数据失败");
+            getNetwork(HOST_USER_INFO + mGlobalKey, HOST_USER_INFO);
             return;
         }
 
@@ -321,8 +325,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_USER_INFO)) {
             if (code == 0) {
-                    mUserObject = new UserObject(respanse.getJSONObject("data"));
-                    initControl();
+                mUserObject = new UserObject(respanse.getJSONObject("data"));
+                initControl();
             } else {
                 hideProgressDialog();
                 showProgressBar(false);

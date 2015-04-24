@@ -200,7 +200,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         View v = actionBar.getCustomView();
         // 有些界面没有下拉刷新
         if (v != null) {
-            v.setOnClickListener(new View.OnClickListener() {
+            ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
 
                 long mLastTime = 0;
                 final long DOUBLE_CLICK_TIME = 300;
