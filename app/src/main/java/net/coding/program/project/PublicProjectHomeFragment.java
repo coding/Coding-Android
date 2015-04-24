@@ -323,7 +323,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
             showDialog("fork", "fork将会将此项目复制到您的个人空间，确定要fork吗?", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    getNetwork(forkUrl);
+                    postNetwork(forkUrl);
                     showProgressBar(true, "正在fork项目");
                 }
             });

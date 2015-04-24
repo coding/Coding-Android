@@ -26,6 +26,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
@@ -108,6 +109,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             mGlobalKey = mUserObject.global_key;
             initControl();
         }
+
+        GlobalSetting.getInstance().setMessageNoNotify(mGlobalKey);
 
         String lastInput = AccountInfo.loadMessageDraft(this, mGlobalKey);
         mEnterLayout.setText(lastInput);

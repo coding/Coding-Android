@@ -16,9 +16,13 @@ import com.tencent.android.tpush.XGPushTextMessage;
 
 import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.AccountInfo;
 
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by chaochen on 14-12-5.
@@ -36,14 +40,13 @@ public class PushReceiver extends XGPushBaseReceiver {
 
     public void onSetTagResult(Context context, int i, String s) {
         Log.d("", "" + context);
-
     }
 
     public void onDeleteTagResult(Context context, int i, String s) {
         Log.d("", "" + context);
     }
 
-    public void onTextMessage(Context context, XGPushTextMessage xgPushTextMessage) {
+    public void onTextMessage(Context context, XGPushTextMessage message) {
         Log.d("", "" + context);
 
         try {
@@ -51,7 +54,35 @@ public class PushReceiver extends XGPushBaseReceiver {
                 return;
             }
 
-            issueNotification(context, xgPushTextMessage);
+            String title = message.getTitle();
+            String msg = message.getContent();
+            msg = msg.replaceAll("<img src='(.*?)'/>", "[$1]");
+
+            String id = "";
+            String url = "";
+            try {
+                JSONObject jsonCustom = new JSONObject(message.getCustomContent());
+                id = jsonCustom.optString("notification_id");
+                url = jsonCustom.optString("param_url");
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
+
+            if (url.isEmpty()) {
+                Log.e("", "收到空消息");
+                return;
+            }
+
+            Pattern pattern = Pattern.compile(URLSpanNoUnderline.PATTERN_URL_MESSAGE);
+            Matcher matcher = pattern.matcher(url);
+            if (matcher.find()) {
+                String noNotifyGlobalKey = GlobalSetting.getInstance().getMessageNotify();
+                if (noNotifyGlobalKey.equals(matcher.group(1))) {
+                    return;
+                }
+            }
+
+            showNotify(context, title, msg, id, url);
 
         } catch (Exception e) {
             Global.errorLog(e);
@@ -70,27 +101,7 @@ public class PushReceiver extends XGPushBaseReceiver {
 
     NotificationCompat.Builder builder;
 
-    private void issueNotification(Context context, XGPushTextMessage message) {
-        String title = message.getTitle();
-        String msg = message.getContent();
-        msg = msg.replaceAll("<img src='(.*?)'/>", "[$1]");
-
-        String id = "";
-        String url = "";
-        try {
-            JSONObject jsonCustom = new JSONObject(message.getCustomContent());
-            id = jsonCustom.optString("notification_id");
-            url = jsonCustom.optString("param_url");
-
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
-        if (url.isEmpty()) {
-            Log.e("", "收到空消息");
-            return;
-        }
-
+    private void showNotify(Context context, String title, String msg, String id, String url) {
         builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(title)

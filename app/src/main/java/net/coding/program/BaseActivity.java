@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
@@ -117,6 +118,8 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
+
+        GlobalSetting.getInstance().removeMessageNoNotify();
 
         super.onDestroy();
     }

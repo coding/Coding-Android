@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
  */
 public class URLSpanNoUnderline extends URLSpan {
 
+    public static final String PATTERN_URL_MESSAGE = "^(?:https://[\\w.]*)?/user/messages/history/([\\w-]+)$";
+
     private int color;
 
     public URLSpanNoUnderline(String url, int color) {
@@ -147,7 +149,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 私信推送
         // https://coding.net/user/messages/history/1984
-        final String message = "^(?:https://[\\w.]*)?/user/messages/history/([\\w-]+)$";
+        final String message = PATTERN_URL_MESSAGE;
         pattern = Pattern.compile(message);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
