@@ -36,6 +36,7 @@ import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
 
@@ -52,7 +53,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @EActivity(R.layout.activity_topic_list_detail)
 public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
@@ -92,6 +95,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=20";
 
     String urlCommentSend = Global.HOST + "/api/project/%s/topic?parent=%s";
+
+    String URI_DELETE_TOPIC_LABEL = Global.HOST + "/api/topic/%s/label/%s";
 
     String urlTopic = "";
 
@@ -150,6 +155,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     final int RESULT_AT = 1;
     final int RESULT_EDIT = 2;
+    final int RESULT_LABEL = 3;
 
     @OnActivityResult(RESULT_AT)
     void onResultAt(int requestCode, Intent data) {
@@ -167,6 +173,14 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             topicTitleTextView.setText(topicObject.title);
             setTopicWebView(this, webView, bubble, topicObject.content);
             mResultData.putExtra("topic", topicObject);
+        }
+    }
+
+    @OnActivityResult(RESULT_LABEL)
+    void onResultLabel(int code, @OnActivityResult.Extra TopicLabelObject[] labels){
+        if(code == RESULT_OK){
+            topicObject.labels = Arrays.asList(labels);
+            updateLabels(topicObject.labels);
         }
     }
 
@@ -285,6 +299,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
         ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
 
+        updateLabels(topicObject.labels);
+
         webView = (WebView) mListHead.findViewById(R.id.comment);
         setTopicWebView(this, webView, bubble, topicObject.content);
 
@@ -300,6 +316,22 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         });
 
         listView.setAdapter(baseAdapter);
+    }
+
+    private void updateLabels(List<TopicLabelObject> labels){
+        TopicLabelBar labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        labelBar.bind(labels, new TopicLabelBar.RemoveListener() {
+            @Override
+            public void onRemove(TopicLabelObject label) {
+                String url = String.format(URI_DELETE_TOPIC_LABEL,topicObject.id, label.id);
+                deleteNetwork(url, url);
+            }
+        }, new TopicLabelBar.EditListener() {
+            @Override
+            public void onEdit() {
+                TopicLabelActivity_.intent(TopicListDetailActivity.this).mTopic(topicObject).startForResult(RESULT_LABEL);
+            }
+        });
     }
 
     private void prepareComment() {

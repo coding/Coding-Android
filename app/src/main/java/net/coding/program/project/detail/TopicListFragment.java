@@ -50,33 +50,31 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private static final String ORDER_REPLY_TIME = "最后评论排序";
     private static final String ORDER_PUBLISH_TIME = "发布时间排序";
     private static final String ORDER_HOT = "热门排序";
+    private static final int ID_ORDER_REPLY_TIME = 51;
+    private static final int ID_ORDER_PUBLISH_TIME = 49;
+    private static final int ID_ORDER_HOT = 53;
 
-    private static final String URI_FLUSH_COUNT = "%s/api/user/%s/project/%s/topics/count";
-    private static final String URI_FLUSH_LABELS = "%s/api/user/%s/project/%s/topics/labels";
+    private static final String URI_TOPICS = Global.HOST +"/api/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
+    private static final String URI_FLUSH_COUNT = Global.HOST + "/api/user/%s/project/%s/topics/count";
+    private static final String URI_FLUSH_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels?withCount=true";
 
     @FragmentArg
     ProjectObject mProjectObject;
 
     @ViewById
     ListView listView;
-
     @ViewById
     View mask;
     @ViewById
     DropdownTabButton chooseAllOrMine,chooseLabel,chooseOrder;
     @ViewById
     DropdownListView dropdownAllOrMine,dropdownLabel,dropdownOrder;
-    private DropdownButtonsController dropdownButtonsController = new DropdownButtonsController();
-
     @ViewById
     View blankLayout;
 
-    ArrayList<TopicObject> mData = new ArrayList();
-
-    String URL_DISCUSS_ALL = Global.HOST + "/api/project/%d/topics?pageSize=20&type=1";
-    String URL_DISCUSS_ME = Global.HOST + "/api/project/%d/topics/me?pageSize=20&type=1";
-
-    String urlGet;
+    private ArrayList<TopicObject> mData = new ArrayList();
+    private String urlGet;
+    private DropdownButtonsController dropdownButtonsController = new DropdownButtonsController();
 
     @AfterViews
     protected void init() {
@@ -94,13 +92,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 getParentFragment().startActivityForResult(intent, RESULT_DETAIL);
             }
         });
-
-        urlGet = String.format(isAll() ? URL_DISCUSS_ALL : URL_DISCUSS_ME, mProjectObject.getId());
+        urlGet = getLink();
         loadMore();
-    }
-
-    private boolean isAll() {
-        return dropdownAllOrMine.current.id == INDEX_DISPLAY_ALL;
     }
 
     @Override
@@ -110,6 +103,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @Override
     public void onRefresh() {
+        urlGet = getLink();
         initSetting();
         loadMore();
     }
@@ -154,7 +148,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             baseAdapter.notifyDataSetChanged();
         } else {
             showErrorMsg(code, respanse);
-
 
             BlankViewDisplay.setBlank(mData.size(), TopicListFragment.this, false, blankLayout, onClickRetry);
         }
@@ -245,6 +238,19 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         getParentFragment().startActivityForResult(intent, RESULT_ADD);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        dropdownButtonsController.flushCount();
+        dropdownButtonsController.flushLabels();
+    }
+
+    @Override
+    public void onPause() {
+        dropdownButtonsController.hide();
+        super.onPause();
+    }
+
     static final int RESULT_ADD = 1;
     static final int RESULT_DETAIL = 2;
 
@@ -256,6 +262,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                     TopicObject topic = (TopicObject) data.getSerializableExtra("topic");
                     mData.add(0, topic);
                     baseAdapter.notifyDataSetChanged();
+                    dropdownButtonsController.flushCount();
+                    dropdownButtonsController.flushLabels();
                 }
                 break;
 
@@ -295,6 +303,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                         }
 
                     }
+                    dropdownButtonsController.flushCount();
+                    dropdownButtonsController.flushLabels();
                 }
                 break;
 
@@ -305,12 +315,13 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @Override
     protected String getLink() {
-        if (isAll()) {
-            return mProjectObject.getPath() + "/topic/all";
-        } else {
-            return mProjectObject.getPath() + "/topic/mine";
+        String topicType = dropdownAllOrMine.current.filter;
+        String topicOrder= dropdownOrder.current.filter;
+        String url = String.format(URI_TOPICS, mProjectObject.owner_user_name, mProjectObject.name,topicType, topicOrder);
+        if(!TextUtils.isEmpty(dropdownLabel.current.filter)) {
+            url += "&labelId=" + dropdownLabel.current.filter;
         }
-
+        return url.toString();
     }
 
     @Click
@@ -357,37 +368,37 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             dropdownLabel.setVisibility(View.GONE);
             dropdownOrder.setVisibility(View.GONE);
             mask.setVisibility(View.GONE);
-            initAllOrMy();
+            initType();
             initLabel();
             initOrder();
         }
 
-        private void initAllOrMy(){
+        private void initType(){
             allOrMyDataset = new ArrayList<>(2);
-            allOrMyDataset.add(new DropdownItemObject(DISPLAY_ALL, INDEX_DISPLAY_ALL));
-            allOrMyDataset.add(new DropdownItemObject(DISPLAY_MINE, INDEX_DISPLAY_MINE));
+            allOrMyDataset.add(new DropdownItemObject(DISPLAY_ALL, INDEX_DISPLAY_ALL, "all"));
+            allOrMyDataset.add(new DropdownItemObject(DISPLAY_MINE, INDEX_DISPLAY_MINE, "my"));
             dropdownAllOrMine.bind(allOrMyDataset, chooseAllOrMine, this, null);
             flushCount();
         }
 
         private void initLabel() {
             labelDataset = new ArrayList<>();
-            labelDataset.add(new DropdownItemObject(LABEL_ALL, -1));
+            labelDataset.add(new DropdownItemObject(LABEL_ALL, -1, null));
             dropdownLabel.bind(labelDataset, chooseLabel, this, null);
             flushLabels();
         }
 
         private void initOrder() {
             orderDataset = new ArrayList<>(3);
-            orderDataset.add(new DropdownItemObject(ORDER_REPLY_TIME, 0));
-            orderDataset.add(new DropdownItemObject(ORDER_PUBLISH_TIME, 1));
-            orderDataset.add(new DropdownItemObject(ORDER_HOT, 2));
+            orderDataset.add(new DropdownItemObject(ORDER_REPLY_TIME, ID_ORDER_REPLY_TIME, "51"));
+            orderDataset.add(new DropdownItemObject(ORDER_PUBLISH_TIME, ID_ORDER_PUBLISH_TIME, "49"));
+            orderDataset.add(new DropdownItemObject(ORDER_HOT, ID_ORDER_HOT, "53"));
             dropdownOrder.bind(orderDataset, chooseOrder,this, null);
         }
 
 
         void flushCount(){
-            String url = String.format(URI_FLUSH_COUNT,Global.HOST,mProjectObject.owner_user_name, mProjectObject.name);
+            String url = String.format(URI_FLUSH_COUNT, mProjectObject.owner_user_name, mProjectObject.name);
             getNetwork(url, URI_FLUSH_COUNT);
         }
 
@@ -399,7 +410,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         }
 
         void flushLabels(){
-            String url = String.format(URI_FLUSH_LABELS,Global.HOST,mProjectObject.owner_user_name, mProjectObject.name);
+            String url = String.format(URI_FLUSH_LABELS, mProjectObject.owner_user_name, mProjectObject.name);
             getNetwork(url, URI_FLUSH_LABELS);
         }
 
@@ -414,7 +425,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 int id = data.optInt("id");
                 String name = data.optString("name");
                 if(TextUtils.isEmpty(name)) continue;
-                DropdownItemObject item = new DropdownItemObject(name,id);
+                DropdownItemObject item = new DropdownItemObject(name,id,String.valueOf(id));
+                item.suffix = String.format(" (%d)", data.optInt("count", 0));
                 labelDataset.add(item);
                 if(oldSelectedId == id && dropdownLabel.current == null) dropdownLabel.current = item;
             }

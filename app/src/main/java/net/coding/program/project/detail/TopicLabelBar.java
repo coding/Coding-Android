@@ -13,19 +13,20 @@ import net.coding.program.R;
 import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 import org.apmem.tools.layouts.FlowLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EViewGroup(R.layout.project_topic_label_bar)
 public class TopicLabelBar extends RelativeLayout {
     @ViewById
-    View emptyView, addButton;
+    View emptyView, action_edit;
     @ViewById
     FlowLayout flowLayout;
+    private List<TopicLabelObject> mData = new ArrayList<>();
 
     public TopicLabelBar(Context context) {
         super(context);
@@ -44,46 +45,55 @@ public class TopicLabelBar extends RelativeLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @AfterViews
-    void afterViews() {
-        bind(null, true);
+    public static interface RemoveListener {
+        void onRemove(TopicLabelObject label);
     }
 
-    @Click
-    void addButton() {
-        // todo: goto label manager
+    public static interface EditListener {
+        void onEdit();
     }
 
-    private OnClickListener labelClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (v == null || !(v.getTag() instanceof TopicLabelObject)) return;
-            TopicLabelObject data = (TopicLabelObject) v.getTag();
-            // todo: remove label async
-        }
-    };
-
-    public void bind(List<TopicLabelObject> labelList, boolean readonly) {
-        addButton.setVisibility(readonly ? View.GONE : View.VISIBLE);
-        flowLayout.removeAllViews();
-        if (labelList == null || labelList.size() == 0) {
-            emptyView.setVisibility(VISIBLE);
-            flowLayout.setVisibility(GONE);
-            return;
-        }
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        for (TopicLabelObject item : labelList) {
-            TextView view = (TextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
-            view.setText(item.name);
-            if (!readonly) {
-                view.setTag(item);
-                view.setOnClickListener(labelClickListener);
-            } else {
-                view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+    public void bind(List<TopicLabelObject> labels, final RemoveListener removeListener, final EditListener editListener) {
+        final OnClickListener labelClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == null || !(v.getTag() instanceof TopicLabelObject)) return;
+                TopicLabelObject data = (TopicLabelObject) v.getTag();
+                mData.remove(data);
+                updateEmptyView();
+                flowLayout.removeView(v);
+                removeListener.onRemove(data);
             }
-            flowLayout.addView(view);
+        };
+        action_edit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editListener.onEdit();
+            }
+        });
+        action_edit.setVisibility(editListener == null ? View.GONE : View.VISIBLE);
+
+        mData.clear();
+        flowLayout.removeAllViews();
+        if (labels != null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            for (TopicLabelObject item : labels) {
+                mData.add(item);
+                TextView view = (TextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
+                view.setText(item.name);
+                if (removeListener != null) {
+                    view.setTag(item);
+                    view.setOnClickListener(labelClickListener);
+                } else {
+                    view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                }
+                flowLayout.addView(view);
+            }
         }
-        flowLayout.setVisibility(VISIBLE);
-        emptyView.setVisibility(GONE);
+        updateEmptyView();
+    }
+
+    private void updateEmptyView() {
+        emptyView.setVisibility(mData.size() == 0 ? VISIBLE : GONE);
     }
 }

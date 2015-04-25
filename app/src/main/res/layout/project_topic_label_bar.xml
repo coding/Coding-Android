@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,7 +17,7 @@
         android:textSize="12sp" />
 
     <ImageView
-        android:id="@+id/addButton"
+        android:id="@+id/action_edit"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:scaleType="center"
@@ -28,7 +28,6 @@
 
     <org.apmem.tools.layouts.FlowLayout
         android:id="@+id/flowLayout"
-        android:visibility="gone"
         android:paddingTop="13dp"
         android:paddingBottom="8dp"
         android:layout_marginLeft="15dp"
@@ -45,4 +44,4 @@
         <!--<include layout="@layout/project_topic_label_bar_item"/>-->
 
     </org.apmem.tools.layouts.FlowLayout>
-</RelativeLayout>
+</merge>

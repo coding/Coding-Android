@@ -52,18 +52,17 @@ public class DropdownListView extends ScrollView {
                 DropdownListItemView itemView = (DropdownListItemView) view;
                 DropdownItemObject data = (DropdownItemObject) itemView.getTag();
                 boolean checked = data == current;
-                itemView.bind(data.suffix ==null? data.text:data.text+data.suffix, checked);
-                if(checked){
-                    button.setText(data.text);
-                }
+                itemView.bind(data.suffix == null ? data.text : data.text + data.suffix, checked);
+                if (checked) button.setText(data.text);
             }
         }
     }
 
     public void bind(List<? extends DropdownItemObject> list, DropdownTabButton button, final Container container, DropdownItemObject selected) {
         current = selected;
+        this.list = list;
         this.button = button;
-        // 数据量不大，懒得重用之前创建的view，直接清空重建
+        // 数据量不大，直接清空重建
         linearLayout.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(getContext());
         boolean isFirst = true;
@@ -79,9 +78,11 @@ public class DropdownListView extends ScrollView {
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    DropdownItemObject oldOne = current;
                     current = (DropdownItemObject) v.getTag();
                     flush();
                     container.hide();
+                    if (oldOne != current) container.flushTopics();
                 }
             });
             linearLayout.addView(view);
@@ -97,7 +98,7 @@ public class DropdownListView extends ScrollView {
                 }
             }
         });
-        if(current == null && list.size() > 0) {
+        if (current == null && list.size() > 0) {
             current = list.get(0);
         }
         flush();
@@ -105,7 +106,9 @@ public class DropdownListView extends ScrollView {
 
     public static interface Container {
         void show(DropdownListView listView);
+
         void hide();
+
         void flushTopics();
     }
 }

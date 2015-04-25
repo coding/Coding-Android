@@ -18,13 +18,11 @@
         android:textSize="20sp"
         android:textColor="@color/font_black_content" />
 
-    <RelativeLayout
+    <net.coding.program.project.detail.TopicLabelBar_
         android:id="@+id/labelBar"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="43dp">
-
-        </RelativeLayout>
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="match_parent"
