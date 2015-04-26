@@ -134,7 +134,10 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     @Override
     public void onEdit() {
-        TopicLabelActivity_.intent(this).mTopic(topicObject).startForResult(RESULT_LABEL);
+        TopicLabelActivity_.intent(this)
+                .projectId(String.valueOf(projectObject.getId()))
+                .checkedLabels(topicObject == null? null:topicObject.labels)
+                .startForResult(RESULT_LABEL);
     }
 
     @Override
@@ -234,9 +237,9 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
 
     @OnActivityResult(RESULT_LABEL)
-    protected void onResultLabel(int code, @OnActivityResult.Extra TopicLabelObject[] labels){
+    protected void onResultLabel(int code, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels){
         if(code == RESULT_OK){
-            modifyData.labels = Arrays.asList(labels);
+            modifyData.labels = labels;
             editFragment.updateLabels(modifyData.labels);
             previewFragment.updateLabels(modifyData.labels);
         }

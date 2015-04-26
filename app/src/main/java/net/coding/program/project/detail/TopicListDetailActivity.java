@@ -171,15 +171,16 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         if (requestCode == Activity.RESULT_OK) {
             topicObject = (TopicObject) data.getSerializableExtra("topic");
             topicTitleTextView.setText(topicObject.title);
+            updateLabels(topicObject.labels);
             setTopicWebView(this, webView, bubble, topicObject.content);
             mResultData.putExtra("topic", topicObject);
         }
     }
 
     @OnActivityResult(RESULT_LABEL)
-    void onResultLabel(int code, @OnActivityResult.Extra TopicLabelObject[] labels){
+    void onResultLabel(int code, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels){
         if(code == RESULT_OK){
-            topicObject.labels = Arrays.asList(labels);
+            topicObject.labels = labels;
             updateLabels(topicObject.labels);
         }
     }
@@ -329,7 +330,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         }, new TopicLabelBar.EditListener() {
             @Override
             public void onEdit() {
-                TopicLabelActivity_.intent(TopicListDetailActivity.this).mTopic(topicObject).startForResult(RESULT_LABEL);
+                TopicLabelActivity_.intent(TopicListDetailActivity.this).projectId(topicObject.project_id).topicId(topicObject.id).checkedLabels(topicObject.labels).startForResult(RESULT_LABEL);
             }
         });
     }

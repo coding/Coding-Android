@@ -14,4 +14,7 @@ public class DropdownItemObject {
     public String text;
     public String suffix;
     public String filter;
+    public String getSuffix(){
+        return suffix;
+    }
 }

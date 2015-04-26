@@ -52,7 +52,8 @@ public class DropdownListView extends ScrollView {
                 DropdownListItemView itemView = (DropdownListItemView) view;
                 DropdownItemObject data = (DropdownItemObject) itemView.getTag();
                 boolean checked = data == current;
-                itemView.bind(data.suffix == null ? data.text : data.text + data.suffix, checked);
+                String suffix = data.getSuffix();
+                itemView.bind(suffix == null ? data.text : data.text + suffix, checked);
                 if (checked) button.setText(data.text);
             }
         }

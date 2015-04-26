@@ -71,7 +71,7 @@ public class TopicLabelBar extends RelativeLayout {
                 editListener.onEdit();
             }
         });
-        action_edit.setVisibility(editListener == null ? View.GONE : View.VISIBLE);
+        action_edit.setVisibility(editListener == null ? View.INVISIBLE : View.VISIBLE);
 
         mData.clear();
         flowLayout.removeAllViews();

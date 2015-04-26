@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -28,7 +29,7 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
     ImageView icon;
     @ViewById
     View action_edit;
-    int labelId;
+    TopicLabelObject data;
     private boolean checked = false;
 
     public TopicLabelItemView(Context context) {
@@ -69,9 +70,9 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
         setChecked(!checked);
     }
 
-    public void bind(int id, String name, OnClickListener editListener){
-        labelId = id;
-        textView.setText(name);
+    public void bind(TopicLabelObject data, OnClickListener editListener){
+        this.data = data;
+        textView.setText(data.name);
         action_edit.setOnClickListener(editListener);
     }
 }

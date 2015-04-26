@@ -30,7 +30,6 @@ public class TopicPreviewFragment extends BaseFragment {
     protected TextView title;
     @ViewById
     protected TopicLabelBar labelBar;
-
     @ViewById
     protected WebView content;
 
@@ -46,8 +45,8 @@ public class TopicPreviewFragment extends BaseFragment {
         mdToHtml(data.content);
     }
 
-    public void updateLabels(List<TopicLabelObject> labels){
-        if(labelBar!=null) labelBar.bind(labels, (TopicLabelBar.RemoveListener) getActivity(),(TopicLabelBar.EditListener) getActivity());
+    public void updateLabels(List<TopicLabelObject> labels) {
+        if (labelBar != null) labelBar.bind(labels, (TopicLabelBar.RemoveListener) getActivity(), (TopicLabelBar.EditListener) getActivity());
     }
 
     @Override

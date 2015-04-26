@@ -46,7 +46,7 @@ public class TopicEditFragment extends MDEditFragment {
     @OptionsItem
     protected void action_preview() {
         SaveData saveData = (SaveData) getActivity();
-        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
+        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData == null? null:mOldData.labels));
         saveData.switchPreview();
         Global.popSoftkeyboard(getActivity(), edit, false);
     }
@@ -54,7 +54,7 @@ public class TopicEditFragment extends MDEditFragment {
     @OptionsItem
     protected void action_save() {
         SaveData saveData = (SaveData) getActivity();
-        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
+        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData == null? null:mOldData.labels));
         saveData.exit();
     }
 
