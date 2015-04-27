@@ -29,24 +29,10 @@ public class UnreadNotify {
                 try {
                     if (response.getInt("code") == 0) {
                         JSONObject json = response.getJSONObject("data");
-
                         Unread unread = new Unread(json);
-
-                        try {
-                            myApp.sUnread = unread;
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
+                        myApp.sUnread = unread;
                     }
 
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
-            }
-
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    throw new Exception(errorResponse.toString());
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }
