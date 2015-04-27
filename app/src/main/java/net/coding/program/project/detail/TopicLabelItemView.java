@@ -27,8 +27,7 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
     TextView textView;
     @ViewById
     ImageView icon;
-    @ViewById
-    View action_edit;
+
     TopicLabelObject data;
     private boolean checked = false;
 
@@ -49,11 +48,6 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @AfterViews
-    void init() {
-    }
-
-
     @Override
     public void setChecked(boolean checked) {
         this.checked = checked;
@@ -70,9 +64,8 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
         setChecked(!checked);
     }
 
-    public void bind(TopicLabelObject data, OnClickListener editListener){
+    public void bind(TopicLabelObject data){
         this.data = data;
         textView.setText(data.name);
-        action_edit.setOnClickListener(editListener);
     }
 }

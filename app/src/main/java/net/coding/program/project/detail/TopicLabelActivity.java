@@ -25,6 +25,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,12 +34,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Neutra on 2015/4/25.
  */
 @EActivity(R.layout.activity_topic_label)
+@OptionsMenu(R.menu.topic_label)
 public class TopicLabelActivity extends BaseActivity {
 
     @Extra
@@ -55,7 +58,7 @@ public class TopicLabelActivity extends BaseActivity {
     View action_add, container;
 
     private static final String URI_GET_LABEL = "/api/project/%s/topic/label";
-    private static final String URI_ADD_LABEL = "/api/project/%s/topic/label";
+    private static final String URI_ADD_LABEL = URI_GET_LABEL;
     private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
     private static final String URI_RENAME_LABEL = URI_REMOVE_LABEL;
     private static final String URI_ADD_TOPIC_LABEL = "/api/topic/%s/label/%s";
@@ -89,11 +92,17 @@ public class TopicLabelActivity extends BaseActivity {
         onBackPressed();
     }
 
+    @OptionsItem
+    void action_save(){
+        showButtomToast("别急~接口还没好哇~");
+    }
+
 
     private boolean isBuzy;
 
     private boolean lockViews() {
         if (!isBuzy) {
+            editText.setEnabled(false);
             action_add.setEnabled(false);
             isBuzy = true;
             showDialogLoading();
@@ -105,6 +114,7 @@ public class TopicLabelActivity extends BaseActivity {
     private void unlockViews() {
         hideProgressDialog();
         isBuzy = false;
+        editText.setEnabled(true);
         action_add.setEnabled(true);
     }
 
@@ -125,7 +135,7 @@ public class TopicLabelActivity extends BaseActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        // 不同操作可能URI一样，METHOD不一样item
+        // 不同操作可能URI一样，METHOD不一样
         if ("URI_GET_LABEL".equals(tag)) {
             endLoadLabels(code, respanse);
         } else if ("URI_ADD_LABEL".equals(tag)) {
@@ -173,23 +183,15 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void endAddLabel(int code, JSONObject json) throws JSONException {
-        editText.setEnabled(true);
-        action_add.setEnabled(true);
         if (code != 0) {
             showErrorMsg(code, json);
-            unlockViews();
         } else {
             currentLabelId = json.getInt("data");
             editText.setText("");
             allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName));
             updateList();
-            if (topicId > 0) {
-                beginAddTopicLabel();
-            } else {
-                endAddTopicLabel();
-                unlockViews();
-            }
         }
+        unlockViews();
     }
 
     private void beginRemoveLabel() {
@@ -348,6 +350,16 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void updateList() {
+        LinkedList<View> cachedDividers = new LinkedList<>();
+        LinkedList<TopicLabelItemView> cachedViews = new LinkedList<>();
+        for(int i=0,n=labelsList.getChildCount();i<n;i++){
+            View view = labelsList.getChildAt(i);
+            if(view instanceof TopicLabelItemView){
+                cachedViews.add((TopicLabelItemView) view);
+            }else{
+                cachedDividers.add(view);
+            }
+        }
         labelsList.removeAllViews();
         boolean isFirst = true;
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -355,52 +367,57 @@ public class TopicLabelActivity extends BaseActivity {
             if (isFirst) {
                 isFirst = false;
             } else {
-                addDivider(inflater);
+                addDivider(inflater, cachedDividers.poll());
             }
-            addLabel(item);
+            addLabel(item, cachedViews.poll());
         }
         container.setVisibility(labelsList.getChildCount() > 0 ? View.VISIBLE : View.GONE);
     }
 
-    private void addLabel(final TopicLabelObject data) {
-        final TopicLabelItemView view = TopicLabelItemView_.build(this);
-        ;
-        view.bind(data, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentLabelId = view.data.id;
-                currentLabelName = view.data.name;
-                showPop(v);
-            }
-        });
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (topicId > 0) {
-                    if (lockViews()) {
+    private void addLabel(final TopicLabelObject data,  TopicLabelItemView view) {
+        if(view == null){
+            view = TopicLabelItemView_.build(this);
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    TopicLabelItemView view = (TopicLabelItemView)v;
+                    currentLabelId = view.data.id;
+                    currentLabelName = view.data.name;
+                    showPop(v);
+                    return true;
+                }
+            });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TopicLabelItemView view = (TopicLabelItemView)v;
+                    if (topicId > 0) {
+                        if (lockViews()) {
+                            currentLabelId = view.data.id;
+                            if (checkedIds.contains(view.data.id)) {
+                                beginRemoveTopicLabel();
+                            } else {
+                                beginAddTopicLabel();
+                            }
+                        }
+                    } else {
                         currentLabelId = view.data.id;
                         if (checkedIds.contains(view.data.id)) {
-                            beginRemoveTopicLabel();
+                            endRemoveTopicLabel();
                         } else {
-                            beginAddTopicLabel();
+                            endAddTopicLabel();
                         }
                     }
-                } else {
-                    currentLabelId = view.data.id;
-                    if (checkedIds.contains(view.data.id)) {
-                        endRemoveTopicLabel();
-                    } else {
-                        endAddTopicLabel();
-                    }
                 }
-            }
-        });
+            });
+        }
+        view.bind(data);
         view.setChecked(checkedIds.contains(data.id));
         labelsList.addView(view);
     }
 
-    private void addDivider(LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.activity_topic_label_divider, labelsList, false);
+    private void addDivider(LayoutInflater inflater, View view) {
+        if(view == null) view = inflater.inflate(R.layout.activity_topic_label_divider, labelsList, false);
         labelsList.addView(view);
     }
 

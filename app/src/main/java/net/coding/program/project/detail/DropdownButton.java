@@ -18,27 +18,27 @@ import org.androidannotations.annotations.ViewById;
  * Created by Neutra on 2015/4/24.
  */
 @EViewGroup(R.layout.dropdown_tab_button)
-public class DropdownTabButton extends RelativeLayout {
+public class DropdownButton extends RelativeLayout {
     @ViewById
     TextView textView;
     @ViewById
     View bottomLine;
 
 
-    public DropdownTabButton(Context context) {
+    public DropdownButton(Context context) {
         super(context);
     }
 
-    public DropdownTabButton(Context context, AttributeSet attrs) {
+    public DropdownButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DropdownTabButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DropdownButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DropdownTabButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DropdownButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

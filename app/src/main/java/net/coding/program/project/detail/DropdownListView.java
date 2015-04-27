@@ -14,6 +14,7 @@ import net.coding.program.R;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class DropdownListView extends ScrollView {
 
     DropdownItemObject current;
     List<? extends DropdownItemObject> list;
-    DropdownTabButton button;
+    DropdownButton button;
 
     public DropdownListView(Context context) {
         super(context);
@@ -52,29 +53,41 @@ public class DropdownListView extends ScrollView {
                 DropdownListItemView itemView = (DropdownListItemView) view;
                 DropdownItemObject data = (DropdownItemObject) itemView.getTag();
                 boolean checked = data == current;
-                String suffix = data.getSuffix();
-                itemView.bind(suffix == null ? data.text : data.text + suffix, checked);
+                itemView.bind(data.text, checked);
                 if (checked) button.setText(data.text);
             }
         }
     }
 
-    public void bind(List<? extends DropdownItemObject> list, DropdownTabButton button, final Container container, DropdownItemObject selected) {
+    public void bind(List<? extends DropdownItemObject> list, DropdownButton button, final Container container, DropdownItemObject selected) {
         current = selected;
         this.list = list;
         this.button = button;
-        // 数据量不大，直接清空重建
+
+        LinkedList<View> cachedDividers = new LinkedList<>();
+        LinkedList<DropdownListItemView> cachedViews = new LinkedList<>();
+        for(int i=0,n=linearLayout.getChildCount();i<n;i++){
+            View view = linearLayout.getChildAt(i);
+            if(view instanceof DropdownListItemView){
+                cachedViews.add((DropdownListItemView) view);
+            }else{
+                cachedDividers.add(view);
+            }
+        }
         linearLayout.removeAllViews();
+
         LayoutInflater inflater = LayoutInflater.from(getContext());
         boolean isFirst = true;
         for (DropdownItemObject item : list) {
             if (isFirst) {
                 isFirst = false;
             } else {
-                View divider = inflater.inflate(R.layout.dropdown_tab_list_divider, linearLayout, false);
+                View divider = cachedDividers.poll();
+                if(divider == null) divider = inflater.inflate(R.layout.dropdown_tab_list_divider, linearLayout, false);
                 linearLayout.addView(divider);
             }
-            DropdownListItemView view = (DropdownListItemView) inflater.inflate(R.layout.dropdown_tab_list_item, linearLayout, false);
+            DropdownListItemView view = cachedViews.poll();
+            if(view == null) view = (DropdownListItemView) inflater.inflate(R.layout.dropdown_tab_list_item, linearLayout, false);
             view.setTag(item);
             view.setOnClickListener(new OnClickListener() {
                 @Override
@@ -83,7 +96,7 @@ public class DropdownListView extends ScrollView {
                     current = (DropdownItemObject) v.getTag();
                     flush();
                     container.hide();
-                    if (oldOne != current) container.flushTopics();
+                    if (oldOne != current) container.flush();
                 }
             });
             linearLayout.addView(view);
@@ -107,9 +120,7 @@ public class DropdownListView extends ScrollView {
 
     public static interface Container {
         void show(DropdownListView listView);
-
         void hide();
-
-        void flushTopics();
+        void flush();
     }
 }

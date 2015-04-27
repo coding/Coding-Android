@@ -11,8 +11,8 @@
         android:layout_height="48dp"
         android:gravity="center">
 
-        <net.coding.program.project.detail.DropdownTabButton_
-            android:id="@+id/chooseAllOrMine"
+        <net.coding.program.project.detail.DropdownButton_
+            android:id="@+id/chooseType"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -23,7 +23,7 @@
             android:layout_height="18dp" />
 
 
-        <net.coding.program.project.detail.DropdownTabButton_
+        <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseLabel"
             android:layout_width="0px"
             android:layout_height="match_parent"
@@ -34,7 +34,7 @@
             android:layout_width="0.5dp"
             android:layout_height="18dp" />
 
-        <net.coding.program.project.detail.DropdownTabButton_
+        <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseOrder"
             android:layout_width="0px"
             android:layout_height="match_parent"
@@ -62,7 +62,7 @@
             android:background="#80000000" />
 
         <net.coding.program.project.detail.DropdownListView_
-            android:id="@+id/dropdownAllOrMine"
+            android:id="@+id/dropdownType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />\
