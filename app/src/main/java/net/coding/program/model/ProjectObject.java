@@ -33,6 +33,7 @@ public class ProjectObject implements Serializable {
     public boolean forked;
     public long created_at;
     private boolean is_public;
+    private boolean pin;
     public int star_count;
     public boolean stared;
     public int status;
@@ -71,6 +72,11 @@ public class ProjectObject implements Serializable {
         forked = json.optBoolean("forked");
         is_public = json.optBoolean("is_public");
         stared = json.optBoolean("stared");
+        pin = json.optBoolean("pin");
+    }
+
+    public boolean isPin() {
+        return pin;
     }
 
     public boolean isEmpty() {

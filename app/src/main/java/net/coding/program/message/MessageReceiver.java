@@ -24,7 +24,6 @@ public class MessageReceiver extends BroadcastReceiver {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
-
     }
 
 }

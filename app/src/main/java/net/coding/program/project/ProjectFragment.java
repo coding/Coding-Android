@@ -107,10 +107,15 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
                 requestOk = true;
                 mData.clear();
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
+                int pinCount = 0;
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
                     ProjectObject oneData = new ProjectObject(item);
-                    mData.add(oneData);
+                    if (oneData.isPin()) {
+                        mData.add(pinCount++, oneData);
+                    } else {
+                        mData.add(oneData);
+                    }
                 }
                 AccountInfo.saveProjects(getActivity(), mData);
 

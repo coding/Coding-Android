@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -33,7 +33,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EFragment(R.layout.common_refresh_listview)
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+@EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment {
 
     @FragmentArg
@@ -55,7 +58,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
     }
 
     @ViewById
-    ListView listView;
+    ExpandableStickyListHeadersListView listView;
 
     @ViewById
     View blankLayout;
@@ -68,36 +71,23 @@ public class ProjectListFragment extends RefreshBaseFragment {
     @AfterViews
     protected void init() {
         initRefreshLayout();
+        msectionId = 0;
+        for (ProjectObject item : mData) {
+            if (!item.isPin()) {
+                break;
+            }
+            ++msectionId;
+        }
         listView.setAdapter(myAdapter);
 
         if (getParentFragment() == null) { // 搜索
             disableRefreshing();
         }
 
-//        if (mData.size() == 0) {
-//            layout.setVisibility(View.VISIBLE);
-//            if (mRequestOk) {
-//                layout.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_exception_blank_task);
-//                ((TextView) layout.findViewById(R.id.message)).setText("您还没有项目\n快去coding网站创建吧");
-//            } else {
-//                layout.findViewById(R.id.icon).setBackgroundResource(R.drawable.ic_exception_no_network);
-//                ((TextView) layout.findViewById(R.id.message)).setText("获取数据失败\n请检查下网络是否通畅");
-//            }
-//        } else {
-//            layout.setVisibility(View.GONE);
-//        }
-
         if (AccountInfo.isCacheProjects(getActivity())) {
             BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, null);
         }
     }
-
-//    View.OnClickListener onClickRetry = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            onRefresh();
-//        }
-//    };
 
     @Override
     public void onRefresh() {
@@ -157,7 +147,15 @@ public class ProjectListFragment extends RefreshBaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    class MyAdapter extends BaseAdapter {
+    int msectionId = 0;
+
+    class MyAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
+
+        final String[] titles = new String[]{
+                "常用项目",
+                "一般项目"
+        };
+
 
         @Override
         public int getCount() {
@@ -213,9 +211,58 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
             return view;
         }
+
+        @Override
+        public View getHeaderView(int position, View convertView, ViewGroup parent) {
+            HeaderViewHolder holder;
+            if (convertView == null) {
+                holder = new HeaderViewHolder();
+                convertView = mInflater.inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
+                holder.mHead = (TextView) convertView.findViewById(R.id.head);
+                convertView.setTag(holder);
+            } else {
+                holder = (HeaderViewHolder) convertView.getTag();
+            }
+
+            int type = getSectionForPosition(position);
+            String title = titles[type];
+            holder.mHead.setText(title);
+
+            return convertView;
+        }
+
+
+        @Override
+        public long getHeaderId(int i) {
+            return getSectionForPosition(i);
+        }
+
+        @Override
+        public Object[] getSections() {
+            return titles;
+        }
+
+        @Override
+        public int getPositionForSection(int sectionIndex) {
+            return sectionIndex;
+        }
+
+        @Override
+        public int getSectionForPosition(int position) {
+            if (position < msectionId) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
     }
 
     ;
+
+
+    static class HeaderViewHolder {
+        TextView mHead;
+    }
 
     private static class ViewHolder {
         TextView name;

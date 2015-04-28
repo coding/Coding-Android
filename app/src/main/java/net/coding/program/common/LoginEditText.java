@@ -1,6 +1,7 @@
 package net.coding.program.common;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.util.AttributeSet;
@@ -19,13 +20,17 @@ public class LoginEditText extends EditText {
 
     public LoginEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
-    }
 
-    private void init() {
-        drawable = getResources().getDrawable(R.drawable.delete_edit_login);
+        boolean useDark = false;
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Crossed, 0, 0);
+        try {
+            useDark = a.getBoolean(R.styleable.Crossed_dark, false);
+        } finally {
+            a.recycle();
+        }
+        int crossedRes = useDark ? R.drawable.delete_edit_login : R.drawable.delete_edit_login_black;
+        drawable = getResources().getDrawable(crossedRes);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-
         addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {

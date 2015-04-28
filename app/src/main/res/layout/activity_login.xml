@@ -36,7 +36,8 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="22dp"
-            android:paddingRight="22dp">
+            android:paddingRight="22dp"
+            xmlns:custom="http://schemas.android.com/apk/res/net.coding.program">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -62,6 +63,7 @@
                 android:singleLine="true"
                 android:textCursorDrawable="@null"
                 android:textColor="@color/font_white"
+                custom:dark="true"
                 android:textColorHint="@color/font_white_disable" />
 
             <net.coding.program.common.LoginEditText
@@ -78,6 +80,7 @@
                 android:textSize="18sp"
                 android:singleLine="true"
                 android:textColor="@color/font_white"
+                custom:dark="true"
                 android:textColorHint="@color/font_white_disable" />
 
             <RelativeLayout

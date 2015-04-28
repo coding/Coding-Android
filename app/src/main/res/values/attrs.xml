@@ -21,4 +21,8 @@
         <attr name="microSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="Crossed">
+        <attr name="dark" format="boolean" />
+    </declare-styleable>
+
 </resources>
