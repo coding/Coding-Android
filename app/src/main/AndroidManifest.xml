@@ -560,6 +560,13 @@
             </intent-filter>
 
         </activity>
+
+        <receiver android:name=".message.MessageReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".project.init.create.ProjectCreateActivity_"
             android:screenOrientation="portrait"
