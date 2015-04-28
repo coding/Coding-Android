@@ -263,7 +263,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 //        } else {
 //            if (mSingleTask.has_description) {
 //                description.setText("载入备注中...");
-//                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.getId());
+//                HOST_DESCRIPTER = String.format(HOST_DESCRIPTER, mSingleTask.getCreateTime());
 //                getNetwork(HOST_DESCRIPTER, HOST_DESCRIPTER);
 //            } else {
 //                descriptionLayout.setOnClickListener(onClickCreateDescription);

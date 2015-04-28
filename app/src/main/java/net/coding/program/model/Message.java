@@ -16,7 +16,7 @@ public class Message {
         public int count = 0;
         public long created_at = 0;
         public UserObject friend = new UserObject();
-        public String id = "";
+        private int id = 0;
         public int read_at;
         public UserObject sender = new UserObject();
         public int status;
@@ -31,7 +31,7 @@ public class Message {
                 friend = new UserObject(json.optJSONObject("friend"));
             }
 
-            id = json.optString("id");
+            id = json.optInt("id");
             read_at = json.optInt("read_at");
 
             if (json.has("sender")) {
@@ -44,5 +44,10 @@ public class Message {
 
         public MessageObject() {
         }
+
+        public int getId() {
+            return id;
+        }
+
     }
 }

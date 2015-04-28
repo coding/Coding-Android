@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.maopao.MaopaoAddActivity;
+import net.coding.program.message.MessageListActivity;
 import net.coding.program.user.UsersListActivity;
 
 import java.io.File;
@@ -445,7 +446,42 @@ public class AccountInfo {
         return new DataCache<TaskObject.SingleTask>().load(context, String.format(USER_TASKS, projectId, userId));
     }
 
+    private static final String USER_NO_SEND_MESSAGE = "USER_NO_SEND_MESSAGE";
 
+    public static void saveNoSendMessage(Context context, MessageListActivity.MyMessage message) {
+        ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
+        allMessages.add(message);
+        new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
+    }
+
+    public static void removeNoSendMessage(Context context, long createTime) {
+        ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
+        for (int i = 0; i < allMessages.size(); ++i) {
+            MessageListActivity.MyMessage item = allMessages.get(i);
+            if (item.getCreateTime() == createTime) {
+                allMessages.remove(i);
+                break;
+            }
+        }
+
+        new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
+    }
+
+    public static ArrayList<MessageListActivity.MyMessage> loadNoSendMessage(Context context, String globalKey) {
+        ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
+        ArrayList<MessageListActivity.MyMessage> messages = new ArrayList();
+        for (MessageListActivity.MyMessage item : allMessages) {
+            if (item.friend.global_key.equals(globalKey)) {
+                messages.add(item);
+            }
+        }
+
+        return messages;
+    }
+
+    public static ArrayList<MessageListActivity.MyMessage> loadNoSendMessage(Context context) {
+        return new DataCache<MessageListActivity.MyMessage>().load(context, USER_NO_SEND_MESSAGE);
+    }
 
     public static String loadRelogininfo(Context ctx, String key) {
         ArrayList<Pair> listData = new DataCache<Pair>().loadGlobal(ctx, USER_RELOGIN_INFO);

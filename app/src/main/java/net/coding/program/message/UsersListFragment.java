@@ -138,7 +138,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     void deleteItem(Message.MessageObject msg) {
         for (int i = 0; i < mData.size(); ++i) {
-            if (msg.id.equals(mData.get(i).id)) {
+            if (msg.getId() == (mData.get(i).getId())) {
                 mData.remove(i);
                 adapter.notifyDataSetChanged();
                 return;
