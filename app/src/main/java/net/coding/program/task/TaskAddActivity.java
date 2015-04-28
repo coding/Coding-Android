@@ -27,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
@@ -79,6 +80,9 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     @ViewById
     ListView listView;
 
+    @ViewById
+    protected View blankLayout;
+
     View mHeadView;
     EditText title;
     ImageView circleIcon;
@@ -102,12 +106,12 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     TaskParams mNewParam;
     TaskParams mOldParam;
 
-    //    EnterLayout mEnterLayout;
     ImageCommentLayout mEnterComment;
 
     final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
 
     String HOST_DESCRIPTER = Global.HOST + "/api/task/%s/description";
+
 
     @AfterViews
     void init() {
@@ -117,11 +121,15 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         if (mJumpParams == null) {
             initData();
         } else { // 跳转过来的，要先取得任务数据
-            final String hostTaskDetail = Global.HOST + "/api/user/%s/project/%s/task/%s";
-            String url = String.format(hostTaskDetail, mJumpParams.userKey, mJumpParams.projectName, mJumpParams.taskId);
-            getNetwork(url, tagTaskDetail);
-            showDialogLoading();
+            requestTaskFromNetwork();
         }
+    }
+
+    private void requestTaskFromNetwork() {
+        final String hostTaskDetail = Global.HOST + "/api/user/%s/project/%s/task/%s";
+        String url = String.format(hostTaskDetail, mJumpParams.userKey, mJumpParams.projectName, mJumpParams.taskId);
+        getNetwork(url, tagTaskDetail);
+        showDialogLoading();
     }
 
     private void initControl() {
@@ -157,7 +165,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private boolean isContentUnmodify() {
-        return mNewParam.equals(mOldParam) && !descripChange();
+        return mNewParam != null && mNewParam.equals(mOldParam) && !descripChange();
     }
 
     private boolean descripChange() {
@@ -638,8 +646,12 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             if (code == 0) {
                 mSingleTask = new TaskObject.SingleTask(respanse.getJSONObject("data"));
                 initData();
+
+                BlankViewDisplay.setBlank(1, this, true, blankLayout, onClickRetry);
             } else {
                 showErrorMsg(code, respanse);
+
+                BlankViewDisplay.setBlank(0, this, false, blankLayout, onClickRetry);
             }
             hideProgressDialog();
 
@@ -692,6 +704,13 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     }
+
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            requestTaskFromNetwork();
+        }
+    };
 
     private void descriptionButtonUpdate(boolean loading) {
         if (!loading && descriptionDataNew.markdown.isEmpty()) {
@@ -1085,6 +1104,11 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     };
 
     private void sendComment(String input) {
+        if (mSingleTask == null) {
+            showButtomToast("发送评论失败");
+            return;
+        }
+
         EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
         String s = input;
 

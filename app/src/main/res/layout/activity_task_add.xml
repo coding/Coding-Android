@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/divide_15_e5"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!--<FrameLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:background="@color/task_list_head"-->
-    <!--android:layout_weight="1">-->
-
-    <ListView
-        android:id="@+id/listView"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+        android:layout_height="match_parent"
         android:background="@color/divide_15_e5"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false" />
+        android:orientation="vertical">
 
-    <include layout="@layout/common_enter_image" />
+        <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:background="@color/task_list_head"-->
+        <!--android:layout_weight="1">-->
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/divide_15_e5"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false" />
+
+        <include layout="@layout/common_enter_image" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>
