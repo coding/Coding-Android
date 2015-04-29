@@ -35,7 +35,6 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
@@ -58,7 +57,7 @@ import java.util.Calendar;
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    ArrayList<Maopao.MaopaoObject> mData = new ArrayList();
+    ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
     final String maopaoUrlFormat = Global.HOST + "/api/tweet/public_tweets?last_id=%s&sort=%s";
     final String friendUrl = Global.HOST + "/api/activities/user_tweet?last_id=%s";
 
@@ -199,7 +198,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         View v = actionBar.getCustomView();
         // 有些界面没有下拉刷新
-        if (v != null) {
+        if (v != null && v.getParent() != null) {
             ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
 
                 long mLastTime = 0;
@@ -782,18 +781,18 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             needEdit = needEditParam;
         }
 
-        public ClickImageParam(ArrayList<PhotoPickActivity.ImageInfo> urlsParam, int posParam) {
-            urls = new ArrayList();
-            for (PhotoPickActivity.ImageInfo item : urlsParam) {
-                urls.add(item.path);
-            }
-
-            pos = posParam;
-            needEdit = true;
-        }
+//        public ClickImageParam(ArrayList<PhotoPickActivity.ImageInfo> urlsParam, int posParam) {
+//            urls = new ArrayList<>();
+//            for (PhotoPickActivity.ImageInfo item : urlsParam) {
+//                urls.add(item.path);
+//            }
+//
+//            pos = posParam;
+//            needEdit = true;
+//        }
 
         public ClickImageParam(String url) {
-            urls = new ArrayList();
+            urls = new ArrayList<>();
             urls.add(url);
             pos = 0;
             needEdit = false;

@@ -1,7 +1,8 @@
 package net.coding.program.common;
 
 /**
- * Created by chenchao on 15/4/24.
+ * Created by chenchao on 15/4/24
+ *
  */
 public class GlobalSetting {
 
@@ -31,5 +32,4 @@ public class GlobalSetting {
     public String getMessageNotify() {
         return mNoNotifyGlobalKey;
     }
-
 }
