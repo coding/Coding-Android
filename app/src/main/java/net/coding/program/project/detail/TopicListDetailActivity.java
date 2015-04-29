@@ -324,8 +324,13 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         if(labelBar == null) labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
         labelBar.bind(labels, new TopicLabelBar.Controller() {
             @Override
-            public boolean canEditLabel() {
+            public boolean canShowLabels() {
                 return true;
+            }
+
+            @Override
+            public boolean canEditLabels() {
+                return topicObject.project.isOwnerOrMember();
             }
 
             @Override
@@ -336,11 +341,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                         .topicId(topicObject.id)
                         .checkedLabels(topicObject.labels)
                         .startForResult(RESULT_LABEL);
-            }
-
-            @Override
-            public boolean canRemoveLabel() {
-                return true;
             }
 
             @Override

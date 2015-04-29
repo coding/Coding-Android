@@ -131,8 +131,13 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     }
 
     @Override
-    public boolean canEditLabel() {
+    public boolean canShowLabels(){
         return true;
+    }
+
+    @Override
+    public boolean canEditLabels() {
+        return projectObject.isOwnerOrMember() || isNewTopic();
     }
 
     @Override
@@ -143,11 +148,6 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
                 .topicId(isNewTopic()? null: topicObject.id)
                 .checkedLabels( modifyData != null? modifyData.labels:  isNewTopic() ? null : topicObject.labels)
                 .startForResult(RESULT_LABEL);
-    }
-
-    @Override
-    public boolean canRemoveLabel() {
-        return true;
     }
 
     @Override

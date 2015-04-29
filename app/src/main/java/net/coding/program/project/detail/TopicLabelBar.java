@@ -47,9 +47,9 @@ public class TopicLabelBar extends RelativeLayout {
     }
 
     public static interface Controller {
-        boolean canEditLabel();
+        boolean canShowLabels();
+        boolean canEditLabels();
         void onEditLabels(TopicLabelBar view);
-        boolean canRemoveLabel();
         void onRemoveLabel(TopicLabelBar view, int labelId);
     }
 
@@ -89,7 +89,10 @@ public class TopicLabelBar extends RelativeLayout {
 
     public void bind(List<TopicLabelObject> labels, final Controller controller) {
         this.controller = controller;
-        action_edit.setVisibility(controller.canEditLabel() ? View.VISIBLE : View.INVISIBLE);
+        if(!controller.canShowLabels()){
+            setVisibility(GONE);
+        }
+        action_edit.setVisibility(controller.canEditLabels() ? View.VISIBLE : View.INVISIBLE);
 
         mData.clear();
         LinkedList<TextView> cachedViews = new LinkedList<>();
@@ -107,7 +110,7 @@ public class TopicLabelBar extends RelativeLayout {
                     view = (TextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
                 view.setText(item.name);
                 view.setTag(item);
-                if (controller.canRemoveLabel()) {
+                if (controller.canEditLabels()) {
                     view.setOnClickListener(onClickLabel);
                 } else {
                     view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
