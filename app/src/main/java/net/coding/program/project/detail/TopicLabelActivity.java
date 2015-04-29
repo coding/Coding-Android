@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -45,11 +46,14 @@ import java.util.List;
 public class TopicLabelActivity extends BaseActivity {
 
     @Extra
-    String projectId;
+    String ownerUser;
     @Extra
-    int topicId;
+    String projectName;
+    @Extra
+    Integer topicId;
     @Extra
     List<TopicLabelObject> checkedLabels;
+
     @ViewById
     LinearLayout labelsList;
     @ViewById
@@ -57,18 +61,18 @@ public class TopicLabelActivity extends BaseActivity {
     @ViewById
     View action_add, container;
 
-    private static final String URI_GET_LABEL = "/api/project/%s/topic/label";
-    private static final String URI_ADD_LABEL = URI_GET_LABEL;
+    private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
+    private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
     private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
     private static final String URI_RENAME_LABEL = URI_REMOVE_LABEL;
-    private static final String URI_ADD_TOPIC_LABEL = "/api/topic/%s/label/%s";
-    private static final String URI_REMOVE_TOPIC_LABEL = URI_ADD_TOPIC_LABEL;
+    private static final String URI_SAVE_TOPIC_LABELS = "/api/user/%s/project/%s/topics/%s/labels";
     private static final String COLOR = "#701035";
 
     private DialogUtil.BottomPopupWindow mPopupWindow;
 
-    private LinkedHashMap<Integer, TopicLabelObject> allLabels = new LinkedHashMap<Integer, TopicLabelObject>();
+    private LinkedHashMap<Integer, TopicLabelObject> allLabels = new LinkedHashMap<>();
     private HashSet<Integer> checkedIds = new HashSet<>();
+    private String oldCheckedIds;
 
     private String currentLabelName;
     private int currentLabelId;
@@ -84,6 +88,8 @@ public class TopicLabelActivity extends BaseActivity {
                 checkedIds.add(item.id);
             }
         }
+        oldCheckedIds = getIds(checkedIds);
+
         beginLoadLabels();
     }
 
@@ -92,9 +98,28 @@ public class TopicLabelActivity extends BaseActivity {
         onBackPressed();
     }
 
+    @Click
+    void action_add() {
+        if (lockViews()) {
+            String name = editText.getText().toString().trim();
+            if (TextUtils.isEmpty(name)) {
+                showButtomToast("名字不能为空");
+                unlockViews();
+                return;
+            }
+            action_add.setEnabled(false);
+            editText.setEnabled(false);
+            beginAddLebel(name);
+        }
+    }
+
     @OptionsItem
-    void action_save(){
-        showButtomToast("别急~接口还没好哇~");
+    void action_save() {
+        if(topicId != null){
+            beginSaveTopicLabels();
+        } else {
+            endSaveTopicLabels();
+        }
     }
 
 
@@ -118,21 +143,6 @@ public class TopicLabelActivity extends BaseActivity {
         action_add.setEnabled(true);
     }
 
-    @Click
-    void action_add() {
-        if (lockViews()) {
-            String name = editText.getText().toString().trim();
-            if (TextUtils.isEmpty(name)) {
-                showButtomToast("名字不能为空");
-                unlockViews();
-                return;
-            }
-            action_add.setEnabled(false);
-            editText.setEnabled(false);
-            beginAddLebel(name);
-        }
-    }
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         // 不同操作可能URI一样，METHOD不一样
@@ -144,16 +154,14 @@ public class TopicLabelActivity extends BaseActivity {
             endRemoveLabel(code, respanse);
         } else if ("URI_RENAME_LABEL".equals(tag)) {
             endRenameLabel(code, respanse);
-        } else if ("URI_ADD_TOPIC_LABEL".equals(tag)) {
-            endAddTopicLabel(code, respanse);
-        } else if ("URI_REMOVE_TOPIC_LABEL".equals(tag)) {
-            endRemoveTopicLabel(code, respanse);
+        } else if ("URI_SAVE_TOPIC_LABELS".equals(tag)) {
+            endSaveTopicLabels(code, respanse);
         }
     }
 
     private void beginLoadLabels() {
         if (lockViews()) {
-            String url = Global.HOST + String.format(URI_GET_LABEL, projectId);
+            String url = Global.HOST + String.format(URI_GET_LABEL, ownerUser, projectName);
             getNetwork(url, "URI_GET_LABEL");
         }
     }
@@ -175,7 +183,7 @@ public class TopicLabelActivity extends BaseActivity {
 
     private void beginAddLebel(String name) {
         currentLabelName = name.trim();
-        String url = Global.HOST + String.format(URI_ADD_LABEL, projectId);
+        String url = Global.HOST + String.format(URI_ADD_LABEL, ownerUser, projectName);
         RequestParams body = new RequestParams();
         body.put("name", currentLabelName);
         body.put("color", COLOR);
@@ -195,7 +203,7 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void beginRemoveLabel() {
-        String url = Global.HOST + String.format(URI_REMOVE_LABEL, projectId, currentLabelId);
+        String url = Global.HOST + String.format(URI_REMOVE_LABEL, ownerUser, projectName, currentLabelId);
         deleteNetwork(url, "URI_REMOVE_LABEL");
     }
 
@@ -211,7 +219,7 @@ public class TopicLabelActivity extends BaseActivity {
 
     private void beginRenameLabel(String newName) {
         currentLabelName = newName;
-        String url = Global.HOST + String.format(URI_RENAME_LABEL, projectId, currentLabelId);
+        String url = Global.HOST + String.format(URI_RENAME_LABEL, ownerUser, projectName, currentLabelId);
         RequestParams body = new RequestParams();
         body.put("name", newName);
         body.put("color", COLOR);
@@ -230,9 +238,39 @@ public class TopicLabelActivity extends BaseActivity {
         unlockViews();
     }
 
-    private void beginAddTopicLabel() {
-        String url = Global.HOST + String.format(URI_ADD_TOPIC_LABEL, topicId, currentLabelId);
-        postNetwork(url, new RequestParams(), "URI_ADD_TOPIC_LABEL");
+    private void beginSaveTopicLabels() {
+        String newLabelIds = getIds(checkedIds);
+        if (oldCheckedIds.equals(newLabelIds)) {
+            endSaveTopicLabels();
+        } else {
+            if (lockViews()) {
+                String url = Global.HOST + String.format(URI_SAVE_TOPIC_LABELS, ownerUser, projectName, topicId);
+                RequestParams body = new RequestParams();
+                body.put("label_id", newLabelIds);
+                postNetwork(url, body, "URI_SAVE_TOPIC_LABELS");
+            }
+        }
+    }
+
+    private void endSaveTopicLabels() {
+        ArrayList<TopicLabelObject> result = new ArrayList<>();
+        for (int id : checkedIds) {
+            TopicLabelObject labelObject = allLabels.get(id);
+            if (labelObject != null) result.add(labelObject);
+        }
+        Intent data = new Intent();
+        data.putExtra("labels", result);
+        setResult(RESULT_OK, data);
+        finish();
+    }
+
+    private void endSaveTopicLabels(int code, JSONObject json) {
+        if (code != 0) {
+            showErrorMsg(code, json);
+        } else {
+            endSaveTopicLabels();
+        }
+        unlockViews();
     }
 
     private void endAddTopicLabel() {
@@ -240,32 +278,16 @@ public class TopicLabelActivity extends BaseActivity {
         onTopicLabelsChange();
     }
 
-    private void endAddTopicLabel(int code, JSONObject json) {
-        if (code != 0) {
-            showErrorMsg(code, json);
-        } else {
-            endAddTopicLabel();
-        }
-        unlockViews();
-    }
-
-    private void beginRemoveTopicLabel() {
-        String url = Global.HOST + String.format(URI_REMOVE_TOPIC_LABEL, topicId, currentLabelId);
-        deleteNetwork(url, "URI_REMOVE_TOPIC_LABEL");
-    }
-
     private void endRemoveTopicLabel() {
         checkedIds.remove(currentLabelId);
         onTopicLabelsChange();
     }
 
-    private void endRemoveTopicLabel(int code, JSONObject json) {
-        if (code != 0) {
-            showErrorMsg(code, json);
-        } else {
-            endRemoveTopicLabel();
-        }
-        unlockViews();
+    private static String getIds(Collection<Integer> list) {
+        StringBuilder labelIds = new StringBuilder();
+        for (int id : list) labelIds.append(id + ",");
+        if (labelIds.length() > 0) labelIds.deleteCharAt(labelIds.length() - 1);
+        return labelIds.toString();
     }
 
     public void initBottomPop() {
@@ -352,11 +374,11 @@ public class TopicLabelActivity extends BaseActivity {
     private void updateList() {
         LinkedList<View> cachedDividers = new LinkedList<>();
         LinkedList<TopicLabelItemView> cachedViews = new LinkedList<>();
-        for(int i=0,n=labelsList.getChildCount();i<n;i++){
+        for (int i = 0, n = labelsList.getChildCount(); i < n; i++) {
             View view = labelsList.getChildAt(i);
-            if(view instanceof TopicLabelItemView){
+            if (view instanceof TopicLabelItemView) {
                 cachedViews.add((TopicLabelItemView) view);
-            }else{
+            } else {
                 cachedDividers.add(view);
             }
         }
@@ -374,13 +396,13 @@ public class TopicLabelActivity extends BaseActivity {
         container.setVisibility(labelsList.getChildCount() > 0 ? View.VISIBLE : View.GONE);
     }
 
-    private void addLabel(final TopicLabelObject data,  TopicLabelItemView view) {
-        if(view == null){
+    private void addLabel(final TopicLabelObject data, TopicLabelItemView view) {
+        if (view == null) {
             view = TopicLabelItemView_.build(this);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    TopicLabelItemView view = (TopicLabelItemView)v;
+                    TopicLabelItemView view = (TopicLabelItemView) v;
                     currentLabelId = view.data.id;
                     currentLabelName = view.data.name;
                     showPop(v);
@@ -390,23 +412,12 @@ public class TopicLabelActivity extends BaseActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TopicLabelItemView view = (TopicLabelItemView)v;
-                    if (topicId > 0) {
-                        if (lockViews()) {
-                            currentLabelId = view.data.id;
-                            if (checkedIds.contains(view.data.id)) {
-                                beginRemoveTopicLabel();
-                            } else {
-                                beginAddTopicLabel();
-                            }
-                        }
+                    TopicLabelItemView view = (TopicLabelItemView) v;
+                    currentLabelId = view.data.id;
+                    if (checkedIds.contains(view.data.id)) {
+                        endRemoveTopicLabel();
                     } else {
-                        currentLabelId = view.data.id;
-                        if (checkedIds.contains(view.data.id)) {
-                            endRemoveTopicLabel();
-                        } else {
-                            endAddTopicLabel();
-                        }
+                        endAddTopicLabel();
                     }
                 }
             });
@@ -417,30 +428,12 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void addDivider(LayoutInflater inflater, View view) {
-        if(view == null) view = inflater.inflate(R.layout.activity_topic_label_divider, labelsList, false);
+        if (view == null)
+            view = inflater.inflate(R.layout.activity_topic_label_divider, labelsList, false);
         labelsList.addView(view);
     }
 
-    private boolean topicLabelChanged;
-
     private void onTopicLabelsChange() {
-        topicLabelChanged = true;
         updateCheckState();
-        setResult(RESULT_OK);
-    }
-
-    @Override
-    public void finish() {
-        if (topicLabelChanged) {
-            ArrayList<TopicLabelObject> result = new ArrayList<>();
-            for (int id : checkedIds) {
-                TopicLabelObject labelObject = allLabels.get(id);
-                if (labelObject != null) result.add(labelObject);
-            }
-            Intent data = new Intent();
-            data.putExtra("labels", result);
-            setResult(RESULT_OK, data);
-        }
-        super.finish();
     }
 }

@@ -12,12 +12,13 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.model.TopicLabelObject;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 import org.apmem.tools.layouts.FlowLayout;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @EViewGroup(R.layout.project_topic_label_bar)
@@ -45,45 +46,69 @@ public class TopicLabelBar extends RelativeLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public static interface RemoveListener {
-        void onRemove(TopicLabelObject label);
+    public static interface Controller {
+        boolean canEditLabel();
+        void onEditLabels(TopicLabelBar view);
+        boolean canRemoveLabel();
+        void onRemoveLabel(TopicLabelBar view, int labelId);
     }
 
     public static interface EditListener {
-        void onEdit();
     }
 
-    public void bind(List<TopicLabelObject> labels, final RemoveListener removeListener, final EditListener editListener) {
-        final OnClickListener labelClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v == null || !(v.getTag() instanceof TopicLabelObject)) return;
-                TopicLabelObject data = (TopicLabelObject) v.getTag();
+    public void removeLabel(int id) {
+        for (int i = 0, n = flowLayout.getChildCount(); i < n; i++) {
+            View view = flowLayout.getChildAt(i);
+            if (view == null || !(view.getTag() instanceof TopicLabelObject)) continue;
+            TopicLabelObject data = (TopicLabelObject) view.getTag();
+            if (data.id == id) {
                 mData.remove(data);
                 updateEmptyView();
-                flowLayout.removeView(v);
-                removeListener.onRemove(data);
+                flowLayout.removeView(view);
+                break;
             }
-        };
-        action_edit.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editListener.onEdit();
+        }
+    }
+
+    private OnClickListener onClickLabel = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v != null && (v.getTag() instanceof TopicLabelObject)) {
+                TopicLabelObject data = (TopicLabelObject) v.getTag();
+                if (controller != null)  controller.onRemoveLabel(TopicLabelBar.this, data.id);
             }
-        });
-        action_edit.setVisibility(editListener == null ? View.INVISIBLE : View.VISIBLE);
+        }
+    };
+
+    private Controller controller;
+
+    @Click
+    void action_edit() {
+        if (controller != null) controller.onEditLabels(TopicLabelBar.this);
+    }
+
+    public void bind(List<TopicLabelObject> labels, final Controller controller) {
+        this.controller = controller;
+        action_edit.setVisibility(controller.canEditLabel() ? View.VISIBLE : View.INVISIBLE);
 
         mData.clear();
+        LinkedList<TextView> cachedViews = new LinkedList<>();
+        for (int i = 0, n = flowLayout.getChildCount(); i < n; i++) {
+            View view = flowLayout.getChildAt(i);
+            if (view instanceof TextView) cachedViews.add((TextView) view);
+        }
         flowLayout.removeAllViews();
         if (labels != null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             for (TopicLabelObject item : labels) {
                 mData.add(item);
-                TextView view = (TextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
+                TextView view = cachedViews.poll();
+                if (view == null)
+                    view = (TextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
                 view.setText(item.name);
-                if (removeListener != null) {
-                    view.setTag(item);
-                    view.setOnClickListener(labelClickListener);
+                view.setTag(item);
+                if (controller.canRemoveLabel()) {
+                    view.setOnClickListener(onClickLabel);
                 } else {
                     view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                 }

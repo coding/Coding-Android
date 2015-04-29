@@ -61,6 +61,9 @@ public class DropdownListView extends ScrollView {
 
     public void bind(List<? extends DropdownItemObject> list, DropdownButton button, final Container container, DropdownItemObject selected) {
         current = selected;
+        if (current == null && list.size() > 0) {
+            current = list.get(0);
+        }
         this.list = list;
         this.button = button;
 
@@ -96,7 +99,7 @@ public class DropdownListView extends ScrollView {
                     current = (DropdownItemObject) v.getTag();
                     flush();
                     container.hide();
-                    if (oldOne != current) container.flush();
+                    if (oldOne != current) container.onSelectionChanged(DropdownListView.this);
                 }
             });
             linearLayout.addView(view);
@@ -112,15 +115,12 @@ public class DropdownListView extends ScrollView {
                 }
             }
         });
-        if (current == null && list.size() > 0) {
-            current = list.get(0);
-        }
         flush();
     }
 
     public static interface Container {
         void show(DropdownListView listView);
         void hide();
-        void flush();
+        void onSelectionChanged(DropdownListView view);
     }
 }

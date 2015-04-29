@@ -53,7 +53,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,6 +88,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     //    EnterLayout mEnterLayout;
     ImageCommentLayout mEnterComment;
+    private TopicLabelBar labelBar;
 
     String owerGlobar = "";
 
@@ -101,6 +101,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     String urlTopic = "";
 
     ArrayList<TopicObject> mData = new ArrayList();
+    private int currentLabelId;
 
     Intent mResultData = new Intent();
 
@@ -320,17 +321,33 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     private void updateLabels(List<TopicLabelObject> labels){
-        TopicLabelBar labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
-        labelBar.bind(labels, new TopicLabelBar.RemoveListener() {
+        if(labelBar == null) labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        labelBar.bind(labels, new TopicLabelBar.Controller() {
             @Override
-            public void onRemove(TopicLabelObject label) {
-                String url = String.format(URI_DELETE_TOPIC_LABEL,topicObject.id, label.id);
-                deleteNetwork(url, url);
+            public boolean canEditLabel() {
+                return true;
             }
-        }, new TopicLabelBar.EditListener() {
+
             @Override
-            public void onEdit() {
-                TopicLabelActivity_.intent(TopicListDetailActivity.this).projectId(topicObject.project_id).topicId(topicObject.id).checkedLabels(topicObject.labels).startForResult(RESULT_LABEL);
+            public void onEditLabels(TopicLabelBar view) {
+                TopicLabelActivity_.intent(TopicListDetailActivity.this)
+                        .ownerUser(topicObject.project.owner_user_name)
+                        .projectName(topicObject.project.name)
+                        .topicId(topicObject.id)
+                        .checkedLabels(topicObject.labels)
+                        .startForResult(RESULT_LABEL);
+            }
+
+            @Override
+            public boolean canRemoveLabel() {
+                return true;
+            }
+
+            @Override
+            public void onRemoveLabel(TopicLabelBar view, int labelId) {
+                currentLabelId = labelId;
+                String url = String.format(URI_DELETE_TOPIC_LABEL,topicObject.id, labelId);
+                deleteNetwork(url, URI_DELETE_TOPIC_LABEL);
             }
         });
     }
@@ -504,6 +521,14 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mSendedImages.put((String) data, mdPhotoUri);
                 sendCommentAll();
             } else {
+                showErrorMsg(code, respanse);
+                showProgressBar(false);
+            }
+        } else if (URI_DELETE_TOPIC_LABEL.equals(tag)){
+            if (code == 0) {
+                labelBar.removeLabel(currentLabelId);
+            }else{
+                currentLabelId = -1;
                 showErrorMsg(code, respanse);
                 showProgressBar(false);
             }
