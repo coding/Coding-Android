@@ -2,7 +2,6 @@ package net.coding.program.project.detail;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
@@ -25,11 +24,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_add)
-public class TopicAddActivity extends BaseActivity implements TopicEditFragment.SaveData , TopicLabelBar.EditListener, TopicLabelBar.RemoveListener {
+public class TopicAddActivity extends BaseActivity implements TopicEditFragment.SaveData , TopicLabelBar.Controller{
 
     @Extra
     protected ProjectObject projectObject;
@@ -39,7 +37,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     private TopicData modifyData = new TopicData();
 
-    final String HOST_TOPIC_NEW = Global.HOST + "/api/project/%s/topic?parent=0";
+    final String HOST_TOPIC_NEW = Global.HOST + "/api/user/%s/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST + "/api/topic/%d";
 
     String url = "";
@@ -61,7 +59,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
         if (isNewTopic()) {
             actionBar.setTitle(R.string.topic_create);
-            url = String.format(HOST_TOPIC_NEW, getTopicId());
+            url = String.format(HOST_TOPIC_NEW, projectObject.owner_user_name,  projectObject.name);
             getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
         } else {
             actionBar.setTitle(R.string.topic_edit);
@@ -133,17 +131,30 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     }
 
     @Override
-    public void onEdit() {
+    public boolean canEditLabel() {
+        return true;
+    }
+
+    @Override
+    public void onEditLabels(TopicLabelBar view) {
         TopicLabelActivity_.intent(this)
-                .projectId(String.valueOf(projectObject.getId()))
-                .checkedLabels(topicObject == null? null:topicObject.labels)
+                .ownerUser(projectObject.owner_user_name)
+                .projectName(projectObject.name)
+                .topicId(topicObject == null? null: topicObject.id)
+                .checkedLabels( modifyData != null? modifyData.labels:  topicObject == null ? null : topicObject.labels)
                 .startForResult(RESULT_LABEL);
     }
 
     @Override
-    public void onRemove(TopicLabelObject label) {
+    public boolean canRemoveLabel() {
+        return true;
+    }
+
+    @Override
+    public void onRemoveLabel(TopicLabelBar view, int labelId) {
+        view.removeLabel(labelId);
         for(TopicLabelObject item: modifyData.labels){
-            if (item.id == label.id){
+            if (item.id == labelId){
                 modifyData.labels.remove(item);
                 break;
             }
@@ -214,7 +225,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
         RequestParams params = new RequestParams();
         params.put("title", titleString);
         params.put("content", contentString);
-        params.put("label", labels);
+        params.put("label_id", labels);
 
         if (isNewTopic()) {
             postNetwork(url, params, HOST_TOPIC_NEW);

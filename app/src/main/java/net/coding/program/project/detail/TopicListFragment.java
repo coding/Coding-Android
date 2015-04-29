@@ -43,11 +43,12 @@ import java.util.List;
 @OptionsMenu(R.menu.project_task)
 public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
-    private static final int INDEX_DISPLAY_ALL = 0;
-    private static final int INDEX_DISPLAY_MINE = 1;
-    private static final String DISPLAY_ALL = "全部讨论";
-    private static final String DISPLAY_MINE = "我的讨论";
+    private static final int ID_TYPE_ALL = 0;
+    private static final int ID_TYPE_MY = 1;
+    private static final String TYPE_ALL = "全部讨论";
+    private static final String TYPE_MY = "我的讨论";
 
+    private static final int ID_LABEL_ALL = -1;
     private static final String LABEL_ALL = "全部标签";
 
     private static final String ORDER_REPLY_TIME = "最后评论排序";
@@ -58,7 +59,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private static final int ID_ORDER_HOT = 53;
 
     private static final String URI_TOPICS = Global.HOST +"/api/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
-    private static final String URI_FLUSH_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels?withCount=true";
+    private static final String URI_ALL_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels?withCount=true";
+    private static final String URI_MY_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels/my";
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -121,14 +123,18 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if(URI_FLUSH_LABELS.equals(tag)){
-            if(code == 0 && dropdownButtonsController!=null && respanse !=null)
-                dropdownButtonsController.flushLabels(respanse.optJSONArray("data"));
+        if(URI_ALL_LABELS.equals(tag)) {
+            if (code == 0 && dropdownButtonsController != null && respanse != null)
+                dropdownButtonsController.flushAllLabels(respanse.optJSONArray("data"));
+            return;
+        }
+        if(URI_MY_LABELS.equals(tag)) {
+            if (code == 0 && dropdownButtonsController != null && respanse != null)
+                dropdownButtonsController.flushMyLabels(respanse.optJSONArray("data"));
             return;
         }
         setRefreshing(false);
         hideProgressDialog();
-        Log.e("sss", "code="+code);
         if (code == 0) {
             Log.e("sss", "isLoadingFirstPage="+isLoadingFirstPage(tag));
             if (isLoadingFirstPage(tag)) {
@@ -315,9 +321,9 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     @Override
     protected String getLink() {
         String topicType = dropdownType.current.value;
-        String topicOrder= dropdownOrder.current.value;
-        String url = String.format(URI_TOPICS, mProjectObject.owner_user_name, mProjectObject.name,topicType, topicOrder);
-        if(!TextUtils.isEmpty(dropdownLabel.current.value)) {
+        String topicOrder = dropdownOrder.current.value;
+        String url = String.format(URI_TOPICS, mProjectObject.owner_user_name, mProjectObject.name, topicType, topicOrder);
+        if (dropdownLabel.current != null && !TextUtils.isEmpty(dropdownLabel.current.value)) {
             url += "&labelId=" + dropdownLabel.current.value;
         }
         return url.toString();
@@ -328,11 +334,14 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         dropdownButtonsController.hide();
     }
 
-    private class DropdownButtonsController implements DropdownListView.Container{
+    private class DropdownButtonsController implements DropdownListView.Container {
         DropdownListView currentDropdownList;
         private List<DropdownItemObject> datasetType;
         private List<DropdownItemObject> datasetLabel;
         private List<DropdownItemObject> datasetOrder;
+
+        private List<DropdownItemObject> datasetAllLabel;
+        private List<DropdownItemObject> datasetMyLabel;
 
         @Override
         public void show(DropdownListView view) {
@@ -368,7 +377,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             onRefresh();
         }
 
-        void reset(){
+        void reset() {
             dropdownType.setVisibility(View.GONE);
             dropdownLabel.setVisibility(View.GONE);
             dropdownOrder.setVisibility(View.GONE);
@@ -380,16 +389,22 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             mask.clearAnimation();
         }
 
-        void init(){
+        void init() {
             reset();
             datasetType = new ArrayList<>(2);
-            datasetType.add(new DropdownItemObject(DISPLAY_ALL, INDEX_DISPLAY_ALL, "all"));
-            datasetType.add(new DropdownItemObject(DISPLAY_MINE, INDEX_DISPLAY_MINE, "my"));
+            datasetType.add(new DropdownItemObject(TYPE_ALL, ID_TYPE_ALL, "all"));
+            datasetType.add(new DropdownItemObject(TYPE_MY, ID_TYPE_MY, "my"));
             dropdownType.bind(datasetType, chooseType, this, null);
 
-            datasetLabel = new ArrayList<>();
-            datasetLabel.add(new DropdownItemObject(LABEL_ALL, -1, null));
+            datasetAllLabel = new ArrayList<>();
+            DropdownItemObject defaultLabel = new DropdownItemObject(LABEL_ALL, ID_LABEL_ALL, null);
+            datasetAllLabel.add(defaultLabel);
+            datasetMyLabel = new ArrayList<>();
+            datasetMyLabel.add(defaultLabel);
+
+            datasetLabel = datasetAllLabel;
             dropdownLabel.bind(datasetLabel, chooseLabel, this, null);
+
             flushLabels();
 
             datasetOrder = new ArrayList<>(3);
@@ -406,8 +421,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    if(currentDropdownList == null) {
-                       reset();
+                    if (currentDropdownList == null) {
+                        reset();
                     }
                 }
 
@@ -416,30 +431,55 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
                 }
             });
-
         }
 
-        void flushLabels(){
-            String url = String.format(URI_FLUSH_LABELS, mProjectObject.owner_user_name, mProjectObject.name);
-            getNetwork(url, URI_FLUSH_LABELS);
+        private  List<DropdownItemObject> getCurrentLabels() {
+            return dropdownType.current != null && dropdownType.current.id == ID_TYPE_MY ? datasetMyLabel : datasetAllLabel;
         }
 
-        void flushLabels(JSONArray array) {
-            if(array == null) return;
-            // 标签可能被删除，改名等，这时要更新全部标签
-            while(datasetLabel.size()>1) datasetLabel.remove(datasetLabel.size()-1);
-            int oldSelectedId = dropdownLabel.current.id;
-            dropdownLabel.current = null;
-            for(int i=0,n=array.length();i<n;i++){
+        void updateLabels() {
+            List<DropdownItemObject> currentLabels = getCurrentLabels();
+            if (datasetLabel != currentLabels) {
+                datasetLabel = currentLabels;
+                dropdownLabel.bind(datasetLabel, chooseLabel, this, null);
+            } else {
+                dropdownLabel.bind(datasetLabel, chooseLabel, this, dropdownLabel.current);
+            }
+        }
+
+        void flushLabels() {
+            getNetwork(String.format(URI_ALL_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_ALL_LABELS);
+            getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_MY_LABELS);
+        }
+
+        void flushAllLabels(JSONArray array) {
+            flushLabels(array, datasetAllLabel);
+        }
+
+        void flushMyLabels(JSONArray array) {
+            flushLabels(array, datasetMyLabel);
+        }
+
+        private void flushLabels(JSONArray array, List<DropdownItemObject> targetList) {
+            if (array == null) return;
+            while (targetList.size() > 1) targetList.remove(targetList.size() - 1);
+            boolean isCurrentList = targetList == getCurrentLabels();
+            int oldSelectedId = ID_LABEL_ALL;
+            if (isCurrentList) {
+                dropdownLabel.current = null;
+                oldSelectedId = dropdownLabel.current.id;
+            }
+            for (int i = 0, n = array.length(); i < n; i++) {
                 JSONObject data = array.optJSONObject(i);
                 int id = data.optInt("id");
                 String name = data.optString("name");
-                if(TextUtils.isEmpty(name)) continue;
-                DropdownItemObject item = new DropdownItemObject(name,id,String.valueOf(id));
-                datasetLabel.add(item);
-                if(oldSelectedId == id && dropdownLabel.current == null) dropdownLabel.current = item;
+                if (TextUtils.isEmpty(name)) continue;
+                DropdownItemObject item = new DropdownItemObject(name, id, String.valueOf(id));
+                targetList.add(item);
+                if (isCurrentList && oldSelectedId == id && dropdownLabel.current == null)
+                    dropdownLabel.current = item;
             }
-            dropdownLabel.bind(datasetLabel, chooseLabel, this, dropdownLabel.current);
+            updateLabels();
         }
     }
 }
