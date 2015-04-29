@@ -50,7 +50,7 @@ public class PushReceiver extends XGPushBaseReceiver {
         Log.d("", "" + context);
 
         try {
-            if (!AccountInfo.getNeedPush(context)) {
+            if (!AccountInfo.getNeedPush(context) || !AccountInfo.isLogin(context)) {
                 return;
             }
 
@@ -127,8 +127,19 @@ public class PushReceiver extends XGPushBaseReceiver {
         NotificationManager mNotificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        int notifyIdInt = notifyId % 5;
-        sNotify[notifyIdInt] = url;
+        int notifyIdInt = -1;
+        for (int i = 0; i < sNotify.length; ++i) {
+            if (url.equals(sNotify[i])) {
+                notifyIdInt = i;
+                sNotify[notifyIdInt] = url;
+                break;
+            }
+        }
+        if (notifyIdInt == -1) {
+            notifyIdInt = notifyId % 5;
+            sNotify[notifyIdInt] = url;
+        }
+
         mNotificationManager.notify(notifyIdInt, builder.build());
     }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="35"
-    android:versionName="2.6.4">
+    android:versionCode="36"
+    android:versionName="2.6.5">
 
-    <uses-sdk
+<uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
 

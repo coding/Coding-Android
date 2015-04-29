@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
-        try { // TODO 图片载入可能失败，因为图片没有下载完
+        try {
             BitmapDrawable bitmapDrawable;
             if (background == null) {
                 bitmapDrawable = createBlur();

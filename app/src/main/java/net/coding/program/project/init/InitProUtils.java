@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import net.coding.program.MainActivity_;
+import net.coding.program.common.Global;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,9 +62,9 @@ public class InitProUtils {
         try {
             stream = new FileOutputStream(filename);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Global.errorLog(e);
         }
+
         return bmp.compress(format, quality, stream);
     }
 

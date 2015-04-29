@@ -25,6 +25,8 @@ import java.util.Random;
  */
 public class LoginBackground {
 
+    static final String TAG = "LoginBackground";
+
     private Context context;
 
     final String URL_DOWNLOAD = Global.HOST + "/api/wallpaper/wallpapers?type=4";
@@ -98,6 +100,9 @@ public class LoginBackground {
         return true;
     }
 
+    /* 下载图片先判断是否已下载，没有下载就先下载到一个临时目录，下载完后再将临时目录的文件拷贝到放背景图的目录。
+     * 因为下载的线程可能被干掉，导致下载的图片文件有问题。
+     */
     private void downloadPhotos() {
         if (!Global.isWifiConnected(context)) {
             return;
@@ -105,19 +110,29 @@ public class LoginBackground {
 
         ArrayList<PhotoItem> lists = AccountInfo.loadBackgrounds(context);
         for (PhotoItem item : lists) {
-            File file = item.getCacheFile(context);
-            if (!file.exists()) {
+            final File fileTaget = item.getCacheFile(context);
+            if (!fileTaget.exists()) {
                 AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                String url = String.format("%s?imageMogr2/thumbnail/!%d", item.getUrl(), MyApp.sWidthPix);
-                client.get(context, url, new FileAsyncHttpResponseHandler(file) {
+                final String url = String.format("%s?imageMogr2/thumbnail/!%d", item.getUrl(), MyApp.sWidthPix);
+                File sourceFile = item.getCacheTempFile(context);
+                if (sourceFile.exists()) {
+                    sourceFile.delete();
+                }
+                Log.d(TAG, url + " " + sourceFile.getPath());
+
+                client.get(context, url, new FileAsyncHttpResponseHandler(sourceFile) {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-
+                        Log.d(TAG, url + " " + file.getPath() + " failure");
+                        if (file.exists()) {
+                            file.delete();
+                        }
                     }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, File file) {
-
+                        Log.d(TAG, url + " " + file.getPath() + " success");
+                        file.renameTo(fileTaget);
                     }
                 });
                 // 图片较大，可能有几兆，超时设长一点
@@ -179,6 +194,17 @@ public class LoginBackground {
             return file;
         }
 
+        // 下载的文件先放在这里，下载完成后再放到 getCacheFile 目录下
+        public File getCacheTempFile(Context ctx) {
+            File fileDir = new File(getPhotoDir(ctx), "temp");
+            if (!fileDir.exists() || !fileDir.isDirectory()) {
+                fileDir.mkdirs();
+            }
+
+            File file = new File(fileDir, getCacheName());
+            return file;
+        }
+
         public boolean isCached(Context ctx) {
             return getCacheFile(ctx).exists();
         }
@@ -187,8 +213,8 @@ public class LoginBackground {
             final String dirName = "BACKGROUND";
             File root = ctx.getExternalFilesDir(null);
             File dir = new File(root, dirName);
-            if (!dir.exists() || dir.isDirectory()) {
-                dir.mkdir();
+            if (!dir.exists() || !dir.isDirectory()) {
+                dir.mkdirs();
             }
 
             return dir;
