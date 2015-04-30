@@ -4,11 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -16,6 +14,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
+import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.model.TopicLabelObject;
@@ -80,7 +79,6 @@ public class TopicLabelActivity extends BaseActivity {
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        initBottomPop();
 
         checkedIds.clear();
         if (checkedLabels != null) {
@@ -115,10 +113,10 @@ public class TopicLabelActivity extends BaseActivity {
 
     @OptionsItem
     void action_save() {
-        if(topicId != null){
+        if (topicId != null) {
             beginSaveTopicLabels();
         } else {
-            endSaveTopicLabels();
+            finish();
         }
     }
 
@@ -198,6 +196,7 @@ public class TopicLabelActivity extends BaseActivity {
             editText.setText("");
             allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName));
             updateList();
+            showButtomToast("添加标签成功^^");
         }
         unlockViews();
     }
@@ -253,6 +252,11 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void endSaveTopicLabels() {
+        finish();
+    }
+
+    @Override
+    public void finish() {
         ArrayList<TopicLabelObject> result = new ArrayList<>();
         for (int id : checkedIds) {
             TopicLabelObject labelObject = allLabels.get(id);
@@ -261,7 +265,7 @@ public class TopicLabelActivity extends BaseActivity {
         Intent data = new Intent();
         data.putExtra("labels", result);
         setResult(RESULT_OK, data);
-        finish();
+        super.finish();
     }
 
     private void endSaveTopicLabels(int code, JSONObject json) {
@@ -290,35 +294,22 @@ public class TopicLabelActivity extends BaseActivity {
         return labelIds.toString();
     }
 
-    public void initBottomPop() {
-        if (mPopupWindow == null) {
-            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<DialogUtil.BottomPopupItem>();
-            DialogUtil.BottomPopupItem renameItem = new DialogUtil.BottomPopupItem("重命名", R.drawable.ic_popup_attachment_rename);
-            popupItemArrayList.add(renameItem);
-            DialogUtil.BottomPopupItem deleteItem = new DialogUtil.BottomPopupItem("删除", R.drawable.ic_popup_attachment_delete_selector);
-            popupItemArrayList.add(deleteItem);
-            mPopupWindow = DialogUtil.initBottomPopupWindow(this, "编辑标签", popupItemArrayList, onPopupItemClickListener);
-        }
-    }
-
-    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    doRename();
-                    break;
-                case 1:
-                    doDelete();
-                    break;
-            }
-            mPopupWindow.dismiss();
-        }
-    };
-
     public void showPop(View view) {
-        initBottomPop();
-        mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setItems(R.array.topic_label_action, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                doRename();
+                                break;
+                            case 1:
+                                doDelete();
+                                break;
+                        }
+                    }
+                }).show();
+        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     private void doDelete() {

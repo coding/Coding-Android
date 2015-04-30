@@ -91,6 +91,7 @@ public class TopicLabelBar extends RelativeLayout {
         this.controller = controller;
         if(!controller.canShowLabels()){
             setVisibility(GONE);
+            return;
         }
         action_edit.setVisibility(controller.canEditLabels() ? View.VISIBLE : View.INVISIBLE);
 

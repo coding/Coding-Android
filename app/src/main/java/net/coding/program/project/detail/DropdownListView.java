@@ -59,21 +59,18 @@ public class DropdownListView extends ScrollView {
         }
     }
 
-    public void bind(List<? extends DropdownItemObject> list, DropdownButton button, final Container container, DropdownItemObject selected) {
-        current = selected;
-        if (current == null && list.size() > 0) {
-            current = list.get(0);
-        }
+    public void bind(List<? extends DropdownItemObject> list, DropdownButton button, final Container container, int selectedId) {
+        current = null;
         this.list = list;
         this.button = button;
 
         LinkedList<View> cachedDividers = new LinkedList<>();
         LinkedList<DropdownListItemView> cachedViews = new LinkedList<>();
-        for(int i=0,n=linearLayout.getChildCount();i<n;i++){
+        for (int i = 0, n = linearLayout.getChildCount(); i < n; i++) {
             View view = linearLayout.getChildAt(i);
-            if(view instanceof DropdownListItemView){
+            if (view instanceof DropdownListItemView) {
                 cachedViews.add((DropdownListItemView) view);
-            }else{
+            } else {
                 cachedDividers.add(view);
             }
         }
@@ -86,11 +83,13 @@ public class DropdownListView extends ScrollView {
                 isFirst = false;
             } else {
                 View divider = cachedDividers.poll();
-                if(divider == null) divider = inflater.inflate(R.layout.dropdown_tab_list_divider, linearLayout, false);
+                if (divider == null)
+                    divider = inflater.inflate(R.layout.dropdown_tab_list_divider, linearLayout, false);
                 linearLayout.addView(divider);
             }
             DropdownListItemView view = cachedViews.poll();
-            if(view == null) view = (DropdownListItemView) inflater.inflate(R.layout.dropdown_tab_list_item, linearLayout, false);
+            if (view == null)
+                view = (DropdownListItemView) inflater.inflate(R.layout.dropdown_tab_list_item, linearLayout, false);
             view.setTag(item);
             view.setOnClickListener(new OnClickListener() {
                 @Override
@@ -103,6 +102,7 @@ public class DropdownListView extends ScrollView {
                 }
             });
             linearLayout.addView(view);
+            if (item.id == selectedId && current == null) current = item;
         }
 
         button.setOnClickListener(new OnClickListener() {
@@ -115,6 +115,9 @@ public class DropdownListView extends ScrollView {
                 }
             }
         });
+        if (current == null && list.size() > 0) {
+            current = list.get(0);
+        }
         flush();
     }
 

@@ -104,7 +104,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @Override
     public void loadMore() {
-        showDialogLoading();
         getNextPageNetwork(urlGet, urlGet);
     }
 
@@ -267,53 +266,55 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         switch (requestCode) {
             case RESULT_ADD:
                 if (resultCode == Activity.RESULT_OK) {
-                    TopicObject topic = (TopicObject) data.getSerializableExtra("topic");
-                    mData.add(0, topic);
-                    baseAdapter.notifyDataSetChanged();
+//                    TopicObject topic = (TopicObject) data.getSerializableExtra("topic");
+//                    mData.add(0, topic);
+//                    baseAdapter.notifyDataSetChanged();
+//                    dropdownButtonsController.flushLabels();
                     dropdownButtonsController.flushLabels();
+                    onRefresh();
                 }
                 break;
 
             case RESULT_DETAIL:
                 if (resultCode == Activity.RESULT_OK) {
-                    int id = data.getIntExtra("id", -1);
-                    if (id != -1) {
-                        for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id == (id)) {
-                                mData.remove(i);
-                                baseAdapter.notifyDataSetChanged();
-                                break;
-                            }
-                        }
-                    } else {
-                        int topicId = data.getIntExtra("topic_id", 0);
-                        int childrenCount = data.getIntExtra("child_count", -1);
-                        for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id == topicId) {
-                                mData.get(i).child_count = childrenCount;
-                                baseAdapter.notifyDataSetChanged();
-                                break;
-                            }
-                        }
-                    }
-
-                    Serializable topicObject = data.getSerializableExtra("topic");
-                    if (topicObject instanceof TopicObject) {
-                        TopicObject topicData = (TopicObject) topicObject;
-
-                        for (int i = 0; i < mData.size(); ++i) {
-                            if (mData.get(i).id == topicData.id) {
-                                mData.set(i, topicData);
-                                baseAdapter.notifyDataSetChanged();
-                                break;
-                            }
-                        }
-
-                    }
+//                    int id = data.getIntExtra("id", -1);
+//                    if (id != -1) {
+//                        for (int i = 0; i < mData.size(); ++i) {
+//                            if (mData.get(i).id == (id)) {
+//                                mData.remove(i);
+//                                baseAdapter.notifyDataSetChanged();
+//                                break;
+//                            }
+//                        }
+//                    } else {
+//                        int topicId = data.getIntExtra("topic_id", 0);
+//                        int childrenCount = data.getIntExtra("child_count", -1);
+//                        for (int i = 0; i < mData.size(); ++i) {
+//                            if (mData.get(i).id == topicId) {
+//                                mData.get(i).child_count = childrenCount;
+//                                baseAdapter.notifyDataSetChanged();
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    Serializable topicObject = data.getSerializableExtra("topic");
+//                    if (topicObject instanceof TopicObject) {
+//                        TopicObject topicData = (TopicObject) topicObject;
+//
+//                        for (int i = 0; i < mData.size(); ++i) {
+//                            if (mData.get(i).id == topicData.id) {
+//                                mData.set(i, topicData);
+//                                baseAdapter.notifyDataSetChanged();
+//                                break;
+//                            }
+//                        }
+//
+//                    }
                     dropdownButtonsController.flushLabels();
+                    onRefresh();
                 }
                 break;
-
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -376,7 +377,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         @Override
         public void onSelectionChanged(DropdownListView view) {
             if(view == dropdownType){
-                updateLabels();
+                updateLabels(getCurrentLabels());
             }
             flush();
         }
@@ -386,6 +387,10 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         }
 
         void reset() {
+            chooseType.setChecked(false);
+            chooseLabel.setChecked(false);
+            chooseOrder.setChecked(false);
+
             dropdownType.setVisibility(View.GONE);
             dropdownLabel.setVisibility(View.GONE);
             dropdownOrder.setVisibility(View.GONE);
@@ -402,7 +407,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             datasetType = new ArrayList<>(2);
             datasetType.add(new DropdownItemObject(TYPE_ALL, ID_TYPE_ALL, "all"));
             datasetType.add(new DropdownItemObject(TYPE_MY, ID_TYPE_MY, "my"));
-            dropdownType.bind(datasetType, chooseType, this, null);
+            dropdownType.bind(datasetType, chooseType, this, ID_TYPE_ALL);
 
             datasetAllLabel = new ArrayList<>();
             DropdownItemObject defaultLabel = new DropdownItemObject(LABEL_ALL, ID_LABEL_ALL, null);
@@ -411,7 +416,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             datasetMyLabel.add(defaultLabel);
 
             datasetLabel = datasetAllLabel;
-            dropdownLabel.bind(datasetLabel, chooseLabel, this, null);
+            dropdownLabel.bind(datasetLabel, chooseLabel, this, ID_LABEL_ALL);
 
             flushLabels();
 
@@ -419,7 +424,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             datasetOrder.add(new DropdownItemObject(ORDER_REPLY_TIME, ID_ORDER_REPLY_TIME, "51"));
             datasetOrder.add(new DropdownItemObject(ORDER_PUBLISH_TIME, ID_ORDER_PUBLISH_TIME, "49"));
             datasetOrder.add(new DropdownItemObject(ORDER_HOT, ID_ORDER_HOT, "53"));
-            dropdownOrder.bind(datasetOrder, chooseOrder, this, null);
+            dropdownOrder.bind(datasetOrder, chooseOrder, this, ID_ORDER_REPLY_TIME);
 
             dropdown_mask_out.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -441,17 +446,14 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             });
         }
 
-        private  List<DropdownItemObject> getCurrentLabels() {
+        private List<DropdownItemObject> getCurrentLabels() {
             return dropdownType.current != null && dropdownType.current.id == ID_TYPE_MY ? datasetMyLabel : datasetAllLabel;
         }
 
-        void updateLabels() {
-            List<DropdownItemObject> currentLabels = getCurrentLabels();
-            if (datasetLabel != currentLabels) {
-                datasetLabel = currentLabels;
-                dropdownLabel.bind(datasetLabel, chooseLabel, this, null);
-            } else {
-                dropdownLabel.bind(datasetLabel, chooseLabel, this, dropdownLabel.current);
+        void updateLabels(List<DropdownItemObject> targetList) {
+            if (targetList == getCurrentLabels()) {
+                datasetLabel = targetList;
+                dropdownLabel.bind(datasetLabel, chooseLabel, this, dropdownOrder.current.id);
             }
         }
 
@@ -471,12 +473,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         private void flushLabels(JSONArray array, List<DropdownItemObject> targetList) {
             if (array == null) return;
             while (targetList.size() > 1) targetList.remove(targetList.size() - 1);
-            boolean isCurrentList = targetList == getCurrentLabels();
-            int oldSelectedId = ID_LABEL_ALL;
-            if (isCurrentList) {
-                oldSelectedId = dropdownLabel.current.id;
-                dropdownLabel.current = null;
-            }
             for (int i = 0, n = array.length(); i < n; i++) {
                 JSONObject data = array.optJSONObject(i);
                 int id = data.optInt("id");
@@ -484,10 +480,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 if (TextUtils.isEmpty(name)) continue;
                 DropdownItemObject item = new DropdownItemObject(name, id, String.valueOf(id));
                 targetList.add(item);
-                if (isCurrentList && oldSelectedId == id && dropdownLabel.current == null)
-                    dropdownLabel.current = item;
             }
-            updateLabels();
+            updateLabels(targetList);
         }
     }
 }
