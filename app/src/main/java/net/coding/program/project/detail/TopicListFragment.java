@@ -104,7 +104,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
     @Override
     public void loadMore() {
-        showDialogLoading();
         getNextPageNetwork(urlGet, urlGet);
     }
 
