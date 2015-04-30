@@ -137,7 +137,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     @Override
     public boolean canEditLabels() {
-        return projectObject.isOwnerOrMember() || isNewTopic();
+        return true;
     }
 
     @Override

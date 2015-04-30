@@ -13,4 +13,13 @@ public class DropdownItemObject {
     public int id;
     public String text;
     public String value;
+    private String suffix;
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 }

@@ -330,7 +330,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
             @Override
             public boolean canEditLabels() {
-                return topicObject.project.isOwnerOrMember();
+                return true;
             }
 
             @Override

@@ -121,10 +121,6 @@ public class ProjectObject implements Serializable {
         return MyApp.sUserObject.id == owner_id;
     }
 
-    public boolean isOwnerOrMember(){
-        return  "member".equals(current_user_role) || "owner".equals(current_user_role);
-    }
-
     /*
      * 上传图片的链接，公开项目和私有项目的链接是不同的
      */

@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +53,10 @@ public class DropdownListView extends ScrollView {
             if (view instanceof DropdownListItemView) {
                 DropdownListItemView itemView = (DropdownListItemView) view;
                 DropdownItemObject data = (DropdownItemObject) itemView.getTag();
+                if (data == null) return;
                 boolean checked = data == current;
-                itemView.bind(data.text, checked);
+                String suffix = data.getSuffix();
+                itemView.bind(TextUtils.isEmpty(suffix) ? data.text : data.text + suffix, checked);
                 if (checked) button.setText(data.text);
             }
         }
@@ -94,8 +97,10 @@ public class DropdownListView extends ScrollView {
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    DropdownItemObject data = (DropdownItemObject) v.getTag();
+                    if (data == null) return;
                     DropdownItemObject oldOne = current;
-                    current = (DropdownItemObject) v.getTag();
+                    current = data;
                     flush();
                     container.hide();
                     if (oldOne != current) container.onSelectionChanged(DropdownListView.this);
@@ -123,7 +128,9 @@ public class DropdownListView extends ScrollView {
 
     public static interface Container {
         void show(DropdownListView listView);
+
         void hide();
+
         void onSelectionChanged(DropdownListView view);
     }
 }
