@@ -625,66 +625,6 @@ public class DynamicObject {
             }
         }
 
-        private String getDay(long time) {
-            Calendar calendarToday = Calendar.getInstance();
-            calendarToday.set(calendarToday.get(Calendar.YEAR), calendarToday.get(Calendar.MONTH), calendarToday.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-
-            final long oneDay = 1000 * 3600 * 24;
-            long today = calendarToday.getTimeInMillis();
-            long tomorrow = today + oneDay;
-            long tomorrowNext = tomorrow + oneDay;
-            long tomorrowNextNext = tomorrowNext + oneDay;
-            long yesterday = today - oneDay;
-            long lastYesterday = yesterday - oneDay;
-
-            if (time >= today) {
-                if (tomorrow > time) {
-                    return "今天";
-                } else if (tomorrowNext > time) {
-                    return "明天";
-                } else if (tomorrowNextNext > time) {
-                    return "后天";
-                }
-            } else {
-                if (time > yesterday) {
-                    return "昨天";
-                } else if (time > lastYesterday) {
-                    return "前天";
-                }
-            }
-
-            return null;
-        }
-
-        private String getWeek(long time) {
-
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            today.set(Calendar.HOUR, 0);
-            today.set(Calendar.MINUTE, 0);
-            today.set(Calendar.SECOND, 0);
-
-            final long oneWeek = 1000 * 60 * 60 * 24 * 7;
-
-            long weekBegin = today.getTimeInMillis();
-            long nextWeekBegin = weekBegin + oneWeek;
-            long nextnextWeekBegin = nextWeekBegin + oneWeek;
-            long lastWeekBegin = weekBegin - oneWeek;
-
-            if (time >= weekBegin) {
-                if (nextWeekBegin > time) {
-                    return Global.WeekFormatTime.format(time);
-                } else if (nextnextWeekBegin > time) {
-                    return Global.NextWeekFormatTime.format(time);
-                }
-            } else {
-                if (time > lastWeekBegin) {
-                    return Global.LastWeekFormatTime.format(time);
-                }
-            }
-            return null;
-        }
-
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             final String s;
@@ -696,13 +636,7 @@ public class DynamicObject {
                         Calendar data = Calendar.getInstance();
                         String time[] = task.deadline.split("-");
                         data.set(Integer.valueOf(time[0]), Integer.valueOf(time[1]) - 1, Integer.valueOf(time[2]));
-                        String dataString = getDay(data.getTimeInMillis());
-                        if (dataString == null) {
-                            dataString = getWeek(data.getTimeInMillis());
-                            if (dataString == null) {
-                                dataString = Global.MonthDayFormatTime.format(data.getTimeInMillis());
-                            }
-                        }
+                        String dataString = Global.getDataDetail(data.getTimeInMillis());
                         s = String.format("[%s] %s", dataString, task.getHtml());
                     }
 

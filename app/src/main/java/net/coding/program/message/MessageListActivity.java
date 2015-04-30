@@ -615,18 +615,18 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             iconfromNetwork(holder.icon, item.sender.avatar);
             holder.icon.setTag(item.sender.global_key);
 
-            String lastTimeString = "";
+            // 本条与上一条时间间隔不超过0.5小时就不显示本条时间
+            long lastTime = 0;
             if (position > 0) {
-                long lastTime = ((Message.MessageObject) getItem(position - 1)).created_at;
-                lastTimeString = Global.dayToNow(lastTime);
+                lastTime = ((Message.MessageObject) getItem(position - 1)).created_at;
             }
 
-            String timeString = Global.dayToNow(item.created_at);
-            if (timeString.equals(lastTimeString)) {
+            long selfTime = item.created_at;
+            if (lessThanStandard(selfTime, lastTime)) {
                 holder.time.setVisibility(View.GONE);
             } else {
                 holder.time.setVisibility(View.VISIBLE);
-                holder.time.setText(timeString);
+                holder.time.setText(Global.getTimeDetail(selfTime));
             }
 
             if (position == 0) {
@@ -667,7 +667,13 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
             return convertView;
         }
+
+        private boolean lessThanStandard(long selfTime, long lastTime) {
+            return (selfTime - lastTime) < (30 * 60 * 1000);
+        }
+
     };
+
 
     public static class MyMessage extends Message.MessageObject implements Serializable {
 

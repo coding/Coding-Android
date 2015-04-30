@@ -46,6 +46,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -334,6 +335,92 @@ public class Global {
 
     public static boolean isGif(String uri) {
         return uri.toLowerCase().endsWith(".gif");
+    }
+
+    private static String getDay(long time, boolean showToday) {
+        Calendar calendarToday = Calendar.getInstance();
+        calendarToday.set(calendarToday.get(Calendar.YEAR), calendarToday.get(Calendar.MONTH), calendarToday.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+
+        final long oneDay = 1000 * 3600 * 24;
+        long today = calendarToday.getTimeInMillis();
+        long tomorrow = today + oneDay;
+        long tomorrowNext = tomorrow + oneDay;
+        long tomorrowNextNext = tomorrowNext + oneDay;
+        long yesterday = today - oneDay;
+        long lastYesterday = yesterday - oneDay;
+
+        if (time >= today) {
+            if (tomorrow > time) {
+                if (showToday) {
+                    return "今天";
+                } else {
+                    return "";
+                }
+            } else if (tomorrowNext > time) {
+                return "明天";
+            } else if (tomorrowNextNext > time) {
+                return "后天";
+            }
+        } else {
+            if (time > yesterday) {
+                return "昨天";
+            } else if (time > lastYesterday) {
+                return "前天";
+            }
+        }
+
+        return null;
+    }
+
+    private static String getWeek(long time) {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        today.set(Calendar.HOUR, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+
+        final long oneWeek = 1000 * 60 * 60 * 24 * 7;
+
+        long weekBegin = today.getTimeInMillis();
+        long nextWeekBegin = weekBegin + oneWeek;
+        long nextnextWeekBegin = nextWeekBegin + oneWeek;
+        long lastWeekBegin = weekBegin - oneWeek;
+
+        if (time >= weekBegin) {
+            if (nextWeekBegin > time) {
+                return WeekFormatTime.format(time);
+            } else if (nextnextWeekBegin > time) {
+                return NextWeekFormatTime.format(time);
+            }
+        } else {
+            if (time > lastWeekBegin) {
+                return LastWeekFormatTime.format(time);
+            }
+        }
+        return null;
+    }
+
+    public static String getDataDetail(long timeInMillis) {
+        String dataString = getDay(timeInMillis, true);
+        if (dataString == null) {
+            dataString = getWeek(timeInMillis);
+            if (dataString == null) {
+                dataString = MonthDayFormatTime.format(timeInMillis);
+            }
+        }
+        return dataString;
+    }
+
+    public static String getTimeDetail(long timeInMillis) {
+        String dataString = getDay(timeInMillis, false);
+        if (dataString == null) {
+            dataString = getWeek(timeInMillis);
+            if (dataString == null) {
+                dataString = MonthDayFormatTime.format(timeInMillis);
+            }
+        }
+
+        return String.format("%s %s", dataString, DateFormatTime.format(new Date(timeInMillis)));
     }
 
     public static class MessageParse {

@@ -43,7 +43,7 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_user_detail)
 public class UserDetailActivity extends BaseActivity {
 
-    UserObject mUserObject;
+    private UserObject mUserObject;
 
     @Extra
     String globalKey;
@@ -318,6 +318,10 @@ public class UserDetailActivity extends BaseActivity {
 
     @Click
     void sendMessage() {
+        if (!dataIsLoaded()) {
+            return;
+        }
+
         Intent intent = new Intent(this, MessageListActivity_.class);
         intent.putExtra("mUserObject", mUserObject);
         startActivity(intent);
@@ -373,14 +377,26 @@ public class UserDetailActivity extends BaseActivity {
 
     @Click
     public void clickProject() {
+        if (!dataIsLoaded()) {
+            return;
+        }
+
         UserProjectActivity_.intent(this).mUserObject(mUserObject).start();
     }
 
     @Click
     public void clickMaopao() {
+        if (!dataIsLoaded()) {
+            return;
+        }
+
         Intent intent = new Intent(UserDetailActivity.this, UserMaopaoActivity.class);
         intent.putExtra(UserMaopaoActivity.PARAM_ID, mUserObject.id);
         startActivity(intent);
+    }
+
+    private boolean dataIsLoaded() {
+        return mUserObject != null;
     }
 
     private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
