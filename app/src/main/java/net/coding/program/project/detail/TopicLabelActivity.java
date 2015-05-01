@@ -23,6 +23,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -59,6 +60,9 @@ public class TopicLabelActivity extends BaseActivity {
     EditText editText;
     @ViewById
     View action_add, container;
+
+    @InstanceState
+    boolean hasChanged;
 
     private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
     private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
@@ -192,6 +196,7 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
+            hasChanged = true;
             currentLabelId = json.getInt("data");
             editText.setText("");
             allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName));
@@ -210,6 +215,7 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
+            hasChanged = true;
             allLabels.remove(currentLabelId);
             updateList();
         }
@@ -229,6 +235,7 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
+            hasChanged = true;
             if (allLabels.containsKey(currentLabelId)) {
                 allLabels.get(currentLabelId).name = currentLabelName;
             }
@@ -242,6 +249,7 @@ public class TopicLabelActivity extends BaseActivity {
         if (oldCheckedIds.equals(newLabelIds)) {
             endSaveTopicLabels();
         } else {
+            hasChanged = true;
             if (lockViews()) {
                 String url = Global.HOST + String.format(URI_SAVE_TOPIC_LABELS, ownerUser, projectName, topicId);
                 RequestParams body = new RequestParams();
@@ -252,19 +260,22 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void endSaveTopicLabels() {
+        hasChanged = true;
         finish();
     }
 
     @Override
     public void finish() {
-        ArrayList<TopicLabelObject> result = new ArrayList<>();
-        for (int id : checkedIds) {
-            TopicLabelObject labelObject = allLabels.get(id);
-            if (labelObject != null) result.add(labelObject);
+        if(hasChanged) {
+            ArrayList<TopicLabelObject> result = new ArrayList<>();
+            for (int id : checkedIds) {
+                TopicLabelObject labelObject = allLabels.get(id);
+                if (labelObject != null) result.add(labelObject);
+            }
+            Intent data = new Intent();
+            data.putExtra("labels", result);
+            setResult(RESULT_OK, data);
         }
-        Intent data = new Intent();
-        data.putExtra("labels", result);
-        setResult(RESULT_OK, data);
         super.finish();
     }
 
@@ -272,17 +283,20 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
+            hasChanged = true;
             endSaveTopicLabels();
         }
         unlockViews();
     }
 
     private void endAddTopicLabel() {
+        hasChanged = true;
         checkedIds.add(currentLabelId);
         onTopicLabelsChange();
     }
 
     private void endRemoveTopicLabel() {
+        hasChanged = true;
         checkedIds.remove(currentLabelId);
         onTopicLabelsChange();
     }
