@@ -24,7 +24,7 @@ import java.util.List;
 @EViewGroup(R.layout.project_topic_label_bar)
 public class TopicLabelBar extends RelativeLayout {
     @ViewById
-    View emptyView, action_edit;
+    View emptyView, action_edit, barView, reservedView;
     @ViewById
     FlowLayout flowLayout;
     private List<TopicLabelObject> mData = new ArrayList<>();
@@ -90,7 +90,8 @@ public class TopicLabelBar extends RelativeLayout {
     public void bind(List<TopicLabelObject> labels, final Controller controller) {
         this.controller = controller;
         if(!controller.canShowLabels()){
-            setVisibility(GONE);
+            barView.setVisibility(GONE);
+            reservedView.setVisibility(VISIBLE);
             return;
         }
         action_edit.setVisibility(controller.canEditLabels() ? View.VISIBLE : View.INVISIBLE);

@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @EFragment(R.layout.fragment_project_topic_list)
@@ -61,6 +62,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private static final String URI_TYPE_COUNTS = Global.HOST + "/api/user/%s/project/%s/topics/count";
     private static final String URI_ALL_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels?withCount=true";
     private static final String URI_MY_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels/my";
+    // 刷新页面后如果当前标签不再存在，则自动变回【全部标签】再刷新
+    private static final String URI_MY_LABELS_THEN_RELOAD = "URI_MY_LABELS_THEN_RELOAD";
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -99,7 +102,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 getParentFragment().startActivityForResult(intent, RESULT_DETAIL);
             }
         });
-        onRefresh();
+
+        dropdownButtonsController.flushAll(true);
     }
 
     @Override
@@ -136,6 +140,13 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         if(URI_MY_LABELS.equals(tag)) {
             if (code == 0 && dropdownButtonsController != null && respanse != null)
                 dropdownButtonsController.flushMyLabels(respanse.optJSONArray("data"));
+            return;
+        }
+        if(URI_MY_LABELS_THEN_RELOAD.equals(tag)){
+            if (code == 0 && dropdownButtonsController != null && respanse != null) {
+                dropdownButtonsController.flushMyLabels(respanse.optJSONArray("data"));
+                onRefresh();
+            }
             return;
         }
         setRefreshing(false);
@@ -253,7 +264,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     public void onResume() {
         super.onResume();
         dropdownButtonsController.reset();
-        dropdownButtonsController.flushAll();
+        dropdownButtonsController.flushAll(false);
     }
 
     @Override
@@ -273,8 +284,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 //                    mData.add(0, topic);
 //                    baseAdapter.notifyDataSetChanged();
 //                    dropdownButtonsController.flushAll();
-                    dropdownButtonsController.flushAll();
-                    onRefresh();
+                    dropdownButtonsController.flushAll(false);
                 }
                 break;
 
@@ -314,8 +324,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 //                        }
 //
 //                    }
-                    dropdownButtonsController.flushAll();
-                    onRefresh();
+                    dropdownButtonsController.flushAll(false);
                 }
                 break;
             default:
@@ -340,13 +349,12 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     }
 
     private class DropdownButtonsController implements DropdownListView.Container {
-        DropdownListView currentDropdownList;
-        private List<DropdownItemObject> datasetType;
-        private List<DropdownItemObject> datasetLabel;
-        private List<DropdownItemObject> datasetOrder;
-
-        private List<DropdownItemObject> datasetAllLabel;
-        private List<DropdownItemObject> datasetMyLabel;
+        private DropdownListView currentDropdownList;
+        private List<DropdownItemObject> datasetType = new ArrayList<>(2);
+        private List<DropdownItemObject> datasetAllLabel = new ArrayList<>();
+        private List<DropdownItemObject> datasetMyLabel = new ArrayList<>();
+        private List<DropdownItemObject> datasetLabel = datasetAllLabel;
+        private List<DropdownItemObject> datasetOrder = new ArrayList<>(3);
 
         @Override
         public void show(DropdownListView view) {
@@ -379,7 +387,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
         @Override
         public void onSelectionChanged(DropdownListView view) {
-            if(view == dropdownType){
+            if (view == dropdownType) {
                 updateLabels(getCurrentLabels());
             }
             onRefresh();
@@ -403,28 +411,20 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
         void init() {
             reset();
-            datasetType = new ArrayList<>(2);
             datasetType.add(new DropdownItemObject(TYPE_ALL, ID_TYPE_ALL, "all"));
             datasetType.add(new DropdownItemObject(TYPE_MY, ID_TYPE_MY, "my"));
             dropdownType.bind(datasetType, chooseType, this, ID_TYPE_ALL);
 
-            datasetAllLabel = new ArrayList<>();
-            datasetMyLabel = new ArrayList<>();
-            DropdownItemObject defaultLabel = new DropdownItemObject(LABEL_ALL, ID_LABEL_ALL, null){
+            datasetAllLabel.add(new DropdownItemObject(LABEL_ALL, ID_LABEL_ALL, null) {
                 @Override
                 public String getSuffix() {
-                    return dropdownType.current == null? "":dropdownType.current.getSuffix();
+                    return dropdownType.current == null ? "" : dropdownType.current.getSuffix();
                 }
-            };
-            datasetAllLabel.add(defaultLabel);
-            datasetMyLabel.add(defaultLabel);
-
+            });
+            datasetMyLabel.add(new DropdownItemObject(LABEL_ALL, ID_LABEL_ALL, null));
             datasetLabel = datasetAllLabel;
             dropdownLabel.bind(datasetLabel, chooseLabel, this, ID_LABEL_ALL);
 
-            flushAll();
-
-            datasetOrder = new ArrayList<>(3);
             datasetOrder.add(new DropdownItemObject(ORDER_REPLY_TIME, ID_ORDER_REPLY_TIME, "51"));
             datasetOrder.add(new DropdownItemObject(ORDER_PUBLISH_TIME, ID_ORDER_PUBLISH_TIME, "49"));
             datasetOrder.add(new DropdownItemObject(ORDER_HOT, ID_ORDER_HOT, "53"));
@@ -461,16 +461,21 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             }
         }
 
-        void flushAll() {
+        void flushAll(boolean reloadImmedate) {
             getNetwork(String.format(URI_TYPE_COUNTS, mProjectObject.owner_user_name, mProjectObject.name), URI_TYPE_COUNTS);
             getNetwork(String.format(URI_ALL_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_ALL_LABELS);
-            getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_MY_LABELS);
+            if(reloadImmedate){
+                getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_MY_LABELS);
+                onRefresh();
+            } else {
+                getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_MY_LABELS_THEN_RELOAD);
+            }
         }
 
         public void flushCounts(JSONObject json) {
             if (json == null) return;
-            datasetType.get(ID_TYPE_ALL).setSuffix(" (" +json.optInt("all", 0) + ")");
-            datasetType.get(ID_TYPE_MY).setSuffix(" (" +json.optInt("my", 0) + ")");
+            datasetType.get(ID_TYPE_ALL).setSuffix(" (" + json.optInt("all", 0) + ")");
+            datasetType.get(ID_TYPE_MY).setSuffix(" (" + json.optInt("my", 0) + ")");
             dropdownType.flush();
             dropdownLabel.flush();
         }
@@ -487,17 +492,15 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             if (array == null) return;
             while (targetList.size() > 1) targetList.remove(targetList.size() - 1);
             for (int i = 0, n = array.length(); i < n; i++) {
-                JSONObject data = array.optJSONObject(i);
+                final JSONObject data = array.optJSONObject(i);
                 int id = data.optInt("id");
                 String name = data.optString("name");
                 if (TextUtils.isEmpty(name)) continue;
-                if(targetList == datasetAllLabel){
-                    // 只有all才做0数量过滤，因为my的返回数据总是0
-                    int topicsCount = data.optInt("count", 0);
-                    if ( topicsCount == 0 && targetList == datasetAllLabel) continue;
-                }
+                int topicsCount = data.optInt("count", 0);
+                // 只有all才做0数量过滤，因为my的返回数据总是0
+                if (topicsCount == 0 && targetList == datasetAllLabel) continue;
                 DropdownItemObject item = new DropdownItemObject(name, id, String.valueOf(id));
-                item.setSuffix(" ("+topicsCount+")");
+                if(targetList == datasetAllLabel) item.setSuffix(String.format(" (%d)", data.optInt("count",0)));
                 targetList.add(item);
             }
             updateLabels(targetList);

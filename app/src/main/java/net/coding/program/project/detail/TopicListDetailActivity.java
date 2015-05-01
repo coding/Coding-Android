@@ -183,6 +183,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         if(code == RESULT_OK){
             topicObject.labels = labels;
             updateLabels(topicObject.labels);
+            mResultData.putExtra("topic", topicObject);
         }
     }
 
@@ -504,7 +505,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mResultData.putExtra("id", topicObject.id);
                 setResult(RESULT_OK, mResultData);
                 finish();
-
             } else {
                 showButtomToast(R.string.delete_fail);
             }
@@ -527,6 +527,15 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         } else if (URI_DELETE_TOPIC_LABEL.equals(tag)){
             if (code == 0) {
                 labelBar.removeLabel(currentLabelId);
+                if(topicObject.labels != null) {
+                    for (TopicLabelObject item : topicObject.labels) {
+                        if(item.id == currentLabelId){
+                            topicObject.labels.remove(item);
+                            break;
+                        }
+                    }
+                }
+                mResultData.putExtra("topic", topicObject);
             }else{
                 currentLabelId = -1;
                 showErrorMsg(code, respanse);
