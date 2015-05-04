@@ -63,6 +63,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private static final String URI_ALL_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels?withCount=true";
     private static final String URI_MY_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels/my";
     // 刷新页面后如果当前标签不再存在，则自动变回【全部标签】再刷新
+    private static final String URI_ALL_LABELS_THEN_RELOAD = "URI_ALL_LABELS_THEN_RELOAD";
     private static final String URI_MY_LABELS_THEN_RELOAD = "URI_MY_LABELS_THEN_RELOAD";
 
     @FragmentArg
@@ -145,6 +146,13 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         if(URI_MY_LABELS_THEN_RELOAD.equals(tag)){
             if (code == 0 && dropdownButtonsController != null && respanse != null) {
                 dropdownButtonsController.flushMyLabels(respanse.optJSONArray("data"));
+                onRefresh();
+            }
+            return;
+        }
+        if(URI_ALL_LABELS_THEN_RELOAD.equals(tag)){
+            if (code == 0 && dropdownButtonsController != null && respanse != null) {
+                dropdownButtonsController.flushAllLabels(respanse.optJSONArray("data"));
                 onRefresh();
             }
             return;
@@ -463,12 +471,14 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
         void flushAll(boolean reloadImmedate) {
             getNetwork(String.format(URI_TYPE_COUNTS, mProjectObject.owner_user_name, mProjectObject.name), URI_TYPE_COUNTS);
-            getNetwork(String.format(URI_ALL_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_ALL_LABELS);
             if(reloadImmedate){
+                getNetwork(String.format(URI_ALL_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_ALL_LABELS);
                 getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_MY_LABELS);
                 onRefresh();
             } else {
-                getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), URI_MY_LABELS_THEN_RELOAD);
+                List<DropdownItemObject> currentList = getCurrentLabels();
+                getNetwork(String.format(URI_ALL_LABELS, mProjectObject.owner_user_name, mProjectObject.name),currentList==datasetAllLabel?  URI_ALL_LABELS_THEN_RELOAD:  URI_ALL_LABELS);
+                getNetwork(String.format(URI_MY_LABELS, mProjectObject.owner_user_name, mProjectObject.name), currentList==datasetMyLabel? URI_MY_LABELS_THEN_RELOAD: URI_MY_LABELS);
             }
         }
 
