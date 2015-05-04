@@ -39,8 +39,12 @@ public class TopicEditFragment extends MDEditFragment {
         updateLabels(mOldData.labels);
     }
 
-    public void updateLabels(List<TopicLabelObject> labels) {
+    private void updateLabels(List<TopicLabelObject> labels) {
         if (labelBar != null) labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
+    }
+
+    public void updateLabels(List<TopicLabelObject> labels, TopicLabelBar.Controller controller) {
+        if (labelBar != null && controller != null) labelBar.bind(labels, controller);
     }
 
     @OptionsItem
