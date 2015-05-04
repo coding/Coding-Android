@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -61,9 +62,6 @@ public class TopicLabelActivity extends BaseActivity {
     @ViewById
     View action_add, container;
 
-    @InstanceState
-    boolean hasChanged;
-
     private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
     private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
     private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
@@ -71,26 +69,23 @@ public class TopicLabelActivity extends BaseActivity {
     private static final String URI_SAVE_TOPIC_LABELS = "/api/user/%s/project/%s/topics/%s/labels";
     private static final String COLOR = "#701035";
 
-    private DialogUtil.BottomPopupWindow mPopupWindow;
-
     private LinkedHashMap<Integer, TopicLabelObject> allLabels = new LinkedHashMap<>();
     private HashSet<Integer> checkedIds = new HashSet<>();
-    private String oldCheckedIds;
-
-    private String currentLabelName;
-    private int currentLabelId;
+    @InstanceState
+    String currentLabelName;
+    @InstanceState
+    int currentLabelId;
+    private boolean saveTopicLabels = false;
 
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         checkedIds.clear();
-        if (checkedLabels != null) {
-            for (TopicLabelObject item : checkedLabels) {
-                checkedIds.add(item.id);
-            }
+        if (checkedLabels == null) checkedLabels = new ArrayList<>();
+        for (TopicLabelObject item : checkedLabels) {
+            checkedIds.add(item.id);
         }
-        oldCheckedIds = getIds(checkedIds);
 
         beginLoadLabels();
     }
@@ -120,6 +115,7 @@ public class TopicLabelActivity extends BaseActivity {
         if (topicId != null) {
             beginSaveTopicLabels();
         } else {
+            saveTopicLabels = true;
             finish();
         }
     }
@@ -196,7 +192,6 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
-            hasChanged = true;
             currentLabelId = json.getInt("data");
             editText.setText("");
             allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName));
@@ -215,7 +210,6 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
-            hasChanged = true;
             allLabels.remove(currentLabelId);
             updateList();
         }
@@ -235,7 +229,6 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
-            hasChanged = true;
             if (allLabels.containsKey(currentLabelId)) {
                 allLabels.get(currentLabelId).name = currentLabelName;
             }
@@ -245,28 +238,39 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void beginSaveTopicLabels() {
-        String newLabelIds = getIds(checkedIds);
-        if (oldCheckedIds.equals(newLabelIds)) {
+        if (isLabelsChanged(false)) {
             endSaveTopicLabels();
         } else {
-            hasChanged = true;
             if (lockViews()) {
                 String url = Global.HOST + String.format(URI_SAVE_TOPIC_LABELS, ownerUser, projectName, topicId);
                 RequestParams body = new RequestParams();
-                body.put("label_id", newLabelIds);
+                body.put("label_id", getIds(checkedIds));
                 postNetwork(url, body, "URI_SAVE_TOPIC_LABELS");
             }
         }
     }
 
     private void endSaveTopicLabels() {
-        hasChanged = true;
+        saveTopicLabels = true;
         finish();
+    }
+
+    private boolean isLabelsChanged(boolean checkNames) {
+        if (checkedIds.size() != checkedLabels.size()) return true;
+        for (TopicLabelObject oldItem : checkedLabels) {
+            if(!checkedIds.contains(oldItem.id)) return true;
+            if (checkNames) {
+                TopicLabelObject newItem = allLabels.get(oldItem.id);
+                if (newItem == null || !newItem.name.equals(oldItem.name)) return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void finish() {
-        if(hasChanged) {
+        if (saveTopicLabels) {
+            // 保存时直接返回新标签列表
             ArrayList<TopicLabelObject> result = new ArrayList<>();
             for (int id : checkedIds) {
                 TopicLabelObject labelObject = allLabels.get(id);
@@ -275,6 +279,20 @@ public class TopicLabelActivity extends BaseActivity {
             Intent data = new Intent();
             data.putExtra("labels", result);
             setResult(RESULT_OK, data);
+        } else {
+            // 不保存时（后退），返回原选中的标签列表的最新状态（可能被删除或者重命名）
+            if (isLabelsChanged(true)) {
+                ArrayList<TopicLabelObject> result = new ArrayList<>();
+                if (checkedLabels != null) {
+                    for (TopicLabelObject item : checkedLabels) {
+                        TopicLabelObject newItem = allLabels.get(item.id);
+                        if (newItem != null) result.add(newItem);
+                    }
+                }
+                Intent data = new Intent();
+                data.putExtra("labels", result);
+                setResult(RESULT_OK, data);
+            }
         }
         super.finish();
     }
@@ -283,29 +301,26 @@ public class TopicLabelActivity extends BaseActivity {
         if (code != 0) {
             showErrorMsg(code, json);
         } else {
-            hasChanged = true;
             endSaveTopicLabels();
         }
         unlockViews();
     }
 
     private void endAddTopicLabel() {
-        hasChanged = true;
         checkedIds.add(currentLabelId);
         onTopicLabelsChange();
     }
 
     private void endRemoveTopicLabel() {
-        hasChanged = true;
         checkedIds.remove(currentLabelId);
         onTopicLabelsChange();
     }
 
     private static String getIds(Collection<Integer> list) {
-        StringBuilder labelIds = new StringBuilder();
-        for (int id : list) labelIds.append(id + ",");
-        if (labelIds.length() > 0) labelIds.deleteCharAt(labelIds.length() - 1);
-        return labelIds.toString();
+        StringBuilder ids = new StringBuilder();
+        for (int id : list) ids.append(id + ",");
+        if (ids.length() > 0) ids.deleteCharAt(ids.length() - 1);
+        return ids.toString();
     }
 
     public void showPop(View view) {

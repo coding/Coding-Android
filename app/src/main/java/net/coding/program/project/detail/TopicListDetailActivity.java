@@ -168,12 +168,16 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     @OnActivityResult(RESULT_EDIT)
-    void onResultEdit(int requestCode, Intent data) {
+    void onResultEdit(int requestCode, Intent data, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels) {
         if (requestCode == Activity.RESULT_OK) {
             topicObject = (TopicObject) data.getSerializableExtra("topic");
             topicTitleTextView.setText(topicObject.title);
             updateLabels(topicObject.labels);
             setTopicWebView(this, webView, bubble, topicObject.content);
+            mResultData.putExtra("topic", topicObject);
+        } else if (labels != null) {
+            topicObject.labels = labels;
+            updateLabels(topicObject.labels);
             mResultData.putExtra("topic", topicObject);
         }
     }

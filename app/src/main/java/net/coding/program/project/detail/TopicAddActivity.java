@@ -17,6 +17,7 @@ import net.coding.program.third.EmojiFilter;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.json.JSONException;
@@ -49,6 +50,9 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
 
+    @InstanceState
+    protected boolean labelsHasChanged;
+
     @AfterViews
     protected void init() {
         ActionBar actionBar = getSupportActionBar();
@@ -70,7 +74,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     @OptionsItem(android.R.id.home)
     protected void back() {
-        if (editFragment.isContentModify()) {
+        if (labelsHasChanged||editFragment.isContentModify()) {
             showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -159,6 +163,14 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
                 break;
             }
         }
+        labelsHasChanged = true;
+        saveLabelsIfCancel();
+    }
+
+    private void saveLabelsIfCancel(){
+        Intent intent = new Intent();
+        intent.putExtra("labels",  new ArrayList<>(modifyData.labels));
+        setResult(RESULT_CANCELED, intent);
     }
 
     public static class TopicData implements Serializable {
@@ -253,6 +265,8 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
             modifyData.labels = labels;
             editFragment.updateLabels(modifyData.labels);
             previewFragment.updateLabels(modifyData.labels);
+            labelsHasChanged = true;
+            saveLabelsIfCancel();
         }
     }
 }

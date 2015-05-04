@@ -46,7 +46,7 @@ public class TopicPreviewFragment extends BaseFragment {
     }
 
     public void updateLabels(List<TopicLabelObject> labels) {
-        if (labelBar != null) labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
+        if (labelBar != null && getActivity() != null)  labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
     }
 
     @Override
