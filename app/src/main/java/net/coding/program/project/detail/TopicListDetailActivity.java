@@ -43,6 +43,7 @@ import net.coding.program.third.EmojiFilter;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -102,6 +103,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     ArrayList<TopicObject> mData = new ArrayList();
     private int currentLabelId;
+    @InstanceState
+    protected boolean saveTopicWhenLoaded;
 
     Intent mResultData = new Intent();
 
@@ -148,6 +151,10 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     private void initData() {
         getSupportActionBar().setTitle(topicObject.project.name);
         updateHeadData();
+        if(saveTopicWhenLoaded){
+            saveTopicWhenLoaded = false;
+            mResultData.putExtra("topic", topicObject);
+        }
         urlCommentSend = String.format(urlCommentSend, topicObject.project_id, topicObject.id);
         urlCommentList = String.format(urlCommentList, topicObject.id);
 
@@ -168,18 +175,13 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     @OnActivityResult(RESULT_EDIT)
-    void onResultEdit(int requestCode, Intent data, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels) {
-        if (requestCode == Activity.RESULT_OK) {
-            topicObject = (TopicObject) data.getSerializableExtra("topic");
-            topicTitleTextView.setText(topicObject.title);
-            updateLabels(topicObject.labels);
-            setTopicWebView(this, webView, bubble, topicObject.content);
-            mResultData.putExtra("topic", topicObject);
-        } else if (labels != null) {
-            topicObject.labels = labels;
-            updateLabels(topicObject.labels);
-            mResultData.putExtra("topic", topicObject);
-        }
+    void onResultEdit() {
+        // 分支情况太多，如编辑状态下可进入标签管理删掉目前用的标签，
+        // 回到编辑后又重复进入修改名字或者继续添加删除，最后还可以不保存返回
+        // 除非一直把全局labels的所有状态通过intents传递，否则原状态难以维持，这里只好直接重新刷新了，
+        // 会慢一些但状态肯定是对的，可能影响回复列表页数
+        saveTopicWhenLoaded = true;
+        onRefresh();
     }
 
     @OnActivityResult(RESULT_LABEL)
