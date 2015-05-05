@@ -1,9 +1,12 @@
 package net.coding.program.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-18.
@@ -16,6 +19,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public String project_id = "";
     public String title = "";
     public long updated_at;
+    public List<TopicLabelObject> labels = new ArrayList<>();
 
     public TopicObject(JSONObject json) throws JSONException {
         super(json);
@@ -29,5 +33,12 @@ public class TopicObject extends BaseComment implements Serializable {
         project_id = json.optString("project_id");
         title = json.optString("title");
         updated_at = json.optLong("updated_at");
+
+        {
+            JSONArray array = json.optJSONArray("labels");
+            for (int i = 0, n = array.length(); i < n; i++) {
+                labels.add(new TopicLabelObject(array.getJSONObject(i)));
+            }
+        }
     }
 }

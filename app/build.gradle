@@ -37,7 +37,7 @@ dependencies {
     compile 'com.android.support:support-v13:21.0.3'
     compile 'com.ms-square:etsyblur:0.1.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.android.support:cardview-v7:21.+'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.github.chrisbanes.photoview:library:1.2.2'

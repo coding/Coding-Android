@@ -4,8 +4,8 @@
     tools:context=".MyActivity">
     <item
         android:id="@+id/action_add"
-        android:title="新建任务"
-        android:icon="@drawable/ic_menu_add"
+        android:title="新建讨论"
+        android:icon="@drawable/ic_menu_edit"
         app:showAsAction="always" />
 
 </menu>

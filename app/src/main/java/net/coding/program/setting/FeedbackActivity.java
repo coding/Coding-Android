@@ -15,6 +15,11 @@ public class FeedbackActivity extends TopicAddActivity {
     }
 
     @Override
+    public boolean canShowLabels() {
+        return false;
+    }
+
+    @Override
     protected int getTopicId() {
         return 39583;
     }

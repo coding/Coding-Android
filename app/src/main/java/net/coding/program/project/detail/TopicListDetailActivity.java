@@ -36,12 +36,14 @@ import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -53,6 +55,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @EActivity(R.layout.activity_topic_list_detail)
 public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
@@ -86,6 +89,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     //    EnterLayout mEnterLayout;
     ImageCommentLayout mEnterComment;
+    private TopicLabelBar labelBar;
 
     String owerGlobar = "";
 
@@ -93,9 +97,15 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String urlCommentSend = Global.HOST + "/api/project/%s/topic?parent=%s";
 
+    String URI_DELETE_TOPIC_LABEL = Global.HOST + "/api/topic/%s/label/%s";
+
     String urlTopic = "";
 
     ArrayList<TopicObject> mData = new ArrayList<>();
+    private int currentLabelId;
+
+    @InstanceState
+    protected boolean saveTopicWhenLoaded;
 
     Intent mResultData = new Intent();
 
@@ -142,6 +152,10 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     private void initData() {
         getSupportActionBar().setTitle(topicObject.project.name);
         updateHeadData();
+        if (saveTopicWhenLoaded) {
+            saveTopicWhenLoaded = false;
+            mResultData.putExtra("topic", topicObject);
+        }
         urlCommentSend = String.format(urlCommentSend, topicObject.project_id, topicObject.id);
         urlCommentList = String.format(urlCommentList, topicObject.id);
 
@@ -150,6 +164,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     final int RESULT_AT = 1;
     final int RESULT_EDIT = 2;
+    final int RESULT_LABEL = 3;
 
     @OnActivityResult(RESULT_AT)
     void onResultAt(int requestCode, Intent data) {
@@ -161,11 +176,20 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     @OnActivityResult(RESULT_EDIT)
-    void onResultEdit(int requestCode, Intent data) {
-        if (requestCode == Activity.RESULT_OK) {
-            topicObject = (TopicObject) data.getSerializableExtra("topic");
-            topicTitleTextView.setText(topicObject.title);
-            setTopicWebView(this, webView, bubble, topicObject.content);
+    void onResultEdit() {
+        // 分支情况太多，如编辑状态下可进入标签管理删掉目前用的标签，
+        // 回到编辑后又重复进入修改名字或者继续添加删除，最后还可以不保存返回
+        // 除非一直把全局labels的所有状态通过intents传递，否则原状态难以维持，这里只好直接重新刷新了，
+        // 会慢一些但状态肯定是对的，可能影响回复列表页数
+        saveTopicWhenLoaded = true;
+        onRefresh();
+    }
+
+    @OnActivityResult(RESULT_LABEL)
+    void onResultLabel(int code, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels) {
+        if (code == RESULT_OK) {
+            topicObject.labels = labels;
+            updateLabels(topicObject.labels);
             mResultData.putExtra("topic", topicObject);
         }
     }
@@ -285,6 +309,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
         ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
 
+        updateLabels(topicObject.labels);
+
         webView = (WebView) mListHead.findViewById(R.id.comment);
         setTopicWebView(this, webView, bubble, topicObject.content);
 
@@ -300,6 +326,38 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         });
 
         listView.setAdapter(baseAdapter);
+    }
+
+    private void updateLabels(List<TopicLabelObject> labels) {
+        if (labelBar == null) labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        labelBar.bind(labels, new TopicLabelBar.Controller() {
+            @Override
+            public boolean canShowLabels() {
+                return true;
+            }
+
+            @Override
+            public boolean canEditLabels() {
+                return true;
+            }
+
+            @Override
+            public void onEditLabels(TopicLabelBar view) {
+                TopicLabelActivity_.intent(TopicListDetailActivity.this)
+                        .ownerUser(topicObject.project.owner_user_name)
+                        .projectName(topicObject.project.name)
+                        .topicId(topicObject.id)
+                        .checkedLabels(topicObject.labels)
+                        .startForResult(RESULT_LABEL);
+            }
+
+            @Override
+            public void onRemoveLabel(TopicLabelBar view, int labelId) {
+                currentLabelId = labelId;
+                String url = String.format(URI_DELETE_TOPIC_LABEL, topicObject.id, labelId);
+                deleteNetwork(url, URI_DELETE_TOPIC_LABEL);
+            }
+        });
     }
 
     private void prepareComment() {
@@ -459,7 +517,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mResultData.putExtra("id", topicObject.id);
                 setResult(RESULT_OK, mResultData);
                 finish();
-
             } else {
                 showButtomToast(R.string.delete_fail);
             }
@@ -476,6 +533,23 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                 mSendedImages.put((String) data, mdPhotoUri);
                 sendCommentAll();
             } else {
+                showErrorMsg(code, respanse);
+                showProgressBar(false);
+            }
+        } else if (URI_DELETE_TOPIC_LABEL.equals(tag)) {
+            if (code == 0) {
+                labelBar.removeLabel(currentLabelId);
+                if (topicObject.labels != null) {
+                    for (TopicLabelObject item : topicObject.labels) {
+                        if (item.id == currentLabelId) {
+                            topicObject.labels.remove(item);
+                            break;
+                        }
+                    }
+                }
+                mResultData.putExtra("topic", topicObject);
+            } else {
+                currentLabelId = -1;
                 showErrorMsg(code, respanse);
                 showProgressBar(false);
             }

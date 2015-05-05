@@ -8,6 +8,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.model.TopicLabelObject;
 import net.coding.program.project.detail.TopicEditFragment.SaveData;
 import net.coding.program.task.TaskDescripHtmlFragment;
 
@@ -19,13 +20,16 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 @EFragment(R.layout.fragment_topic_preview)
 @OptionsMenu(R.menu.topic_detail_edit_preview)
 public class TopicPreviewFragment extends BaseFragment {
 
     @ViewById
     protected TextView title;
-
+    @ViewById
+    protected TopicLabelBar labelBar;
     @ViewById
     protected WebView content;
 
@@ -37,7 +41,13 @@ public class TopicPreviewFragment extends BaseFragment {
 
         TopicAddActivity.TopicData data = saveData.loadData();
         title.setText(data.title);
+        updateLabels(data.labels);
         mdToHtml(data.content);
+    }
+
+    public void updateLabels(List<TopicLabelObject> labels) {
+        if (labelBar != null && getActivity() != null)
+            labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
     }
 
     @Override

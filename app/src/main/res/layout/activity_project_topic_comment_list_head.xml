@@ -35,6 +35,14 @@
         android:layout_alignBottom="@+id/icon"
         android:layout_toRightOf="@+id/icon" />
 
+
+    <net.coding.program.project.detail.TopicLabelBar_
+        android:id="@+id/labelBar"
+        android:layout_below="@+id/icon"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <WebView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,8 +50,7 @@
         android:layout_marginRight="12dp"
         android:id="@+id/comment"
         android:background="@color/transparent"
-        android:layout_below="@+id/icon"
-        android:layout_marginTop="15dp" />
+        android:layout_below="@+id/labelBar" />
 
     <TextView
         android:layout_marginTop="12dp"

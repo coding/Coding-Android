@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<net.coding.program.project.detail.DropdownListItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/list_item_selector"
+    android:drawableRight="@drawable/ic_task_status_list_check"
+    android:drawablePadding="2dp"
+    android:gravity="center_vertical|left"
+    android:maxLines="1"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:singleLine="true"
+    android:text="选项"
+    android:textColor="@color/font_black_6"
+    android:textSize="15sp" />

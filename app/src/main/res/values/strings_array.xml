@@ -171,6 +171,10 @@
         <item>删除</item>
     </string-array>
 
+    <string-array name="topic_label_action">
+        <item>重命名</item>
+        <item>删除</item>
+    </string-array>
     <string-array name="project_pin">
         <item>设为常用项目</item>
     </string-array>
