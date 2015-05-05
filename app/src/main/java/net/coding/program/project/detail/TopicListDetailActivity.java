@@ -390,14 +390,13 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                     String url = topicObject.project.getHttpUploadPhoto();
                     RequestParams params = new RequestParams();
                     params.put("dir", 0);
-                    Uri uri = Uri.parse(imagePath);
-                    File file;
-                    if (Global.isGif(imagePath)) {
-                        file = new File(imagePath);
-                    } else {
-                        file = new PhotoOperate(this).scal(uri);
+                    File fileImage = new File(imagePath);
+                    if (!Global.isGifByFile(fileImage)) {
+                        Uri uri = Uri.parse(imagePath);
+                        fileImage = new PhotoOperate(this).scal(uri);
                     }
-                    params.put("file", file);
+
+                    params.put("file", fileImage);
                     tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
                     postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);
                     showProgressBar(true);
