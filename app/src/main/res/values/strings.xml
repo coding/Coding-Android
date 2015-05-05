@@ -18,6 +18,7 @@
     <string name="title_activity_topic_comment">讨论</string>
     <string name="topic_create">创建讨论</string>
     <string name="topic_edit">编辑讨论</string>
+    <string name="topic_label">标签管理</string>
     <string name="title_activity_make_maopao">发冒泡</string>
     <string name="title_activity_location_search">所在位置</string>
     <string name="title_activity_location_edit">创建位置</string>

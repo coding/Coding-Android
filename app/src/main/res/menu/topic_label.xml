@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.project.detail.TopicLabelActivity">
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_menu_ok"
+        android:title="确定"
+        app:showAsAction="always" />
+</menu>

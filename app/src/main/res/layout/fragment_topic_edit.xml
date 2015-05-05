@@ -7,34 +7,43 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="18dp"
         android:background="@null"
-        android:hint="讨论标题"
+        android:hint="标题"
+        android:textColorHint="#a3a3a3"
         android:singleLine="true"
-        android:text="我我问"
+        android:text=""
+        android:textSize="20sp"
         android:textColor="@color/font_black_content" />
+
+    <net.coding.program.project.detail.TopicLabelBar_
+        android:id="@+id/labelBar"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginBottom="9dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="9dp"
-        android:background="#ffcccccc" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#dddddd" />
 
     <EditText
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_weight="1"
         android:background="@color/transparent"
         android:gravity="start"
-        android:hint="讨论内容"
+        android:hint="讨论内容…"
+        android:textSize="16sp"
+        android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
         android:textColor="@color/font_black_comment" />
 
