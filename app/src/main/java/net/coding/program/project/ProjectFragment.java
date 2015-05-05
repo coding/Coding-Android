@@ -87,6 +87,17 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         }
     }
 
+    @Override
+    public void updatePin(int id, boolean pin) {
+        List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
+        for (WeakReference<Fragment> item : fragmentList) {
+            Fragment fragment = item.get();
+            if (fragment instanceof ProjectListFragment) {
+                ((ProjectListFragment) fragment).setPin(id, pin);
+            }
+        }
+    }
+
     @OptionsItem
     void action_search() {
         SearchProjectActivity_.intent(this).start();

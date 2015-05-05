@@ -1,6 +1,8 @@
 package net.coding.program.project;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
@@ -27,6 +31,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +74,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
     MyAdapter myAdapter = new MyAdapter();
 
     @AfterViews
-    protected void init() {
+    protected final void init() {
         initRefreshLayout();
         msectionId = 0;
         for (ProjectObject item : mData) {
@@ -89,6 +94,41 @@ public class ProjectListFragment extends RefreshBaseFragment {
         }
     }
 
+
+    private static final String URL_PIN_DELETE = Global.HOST + "/api/user/projects/pin?ids=%d";
+    private static final String URL_PIN_SET = Global.HOST + "/api/user/projects/pin";
+
+    @ItemLongClick
+    protected final void listView(int pos) {
+        final int projectId = mData.get(pos).getId();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
+        if (mData.get(pos).isPin()) {
+            builder.setItems(R.array.project_pin_cannel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        String pinDeleteUrl = String.format(URL_PIN_DELETE, projectId);
+                        deleteNetwork(pinDeleteUrl, URL_PIN_DELETE, -1, projectId);
+                    }
+                }
+            });
+        } else {
+            builder.setItems(R.array.project_pin, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        RequestParams params = new RequestParams();
+                        params.put("ids", projectId);
+                        postNetwork(URL_PIN_SET, params, URL_PIN_SET, -1, projectId);
+                    }
+                }
+            });
+        }
+        AlertDialog dialog = builder.setCancelable(true).show();
+        CustomDialog.dialogTitleLineColor(listView.getContext(), dialog);
+    }
+
     @Override
     public void onRefresh() {
         ((SwipeRefreshLayout.OnRefreshListener) getParentFragment()).onRefresh();
@@ -98,7 +138,26 @@ public class ProjectListFragment extends RefreshBaseFragment {
         for (int i = 0; i < mData.size(); ++i) {
             if (mData.get(i).getId() == id) {
                 mData.get(i).un_read_activities_count = 0;
-                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                myAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    public void setPin(int id, boolean pin) {
+        for (int i = 0; i < mData.size(); ++i) {
+            if (mData.get(i).getId() == id) {
+                mData.get(i).setPin(pin);
+
+                ProjectObject item = mData.remove(i);
+                if (pin) {
+                    ++msectionId;
+                    mData.add(0, item);
+                } else {
+                    --msectionId;
+                    mData.add(msectionId, item);
+                }
+                myAdapter.notifyDataSetChanged();
                 break;
             }
         }
@@ -113,6 +172,22 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 int id = (int) data;
                 ((UpdateData) getParentFragment()).updateRead(id);
                 UnreadNotify.update(getActivity());
+            }
+
+        } else if (tag.equals(URL_PIN_SET)) {
+            if (code == 0) {
+                int id = (int) data;
+                ((UpdateData) getParentFragment()).updatePin(id, true);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+
+        } else if (tag.equals(URL_PIN_DELETE)) {
+            if (code == 0) {
+                int id = (int) data;
+                ((UpdateData) getParentFragment()).updatePin(id, false);
+            } else {
+                showErrorMsg(code, respanse);
             }
         }
     }
@@ -274,5 +349,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
     public interface UpdateData {
         void updateRead(int id);
+
+        void updatePin(int id, boolean pin);
     }
 }

@@ -171,5 +171,12 @@
         <item>删除</item>
     </string-array>
 
+    <string-array name="project_pin">
+        <item>设为常用项目</item>
+    </string-array>
+
+    <string-array name="project_pin_cannel">
+        <item>设为一般项目</item>
+    </string-array>
 
 </resources>

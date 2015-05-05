@@ -79,6 +79,10 @@ public class ProjectObject implements Serializable {
         return pin;
     }
 
+    public void setPin(boolean pin) {
+        this.pin = pin;
+    }
+
     public boolean isEmpty() {
         return id == 0;
     }
