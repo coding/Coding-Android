@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class TopicLabelActivity extends BaseActivity {
     private static final String COLOR = "#701035";
 
     private LinkedHashMap<Integer, TopicLabelObject> allLabels = new LinkedHashMap<>();
-    private HashSet<Integer> checkedIds = new HashSet<>();
+    private LinkedHashSet<Integer> checkedIds = new LinkedHashSet<>();
     @InstanceState
     String currentLabelName;
     @InstanceState
@@ -238,7 +239,7 @@ public class TopicLabelActivity extends BaseActivity {
     }
 
     private void beginSaveTopicLabels() {
-        if (isLabelsChanged(false)) {
+        if (!isLabelsChanged(false)) {
             endSaveTopicLabels();
         } else {
             if (lockViews()) {
