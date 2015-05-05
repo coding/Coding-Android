@@ -95,7 +95,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String urlTopic = "";
 
-    ArrayList<TopicObject> mData = new ArrayList();
+    ArrayList<TopicObject> mData = new ArrayList<>();
 
     Intent mResultData = new Intent();
 
@@ -171,7 +171,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
-    final void commentImage(int result, Intent data) {
+    protected final void commentImage(int result, Intent data) {
         if (result == RESULT_OK) {
             mEnterComment.onActivityResult(
                     ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE,
@@ -180,7 +180,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE_DETAIL)
-    final void commentImageDetail(int result, Intent data) {
+    protected final void commentImageDetail(int result, Intent data) {
         if (result == RESULT_OK) {
             mEnterComment.onActivityResult(
                     ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE_DETAIL,
@@ -333,7 +333,12 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                     RequestParams params = new RequestParams();
                     params.put("dir", 0);
                     Uri uri = Uri.parse(imagePath);
-                    File file = new PhotoOperate(this).scal(uri);
+                    File file;
+                    if (Global.isGif(imagePath)) {
+                        file = new File(imagePath);
+                    } else {
+                        file = new PhotoOperate(this).scal(uri);
+                    }
                     params.put("file", file);
                     tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
                     postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);

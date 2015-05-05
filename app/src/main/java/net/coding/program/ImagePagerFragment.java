@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,7 +45,8 @@ import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
- * Created by chaochen on 14-9-7.
+ *
+ * Created by chaochen on 2014-9-7.
  */
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
@@ -112,7 +112,7 @@ public class ImagePagerFragment extends BaseFragment {
                 if (picCache.containsKey(fileId)) {
                     AttachmentFileObject mFileObject = picCache.get(fileId);
                     uri = mFileObject.preview;
-                    showPhoto(mFileObject.isGif());
+                    showPhoto();
                 } else {
                     //如果之前没有缓存过，那么获取并在得到结果后存入
                     URL_FILES = String.format(URL_FILES_BASE, mProjectObjectId, fileId);
@@ -120,7 +120,7 @@ public class ImagePagerFragment extends BaseFragment {
                 }
             }
         } else {
-            showPhoto(Global.isGif(uri));
+            showPhoto();
         }
     }
 
@@ -132,45 +132,24 @@ public class ImagePagerFragment extends BaseFragment {
             } else if (image instanceof PhotoView) {
                 try {
                     ((BitmapDrawable) ((PhotoView) image).getDrawable()).getBitmap().recycle();
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                    Global.errorLog(e);
+                }
             }
         }
 
         super.onDestroyView();
     }
 
-    private void showPhoto(boolean isGif) {
+    private void showPhoto() {
         if (!isAdded()) {
             return;
         }
 
-        if (isGif) {
-            GifImageView gifView = (GifImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
-            image = gifView;
-            rootLayout.addView(image);
-
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().onBackPressed();
-                }
-            });
-
-        } else {
-            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
-            image = photoView;
-            rootLayout.addView(image);
-
-            photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
-                @Override
-                public void onPhotoTap(View view, float v, float v2) {
-                    getActivity().onBackPressed();
-                }
-            });
-        }
 
         ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
         getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
+
 
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
@@ -183,29 +162,6 @@ public class ImagePagerFragment extends BaseFragment {
                             return;
                         }
 
-//                        String message;
-//                        switch (failReason.getType()) {
-//                            case IO_ERROR:
-//                                message = "IO错误";
-//                                break;
-//                            case DECODING_ERROR:
-//                                message = "图片编码错误";
-//                                break;
-//                            case NETWORK_DENIED:
-//                                message = "载入图片超时";
-//                                break;
-//                            case OUT_OF_MEMORY:
-//                                message = "内存不足";
-//                                break;
-//                            case UNKNOWN:
-//                                message = "未知错误";
-//                                break;
-//                            default:
-//                                message = "未知错误";
-//                                break;
-//                        }
-//                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
                         circleLoading.setVisibility(View.GONE);
                         imageLoadFail.setVisibility(View.VISIBLE);
                     }
@@ -215,7 +171,20 @@ public class ImagePagerFragment extends BaseFragment {
                         if (!isAdded()) {
                             return;
                         }
+
                         circleLoading.setVisibility(View.GONE);
+
+                        File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                        if (Global.isGifByFile(file)) {
+                            image = getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
+                            rootLayout.addView(image);
+                            image.setOnClickListener(onClickImageClose);
+                        } else {
+                            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+                            image = photoView;
+                            rootLayout.addView(image);
+                            photoView.setOnPhotoTapListener(onPhotoTapClose);
+                        }
 
                         image.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
@@ -253,40 +222,17 @@ public class ImagePagerFragment extends BaseFragment {
                             }
                         });
 
-                        if (image instanceof GifImageView) {
-                            File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-                            if (file.exists()) {
-                                Log.d("", "yyy");
-                            } else {
-                                Log.d("", "nnn");
-                            }
-
-                            // 看umeng有报错，bad file descriptor，可能有些gif有问题
-                            try {
+                        try {
+                            if (image instanceof GifImageView) {
                                 Uri uri1 = Uri.fromFile(file);
                                 ((GifImageView) image).setImageURI(uri1);
-//                                ((GifImageView) image).setImageURI(file.);
-                            } catch (Exception e) {
-                                Global.errorLog(e);
-                            }
-//                        } else if (image instanceof SubsamplingScaleImageView) {
-//                            File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-//
-//                            try {
-//                                ((SubsamplingScaleImageView) image).setImageUri(Uri.fromFile(file));
-//                            } catch (Exception e) {
-//                                Global.errorLog(e);
-//                            }
-//                        }
-                        } else if (image instanceof PhotoView) {
-                            try {
-//                                ((ImageViewTouch) image).setImageBitmap(loadedImage, matrix, 0.5f, 2.0f);
+                            } else if (image instanceof PhotoView) {
                                 ((PhotoView) image).setImageBitmap(loadedImage);
-                            } catch (Exception e) {
-                                Global.errorLog(e);
-                            }
-                        }
 
+                            }
+                        } catch (Exception e) {
+                            Global.errorLog(e);
+                        }
                     }
                 },
                 new ImageLoadingProgressListener() {
@@ -304,6 +250,20 @@ public class ImagePagerFragment extends BaseFragment {
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
     }
 
+    private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getActivity().onBackPressed();
+        }
+    };
+
+    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = new PhotoViewAttacher.OnPhotoTapListener() {
+        @Override
+        public void onPhotoTap(View view, float v, float v2) {
+            getActivity().onBackPressed();
+        }
+    };
+
     @Override
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URL_FILES)) {
@@ -315,7 +275,7 @@ public class ImagePagerFragment extends BaseFragment {
                     parentActivity.setAttachmentFileObject(mFileObject);
                 }
                 uri = mFileObject.preview;
-                showPhoto(mFileObject.isGif());
+                showPhoto();
             } else {
                 showErrorMsg(code, response);
             }

@@ -38,6 +38,8 @@ import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -50,7 +52,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by cc191954 on 14-8-233.
+ * Created by cc191954 on 14-8-23.
  */
 public class Global {
     private static final String HOST_CODING = "https://coding.net";
@@ -97,9 +99,8 @@ public class Global {
         try {
             return URLEncoder.encode(s, "utf-8");
         } catch (Exception e) {
+            return "";
         }
-
-        return "";
     }
 
     public static void initWebView(WebView webView) {
@@ -156,6 +157,7 @@ public class Global {
             String key = (String) jsonData.keys().next();
             s = jsonData.getString(key);
         } catch (Exception e) {
+            Global.errorLog(e);
         }
 
         return s;
@@ -207,7 +209,7 @@ public class Global {
 
             // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
             if (width.isEmpty() && height.isEmpty()) {
-                height = String.valueOf(Global.dpToPx(200));
+//                height = String.valueOf(Global.dpToPx(200));
                 width = String.valueOf(Global.dpToPx(200));
 
             }
@@ -249,7 +251,7 @@ public class Global {
 
     public static String makeLargeUrl(String url) {
         final int MAX = 4096; // ImageView显示的图片不能大于这个数
-        return String.format(IMAGE_URL_SCAL, url, 4096, 4096);
+        return String.format(IMAGE_URL_SCAL, url, MAX, MAX);
     }
 
     private static String intToString(int length) {
@@ -329,12 +331,47 @@ public class Global {
             inputStream.close();
 
         } catch (IOException e) {
+            Global.errorLog(e);
         }
+
         return outputStream.toString();
     }
 
     public static boolean isGif(String uri) {
         return uri.toLowerCase().endsWith(".gif");
+    }
+
+    // 通过文件头来判断是否gif
+    public static boolean isGifByFile(File file) {
+        try {
+            int length = 10;
+            InputStream is = new FileInputStream(file);
+            byte[] data = new byte[length];
+            is.read(data);
+            String type = getType(data);
+            is.close();
+
+            if (type.equals("gif")) {
+                return true;
+            }
+        } catch (IOException e) {
+            Global.errorLog(e);
+        }
+
+        return false;
+    }
+
+    private static String getType(byte[] data) {
+        String type = "";
+        if (data[1] == 'P' && data[2] == 'N' && data[3] == 'G') {
+            type = "png";
+        } else if (data[0] == 'G' && data[1] == 'I' && data[2] == 'F') {
+            type = "gif";
+        } else if (data[6] == 'J' && data[7] == 'F' && data[8] == 'I'
+                && data[9] == 'F') {
+            type = "jpg";
+        }
+        return type;
     }
 
     private static String getDay(long time, boolean showToday) {
@@ -425,7 +462,7 @@ public class Global {
 
     public static class MessageParse {
         public String text = "";
-        public ArrayList<String> uris = new ArrayList<String>();
+        public ArrayList<String> uris = new ArrayList<>();
 
         public String toString() {
             String s = "text " + text + "\n";
@@ -626,9 +663,6 @@ public class Global {
 
     /**
      * 显示文件大小,保留两位
-     *
-     * @param size
-     * @return
      */
     public static String HumanReadableFilesize(double size) {
         String[] units = new String[]{"B", "KB", "MB", "GB", "TB", "PB"};
