@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.photopick.PhotoPickDetailActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
@@ -31,7 +32,7 @@ public class ImageCommentLayout {
     private ArrayList<ImageView> mImageViews = new ArrayList();
     private Activity mActivity;
     private ImageLoadTool mImageLoader;
-    private ArrayList<PhotoPickActivity.ImageInfo> mArrayImages = new ArrayList();
+    private ArrayList<ImageInfo> mArrayImages = new ArrayList();
 
     public ImageCommentLayout(Activity activity, View.OnClickListener onClickSend, ImageLoadTool imageLoader) {
         mEnterLayout = new EnterLayout(activity, onClickSend, EnterLayout.Type.TextOnly) {
@@ -87,13 +88,13 @@ public class ImageCommentLayout {
         }
 
         if (RESULT_TYPE == RESULT_REQUEST_COMMENT_IMAGE) {
-            ArrayList<PhotoPickActivity.ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
+            ArrayList<ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
             mArrayImages.clear();
             mArrayImages.addAll(images);
             updateCommentImage();
 
         } else if (RESULT_TYPE == RESULT_REQUEST_COMMENT_IMAGE_DETAIL) {
-            ArrayList<PhotoPickActivity.ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
+            ArrayList<ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
             mArrayImages = images;
             updateCommentImage();
         }
@@ -140,7 +141,7 @@ public class ImageCommentLayout {
         mEnterLayout.updateSendButtonStyle();
     }
 
-    public ArrayList<PhotoPickActivity.ImageInfo> getPickPhotos() {
+    public ArrayList<ImageInfo> getPickPhotos() {
         return mArrayImages;
     }
 }

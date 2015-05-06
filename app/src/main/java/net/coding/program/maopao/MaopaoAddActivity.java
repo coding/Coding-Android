@@ -40,6 +40,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
@@ -207,8 +208,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         if (requestCode == RESULT_REQUEST_PICK_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    ArrayList<PhotoPickActivity.ImageInfo> pickPhots = (ArrayList<PhotoPickActivity.ImageInfo>) data.getSerializableExtra("data");
-                    for (PhotoPickActivity.ImageInfo item : pickPhots) {
+                    ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
+                    for (ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);
                         File outputFile = photoOperate.scal(uri);
                         mData.add(new MaopaoAddActivity.PhotoData(outputFile));

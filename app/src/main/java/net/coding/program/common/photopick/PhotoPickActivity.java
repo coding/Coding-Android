@@ -1,56 +1,48 @@
 package net.coding.program.common.photopick;
 
 import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.CameraPreview;
-import net.coding.program.common.Global;
 import net.coding.program.maopao.MaopaoAddActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 
-public class PhotoPickActivity extends BaseActivity {
-
-    TextView mFoldName;
-    View mListViewGroup;
-    ListView mListView;
-    GridView mGridView;
-    LayoutInflater mInflater;
+public class PhotoPickActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String EXTRA_MAX = "EXTRA_MAX";
     public static final String EXTRA_PICKED = "EXTRA_PICKED"; // mPickData
     private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
+
+    private final String allPhotos = "所有图片";
+    private final String CameraItem = "CameraItem";
 
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
@@ -63,33 +55,20 @@ public class PhotoPickActivity extends BaseActivity {
             .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
             .build();
 
+    private LayoutInflater mInflater;
+    private TextView mFoldName;
+    private View mListViewGroup;
+    private ListView mListView;
+    private GridView mGridView;
     private TextView mPreView;
 
-    public static class ImageInfo implements Serializable {
-        public String path;
-        public long photoId;
-        public int width;
-        public int height;
+    private ArrayList<ImageInfo> mPickData = new ArrayList<>();
 
-        public ImageInfo(String path) {
-            this.path = path;
-        }
-    }
+    private FolderAdapter mFolderAdapter;
+    private GridPhotoAdapter photoAdapter;
 
-    LinkedHashMap<String, ArrayList<ImageInfo>> mFolders = new LinkedHashMap();
-    ArrayList<String> mFoldersName = new ArrayList();
-
-    ArrayList<ImageInfo> mPickData = new ArrayList();
-
-    final String allPhotos = "所有图片";
-
-    final String CameraItem = "CameraItem";
-
-    long lastTime;
-
-    private void displayTime(int pos) {
-    }
-
+    //    LinkedHashMap<String, ArrayList<ImageInfo>> mFolders = new LinkedHashMap();
+//    ArrayList<String> mFoldersName = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,87 +91,98 @@ public class PhotoPickActivity extends BaseActivity {
         mListViewGroup = findViewById(R.id.listViewParent);
         mListViewGroup.setOnClickListener(mOnClickFoldName);
         mFoldName = (TextView) findViewById(R.id.foldName);
+        mFoldName.setText(allPhotos);
 
         findViewById(R.id.selectFold).setOnClickListener(mOnClickFoldName);
 
         mPreView = (TextView) findViewById(R.id.preView);
         mPreView.setOnClickListener(onClickPre);
 
-        lastTime = System.currentTimeMillis();
-
-        displayTime(0);
-
-        String[] projection = {MediaStore.Images.ImageColumns._ID,
-                MediaStore.Images.ImageColumns.DATA,
-                MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.ImageColumns.WIDTH,
-                MediaStore.Images.ImageColumns.HEIGHT,
-                MediaStore.Images.ImageColumns.MINI_THUMB_MAGIC};
-
-        String selection = "";
-        String[] selectionArgs = null;
-        Cursor mImageExternalCursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.MediaColumns.DATE_ADDED + " DESC");
-
-        displayTime(0);
-
-        ArrayList<ImageInfo> allPhoto = new ArrayList();
-        allPhoto.add(new ImageInfo(CameraItem));
-        mFoldersName.add(allPhotos);
-
-        while (mImageExternalCursor.moveToNext()) {
-            String s0 = mImageExternalCursor.getString(0);
-            String s1 = mImageExternalCursor.getString(1);
-            String s2 = mImageExternalCursor.getString(2);
-            int width = mImageExternalCursor.getInt(3);
-            int height = mImageExternalCursor.getInt(4);
-            long thumbnailId = mImageExternalCursor.getLong(5);
-
-            String s = String.format("%s,%s,%s, %s, %s, %s", s0, s1, s2, width, height, thumbnailId);
-            Log.d("", "sss " + s);
-            if (Global.isImageUri(s1)) {
-                s1 = "file://" + s1;
-            }
-            ImageInfo imageInfo = new ImageInfo(s1);
-            imageInfo.photoId = Long.valueOf(s0);
-            imageInfo.width = width;
-            imageInfo.height = height;
-
-            ArrayList<ImageInfo> value = mFolders.get(s2);
-            if (value == null) {
-                value = new ArrayList<ImageInfo>();
-                mFolders.put(s2, value);
-                mFoldersName.add(s2);
-            }
-            allPhoto.add(imageInfo);
-            value.add(imageInfo);
-        }
-        mFolders.put(allPhotos, allPhoto);
-
-        displayTime(1);
-
-        mPhotoAdapter.setData(mFolders.get(mFoldersName.get(0)));
-        mListView.setAdapter(mFoldAdapter);
-        mListView.setOnItemClickListener(mOnItemClick);
-
-        displayTime(2);
-
-        mGridView.setAdapter(mPhotoAdapter);
-        mGridView.setOnItemClickListener(mOnPhotoItemClick);
-        displayTime(3);
-
-        // 必须这么刷一下，否则很卡，也许是ImageLoader某个地方的线程写的有问题，当然了，更有可能是我用的的有问题：），先这样吧
-        mGridView.post(new Runnable() {
-            @Override
-            public void run() {
-                mPhotoAdapter.notifyDataSetChanged();
-            }
-        });
-
-        String folderName = mFoldersName.get(0);
-        mFoldName.setText(folderName);
+        initListView1();
+        initListView2();
     }
 
-    View.OnClickListener onClickPre = new View.OnClickListener() {
+    public int getmMaxPick() {
+        return mMaxPick;
+    }
+
+    public void clickPhotoItem(View v) {
+        GridViewCheckTag tag = (GridViewCheckTag) v.getTag();
+        if (((CheckBox) v).isChecked()) {
+            if (mPickData.size() >= mMaxPick) {
+                ((CheckBox) v).setChecked(false);
+                String s = String.format("最多只能选择%d张", mMaxPick);
+                Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            addPicked(tag.path);
+            tag.iconFore.setVisibility(View.VISIBLE);
+        } else {
+            removePicked(tag.path);
+            tag.iconFore.setVisibility(View.INVISIBLE);
+        }
+        ((BaseAdapter) mListView.getAdapter()).notifyDataSetChanged();
+
+        updatePickCount();
+    }
+
+    private void initListView1() {
+        final String[] needInfos = {
+                MediaStore.Images.ImageColumns._ID,
+                MediaStore.Images.ImageColumns.DATA,
+                MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+        };
+
+
+        LinkedHashMap<String, Integer> mNames = new LinkedHashMap<>();
+        LinkedHashMap<String, ImageInfo> mData = new LinkedHashMap<>();
+        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, needInfos, "", null, MediaStore.MediaColumns.DATE_ADDED + " DESC");
+
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(2);
+            if (!mNames.containsKey(name)) {
+                mNames.put(name, 1);
+                ImageInfo imageInfo = new ImageInfo(cursor.getString(1));
+                mData.put(name, imageInfo);
+            } else {
+                int newCount = mNames.get(name) + 1;
+                mNames.put(name, newCount);
+            }
+        }
+
+        ArrayList<ImageInfoExtra> mFolderData = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            ImageInfo imageInfo = new ImageInfo(cursor.getString(1));
+            int allImagesCount = cursor.getCount();
+            mFolderData.add(new ImageInfoExtra(allPhotos, imageInfo, allImagesCount));
+        }
+
+        for (String item : mNames.keySet()) {
+            ImageInfo info = mData.get(item);
+            Integer count = mNames.get(item);
+            mFolderData.add(new ImageInfoExtra(item, info, count));
+        }
+        cursor.close();
+
+        mFolderAdapter = new FolderAdapter(mFolderData);
+        mListView.setAdapter(mFolderAdapter);
+        mListView.setOnItemClickListener(mOnItemClick);
+    }
+
+    private String[] projection = {
+            MediaStore.Images.ImageColumns._ID,
+            MediaStore.Images.ImageColumns.DATA,
+            MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+            MediaStore.Images.ImageColumns.WIDTH,
+            MediaStore.Images.ImageColumns.HEIGHT
+    };
+
+    private void initListView2() {
+        getLoaderManager().initLoader(0, null, this);
+    }
+
+    private View.OnClickListener onClickPre = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (mPickData.size() == 0) {
@@ -200,34 +190,22 @@ public class PhotoPickActivity extends BaseActivity {
             }
 
             Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mPickData);
+            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
             intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
             intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
             startActivityForResult(intent, RESULT_PICK);
         }
     };
 
-    ListView.OnItemClickListener mOnItemClick = new AdapterView.OnItemClickListener() {
+    private ListView.OnItemClickListener mOnItemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String folderName = mFoldersName.get((int) id);
-            mPhotoAdapter.setData(mFolders.get(folderName));
-            mPhotoAdapter.notifyDataSetChanged();
+            mFolderAdapter.setSelect((int) id);
+            String folderName = mFolderAdapter.getSelect();
             mFoldName.setText(folderName);
-            mFoldAdapter.notifyDataSetChanged();
             hideFolderList();
-        }
-    };
 
-    GridView.OnItemClickListener mOnPhotoItemClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mPhotoAdapter.getData());
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
-            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, (int) id);
-            startActivityForResult(intent, RESULT_PICK);
+            getLoaderManager().initLoader((int) id, null, PhotoPickActivity.this);
         }
     };
 
@@ -349,7 +327,7 @@ public class PhotoPickActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 ArrayList<ImageInfo> pickArray = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                 mPickData = pickArray;
-                mPhotoAdapter.notifyDataSetChanged();
+                photoAdapter.notifyDataSetChanged();
                 boolean send = data.getBooleanExtra("send", false);
                 if (send) {
                     send();
@@ -370,7 +348,13 @@ public class PhotoPickActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private boolean isPicked(String path) {
+    private void addPicked(String path) {
+        if (!isPicked(path)) {
+            mPickData.add(new ImageInfo(path));
+        }
+    }
+
+    public boolean isPicked(String path) {
         for (ImageInfo item : mPickData) {
             if (item.path.equals(path)) {
                 return true;
@@ -378,12 +362,6 @@ public class PhotoPickActivity extends BaseActivity {
         }
 
         return false;
-    }
-
-    private void addPicked(String path) {
-        if (!isPicked(path)) {
-            mPickData.add(new ImageInfo(path));
-        }
     }
 
     private void removePicked(String path) {
@@ -395,146 +373,6 @@ public class PhotoPickActivity extends BaseActivity {
         }
     }
 
-    class GridAdapter extends BaseAdapter {
-
-        ArrayList<ImageInfo> mData = new ArrayList<ImageInfo>();
-
-        public void setData(ArrayList<ImageInfo> data) {
-            mData = data;
-        }
-
-        public ArrayList<ImageInfo> getData() {
-            return mData;
-        }
-
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 2;
-        }
-
-        private final int TYPE_CAMERA = 0;
-        private final int TYPE_PHOTO = 1;
-
-        @Override
-        public int getItemViewType(int position) {
-            ImageInfo imageInfo = (ImageInfo) getItem(position);
-            if (imageInfo.path.equals(CameraItem)) {
-                return TYPE_CAMERA;
-            } else {
-                return TYPE_PHOTO;
-            }
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            int type = getItemViewType(position);
-            int width = MyApp.sWidthPix / 3;
-            if (type == TYPE_PHOTO) {
-                GridViewHolder holder;
-                if (convertView == null) {
-                    convertView = mInflater.inflate(R.layout.photopick_gridlist_item, parent, false);
-                    convertView.getLayoutParams().height = width;
-
-                    holder = new GridViewHolder();
-                    holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                    holder.iconFore = (ImageView) convertView.findViewById(R.id.iconFore);
-                    holder.check = (CheckBox) convertView.findViewById(R.id.check);
-                    GridViewCheckTag checkTag = new GridViewCheckTag(holder.iconFore);
-                    holder.check.setTag(checkTag);
-                    holder.check.setOnClickListener(mClickItem);
-                    convertView.setTag(holder);
-                } else {
-                    holder = (GridViewHolder) convertView.getTag();
-                }
-
-                ImageInfo data = (ImageInfo) getItem(position);
-                ImageLoader imageLoader = ImageLoader.getInstance();
-
-//                holder.icon.setImageBitmap(MediaStore.Images.Thumbnails.getThumbnail(getContentResolver(), 10797, MediaStore.Images.Thumbnails.MINI_KIND, null));
-
-//                Cursor c = MediaStore.Images.Thumbnails.queryMiniThumbnail(getContentResolver(), data.photoId, MediaStore.Images.Thumbnails.MINI_KIND, new String[]{MediaStore.Images.Thumbnails.DATA});
-//                if (c != null && c.moveToNext()) {
-//                    imageLoader.displayImage("file://" + c.getString(0), holder.icon, optionsImage);
-//                }
-
-                imageLoader.displayImage(data.path, holder.icon, optionsImage);
-
-                ((GridViewCheckTag) holder.check.getTag()).path = data.path;
-
-                boolean picked = isPicked(data.path);
-                holder.check.setChecked(picked);
-                holder.iconFore.setVisibility(picked ? View.VISIBLE : View.INVISIBLE);
-
-                return convertView;
-            } else {
-                final GridCameraHolder cameraHolder;
-                if (convertView == null) {
-
-                    lastTime = System.currentTimeMillis();
-
-                    convertView = mInflater.inflate(R.layout.photopick_gridlist_item_camera, parent, false);
-
-                    ViewGroup.LayoutParams layoutParams = convertView.getLayoutParams();
-                    layoutParams.height = width;
-                    layoutParams.width = width;
-
-                    cameraHolder = new GridCameraHolder();
-                    cameraHolder.cameraPreview = (CameraPreview) convertView.findViewById(R.id.cameraPreview);
-                    cameraHolder.cameraPreview.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            cameraHolder.cameraPreview.stopAndReleaseCamera();
-                            camera();
-                        }
-                    });
-
-                    displayTime(5);
-                }
-
-                return convertView;
-            }
-        }
-
-        View.OnClickListener mClickItem = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GridViewCheckTag tag = (GridViewCheckTag) v.getTag();
-                if (((CheckBox) v).isChecked()) {
-                    if (mPickData.size() >= mMaxPick) {
-                        ((CheckBox) v).setChecked(false);
-                        String s = String.format("最多只能选择%d张", mMaxPick);
-                        Toast.makeText(PhotoPickActivity.this, s, Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    addPicked(tag.path);
-                    tag.iconFore.setVisibility(View.VISIBLE);
-                } else {
-                    removePicked(tag.path);
-                    tag.iconFore.setVisibility(View.INVISIBLE);
-                }
-                mFoldAdapter.notifyDataSetChanged();
-
-                updatePickCount();
-            }
-        };
-    }
-
     private void updatePickCount() {
         String format = "完成(%d/%d)";
         mMenuItem.setTitle(String.format(format, mPickData.size(), mMaxPick));
@@ -542,8 +380,6 @@ public class PhotoPickActivity extends BaseActivity {
         String formatPreview = "预览(%d/%d)";
         mPreView.setText(String.format(formatPreview, mPickData.size(), mMaxPick));
     }
-
-    GridAdapter mPhotoAdapter = new GridAdapter();
 
     static class GridViewCheckTag {
         View iconFore;
@@ -554,79 +390,52 @@ public class PhotoPickActivity extends BaseActivity {
         }
     }
 
-    static class GridViewHolder {
-        ImageView icon;
-        ImageView iconFore;
-        CheckBox check;
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String where;
+        if (id != 0) {
+            String select = ((FolderAdapter) mListView.getAdapter()).getSelect();
+            where = String.format("%s='%s'",
+                    MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+                    select
+            );
+        } else {
+            where = "";
+        }
+
+        return new CursorLoader(
+                this, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
+                where,
+                null,
+                MediaStore.MediaColumns.DATE_ADDED + " DESC");
     }
 
-    static class GridCameraHolder {
-        CameraPreview cameraPreview;
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (photoAdapter == null) {
+            photoAdapter = new GridPhotoAdapter(this, data, true, this);
+            mGridView.setAdapter(photoAdapter);
+            mGridView.setOnItemClickListener(mOnPhotoItemClick);
+        } else {
+            photoAdapter.swapCursor(data);
+        }
     }
 
-    BaseAdapter mFoldAdapter = new BaseAdapter() {
+    GridView.OnItemClickListener mOnPhotoItemClick = new AdapterView.OnItemClickListener() {
         @Override
-        public int getCount() {
-            return mFoldersName.size();
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
+
+            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
+            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
+            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
+            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
+            startActivityForResult(intent, RESULT_PICK);
         }
-
-        @Override
-        public Object getItem(int position) {
-            return mFoldersName.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.photopick_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.foldIcon = (ImageView) convertView.findViewById(R.id.foldIcon);
-                holder.foldName = (TextView) convertView.findViewById(R.id.foldName);
-                holder.photoCount = (TextView) convertView.findViewById(R.id.photoCount);
-                holder.check = convertView.findViewById(R.id.check);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            String name = (String) getItem(position);
-            ArrayList<ImageInfo> imageInfos = mFolders.get(name);
-            String uri = imageInfos.get(0).path;
-            int count = imageInfos.size();
-
-            holder.foldName.setText(name);
-            holder.photoCount.setText(String.format("%d张", count));
-
-            // 如果是照相机，就用下一张图片
-            if (uri.equals(CameraItem)) {
-                if (imageInfos.size() >= 2) {
-                    uri = imageInfos.get(1).path;
-                }
-            }
-
-            ImageLoader.getInstance().displayImage(uri, holder.foldIcon, optionsImage);
-
-            if (mFoldName.getText().toString().equals(name)) {
-                holder.check.setVisibility(View.VISIBLE);
-            } else {
-                holder.check.setVisibility(View.INVISIBLE);
-            }
-
-            return convertView;
-        }
-
     };
 
-    static class ViewHolder {
-        ImageView foldIcon;
-        TextView foldName;
-        TextView photoCount;
-        View check;
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        photoAdapter.swapCursor(null);
     }
 }

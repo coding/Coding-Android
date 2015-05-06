@@ -38,6 +38,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.model.AccountInfo;
@@ -273,8 +274,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             if (resultCode == Activity.RESULT_OK) {
 
                 try {
-                    ArrayList<PhotoPickActivity.ImageInfo> pickPhots = (ArrayList<PhotoPickActivity.ImageInfo>) data.getSerializableExtra("data");
-                    for (PhotoPickActivity.ImageInfo item : pickPhots) {
+                    ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
+                    for (ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);
                         sendPhotoPre(uri);
                     }

@@ -39,7 +39,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
-import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
@@ -1139,8 +1139,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     private void sendCommentAll() {
         showProgressBar(true);
 
-        ArrayList<PhotoPickActivity.ImageInfo> photos = mEnterComment.getPickPhotos();
-        for (PhotoPickActivity.ImageInfo item : photos) {
+        ArrayList<ImageInfo> photos = mEnterComment.getPickPhotos();
+        for (ImageInfo item : photos) {
             String imagePath = item.path;
             if (!mSendedImages.containsKey(imagePath)) {
                 try {
@@ -1162,7 +1162,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
 
         String send = mEnterComment.getEnterLayout().getContent();
-        for (PhotoPickActivity.ImageInfo item : photos) {
+        for (ImageInfo item : photos) {
             send += mSendedImages.get(item.path);
         }
         sendComment(send);
