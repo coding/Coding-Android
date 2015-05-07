@@ -18,12 +18,19 @@ import net.coding.program.common.photopick.PhotoPickActivity.GridViewCheckTag;
 /**
  * Created by chenchao on 15/5/6.
  */
-public class GridPhotoAdapter extends CursorAdapter {
+class GridPhotoAdapter extends CursorAdapter {
 
     LayoutInflater mInflater;
     PhotoPickActivity mActivity;
+//
+//    enum Mode { All, Folder }
+//    private Mode mMode = Mode.All;
+//
+//    void setmMode(Mode mMode) {
+//        this.mMode = mMode;
+//    }
 
-    public GridPhotoAdapter(Context context, Cursor c, boolean autoRequery, PhotoPickActivity activity) {
+    GridPhotoAdapter(Context context, Cursor c, boolean autoRequery, PhotoPickActivity activity) {
         super(context, c, autoRequery);
         mInflater = LayoutInflater.from(context);
         mActivity = activity;
@@ -53,9 +60,8 @@ public class GridPhotoAdapter extends CursorAdapter {
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
-        String path = cursor.getString(1);
-        imageLoader.displayImage(ImageInfo.pathAddPreFix(path), holder.icon,
-                PhotoPickActivity.optionsImage);
+        String path = ImageInfo.pathAddPreFix(cursor.getString(1));
+        imageLoader.displayImage(path, holder.icon, PhotoPickActivity.optionsImage);
 
         ((GridViewCheckTag) holder.check.getTag()).path = path;
 
@@ -76,5 +82,4 @@ public class GridPhotoAdapter extends CursorAdapter {
             mActivity.clickPhotoItem(v);
         }
     };
-
 }

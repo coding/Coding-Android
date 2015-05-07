@@ -4,16 +4,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
+
+import net.coding.program.MyApp;
+import net.coding.program.R;
 
 /**
  * Created by chenchao on 15/5/6.
  * 第一个item是照相机
  */
-public class AllPhotoAdapter extends CursorAdapter {
+public class AllPhotoAdapter extends GridPhotoAdapter {
 
-    public AllPhotoAdapter(Context context, Cursor c) {
-        super(context, c);
+    public AllPhotoAdapter(Context context, Cursor c, boolean autoRequery, PhotoPickActivity activity) {
+        super(context, c, autoRequery, activity);
     }
 
     @Override
@@ -26,7 +28,7 @@ public class AllPhotoAdapter extends CursorAdapter {
         if (position > 0) {
             return super.getItem(position - 1);
         } else {
-            return "";
+            return super.getItem(position);
         }
     }
 
@@ -35,7 +37,7 @@ public class AllPhotoAdapter extends CursorAdapter {
         if (position > 0) {
             return super.getItemId(position - 1);
         } else {
-            return 0;
+            return -1;
         }
     }
 
@@ -68,20 +70,17 @@ public class AllPhotoAdapter extends CursorAdapter {
             return super.getView(position - 1, convertView, parent);
         } else {
             if (convertView == null) {
-//                convertView = mInflater.inflate(R.layout.layout3, null);
+                convertView = mInflater.inflate(R.layout.photopick_gridlist_item_camera2, parent, false);
+                convertView.getLayoutParams().height = MyApp.sWidthPix / 3;
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mActivity.camera();
+                    }
+                });
             }
 
             return convertView;
         }
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return null;
-    }
-
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-
     }
 }

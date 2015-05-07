@@ -325,8 +325,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_PICK) {
             if (resultCode == RESULT_OK) {
-                ArrayList<ImageInfo> pickArray = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
-                mPickData = pickArray;
+                mPickData = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                 photoAdapter.notifyDataSetChanged();
                 boolean send = data.getBooleanExtra("send", false);
                 if (send) {
@@ -341,8 +340,6 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
                 pickArray.add(itme);
                 mPickData = pickArray;
                 send();
-            } else {
-
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -390,10 +387,13 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         }
     }
 
+    int mFolderId = 0;
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        mFolderId = id;
         String where;
-        if (id != 0) {
+        if (!isAllPhotoMode()) {
             String select = ((FolderAdapter) mListView.getAdapter()).getSelect();
             where = String.format("%s='%s'",
                     MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
@@ -412,13 +412,13 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (photoAdapter == null) {
-            photoAdapter = new GridPhotoAdapter(this, data, true, this);
-            mGridView.setAdapter(photoAdapter);
-            mGridView.setOnItemClickListener(mOnPhotoItemClick);
+        if (isAllPhotoMode()) {
+            photoAdapter = new AllPhotoAdapter(this, data, true, this);
         } else {
-            photoAdapter.swapCursor(data);
+            photoAdapter = new GridPhotoAdapter(this, data, true, this);
         }
+        mGridView.setAdapter(photoAdapter);
+        mGridView.setOnItemClickListener(mOnPhotoItemClick);
     }
 
     GridView.OnItemClickListener mOnPhotoItemClick = new AdapterView.OnItemClickListener() {
@@ -429,10 +429,22 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
             intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
             intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
-            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
+            if (isAllPhotoMode()) {
+                // 第一个item是照相机
+                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position - 1);
+            } else {
+                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
+            }
             startActivityForResult(intent, RESULT_PICK);
         }
     };
+
+    /*
+     * 选择了listview的第一个项，gridview的第一个是照相机
+     */
+    private boolean isAllPhotoMode() {
+        return mFolderId == 0;
+    }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

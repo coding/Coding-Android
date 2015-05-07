@@ -54,6 +54,8 @@
     <color name="transparent">#00000000</color>
     <drawable name="transparent">#00000000</drawable>
 
+    <color name="camera_background">#ff353535</color>
+
     <!-- user info tags -->
     <color name="user_info_tags_bg_1">#EBEBEB</color>
     <color name="user_info_tags_font_1">#999999</color>

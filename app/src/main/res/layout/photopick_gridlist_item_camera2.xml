@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/camera_background"
+    android:paddingRight="3dp">
+
+    <!--<ImageView-->
+    <!--android:id="@+id/icon"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:adjustViewBounds="true" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iconFore"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:background="#66666666"-->
+    <!--android:adjustViewBounds="true" />-->
+
+    <!--<CheckBox-->
+    <!--android:id="@+id/check"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:button="@drawable/pick_photo_checkbox"-->
+    <!--android:focusable="false" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <View
+            android:id="@+id/icon_camera"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:background="@drawable/ic_camera" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="相机"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp" />
+    </LinearLayout>
+
+</RelativeLayout>

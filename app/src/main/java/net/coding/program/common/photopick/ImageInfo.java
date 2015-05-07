@@ -12,7 +12,7 @@ public class ImageInfo implements Serializable {
     public int height;
 
     public ImageInfo(String path) {
-        this.path = path;
+        this.path = pathAddPreFix(path);
     }
 
     public static String pathAddPreFix(String path) {
