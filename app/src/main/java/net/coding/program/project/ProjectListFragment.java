@@ -59,7 +59,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
         mData = data;
         myAdapter.notifyDataSetChanged();
         // 不让空白画面出现
-        BlankViewDisplay.setBlank(1, this, true, blankLayout, null);
+        BlankViewDisplay.setBlank(1, this, true, blankLayout, mOnClickRetry);
     }
 
     @ViewById
@@ -90,10 +90,9 @@ public class ProjectListFragment extends RefreshBaseFragment {
         }
 
         if (AccountInfo.isCacheProjects(getActivity())) {
-            BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, null);
+            BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, mOnClickRetry);
         }
     }
-
 
     private static final String URL_PIN_DELETE = Global.HOST + "/api/user/projects/pin?ids=%d";
     private static final String URL_PIN_SET = Global.HOST + "/api/user/projects/pin";
@@ -270,7 +269,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
             holder.name.setText(item.name);
 
             holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
-            String ownerName = item.isPublic() ? item.name : ("      " + item.owner_user_name);
+            String ownerName = item.isPublic() ? item.owner_user_name : ("      " + item.owner_user_name);
             holder.content.setText(ownerName);
 
             int count = item.un_read_activities_count;
@@ -334,6 +333,12 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
     ;
 
+    private View.OnClickListener mOnClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
 
     static class HeaderViewHolder {
         TextView mHead;

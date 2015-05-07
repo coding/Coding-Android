@@ -23,9 +23,9 @@
 
             <item
                 android:id="@+id/action_delete"
-                android:icon="@drawable/ic_menu_delete_selector"
+                android:icon="@drawable/ic_menu_delete"
                 android:orderInCategory="100"
-                android:title="复制链接"
+                android:title="删除讨论"
                 app:showAsAction="always" />
 
         </menu>

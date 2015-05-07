@@ -49,7 +49,7 @@
 
     <item android:id="@+id/action_delete"
         android:title="@string/action_delete"
-        android:icon="@drawable/ic_menu_delete_selector"
+        android:icon="@drawable/ic_menu_delete"
         app:showAsAction="withText|ifRoom" />
 -->
 
