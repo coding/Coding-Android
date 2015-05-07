@@ -55,9 +55,8 @@ import java.util.List;
  * Created by cc191954 on 14-8-23.
  */
 public class Global {
-    private static final String HOST_CODING = "https://coding.net";
 
-    public static String HOST = HOST_CODING;
+    public static final String HOST = "https://coding.net";
 
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
 
