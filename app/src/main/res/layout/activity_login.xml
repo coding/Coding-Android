@@ -51,7 +51,7 @@
                 app:border_color="#ffffffff"
                 app:border_width="1.5dp" />
 
-            <net.coding.program.common.LoginEditText
+            <MultiAutoCompleteTextView
                 android:id="@+id/editName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

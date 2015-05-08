@@ -10,17 +10,21 @@ public class ImageInfo implements Serializable {
     public long photoId;
     public int width;
     public int height;
+    private static final String prefix = "file://";
 
     public ImageInfo(String path) {
         this.path = pathAddPreFix(path);
     }
 
     public static String pathAddPreFix(String path) {
-        final String prefix = "file://";
         if (!path.startsWith(prefix)) {
             path = prefix + path;
         }
         return path;
+    }
+
+    public static boolean isLocalFile(String path) {
+        return path.startsWith(prefix);
     }
 
     @Override

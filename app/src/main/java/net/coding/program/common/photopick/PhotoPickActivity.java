@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,9 +51,10 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             .showImageForEmptyUri(R.drawable.image_not_exist)
             .showImageOnFail(R.drawable.image_not_exist)
             .cacheInMemory(true)
-            .cacheOnDisk(true)
+            .cacheOnDisk(false)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .imageScaleType(ImageScaleType.EXACTLY)
             .build();
 
     private LayoutInflater mInflater;
@@ -205,7 +207,11 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             mFoldName.setText(folderName);
             hideFolderList();
 
-            getLoaderManager().initLoader((int) id, null, PhotoPickActivity.this);
+            if (mFolderId != position) {
+                getLoaderManager().destroyLoader(mFolderId);
+                mFolderId = position;
+            }
+            getLoaderManager().initLoader(mFolderId, null, PhotoPickActivity.this);
         }
     };
 
@@ -391,7 +397,6 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        mFolderId = id;
         String where;
         if (!isAllPhotoMode()) {
             String select = ((FolderAdapter) mListView.getAdapter()).getSelect();
@@ -413,9 +418,9 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (isAllPhotoMode()) {
-            photoAdapter = new AllPhotoAdapter(this, data, true, this);
+            photoAdapter = new AllPhotoAdapter(this, data, false, this);
         } else {
-            photoAdapter = new GridPhotoAdapter(this, data, true, this);
+            photoAdapter = new GridPhotoAdapter(this, data, false, this);
         }
         mGridView.setAdapter(photoAdapter);
         mGridView.setOnItemClickListener(mOnPhotoItemClick);

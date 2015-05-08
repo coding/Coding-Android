@@ -26,6 +26,7 @@ import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity;
 
@@ -45,7 +46,6 @@ import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
- *
  * Created by chaochen on 2014-9-7.
  */
 @EFragment(R.layout.activity_image_pager_item)
@@ -174,7 +174,12 @@ public class ImagePagerFragment extends BaseFragment {
 
                         circleLoading.setVisibility(View.GONE);
 
-                        File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                        File file;
+                        if (ImageInfo.isLocalFile(uri)) {
+                            file = new File(uri);
+                        } else {
+                            file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                        }
                         if (Global.isGifByFile(file)) {
                             image = getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
                             rootLayout.addView(image);
