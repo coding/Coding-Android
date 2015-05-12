@@ -17,6 +17,7 @@ import com.tencent.android.tpush.XGPushTextMessage;
 import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.message.UsersListFragment;
 import net.coding.program.model.AccountInfo;
 
 import org.json.JSONObject;
@@ -35,7 +36,6 @@ public class PushReceiver extends XGPushBaseReceiver {
 
     public void onUnregisterResult(Context context, int i) {
         Log.d("", "" + context);
-
     }
 
     public void onSetTagResult(Context context, int i, String s) {
@@ -96,7 +96,6 @@ public class PushReceiver extends XGPushBaseReceiver {
 
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
         Log.d("", "" + context);
-
     }
 
     NotificationCompat.Builder builder;
@@ -138,6 +137,14 @@ public class PushReceiver extends XGPushBaseReceiver {
         if (notifyIdInt == -1) {
             notifyIdInt = notifyId % 5;
             sNotify[notifyIdInt] = url;
+        }
+
+        Pattern pattern = Pattern.compile(URLSpanNoUnderline.PATTERN_URL_MESSAGE);
+        Matcher matcher = pattern.matcher(url);
+        if (matcher.find()) {
+            String globalKey = matcher.group(1);
+
+            UsersListFragment.receiverMessagePush(globalKey, msg);
         }
 
         mNotificationManager.notify(notifyIdInt, builder.build());

@@ -1,5 +1,6 @@
 package net.coding.program.model;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -33,6 +34,10 @@ public class AccountInfo {
         }
 
         AccountInfo.setNeedPush(ctx, true);
+
+        NotificationManager notificationManager = (NotificationManager)
+                ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 
     private static final String ACCOUNT = "ACCOUNT";

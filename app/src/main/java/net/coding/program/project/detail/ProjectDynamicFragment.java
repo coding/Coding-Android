@@ -52,13 +52,10 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
     @FragmentArg
      protected ProjectObject mProjectObject;
-
     @FragmentArg
      protected String mType;
-
     @FragmentArg
      protected int mUser_id;
-
     @FragmentArg
     protected TaskObject.Members mMember;
 

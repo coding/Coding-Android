@@ -121,7 +121,6 @@ public class ImagePagerActivity extends UmengActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVE_INSTANCE_INDEX, pager.getCurrentItem());
-
     }
 
     @Override

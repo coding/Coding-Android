@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/task_list_head">
+        android:background="@drawable/list_section_shadow">
 
         <TextView
             android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
             android:layout_centerVertical="true"
             android:id="@+id/head"
             android:textColor="@color/font_gray"
-            android:layout_marginLeft="13dp" />
+            android:layout_marginLeft="@dimen/padding_15" />
 
     </RelativeLayout>
 

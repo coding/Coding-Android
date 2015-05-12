@@ -41,7 +41,7 @@ import org.json.JSONObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @EFragment(R.layout.fragment_navigation_drawer)
-public class NavigationDrawerFragment extends BaseFragment {
+public class NavigationDrawerFragment extends BaseFragment implements UnreadNotify.UnreadNotifyObserver {
 
     private NavigationDrawerCallbacks mCallbacks;
 
@@ -136,6 +136,10 @@ public class NavigationDrawerFragment extends BaseFragment {
     };
 
     private void updateNotify() {
+        if (!isResumed()) {
+            return;
+        }
+
         Unread unread = ((MyApp) getActivity().getApplication()).sUnread;
 
         UnreadNotify.displayNotify(badgeProject, unread.getProject());
@@ -272,12 +276,16 @@ public class NavigationDrawerFragment extends BaseFragment {
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
+
+        UnreadNotify.UnreadNotifySubject.getInstance().registerObserver(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
+
+        UnreadNotify.UnreadNotifySubject.getInstance().unregisterObserver(this);
     }
 
     @Override
@@ -308,5 +316,10 @@ public class NavigationDrawerFragment extends BaseFragment {
 
     public static interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    @Override
+    public void update() {
+        updateNotify();
     }
 }

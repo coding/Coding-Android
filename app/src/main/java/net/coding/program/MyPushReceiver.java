@@ -45,7 +45,7 @@ public class MyPushReceiver extends BroadcastReceiver {
         }
     }
 
-    private void closeNotify(Context context, String url) {
+    public static void closeNotify(Context context, String url) {
         String notifys[] = PushReceiver.sNotify;
         NotificationManager mNotificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);

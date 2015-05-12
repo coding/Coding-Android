@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 @EFragment(R.layout.fragment_users_list)
@@ -85,8 +86,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 intent.putExtra("mUserObject", user.friend);
                 startActivity(intent);
 
-                String url = String.format(HOST_MARK_MESSAGE, user.friend.global_key);
-                postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, (int) id, null);
+                postMarkReaded(user.friend.global_key);
             }
         });
 
@@ -113,6 +113,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         initData();
     }
 
+    private void postMarkReaded(String globalKey) {
+        String url = String.format(HOST_MARK_MESSAGE, globalKey);
+        postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, -1, globalKey);
+    }
+
     @Override
     public void loadMore() {
         getNextPageNetwork(HOST_MESSAGE_USERS, HOST_MESSAGE_USERS);
@@ -134,6 +139,32 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         getNetwork(HOST_UNREAD_AT, HOST_UNREAD_AT);
         getNetwork(HOST_UNREAD_COMMENT, HOST_UNREAD_COMMENT);
         getNetwork(HOST_UNREAD_SYSTEM, HOST_UNREAD_SYSTEM);
+
+        mInstance = new WeakReference<>(this);
+    }
+
+    @Override
+    public void onStop() {
+        mInstance = new WeakReference<>(null);
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String userGlobal = ReadedUserId.getReadedUser();
+        if (!userGlobal.isEmpty()) {
+            markUserReaded(userGlobal, ReadedUserId.getUserLastMessage());
+            postMarkReaded(userGlobal);
+            ReadedUserId.remove();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     void deleteItem(Message.MessageObject msg) {
@@ -299,8 +330,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
         } else if (tag.equals(HOST_MARK_MESSAGE)) {
             if (code == 0) {
-                mData.get(pos).unreadCount = 0;
-                adapter.notifyDataSetChanged();
+                String globalKey = (String) data;
+                markUserReaded(globalKey);
             }
         } else if (tag.equals(TAG_DELETE_MESSAGE)) {
             Message.MessageObject msg = (Message.MessageObject) data;
@@ -308,6 +339,36 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 deleteItem(msg);
             } else {
                 showButtomToast("删除失败");
+            }
+        }
+    }
+
+    private void markUserReaded(String globalKey, Message.MessageObject message) {
+        for (int i = 0; i < mData.size(); ++i) {
+            Message.MessageObject item = mData.get(i);
+            if (item.friend.global_key.equals(globalKey)) {
+                item.unreadCount = 0;
+                if (message != null) {
+                    item.content = message.content;
+                }
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
+    private void markUserReaded(String globalKey) {
+        markUserReaded(globalKey, null);
+    }
+
+    private void messagePlus1(String globalKey, String message) {
+        for (int i = 0; i < mData.size(); ++i) {
+            Message.MessageObject messageObject = mData.get(i);
+            if (messageObject.friend.global_key.equals(globalKey)) {
+                messageObject.content = message;
+                messageObject.unreadCount += 1;
+                adapter.notifyDataSetChanged();
+                return;
             }
         }
     }
@@ -394,5 +455,46 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         TextView content;
         TextView time;
         BadgeView badge;
+    }
+
+    public static class ReadedUserId {
+
+        private static String sReadedUser = "";
+
+        private static Message.MessageObject mData = null;
+
+        public static void setReadedUser(String id, Message.MessageObject data) {
+            if (id == null) {
+                id = "";
+                mData = null;
+            }
+
+            sReadedUser = id;
+            mData = data;
+        }
+
+        public static String getReadedUser() {
+            return sReadedUser;
+        }
+
+        public static Message.MessageObject getUserLastMessage() {
+            return mData;
+        }
+
+        public static void remove() {
+            sReadedUser = "";
+            mData = null;
+        }
+    }
+
+    static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
+
+    public static void receiverMessagePush(String globalKey, String content) {
+        if (mInstance != null) {
+            UsersListFragment fragment = mInstance.get();
+            if (fragment != null) {
+                fragment.messagePlus1(globalKey, content);
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@ import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
@@ -124,6 +125,11 @@ public class ImagePagerFragment extends BaseFragment {
         }
     }
 
+    @Click
+    protected final void rootLayout() {
+        getActivity().onBackPressed();
+    }
+
     @Override
     public void onDestroyView() {
         if (image != null) {
@@ -146,10 +152,8 @@ public class ImagePagerFragment extends BaseFragment {
             return;
         }
 
-
         ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
         getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
-
 
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
@@ -189,6 +193,7 @@ public class ImagePagerFragment extends BaseFragment {
                             image = photoView;
                             rootLayout.addView(image);
                             photoView.setOnPhotoTapListener(onPhotoTapClose);
+                            photoView.setOnViewTapListener(onViewTapListener);
                         }
 
                         image.setOnLongClickListener(new View.OnLongClickListener() {
@@ -265,6 +270,13 @@ public class ImagePagerFragment extends BaseFragment {
     private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = new PhotoViewAttacher.OnPhotoTapListener() {
         @Override
         public void onPhotoTap(View view, float v, float v2) {
+            getActivity().onBackPressed();
+        }
+    };
+
+    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = new PhotoViewAttacher.OnViewTapListener() {
+        @Override
+        public void onViewTap(View view, float v, float v1) {
             getActivity().onBackPressed();
         }
     };

@@ -25,6 +25,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
+import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
@@ -38,6 +39,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.maopao.ContentArea;
@@ -119,6 +121,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             mHandler.removeMessages(0);
             mHandler = null;
         }
+
+
         super.onDestroy();
     }
 
@@ -140,6 +144,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             mGlobalKey = mUserObject.global_key;
             initControl();
         }
+
+        MyPushReceiver.closeNotify(this, URLSpanNoUnderline.createMessageUrl(mGlobalKey));
 
         GlobalSetting.getInstance().setMessageNoNotify(mGlobalKey);
 
@@ -334,7 +340,20 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        Message.MessageObject item = null;
+        if (mData.size() > 0) {
+            item = mData.get(mData.size() - 1);
+        }
+
+        UsersListFragment.ReadedUserId.setReadedUser(mGlobalKey, item);
+    }
+
+    @Override
     protected void onStop() {
+
         String input = mEnterLayout.getContent();
         AccountInfo.saveMessageDraft(this, input, mGlobalKey);
 

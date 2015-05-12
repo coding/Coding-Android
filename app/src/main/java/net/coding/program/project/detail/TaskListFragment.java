@@ -57,16 +57,13 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
 
     @FragmentArg
     boolean mShowAdd = false;
-
     @FragmentArg
     TaskObject.Members mMembers;
-
     @FragmentArg
     ProjectObject mProjectObject;
 
     @ViewById
     View blankLayout;
-
     @ViewById
     FloatingActionButton fab;
 

@@ -42,6 +42,10 @@ public class URLSpanNoUnderline extends URLSpan {
 
     public static final String PATTERN_URL_MESSAGE = "^(?:https://[\\w.]*)?/user/messages/history/([\\w-]+)$";
 
+    public static final String createMessageUrl(String globalKey) {
+        return Global.HOST + "/user/messages/history/" + globalKey;
+    }
+
     private int color;
 
     public URLSpanNoUnderline(String url, int color) {
