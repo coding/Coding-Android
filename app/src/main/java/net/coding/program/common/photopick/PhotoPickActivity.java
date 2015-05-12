@@ -194,6 +194,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
             intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
             intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
+            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mPickData);
             intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
             startActivityForResult(intent, RESULT_PICK);
         }
