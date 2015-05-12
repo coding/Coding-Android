@@ -95,6 +95,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     TextView description;
     ViewGroup descriptionLayout;
     TextView descriptionButton;
+    View blankDiscuss;
 
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
@@ -152,6 +153,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         description = (TextView) mHeadView.findViewById(R.id.description);
         commentCount = (TextView) mHeadView.findViewById(R.id.commentCount);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
+        blankDiscuss = mHeadView.findViewById(R.id.blankDiscuss);
         listView.addHeaderView(mHeadView);
     }
 
@@ -169,11 +171,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private boolean descripChange() {
-        if (mSingleTask.isEmpty()) {
-            return false;
-        } else {
-            return !descriptionData.markdown.equals(descriptionDataNew.markdown);
-        }
+        return !mSingleTask.isEmpty() &&
+                !descriptionData.markdown.equals(descriptionDataNew.markdown);
     }
 
     private void enableSendButton(boolean enable) {
@@ -207,7 +206,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW, mSingleTask.project));
 
         setHeadData();
-        addFoot();
         listView.setAdapter(commentAdpter);
         mStatusAdapter = new StatusBaseAdapter();
         mPriorityAdapter = new PriorityAdapter();
@@ -258,10 +256,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         TextView createName = (TextView) mHeadView.findViewById(R.id.createrName);
         if (mSingleTask.isEmpty()) {
             createName.setText(mNewParam.owner.name);
-            time.setText(String.format("现在"));
+            time.setText("现在");
         } else {
             createName.setText(mSingleTask.creator.name);
-            time.setText(String.format(Global.dayToNow(mSingleTask.created_at)));
+            time.setText(Global.dayToNow(mSingleTask.created_at));
         }
     }
 
@@ -407,18 +405,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         });
     }
 
-    View listFoot;
-
-    private void addFoot() {
-        if (mSingleTask.isEmpty()) {
-            return;
-        }
-
-        listFoot = mInflater.inflate(R.layout.task_comment_empty, null);
-        listFoot.setVisibility(View.GONE);
-        listView.addFooterView(listFoot);
-    }
-
     final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
             R.drawable.ic_task_priority_1,
@@ -544,15 +530,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         int count = mData.size();
         String foramt = "%d 条评论";
         commentCount.setText(String.format(foramt, count));
-        if (count == 0) {
-//            listFoot.setVisibility(View.VISIBLE);
-//            listFoot.setPadding(0, 0, 0, 0);
-            listView.addFooterView(listFoot);
-        } else {
-//            listFoot.setVisibility(View.GONE);
-//            listFoot.setPadding(0, -listFoot.getHeight(), 0, 0);
-            listView.removeFooterView(listFoot);
-        }
+        blankDiscuss.setVisibility(count > 0 ? View.GONE : View.VISIBLE);
     }
 
     final String hostDeleteComment = Global.HOST + "/api/task/%s/comment/%s";
@@ -722,13 +700,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     }
 
-    private PhotoOperate photoOperate = new PhotoOperate(this);
-
     public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_DESCRIPTION = 4;
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
-    public static final int RESULT_REQUEST_PHOTO = 1005;
 
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
     final void commentImage(int result, Intent data) {
@@ -787,11 +762,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 selectMember();
                 updateSendButton();
             }
-        } else if (requestCode == RESULT_REQUEST_PHOTO) {
-            // 这个版本暂时不支持发图片
-            if (resultCode == Activity.RESULT_OK) {
-            }
-
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
@@ -957,7 +927,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         TextView mTitle;
     }
 
-    ArrayList<TaskObject.TaskComment> mData = new ArrayList<TaskObject.TaskComment>();
+    ArrayList<TaskObject.TaskComment> mData = new ArrayList<>();
 
     BaseAdapter commentAdpter = new BaseAdapter() {
         @Override

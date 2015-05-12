@@ -74,7 +74,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
     private MyImageGetter myImageGetter;
 
-    ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<DynamicObject.DynamicBaseObject>();
+    ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
 
     TestBaseAdapter mAdapter = new TestBaseAdapter();
 
@@ -296,11 +296,19 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     }
 
+    protected int getListItemResourceId() {
+        return R.layout.fragment_project_dynamic_list_item;
+    }
+
+    protected int getListSectionResourceId() {
+        return R.layout.fragment_project_dynamic_list_head;
+    }
+
     public class TestBaseAdapter extends BaseAdapter implements
             StickyListHeadersAdapter, SectionIndexer {
 
-        private ArrayList<Long> mSectionTitle = new ArrayList<Long>();
-        private ArrayList<Integer> mSectionId = new ArrayList<Integer>();
+        private ArrayList<Long> mSectionTitle = new ArrayList<>();
+        private ArrayList<Integer> mSectionId = new ArrayList<>();
 
         public TestBaseAdapter() {
         }
@@ -359,7 +367,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.fragment_project_dynamic_list_item, parent, false);
+                convertView = inflater.inflate(getListItemResourceId(), parent, false);
                 holder.mTitle = (TextView) convertView.findViewById(R.id.title);
                 holder.mTitle.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.mTitle.setFocusable(false);
@@ -483,7 +491,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
             HeaderViewHolder holder;
             if (convertView == null) {
                 holder = new HeaderViewHolder();
-                convertView = inflater.inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
+                convertView = inflater.inflate(getListSectionResourceId(), parent, false);
                 holder.mHead = (TextView) convertView.findViewById(R.id.head);
                 convertView.setTag(holder);
             } else {

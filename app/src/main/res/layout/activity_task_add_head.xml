@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/white"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
 
@@ -50,17 +50,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/padding_15"
             android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_15"
             android:text="查看描述" />
 
         <include
             layout="@layout/list_item_common_arrow"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_alignParentRight="true" />
+            android:layout_marginRight="@dimen/padding_15" />
 
     </RelativeLayout>
 
@@ -347,6 +347,10 @@
             android:layout_below="@id/commentCount"
             android:layout_marginTop="3dp"
             android:background="@drawable/ic_comment_line" />
+
+        <include
+            android:id="@+id/blankDiscuss"
+            layout="@layout/task_comment_empty" />
     </LinearLayout>
 </LinearLayout>
 

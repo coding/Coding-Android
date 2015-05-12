@@ -103,9 +103,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
+        android:paddingBottom="15dp"
         android:orientation="vertical">
-
-        <include layout="@layout/divide_15_bottom" />
 
         <TextView
             android:id="@+id/codingWebsite"
@@ -139,8 +138,6 @@
             android:text="微信：扣钉Coding"
             android:textColor="@color/font_black_comment"
             android:textSize="12sp" />
-
-        <include layout="@layout/divide_15_top" />
 
     </LinearLayout>
 

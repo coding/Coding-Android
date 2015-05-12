@@ -223,6 +223,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 holder.time.setFocusable(false);
 
                 holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
+                holder.name = (TextView) convertView.findViewById(R.id.name);
                 convertView.setTag(holder);
 
             } else {
@@ -236,12 +237,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
             holder.title.setText(Global.changeHyperlinkColor(data.title));
 
-            final String timeFormat = "%s 发布于%s";
-//            String user = HtmlContent.createUserHtml(data.owner.global_key, data.owner.name);
-            String time = Global.dayToNow(data.created_at);
-            String timeContent = String.format(timeFormat, data.owner.name, time);
-            holder.time.setText(Global.changeHyperlinkColor(timeContent));
-
+            holder.name.setText(data.owner.name);
+            holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
             holder.discuss.setText(String.format("%d", data.child_count));
 
             if (position == (getCount() - 1)) {
@@ -255,8 +252,9 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     static class ViewHolder {
         ImageView icon;
         TextView title;
-        TextView time;
         TextView discuss;
+        TextView time;
+        TextView name;
     }
 
     @OptionsItem

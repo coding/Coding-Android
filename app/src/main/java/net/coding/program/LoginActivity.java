@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -28,6 +30,8 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
 import net.coding.program.model.AccountInfo;
@@ -55,25 +59,20 @@ public class LoginActivity extends BaseActivity {
 
     @ViewById
     ImageView userIcon;
-
     @ViewById
     ImageView backgroundImage;
-
     @ViewById
-    EditText editName;
-
+    View layoutRoot;
+    @ViewById
+    LoginAutoCompleteEdit editName;
     @ViewById
     EditText editPassword;
-
     @ViewById
     ImageView imageValify;
-
     @ViewById
     EditText editValify;
-
     @ViewById
     View captchaLayout;
-
     @ViewById
     View loginButton;
 
@@ -118,6 +117,7 @@ public class LoginActivity extends BaseActivity {
             }
             backgroundImage.setImageDrawable(bitmapDrawable);
         } catch (Exception e) {
+            Global.errorLog(e);
         }
 
         needCaptcha();
@@ -128,7 +128,32 @@ public class LoginActivity extends BaseActivity {
         upateLoginButton();
 
         editName.addTextChangedListener(textWatcherName);
+
+        androidContent = findViewById(android.R.id.content);
+        androidContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int height = androidContent.getHeight();
+                if (height > 0) {
+                    ViewGroup.LayoutParams lp = layoutRoot.getLayoutParams();
+                    lp.height = height;
+                    layoutRoot.setLayoutParams(lp);
+                    androidContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            }
+        });
+
+        String lastLoginName = AccountInfo.loadLastLoginName(this);
+        if (!lastLoginName.isEmpty()) {
+            editName.setDisableAuto(true);
+            editName.setText(lastLoginName);
+            editName.setDisableAuto(false);
+            editPassword.requestFocus();
+            editName(false);
+        }
     }
+
+    View androidContent;
 
     private BitmapDrawable createBlur() {
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -240,7 +265,7 @@ public class LoginActivity extends BaseActivity {
             params.put("remember_me", true);
 
             postNetwork(HOST_LOGIN, params, HOST_LOGIN);
-            showProgressBar(true);
+            showProgressBar(true, R.string.logining);
 
         } catch (Exception e) {
             Global.errorLog(e);
@@ -287,13 +312,16 @@ public class LoginActivity extends BaseActivity {
             if (code == 0) {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
-                showProgressBar(true);
+                showProgressBar(true, R.string.logining);
 
             } else {
                 String msg = Global.getErrorMsg(respanse);
                 showMiddleToast(msg);
-                needCaptcha();
                 showProgressBar(false);
+                if (code != NetworkImpl.NETWORK_ERROR &&
+                        code != NetworkImpl.NETWORK_ERROR_SERVICE) {
+                    needCaptcha();
+                }
             }
 
         } else if (tag.equals(HOST_USER)) {
@@ -305,6 +333,9 @@ public class LoginActivity extends BaseActivity {
                 AccountInfo.saveReloginInfo(this, user.email, user.global_key);
 
                 Global.syncCookie(this);
+
+                String name = editName.getText().toString();
+                AccountInfo.saveLastLoginName(this, name);
 
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
@@ -383,12 +414,4 @@ public class LoginActivity extends BaseActivity {
 
         loginButton.setEnabled(true);
     }
-
-    String[] autoCompleteData = new String[]{
-            "qq.com", "163.com", "gmail.com", "126.com", "sina.com", "sohu.com", "hotmail.com", "tom.com", "sina.cn", "foxmail.com", "yeah.net", "vip.qq.com", "139.com", "live.cn", "outlook.com", "aliyun.com", "yahoo.com", "live.com", "icloud.com", "msn.com", "21cn.com", "189.cn", "me.com", "vip.sina.com", "msn.cn", "sina.com.cn"
-
-    };
 }
-
-
-

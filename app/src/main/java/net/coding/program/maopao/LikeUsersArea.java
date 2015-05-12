@@ -185,7 +185,7 @@ public class LikeUsersArea {
                     likeUsersLayout.getChildAt(i).setVisibility(View.GONE);
                 }
 
-                TextView textV = (TextView) likeUsersLayout.getChildAt(imageCount + 1);
+                TextView textV = (TextView) likeUsersLayout.getChildAt(imageCount);
                 textV.setVisibility(View.VISIBLE);
                 textV.setText(likes + "");
             }
@@ -207,9 +207,8 @@ public class LikeUsersArea {
         imageCount = likeUsersLayout.getChildCount() - 1;
         for (int i = 0; i < imageCount; ++i) {
             View v = likeUsersLayout.getChildAt(i);
-            final int pos = i;
             if (v.getVisibility() == View.VISIBLE) {
-                v.setTag(likeUsers.get(pos).global_key);
+                v.setTag(likeUsers.get(i).global_key);
             } else {
                 break;
             }

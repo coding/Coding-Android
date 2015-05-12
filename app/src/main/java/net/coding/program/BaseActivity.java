@@ -58,6 +58,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         }
     }
 
+    protected void showProgressBar(boolean show, int message) {
+        String s = getString(message);
+        showProgressBar(show, s);
+    }
+
     protected void showProgressBar(int messageId) {
         String message = getString(messageId);
         showProgressBar(true, message);

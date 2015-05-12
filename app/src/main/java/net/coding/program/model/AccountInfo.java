@@ -204,7 +204,6 @@ public class AccountInfo {
         return data;
     }
 
-    // TODO 添加单个item接口
     static class DataCache<T> {
 
         public final static String FILDER_GLOBAL = "FILDER_GLOBAL";
@@ -213,7 +212,7 @@ public class AccountInfo {
             save(ctx, data, name, "");
         }
 
-        public void saveGlobal(Context ctx, ArrayList<T> data, String name) {
+        public void saveGlobal(Context ctx, Object data, String name) {
             save(ctx, data, name, FILDER_GLOBAL);
         }
 
@@ -224,7 +223,7 @@ public class AccountInfo {
             }
         }
 
-        private void save(Context ctx, ArrayList<T> data, String name, String folder) {
+        private void save(Context ctx, Object data, String name, String folder) {
             if (ctx == null) {
                 return;
             }
@@ -260,6 +259,34 @@ public class AccountInfo {
 
         public ArrayList<T> loadGlobal(Context ctx, String name) {
             return load(ctx, name, FILDER_GLOBAL);
+        }
+
+        public T loadGlobalObject(Context ctx, String name) {
+            String folder = FILDER_GLOBAL;
+            T data = null;
+
+            File file;
+            if (!folder.isEmpty()) {
+                File fileDir = new File(ctx.getFilesDir(), folder);
+                if (!fileDir.exists() || !fileDir.isDirectory()) {
+                    fileDir.mkdir();
+                }
+                file = new File(fileDir, name);
+            } else {
+                file = new File(ctx.getFilesDir(), name);
+            }
+
+            if (file.exists()) {
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+                    data = (T) ois.readObject();
+                    ois.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return data;
         }
 
         private ArrayList<T> load(Context ctx, String name, String folder) {
@@ -426,6 +453,22 @@ public class AccountInfo {
         dateCache.saveGlobal(ctx, listData, USER_RELOGIN_INFO);
     }
 
+    // 上次成功登录时用户输入的用户名，可能是邮箱或个性后缀
+    private static final String GLOBAL_LAST_LOGIN_NAME = "GLOBAL_LAST_LOGIN_NAME";
+
+    public static void saveLastLoginName(Context context, String name) {
+        new DataCache<String>().saveGlobal(context, name, GLOBAL_LAST_LOGIN_NAME);
+    }
+
+    public static String loadLastLoginName(Context context) {
+        String s = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_LOGIN_NAME);
+        if (s == null) {
+            return "";
+        }
+
+        return s;
+    }
+
     private static final String USER_TASK_PROJECTS = "USER_TASK_PROJECTS";
 
     public static void saveTaskProjects(Context context, ArrayList<ProjectObject> data) {
@@ -501,6 +544,18 @@ public class AccountInfo {
         }
 
         return "";
+    }
+
+    public static String[] loadAllRelogininfo(Context ctx) {
+        ArrayList<Pair> listData = new DataCache<Pair>().loadGlobal(ctx, USER_RELOGIN_INFO);
+        String[] s = new String[listData.size() * 2];
+        for (int i = 0; i < listData.size(); ++i) {
+            Pair item = listData.get(i);
+            s[i * 2] = item.first;
+            s[i * 2 + 1] = item.second;
+        }
+
+        return s;
     }
 
     static class Pair implements Serializable {

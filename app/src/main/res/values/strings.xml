@@ -106,5 +106,6 @@
     <string name="title_activity_project_type">项目类型</string>
     <string name="title_activity_project_set">项目设置</string>
     <string name="title_activity_project_advance_set">高级设置</string>
+    <string name="logining">登录中...</string>
 
 </resources>

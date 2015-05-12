@@ -22,8 +22,8 @@ public class NetworkImpl {
     public static final int NETWORK_ERROR_SERVICE = -2;
     private final NetworkCallback callback;
 
-    public HashMap<String, PageInfo> mPages = new HashMap<String, PageInfo>();
-    private HashMap<String, Boolean> mUpdateing = new HashMap<String, Boolean>();
+    public HashMap<String, PageInfo> mPages = new HashMap<>();
+    private HashMap<String, Boolean> mUpdateing = new HashMap<>();
 
     Context appContext;
 
@@ -45,7 +45,7 @@ public class NetworkImpl {
     public void loadData(String url, RequestParams params, final String tag, final int dataPos, final Object data, Request type) {
         Log.d("", "url " + type + " " + url);
 
-        if (mUpdateing.containsKey(tag) && mUpdateing.get(tag).booleanValue()) {
+        if (mUpdateing.containsKey(tag) && mUpdateing.get(tag)) {
             Log.d("", "url#" + (params == null ? "get " : "post ") + url);
             return;
         }
@@ -69,13 +69,14 @@ public class NetworkImpl {
                     try {
                         updatePage(response, tag);
                     } catch (Exception e) {
+                        Global.errorLog(e);
                     }
                     callback.parseJson(code, response, tag, dataPos, data);
 
                     try {
                         updateRequest(response, tag);
                     } catch (Exception e) {
-
+                        Global.errorLog(e);
                     }
 
                 } catch (Exception e) {
@@ -91,9 +92,6 @@ public class NetworkImpl {
                         errorResponse = makeErrorJson(statusCode);
                     }
                     callback.parseJson(translateStatusCode, errorResponse, tag, dataPos, data);
-                    if (isPageRequest(tag)) {
-//                        callback.setPageBottom(NetworkCallback.PageStyle.LoadingFail);
-                    }
 
                 } catch (Exception e) {
                     Global.errorLog(e);
@@ -108,9 +106,6 @@ public class NetworkImpl {
                     JSONObject json = makeErrorJson(statusCode);
 
                     callback.parseJson(translateErrorCode, json, tag, dataPos, data);
-                    if (isPageRequest(tag)) {
-//                        callback.setPageBottom(NetworkCallback.PageStyle.LoadingFail);
-                    }
 
                 } catch (Exception e) {
                     Global.errorLog(e);
@@ -132,11 +127,19 @@ public class NetworkImpl {
                 JSONObject json = new JSONObject();
                 try {
                     JSONObject jsonErrorMsg = new JSONObject();
-                    jsonErrorMsg.put("msg", "服务器内部错误，有人要扣奖金了");
+
+                    String errorMessage;
+                    if (statusCode == NETWORK_ERROR_SERVICE) {
+                        errorMessage = "服务器内部错误，有人要扣奖金了";
+                    } else {
+                        errorMessage = "连接服务器失败，请检查网络或稍后重试";
+                    }
+                    jsonErrorMsg.put("msg", errorMessage);
 
                     json.put("code", statusCode);
                     json.put("msg", jsonErrorMsg);
                 } catch (Exception e) {
+                    Global.errorLog(e);
                 }
 
                 return json;
@@ -167,7 +170,7 @@ public class NetworkImpl {
     }
 
     public void initSetting() {
-        mPages = new HashMap<String, PageInfo>();
+        mPages = new HashMap<>();
     }
 
     private boolean isPageRequest(String tag) {

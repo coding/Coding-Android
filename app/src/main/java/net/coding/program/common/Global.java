@@ -268,6 +268,10 @@ public class Global {
         return (int) (dpValue * MyApp.sScale + 0.5f);
     }
 
+    public static int dpToPx(double dpValue) {
+        return (int) (dpValue * MyApp.sScale + 0.5f);
+    }
+
     public static int pxToDp(float pxValue) {
         return (int) (pxValue / MyApp.sScale + 0.5f);
     }

@@ -52,18 +52,18 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EActivity(R.layout.activity_users_list)
 public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMore {
 
-    public static enum Friend {
+    public enum Friend {
         Follow, Fans
     }
 
-    ;
-
     @Extra
     Friend type;
-
     @Extra
     boolean select;
-
+    @Extra
+    boolean hideFollowButton; // 隐藏互相关注按钮，用于发私信选人的界面
+    @Extra
+    String titleName = ""; // 设置title
     @Extra
     UserParams mUserParam;
 
@@ -97,8 +97,8 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     public static final String RESULT_EXTRA_NAME = "name";
     public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
 
-    ArrayList<UserObject> mData = new ArrayList<UserObject>();
-    ArrayList<UserObject> mSearchData = new ArrayList<UserObject>();
+    ArrayList<UserObject> mData = new ArrayList<>();
+    ArrayList<UserObject> mSearchData = new ArrayList<>();
 
     @ViewById
     IndexableListView listView;
@@ -123,7 +123,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
 
         if (isMyFriendList()) {
             mData = AccountInfo.loadFriends(this, getType());
-            mSearchData = new ArrayList(mData);
+            mSearchData = new ArrayList<>(mData);
         }
 
         if (mData.isEmpty()) {
@@ -196,8 +196,12 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     }
 
     void setTitle() {
-        String title;
+        if (!titleName.isEmpty()) {
+            getSupportActionBar().setTitle(titleName);
+            return;
+        }
 
+        String title;
         if (mUserParam == null) {
             if (type == Friend.Fans) {
                 title = "我的粉丝";
@@ -236,6 +240,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             ImageView v = (ImageView) searchView.findViewById(searchImgId);
             v.setImageResource(R.drawable.ic_menu_search);
         } catch (Exception e) {
+            Global.errorLog(e);
         }
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -319,7 +324,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                     AccountInfo.saveFriends(this, mData, getType());
                 }
 
-                mSearchData = new ArrayList(mData);
+                mSearchData = new ArrayList<>(mData);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -396,6 +401,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
+                if (hideFollowButton) {
+                    holder.mutual.setVisibility(View.INVISIBLE);
+                }
                 holder.divideTitle = (TextView) convertView.findViewById(R.id.divideTitle);
                 convertView.setTag(holder);
             } else {
@@ -413,22 +421,23 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             holder.name.setText(data.name);
             iconfromNetwork(holder.icon, data.avatar);
 
-            int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
-            holder.mutual.setButtonDrawable(drawableId);
-            holder.mutual.setChecked(data.followed);
-
-            holder.mutual.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RequestParams params = new RequestParams();
-                    params.put("users", data.global_key);
-                    if (((CheckBox) v).isChecked()) {
-                        postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, position, null);
-                    } else {
-                        postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, position, null);
+            if (!hideFollowButton) {
+                int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
+                holder.mutual.setButtonDrawable(drawableId);
+                holder.mutual.setChecked(data.followed);
+                holder.mutual.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RequestParams params = new RequestParams();
+                        params.put("users", data.global_key);
+                        if (((CheckBox) v).isChecked()) {
+                            postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, position, null);
+                        } else {
+                            postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, position, null);
+                        }
                     }
-                }
-            });
+                });
+            }
 
             return convertView;
         }
@@ -514,13 +523,9 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             return getSectionForPosition(i);
         }
 
-        private ArrayList<String> mSectionTitle = new ArrayList();
-        private ArrayList<Integer> mSectionId = new ArrayList();
-
-
+        private ArrayList<String> mSectionTitle = new ArrayList<>();
+        private ArrayList<Integer> mSectionId = new ArrayList<>();
     }
-
-    ;
 
     static class ViewHolder {
         ImageView icon;
@@ -528,5 +533,4 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         CheckBox mutual;
         TextView divideTitle;
     }
-
 }

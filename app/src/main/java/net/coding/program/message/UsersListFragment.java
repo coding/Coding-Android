@@ -20,7 +20,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -28,6 +27,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
 import net.coding.program.user.UsersListActivity;
+import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -49,7 +49,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     @ViewById
     ListView listView;
 
-    ArrayList<Message.MessageObject> mData = new ArrayList<Message.MessageObject>();
+    ArrayList<Message.MessageObject> mData = new ArrayList<>();
 
     final String HOST_MESSAGE_USERS = Global.HOST + "/api/message/conversations?pageSize=10";
 
@@ -192,7 +192,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @OptionsItem
     void action_add() {
-        TextWatcherAt.startUserFollowList(getActivity(), this, RESULT_SELECT_USER);
+        UsersListActivity_.intent(getActivity())
+                .type(UsersListActivity.Friend.Follow)
+                .select(true)
+                .hideFollowButton(true)
+                .startForResult(RESULT_SELECT_USER);
     }
 
     @OnActivityResult(RESULT_SELECT_USER)

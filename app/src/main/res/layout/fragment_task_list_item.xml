@@ -75,39 +75,12 @@
             android:textColor="@color/white"
             android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="蝈蝈"
-            android:textColor="@color/font_gray"
-            android:textSize="12dp" />
+        <include layout="@layout/common_name" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:drawableLeft="@drawable/ic_clock"
-            android:drawablePadding="2dp"
-            android:text="Small Text"
-            android:textColor="@color/font_gray"
-            android:textSize="12sp" />
+        <include layout="@layout/common_time" />
 
+        <include layout="@layout/common_discuss" />
 
-        <TextView
-            android:id="@+id/discuss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:drawableLeft="@drawable/ic_task_comment"
-            android:drawablePadding="4dp"
-            android:gravity="left"
-            android:singleLine="true"
-            android:text="333"
-            android:textColor="@color/font_gray"
-            android:textSize="12sp" />
-        
         <TextView
             android:id="@+id/taskDes"
             android:text="描述"

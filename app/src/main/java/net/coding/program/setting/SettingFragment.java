@@ -16,6 +16,7 @@ import com.tencent.android.tpush.XGPushManager;
 import net.coding.program.BaseActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.network.BaseFragment;
@@ -117,10 +118,15 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void loginOut() {
-        XGPushManager.registerPush(getActivity(), "*");
-        AccountInfo.loginOut(getActivity());
-        startActivity(new Intent(getActivity(), LoginActivity_.class));
-        getActivity().finish();
+        showDialog(MyApp.sUserObject.global_key, "退出当前账号?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                XGPushManager.registerPush(getActivity(), "*");
+                AccountInfo.loginOut(getActivity());
+                startActivity(new Intent(getActivity(), LoginActivity_.class));
+                getActivity().finish();
+            }
+        });
     }
 
 }

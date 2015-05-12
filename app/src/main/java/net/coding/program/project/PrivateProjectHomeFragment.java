@@ -123,4 +123,14 @@ public class PrivateProjectHomeFragment extends ProjectDynamicFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected int getListSectionResourceId() {
+        return R.layout.fragment_project_dynamic_list_head2;
+    }
+
+//    @Override
+//    protected int getListItemResourceId() {
+//        return R.layout.fragment_project_dynamic_list_item2;
+//    }
 }

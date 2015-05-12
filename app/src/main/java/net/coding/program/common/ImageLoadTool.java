@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.R;
+import net.coding.program.common.widget.Dimens;
 
 /**
  * Created by chaochen on 14-9-22.
@@ -48,7 +49,6 @@ public class ImageLoadTool {
             .build();
 
 
-    //两dp圆角
     public static final DisplayImageOptions optionsRounded2 = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
             .showImageForEmptyUri(R.drawable.ic_default_image)
@@ -56,7 +56,7 @@ public class ImageLoadTool {
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
-            .displayer(new RoundedBitmapDisplayer(Global.dpToPx(2)))
+            .displayer(new RoundedBitmapDisplayer(Global.dpToPx(Dimens.PROJECT_ICON_ROUND)))
             .build();
 
     public ImageLoadTool() {

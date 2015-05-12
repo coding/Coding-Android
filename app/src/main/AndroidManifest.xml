@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="37"
-    android:versionName="2.6.6">
+    android:versionCode="39"
+    android:versionName="2.6.8">
 
 <uses-sdk
         android:minSdkVersion="15"
@@ -363,8 +363,7 @@
         <activity
             android:name=".ImagePagerActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label=""
-            android:screenOrientation="portrait" />
+            android:label="" />
         <activity
             android:name=".message.NotifyListActivity_"
             android:icon="@drawable/ic_lancher"
@@ -488,7 +487,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".TestActivity"
-            android:label="@string/title_activity_test"></activity>
+            android:label="@string/title_activity_test" />
 
         <receiver
             android:name=".MyPushReceiver"
@@ -502,15 +501,15 @@
         <activity
             android:name=".user.UserDetailMoreActivity_"
             android:label="@string/title_activity_user_detail_more"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".user.UserProjectActivity_"
             android:label="@string/title_activity_user_project"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.MyProjectActivity_"
             android:label="@string/title_activity_my_project"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!-- <activity -->
         <!-- android:name=".login.SendEmailBaseActivity" -->
         <!-- android:label="@string/title_activity_base_reset_password" > -->
@@ -518,11 +517,11 @@
         <activity
             android:name=".login.SendEmailPasswordActivity_"
             android:label="@string/title_activity_reset_password"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.SendEmailActiveActivity_"
             android:label="@string/title_activity_resend_email"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <!--激活和重置密码的基类，永远不会用，但不声明编译会有error警告-->
         <activity
@@ -576,19 +575,19 @@
         <activity
             android:name=".project.init.create.ProjectCreateActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_create"></activity>
+            android:label="@string/title_activity_project_create" />
         <activity
             android:name=".project.init.create.ProjectTypeActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_type"></activity>
+            android:label="@string/title_activity_project_type" />
         <activity
             android:name=".project.init.setting.ProjectSetActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_set"></activity>
+            android:label="@string/title_activity_project_set" />
         <activity
             android:name=".project.init.setting.ProjectAdvanceSetActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_advance_set"></activity>
+            android:label="@string/title_activity_project_advance_set" />
     </application>
 
 </manifest>

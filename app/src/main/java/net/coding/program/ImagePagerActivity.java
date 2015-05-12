@@ -46,8 +46,6 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_image_pager)
 public class ImagePagerActivity extends UmengActivity {
 
-    private static final String STATE_POSITION = "STATE_POSITION";
-
     DisplayImageOptions options;
 
     @ViewById
@@ -68,9 +66,19 @@ public class ImagePagerActivity extends UmengActivity {
     @Extra
     boolean needEdit;
 
+    private final String SAVE_INSTANCE_INDEX = "SAVE_INSTANCE_INDEX";
+
     ImagePager adapter;
 
-    ArrayList<String> mDelUrls = new ArrayList<String>();
+    ArrayList<String> mDelUrls = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mPagerPosition = savedInstanceState.getInt(SAVE_INSTANCE_INDEX, mPagerPosition);
+        }
+    }
 
     @AfterViews
     void init() {
@@ -82,7 +90,7 @@ public class ImagePagerActivity extends UmengActivity {
         }
 
         if (mSingleUri != null) {
-            mArrayUri = new ArrayList<String>();
+            mArrayUri = new ArrayList<>();
             mArrayUri.add(mSingleUri);
             mPagerPosition = 0;
         }
@@ -98,9 +106,7 @@ public class ImagePagerActivity extends UmengActivity {
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
 
-        if (isPrivate) {
-
-        } else {
+        if (!isPrivate) {
             initPager();
         }
     }
@@ -109,6 +115,19 @@ public class ImagePagerActivity extends UmengActivity {
         adapter = new ImagePager(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setCurrentItem(mPagerPosition);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVE_INSTANCE_INDEX, pager.getCurrentItem());
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mPagerPosition = savedInstanceState.getInt(SAVE_INSTANCE_INDEX, mPagerPosition);
     }
 
     @Override
@@ -177,11 +196,6 @@ public class ImagePagerActivity extends UmengActivity {
 
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(STATE_POSITION, pager.getCurrentItem());
-    }
-
     class ImagePager extends FragmentPagerAdapter {
 
         public ImagePager(FragmentManager fm) {
@@ -212,6 +226,4 @@ public class ImagePagerActivity extends UmengActivity {
             return mArrayUri.size();
         }
     }
-
-    ;
 }
