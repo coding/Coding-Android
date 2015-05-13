@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="12dp"
@@ -41,7 +41,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -85,7 +85,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/line1"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -139,7 +139,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearlayout2"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -191,7 +191,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/grayline1"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="visible">
@@ -244,7 +244,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/grayline1"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -326,7 +326,7 @@
         android:id="@+id/layoutListHeadBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/stand_bg"
         android:orientation="vertical">
 
         <TextView

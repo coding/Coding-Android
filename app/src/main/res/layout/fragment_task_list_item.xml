@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="10dp"
     android:descendantFocusability="blocksDescendants"
+    android:background="@color/stand_bg"
     tools:context=".project.detail.TaskListFragment">
 
     <CheckBox

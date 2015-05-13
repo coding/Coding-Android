@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:paddingBottom="17dp">
+            android:paddingBottom="17dp"
+            android:background="@color/stand_bg">
 
             <FrameLayout
                 android:id="@+id/userBackgroundLayout"
@@ -132,7 +133,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/stand_bg">
 
             <include
                 android:id="@+id/pos0"
@@ -160,7 +162,8 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/stand_bg">
 
             <LinearLayout
                 android:id="@+id/clickProject"

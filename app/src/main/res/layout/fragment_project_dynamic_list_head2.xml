@@ -5,6 +5,17 @@
     android:paddingLeft="@dimen/padding_15"
     android:paddingRight="@dimen/padding_15">
 
-    <include layout="@layout/fragment_project_dynamic_list_head" />
+    <!--<include layout="@layout/fragment_project_dynamic_list_head" />-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/round_rect_shape_dynamic_small"
+        android:textSize="13sp"
+        android:paddingLeft="10dp"
+        android:text="Medium Text"
+        android:layout_centerVertical="true"
+        android:id="@+id/head"
+        android:textColor="@color/font_gray"
+        android:gravity="center_vertical|left" />
 
 </FrameLayout>

@@ -10,7 +10,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="77dip"
-        android:background="@android:color/transparent" />
+        android:background="@color/stand_bg" />
     <!--<android.support.v4.view.PagerTabStrip-->
     <!--android:id="@+id/tabs"-->
     <!--android:layout_width="match_parent"-->

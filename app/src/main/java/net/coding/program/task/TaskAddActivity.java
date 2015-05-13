@@ -952,7 +952,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
                 holder = new ImageCommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
-                convertView.setBackgroundResource(R.color.white);
 
             } else {
                 holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
