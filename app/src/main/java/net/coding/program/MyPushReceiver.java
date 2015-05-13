@@ -15,7 +15,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 
 public class MyPushReceiver extends BroadcastReceiver {
 
-    public static final String PushClickBroadcast = "PushClickBroadcast";
+    public static final String PushClickBroadcast = "net.coding.program.MyPushReceiver.PushClickBroadcast";
 
     public MyPushReceiver() {
     }

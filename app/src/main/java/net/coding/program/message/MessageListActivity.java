@@ -161,7 +161,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
-        url = String.format(Global.HOST + "/api/message/conversations/%s?pageSize=10", mUserObject.global_key);
+        url = String.format(Global.HOST + "/api/message/conversations/%s?pageSize=20", mUserObject.global_key);
 
         getSupportActionBar().setTitle(mUserObject.name);
 

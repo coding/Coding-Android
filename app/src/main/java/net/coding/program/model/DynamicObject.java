@@ -151,6 +151,60 @@ public class DynamicObject {
         }
     }
 
+    public static class CommitLineNote extends DynamicBaseObject implements Serializable {
+
+        Project project;
+        line_note lineNote;
+
+        public CommitLineNote(JSONObject json) throws JSONException {
+            super(json);
+
+            project = new Project(json.getJSONObject("project"));
+            lineNote = new line_note(json.getJSONObject("line_note"));
+        }
+
+        @Override
+        public Spanned title() {
+            final String farmat = "%s %s 项目 %s 的提交 %s";
+            String title = String.format(farmat, user.getHtml(), action_msg, project.getHtml(), lineNote.getHtml());
+            return Global.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            String textContent = HtmlContent.parseToText(lineNote.getContent());
+            return Global.changeHyperlinkColor(textContent, BLACK_COLOR, imageGetter);
+        }
+    }
+
+    public static class line_note implements Serializable {
+        String content = ""; //: "<p>已经 push 了 fix，见下一个 commit</p>",
+        int id;
+        String commit_id = ""; //: "0f66fb520ee8560e63c4cdf1c7036eb9331119d7",
+        String path = ""; // : "src/main/java/net/coding/core/Application.java",
+        String commit_path = ""; //: "/u/wzw/p/coding/git/commit/0f66fb520ee8560e63c4cdf1c7036eb9331119d7"
+
+        public line_note(JSONObject json) {
+            content = json.optString("content");
+            commit_id = json.optString("commit_id");
+            path = json.optString("path");
+            id = json.optInt("id");
+        }
+
+        public String getHtml() {
+            final int len = 10;
+            if (commit_id.length() >= len) {
+                return commit_id.substring(0, len);
+            }
+
+            return "";
+        }
+
+        public String getContent() {
+            return content;
+        }
+    }
+
     public static class MergeRequestBean extends DynamicBaseObject implements Serializable {
         Depot depot;
         String merge_request_title;

@@ -17,6 +17,16 @@ public class ImageLoadTool {
 
     public ImageLoader imageLoader = ImageLoader.getInstance();
 
+    public static DisplayImageOptions enterOptions = new DisplayImageOptions
+            .Builder()
+//            .showImageOnLoading(R.drawable.ic_default_user)
+//            .showImageForEmptyUri(R.drawable.ic_default_user)
+//            .showImageOnFail(R.drawable.ic_default_user)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .considerExifParams(true)
+            .build();
+
     public static DisplayImageOptions options = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_user)

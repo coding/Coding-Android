@@ -218,6 +218,9 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
             } else if (itemType.equals("TaskComment")) {
                 holder.icon.setImageResource(R.drawable.ic_notify_tasts);
 
+            } else if (itemType.equals("CommitLineNote")) {
+                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
+
             } else {
                 holder.icon.setImageResource(R.drawable.ic_notify_at);
             }

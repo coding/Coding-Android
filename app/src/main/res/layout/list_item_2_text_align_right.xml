@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:minHeight="48dp"
-    android:paddingLeft="@dimen/padding_15"
-    android:paddingRight="@dimen/padding_15" >
+    android:padding="@dimen/padding_15">
 
     <TextView
         android:id="@+id/first"

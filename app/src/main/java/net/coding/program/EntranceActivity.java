@@ -9,7 +9,10 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.model.AccountInfo;
@@ -57,12 +60,15 @@ public class EntranceActivity extends BaseActivity {
         File file = photoItem.getCacheFile(this);
         if (file.exists()) {
             background = Uri.fromFile(file);
-            image.setImageURI(background);
+            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
             title.setText(photoItem.getTitle());
 
             if (photoItem.isGuoguo()) {
                 hideLogo();
             }
+        } else {
+            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
         }
 
         entrance.setAnimationListener(new Animation.AnimationListener() {

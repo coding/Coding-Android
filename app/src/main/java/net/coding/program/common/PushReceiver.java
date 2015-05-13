@@ -134,6 +134,7 @@ public class PushReceiver extends XGPushBaseReceiver {
                 break;
             }
         }
+
         if (notifyIdInt == -1) {
             notifyIdInt = notifyId % 5;
             sNotify[notifyIdInt] = url;
@@ -143,7 +144,6 @@ public class PushReceiver extends XGPushBaseReceiver {
         Matcher matcher = pattern.matcher(url);
         if (matcher.find()) {
             String globalKey = matcher.group(1);
-
             UsersListFragment.receiverMessagePush(globalKey, msg);
         }
 

@@ -257,6 +257,9 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
                     } else if (itemType.equals("TaskComment")) {
                         baseObject = new DynamicObject.MyTaskComment(json);
 
+                    } else if (itemType.equals("CommitLineNote")) {
+                        baseObject = new DynamicObject.CommitLineNote(json);
+
                     } else {
                         Log.e("", "no parse dynamic type " + json);
                         baseObject = new DynamicObject.DynamicBaseObject(json);

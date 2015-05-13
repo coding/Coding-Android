@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="40"
-    android:versionName="2.6.9">
+    android:versionCode="42"
+    android:versionName="2.8">
 
-<uses-sdk
+    <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
 
@@ -63,6 +63,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/ActionbarNoIcon">
+
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
@@ -405,9 +406,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.GitViewActivity_"
+            android:configChanges="orientation"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_git_tree"
-            android:configChanges="orientation"
             android:screenOrientation="unspecified" />
         <activity
             android:name=".setting.NotifySetting_"
@@ -492,9 +493,10 @@
         <receiver
             android:name=".MyPushReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
+            <!--TODO exproted 设为 false 会被360拦截，有时间看看原因-->
             <intent-filter>
-                <action android:name="PushClickBroadcast" />
+                <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
             </intent-filter>
         </receiver>
 
@@ -526,19 +528,19 @@
         <!--激活和重置密码的基类，永远不会用，但不声明编译会有error警告-->
         <activity
             android:name=".login.SendEmailBaseActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_reset_password" />
+            android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".login.UserActiveActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_user_active">
+            android:label="@string/title_activity_user_active"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <data
-                    android:scheme="https"
                     android:host="coding.net"
-                    android:path="/activate" />
+                    android:path="/activate"
+                    android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />
 
@@ -549,14 +551,14 @@
         </activity>
         <activity
             android:name=".login.ResetPasswordActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_reset_password">
+            android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <data
-                    android:scheme="https"
                     android:host="coding.net"
-                    android:path="/user/resetPassword" />
+                    android:path="/user/resetPassword"
+                    android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />
 
@@ -574,20 +576,20 @@
 
         <activity
             android:name=".project.init.create.ProjectCreateActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_create" />
+            android:label="@string/title_activity_project_create"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.init.create.ProjectTypeActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_type" />
+            android:label="@string/title_activity_project_type"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.init.setting.ProjectSetActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_set" />
+            android:label="@string/title_activity_project_set"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.init.setting.ProjectAdvanceSetActivity_"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_advance_set" />
+            android:label="@string/title_activity_project_advance_set"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
