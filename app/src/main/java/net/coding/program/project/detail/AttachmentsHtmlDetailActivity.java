@@ -44,7 +44,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     void init1() {
 
         try {
-            markdown = readTextFile(getAssets().open("markdown-html"));
+            markdown = readTextFile(getAssets().open("markdown"));
         } catch (Exception e) {
             Global.errorLog(e);
         }

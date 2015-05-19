@@ -14,7 +14,7 @@ public class HtmlContent {
 
     private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";
 
-    private static final String REGX_CODE = "(<pre>)?<code .*(\\n)?</code>(</pre>)?";
+    private static final String REGX_CODE = "(<pre>)?<code(.*\\n)*</code>(</pre>)?";
 
     private static final String REPLACE_CODE = "[代码]";
 
@@ -34,7 +34,15 @@ public class HtmlContent {
     }
 
     public static String parseDynamic(String s) {
-        return parseReplacePhoto(s).text;
+//        Global.MessageParse parse = new Global.MessageParse();
+
+//        String replaceImage = s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO);
+//
+//        replaceImage = replaceImage.replaceAll(REGX_MONKEY, "<img src=\"$1\">");
+//
+//        parse.text = replaceAllSpace(replaceImage);
+
+        return parseToText(s);
     }
 
     public static Global.MessageParse parseReplacePhoto(String s) {

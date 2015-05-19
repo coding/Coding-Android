@@ -41,11 +41,7 @@ public class TextWatcherAt implements TextWatcher {
         String newEnter = s.toString().substring(start, start + count);
         if (newEnter.equals("@")) {
             if (mProjectObject == null) {
-                Intent intent;
-                intent = new Intent(mContext, UsersListActivity_.class);
-                intent.putExtra("type", UsersListActivity.Friend.Follow);
-                intent.putExtra("select", true);
-                mStartActivity.startActivityForResult(intent, mResult);
+                startActivityAt(mContext, mStartActivity, mResult);
             } else {
                 Intent intent;
                 intent = new Intent(mContext, MembersSelectActivity_.class);
@@ -57,6 +53,14 @@ public class TextWatcherAt implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
+    }
+
+    public static void startActivityAt(Context context, StartActivity startActivity, int result) {
+        Intent intent;
+        intent = new Intent(context, UsersListActivity_.class);
+        intent.putExtra("type", UsersListActivity.Friend.Follow);
+        intent.putExtra("select", true);
+        startActivity.startActivityForResult(intent, result);
     }
 
 }

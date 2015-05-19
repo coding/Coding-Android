@@ -28,7 +28,6 @@
         <item>冒泡广场</item>
         <item>好友圈</item>
         <item>热门冒泡</item>
-        <item>我的冒泡</item>
     </string-array>
 
     <string-array name="setting_list_items">

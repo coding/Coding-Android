@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
@@ -360,30 +361,33 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     };
 
     private void download(String url) {
+        try {
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
 
-        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+            PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);
+            String cookieString = "";
+            for (Cookie cookie : cookieStore.getCookies()) {
+                cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
+            }
 
-        PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);
-        String cookieString = "";
-        for (Cookie cookie : cookieStore.getCookies()) {
-            cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.addRequestHeader("Cookie", cookieString);
+            request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+            request.setTitle(mFileObject.name);
+            // request.setDescription(mFileObject.name);
+            // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+            request.setVisibleInDownloadsUi(false);
+            // request.allowScanningByMediaScanner();
+            // request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+            // request.setShowRunningNotification(false);
+
+            downloadId = downloadManager.enqueue(request);
+            downloadListEditor.putLong(mFileObject.file_id, downloadId);
+            downloadListEditor.commit();
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
         }
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.addRequestHeader("Cookie", cookieString);
-        request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
-        request.setTitle(mFileObject.name);
-        // request.setDescription(mFileObject.name);
-        // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-        request.setVisibleInDownloadsUi(false);
-        // request.allowScanningByMediaScanner();
-        // request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
-        // request.setShowRunningNotification(false);
-
-        downloadId = downloadManager.enqueue(request);
-        downloadListEditor.putLong(mFileObject.file_id, downloadId);
-        downloadListEditor.commit();
 
     }
 

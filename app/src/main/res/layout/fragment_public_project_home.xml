@@ -145,7 +145,7 @@
                 android:text="我们推荐每个项目都新建一个README文件"/>
         </LinearLayout>
 
-        <WebView
+        <net.coding.program.common.widget.WebListView
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

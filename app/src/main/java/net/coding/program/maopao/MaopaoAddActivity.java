@@ -114,14 +114,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == mData.size()) {
-                    int count = PHOTO_MAX_COUNT - mData.size();
-                    if (count <= 0) {
-                        return;
-                    }
-
-                    Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
-                    intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
-                    startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                    startPhotoPickActivity();
 
                 } else {
                     Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
@@ -137,7 +130,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             }
         });
 
-        message.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
         message.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -155,6 +147,17 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         locationText.setText(currentLocation.name);
 
         Global.popSoftkeyboard(this, message, false);
+    }
+
+    private void startPhotoPickActivity() {
+        int count = PHOTO_MAX_COUNT - mData.size();
+        if (count <= 0) {
+            return;
+        }
+
+        Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
+        intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
+        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
     private void updateAddButton() {
@@ -247,7 +250,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
-                mEnterLayout.insertText(name);
+                mEnterLayout.insertText("@" + name);
             }
 
         } else {
@@ -262,12 +265,18 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         if (message.getText().toString().isEmpty() && adapter.getCount() <= 1) {
             finish();
         } else {
-            showDialog("冒泡", "放弃此次冒泡机会？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finishWithoutSave();
-                }
-            });
+            showDialog("冒泡", "保存为草稿？", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    },
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finishWithoutSave();
+                        }
+                    });
         }
     }
 
@@ -509,6 +518,12 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             return holder.image;
         }
 
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            gridView.setVisibility(getCount() > 1 ? View.VISIBLE : View.GONE);
+        }
+
         class ViewHolder {
             ImageView image;
             String uri = "";
@@ -586,5 +601,15 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                             ? R.drawable.ic_location_inactive
                             : R.drawable.ic_location_active), null, null, null);
         }
+    }
+
+    @Click
+    protected final void popPhoto() {
+        startPhotoPickActivity();
+    }
+
+    @Click
+    protected final void popAt() {
+        TextWatcherAt.startActivityAt(this, this, RESULT_REQUEST_FOLLOW);
     }
 }

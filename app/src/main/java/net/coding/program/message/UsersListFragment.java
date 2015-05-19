@@ -46,7 +46,7 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    private final int RESULT_SELECT_USER = 100;
+    private final int RESULT_SELECT_USER = 2001;
     @ViewById
     ListView listView;
 
@@ -223,7 +223,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @OptionsItem
     void action_add() {
-        UsersListActivity_.intent(getActivity())
+        UsersListActivity_.intent(this)
                 .type(UsersListActivity.Friend.Follow)
                 .select(true)
                 .hideFollowButton(true)

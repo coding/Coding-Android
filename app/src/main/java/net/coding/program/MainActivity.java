@@ -180,11 +180,6 @@ public class MainActivity extends BaseActivity
                         bundle.putSerializable("mType", MaopaoListFragment.Type.hot);
                         break;
 
-                    case 3:
-                        fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", MaopaoListFragment.Type.my);
-                        break;
-
                     case 0:
                     default:
                         fragment = new MaopaoListFragment_();
@@ -343,7 +338,6 @@ public class MainActivity extends BaseActivity
                 R.drawable.ic_spinner_maopao_time,
                 R.drawable.ic_spinner_maopao_friend,
                 R.drawable.ic_spinner_maopao_hot,
-                R.drawable.ic_spinner_maopao_my,
         };
 
         @Override

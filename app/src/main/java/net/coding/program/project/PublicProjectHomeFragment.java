@@ -141,11 +141,12 @@ public class PublicProjectHomeFragment extends BaseFragment {
 
                         String bubble = "${webview_content}";
                         try {
-                            bubble = readTextFile(getResources().getAssets().open("bubble"));
+                            bubble = readTextFile(getResources().getAssets().open("markdown"));
                         } catch (Exception e) {
                             Global.errorLog(e);
                         }
 
+//                        webView.loadDataWithBaseURL(null, bubble.replace("${file_code}", readmeHtml), "text/html", "UTF-8", null);
                         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
                         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
                     }

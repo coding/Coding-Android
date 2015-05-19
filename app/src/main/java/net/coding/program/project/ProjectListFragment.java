@@ -230,7 +230,6 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 "一般项目"
         };
 
-
         @Override
         public int getCount() {
             return mData.size();

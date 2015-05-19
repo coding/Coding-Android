@@ -187,6 +187,21 @@
                 android:layout_height="24dp"
                 android:background="@null"
                 android:button="@drawable/checkbox_pop_emoji" />
+
+            <ImageView
+                android:layout_marginLeft="12dp"
+                android:id="@+id/popPhoto"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/black" />
+
+            <ImageView
+                android:id="@+id/popAt"
+                android:layout_marginLeft="12dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/stand_bg" />
+
         </LinearLayout>
 
         <View

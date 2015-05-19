@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -1506,26 +1507,30 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     private void download(ArrayList<AttachmentFileObject> mFileObjects) {
-        for (AttachmentFileObject mFileObject : mFileObjects) {
-            String url = String.format(urlDownload, mProjectObjectId, mFileObject.file_id);
+        try {
+            for (AttachmentFileObject mFileObject : mFileObjects) {
+                String url = String.format(urlDownload, mProjectObjectId, mFileObject.file_id);
 
-            PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsActivity.this);
-            String cookieString = "";
-            for (Cookie cookie : cookieStore.getCookies()) {
-                cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
+                PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsActivity.this);
+                String cookieString = "";
+                for (Cookie cookie : cookieStore.getCookies()) {
+                    cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
+                }
+
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                request.addRequestHeader("Cookie", cookieString);
+                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+                request.setTitle(mFileObject.name);
+                request.setVisibleInDownloadsUi(false);
+
+                long downloadId = downloadManager.enqueue(request);
+                downloadListEditor.putLong(mFileObject.file_id, downloadId);
             }
-
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.addRequestHeader("Cookie", cookieString);
-            request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-            request.setTitle(mFileObject.name);
-            request.setVisibleInDownloadsUi(false);
-
-            long downloadId = downloadManager.enqueue(request);
-            downloadListEditor.putLong(mFileObject.file_id, downloadId);
+            downloadListEditor.commit();
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
         }
-        downloadListEditor.commit();
 
     }
 

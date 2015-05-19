@@ -80,14 +80,18 @@ public class UpdateService extends Service {
     }
 
     private void downloadApp() {
-        if (enqueue == 0) {
+        try {
+            if (enqueue == 0) {
 
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUpdateInfo.url))
-                    .setTitle("Coding")
-                    .setDescription("下载Coding" + mUpdateInfo.versionName)
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mUpdateInfo.apkName())
-                    .setVisibleInDownloadsUi(false);
-            enqueue = downloadManager.enqueue(request);
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUpdateInfo.url))
+                        .setTitle("Coding")
+                        .setDescription("下载Coding" + mUpdateInfo.versionName)
+                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mUpdateInfo.apkName())
+                        .setVisibleInDownloadsUi(false);
+                enqueue = downloadManager.enqueue(request);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -231,9 +235,6 @@ public class UpdateService extends Service {
             stopSelf();
         }
     }
-
-    ;
-
 
     UpdateService.UpdateInfo mUpdateInfo;
 
