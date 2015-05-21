@@ -411,6 +411,8 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                     listView.setSelection(index + 1);
                 }
 
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
+
             } else {
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
                 showErrorMsg(code, respanse);

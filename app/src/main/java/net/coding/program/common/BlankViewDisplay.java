@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.message.MessageListActivity;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.AttachmentsActivity;
@@ -87,6 +88,9 @@ public class BlankViewDisplay {
                 } else if (fragment instanceof UserProjectListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = OTHER_PROJECT_BLANK;
+                } else if (fragment instanceof MessageListActivity) {
+                    iconId = R.drawable.ic_exception_blank_maopao;
+                    text = "无私信\n打个招呼吧~";
                 }
 
             } else {

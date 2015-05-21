@@ -280,7 +280,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

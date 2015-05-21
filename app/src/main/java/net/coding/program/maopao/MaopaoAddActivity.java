@@ -109,6 +109,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
 
         gridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -169,6 +170,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     protected void onStop() {
         MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData);
         AccountInfo.saveMaopaoDraft(this, draft);
+
+        mEnterLayout.closeEmojiKeyboard();
 
         super.onStop();
     }

@@ -30,7 +30,7 @@ public class LocationCoord {
                     result.latitude = Double.parseDouble(parts[0]);
                     result.longitude = Double.parseDouble(parts[1]);
                     result.isCustom = parts.length > 2 && !("0".equals(parts[2].trim()));
-                } catch (Throwable e) {
+                } catch (Exception e) {
                     Log.e("LocationCoord", "invalid coord format", e);
                     return null;
                 }

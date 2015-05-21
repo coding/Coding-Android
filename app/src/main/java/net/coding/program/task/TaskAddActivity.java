@@ -26,7 +26,6 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
@@ -201,6 +200,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             mSingleTask.priority = 1; // 默认优先级是 1：正常处理
         }
 
+        invalidateOptionsMenu();
+
         mNewParam = new TaskParams(mSingleTask);
         mOldParam = new TaskParams(mSingleTask);
 
@@ -301,16 +302,11 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             menuInflater.inflate(R.menu.task_add, menu);
         } else {
             menuInflater.inflate(R.menu.task_add_edit, menu);
-            if (mJumpParams != null) {
-                if (!mJumpParams.userKey.equals(MyApp.sUserObject.global_key)) {
-                    menu.findItem(R.id.action_delete).setVisible(false);
-                }
-            } else if (!mSingleTask.isEmpty()) {
-                if (!mSingleTask.owner.isMe()) {
+            if (!mSingleTask.isEmpty()) {
+                if (!mSingleTask.creator.isMe()) {
                     menu.findItem(R.id.action_delete).setVisible(false);
                 }
             }
-
         }
 
         mMenuSave = menu.findItem(R.id.action_save);

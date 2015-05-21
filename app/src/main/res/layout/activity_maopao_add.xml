@@ -153,7 +153,7 @@
         android:text=""
         android:hint="@string/location_undefined"
         android:textColor="@color/font_black_content"
-        android:textColorHint="@color/font_black_content"
+        android:textColorHint="@color/font_gray"
         android:ellipsize="end"
         android:singleLine="true"
         android:maxLines="1"
@@ -189,18 +189,18 @@
                 android:button="@drawable/checkbox_pop_emoji" />
 
             <ImageView
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="36dp"
                 android:id="@+id/popPhoto"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@color/black" />
+                android:background="@drawable/pop_photo" />
 
             <ImageView
                 android:id="@+id/popAt"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="36dp"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@color/stand_bg" />
+                android:background="@drawable/pop_at" />
 
         </LinearLayout>
 

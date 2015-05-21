@@ -30,17 +30,17 @@
             android:text="22222 Text"
             android:ellipsize="end"
             android:textColor="@color/font_black_content"
-            android:maxLength="@integer/dynamic_title_max_lines"
+            android:maxLines="@integer/dynamic_title_max_lines"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:ellipsize="end"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:maxLines="@integer/dynamic_content_max_lines"
-            android:text="11111 Text"
+            android:text="1111"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/font_black_comment"
             android:lineSpacingExtra="3dp"
