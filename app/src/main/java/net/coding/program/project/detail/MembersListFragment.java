@@ -61,21 +61,21 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @ViewById
     ListView listView;
 
-    ArrayList<TaskObject.Members> mSearchData = new ArrayList<TaskObject.Members>();
-    ArrayList<TaskObject.Members> mData = new ArrayList<TaskObject.Members>();
-    private AdapterView.OnItemClickListener mListClickJump;
+    ArrayList<TaskObject.Members> mSearchData = new ArrayList<>();
+    ArrayList<TaskObject.Members> mData = new ArrayList<>();
 
     @AfterViews
     protected void init() {
         initRefreshLayout();
 
         mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
-        mSearchData = new ArrayList(mData);
+        mSearchData = new ArrayList<>(mData);
         if (mSearchData.isEmpty()) {
             showDialogLoading();
         }
 
         listView.setAdapter(adapter);
+        AdapterView.OnItemClickListener mListClickJump;
         if (mSelect) {
             mListClickJump = new AdapterView.OnItemClickListener() {
                 @Override
@@ -346,7 +346,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             @Override
             public void onClick(View v) {
                 //showButtomToast("quit");
-                String.format(urlMembers, mProjectObject.getId());
+//                String.format(urlMembers, mProjectObject.getId());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 AlertDialog dialog = builder.setTitle("确认退出项目")
                         .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))

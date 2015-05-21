@@ -65,7 +65,7 @@
             android:id="@+id/dropdownType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />\
+            android:orientation="vertical" />
 
         <net.coding.program.project.detail.DropdownListView_
             android:id="@+id/dropdownLabel"

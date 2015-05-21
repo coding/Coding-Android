@@ -1,5 +1,6 @@
 package net.coding.program.common;
 
+import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,9 +14,9 @@ import java.io.File;
 
 /**
  * Created by yangzhen on 2014/11/2.
+ *
  */
 public class FileUtil {
-
 
     public final static String DOWNLOAD_SETTING = "download_setting";
     public final static String DOWNLOAD_LIST = "download_list";
@@ -26,9 +27,7 @@ public class FileUtil {
 
     public static File getDestinationInExternalPublicDir(String dirType, String fileName) {
         File file = Environment.getExternalStoragePublicDirectory(dirType);
-        if (file == null) {
-            throw new IllegalStateException("Failed to get external storage public directory");
-        } else if (file.exists()) {
+        if (file.exists()) {
             if (!file.isDirectory()) {
                 throw new IllegalStateException(file.getAbsolutePath() +
                         " already exists and is not a directory");
@@ -55,9 +54,7 @@ public class FileUtil {
         }
 
         File destFile = new File(destFolder.getAbsolutePath() + File.separator + fileName);*/
-        File destFile = new File(file.getAbsolutePath() + File.separator + fileName);
-        //Log.d(TAG, destFile.getAbsolutePath());
-        return destFile;
+        return new File(file.getAbsolutePath() + File.separator + fileName);
     }
 
     public static File getDestinationInExternalFilesDir(Context context, String dirType,
@@ -78,8 +75,7 @@ public class FileUtil {
         }
         //setDestinationFromBase(file, subPath);
         //return this;
-        File destFile = new File(file.getAbsolutePath() + File.separator + fileName);
-        return destFile;
+        return new File(file.getAbsolutePath() + File.separator + fileName);
     }
 
     /**
@@ -89,8 +85,8 @@ public class FileUtil {
      *
      * @param context The context.
      * @param uri     The Uri to query.
-     * @author paulburke
      */
+    @TargetApi(19)
     public static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
