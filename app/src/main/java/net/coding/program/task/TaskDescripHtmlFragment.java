@@ -111,13 +111,15 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     };
 
     private void displayWebView() {
-        descWeb.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
+        String locateHtml = ((TaskDescrip) getActivity()).createLocateHtml(contentHtml);
+
+        descWeb.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), locateHtml));
         descWeb.getSettings().setJavaScriptEnabled(true);
         descWeb.setBackgroundColor(0);
         descWeb.getBackground().setAlpha(0);
         descWeb.getSettings().setDefaultTextEncodingName("UTF-8");
 
-        descWeb.loadDataWithBaseURL(Global.HOST, ((TaskDescrip) getActivity()).createLocateHtml(contentHtml), "text/html", "UTF-8", null);
+        descWeb.loadDataWithBaseURL(Global.HOST, locateHtml, "text/html", "UTF-8", null);
     }
 
     public static final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";

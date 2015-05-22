@@ -52,7 +52,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +63,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
-@OptionsMenu(R.menu.message_list)
+//@OptionsMenu(R.menu.message_list)
 public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
 
     private final int REFRUSH_TIME = 3 * 1000;
@@ -554,7 +553,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         @Override
         public void onClick(View v) {
             String s = mEnterLayout.getContent();
-            if (EmojiFilter.containsEmoji(v.getContext(), s)) {
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
                 return;
             }
 

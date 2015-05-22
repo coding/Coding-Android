@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -131,6 +132,14 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             }
         });
 
+        gridView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Global.popSoftkeyboard(MaopaoAddActivity.this, mEnterLayout.content, false);
+                return false;
+            }
+        });
+
         message.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -153,6 +162,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     private void startPhotoPickActivity() {
         int count = PHOTO_MAX_COUNT - mData.size();
         if (count <= 0) {
+            showButtomToast(String.format("最多能添加%d张图片", PHOTO_MAX_COUNT));
             return;
         }
 
@@ -279,7 +289,10 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             finishWithoutSave();
                         }
-                    });
+                    },
+                    "保存",
+                    "不保存"
+            );
         }
     }
 

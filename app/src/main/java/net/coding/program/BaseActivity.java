@@ -184,11 +184,18 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCannel) {
+        showDialog(title, msg, clickOk, clickCannel, "确定", "取消");
+    }
+
+    protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
+                              DialogInterface.OnClickListener clickCannel,
+                              String okButton,
+                              String cannelButton) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog dialog = builder.setTitle(title)
                 .setMessage(msg)
-                .setPositiveButton("确定", clickOk)
-                .setNegativeButton("取消", clickCannel)
+                .setPositiveButton(okButton, clickOk)
+                .setNegativeButton(cannelButton, clickCannel)
                 .show();
         dialogTitleLineColor(dialog);
     }

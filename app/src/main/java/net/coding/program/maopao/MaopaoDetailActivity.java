@@ -18,9 +18,11 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.ImagePagerActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -231,7 +233,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         Global.initWebView(webView);
         String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
         webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
-        webView.setWebViewClient(new CustomWebViewClient(this));
+        webView.setWebViewClient(new CustomWebViewClient(this, mMaopaoObject.content));
 
         mListHead.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,14 +293,26 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
     public static class CustomWebViewClient extends WebViewClient {
 
-        Context mContext;
+        private final Context mContext;
+        private final ArrayList<String> mUris;
 
-        public CustomWebViewClient(Context context) {
+        public CustomWebViewClient(Context context, String content) {
             mContext = context;
+            mUris = HtmlContent.parseMaopao(content).uris;
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            for (int i = 0; i < mUris.size(); ++i) {
+                if (mUris.get(i).equals(url)) {
+                    ImagePagerActivity_.intent(mContext)
+                            .mArrayUri(mUris)
+                            .mPagerPosition(i)
+                            .start();
+                    return true;
+                }
+            }
+
             URLSpanNoUnderline.openActivityByUri(mContext, url, false, true);
             return true;
         }

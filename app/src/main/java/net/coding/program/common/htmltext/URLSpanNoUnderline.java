@@ -58,7 +58,6 @@ public class URLSpanNoUnderline extends URLSpan {
     }
 
     public static boolean openActivityByUri(Context context, String uriString, boolean newTask, boolean defaultIntent) {
-        Log.d("", "yes reload");
         Intent intent = new Intent();
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -29,7 +29,7 @@ public class EmojiFilter {
     }
 
     public static boolean containsEmptyEmoji(Context context, String input) {
-        if (input.isEmpty()) {
+        if (input.replaceAll(" ", "").replaceAll("　", "").isEmpty()) {
             showMiddleToast(context, "内容不能为空");
             return true;
         }

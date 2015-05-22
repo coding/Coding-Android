@@ -276,7 +276,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
         Global.initWebView(webView);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context));
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
         webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
     }
 
@@ -417,7 +417,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     private void sendComment(String send) {
-        // 还没有收到 Topic 的数据，url 还没有初始化
         if (urlCommentSend.equals(HOST_COMMENT_SEND)) {
             return;
         }

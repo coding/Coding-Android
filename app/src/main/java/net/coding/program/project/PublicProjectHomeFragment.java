@@ -148,7 +148,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
 
 //                        webView.loadDataWithBaseURL(null, bubble.replace("${file_code}", readmeHtml), "text/html", "UTF-8", null);
                         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity()));
+                        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), readmeHtml));
                     }
                 }
             } else if (code == 1209) {
