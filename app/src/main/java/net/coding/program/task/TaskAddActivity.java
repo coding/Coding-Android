@@ -302,10 +302,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             menuInflater.inflate(R.menu.task_add, menu);
         } else {
             menuInflater.inflate(R.menu.task_add_edit, menu);
-            if (!mSingleTask.isEmpty()) {
-                if (!mSingleTask.creator.isMe()) {
-                    menu.findItem(R.id.action_delete).setVisible(false);
-                }
+            if (mSingleTask != null && !mSingleTask.isEmpty() && !mSingleTask.creator.isMe()) {
+                menu.findItem(R.id.action_delete).setVisible(false);
             }
         }
 
