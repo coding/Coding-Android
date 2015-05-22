@@ -95,7 +95,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=20";
 
-    String urlCommentSend = Global.HOST + "/api/project/%s/topic?parent=%s";
+    private final String HOST_COMMENT_SEND = Global.HOST + "/api/project/%s/topic?parent=%s";
+    String urlCommentSend = HOST_COMMENT_SEND;
 
     String URI_DELETE_TOPIC_LABEL = Global.HOST + "/api/topic/%s/label/%s";
 
@@ -416,6 +417,11 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     private void sendComment(String send) {
+        // 还没有收到 Topic 的数据，url 还没有初始化
+        if (urlCommentSend.equals(HOST_COMMENT_SEND)) {
+            return;
+        }
+
         String input = send;
         if (EmojiFilter.containsEmptyEmoji(this, input)) {
             showProgressBar(false);
