@@ -21,6 +21,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.BaseFragment;
@@ -151,7 +152,7 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
         sign.setText(user.slogan);
         follows.setText(String.valueOf(user.follows_count));
         fans.setText(String.valueOf(user.fans_count));
-        ImageLoader.getInstance().displayImage(user.avatar, circleIcon);
+        ImageLoader.getInstance().displayImage(user.avatar, circleIcon, ImageLoadTool.options);
 
         MaopaoListFragment.ClickImageParam param = new MaopaoListFragment.ClickImageParam(user.avatar);
         circleIcon.setTag(param);
