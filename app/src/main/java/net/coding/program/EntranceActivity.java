@@ -58,6 +58,7 @@ public class EntranceActivity extends BaseActivity {
     void init() {
         LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
         File file = photoItem.getCacheFile(this);
+        getImageLoad().imageLoader.clearMemoryCache();
         if (file.exists()) {
             background = Uri.fromFile(file);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
