@@ -141,4 +141,9 @@ public class ProjectObject implements Serializable {
             return Global.HOST + "/api/project/" + id + "/file/upload";
         }
     }
+
+    public String getHttpMerge() {
+        String url = Global.HOST + "/api" + backend_project_path + "/git/pulls/open";
+        return url;
+    }
 }

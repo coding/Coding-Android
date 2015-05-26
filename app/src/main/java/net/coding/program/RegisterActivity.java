@@ -31,7 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_register)
-public class RegisterActivity extends BaseAnnotationActivity {
+public class RegisterActivity extends BackActivity {
 
     @ViewById
     EditText editName;

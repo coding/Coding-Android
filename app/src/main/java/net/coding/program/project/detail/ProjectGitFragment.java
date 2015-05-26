@@ -15,6 +15,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
 
@@ -40,8 +41,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     public static final String MASTER = "master";
     private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
 
-    public static final String HOST_GIT_TREE = Global.HOST + "/api/user/%s/project/%s/git/tree/%s/%s";
-    public static final String HOST_GIT_TREEINFO = Global.HOST + "/api/user/%s/project/%s/git/treeinfo/%s/%s";
+    private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
+    private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
 
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
@@ -91,7 +92,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }
 
         if (!mVersion.isEmpty()) {
-            host_git_tree_url = String.format(HOST_GIT_TREE, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+            host_git_tree_url = UrlCreate.gitTree(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
             getNetwork(host_git_tree_url, HOST_GIT_TREE);
         }
     }
@@ -113,13 +114,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     @Override
     public void onRefresh() {
         initSetting();
-        host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
         getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
     @Override
     public void loadMore() {
-        host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
         getNextPageNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
@@ -146,7 +147,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
-                host_git_treeinfo_url = String.format(HOST_GIT_TREEINFO, mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+                host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
                 getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
             } else {
                 hideProgressDialog();

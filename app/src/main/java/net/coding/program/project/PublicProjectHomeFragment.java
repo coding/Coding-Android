@@ -21,6 +21,7 @@ import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.git.MergeActivity_;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 
@@ -28,6 +29,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @EFragment(R.layout.fragment_public_project_home)
+@OptionsMenu(R.menu.common_more)
 public class PublicProjectHomeFragment extends BaseFragment {
 
     @FragmentArg
@@ -115,6 +119,11 @@ public class PublicProjectHomeFragment extends BaseFragment {
         readme.setText("README.md");
         needReadme.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
+    }
+
+    @OptionsItem
+    protected final void action_copy() {
+        MergeActivity_.intent(this).start();
     }
 
     @Override

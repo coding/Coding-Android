@@ -6,7 +6,7 @@ import org.androidannotations.annotations.OptionsItem;
 
 
 @EActivity(R.layout.activity_base_annotation)
-public class BaseAnnotationActivity extends BaseActivity {
+public class BackActivity extends BaseActivity {
 
     @AfterViews
     protected final void annotationDispayHomeAsUp() {

@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import net.coding.program.BaseAnnotationActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 //        (R.layout.activity_base_send_email)
 @EActivity
-public class SendEmailBaseActivity extends BaseAnnotationActivity {
+public class SendEmailBaseActivity extends BackActivity {
 
     @ViewById
     protected EditText editValify;

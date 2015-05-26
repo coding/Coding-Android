@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
 
     <!-- 友盟,腾讯push需要 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -461,7 +461,7 @@
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BaseAnnotationActivity_"
+            android:name=".BackActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_base_annotation"
             android:screenOrientation="portrait" />
@@ -493,7 +493,8 @@
             android:name=".MyPushReceiver"
             android:enabled="true"
             android:exported="true">
-            <!--TODO exproted 设为 false 会被360拦截，有时间看看原因-->
+
+            <!-- TODO exproted 设为 false 会被360拦截，有时间看看原因 -->
             <intent-filter>
                 <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
             </intent-filter>
@@ -524,17 +525,15 @@
             android:label="@string/title_activity_resend_email"
             android:screenOrientation="portrait" />
 
-        <!--激活和重置密码的基类，永远不会用，但不声明编译会有error警告-->
+        <!-- 激活和重置密码的基类，永远不会用，但不声明编译会有error警告 -->
         <activity
             android:name=".login.SendEmailBaseActivity_"
             android:label="@string/title_activity_reset_password"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".login.UserActiveActivity_"
             android:label="@string/title_activity_user_active"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -546,13 +545,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".login.ResetPasswordActivity_"
             android:label="@string/title_activity_reset_password"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -564,7 +561,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
         </activity>
 
         <receiver android:name=".message.MessageReceiver">
@@ -589,6 +585,10 @@
             android:name=".project.init.setting.ProjectAdvanceSetActivity_"
             android:label="@string/title_activity_project_advance_set"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.git.MergeActivity_"
+            android:label="@string/title_activity_merge"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
