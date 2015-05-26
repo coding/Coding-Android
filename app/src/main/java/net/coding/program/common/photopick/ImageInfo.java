@@ -1,5 +1,6 @@
 package net.coding.program.common.photopick;
 
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,16 @@ public class ImageInfo implements Serializable {
 
     public static boolean isLocalFile(String path) {
         return path.startsWith(prefix);
+    }
+
+
+    public static File getLocalFile(String pathSrc) {
+        String pathDesc = pathSrc;
+        if (isLocalFile(pathSrc)) {
+            pathDesc = pathSrc.substring(prefix.length(), pathSrc.length());
+        }
+
+        return new File(pathDesc);
     }
 
     @Override

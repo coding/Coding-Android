@@ -180,7 +180,7 @@ public class ImagePagerFragment extends BaseFragment {
 
                         File file;
                         if (ImageInfo.isLocalFile(uri)) {
-                            file = new File(uri);
+                            file = ImageInfo.getLocalFile(uri);
                         } else {
                             file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
                         }

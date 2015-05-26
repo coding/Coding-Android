@@ -54,17 +54,22 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="center_vertical|right" />
 
+    <!--...只能针对文字，表情图片是没有的，singleLine=false-->
     <TextView
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/title"
-        android:singleLine="true"
+        android:singleLine="false"
         android:layout_alignStart="@+id/title"
         android:layout_below="@+id/title"
         android:text="Medium Text"
         android:textColor="@color/font_gray"
         android:textSize="16sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:lines="1"
+        android:scrollHorizontally="true"
         android:layout_toLeftOf="@+id/badge"
         android:layout_toStartOf="@+id/badge" />
 
