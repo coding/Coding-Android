@@ -462,11 +462,10 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                     TopicObject commnet = new TopicObject(jsonArray.getJSONObject(i));
                     mData.add(commnet);
                 }
-                baseAdapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
-                baseAdapter.notifyDataSetChanged();
             }
+            baseAdapter.notifyDataSetChanged();
             mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
         } else if (tag.equals(urlCommentSend)) {

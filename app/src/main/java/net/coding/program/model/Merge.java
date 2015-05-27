@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by chenchao on 15/5/25.
  */
-public class Merge {
+public class Merge implements Serializable {
     private String srcBranch = "";
     private String desBranch = "";
     private String title = "";
@@ -25,7 +25,21 @@ public class Merge {
     private boolean srcExist;
 
     public Merge(JSONObject json) {
-
+        srcBranch = json.optString("srcBranch");
+        desBranch = json.optString("desBranch");
+        title = json.optString("title");
+        iid = json.optInt("iid");
+        merge_status = json.optString("merge_status");
+        path = json.optString("path");
+        src_owner_name = json.optString("src_owner_name");
+        src_project_name = json.optString("src_project_name");
+        created_at = json.optLong("created_at");
+        author = new UserObject(json.optJSONObject("author"));
+        action_author = new ActionAuthor(json.optJSONObject("action_author"));
+        action_at = json.optInt("action_at");
+        source_depot = new SourceDepot(json.optJSONObject("source_depot"));
+        merged_sha = json.optString("merged_sha");
+        srcExist = json.optBoolean("srcExist");
     }
 
     static class ActionAuthor implements Serializable {
