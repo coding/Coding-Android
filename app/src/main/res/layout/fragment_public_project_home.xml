@@ -76,36 +76,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
+                android:orientation="vertical">
 
                 <include
-                    android:id="@+id/button0"
-                    layout="@layout/project_home_list_head_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:id="@+id/itemDynamic"
+                    layout="@layout/project_home_list_head_button" />
 
                 <include
-                    android:id="@+id/button1"
-                    layout="@layout/project_home_list_head_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:id="@+id/itemTopic"
+                    layout="@layout/project_home_list_head_button" />
 
                 <include
-                    android:id="@+id/button2"
-                    layout="@layout/project_home_list_head_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
+                    android:id="@+id/itemCode"
+                    layout="@layout/project_home_list_head_button" />
                 <include
-                    android:id="@+id/button3"
-                    layout="@layout/project_home_list_head_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:id="@+id/itemMember"
+                    layout="@layout/project_home_list_head_button" />
 
             </LinearLayout>
 
@@ -113,50 +99,65 @@
 
         <include layout="@layout/divide_15_top_bottom" />
 
-        <TextView
-            android:id="@+id/readme"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15"
-            android:textColor="@color/font_black_2"
-            android:textSize="16sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/needReadme"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#ffe5e5e5" />
+            <include
+                android:id="@+id/itemReadme"
+                layout="@layout/project_home_list_head_button" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="15dp"
-                android:text="我们推荐每个项目都新建一个README文件"/>
+            <include
+                android:id="@+id/itemMerge"
+                layout="@layout/project_home_list_head_button" />
+
         </LinearLayout>
+        <!--<TextView-->
+        <!--android:id="@+id/readme"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="@dimen/padding_15"-->
+        <!--android:paddingRight="@dimen/padding_15"-->
+        <!--android:textColor="@color/font_black_2"-->
+        <!--android:textSize="16sp" />-->
 
-        <net.coding.program.common.widget.WebListView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:layout_marginRight="@dimen/padding_15"
-            android:background="@color/transparent"
-            android:lineSpacingExtra="1dp"
-            android:lineSpacingMultiplier="1.1"
-            android:textColor="@color/font_black_content"
-            android:textSize="15sp" />
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:id="@+id/needReadme"-->
+        <!--android:paddingLeft="@dimen/padding_15"-->
+        <!--android:paddingRight="@dimen/padding_15"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="gone"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.5dp"-->
+        <!--android:background="#ffe5e5e5" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:text="@string/recommend_create_readme"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<net.coding.program.common.widget.WebListView-->
+        <!--android:id="@+id/webView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--android:layout_marginLeft="@dimen/padding_15"-->
+        <!--android:layout_marginRight="@dimen/padding_15"-->
+        <!--android:background="@color/transparent"-->
+        <!--android:lineSpacingExtra="1dp"-->
+        <!--android:lineSpacingMultiplier="1.1"-->
+        <!--android:textColor="@color/font_black_content"-->
+        <!--android:textSize="15sp" />-->
 
         <include layout="@layout/divide_15_top" />
 

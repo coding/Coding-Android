@@ -14,6 +14,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.merge.ProjectMergeFragment_;
+import net.coding.program.project.detail.readme.ReadmeFragment_;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -40,13 +42,18 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             ProjectJumpParam.JumpType.typeDocument,
             ProjectJumpParam.JumpType.typeCode,
             ProjectJumpParam.JumpType.typeMember,
+            ProjectJumpParam.JumpType.typeReadme,
+            ProjectJumpParam.JumpType.typeMerge
     };
     public static final ProjectJumpParam.JumpType[] PUBLIC_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
             ProjectJumpParam.JumpType.typeDynamic,
             ProjectJumpParam.JumpType.typeTopic,
             ProjectJumpParam.JumpType.typeCode,
             ProjectJumpParam.JumpType.typeMember,
+            ProjectJumpParam.JumpType.typeReadme,
+            ProjectJumpParam.JumpType.typeMerge
     };
+
     @Extra
     ProjectObject mProjectObject;
 
@@ -70,6 +77,8 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             typeDocument,
             typeCode,
             typeMember,
+            typeReadme,
+            typeMerge,
             typeHome
         }
 
@@ -93,7 +102,9 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             "项目动态",
             "项目讨论",
             "项目代码",
-            "项目成员"
+            "项目成员",
+            "readme",
+            "merge request"
     ));
 
 //    MySpinnerAdapter mSpinnerAdapter;
@@ -106,6 +117,8 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             R.drawable.ic_spinner_dynamic,
             R.drawable.ic_spinner_topic,
             R.drawable.ic_spinner_git,
+            R.drawable.ic_spinner_user,
+            R.drawable.ic_spinner_user,
             R.drawable.ic_spinner_user
     ));
 
@@ -113,7 +126,9 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             ProjectDynamicParentFragment_.class,
             TopicFragment_.class,
             ProjectGitFragmentMain_.class,
-            MembersListFragment_.class
+            MembersListFragment_.class,
+            ReadmeFragment_.class,
+            ProjectMergeFragment_.class
     ));
 
     @Override

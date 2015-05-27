@@ -1,22 +1,15 @@
 package net.coding.program.project;
 
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.network.BaseFragment;
-import net.coding.program.maopao.MaopaoDetailActivity;
-import net.coding.program.model.Depot;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
@@ -28,59 +21,22 @@ import net.coding.program.project.init.setting.ProjectSetActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 @EFragment(R.layout.fragment_public_project_home)
 @OptionsMenu(R.menu.common_more)
-public class PublicProjectHomeFragment extends BaseFragment {
-
-    @FragmentArg
-    ProjectObject mProjectObject;
-
-    @ViewById
-    View recommendIcon;
-
-    @ViewById
-    ImageView projectIcon;
-
-    @ViewById
-    TextView projectName;
-
-    @ViewById
-    TextView description;
-
-    @ViewById
-    TextView projectAuthor;
-
-    @ViewById
-    WebView webView;
-
-    @ViewById
-    View needReadme;
-
-    @ViewById
-    TextView readme;
+public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
     @ViewById
     View buttonStar, buttonWatch, buttonFork;
 
-    @ViewById
-    View projectHeaderLayout;
-
     ProjectMarkButton mButtonStar;
     ProjectMarkButton mButtonWatch;
     ProjectMarkButton mButtonFork;
-    private String hostGitTree;
-    private String hostProjectGit;
 
     private String httpProjectObject;
     private String forkUrl;
@@ -92,33 +48,14 @@ public class PublicProjectHomeFragment extends BaseFragment {
         mUrlWatch = mProjectObject.getHttpWatch(true);
         mUrlUnwatch = mProjectObject.getHttpWatch(false);
 
-        iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
-        projectName.setText(mProjectObject.name);
-        projectAuthor.setText(mProjectObject.owner_user_name);
-
-        if (mProjectObject.description.isEmpty()) {
-            description.setVisibility(View.GONE);
-        } else {
-            description.setText(mProjectObject.description);
-        }
-
         View root = getView();
         initHead2();
         initHead3(root);
 
         isEnableProjectSet(root);
 
-        hostProjectGit = mProjectObject.getProjectGit();
-        getNetwork(hostProjectGit);
-
         httpProjectObject = mProjectObject.getHttpProjectObject();
         getNetwork(httpProjectObject);
-    }
-
-    private void showEmptyReadme() {
-        readme.setText("README.md");
-        needReadme.setVisibility(View.VISIBLE);
-        webView.setVisibility(View.GONE);
     }
 
     @OptionsItem
@@ -128,44 +65,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(hostGitTree)) {
-            if (code == 0) {
-                JSONObject readmeJson = respanse.optJSONObject("data").optJSONObject("readme");
-                if (readmeJson == null) {
-                    showEmptyReadme();
-
-                } else {
-                    String readmeHtml = readmeJson.optString("preview", "");
-                    if (readmeHtml.isEmpty()) {
-                        showEmptyReadme();
-
-                    } else {
-                        String readmeName = readmeJson.optString("name", "");
-                        readme.setText(readmeName);
-
-                        needReadme.setVisibility(View.GONE);
-                        webView.setVisibility(View.VISIBLE);
-
-                        Global.initWebView(webView);
-
-                        String bubble = "${webview_content}";
-                        try {
-                            bubble = readTextFile(getResources().getAssets().open("markdown"));
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
-
-//                        webView.loadDataWithBaseURL(null, bubble.replace("${file_code}", readmeHtml), "text/html", "UTF-8", null);
-                        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), readmeHtml));
-                    }
-                }
-            } else if (code == 1209) {
-                showEmptyReadme();
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        } else if (tag.equals(httpProjectObject)) {
+        if (tag.equals(httpProjectObject)) {
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
                 initHead2();
@@ -198,33 +98,7 @@ public class PublicProjectHomeFragment extends BaseFragment {
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(hostProjectGit)) {
-            if (code == 0) {
-                JSONObject jsonObject = respanse.getJSONObject("data").getJSONObject("depot");
-                Depot depot = new Depot(jsonObject);
-                hostGitTree = mProjectObject.getHttpGitTree(depot.getDefault_branch());
-                getNetwork(hostGitTree, hostGitTree);
-            } else {
-                showProgressBar(false);
-                showErrorMsg(code, respanse);
-            }
         }
-    }
-
-    private String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-        }
-        return outputStream.toString();
     }
 
     private void initHead2() {
@@ -253,17 +127,21 @@ public class PublicProjectHomeFragment extends BaseFragment {
 
     private void initHead3(View root) {
         final int[] buttons = new int[]{
-                R.id.button0,
-                R.id.button1,
-                R.id.button2,
-                R.id.button3,
+                R.id.itemDynamic,
+                R.id.itemTopic,
+                R.id.itemCode,
+                R.id.itemMember,
+                R.id.itemReadme,
+                R.id.itemMerge
         };
 
         final int[] buttonBackgrounds = new int[]{
                 R.drawable.project_button_icon_dynamic,
                 R.drawable.project_button_icon_topic,
                 R.drawable.project_button_icon_code,
-                R.drawable.project_button_icon_member
+                R.drawable.project_button_icon_member,
+                R.drawable.project_button_icon_code,
+                R.drawable.project_button_icon_code
         };
 
         final String[] titles = new String[]{
@@ -271,6 +149,8 @@ public class PublicProjectHomeFragment extends BaseFragment {
                 "讨论",
                 "代码",
                 "成员",
+                "Readme",
+                "合并请求"
         };
 
         for (int i = 0; i < buttons.length; ++i) {
@@ -292,7 +172,6 @@ public class PublicProjectHomeFragment extends BaseFragment {
 
     String mUrlStar;
     String mUrlUnstar;
-
     String mUrlWatch;
     String mUrlUnwatch;
 
@@ -340,18 +219,6 @@ public class PublicProjectHomeFragment extends BaseFragment {
         }
     }
 
-    private void initHeadHead() {
-        iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
-        projectName.setText(mProjectObject.name);
-        projectAuthor.setText(mProjectObject.owner_user_name);
-
-        if (mProjectObject.description.isEmpty()) {
-            description.setVisibility(View.GONE);
-        } else {
-            description.setVisibility(View.VISIBLE);
-            description.setText(mProjectObject.description);
-        }
-    }
 
     private void isEnableProjectSet(View view) {
         if (mProjectObject.isMy()) {
@@ -367,20 +234,6 @@ public class PublicProjectHomeFragment extends BaseFragment {
         } else {
             view.findViewById(R.id.iconRight).setVisibility(View.GONE);
         }
-    }
-
-    boolean isBackToRefresh = false;
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
-            if (resultCode == Activity.RESULT_OK) {
-                mProjectObject = (net.coding.program.model.ProjectObject) data.getSerializableExtra("projectObject");
-                isBackToRefresh = true;
-                initHeadHead();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     class ProjectMarkButton {

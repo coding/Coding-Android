@@ -86,7 +86,6 @@ public class ProjectHomeActivity extends BaseActivity {
         } else {
             fragment = PrivateProjectHomeFragment_.builder()
                     .mProjectObject(mProjectObject)
-                    .mType(dynamic_type_params[0])
                     .build();
         }
 
@@ -99,18 +98,13 @@ public class ProjectHomeActivity extends BaseActivity {
 
     @OptionsItem(android.R.id.home)
     final protected void clickBack() {
-        if (mCurrentFragment instanceof PublicProjectHomeFragment) {
-            if (((PublicProjectHomeFragment) mCurrentFragment).isBackToRefresh) {
+        if (mCurrentFragment instanceof BaseProjectHomeFragment) {
+            if (((BaseProjectHomeFragment) mCurrentFragment).isBackToRefresh()) {
                 InitProUtils.backIntentToMain(this);
                 return;
             }
         }
-        if (mCurrentFragment instanceof PrivateProjectHomeFragment) {
-            if (((PrivateProjectHomeFragment) mCurrentFragment).isBackToRefresh) {
-                InitProUtils.backIntentToMain(this);
-                return;
-            }
-        }
+
         finish();
     }
 }

@@ -222,7 +222,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
                 holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
 
             } else {
-                holder.icon.setImageResource(R.drawable.ic_notify_at);
+                holder.icon.setImageResource(R.drawable.ic_notify_unknown);
             }
 
             holder.title.setText(Global.changeHyperlinkColor(title));

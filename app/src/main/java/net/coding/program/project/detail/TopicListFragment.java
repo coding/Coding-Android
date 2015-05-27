@@ -249,12 +249,12 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         }
     };
 
-    static class ViewHolder {
-        ImageView icon;
-        TextView title;
-        TextView discuss;
-        TextView time;
-        TextView name;
+    public static class ViewHolder {
+        public ImageView icon;
+        public TextView title;
+        public TextView discuss;
+        public TextView time;
+        public TextView name;
     }
 
     @OptionsItem

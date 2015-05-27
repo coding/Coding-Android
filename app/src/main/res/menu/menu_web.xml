@@ -13,7 +13,7 @@
                 android:id="@+id/action_browser"
                 android:orderInCategory="100"
                 android:title="用浏览器打开"
-                android:icon="@drawable/ic_menu_link"
+                android:icon="@drawable/ic_menu_brower"
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_copy"

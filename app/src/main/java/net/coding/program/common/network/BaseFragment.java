@@ -159,6 +159,10 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
         networkImpl.loadData(url, null, tag, -1, null, NetworkImpl.Request.Get);
     }
 
+    public void getNetwork(String url) {
+        networkImpl.loadData(url, null, url, -1, null, NetworkImpl.Request.Get);
+    }
+
     protected void getNetwork(String url, final String tag, int dataPos, Object data) {
         networkImpl.loadData(url, null, tag, dataPos, data, NetworkImpl.Request.Get);
     }

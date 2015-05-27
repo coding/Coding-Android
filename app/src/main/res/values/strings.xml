@@ -109,5 +109,6 @@
     <string name="logining">登录中...</string>
     <string name="no_system_download_service">"下载失败，你可能关闭了系统的\"下载管理器\"，请到设置里面开启"</string>
     <string name="title_activity_merge">MergeActivity</string>
+    <string name="recommend_create_readme">我们推荐每个项目都新建一个README文件</string>
 
 </resources>

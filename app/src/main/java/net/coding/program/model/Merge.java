@@ -42,6 +42,18 @@ public class Merge implements Serializable {
         srcExist = json.optBoolean("srcExist");
     }
 
+    public UserObject getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public long getCreatedAt() {
+        return created_at;
+    }
+
     static class ActionAuthor implements Serializable {
 
         public ActionAuthor(JSONObject json) {

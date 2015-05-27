@@ -1,21 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.PublicProjectHomeFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
-            android:id="@+id/listView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:fastScrollEnabled="true"
-            android:overScrollMode="never" />
+            android:orientation="vertical">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
-</FrameLayout>
+            <include layout="@layout/project_home_list_head_head" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/font_black_2"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <include layout="@layout/divide_15_top_bottom" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/buttonsRoot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/itemDynamic"
+                    layout="@layout/project_home_list_head_button" />
+
+                <include
+                    android:id="@+id/itemTask"
+                    layout="@layout/project_home_list_head_button" />
+
+                <include
+                    android:id="@+id/itemTopic"
+                    layout="@layout/project_home_list_head_button" />
+
+                <include
+                    android:id="@+id/itemDocment"
+                    layout="@layout/project_home_list_head_button" />
+
+                <include
+                    android:id="@+id/itemCode"
+                    layout="@layout/project_home_list_head_button" />
+
+                <include
+                    android:id="@+id/itemMember"
+                    layout="@layout/project_home_list_head_button" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/divide_15_top_bottom" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/itemReadme"
+                layout="@layout/project_home_list_head_button" />
+
+            <include
+                android:id="@+id/itemMerge"
+                layout="@layout/project_home_list_head_button" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divide_15_top" />
+
+    </LinearLayout>
+</ScrollView>
