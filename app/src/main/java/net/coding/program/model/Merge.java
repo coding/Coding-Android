@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import net.coding.program.common.Global;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -50,6 +52,10 @@ public class Merge implements Serializable {
         return title;
     }
 
+    public int getIid() {
+        return iid;
+    }
+
     public long getCreatedAt() {
         return created_at;
     }
@@ -76,4 +82,11 @@ public class Merge implements Serializable {
         private boolean followed;
         private boolean follow;
     }
+
+    public String getHttpComments() {
+        String realPath = path.replace("/u/", "/user/").replace("/p/", "/project/");
+        return Global.HOST + "/api" + realPath + "/comments";
+    }
+
+
 }

@@ -29,4 +29,9 @@
         <attr name="emailOnly" format="boolean" />
         <attr name="darkness" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ListItem1">
+        <attr name="itemIcon" format="integer" />
+        <attr name="itemTitle" format="string" />
+    </declare-styleable>
 </resources>

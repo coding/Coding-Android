@@ -77,7 +77,8 @@ public class MergeAdapter extends BaseAdapter {
 //        iconfromNetwork(holder.icon, data.owner.avatar);
         holder.icon.setTag(data.getAuthor().global_key);
 
-        holder.title.setText(Global.changeHyperlinkColor(data.getTitle()));
+        String title = String.format("#%d %s", data.getIid(), data.getTitle());
+        holder.title.setText(Global.changeHyperlinkColor(title));
 
         holder.name.setText(data.getAuthor().name);
         holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.getCreatedAt())));

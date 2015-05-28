@@ -79,4 +79,7 @@
     <color name="init_advance_text_red">#f34a4a</color>
     <color name="init_common_bg">#e5e5e5</color>
 
+    <color name="merge_red">#fff34a4a</color>
+    <color name="merge_green">#ff3BBD79</color>
+
 </resources>

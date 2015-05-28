@@ -11,6 +11,7 @@ import net.coding.program.model.ProjectObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +45,11 @@ public class MergeListFragment extends BaseFragment {
         getNextPageNetwork(mUrlMerge, HOST_MERGE);
         mMergeAdapter = new MergeAdapter(new ArrayList<Merge>());
         listView.setAdapter(mMergeAdapter);
+    }
+
+    @ItemClick
+    protected final void listView(Merge merge) {
+        MergeDetailActivity_.intent(this).mMerge(merge).start();
     }
 
     @Override

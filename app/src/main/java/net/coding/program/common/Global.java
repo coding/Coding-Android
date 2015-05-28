@@ -357,7 +357,7 @@ public class Global {
             if (type.equals("gif")) {
                 return true;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Global.errorLog(e);
         }
 

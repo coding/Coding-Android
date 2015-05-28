@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
 
+
     <!-- 友盟,腾讯push需要 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -56,6 +57,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:name=".MyApp"
@@ -588,6 +593,14 @@
         <activity
             android:name=".project.git.MergeActivity_"
             android:label="@string/title_activity_merge"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.MergeDetailActivity_"
+            android:label="@string/title_activity_merge_detail"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".project.git.CommitListActivity_"
+            android:label="@string/title_activity_commit_list"
             android:screenOrientation="portrait"></activity>
     </application>
 

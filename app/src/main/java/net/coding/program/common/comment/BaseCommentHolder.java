@@ -21,6 +21,7 @@ public class BaseCommentHolder {
     protected View layout;
     protected Html.ImageGetter imageGetter;
     protected ImageLoadTool imageLoadTool;
+    protected String globalKey = "";
 
     public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
         layout = convertView.findViewById(R.id.Commentlayout);
@@ -45,5 +46,24 @@ public class BaseCommentHolder {
         name.setText(nameString);
         time.setText(Global.dayToNow(timeParam));
         layout.setTag(comment);
+    }
+
+    public BaseCommentHolder(View convertView, BaseCommentParam param) {
+        this(convertView, param.onClickComment, param.imageGetter, param.imageLoadTool, param.clickUser);
+    }
+
+    public static class BaseCommentParam {
+
+        public BaseCommentParam(View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
+            this.onClickComment = onClickComment;
+            this.imageGetter = imageGetter;
+            this.imageLoadTool = imageLoadTool;
+            this.clickUser = clickUser;
+        }
+
+        View.OnClickListener onClickComment;
+        Html.ImageGetter imageGetter;
+        ImageLoadTool imageLoadTool;
+        View.OnClickListener clickUser;
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.coding.program.common.widget.ListItem1 xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:listItem1="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemAddComment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    listItem1:itemTitle="添加评论"
+    tools:showIn="@layout/activity_merge_detail" />
