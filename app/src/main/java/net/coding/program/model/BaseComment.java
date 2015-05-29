@@ -21,9 +21,13 @@ public class BaseComment implements Serializable {
 
         if (json.has("owner")) {
             owner = new DynamicObject.Owner(json.getJSONObject("owner"));
+        } else if (json.has("author")) {
+            owner = new DynamicObject.Owner(json.getJSONObject("author"));
         }
 
-        owner_id = json.optInt("owner_id");
+        if (json.has("owner_id")) {
+            owner_id = json.optInt("owner_id");
+        }
     }
 
     public BaseComment() {

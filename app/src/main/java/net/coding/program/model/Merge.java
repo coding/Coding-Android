@@ -32,7 +32,7 @@ public class Merge implements Serializable {
         title = json.optString("title");
         iid = json.optInt("iid");
         merge_status = json.optString("merge_status");
-        path = json.optString("path");
+        path = json.optString("path", "").replace("/u/", "/user/").replace("/p/", "/project/");
         src_owner_name = json.optString("src_owner_name");
         src_project_name = json.optString("src_project_name");
         created_at = json.optLong("created_at");
@@ -84,9 +84,11 @@ public class Merge implements Serializable {
     }
 
     public String getHttpComments() {
-        String realPath = path.replace("/u/", "/user/").replace("/p/", "/project/");
-        return Global.HOST + "/api" + realPath + "/comments";
+        return Global.HOST + "/api" + path + "/comments";
     }
 
+    public String getHttpCommits() {
+        return Global.HOST + "/api" + path + "?diff=";
+    }
 
 }

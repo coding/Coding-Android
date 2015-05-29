@@ -49,10 +49,20 @@ public class MergeDetailActivity extends BackActivity {
         mAdapter = new MergeCommentAdaper(param);
 
         View head = mInflater.inflate(R.layout.activity_merge_detail_head, null);
+        initHead(head);
         listView.addHeaderView(head);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
         listView.addFooterView(footer);
         listView.setAdapter(mAdapter);
+    }
+
+    private void initHead(View head) {
+        head.findViewById(R.id.itemCommit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommitListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start();
+            }
+        });
     }
 
     @Override
@@ -62,7 +72,7 @@ public class MergeDetailActivity extends BackActivity {
                 JSONArray json = respanse.getJSONArray("data");
                 ArrayList<BaseComment> arrayData = new ArrayList<>();
                 for (int i = 0; i < json.length(); ++i) {
-                    BaseComment comment = new BaseComment(json.getJSONObject(i));
+                    BaseComment comment = new BaseComment(json.getJSONArray(i).getJSONObject(0));
                     arrayData.add(comment);
                 }
                 mAdapter.appendData(arrayData);
@@ -83,6 +93,5 @@ public class MergeDetailActivity extends BackActivity {
 
     @Click
     protected final void itemAddComment() {
-
     }
 }

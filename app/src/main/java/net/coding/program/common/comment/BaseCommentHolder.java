@@ -9,6 +9,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.BaseComment;
+import net.coding.program.model.Commit;
 
 /**
  * Created by chaochen on 14-10-27.
@@ -36,16 +37,32 @@ public class BaseCommentHolder {
         this.imageGetter = imageGetter;
     }
 
-    public void setContent(BaseComment comment) {
-        String nameString = comment.owner.name;
-        long timeParam = comment.created_at;
-        String iconUri = comment.owner.avatar;
+    public void setContent(Object param) {
+        if (param instanceof BaseComment) {
+            BaseComment comment = (BaseComment) param;
 
-        imageLoadTool.loadImage(icon, iconUri);
-        icon.setTag(comment.owner.global_key);
-        name.setText(nameString);
-        time.setText(Global.dayToNow(timeParam));
-        layout.setTag(comment);
+            String nameString = comment.owner.name;
+            long timeParam = comment.created_at;
+            String iconUri = comment.owner.avatar;
+
+            imageLoadTool.loadImage(icon, iconUri);
+            icon.setTag(comment.owner.global_key);
+            name.setText(nameString);
+            time.setText(Global.dayToNow(timeParam));
+            layout.setTag(comment);
+
+        } else if (param instanceof Commit) {
+            Commit commit = (Commit) param;
+            String nameString = commit.getName();
+            long timeParam = commit.getCommitTime();
+            String iconUri = commit.getIcon();
+
+            imageLoadTool.loadImage(icon, iconUri);
+            icon.setTag(commit.getGlobalKey());
+            name.setText(nameString);
+            time.setText(Global.dayToNow(timeParam));
+            layout.setTag(commit);
+        }
     }
 
     public BaseCommentHolder(View convertView, BaseCommentParam param) {
