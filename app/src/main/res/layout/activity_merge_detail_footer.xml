@@ -6,4 +6,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     listItem1:itemTitle="添加评论"
+    android:focusable="false"
     tools:showIn="@layout/activity_merge_detail" />

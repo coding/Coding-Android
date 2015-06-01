@@ -200,6 +200,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         dialogTitleLineColor(dialog);
     }
 
+//    protected void showListDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog dialog = builder.setItems()
+//    }
+
     protected void showButtomToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }

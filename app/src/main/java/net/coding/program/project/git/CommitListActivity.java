@@ -49,7 +49,13 @@ public class CommitListActivity extends BackActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_COMMITS)) {
             if (code == 0) {
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONObject("pull_request").getJSONArray("commits");
+                JSONObject jsonData = respanse.getJSONObject("data");
+                JSONArray jsonArray;
+                if (jsonData.has("pull_request")) {
+                    jsonArray = jsonData.getJSONObject("pull_request").getJSONArray("commits");
+                } else {
+                    jsonArray = jsonData.getJSONObject("merge_request").getJSONArray("commits");
+                }
 
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Commit commit = new Commit(jsonArray.getJSONObject(i));

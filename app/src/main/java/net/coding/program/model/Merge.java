@@ -43,7 +43,9 @@ public class Merge implements Serializable {
         author = new UserObject(json.optJSONObject("author"));
         action_author = new ActionAuthor(json.optJSONObject("action_author"));
         action_at = json.optInt("action_at");
-        source_depot = new SourceDepot(json.optJSONObject("source_depot"));
+        if (json.has("source_depot")) {
+            source_depot = new SourceDepot(json.optJSONObject("source_depot"));
+        }
         merged_sha = json.optString("merged_sha");
         srcExist = json.optBoolean("srcExist");
     }
@@ -101,15 +103,24 @@ public class Merge implements Serializable {
     }
 
     public PostRequest getHttpSendComment() {
-        String gitHead = getHostPublicHead("");
-        int index = gitHead.indexOf("/git/");
-        String head = gitHead.substring(0, index);
-        String url = head + "/git/line_notes";
+        String url = getHttpHostComment();
         RequestParams params = new RequestParams();
         params.put("noteable_type", "PullRequestBean");
         params.put("noteable_id", id);
 
         return new PostRequest(url, params);
+    }
+
+    public String getHttpDeleteComment(BaseComment comment) {
+        String url = getHttpHostComment();
+        return url + "/" + comment.id;
+    }
+
+    private String getHttpHostComment() {
+        String gitHead = getHostPublicHead("");
+        int index = gitHead.indexOf("/git/");
+        String head = gitHead.substring(0, index);
+        return head + "/git/line_notes";
     }
 
     public static class PostRequest {

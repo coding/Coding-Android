@@ -1,5 +1,6 @@
 package net.coding.program.project.detail.merge;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
@@ -13,7 +14,6 @@ import net.coding.program.model.Merge;
 import net.coding.program.project.git.CommitListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -36,6 +36,7 @@ public class MergeDetailActivity extends BackActivity {
     MergeCommentAdaper mAdapter;
 
     private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
+    private static final String HOST_DELETE_COMMENT = "HOST_DELETE_COMMENT";
 
     MyImageGetter myImageGetter = new MyImageGetter(this);
 
@@ -48,23 +49,48 @@ public class MergeDetailActivity extends BackActivity {
         String uri = mMerge.getHttpComments();
         getNetwork(uri, HOST_MERGE_COMMENTS);
 
-        BaseCommentHolder.BaseCommentParam param = new BaseCommentHolder.BaseCommentParam(null, myImageGetter, getImageLoad(), mOnClickUser);
-        mAdapter = new MergeCommentAdaper(param);
-
         View head = mInflater.inflate(R.layout.activity_merge_detail_head, null);
         initHead(head);
         listView.addHeaderView(head);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
         listView.addFooterView(footer);
         initFooter(footer);
+
+        BaseCommentHolder.BaseCommentParam param = new BaseCommentHolder.BaseCommentParam(mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
+        mAdapter = new MergeCommentAdaper(param);
         listView.setAdapter(mAdapter);
     }
+
+    View.OnClickListener mOnClickItem = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final BaseComment item = (BaseComment) v.getTag();
+            if (item.isMy()) {
+                showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = mMerge.getHttpDeleteComment(item);
+                        deleteNetwork(url, HOST_DELETE_COMMENT, item);
+                    }
+                });
+            } else {
+                CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).startForResult(RESULT_COMMENT);
+            }
+        }
+    };
 
     private void initHead(View head) {
         head.findViewById(R.id.itemCommit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CommitListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start();
+            }
+        });
+
+        head.findViewById(R.id.itemFile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -106,19 +132,12 @@ public class MergeDetailActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(HOST_DELETE_COMMENT)) {
+            if (code == 0) {
+                mAdapter.removeDataUpdate(data);
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
-    }
-
-    @Click
-    protected final void itemCommit() {
-    }
-
-    @Click
-    protected final void itemFile() {
-        CommitListActivity_.intent(this).mMerge(mMerge).start();
-    }
-
-    @Click
-    protected final void itemAddComment() {
     }
 }

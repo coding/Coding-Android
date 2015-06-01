@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.model.Merge;
 import net.coding.program.project.detail.TopicListFragment;
@@ -19,8 +21,13 @@ import java.util.ArrayList;
  */
 public class MergeAdapter extends DataAdapter<Merge> {
 
-    public MergeAdapter(ArrayList<Merge> data) {
+    ImageLoadTool mImageLoadr;
+    FootUpdate.LoadMore mLoadMore;
+
+    public MergeAdapter(ArrayList<Merge> data, FootUpdate.LoadMore loadMore, ImageLoadTool imageLoader) {
         super(data);
+        mLoadMore = loadMore;
+        mImageLoadr = imageLoader;
     }
 
     @Override
@@ -44,10 +51,13 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder = (TopicListFragment.ViewHolder) convertView.getTag();
         }
 
+        if (getCount() - 1 <= position) {
+            mLoadMore.loadMore();
+        }
 
         Merge data = (Merge) getItem(position);
 
-//        iconfromNetwork(holder.icon, data.owner.avatar);
+        mImageLoadr.loadImage(holder.icon, data.getAuthor().avatar);
         holder.icon.setTag(data.getAuthor().global_key);
 
         String title = String.format("#%d %s", data.getIid(), data.getTitle());

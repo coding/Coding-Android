@@ -144,7 +144,8 @@ public class ProjectObject implements Serializable {
 
     public String getHttpMerge(boolean open) {
         String type = open ? "open" : "closed";
-        String url = Global.HOST_API + backend_project_path + "/git/pulls/" + type + "?";
+        String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
+        String url = Global.HOST_API + backend_project_path + pull + type + "?";
         return url;
     }
 }

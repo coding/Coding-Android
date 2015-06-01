@@ -1,10 +1,8 @@
 package net.coding.program.project.detail.merge;
 
 
-import android.widget.ListView;
-
 import net.coding.program.R;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.base.BaseLoadMoreFragment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.ProjectObject;
 
@@ -12,7 +10,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,13 +17,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EFragment(R.layout.fragment_merge_list2)
-public class MergeListFragment extends BaseFragment {
+public class MergeListFragment extends BaseLoadMoreFragment {
 
     public static final int TYPE_OPEN = 0;
     public static final int TYPE_CLOSE = 1;
-
-    @ViewById
-    ListView listView;
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -42,9 +36,14 @@ public class MergeListFragment extends BaseFragment {
     @AfterViews
     protected final void initMergeListFragment() {
         mUrlMerge = mProjectObject.getHttpMerge(mType == TYPE_OPEN);
-        getNextPageNetwork(mUrlMerge, HOST_MERGE);
-        mMergeAdapter = new MergeAdapter(new ArrayList<Merge>());
+        mMergeAdapter = new MergeAdapter(new ArrayList<Merge>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);
+        loadMore();
+    }
+
+    @Override
+    public void loadMore() {
+        getNextPageNetwork(mUrlMerge, HOST_MERGE);
     }
 
     @ItemClick
@@ -61,11 +60,14 @@ public class MergeListFragment extends BaseFragment {
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     parseData.add(new Merge(jsonArray.getJSONObject(i)));
                 }
-                mMergeAdapter.appendData(parseData);
 
+                mMergeAdapter.appendData(parseData);
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            updateLoadingState(code, tag, mMergeAdapter.getCount());
+
         }
     }
 }

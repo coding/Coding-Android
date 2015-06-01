@@ -24,6 +24,11 @@ public abstract class DataAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void removeDataUpdate(T item) {
+        mData.remove(item);
+        notifyDataSetChanged();
+    }
+
     public void appendData(T data) {
         mData.add(data);
     }

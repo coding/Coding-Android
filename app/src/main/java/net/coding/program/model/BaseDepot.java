@@ -25,9 +25,12 @@ public class BaseDepot implements Serializable {
     protected boolean hasCommits;
 
     public BaseDepot(JSONObject json) {
+        hasCommits = json.optBoolean("hasCommits");
         path = json.optString("path"); // "8206503/AndroidCoding",
         created_at = json.optLong("created_at"); // 1407379608000,
-        owner = new UserObject(json.optJSONObject("owner"));
+        if (json.has("owner")) {
+            owner = new UserObject(json.optJSONObject("owner"));
+        }
         id = json.optInt("id"); //: 5164,
         root_id = json.optInt("root_id"); // 5164,
         name = json.optString("name"); // "AndroidCoding",
@@ -35,7 +38,6 @@ public class BaseDepot implements Serializable {
         status = json.optInt("status"); // 0,
         depot_path = json.optString("depot_path"); // "/u/8206503/p/AndroidCoding/git",
         project_id = json.optInt("project_id"); // 5166,
-        hasCommits = json.optBoolean("hasCommits");
         size = json.optInt("size");//: 0
         default_branch = json.optString("default_branch"); // "master",
         parent_id = json.optInt("parent_id"); // 0,

@@ -38,6 +38,10 @@ public class BaseComment implements Serializable {
     }
 
     public boolean isMy() {
-        return MyApp.sUserObject.id == owner_id;
+        if (owner_id != 0) {
+            return MyApp.sUserObject.id == owner_id;
+        } else {
+            return MyApp.sUserObject.global_key.equals(owner.global_key);
+        }
     }
 }
