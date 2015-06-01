@@ -57,6 +57,7 @@ import java.util.List;
 public class Global {
 
     public static final String HOST = "https://coding.net";
+    public static final String HOST_API = HOST + "/api";
 
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
 

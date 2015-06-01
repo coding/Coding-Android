@@ -1,14 +1,8 @@
 package net.coding.program.task;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.webkit.WebView;
 import android.widget.EditText;
 
 import net.coding.program.BaseActivity;
@@ -43,10 +37,6 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     int projectId;
 
     String HOST_DESCRIPTION = Global.HOST + "/api/task/%s/description";
-
-    boolean editMode = false;
-
-    String preViewHtml = "";
 
     TaskDespEditFragment editFragment;
     Fragment previewFragment;
@@ -99,55 +89,6 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
             }
         }
     }
-
-    static public class PreviewDialog extends DialogFragment {
-
-        String content;
-
-        public void setContent(String s) {
-            content = s;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            View custom = getActivity().getLayoutInflater().inflate(R.layout.task_description_dialog, null);
-            WebView webView = (WebView) custom.findViewById(R.id.webview);
-
-            Global.initWebView(webView);
-            webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
-
-            builder.setView(custom)
-                    .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                        }
-                    })
-                    .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                        }
-                    });
-
-            return builder.create();
-        }
-    }
-
-    void showEdit(boolean show) {
-//        if (show) {
-//            description.setText(descriptionData.markdown);
-//            description.setVisibility(View.VISIBLE);
-//            descWeb.setVisibility(View.INVISIBLE);
-//            startActionMode(mActionModeCallback);
-//            Global.popSoftkeyboard(this, description, true);
-//        } else {
-//            description.setVisibility(View.INVISIBLE);
-//            descWeb.setVisibility(View.VISIBLE);
-//            Global.popSoftkeyboard(this, description, false);
-//        }
-
-        editMode = show;
-    }
-
 
     @Override
     public void closeAndSave(String s) {

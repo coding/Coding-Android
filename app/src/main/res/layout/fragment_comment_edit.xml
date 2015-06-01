@@ -1,0 +1,178 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="18dp"
+        android:background="@null"
+        android:hint="讨论标题"
+        android:singleLine="true"
+        android:text="我我问"
+        android:textColor="@color/font_black_content" />
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="9dp"
+        android:background="#ffcccccc" />
+
+    <EditText
+        android:layout_marginTop="9dp"
+        android:id="@+id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:gravity="start"
+        android:hint="输入评论"
+        android:minHeight="600dp"
+        android:textColor="@color/font_black_comment" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ffcfcfcf" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="51dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mdBold"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:text="B"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mdItalic"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:text="I"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/mdHyperlink"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="链接" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:id="@+id/mdPhoto"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="图片" />
+
+            <TextView
+                android:id="@+id/mdList"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="列表" />
+
+
+            <TextView
+                android:id="@+id/mdLinkQuote"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="引用" />
+
+            <TextView
+                android:id="@+id/mdCode"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="code" />
+
+
+            <TextView
+                android:id="@+id/mdTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="标题" />
+
+            <TextView
+                android:id="@+id/mdDivide"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_markdown_hotkey"
+                android:gravity="center"
+                android:minWidth="31dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="分割线" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ffcfcfcf" />
+
+
+</LinearLayout>

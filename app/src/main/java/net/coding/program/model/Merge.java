@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.common.Global;
 
 import org.json.JSONObject;
@@ -10,6 +12,7 @@ import java.io.Serializable;
  * Created by chenchao on 15/5/25.
  */
 public class Merge implements Serializable {
+    private int id;
     private String srcBranch = "";
     private String desBranch = "";
     private String title = "";
@@ -27,6 +30,7 @@ public class Merge implements Serializable {
     private boolean srcExist;
 
     public Merge(JSONObject json) {
+        id = json.optInt("id");
         srcBranch = json.optString("srcBranch");
         desBranch = json.optString("desBranch");
         title = json.optString("title");
@@ -83,12 +87,42 @@ public class Merge implements Serializable {
         private boolean follow;
     }
 
-    public String getHttpComments() {
-        return Global.HOST + "/api" + path + "/comments";
+    private String getHostPublicHead(String end) {
+        return Global.HOST_API + path + end;
     }
+
+    public String getHttpComments() {
+        return getHostPublicHead("/comments");
+    }
+
 
     public String getHttpCommits() {
-        return Global.HOST + "/api" + path + "?diff=";
+        return getHostPublicHead("?diff=");
     }
 
+    public PostRequest getHttpSendComment() {
+        String gitHead = getHostPublicHead("");
+        int index = gitHead.indexOf("/git/");
+        String head = gitHead.substring(0, index);
+        String url = head + "/git/line_notes";
+        RequestParams params = new RequestParams();
+        params.put("noteable_type", "PullRequestBean");
+        params.put("noteable_id", id);
+
+        return new PostRequest(url, params);
+    }
+
+    public static class PostRequest {
+        public String url;
+        public RequestParams params;
+
+        public PostRequest(String url, RequestParams params) {
+            this.url = url;
+            this.params = params;
+        }
+
+        public void setContent(String input) {
+            params.put("content", input);
+        }
+    }
 }

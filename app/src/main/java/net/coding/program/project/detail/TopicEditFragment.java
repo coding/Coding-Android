@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-
 import android.util.Log;
 import android.widget.EditText;
 
@@ -16,7 +15,6 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
-
 
 @EFragment(R.layout.fragment_topic_edit)
 @OptionsMenu(R.menu.topic_detail_edit)

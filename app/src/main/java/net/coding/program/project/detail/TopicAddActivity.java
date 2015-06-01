@@ -174,9 +174,9 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     }
 
     public static class TopicData implements Serializable {
+        public List<TopicLabelObject> labels;
         public String title = "";
         public String content = "";
-        public List<TopicLabelObject> labels;
 
         public TopicData(TopicObject topicObject) {
             this.title = topicObject.title;

@@ -1,5 +1,6 @@
 package net.coding.program.project.detail.merge;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
@@ -38,6 +39,8 @@ public class MergeDetailActivity extends BackActivity {
 
     MyImageGetter myImageGetter = new MyImageGetter(this);
 
+    public static final int RESULT_COMMENT = 1;
+
     @AfterViews
     protected final void initMergeDetailActivity() {
         getSupportActionBar().setTitle(mMerge.getTitle());
@@ -53,6 +56,7 @@ public class MergeDetailActivity extends BackActivity {
         listView.addHeaderView(head);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
         listView.addFooterView(footer);
+        initFooter(footer);
         listView.setAdapter(mAdapter);
     }
 
@@ -63,6 +67,29 @@ public class MergeDetailActivity extends BackActivity {
                 CommitListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start();
             }
         });
+    }
+
+    private void initFooter(View footer) {
+        footer.findViewById(R.id.itemAddComment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).startForResult(RESULT_COMMENT);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_COMMENT) {
+            if (resultCode == RESULT_OK) {
+                showMiddleToast("有");
+                BaseComment comment = (BaseComment) data.getSerializableExtra("data");
+                mAdapter.appendData(comment);
+                mAdapter.notifyDataSetChanged();
+            } else {
+                showMiddleToast("没有");
+            }
+        }
     }
 
     @Override

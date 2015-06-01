@@ -103,12 +103,12 @@ public class ProjectObject implements Serializable {
     }
 
     public String getHttpGitTree(String version) {
-        return Global.HOST + "/api" + backend_project_path + "/git/tree/" + version;
+        return Global.HOST_API + backend_project_path + "/git/tree/" + version;
     }
 
 
     public String getProjectGit() {
-        return Global.HOST + "/api" + backend_project_path + "/git";
+        return Global.HOST_API + backend_project_path + "/git";
     }
 
     public String getHttpStar(boolean star) {
@@ -116,7 +116,7 @@ public class ProjectObject implements Serializable {
     }
 
     private String getHttpUrl(String param) {
-        return Global.HOST + "/api" + backend_project_path + param;
+        return Global.HOST_API + backend_project_path + param;
     }
 
     public String getHttpWatch(boolean watch) {
@@ -124,7 +124,7 @@ public class ProjectObject implements Serializable {
     }
 
     public String getHttpProjectObject() {
-        return Global.HOST + "/api" + backend_project_path;
+        return Global.HOST_API + backend_project_path;
     }
 
     public boolean isMy() {
@@ -144,7 +144,7 @@ public class ProjectObject implements Serializable {
 
     public String getHttpMerge(boolean open) {
         String type = open ? "open" : "closed";
-        String url = Global.HOST + "/api" + backend_project_path + "/git/pulls/" + type + "?";
+        String url = Global.HOST_API + backend_project_path + "/git/pulls/" + type + "?";
         return url;
     }
 }

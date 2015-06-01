@@ -112,5 +112,6 @@
     <string name="recommend_create_readme">我们推荐每个项目都新建一个README文件</string>
     <string name="title_activity_merge_detail">MergeDetailActivity</string>
     <string name="title_activity_commit_list">CommitListActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
 
 </resources>
