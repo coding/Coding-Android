@@ -60,8 +60,7 @@ public class MergeAdapter extends DataAdapter<Merge> {
         mImageLoadr.loadImage(holder.icon, data.getAuthor().avatar);
         holder.icon.setTag(data.getAuthor().global_key);
 
-        String title = String.format("#%d %s", data.getIid(), data.getTitle());
-        holder.title.setText(Global.changeHyperlinkColor(title));
+        holder.title.setText(data.getTitleSpannable());
 
         holder.name.setText(data.getAuthor().name);
         holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.getCreatedAt())));
@@ -69,4 +68,5 @@ public class MergeAdapter extends DataAdapter<Merge> {
 
         return convertView;
     }
+
 }

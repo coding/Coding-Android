@@ -64,7 +64,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="merge_request" />
+            android:text="merge_request"
+            android:id="@+id/branchSrc" />
 
         <View
             android:layout_width="50dp"
@@ -73,7 +74,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="master" />
+            android:text="master"
+            android:id="@+id/branchDesc" />
     </LinearLayout>
 
     <LinearLayout

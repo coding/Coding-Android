@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import android.text.Spannable;
+
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
@@ -62,13 +64,43 @@ public class Merge implements Serializable {
         return iid;
     }
 
+    public ActionAuthor getActionAuthor() {
+        return action_author;
+    }
+
+    public String getSrcBranch() {
+        if (source_depot == null) {
+            return srcBranch;
+        } else {
+            return src_owner_name + ":" + srcBranch;
+        }
+    }
+
+    public String getDescBranch() {
+        if (source_depot == null) {
+            return desBranch;
+        } else {
+            return desBranch;
+        }
+
+    }
+
+    public boolean isStateAccept() {
+        return merge_status.equals("ACCEPTED");
+    }
+
+    public boolean isStateRefused() {
+        return merge_status.equals("REFUSED");
+    }
+
     public long getCreatedAt() {
         return created_at;
     }
 
-    static class ActionAuthor implements Serializable {
+    static class ActionAuthor extends UserObject implements Serializable {
 
         public ActionAuthor(JSONObject json) {
+            super(json);
             status = json.optInt("status");
             is_member = json.optInt("is_member");
             id = json.optInt("id");
@@ -135,5 +167,10 @@ public class Merge implements Serializable {
         public void setContent(String input) {
             params.put("content", input);
         }
+    }
+
+    public Spannable getTitleSpannable() {
+        String spanString = String.format("<font color=\"#4e90bf\">#%d</font> %s", iid, title);
+        return Global.changeHyperlinkColor(spanString);
     }
 }

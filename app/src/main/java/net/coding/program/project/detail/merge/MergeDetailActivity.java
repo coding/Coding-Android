@@ -3,10 +3,13 @@ package net.coding.program.project.detail.merge;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.model.BaseComment;
@@ -76,6 +79,8 @@ public class MergeDetailActivity extends BackActivity {
             } else {
                 CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).startForResult(RESULT_COMMENT);
             }
+
+
         }
     };
 
@@ -93,6 +98,35 @@ public class MergeDetailActivity extends BackActivity {
 
             }
         });
+
+        ((TextView) head.findViewById(R.id.title)).setText(mMerge.getTitleSpannable());
+
+        ImageView imageView = (ImageView) head.findViewById(R.id.icon);
+        iconfromNetwork(imageView, mMerge.getAuthor().avatar);
+
+        String timeString = "创建于 " + Global.dayToNow(mMerge.getCreatedAt());
+        ((TextView) head.findViewById(R.id.time)).setText(timeString);
+
+        TextView styleView = (TextView) head.findViewById(R.id.mergeStyle);
+        if (mMerge.isStateAccept()) {
+            styleView.setText("已接受");
+            styleView.setTextColor(0xff3bbd79);
+        } else if (mMerge.isStateRefused()) {
+            styleView.setText("已拒绝");
+            styleView.setTextColor(0xfffb3b30);
+        } else {
+            styleView.setText("已取消");
+            styleView.setTextColor(0xff666666);
+        }
+
+        String src = mMerge.getSrcBranch();
+        String desc = mMerge.getDescBranch();
+
+        ((TextView) head.findViewById(R.id.branchSrc)).setText(src);
+        ((TextView) head.findViewById(R.id.branchDesc)).setText(desc);
+
+//        mMerge.getActionAuthor().
+//        ((TextView) findViewById(R.id.mergeLog)).setText(R.id.mergeLog);
     }
 
     private void initFooter(View footer) {
