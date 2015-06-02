@@ -58,9 +58,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+
 
     <application
         android:name=".MyApp"
@@ -605,6 +603,10 @@
         <activity
             android:name=".project.detail.merge.CommentActivity_"
             android:label="@string/title_activity_comment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.MergeFileListActivity_"
+            android:label="@string/title_activity_merge_file_list"
             android:screenOrientation="portrait"></activity>
     </application>
 

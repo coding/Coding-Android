@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/mergefile_list_item_height"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/icon"
+        android:layout_width="@dimen/mergefile_list_item_icon_width"
+        android:layout_height="@dimen/mergefile_list_item_icon_width"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:background="@color/font_gray" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_weight="1"
+        android:text="touch.java" />
+
+    <TextView
+        android:id="@+id/insertion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:text="+1"
+        android:textColor="#ff98c685" />
+
+    <TextView
+        android:id="@+id/deletion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_15"
+        android:text="-1"
+        android:textColor="#ffdf7d78" />
+
+</LinearLayout>

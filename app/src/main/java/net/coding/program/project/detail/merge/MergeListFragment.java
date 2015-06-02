@@ -21,16 +21,12 @@ public class MergeListFragment extends BaseLoadMoreFragment {
 
     public static final int TYPE_OPEN = 0;
     public static final int TYPE_CLOSE = 1;
-
+    private static final String HOST_MERGE = "HOST_MERGE";
     @FragmentArg
     ProjectObject mProjectObject;
-
     @FragmentArg
     int mType;
-
     private MergeAdapter mMergeAdapter;
-
-    private static final String HOST_MERGE = "HOST_MERGE";
     private String mUrlMerge;
 
     @AfterViews
@@ -61,7 +57,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
                     parseData.add(new Merge(jsonArray.getJSONObject(i)));
                 }
 
-                mMergeAdapter.appendData(parseData);
+                mMergeAdapter.appendDataUpdate(parseData);
             } else {
                 showErrorMsg(code, respanse);
             }

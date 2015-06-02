@@ -47,4 +47,7 @@
 
     <dimen name="divideline_height">0.5dp</dimen>
 
+    <dimen name="mergefile_list_item_height">54dp</dimen>
+    <dimen name="mergefile_list_item_icon_width">15dp</dimen>
+
 </resources>

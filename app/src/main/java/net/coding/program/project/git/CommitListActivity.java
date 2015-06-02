@@ -22,7 +22,7 @@ import org.json.JSONObject;
 @OptionsMenu(R.menu.menu_commit_list)
 public class CommitListActivity extends BackActivity {
 
-    public static final String HOST_COMMITS = "HOST_COMMITS";
+    private static final String HOST_COMMITS = "HOST_COMMITS";
     @Extra
     Merge mMerge;
     @ViewById
@@ -46,13 +46,7 @@ public class CommitListActivity extends BackActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_COMMITS)) {
             if (code == 0) {
-                JSONObject jsonData = respanse.getJSONObject("data");
-                JSONArray jsonArray;
-                if (jsonData.has("pull_request")) {
-                    jsonArray = jsonData.getJSONObject("pull_request").getJSONArray("commits");
-                } else {
-                    jsonArray = jsonData.getJSONObject("merge_request").getJSONArray("commits");
-                }
+                JSONArray jsonArray = respanse.getJSONArray("data");
 
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Commit commit = new Commit(jsonArray.getJSONObject(i));

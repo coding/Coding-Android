@@ -108,7 +108,11 @@ public class Merge implements Serializable {
     }
 
     public String getHttpCommits() {
-        return getHostPublicHead("?diff=");
+        return getHostPublicHead("/commits");
+    }
+
+    public String getHttpFiles() {
+        return getHostPublicHead("/commitDiffStat");
     }
 
     public PostRequest getHttpSendComment() {

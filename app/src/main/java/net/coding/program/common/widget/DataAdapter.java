@@ -19,7 +19,7 @@ public abstract class DataAdapter<T> extends BaseAdapter {
         mData = new ArrayList<T>();
     }
 
-    public void appendData(ArrayList<T> data) {
+    public void appendDataUpdate(ArrayList<T> data) {
         mData.addAll(data);
         notifyDataSetChanged();
     }

@@ -87,7 +87,7 @@ public class MergeDetailActivity extends BackActivity {
         head.findViewById(R.id.itemFile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MergeFileListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start();
             }
         });
 
@@ -162,7 +162,7 @@ public class MergeDetailActivity extends BackActivity {
                     BaseComment comment = new BaseComment(json.getJSONArray(i).getJSONObject(0));
                     arrayData.add(comment);
                 }
-                mAdapter.appendData(arrayData);
+                mAdapter.appendDataUpdate(arrayData);
             } else {
                 showErrorMsg(code, respanse);
             }
