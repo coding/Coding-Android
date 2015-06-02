@@ -89,6 +89,7 @@
                 <include
                     android:id="@+id/itemCode"
                     layout="@layout/project_home_list_head_button" />
+
                 <include
                     android:id="@+id/itemMember"
                     layout="@layout/project_home_list_head_button" />

@@ -28,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:singleLine="true"
                 android:ellipsize="end"
+                android:singleLine="true"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/font_green" />
@@ -77,30 +77,32 @@
             android:layout_height="20dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="5dp"
-            android:singleLine="true"
             android:ellipsize="end"
-            android:text="北京"
             android:gravity="bottom"
+            android:singleLine="true"
+            android:text="北京"
             android:textColor="@color/font_green" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical|right"
             android:minHeight="30dp"
-            android:gravity="center_vertical|right">
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/photoType"
                 android:layout_width="0px"
-                android:layout_weight="1"
                 android:layout_height="30dp"
+                android:layout_weight="1"
                 android:ellipsize="end"
-                android:singleLine="true"
                 android:gravity="center_vertical"
+                android:singleLine="true"
                 android:text="来自 iPhone 6"
                 android:textColor="@color/font_gray" />
+
             <TextView
                 android:id="@+id/maopaoDelete"
                 android:layout_width="wrap_content"

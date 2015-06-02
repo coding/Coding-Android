@@ -76,7 +76,7 @@ public class LocationMapActivity extends BaseActivity {
                     .inflate(R.layout.locatino_map_point, null);
             TextView textView = (TextView) view.findViewById(R.id.textView);
             textView.setText(marker.getTitle());
-            int yOffset = (int)(0.5f+TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics()));
+            int yOffset = (int) (0.5f + TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics()));
             mapView.getMap().showInfoWindow(new InfoWindow(
                     BitmapDescriptorFactory.fromView(textView),
                     new LatLng(latitude, longitude), -yOffset, null));

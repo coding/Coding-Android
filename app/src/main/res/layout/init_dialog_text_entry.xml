@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -19,32 +18,30 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView 
-        android:layout_height="wrap_content"
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dip"
         android:layout_marginRight="20dip"
-        android:text="这是一个危险的操作，请提供登录密码确认"
+        android:layout_marginTop="10dp"
         android:gravity="left"
-        android:textColor="@color/init_advance_text_red"
+        android:text="这是一个危险的操作，请提供登录密码确认"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        />
-            
+        android:textColor="@color/init_advance_text_red" />
+
     <EditText
         android:id="@+id/edit1"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dip"
         android:layout_marginRight="20dip"
-        android:scrollHorizontally="true"
-        android:autoText="false"
-        android:capitalize="none"
-        android:inputType="textPassword"
-        android:gravity="fill_horizontal"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="7dp"
+        android:autoText="false"
         android:background="@drawable/edit"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
+        android:capitalize="none"
+        android:gravity="fill_horizontal"
+        android:inputType="textPassword"
+        android:scrollHorizontally="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>

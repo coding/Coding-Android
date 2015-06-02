@@ -8,17 +8,17 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
         android:layout_width="37dp"
-        android:focusable="false"
         android:layout_height="37dp"
         android:layout_margin="12dp"
+        android:focusable="false"
         android:src="@drawable/ic_default_user" />
 
     <LinearLayout
+        android:id="@+id/layout_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/icon"
         android:layout_toRightOf="@+id/icon"
-        android:id="@+id/layout_1"
         android:orientation="vertical">
 
         <LinearLayout
@@ -83,10 +83,10 @@
     </LinearLayout>
 
     <!--<include-->
-        <!--layout="@layout/divide_1"-->
-        <!--android:layout_below="@id/layout_1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:layout_marginTop="10dp" />-->
+    <!--layout="@layout/divide_1"-->
+    <!--android:layout_below="@id/layout_1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginTop="10dp" />-->
 
 </RelativeLayout>

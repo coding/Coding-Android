@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -18,16 +17,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="14dp"
-    >
+    android:padding="14dp">
 
-    <TextView 
-        android:layout_height="wrap_content"
+    <TextView
         android:layout_width="wrap_content"
-        android:text="项目名只允许字母、数字或者下划线（_）、中划线（-），必须以字母或者数字开头，且不能以.git结尾"
+        android:layout_height="wrap_content"
         android:gravity="left"
-        android:textColor="@color/font_black_2"
+        android:text="项目名只允许字母、数字或者下划线（_）、中划线（-），必须以字母或者数字开头，且不能以.git结尾"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        />
+        android:textColor="@color/font_black_2" />
 
 </LinearLayout>

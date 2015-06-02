@@ -42,6 +42,6 @@ public class LocationCoord {
 
     @Override
     public String toString() {
-        return  String.format("%f,%f,%d", latitude, longitude, (isCustom?1:0));
+        return String.format("%f,%f,%d", latitude, longitude, (isCustom ? 1 : 0));
     }
 }

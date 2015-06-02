@@ -23,11 +23,11 @@
                 android:src="@drawable/user_home_bg" />
 
             <!--<View-->
-                <!--android:layout_width="53dp"-->
-                <!--android:layout_height="53dp"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="14.5dp"-->
-                <!--android:background="@drawable/navigation_user_sharow" />-->
+            <!--android:layout_width="53dp"-->
+            <!--android:layout_height="53dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="14.5dp"-->
+            <!--android:background="@drawable/navigation_user_sharow" />-->
 
             <RelativeLayout
                 android:id="@+id/circleLayout"

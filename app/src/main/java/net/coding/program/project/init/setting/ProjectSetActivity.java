@@ -14,7 +14,7 @@ import org.androidannotations.annotations.OptionsItem;
  * Created by jack wang on 2015/3/31.
  */
 @EActivity(R.layout.init_activity_common)
-public class ProjectSetActivity extends ActionBarActivity{
+public class ProjectSetActivity extends ActionBarActivity {
 
     ProjectSetFragment fragment;
 
@@ -22,9 +22,9 @@ public class ProjectSetActivity extends ActionBarActivity{
     protected final void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragment = ProjectSetFragment_.builder().build();
-        ProjectObject projectObject= (ProjectObject) getIntent().getSerializableExtra("projectObject");
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("projectObject",projectObject);
+        ProjectObject projectObject = (ProjectObject) getIntent().getSerializableExtra("projectObject");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("projectObject", projectObject);
         fragment.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -34,7 +34,7 @@ public class ProjectSetActivity extends ActionBarActivity{
 
     @OptionsItem(android.R.id.home)
     protected final void back() {
-        if (fragment.isBackToRefresh){
+        if (fragment.isBackToRefresh) {
             fragment.backToRefresh();
             return;
         }
@@ -43,7 +43,7 @@ public class ProjectSetActivity extends ActionBarActivity{
 
     @Override
     public void onBackPressed() {
-        if (fragment.isBackToRefresh){
+        if (fragment.isBackToRefresh) {
             fragment.backToRefresh();
             return;
         }

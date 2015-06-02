@@ -1,28 +1,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="net.coding.program.setting.UpdateTipActivity">
 
     <TextView
-        android:layout_margin="10dp"
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/message"/>
+        android:layout_margin="10dp" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="?android:attr/dividerHorizontal" />
+
     <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:measureWithLargestChild="true"
         android:orientation="horizontal"
-        android:paddingTop="0dip"
         android:paddingLeft="2dip"
         android:paddingRight="2dip"
-        android:measureWithLargestChild="true">
+        android:paddingTop="0dip">
 
         <Button
             android:id="@+id/cancel"
@@ -31,14 +33,16 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="以后再说"/>
+            android:text="以后再说" />
+
         <Button
             android:id="@+id/jump"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="跳过"/>
+            android:text="跳过" />
+
         <Button
             android:id="@+id/download"
             style="?android:attr/buttonBarButtonStyle"

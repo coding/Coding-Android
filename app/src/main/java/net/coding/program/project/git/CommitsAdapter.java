@@ -1,6 +1,6 @@
 package net.coding.program.project.git;
 
-import net.coding.program.common.comment.BaseCommentHolder;
+import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.Commit;
 import net.coding.program.project.detail.merge.SimpleData1Adaper;
 
@@ -9,7 +9,7 @@ import net.coding.program.project.detail.merge.SimpleData1Adaper;
  */
 public class CommitsAdapter extends SimpleData1Adaper<Commit> {
 
-    public CommitsAdapter(BaseCommentHolder.BaseCommentParam param) {
+    public CommitsAdapter(BaseCommentParam param) {
         super(param);
     }
 }

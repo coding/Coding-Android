@@ -9,13 +9,10 @@ import java.io.Serializable;
  * Created by Neutra on 2015/3/11.
  */
 public class LocationObject implements Serializable {
-    public static enum Type {Undefined, City, Normal, newCustom}
-
     public final Type type;
     public String id, name, address, city;
     public double latitude, longitude;
     public int distance;
-
     public LocationObject(JSONObject json) throws JSONException {
         type = Type.Normal;
         name = json.getString("name");
@@ -45,17 +42,19 @@ public class LocationObject implements Serializable {
         return locationObject;
     }
 
-    public static LocationObject newCustom(String name, double latitude, double longitude){
+    public static LocationObject newCustom(String name, double latitude, double longitude) {
         LocationObject locationObject = new LocationObject(Type.newCustom, null, name, null);
         locationObject.latitude = latitude;
         locationObject.longitude = longitude;
         return locationObject;
     }
 
-    public static LocationObject newCustom(String id, String name, String address, double latitude, double longitude){
+    public static LocationObject newCustom(String id, String name, String address, double latitude, double longitude) {
         LocationObject locationObject = new LocationObject(Type.newCustom, id, name, address);
         locationObject.latitude = latitude;
         locationObject.longitude = longitude;
         return locationObject;
     }
+
+    public enum Type {Undefined, City, Normal, newCustom}
 }

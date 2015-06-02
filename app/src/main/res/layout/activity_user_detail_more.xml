@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
 
 
@@ -125,27 +125,27 @@
                 android:gravity="center_vertical"
                 android:minHeight="48dp"
                 android:paddingLeft="@dimen/padding_15"
-                android:paddingRight="@dimen/padding_15" >
+                android:paddingRight="@dimen/padding_15">
 
                 <TextView
                     android:id="@+id/first"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:textColor="@color/font_black_2"
                     android:text="性别"
+                    android:textColor="@color/font_black_2"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/second"
-                    android:textColor="@color/font_gray"
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/first"
                     android:layout_toRightOf="@+id/first"
-                    android:gravity="right"
                     android:ellipsize="end"
+                    android:gravity="right"
+                    android:text=""
+                    android:textColor="@color/font_gray"
                     android:textSize="16sp" />
 
             </RelativeLayout>

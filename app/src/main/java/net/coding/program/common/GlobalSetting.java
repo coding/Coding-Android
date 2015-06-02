@@ -2,14 +2,14 @@ package net.coding.program.common;
 
 /**
  * Created by chenchao on 15/4/24
- *
  */
 public class GlobalSetting {
 
+    private static GlobalSetting sGlobalSetting;
+    private String mNoNotifyGlobalKey = "";
+
     private GlobalSetting() {
     }
-
-    private static GlobalSetting sGlobalSetting;
 
     public static GlobalSetting getInstance() {
         if (sGlobalSetting == null) {
@@ -18,8 +18,6 @@ public class GlobalSetting {
 
         return sGlobalSetting;
     }
-
-    private String mNoNotifyGlobalKey = "";
 
     public void setMessageNoNotify(String globalKey) {
         mNoNotifyGlobalKey = globalKey;

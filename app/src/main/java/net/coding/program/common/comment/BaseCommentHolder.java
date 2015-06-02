@@ -37,6 +37,10 @@ public class BaseCommentHolder {
         this.imageGetter = imageGetter;
     }
 
+    public BaseCommentHolder(View convertView, BaseCommentParam param) {
+        this(convertView, param.onClickComment, param.imageGetter, param.imageLoadTool, param.clickUser);
+    }
+
     public void setContent(Object param) {
         if (param instanceof BaseComment) {
             BaseComment comment = (BaseComment) param;
@@ -57,6 +61,7 @@ public class BaseCommentHolder {
             long timeParam = commit.getCommitTime();
             String iconUri = commit.getIcon();
 
+
             imageLoadTool.loadImage(icon, iconUri);
             icon.setTag(commit.getGlobalKey());
             name.setText(nameString);
@@ -65,22 +70,4 @@ public class BaseCommentHolder {
         }
     }
 
-    public BaseCommentHolder(View convertView, BaseCommentParam param) {
-        this(convertView, param.onClickComment, param.imageGetter, param.imageLoadTool, param.clickUser);
-    }
-
-    public static class BaseCommentParam {
-
-        public BaseCommentParam(View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
-            this.onClickComment = onClickComment;
-            this.imageGetter = imageGetter;
-            this.imageLoadTool = imageLoadTool;
-            this.clickUser = clickUser;
-        }
-
-        View.OnClickListener onClickComment;
-        Html.ImageGetter imageGetter;
-        ImageLoadTool imageLoadTool;
-        View.OnClickListener clickUser;
-    }
 }

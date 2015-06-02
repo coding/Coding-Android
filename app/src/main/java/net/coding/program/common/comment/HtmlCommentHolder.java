@@ -11,6 +11,7 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.model.BaseComment;
+import net.coding.program.model.Commit;
 
 /**
  * Created by chaochen on 14-10-27.
@@ -34,12 +35,28 @@ public class HtmlCommentHolder extends BaseCommentHolder {
         content.setOnLongClickListener(DialogCopy.getInstance());
     }
 
-    public void setContent(BaseComment comment) {
-        super.setContent(comment);
+    public HtmlCommentHolder(View convertView, BaseCommentParam param, TextView content) {
+        super(convertView, param);
+        this.content = content;
+    }
 
-        String contentString = comment.content;
+    public void setContent(Object data) {
+        String contentString = "";
+        if (data instanceof BaseComment) {
+            BaseComment comment = (BaseComment) data;
+            super.setContent(comment);
+
+            contentString = comment.content;
+        } else if (data instanceof Commit) {
+            super.setContent(data);
+
+            Commit commit = (Commit) data;
+            contentString = commit.getTitle();
+        }
+
         Global.MessageParse parse = HtmlContent.parseMessage(contentString);
         content.setText(Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
-        content.setTag(comment);
+        content.setTag(data);
     }
+
 }

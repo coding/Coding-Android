@@ -11,7 +11,7 @@ import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.common.comment.BaseCommentHolder;
+import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.project.git.CommitListActivity_;
@@ -30,40 +30,15 @@ import java.util.ArrayList;
 //@OptionsMenu(R.menu.menu_merge_detail)
 public class MergeDetailActivity extends BackActivity {
 
-    @Extra
-    Merge mMerge;
-
-    @ViewById
-    ListView listView;
-
-    MergeCommentAdaper mAdapter;
-
+    public static final int RESULT_COMMENT = 1;
     private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
     private static final String HOST_DELETE_COMMENT = "HOST_DELETE_COMMENT";
-
+    @Extra
+    Merge mMerge;
+    @ViewById
+    ListView listView;
+    MergeCommentAdaper mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
-
-    public static final int RESULT_COMMENT = 1;
-
-    @AfterViews
-    protected final void initMergeDetailActivity() {
-        getSupportActionBar().setTitle(mMerge.getTitle());
-
-        String uri = mMerge.getHttpComments();
-        getNetwork(uri, HOST_MERGE_COMMENTS);
-
-        View head = mInflater.inflate(R.layout.activity_merge_detail_head, null);
-        initHead(head);
-        listView.addHeaderView(head);
-        View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
-        listView.addFooterView(footer);
-        initFooter(footer);
-
-        BaseCommentHolder.BaseCommentParam param = new BaseCommentHolder.BaseCommentParam(mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
-        mAdapter = new MergeCommentAdaper(param);
-        listView.setAdapter(mAdapter);
-    }
-
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -79,10 +54,27 @@ public class MergeDetailActivity extends BackActivity {
             } else {
                 CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).startForResult(RESULT_COMMENT);
             }
-
-
         }
     };
+
+    @AfterViews
+    protected final void initMergeDetailActivity() {
+        getSupportActionBar().setTitle(mMerge.getTitle());
+
+        String uri = mMerge.getHttpComments();
+        getNetwork(uri, HOST_MERGE_COMMENTS);
+
+        View head = mInflater.inflate(R.layout.activity_merge_detail_head, null);
+        initHead(head);
+        listView.addHeaderView(head);
+        View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+        listView.addFooterView(footer);
+        initFooter(footer);
+
+        BaseCommentParam param = new BaseCommentParam(mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
+        mAdapter = new MergeCommentAdaper(param);
+        listView.setAdapter(mAdapter);
+    }
 
     private void initHead(View head) {
         head.findViewById(R.id.itemCommit).setOnClickListener(new View.OnClickListener() {

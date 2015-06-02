@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <include layout="@layout/project_home_list_head_head" />
 
         <RelativeLayout
@@ -72,9 +73,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:gravity="center_vertical|left"
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15"
-        android:gravity="center_vertical|left"
         android:text="最近动态"
         android:textColor="#ff000000" />
 

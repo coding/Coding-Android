@@ -36,15 +36,15 @@ public class LocationDetailActivity extends BaseActivity {
     @AfterViews
     void afterViews() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(name == null) name = "";
-        name = name.replaceFirst(".*" + MaopaoLocationArea.MAOPAO_LOCATION_DIVIDE,"");
+        if (name == null) name = "";
+        name = name.replaceFirst(".*" + MaopaoLocationArea.MAOPAO_LOCATION_DIVIDE, "");
         nameText.setText(name);
         addressText.setText(address);
         if (address == null || address.isEmpty()) {
             addressText.setText("未填写详细的地址");
         }
 
-        customText.setVisibility(isCustom? View.VISIBLE:View.GONE);
+        customText.setVisibility(isCustom ? View.VISIBLE : View.GONE);
         if (address != null) {
             map_button.setOnClickListener(new View.OnClickListener() {
                 @Override

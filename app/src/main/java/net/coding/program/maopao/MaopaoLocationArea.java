@@ -26,7 +26,7 @@ public class MaopaoLocationArea {
                 locationView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(data == null || data.location == null || locationCoord == null) return;
+                        if (data == null || data.location == null || locationCoord == null) return;
                         // 根据是否存在特殊字符来判断一个位置是否只是城市
                         if (data.location.indexOf(MAOPAO_LOCATION_DIVIDE) >= 0) {
                             LocationDetailActivity_.intent(v.getContext())

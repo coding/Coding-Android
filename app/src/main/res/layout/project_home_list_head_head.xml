@@ -4,10 +4,10 @@
     tools:showIn="@layout/project_home_list_head">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:clickable="true"
         android:id="@+id/projectHeaderLayout"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/projectIcon"
@@ -18,9 +18,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginStart="23dp"
-            android:padding="@dimen/project_icon_edge_width"
-            android:background="@drawable/round_icon_path"
             android:layout_marginTop="15dp"
+            android:background="@drawable/round_icon_path"
+            android:padding="@dimen/project_icon_edge_width"
             android:src="@color/font_black_0" />
 
         <TextView
@@ -31,15 +31,15 @@
             android:layout_marginLeft="15dp"
             android:layout_marginStart="29dp"
             android:layout_marginTop="3dp"
-            android:singleLine="true"
-            android:ellipsize="end"
+            android:layout_toLeftOf="@+id/iconRight"
             android:layout_toRightOf="@+id/projectIcon"
+            android:layout_toStartOf="@+id/iconRight"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/font_black_2"
-            android:textSize="18sp"
-            android:layout_toLeftOf="@+id/iconRight"
-            android:layout_toStartOf="@+id/iconRight" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/recommendIcon"
@@ -79,13 +79,14 @@
             android:background="@drawable/ic_project_private1"
             android:visibility="gone" />
 
-        <ImageView android:layout_width="wrap_content"
+        <ImageView
             android:id="@+id/iconRight"
-            android:src="@drawable/ic_list_right_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="14dp"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/ic_list_right_arr" />
 
     </RelativeLayout>
 

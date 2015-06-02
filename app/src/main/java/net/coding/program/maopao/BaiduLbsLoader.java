@@ -40,10 +40,6 @@ public class BaiduLbsLoader {
         return userObject == null ? "" : String.valueOf(userObject.id);
     }
 
-    public static interface LbsResultListener {
-        void onSearchResult(boolean success, List<LocationObject> list, boolean hasMore);
-    }
-
     public static void searchCustom(Context context, String keyword, double latitude, double longitude, final int page, final LbsResultListener listener) {
         final String path = "/geosearch/v3/nearby";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
@@ -69,7 +65,7 @@ public class BaiduLbsLoader {
         AsyncHttpClient client = new AsyncHttpClient();
 
         final int searchPos = LocationSearchActivity.getSearchPos();
-        client.get(context, url, new SearchResponseHandler(listener){
+        client.get(context, url, new SearchResponseHandler(listener) {
             @Override
             protected LocationObject parseItem(JSONObject json) {
                 if (json == null) return null;
@@ -117,7 +113,7 @@ public class BaiduLbsLoader {
 
         final int searchPos = LocationSearchActivity.getSearchPos();
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(context, url, new SearchResponseHandler(listener){
+        client.get(context, url, new SearchResponseHandler(listener) {
             @Override
             protected LocationObject parseItem(JSONObject json) {
                 if (json == null) return null;
@@ -151,46 +147,6 @@ public class BaiduLbsLoader {
         } catch (Exception e) {
             Log.e("BaiduLbsLoader", "build url error", e);
             return null;
-        }
-    }
-
-    private static abstract class SearchResponseHandler extends JsonHttpResponseHandler{
-        private LbsResultListener listener;
-        SearchResponseHandler(LbsResultListener listener){
-            this.listener = listener;
-        }
-
-        protected abstract LocationObject parseItem(JSONObject json);
-        protected abstract void parseResult(JSONObject json, LbsResultListener listener);
-
-        protected List<LocationObject> parseList(JSONArray array) {
-            ArrayList<LocationObject> list = new ArrayList<>();
-            if (array != null) {
-                for (int i = 0, c = array.length(); i < c; ++i) {
-                    LocationObject item = parseItem(array.optJSONObject(i));
-                    if (item != null) list.add(item);
-                }
-            }
-            return list;
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
-            if (json == null || json.optInt("status") != 0) {
-                if (listener != null) listener.onSearchResult(false, null, false);
-            } else if (listener != null){
-                parseResult(json, listener);
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-            if (listener != null) listener.onSearchResult(false, null, false);
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            if (listener != null) listener.onSearchResult(false, null, false);
         }
     }
 
@@ -232,10 +188,6 @@ public class BaiduLbsLoader {
         });
     }
 
-    public static interface StorePoiListener {
-        void onStoreResult(boolean success, String id);
-    }
-
     private static String sn(String path, LinkedHashMap<String, String> params) throws UnsupportedEncodingException {
         return md5(URLEncoder.encode(path + "?" + queryString(params) + sk, "UTF-8"));
     }
@@ -262,6 +214,56 @@ public class BaiduLbsLoader {
             return sb.toString();
         } catch (java.security.NoSuchAlgorithmException e) {
             return null;
+        }
+    }
+
+    public interface LbsResultListener {
+        void onSearchResult(boolean success, List<LocationObject> list, boolean hasMore);
+    }
+
+    public interface StorePoiListener {
+        void onStoreResult(boolean success, String id);
+    }
+
+    private static abstract class SearchResponseHandler extends JsonHttpResponseHandler {
+        private LbsResultListener listener;
+
+        SearchResponseHandler(LbsResultListener listener) {
+            this.listener = listener;
+        }
+
+        protected abstract LocationObject parseItem(JSONObject json);
+
+        protected abstract void parseResult(JSONObject json, LbsResultListener listener);
+
+        protected List<LocationObject> parseList(JSONArray array) {
+            ArrayList<LocationObject> list = new ArrayList<>();
+            if (array != null) {
+                for (int i = 0, c = array.length(); i < c; ++i) {
+                    LocationObject item = parseItem(array.optJSONObject(i));
+                    if (item != null) list.add(item);
+                }
+            }
+            return list;
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+            if (json == null || json.optInt("status") != 0) {
+                if (listener != null) listener.onSearchResult(false, null, false);
+            } else if (listener != null) {
+                parseResult(json, listener);
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            if (listener != null) listener.onSearchResult(false, null, false);
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            if (listener != null) listener.onSearchResult(false, null, false);
         }
     }
 }

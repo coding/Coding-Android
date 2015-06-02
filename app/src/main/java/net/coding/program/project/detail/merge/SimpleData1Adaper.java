@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import net.coding.program.R;
 import net.coding.program.common.comment.BaseCommentHolder;
+import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.widget.DataAdapter;
 
 /**
@@ -13,9 +14,9 @@ import net.coding.program.common.widget.DataAdapter;
  */
 public abstract class SimpleData1Adaper<T> extends DataAdapter {
 
-    BaseCommentHolder.BaseCommentParam mCommentParam;
+    BaseCommentParam mCommentParam;
 
-    public SimpleData1Adaper(BaseCommentHolder.BaseCommentParam param) {
+    public SimpleData1Adaper(BaseCommentParam param) {
         mCommentParam = param;
     }
 

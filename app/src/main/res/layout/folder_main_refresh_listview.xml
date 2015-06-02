@@ -29,5 +29,6 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
+
     <include layout="@layout/common_folder_upload_add" />
 </LinearLayout>

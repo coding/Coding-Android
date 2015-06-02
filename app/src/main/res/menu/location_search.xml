@@ -4,10 +4,10 @@
     tools:context="net.coding.program.maopao.LocationSearchActivity">
     <item
         android:id="@+id/action_search"
-        android:title="搜索"
         android:icon="@drawable/ic_menu_search"
         android:orderInCategory="100"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        android:title="搜索"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
 
 </menu>

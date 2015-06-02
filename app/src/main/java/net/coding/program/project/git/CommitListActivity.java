@@ -5,7 +5,7 @@ import android.widget.ListView;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.common.comment.BaseCommentHolder;
+import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.Commit;
 import net.coding.program.model.Merge;
 
@@ -22,21 +22,18 @@ import org.json.JSONObject;
 @OptionsMenu(R.menu.menu_commit_list)
 public class CommitListActivity extends BackActivity {
 
+    public static final String HOST_COMMITS = "HOST_COMMITS";
     @Extra
     Merge mMerge;
-
     @ViewById
     ListView listView;
-
-    public static final String HOST_COMMITS = "HOST_COMMITS";
-
     CommitsAdapter mAdapter;
 
     @AfterViews
     protected final void initCommitListActivity() {
         getSupportActionBar().setTitle(mMerge.getTitle());
 
-        BaseCommentHolder.BaseCommentParam param = new BaseCommentHolder.BaseCommentParam(null,
+        BaseCommentParam param = new BaseCommentParam(null,
                 new MyImageGetter(this), getImageLoad(), mOnClickUser);
         mAdapter = new CommitsAdapter(param);
         listView.setAdapter(mAdapter);

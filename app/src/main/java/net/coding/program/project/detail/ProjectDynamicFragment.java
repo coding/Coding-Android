@@ -46,75 +46,37 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EFragment(R.layout.fragment_project_dynamic)
 public class ProjectDynamicFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
-    int mLastId = UPDATE_ALL_INT;
-
-    boolean mNoMore = false;
-
+    final String HOST = Global.HOST + "/api/project/%d/activities?last_id=%s&user_id=%s&type=%s";
+    final String HOST_USER = Global.HOST + "/api/project/%d/activities/user/%s?last_id=%s";
+    final String TAG_PROJECT_DYNMAIC = "TAG_PROJECT_DYNMAIC";
     @FragmentArg
-     protected ProjectObject mProjectObject;
+    protected ProjectObject mProjectObject;
     @FragmentArg
-     protected String mType;
+    protected String mType;
     @FragmentArg
-     protected int mUser_id;
+    protected int mUser_id;
     @FragmentArg
     protected TaskObject.Members mMember;
-
     @ViewById
     protected View blankLayout;
-
+    @ViewById
+    protected ExpandableStickyListHeadersListView listView;
+    int mLastId = UPDATE_ALL_INT;
+    boolean mNoMore = false;
+    ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
+    TestBaseAdapter mAdapter = new TestBaseAdapter();
+    String sToday = "";
+    String sYesterday = "";
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
     private LayoutInflater inflater;
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("a HH:mm");
-
-    final String HOST = Global.HOST + "/api/project/%d/activities?last_id=%s&user_id=%s&type=%s";
-    final String HOST_USER = Global.HOST + "/api/project/%d/activities/user/%s?last_id=%s";
-
     private MyImageGetter myImageGetter;
-
-    ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
-
-    TestBaseAdapter mAdapter = new TestBaseAdapter();
-
-    String sToday = "";
-    String sYesterday = "";
-
-    final String TAG_PROJECT_DYNMAIC = "TAG_PROJECT_DYNMAIC";
-
-    @ViewById
-    protected ExpandableStickyListHeadersListView listView;
-
-    class LoadingAnimation {
-
-        private Animation loadingLogoAnimation;
-        private Animation loadingRoundAnimation;
-
-        ImageView loadingLogo;
-        ImageView loadingRound;
-
-        View v;
-
-        public LoadingAnimation() {
-            v = getActivity().getLayoutInflater().inflate(R.layout.common_loading, null);
-            this.loadingLogo = (ImageView) v.findViewById(R.id.loading_logo);
-            this.loadingRound = (ImageView) v.findViewById(R.id.loading_round);
-
-            loadingLogoAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.loading_alpha);
-            loadingRoundAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.loading_rotate);
-
-            ((ViewGroup) getView()).addView(v);
-        }
-
-        public void startAnimation() {
-            loadingRoundAnimation.setStartTime(500L);//不然会跳帧
-            loadingRound.setAnimation(loadingRoundAnimation);
-            loadingLogo.startAnimation(loadingLogoAnimation);
-        }
-
-        public void destory() {
-            ((ViewGroup) getView()).removeView(v);
-        }
-    }
-
     private LoadingAnimation mLoadingAnimation;
 
     protected void destoryLoadingAnimation() {
@@ -182,13 +144,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         mLastId = UPDATE_ALL_INT;
         loadMore();
     }
-
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -304,9 +259,61 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         return R.layout.fragment_project_dynamic_list_head;
     }
 
+    @Override
+    protected String getLink() {
+        return mProjectObject.getPath() + "/members/" + mMember.user.global_key;
+    }
+
+    class LoadingAnimation {
+
+        ImageView loadingLogo;
+        ImageView loadingRound;
+        View v;
+        private Animation loadingLogoAnimation;
+        private Animation loadingRoundAnimation;
+
+        public LoadingAnimation() {
+            v = getActivity().getLayoutInflater().inflate(R.layout.common_loading, null);
+            this.loadingLogo = (ImageView) v.findViewById(R.id.loading_logo);
+            this.loadingRound = (ImageView) v.findViewById(R.id.loading_round);
+
+            loadingLogoAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.loading_alpha);
+            loadingRoundAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.loading_rotate);
+
+            ((ViewGroup) getView()).addView(v);
+        }
+
+        public void startAnimation() {
+            loadingRoundAnimation.setStartTime(500L);//不然会跳帧
+            loadingRound.setAnimation(loadingRoundAnimation);
+            loadingLogo.startAnimation(loadingLogoAnimation);
+        }
+
+        public void destory() {
+            ((ViewGroup) getView()).removeView(v);
+        }
+    }
+
     public class TestBaseAdapter extends BaseAdapter implements
             StickyListHeadersAdapter, SectionIndexer {
 
+        View.OnClickListener onClickJump = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = (String) v.getTag();
+                if (s.isEmpty()) {
+                    return;
+                }
+
+                URLSpanNoUnderline.openActivityByUri(v.getContext(), s, false);
+            }
+        };
+        View.OnClickListener onClickParent = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ViewGroup) v.getParent()).callOnClick();
+            }
+        };
         private ArrayList<Long> mSectionTitle = new ArrayList<>();
         private ArrayList<Integer> mSectionId = new ArrayList<>();
 
@@ -467,25 +474,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
             return convertView;
         }
 
-        View.OnClickListener onClickJump = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String s = (String) v.getTag();
-                if (s.isEmpty()) {
-                    return;
-                }
-
-                URLSpanNoUnderline.openActivityByUri(v.getContext(), s, false);
-            }
-        };
-
-        View.OnClickListener onClickParent = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ViewGroup) v.getParent()).callOnClick();
-            }
-        };
-
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
             HeaderViewHolder holder;
@@ -556,10 +544,5 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
             View divideLeft;
             View divideRight;
         }
-    }
-
-    @Override
-    protected String getLink() {
-        return mProjectObject.getPath() + "/members/" + mMember.user.global_key;
     }
 }

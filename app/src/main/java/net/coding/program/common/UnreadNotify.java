@@ -33,7 +33,7 @@ public class UnreadNotify {
                     if (response.getInt("code") == 0) {
                         JSONObject json = response.getJSONObject("data");
                         Unread unread = new Unread(json);
-                        myApp.sUnread = unread;
+                        MyApp.sUnread = unread;
 
                         UnreadNotifySubject.getInstance().notifyObserver();
                     }
@@ -45,18 +45,26 @@ public class UnreadNotify {
         });
     }
 
+    public static void displayNotify(BadgeView badgeView, String messageCount) {
+        if (messageCount.isEmpty()) {
+            badgeView.setVisibility(View.INVISIBLE);
+        } else {
+            badgeView.setText(messageCount);
+            badgeView.setVisibility(View.VISIBLE);
+        }
+    }
+
     public interface UnreadNotifyObserver {
         void update();
     }
 
     public static class UnreadNotifySubject {
 
+        private static UnreadNotifySubject sInstance;
+        private ArrayList<WeakReference<UnreadNotifyObserver>> mArray = new ArrayList<>();
+
         private UnreadNotifySubject() {
         }
-
-        private static UnreadNotifySubject sInstance;
-
-        private ArrayList<WeakReference<UnreadNotifyObserver>> mArray = new ArrayList<>();
 
         public static UnreadNotifySubject getInstance() {
             if (sInstance == null) {
@@ -93,16 +101,5 @@ public class UnreadNotify {
             }
         }
 
-    }
-
-
-
-    public static void displayNotify(BadgeView badgeView, String messageCount) {
-        if (messageCount.isEmpty()) {
-            badgeView.setVisibility(View.INVISIBLE);
-        } else {
-            badgeView.setText(messageCount);
-            badgeView.setVisibility(View.VISIBLE);
-        }
     }
 }

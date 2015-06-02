@@ -1,5 +1,5 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MyActivity">
     <item
@@ -14,9 +14,9 @@
 
     <item
         android:id="@+id/action_more"
-        android:title="@string/action_more"
         android:icon="@drawable/ic_action_overflow"
-        app:showAsAction="withText|always" >
+        android:title="@string/action_more"
+        app:showAsAction="withText|always">
 
         <menu>
             <item
@@ -36,7 +36,7 @@
                 app:showAsAction="always" />
 
         </menu>
-        </item>
+    </item>
 
     <!--<item android:id="@+id/action_download"
         android:title="@string/action_download"

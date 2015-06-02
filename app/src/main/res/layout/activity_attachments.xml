@@ -147,5 +147,6 @@
             android:layout_height="match_parent" />
 
     </RelativeLayout>
+
     <include layout="@layout/common_folder_upload_add" />
 </LinearLayout>

@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="73dp"
-    android:paddingLeft="@dimen/padding_15"
-    android:paddingRight="@dimen/padding_15"
+    android:layout_width="match_parent"
+    android:layout_height="73dp"
     android:background="@color/button_parent"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/padding_15"
+    android:paddingRight="@dimen/padding_15">
 
     <TextView
+        android:id="@+id/common_folder_bottom_add"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_weight="1"
-        android:text="新建文件夹"
-        android:background="@drawable/button_folder_bottom"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:gravity="center"
         android:layout_marginRight="13dp"
-        android:id="@+id/common_folder_bottom_add"/>
-    <TextView
-        android:layout_width="0dp"
-        android:textSize="18sp"
-        android:layout_height="48dp"
-        android:textColor="@color/white"
         android:layout_weight="1"
-        android:gravity="center"
         android:background="@drawable/button_folder_bottom"
+        android:gravity="center"
+        android:text="新建文件夹"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/common_folder_bottom_upload"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_folder_bottom"
+        android:gravity="center"
         android:text="上传文件"
-        android:id="@+id/common_folder_bottom_upload"/>
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
 </LinearLayout>

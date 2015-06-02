@@ -7,24 +7,24 @@
     android:background="#000000">
 
     <ImageView
-        android:layout_margin="30dp"
+        android:id="@+id/imageLoadFail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/image_not_exist"
+        android:layout_margin="30dp"
         android:scaleType="fitCenter"
-        android:visibility="gone"
-        android:id="@+id/imageLoadFail"/>
+        android:src="@drawable/image_not_exist"
+        android:visibility="gone" />
 
     <com.github.lzyzsd.circleprogress.DonutProgress
         android:id="@+id/circleLoading"
         android:layout_width="50dp"
-        android:layout_gravity="center"
         android:layout_height="50dp"
-        custom:donut_finished_stroke_width="3dp"
-        custom:donut_unfinished_stroke_width="3dp"
+        android:layout_gravity="center"
         custom:donut_finished_color="@color/font_green"
+        custom:donut_finished_stroke_width="3dp"
+        custom:donut_max="100"
         custom:donut_progress="30"
         custom:donut_text_color="@color/transparent"
-        custom:donut_max="100"/>
+        custom:donut_unfinished_stroke_width="3dp" />
 
 </FrameLayout>

@@ -1,3 +1,2 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="net.coding.program.user.UserDetailMoreActivity">
-</menu>
+    tools:context="net.coding.program.user.UserDetailMoreActivity"></menu>

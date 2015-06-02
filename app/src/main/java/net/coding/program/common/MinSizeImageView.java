@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
  */
 public class MinSizeImageView extends ImageView {
 
-    protected int[] ATTR = new int[] {
+    protected int[] ATTR = new int[]{
             R.attr.minWidth,
             R.attr.minHeight,
             R.attr.microSize
@@ -33,7 +33,7 @@ public class MinSizeImageView extends ImageView {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(attrs, ATTR);
-        mMinWidth =  a.getDimensionPixelSize(0, 1);
+        mMinWidth = a.getDimensionPixelSize(0, 1);
         mMinHeight = a.getDimensionPixelSize(1, 1);
         mMicroSize = a.getDimensionPixelSize(2, 1);
         a.recycle();
@@ -90,7 +90,7 @@ public class MinSizeImageView extends ImageView {
 
             // 反射获取
             int pleft = reflectInt(View.class, "mPaddingLeft");
-            int pright = reflectInt(View.class, "mPaddingRight");;
+            int pright = reflectInt(View.class, "mPaddingRight");
             int ptop = reflectInt(View.class, "mPaddingTop");
             int pbottom = reflectInt(View.class, "mPaddingBottom");
 
@@ -186,14 +186,14 @@ public class MinSizeImageView extends ImageView {
 
             if (widthSize < mMicroSize || heightSize < mMicroSize) {
                 if (widthSize < mMicroSize) {
-                    float ratio = (float)mMicroSize / (float)widthSize;
+                    float ratio = (float) mMicroSize / (float) widthSize;
                     widthSize = mMicroSize;
                     heightSize *= ratio;
                     if (heightSize > mMaxHeight) {
                         heightSize = mMaxHeight;
                     }
                 } else {
-                    float ratio = (float)mMicroSize / (float)heightSize;
+                    float ratio = (float) mMicroSize / (float) heightSize;
                     heightSize = mMicroSize;
                     widthSize *= ratio;
                     if (widthSize > mMaxWidth) {
@@ -240,7 +240,7 @@ public class MinSizeImageView extends ImageView {
                                     int measureSpec) {
         int result = desiredSize;
         int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize =  MeasureSpec.getSize(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
         switch (specMode) {
             case MeasureSpec.UNSPECIFIED:
                 /* Parent says we can be as big as we want. Just don't be larger
