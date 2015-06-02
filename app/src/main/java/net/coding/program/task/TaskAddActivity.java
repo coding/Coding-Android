@@ -68,21 +68,38 @@ import java.util.HashMap;
 @EActivity(R.layout.activity_task_add)
 public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet {
 
-    @Extra
-    TaskObject.SingleTask mSingleTask;
-
-    @Extra
-    UserObject mUserOwner;
-
-    @Extra
-    TaskJumpParams mJumpParams;
-
-    @ViewById
-    ListView listView;
-
+    public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
+    public static final int RESULT_REQUEST_SELECT_USER = 3;
+    public static final int RESULT_REQUEST_FOLLOW = 1002;
+    public static final int RESULT_REQUEST_DESCRIPTION = 4;
+    public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
+    final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
+    final int priorityDrawable[] = new int[]{
+            R.drawable.ic_task_priority_0,
+            R.drawable.ic_task_priority_1,
+            R.drawable.ic_task_priority_2,
+            R.drawable.ic_task_priority_3
+    };
+    final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";
+    final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
+    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/task/%s/comments?pageSize=200";
+    final String HOST_TASK_UPDATE = Global.HOST + "/api/task/%s/update";
+    final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
+    final String hostDeleteComment = Global.HOST + "/api/task/%s/comment/%s";
+    final String tagTaskDetail = "tagTaskDetail";
+    final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
+    private final MyImageGetter myImageGetter = new MyImageGetter(TaskAddActivity.this);
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @ViewById
     protected View blankLayout;
-
+    @Extra
+    TaskObject.SingleTask mSingleTask;
+    @Extra
+    UserObject mUserOwner;
+    @Extra
+    TaskJumpParams mJumpParams;
+    @ViewById
+    ListView listView;
     View mHeadView;
     EditText title;
     ImageView circleIcon;
@@ -96,23 +113,104 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     ViewGroup descriptionLayout;
     TextView descriptionButton;
     View blankDiscuss;
-
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
-
     @StringArrayRes
     String strings_priority[];
-    private TextView commentCount;
-
     TaskParams mNewParam;
     TaskParams mOldParam;
-
     ImageCommentLayout mEnterComment;
-
-    final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
-
     String HOST_DESCRIPTER = Global.HOST + "/api/task/%s/description";
+    MenuItem mMenuSave;
+    String urlComments = "";
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            requestTaskFromNetwork();
+        }
+    };
+    StatusBaseAdapter mStatusAdapter;
+    PriorityAdapter mPriorityAdapter;
+    ArrayList<TaskObject.TaskComment> mData = new ArrayList<>();
+    HashMap<String, String> mSendedImages = new HashMap<>();
+    String tagUrlCommentPhoto = "";
+    // 发评论
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            sendCommentAll();
+        }
+    };
+    private TextView commentCount;
+    private View.OnClickListener mOnClickComment = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final TaskObject.TaskComment comment = (TaskObject.TaskComment) v.getTag();
+            if (comment.isMy()) {
+                showDialog("任务", "删除评论？", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = String.format(hostDeleteComment, comment.taskId, comment.id);
+                        deleteNetwork(url, hostDeleteComment, comment.id);
+                    }
+                });
+            } else {
+                EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
+                mEnterLayout.content.setTag(comment);
+                String format = "回复 %s";
+                mEnterLayout.content.setHint(String.format(format, comment.owner.name));
 
+                mEnterLayout.restoreLoad(comment);
+
+                mEnterLayout.popKeyboard();
+            }
+        }
+    };
+    BaseAdapter commentAdpter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageCommentHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
+                holder = new ImageCommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                convertView.setTag(R.id.layout, holder);
+
+            } else {
+                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
+            }
+
+            TaskObject.TaskComment data = mData.get(position);
+            holder.setContent(data);
+
+            return convertView;
+        }
+    };
+    private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TaskDescriptionActivity_
+                    .intent(TaskAddActivity.this)
+                    .taskId(0)
+                    .projectId(mSingleTask.project.getId())
+                    .descriptionData(descriptionDataNew)
+                    .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
+        }
+    };
 
     @AfterViews
     void init() {
@@ -292,8 +390,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     }
 
-    MenuItem mMenuSave;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -410,13 +506,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         });
     }
 
-    final int priorityDrawable[] = new int[]{
-            R.drawable.ic_task_priority_0,
-            R.drawable.ic_task_priority_1,
-            R.drawable.ic_task_priority_2,
-            R.drawable.ic_task_priority_3
-    };
-
     private void setStatus() {
         if (mNewParam.status == 1) {
             status.setText("未完成");
@@ -453,15 +542,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         Global.MessageParse parseData = HtmlContent.parseReplacePhoto(descriptionDataNew.description);
         description.setText(Html.fromHtml(parseData.text, myImageGetter, Global.tagHandler));
     }
-
-    final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";
-    final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
-    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/task/%s/comments?pageSize=200";
-
-    final String HOST_TASK_UPDATE = Global.HOST + "/api/task/%s/update";
-    final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
-
-    String urlComments = "";
 
     @OptionsItem
     void action_save() {
@@ -537,11 +617,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         commentCount.setText(String.format(foramt, count));
         blankDiscuss.setVisibility(count > 0 ? View.GONE : View.VISIBLE);
     }
-
-    final String hostDeleteComment = Global.HOST + "/api/task/%s/comment/%s";
-    final String tagTaskDetail = "tagTaskDetail";
-
-    public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
 
     private void closeActivity(String msg) {
         Intent intent = new Intent();
@@ -688,13 +763,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     }
 
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            requestTaskFromNetwork();
-        }
-    };
-
     private void descriptionButtonUpdate(boolean loading) {
         if (!loading && descriptionDataNew.markdown.isEmpty()) {
             descriptionButton.setText("添加描述");
@@ -704,11 +772,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
         }
     }
-
-    public static final int RESULT_REQUEST_SELECT_USER = 3;
-    public static final int RESULT_REQUEST_FOLLOW = 1002;
-    public static final int RESULT_REQUEST_DESCRIPTION = 4;
-    public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
 
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
     final void commentImage(int result, Intent data) {
@@ -744,8 +807,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     }
 
-    final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
-
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");
 
@@ -755,7 +816,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
         descriptionButtonUpdate(false);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -797,7 +857,141 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     }
 
-    StatusBaseAdapter mStatusAdapter;
+    private void popListSelectDialog(String title, BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(TaskAddActivity.this);
+        builder.setTitle(title)
+                .setAdapter(selectsAdapter, clickList);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialogTitleLineColor(dialog);
+    }
+
+    private void sendComment(String input) {
+        if (mSingleTask == null) {
+            showButtomToast("发送评论失败");
+            return;
+        }
+
+        EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
+        String s = input;
+
+        if (EmojiFilter.containsEmptyEmoji(this, s)) {
+            showProgressBar(false);
+            return;
+        }
+
+        Object item = mEnterLayout.content.getTag();
+        if (item != null && (item instanceof TaskObject.TaskComment)) {
+            TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
+            s = Global.encodeInput(comment.owner.name, s);
+        } else {
+            s = Global.encodeInput("", s);
+        }
+
+        RequestParams params = new RequestParams();
+
+        params.put("content", s);
+
+        postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
+
+        showProgressBar(R.string.sending_comment);
+    }
+
+    private void sendCommentAll() {
+        showProgressBar(true);
+
+        ArrayList<ImageInfo> photos = mEnterComment.getPickPhotos();
+        for (ImageInfo item : photos) {
+            String imagePath = item.path;
+            if (!mSendedImages.containsKey(imagePath)) {
+                try {
+                    String url = mSingleTask.project.getHttpUploadPhoto();
+                    RequestParams params = new RequestParams();
+                    params.put("dir", 0);
+                    Uri uri = Uri.parse(imagePath);
+                    File file = new PhotoOperate(this).scal(uri);
+                    params.put("file", file);
+                    tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
+                    postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);
+                    showProgressBar(true);
+                } catch (Exception e) {
+                    showProgressBar(false);
+                }
+
+                return;
+            }
+        }
+
+        String send = mEnterComment.getEnterLayout().getContent();
+        for (ImageInfo item : photos) {
+            send += mSendedImages.get(item.path);
+        }
+        sendComment(send);
+    }
+
+    static class ViewHolder {
+        View mIcon;
+        ImageView mCheck;
+        TextView mTitle;
+    }
+
+    public static class TaskJumpParams implements Serializable {
+        public String userKey;
+        public String projectName;
+        public String taskId;
+
+        public TaskJumpParams(String user, String project, String task) {
+            userKey = user;
+            projectName = project;
+            taskId = task;
+        }
+    }
+
+    private static class TaskParams {
+        String content = "";
+        int status;
+        int ownerId;
+        int priority;
+        String deadline = "";
+
+        UserObject owner;
+
+        public TaskParams(TaskObject.SingleTask singleTask) {
+            content = singleTask.content;
+            status = singleTask.status;
+            ownerId = singleTask.owner_id;
+            priority = singleTask.priority;
+            owner = singleTask.owner;
+            deadline = singleTask.deadline;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof TaskParams)) return false;
+
+            TaskParams that = (TaskParams) o;
+
+            if (ownerId != that.ownerId) return false;
+            if (priority != that.priority) return false;
+            if (status != that.status) return false;
+            if (!content.equals(that.content)) return false;
+            if (!deadline.equals(that.deadline)) return false;
+            return owner.equals(that.owner);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = content.hashCode();
+            result = 31 * result + status;
+            result = 31 * result + ownerId;
+            result = 31 * result + priority;
+            result = 31 * result + deadline.hashCode();
+            result = 31 * result + owner.hashCode();
+            return result;
+        }
+    }
 
     public class StatusBaseAdapter extends BaseAdapter {
 
@@ -854,17 +1048,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     }
-
-    private void popListSelectDialog(String title, BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(TaskAddActivity.this);
-        builder.setTitle(title)
-                .setAdapter(selectsAdapter, clickList);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
-    }
-
-    PriorityAdapter mPriorityAdapter;
 
     class PriorityAdapter extends BaseAdapter {
 
@@ -925,222 +1108,4 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
 
     }
-
-    static class ViewHolder {
-        View mIcon;
-        ImageView mCheck;
-        TextView mTitle;
-    }
-
-    ArrayList<TaskObject.TaskComment> mData = new ArrayList<>();
-
-    BaseAdapter commentAdpter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageCommentHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
-                holder = new ImageCommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
-                convertView.setTag(R.id.layout, holder);
-
-            } else {
-                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
-            }
-
-            TaskObject.TaskComment data = mData.get(position);
-            holder.setTaskCommentContent(data);
-
-            return convertView;
-        }
-    };
-
-    private final MyImageGetter myImageGetter = new MyImageGetter(TaskAddActivity.this);
-
-    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
-
-    private View.OnClickListener mOnClickComment = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final TaskObject.TaskComment comment = (TaskObject.TaskComment) v.getTag();
-            if (comment.isMy()) {
-                showDialog("任务", "删除评论？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = String.format(hostDeleteComment, comment.taskId, comment.id);
-                        deleteNetwork(url, hostDeleteComment, comment.id);
-                    }
-                });
-            } else {
-                EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
-                mEnterLayout.content.setTag(comment);
-                String format = "回复 %s";
-                mEnterLayout.content.setHint(String.format(format, comment.owner.name));
-
-                mEnterLayout.restoreLoad(comment);
-
-                mEnterLayout.popKeyboard();
-            }
-        }
-    };
-
-    public static class TaskJumpParams implements Serializable {
-        public String userKey;
-        public String projectName;
-        public String taskId;
-
-        public TaskJumpParams(String user, String project, String task) {
-            userKey = user;
-            projectName = project;
-            taskId = task;
-        }
-    }
-
-    private static class TaskParams {
-        String content = "";
-        int status;
-        int ownerId;
-        int priority;
-        String deadline = "";
-
-        UserObject owner;
-
-        public TaskParams(TaskObject.SingleTask singleTask) {
-            content = singleTask.content;
-            status = singleTask.status;
-            ownerId = singleTask.owner_id;
-            priority = singleTask.priority;
-            owner = singleTask.owner;
-            deadline = singleTask.deadline;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof TaskParams)) return false;
-
-            TaskParams that = (TaskParams) o;
-
-            if (ownerId != that.ownerId) return false;
-            if (priority != that.priority) return false;
-            if (status != that.status) return false;
-            if (!content.equals(that.content)) return false;
-            if (!deadline.equals(that.deadline)) return false;
-            if (!owner.equals(that.owner)) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = content.hashCode();
-            result = 31 * result + status;
-            result = 31 * result + ownerId;
-            result = 31 * result + priority;
-            result = 31 * result + deadline.hashCode();
-            result = 31 * result + owner.hashCode();
-            return result;
-        }
-    }
-
-    private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            TaskDescriptionActivity_
-                    .intent(TaskAddActivity.this)
-                    .taskId(0)
-                    .projectId(mSingleTask.project.getId())
-                    .descriptionData(descriptionDataNew)
-                    .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
-        }
-    };
-
-    // 发评论
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            sendCommentAll();
-        }
-    };
-
-    private void sendComment(String input) {
-        if (mSingleTask == null) {
-            showButtomToast("发送评论失败");
-            return;
-        }
-
-        EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
-        String s = input;
-
-        if (EmojiFilter.containsEmptyEmoji(this, s)) {
-            showProgressBar(false);
-            return;
-        }
-
-        Object item = mEnterLayout.content.getTag();
-        if (item != null && (item instanceof TaskObject.TaskComment)) {
-            TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
-            s = Global.encodeInput(comment.owner.name, s);
-        } else {
-            s = Global.encodeInput("", s);
-        }
-
-        RequestParams params = new RequestParams();
-
-        params.put("content", s);
-
-        postNetwork(String.format(HOST_COMMENT_ADD, mSingleTask.getId()), params, HOST_COMMENT_ADD, 0, item);
-
-        showProgressBar(R.string.sending_comment);
-    }
-
-    HashMap<String, String> mSendedImages = new HashMap<>();
-
-    private void sendCommentAll() {
-        showProgressBar(true);
-
-        ArrayList<ImageInfo> photos = mEnterComment.getPickPhotos();
-        for (ImageInfo item : photos) {
-            String imagePath = item.path;
-            if (!mSendedImages.containsKey(imagePath)) {
-                try {
-                    String url = mSingleTask.project.getHttpUploadPhoto();
-                    RequestParams params = new RequestParams();
-                    params.put("dir", 0);
-                    Uri uri = Uri.parse(imagePath);
-                    File file = new PhotoOperate(this).scal(uri);
-                    params.put("file", file);
-                    tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
-                    postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);
-                    showProgressBar(true);
-                } catch (Exception e) {
-                    showProgressBar(false);
-                }
-
-                return;
-            }
-        }
-
-        String send = mEnterComment.getEnterLayout().getContent();
-        for (ImageInfo item : photos) {
-            send += mSendedImages.get(item.path);
-        }
-        sendComment(send);
-    }
-
-    String tagUrlCommentPhoto = "";
 }

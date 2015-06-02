@@ -100,15 +100,23 @@ public class MergeDetailActivity extends BackActivity {
         ((TextView) head.findViewById(R.id.time)).setText(timeString);
 
         TextView styleView = (TextView) head.findViewById(R.id.mergeStyle);
-        if (mMerge.isStateAccept()) {
-            styleView.setText("已接受");
-            styleView.setTextColor(0xff3bbd79);
-        } else if (mMerge.isStateRefused()) {
-            styleView.setText("已拒绝");
-            styleView.setTextColor(0xfffb3b30);
-        } else {
-            styleView.setText("已取消");
-            styleView.setTextColor(0xff666666);
+
+
+        String[] styles = Merge.STYLES;
+        final String[] styleStrings = new String[]{
+                "已接受",
+                "已拒绝",
+                "可合并",
+                "已取消"
+        };
+        final int[] styleColors = new int[]{
+                0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xff666666
+        };
+        for (int i = 0; i < styles.length; ++i) {
+            if (mMerge.getMergeStatus().equals(styles[i])) {
+                styleView.setText(styleStrings[i]);
+                styleView.setTextColor(styleColors[i]);
+            }
         }
 
         String src = mMerge.getSrcBranch();

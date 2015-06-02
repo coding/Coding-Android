@@ -13,7 +13,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.model.BaseComment;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -25,8 +24,6 @@ import java.util.ArrayList;
  */
 public class ContentAreaMuchImages extends ContentAreaBase {
 
-    protected ImageLoadTool imageLoad;
-
     public static DisplayImageOptions imageOptions = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
@@ -37,13 +34,12 @@ public class ContentAreaMuchImages extends ContentAreaBase {
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
-
-
+    protected ImageLoadTool imageLoad;
     private View.OnClickListener mOnclickImage;
 
     private FlowLayout mFlowLayout;
 
-    public ContentAreaMuchImages(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams, int pxImageWidth) {
+    public ContentAreaMuchImages(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams) {
         super(convertView, onClickContent, imageGetterParamer);
 
         imageLoad = loadParams;
@@ -53,11 +49,7 @@ public class ContentAreaMuchImages extends ContentAreaBase {
         mOnclickImage = onclickImage;
     }
 
-    public void setData(BaseComment comment) {
-        setDataContent(comment.content, comment);
-    }
-
-    private void setDataContent(String s, Object contentObject) {
+    public void setDataContent(String s, Object contentObject) {
         String data = s;
 
         Global.MessageParse maopaoData = HtmlContent.parseMaopao(data);

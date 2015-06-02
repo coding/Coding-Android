@@ -60,55 +60,120 @@ import java.util.List;
 @EActivity(R.layout.activity_topic_list_detail)
 public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
 
-    @Extra
-    TopicObject topicObject;
-
-    @Extra
-    TopicDetailParam mJumpParam;
-
-    private WebView webView;
-    private TextView topicTitleTextView;
-
-    public static class TopicDetailParam implements Serializable {
-        public String mUser;
-        public String mProject;
-        public String mTopic;
-
-        public TopicDetailParam(String mUser, String mProject, String mTopic) {
-            this.mUser = mUser;
-            this.mProject = mProject;
-            this.mTopic = mTopic;
-        }
-    }
-
-    @ViewById
-    ListView listView;
-
-    @ViewById
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    //    EnterLayout mEnterLayout;
-    ImageCommentLayout mEnterComment;
-    private TopicLabelBar labelBar;
-
-    String owerGlobar = "";
-
-    String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=20";
-
+    final int RESULT_AT = 1;
+    final int RESULT_EDIT = 2;
+    final int RESULT_LABEL = 3;
+    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
+    final String TAG_DELETE_TOPIC_COMMENT = "TAG_DELETE_TOPIC_COMMENT";
+    final String TAG_DELETE_TOPIC = "TAG_DELETE_TOPIC";
     private final String HOST_COMMENT_SEND = Global.HOST + "/api/project/%s/topic?parent=%s";
-    String urlCommentSend = HOST_COMMENT_SEND;
-
-    String URI_DELETE_TOPIC_LABEL = Global.HOST + "/api/topic/%s/label/%s";
-
-    String urlTopic = "";
-
-    ArrayList<TopicObject> mData = new ArrayList<>();
-    private int currentLabelId;
-
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @InstanceState
     protected boolean saveTopicWhenLoaded;
-
+    @Extra
+    TopicObject topicObject;
+    @Extra
+    TopicDetailParam mJumpParam;
+    @ViewById
+    ListView listView;
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
+    //    EnterLayout mEnterLayout;
+    ImageCommentLayout mEnterComment;
+    String owerGlobar = "";
+    String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=20";
+    String urlCommentSend = HOST_COMMENT_SEND;
+    String URI_DELETE_TOPIC_LABEL = Global.HOST + "/api/topic/%s/label/%s";
+    String urlTopic = "";
+    ArrayList<TopicObject> mData = new ArrayList<>();
     Intent mResultData = new Intent();
+    String bubble;
+    View mListHead;
+    String tagUrlCommentPhoto = "";
+    HashMap<String, String> mSendedImages = new HashMap<>();
+    View.OnClickListener mOnClickSend = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            sendCommentAll();
+        }
+    };
+    View.OnClickListener onClickComment = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final TopicObject comment = (TopicObject) v.getTag();
+
+            if (comment.isMy()) {
+                AlertDialog dialog = new AlertDialog.Builder(TopicListDetailActivity.this).setTitle("删除评论")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
+                                deleteNetwork(String.format(HOST_MAOPAO_DELETE, comment.id), TAG_DELETE_TOPIC_COMMENT, comment.id);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+                CustomDialog.dialogTitleLineColor(TopicListDetailActivity.this, dialog);
+
+            } else {
+                EnterLayout enterLayout = mEnterComment.getEnterLayout();
+                EditText message = enterLayout.content;
+                message.setHint("回复 " + comment.owner.name);
+
+                message.setTag(comment);
+                enterLayout.popKeyboard();
+
+                enterLayout.restoreLoad(comment);
+            }
+        }
+    };
+    MyImageGetter myImageGetter = new MyImageGetter(this);
+    BaseAdapter baseAdapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageCommentHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image, parent, false);
+                holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                convertView.setTag(R.id.layout, holder);
+            } else {
+                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
+            }
+
+            TopicObject data = (TopicObject) getItem(position);
+            holder.setContent(data);
+
+            loadMore();
+
+            return convertView;
+        }
+    };
+    private WebView webView;
+    private TextView topicTitleTextView;
+    private TopicLabelBar labelBar;
+    private int currentLabelId;
+    private TextView textViewCommentCount;
+
+    static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
+        Global.initWebView(webView);
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
+        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
+    }
 
     @AfterViews
     void init() {
@@ -162,10 +227,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         loadMore();
     }
-
-    final int RESULT_AT = 1;
-    final int RESULT_EDIT = 2;
-    final int RESULT_LABEL = 3;
 
     @OnActivityResult(RESULT_AT)
     void onResultAt(int requestCode, Intent data) {
@@ -228,7 +289,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @OptionsItem
     void action_edit() {
         TopicAddActivity_.intent(this).projectObject(topicObject.project).topicObject(topicObject).startForResult(RESULT_EDIT);
@@ -244,8 +304,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         super.onBackPressed();
     }
-
-    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
 
     @OptionsItem
     void action_delete() {
@@ -265,22 +323,10 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         showButtomToast("已复制 " + url);
     }
 
-    private TextView textViewCommentCount;
-
     void updateDisplayCommentCount() {
         String commentCount = String.format("%d条评论", topicObject.child_count);
         textViewCommentCount.setText(commentCount);
     }
-
-    String bubble;
-
-    static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
-        Global.initWebView(webView);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
-        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
-    }
-
-    View mListHead;
 
     private void updateHeadData() {
         mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
@@ -369,17 +415,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         mEnterComment.getEnterLayout().restoreLoad(topicObject);
     }
 
-    View.OnClickListener mOnClickSend = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            sendCommentAll();
-        }
-    };
-
-    String tagUrlCommentPhoto = "";
-
-    HashMap<String, String> mSendedImages = new HashMap<>();
-
     private void sendCommentAll() {
         showProgressBar(true);
 
@@ -445,9 +480,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     void back() {
         onBackPressed();
     }
-
-    final String TAG_DELETE_TOPIC_COMMENT = "TAG_DELETE_TOPIC_COMMENT";
-    final String TAG_DELETE_TOPIC = "TAG_DELETE_TOPIC";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -559,74 +591,15 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         }
     }
 
-    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
+    public static class TopicDetailParam implements Serializable {
+        public String mUser;
+        public String mProject;
+        public String mTopic;
 
-    BaseAdapter baseAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
+        public TopicDetailParam(String mUser, String mProject, String mTopic) {
+            this.mUser = mUser;
+            this.mProject = mProject;
+            this.mTopic = mTopic;
         }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageCommentHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image, parent, false);
-                holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
-                convertView.setTag(R.id.layout, holder);
-            } else {
-                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
-            }
-
-            TopicObject data = (TopicObject) getItem(position);
-            holder.setTaskCommentContent(data);
-
-            loadMore();
-
-            return convertView;
-        }
-    };
-
-    View.OnClickListener onClickComment = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final TopicObject comment = (TopicObject) v.getTag();
-
-            if (comment.isMy()) {
-                AlertDialog dialog = new AlertDialog.Builder(TopicListDetailActivity.this).setTitle("删除评论")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
-                                deleteNetwork(String.format(HOST_MAOPAO_DELETE, comment.id), TAG_DELETE_TOPIC_COMMENT, comment.id);
-                            }
-                        })
-                        .setNegativeButton("取消", null)
-                        .show();
-                CustomDialog.dialogTitleLineColor(TopicListDetailActivity.this, dialog);
-
-            } else {
-                EnterLayout enterLayout = mEnterComment.getEnterLayout();
-                EditText message = enterLayout.content;
-                message.setHint("回复 " + comment.owner.name);
-
-                message.setTag(comment);
-                enterLayout.popKeyboard();
-
-                enterLayout.restoreLoad(comment);
-            }
-        }
-    };
-
-    MyImageGetter myImageGetter = new MyImageGetter(this);
+    }
 }

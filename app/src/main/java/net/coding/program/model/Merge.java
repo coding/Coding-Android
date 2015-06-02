@@ -14,6 +14,12 @@ import java.io.Serializable;
  * Created by chenchao on 15/5/25.
  */
 public class Merge implements Serializable {
+    public static final String[] STYLES = new String[]{
+            "ACCEPTED",
+            "REFUSED",
+            "CANMERGE",
+            "CANCEL"
+    };
     private int id;
     private String srcBranch = "";
     private String desBranch = "";
@@ -85,40 +91,12 @@ public class Merge implements Serializable {
 
     }
 
-    public boolean isStateAccept() {
-        return merge_status.equals("ACCEPTED");
-    }
-
-    public boolean isStateRefused() {
-        return merge_status.equals("REFUSED");
+    public String getMergeStatus() {
+        return merge_status;
     }
 
     public long getCreatedAt() {
         return created_at;
-    }
-
-    static class ActionAuthor extends UserObject implements Serializable {
-
-        public ActionAuthor(JSONObject json) {
-            super(json);
-            status = json.optInt("status");
-            is_member = json.optInt("is_member");
-            id = json.optInt("id");
-            follows_count = json.optInt("follows_count");
-            fans_count = json.optInt("fans_count");
-            tweets_count = json.optInt("tweets_count");
-            followed = json.optBoolean("followed");
-            follow = json.optBoolean("follow");
-        }
-
-        private int status;
-        private int is_member;
-        private int id;
-        private int follows_count;
-        private int fans_count;
-        private int tweets_count;
-        private boolean followed;
-        private boolean follow;
     }
 
     private String getHostPublicHead(String end) {
@@ -128,7 +106,6 @@ public class Merge implements Serializable {
     public String getHttpComments() {
         return getHostPublicHead("/comments");
     }
-
 
     public String getHttpCommits() {
         return getHostPublicHead("?diff=");
@@ -155,6 +132,35 @@ public class Merge implements Serializable {
         return head + "/git/line_notes";
     }
 
+    public Spannable getTitleSpannable() {
+        String spanString = String.format("<font color=\"#4e90bf\">#%d</font> %s", iid, title);
+        return Global.changeHyperlinkColor(spanString);
+    }
+
+    static class ActionAuthor extends UserObject implements Serializable {
+
+        private int status;
+        private int is_member;
+        private int id;
+        private int follows_count;
+        private int fans_count;
+        private int tweets_count;
+        private boolean followed;
+        private boolean follow;
+
+        public ActionAuthor(JSONObject json) {
+            super(json);
+            status = json.optInt("status");
+            is_member = json.optInt("is_member");
+            id = json.optInt("id");
+            follows_count = json.optInt("follows_count");
+            fans_count = json.optInt("fans_count");
+            tweets_count = json.optInt("tweets_count");
+            followed = json.optBoolean("followed");
+            follow = json.optBoolean("follow");
+        }
+    }
+
     public static class PostRequest {
         public String url;
         public RequestParams params;
@@ -167,10 +173,5 @@ public class Merge implements Serializable {
         public void setContent(String input) {
             params.put("content", input);
         }
-    }
-
-    public Spannable getTitleSpannable() {
-        String spanString = String.format("<font color=\"#4e90bf\">#%d</font> %s", iid, title);
-        return Global.changeHyperlinkColor(spanString);
     }
 }

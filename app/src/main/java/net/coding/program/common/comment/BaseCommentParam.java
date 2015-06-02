@@ -10,10 +10,10 @@ import net.coding.program.common.ImageLoadTool;
  */
 public class BaseCommentParam {
 
-    View.OnClickListener onClickComment;
-    Html.ImageGetter imageGetter;
-    ImageLoadTool imageLoadTool;
-    View.OnClickListener clickUser;
+    public View.OnClickListener onClickComment;
+    public Html.ImageGetter imageGetter;
+    public ImageLoadTool imageLoadTool;
+    public View.OnClickListener clickUser;
 
     public BaseCommentParam(View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
         this.onClickComment = onClickComment;
