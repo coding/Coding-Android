@@ -58,15 +58,23 @@ public class Global {
 
     public static final String HOST = "https://coding.net";
     public static final String HOST_API = HOST + "/api";
-
+    private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
-
-    private static SimpleDateFormat DayFormatTime = new SimpleDateFormat("yyyy-MM-dd");
     public static SimpleDateFormat MonthDayFormatTime = new SimpleDateFormat("MMMdd日");
 
     public static SimpleDateFormat WeekFormatTime = new SimpleDateFormat("EEE");
     public static SimpleDateFormat NextWeekFormatTime = new SimpleDateFormat("下EEE");
     public static SimpleDateFormat LastWeekFormatTime = new SimpleDateFormat("上EEE");
+    public static Html.TagHandler tagHandler = new Html.TagHandler() {
+        @Override
+        public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
+            if (tag.toLowerCase().equals("code") && !opening) {
+                output.append("\n\n");
+            }
+        }
+    };
+    public static DecimalFormat df = new java.text.DecimalFormat("#.00");
+    private static SimpleDateFormat DayFormatTime = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String dayFromTime(long time) {
         return DayFormatTime.format(time);
@@ -154,7 +162,7 @@ public class Global {
         String s = "";
         try {
             JSONObject jsonData = jsonObject.getJSONObject("msg");
-            String key = (String) jsonData.keys().next();
+            String key = jsonData.keys().next();
             s = jsonData.getString(key);
         } catch (Exception e) {
             Global.errorLog(e);
@@ -179,43 +187,6 @@ public class Global {
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         } else {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    public static Html.TagHandler tagHandler = new Html.TagHandler() {
-        @Override
-        public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
-            if (tag.toLowerCase().equals("code") && !opening) {
-                output.append("\n\n");
-            }
-        }
-    };
-
-    private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
-
-    public static String makeSmallUrl(ImageView view, String url) {
-        String realUrl = url.split("\\?")[0];
-
-        if (url.indexOf("http") == 0) {
-            // 头像再裁剪需要算坐标，就不改参数了
-            // https://dn-coding-net-production-static.qbox.me/c28b97dd-61f2-41d4-bd7e-b04f0c634751.jpg?imageMogr2/auto-orient/format/jpeg/crop/!164x164a568a38
-            if (url.contains("/crop/")) {
-                return url;
-            }
-
-            ViewGroup.LayoutParams lp = view.getLayoutParams();
-            String width = intToString(lp.width);
-            String height = intToString(lp.height);
-
-            // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
-            if (width.isEmpty() && height.isEmpty()) {
-//                height = String.valueOf(Global.dpToPx(200));
-                width = String.valueOf(Global.dpToPx(200));
-
-            }
-            return String.format(IMAGE_URL_SCAL, realUrl, width);
-        } else {
-            return realUrl;
         }
     }
 
@@ -248,6 +219,32 @@ public class Global {
 //        }
 //
 //    }
+
+    public static String makeSmallUrl(ImageView view, String url) {
+        String realUrl = url.split("\\?")[0];
+
+        if (url.indexOf("http") == 0) {
+            // 头像再裁剪需要算坐标，就不改参数了
+            // https://dn-coding-net-production-static.qbox.me/c28b97dd-61f2-41d4-bd7e-b04f0c634751.jpg?imageMogr2/auto-orient/format/jpeg/crop/!164x164a568a38
+            if (url.contains("/crop/")) {
+                return url;
+            }
+
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            String width = intToString(lp.width);
+            String height = intToString(lp.height);
+
+            // 如果初始化的时候没有长宽，默认取高度为200dp缩略图
+            if (width.isEmpty() && height.isEmpty()) {
+//                height = String.valueOf(Global.dpToPx(200));
+                width = String.valueOf(Global.dpToPx(200));
+
+            }
+            return String.format(IMAGE_URL_SCAL, realUrl, width);
+        } else {
+            return realUrl;
+        }
+    }
 
     public static String makeLargeUrl(String url) {
         final int MAX = 4096; // ImageView显示的图片不能大于这个数
@@ -464,19 +461,6 @@ public class Global {
         return String.format("%s %s", dataString, DateFormatTime.format(new Date(timeInMillis)));
     }
 
-    public static class MessageParse {
-        public String text = "";
-        public ArrayList<String> uris = new ArrayList<>();
-
-        public String toString() {
-            String s = "text " + text + "\n";
-            for (int i = 0; i < uris.size(); ++i) {
-                s += uris.get(i) + "\n";
-            }
-            return s;
-        }
-    }
-
     public static String dayToNow(long time) {
         Calendar now = Calendar.getInstance();
 
@@ -506,6 +490,10 @@ public class Global {
 
         long year = month / 12;
         return year + "年前";
+    }
+
+    public static String dayToNow(long time, String template) {
+        return String.format(template, dayToNow(time));
     }
 
     public static boolean isWifiConnected(Context context) {
@@ -663,8 +651,6 @@ public class Global {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-    public static DecimalFormat df = new java.text.DecimalFormat("#.00");
-
     /**
      * 显示文件大小,保留两位
      */
@@ -678,5 +664,18 @@ public class Global {
         }
         //return Math.round(size) + units[i];
         return df.format(size) + " " + units[i];
+    }
+
+    public static class MessageParse {
+        public String text = "";
+        public ArrayList<String> uris = new ArrayList<>();
+
+        public String toString() {
+            String s = "text " + text + "\n";
+            for (int i = 0; i < uris.size(); ++i) {
+                s += uris.get(i) + "\n";
+            }
+            return s;
+        }
     }
 }

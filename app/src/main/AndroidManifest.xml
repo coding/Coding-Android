@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
     android:versionCode="44"
-    android:versionName="2.8.2">
+    android:versionName="2.8.2" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -65,13 +65,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/ActionbarNoIcon">
+        android:theme="@style/ActionbarNoIcon" >
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2">
-            <intent-filter android:priority="0x7fffffff">
+            android:process=":xg_service_v2" >
+            <intent-filter android:priority="0x7fffffff" >
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
@@ -91,7 +91,7 @@
         <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action" />
             </intent-filter>
@@ -108,7 +108,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <receiver android:name=".common.PushReceiver">
+        <receiver android:name=".common.PushReceiver" >
             <intent-filter>
 
                 <!-- 接收消息透传 -->
@@ -121,7 +121,7 @@
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="net.coding.program.PUSH_ACTION" />
             </intent-filter>
@@ -153,7 +153,7 @@
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_project"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <data
                     android:host="ProjectActivity_"
@@ -169,7 +169,7 @@
             android:name=".EntranceActivity_"
             android:icon="@drawable/ic_launcher"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar">
+            android:theme="@style/AppThemeNoActionbar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -254,7 +254,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_topic_comment"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <data
                     android:host="TopicListDetailActivity_"
@@ -283,7 +283,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -345,7 +345,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateActionbar">
+            android:theme="@style/TranslateActionbar" >
             <intent-filter>
                 <data
                     android:host="UserDetailActivity_"
@@ -495,7 +495,7 @@
         <receiver
             android:name=".MyPushReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
 
             <!-- TODO exproted 设为 false 会被360拦截，有时间看看原因 -->
             <intent-filter>
@@ -536,7 +536,7 @@
         <activity
             android:name=".login.UserActiveActivity_"
             android:label="@string/title_activity_user_active"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -552,7 +552,7 @@
         <activity
             android:name=".login.ResetPasswordActivity_"
             android:label="@string/title_activity_reset_password"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -566,7 +566,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".message.MessageReceiver">
+        <receiver android:name=".message.MessageReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -607,7 +607,12 @@
         <activity
             android:name=".project.detail.merge.MergeFileListActivity_"
             android:label="@string/title_activity_merge_file_list"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.CommitFileListActivity_"
+            android:label="@string/title_activity_commit_file_list"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

@@ -114,5 +114,6 @@
     <string name="title_activity_commit_list">CommitListActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_merge_file_list">文件改动</string>
+    <string name="title_activity_commit_file_list">CommitFileListActivity</string>
 
 </resources>

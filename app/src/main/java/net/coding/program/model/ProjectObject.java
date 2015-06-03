@@ -28,20 +28,20 @@ public class ProjectObject implements Serializable {
     public String git_url = "";
     public String https_url = "";
     public String icon = "";
-    private int id;
     public int fork_count;
     public boolean forked;
     public long created_at;
-    private boolean is_public;
-    private boolean pin;
     public int star_count;
     public boolean stared;
     public int status;
-    private int type;
     public int un_read_activities_count;
     public long update_at;
     public int watch_count;
     public boolean watched;
+    private int id;
+    private boolean is_public;
+    private boolean pin;
+    private int type;
 
     public ProjectObject(JSONObject json) throws JSONException {
         backend_project_path = json.optString("backend_project_path");
@@ -75,6 +75,13 @@ public class ProjectObject implements Serializable {
         pin = json.optBoolean("pin");
     }
 
+    public ProjectObject() {
+    }
+
+    public static String translatePath(String path) {
+        return path.replace("/u/", "/user/").replace("/p/", "/project/");
+    }
+
     public boolean isPin() {
         return pin;
     }
@@ -91,9 +98,6 @@ public class ProjectObject implements Serializable {
         return id;
     }
 
-    public ProjectObject() {
-    }
-
     public String getPath() {
         return Global.HOST + project_path;
     }
@@ -105,7 +109,6 @@ public class ProjectObject implements Serializable {
     public String getHttpGitTree(String version) {
         return Global.HOST_API + backend_project_path + "/git/tree/" + version;
     }
-
 
     public String getProjectGit() {
         return Global.HOST_API + backend_project_path + "/git";

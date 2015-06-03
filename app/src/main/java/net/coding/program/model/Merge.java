@@ -44,7 +44,7 @@ public class Merge implements Serializable {
         title = json.optString("title");
         iid = json.optInt("iid");
         merge_status = json.optString("merge_status");
-        path = json.optString("path", "").replace("/u/", "/user/").replace("/p/", "/project/");
+        path = ProjectObject.translatePath(json.optString("path", ""));
         src_owner_name = json.optString("src_owner_name");
         src_project_name = json.optString("src_project_name");
         created_at = json.optLong("created_at");
@@ -101,6 +101,15 @@ public class Merge implements Serializable {
 
     private String getHostPublicHead(String end) {
         return Global.HOST_API + path + end;
+    }
+
+    public String getProjectPath() {
+        int index = path.indexOf("/git/");
+        if (index != -1) {
+            return path.substring(0, index);
+        }
+
+        return path;
     }
 
     public String getHttpComments() {

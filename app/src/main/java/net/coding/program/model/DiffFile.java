@@ -27,6 +27,18 @@ public class DiffFile implements Serializable {
         }
     }
 
+    public int getInsertions() {
+        return insertions;
+    }
+
+    public int getDeletions() {
+        return deletions;
+    }
+
+    public int getFileCount() {
+        return paths.size();
+    }
+
     public ArrayList<DiffSingleFile> getFiles() {
         return paths;
     }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_15">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="@dimen/padding_15"
+            android:maxLines="2"
+            android:text="Medium Text"
+            android:textColor="@color/font_black_content"
+            android:textSize="20sp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/icon"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_toRightOf="@+id/icon"
+            android:text="chenchao"
+            android:textColor="@color/font_black_6" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/icon"
+            android:layout_marginBottom="1dp"
+            android:layout_toRightOf="@+id/name"
+            android:text="Small Text"
+            android:textColor="@color/font_gray" />
+
+        <TextView
+            android:id="@+id/mergeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding_15"
+            android:text="12121212"
+            android:textColor="#ff4e90bf" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divideline_15" />
+
+    <TextView
+        android:id="@+id/preView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mergefile_list_item_height"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
+        android:text="5个文件，共1新增和0删除" />
+
+</LinearLayout>

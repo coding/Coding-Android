@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.activity_merge_detail)
+@EActivity(R.layout.common_refresh_listview)
 //@OptionsMenu(R.menu.menu_merge_detail)
 public class MergeDetailActivity extends BackActivity {
 
