@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.BaseComment;
+import net.coding.program.model.Commit;
 import net.coding.program.model.Merge;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicEditFragment;
@@ -19,15 +22,18 @@ import org.androidannotations.annotations.Extra;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 @EActivity(R.layout.activity_comment)
 public class CommentActivity extends BackActivity implements TopicEditFragment.SaveData {
 
+    private static final String HOST_SEND_COMMENT = "HOST_SEND_COMMENT";
     @Extra
     Merge mMerge;
-
+    @Extra
+    CommitCommentParam mCommitParam;
     CommentEditFragment editFragment;
     Fragment previewFragment;
-
     private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
 
     @AfterViews
@@ -74,8 +80,6 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
         getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
     }
 
-    private static final String HOST_SEND_COMMENT = "HOST_SEND_COMMENT";
-
     @Override
     public void exit() {
         String contentString = modifyData.content;
@@ -83,12 +87,22 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
             return;
         }
 
-        Merge.PostRequest postRequest = mMerge.getHttpSendComment();
-        postRequest.setContent(contentString);
-        postNetwork(postRequest.url, postRequest.params, HOST_SEND_COMMENT);
-
-        showProgressBar(true, "发送中");
-
+        if (mMerge != null) {
+            Merge.PostRequest postRequest = mMerge.getHttpSendComment();
+            postRequest.setContent(contentString);
+            postNetwork(postRequest.url, postRequest.params, HOST_SEND_COMMENT);
+            showProgressBar(true, "发送中");
+        } else {
+            String url = Commit.getHttpSendComment(mCommitParam.projectPath);
+            RequestParams params = new RequestParams();
+            params.put("commitId", mCommitParam.mCommitId);
+            params.put("noteable_type", "Commit");
+            params.put("content", contentString);
+            params.put("position", 0);
+            params.put("line", 0);
+            postNetwork(url, params, HOST_SEND_COMMENT);
+            showProgressBar(true, "发送中");
+        }
     }
 
     @Override
@@ -113,6 +127,16 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
             } else {
                 showErrorMsg(code, respanse);
             }
+        }
+    }
+
+    public static class CommitCommentParam implements Serializable {
+        String projectPath;
+        String mCommitId;
+
+        public CommitCommentParam(String projectPath, String mCommitId) {
+            this.projectPath = projectPath;
+            this.mCommitId = mCommitId;
         }
     }
 }

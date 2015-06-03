@@ -29,9 +29,24 @@ public class Commit implements Serializable {
         committer = new Committer(json.optJSONObject("committer"));
     }
 
+    public static String getHttpSendComment(String path) {
+        String realPath = ProjectObject.translatePath(path);
+        return Global.HOST_API + realPath + "/git/line_notes";
+    }
+
+    public static String getHttpDeleteComment(String path, int id) {
+        String realPath = ProjectObject.translatePath(path);
+        return Global.HOST_API + realPath + "/git/line_notes/" + id;
+    }
+
     public String getHttpFiles(String path) {
         String realPath = ProjectObject.translatePath(path);
         return Global.HOST_API + realPath + "/git/commitDiffStat/" + commitId;
+    }
+
+    public String getHttpComments(String path) {
+        String realPath = ProjectObject.translatePath(path);
+        return Global.HOST_API + realPath + "/git/commit/" + commitId;
     }
 
     public String getCommitIdPrefix() {
@@ -41,6 +56,10 @@ public class Commit implements Serializable {
         }
 
         return commitId.substring(0, prefixLength);
+    }
+
+    public String getCommitId() {
+        return commitId;
     }
 
     public String getTitle() {
