@@ -14,9 +14,11 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
+import net.coding.program.model.MergeDetail;
 import net.coding.program.project.git.CommitListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -26,15 +28,29 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.common_refresh_listview)
+@EActivity(R.layout.activity_merge_detail)
 //@OptionsMenu(R.menu.menu_merge_detail)
 public class MergeDetailActivity extends BackActivity {
 
     public static final int RESULT_COMMENT = 1;
+    public static final int RESULT_MERGE = 2;
+
     private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
+    private static final String HOST_MERGE_REFUSE = "HOST_MERGE_REFUSE";
+    private static final String HOST_MERGE_CANNEL = "HOST_MERGE_CANNEL";
+    private static final String HOST_MERGE_DETAIL = "HOST_MERGE_DETAIL";
     private static final String HOST_DELETE_COMMENT = "HOST_DELETE_COMMENT";
+
     @Extra
     Merge mMerge;
+    @ViewById
+    View actionLayout;
+    @ViewById
+    View actionAccept;
+    @ViewById
+    View actionRefuse;
+    @ViewById
+    View actionCannel;
     @ViewById
     ListView listView;
     MergeCommentAdaper mAdapter;
@@ -56,6 +72,7 @@ public class MergeDetailActivity extends BackActivity {
             }
         }
     };
+    private MergeDetail mMergeDetail;
 
     @AfterViews
     protected final void initMergeDetailActivity() {
@@ -74,6 +91,64 @@ public class MergeDetailActivity extends BackActivity {
         BaseCommentParam param = new BaseCommentParam(mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
         mAdapter = new MergeCommentAdaper(param);
         listView.setAdapter(mAdapter);
+
+        getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
+        setActionStyle(false, false, false);
+    }
+
+    private void updateBottomBarStyle() {
+        if (mMergeDetail == null) {
+            return;
+        }
+
+        String style = mMerge.getMergeStatus();
+        boolean canEdit = mMergeDetail.isCanEdit();
+        boolean canEditSrc = mMergeDetail.isCanEditSrcBranch();
+        if (style.equals(Merge.STYLES[2])) {
+            setActionStyle(canEdit, canEdit, canEditSrc);
+        } else if (style.equals(Merge.STYLES[3])) {
+            setActionStyle(canEdit, false, canEditSrc);
+        } else {
+            setActionStyle(false, false, false);
+        }
+    }
+
+    private void setActionStyle(boolean refuse, boolean accept, boolean cannel) {
+        if (!refuse && !accept && !cannel) {
+            actionLayout.setVisibility(View.GONE);
+        } else {
+            actionLayout.setVisibility(View.VISIBLE);
+            actionAccept.setVisibility(accept ? View.VISIBLE : View.GONE);
+            actionRefuse.setVisibility(refuse ? View.VISIBLE : View.GONE);
+            actionCannel.setVisibility(cannel ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Click
+    protected final void actionAccept() {
+        MergeAcceptActivity_.intent(this).mMerge(mMerge).startForResult(RESULT_MERGE);
+    }
+
+    @Click
+    protected final void actionRefuse() {
+        showDialog(mMerge.getTitle(), "确定要拒绝么？", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String host = mMerge.getHttpRefuse();
+                postNetwork(host, HOST_MERGE_REFUSE);
+            }
+        });
+    }
+
+    @Click
+    protected final void actionCannel() {
+        showDialog(mMerge.getTitle(), "确定要取消么？", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String host = mMerge.getHttpCannel();
+                postNetwork(host, HOST_MERGE_CANNEL);
+            }
+        });
     }
 
     private void initHead(View head) {
@@ -107,11 +182,13 @@ public class MergeDetailActivity extends BackActivity {
                 "已接受",
                 "已拒绝",
                 "可合并",
+                "不可合并",
                 "已取消"
         };
         final int[] styleColors = new int[]{
-                0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xff666666
+                0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xffac8cd3, 0xff666666
         };
+
         for (int i = 0; i < styles.length; ++i) {
             if (mMerge.getMergeStatus().equals(styles[i])) {
                 styleView.setText(styleStrings[i]);
@@ -142,12 +219,14 @@ public class MergeDetailActivity extends BackActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_COMMENT) {
             if (resultCode == RESULT_OK) {
-                showMiddleToast("有");
                 BaseComment comment = (BaseComment) data.getSerializableExtra("data");
                 mAdapter.appendData(comment);
                 mAdapter.notifyDataSetChanged();
-            } else {
-                showMiddleToast("没有");
+            }
+
+        } else if (requestCode == RESULT_MERGE) {
+            if (resultCode == RESULT_OK) {
+                finishAndUpdateList();
             }
         }
     }
@@ -172,6 +251,31 @@ public class MergeDetailActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(HOST_MERGE_REFUSE)) {
+            if (code == 0) {
+                finishAndUpdateList();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(HOST_MERGE_CANNEL)) {
+            if (code == 0) {
+                finishAndUpdateList();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(HOST_MERGE_DETAIL)) {
+            if (code == 0) {
+                mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
+                updateBottomBarStyle();
+
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
+    }
+
+    private void finishAndUpdateList() {
+        setResult(RESULT_OK);
+        finish();
     }
 }

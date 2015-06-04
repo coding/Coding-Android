@@ -1,6 +1,8 @@
 package net.coding.program.project.detail.merge;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,16 +21,16 @@ import org.androidannotations.annotations.ViewById;
 @EFragment(R.layout.fragment_project_merge)
 public class ProjectMergeFragment extends BaseFragment {
 
-    @FragmentArg
-    ProjectObject mProjectObject;
-
     @ViewById
     protected ViewPager viewPager;
+    @FragmentArg
+    ProjectObject mProjectObject;
+    private MergePagerAdapter mAdapter;
 
     @AfterViews
     protected final void initProjectMergeFragment() {
-        MergePagerAdapter adapter = new MergePagerAdapter(getChildFragmentManager(), mProjectObject);
-        viewPager.setAdapter(adapter);
+        mAdapter = new MergePagerAdapter(getChildFragmentManager(), mProjectObject);
+        viewPager.setAdapter(mAdapter);
 
         ((RadioGroup) getView().findViewById(R.id.checkGroup)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -40,6 +42,15 @@ public class ProjectMergeFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MergeListFragment.RESULT_CHANGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private static class MergePagerAdapter extends FragmentPagerAdapter {
@@ -55,6 +66,11 @@ public class ProjectMergeFragment extends BaseFragment {
         public Fragment getItem(int position) {
             Fragment fragment = MergeListFragment_.builder().mProjectObject(mProjectObject).mType(position).build();
             return fragment;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override

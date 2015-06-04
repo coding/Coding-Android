@@ -1,6 +1,8 @@
 package net.coding.program.project.detail.merge;
 
 
+import android.support.v4.app.Fragment;
+
 import net.coding.program.R;
 import net.coding.program.common.base.BaseLoadMoreFragment;
 import net.coding.program.model.Merge;
@@ -21,6 +23,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
 
     public static final int TYPE_OPEN = 0;
     public static final int TYPE_CLOSE = 1;
+    public static final int RESULT_CHANGE = 1;
     private static final String HOST_MERGE = "HOST_MERGE";
     @FragmentArg
     ProjectObject mProjectObject;
@@ -44,7 +47,9 @@ public class MergeListFragment extends BaseLoadMoreFragment {
 
     @ItemClick
     protected final void listView(Merge merge) {
-        MergeDetailActivity_.intent(this).mMerge(merge).start();
+        Fragment fragment = getParentFragment();
+        if (fragment == null) fragment = this;
+        MergeDetailActivity_.intent(fragment).mMerge(merge).startForResult(RESULT_CHANGE);
     }
 
     @Override
@@ -63,7 +68,8 @@ public class MergeListFragment extends BaseLoadMoreFragment {
             }
 
             updateLoadingState(code, tag, mMergeAdapter.getCount());
-
         }
     }
+
+
 }

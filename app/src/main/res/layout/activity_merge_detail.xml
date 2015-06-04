@@ -1,7 +1,49 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/listView"
     android:layout_height="match_parent"
     android:background="@color/divide_15_e5"
-    tools:context="net.coding.program.project.detail.merge.MergeDetailActivity" />
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.detail.merge.MergeDetailActivity">
+
+    <include
+        layout="@layout/common_refresh_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/actionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/stand_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/actionRefuse"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="拒绝" />
+
+        <TextView
+            android:id="@+id/actionAccept"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="合并" />
+
+        <TextView
+            android:id="@+id/actionCannel"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消" />
+
+    </LinearLayout>
+
+</LinearLayout>

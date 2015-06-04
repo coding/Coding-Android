@@ -23,45 +23,11 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.menu_merge)
 public class MergeActivity extends BackActivity {
 
-    ArrayList<Merge> mData;
-
-    @Extra
-    ProjectObject projectObject;
-
     final String HOST_MERGE_OPEN = "HOST_MERGE_OPEN";
     final String HOST_MERGE_CLOSED = "HOST_MERGE_CLOSED";
-
-    @AfterViews
-    protected final void init() {
-        String url = projectObject.getHttpMerge(true);
-        getNetwork(url, HOST_MERGE_OPEN);
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_MERGE_OPEN)) {
-            if (code == 0) {
-                if (isLoadingFirstPage(tag)) {
-                    mData.clear();
-                }
-
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    Merge merge = new Merge(jsonArray.getJSONObject(i));
-                    mData.add(merge);
-                }
-
-            } else {
-                showErrorMsg(code, respanse);
-            }
-            baseAdapter.notifyDataSetChanged();
-            mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
-
-        } else if (tag.equals(HOST_MERGE_CLOSED)) {
-
-        }
-    }
-
+    ArrayList<Merge> mData;
+    @Extra
+    ProjectObject projectObject;
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -95,4 +61,39 @@ public class MergeActivity extends BackActivity {
             return convertView;
         }
     };
+
+    @AfterViews
+    protected final void init() {
+        String url = projectObject.getHttpMerge(true);
+        getNetwork(url, HOST_MERGE_OPEN);
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_MERGE_OPEN)) {
+            if (code == 0) {
+                if (isLoadingFirstPage(tag)) {
+                    mData.clear();
+                }
+
+                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    Merge merge = new Merge(jsonArray.getJSONObject(i));
+                    mData.add(merge);
+                }
+
+            } else {
+                showErrorMsg(code, respanse);
+            }
+            baseAdapter.notifyDataSetChanged();
+            mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
+
+        } else if (tag.equals(HOST_MERGE_CLOSED)) {
+
+        }
+    }
+
+    public void updateFragment() {
+
+    }
 }

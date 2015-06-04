@@ -18,8 +18,10 @@ public class Merge implements Serializable {
             "ACCEPTED",
             "REFUSED",
             "CANMERGE",
-            "CANCEL"
+            "CANNOTMERGE",
+            "CANCEL",
     };
+
     private int id;
     private String srcBranch = "";
     private String desBranch = "";
@@ -116,12 +118,43 @@ public class Merge implements Serializable {
         return getHostPublicHead("/comments");
     }
 
+    public String getHttpDetail() {
+        return getHostPublicHead("/base");
+    }
+
+
+
     public String getHttpCommits() {
         return getHostPublicHead("/commits");
     }
 
+    public PostRequest getHttpMerge(String message, boolean delSource) {
+        String url = getHostPublicHead("/merge");
+
+        RequestParams params = new RequestParams();
+        params.put("del_source_branch", delSource);
+        params.put("message", message);
+
+        return new PostRequest(url, params);
+
+//        :
+//        :Accept Merge Request #12 : (master1 -> master)
+//        : title
+//        : @陈超
+//        : @陈超
+//        : https://coding.net/u/1984/p/TestPrivate/git/merge/12;
+    }
+
     public String getHttpFiles() {
         return getHostPublicHead("/commitDiffStat");
+    }
+
+    public String getHttpRefuse() {
+        return getHostPublicHead("/refuse");
+    }
+
+    public String getHttpCannel() {
+        return getHostPublicHead("/cancel");
     }
 
     public PostRequest getHttpSendComment() {

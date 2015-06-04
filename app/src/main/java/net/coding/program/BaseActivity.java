@@ -25,6 +25,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.model.Merge;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
@@ -37,13 +38,24 @@ import org.json.JSONObject;
 public class BaseActivity extends UmengActivity implements NetworkCallback {
 
     protected LayoutInflater mInflater;
-    private ImageLoadTool imageLoadTool = new ImageLoadTool();
-
-    private ProgressDialog mProgressDialog;
-
-    private NetworkImpl networkImpl;
-
     protected FootUpdate mFootUpdate = new FootUpdate();
+    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String globalKey = (String) v.getTag();
+
+            UserDetailActivity_.intent(BaseActivity.this)
+                    .globalKey(globalKey)
+                    .start();
+        }
+    };
+    private ImageLoadTool imageLoadTool = new ImageLoadTool();
+    private ProgressDialog mProgressDialog;
+    private NetworkImpl networkImpl;
+    /**
+     * 载入动画
+     */
+    private DialogUtil.LoadingPopupWindow mDialogProgressPopWindow = null;
 
     protected void showProgressBar(boolean show) {
         showProgressBar(show, "");
@@ -67,17 +79,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         String message = getString(messageId);
         showProgressBar(true, message);
     }
-
-    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globalKey = (String) v.getTag();
-
-            UserDetailActivity_.intent(BaseActivity.this)
-                    .globalKey(globalKey)
-                    .start();
-        }
-    };
 
     protected void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
@@ -141,6 +142,14 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         networkImpl.getNextPageNetwork(url, tag);
     }
 
+    protected void postNetwork(Merge.PostRequest request, String tag) {
+        postNetwork(request.url, request.params, tag);
+    }
+
+    protected void postNetwork(String url, String tag) {
+        postNetwork(url, new RequestParams(), tag);
+    }
+
     protected void postNetwork(String url, RequestParams params, final String tag) {
         networkImpl.loadData(url, params, tag, -1, null, NetworkImpl.Request.Post);
     }
@@ -187,6 +196,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
         showDialog(title, msg, clickOk, clickCannel, "确定", "取消");
     }
 
+//    protected void showListDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog dialog = builder.setItems()
+//    }
+
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCannel,
                               String okButton,
@@ -199,11 +213,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
                 .show();
         dialogTitleLineColor(dialog);
     }
-
-//    protected void showListDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        AlertDialog dialog = builder.setItems()
-//    }
 
     protected void showButtomToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -238,11 +247,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback {
     public final void dialogTitleLineColor(Dialog dialog) {
         CustomDialog.dialogTitleLineColor(this, dialog);
     }
-
-    /**
-     * 载入动画
-     */
-    private DialogUtil.LoadingPopupWindow mDialogProgressPopWindow = null;
 
     public void initDialogLoading() {
         if (mDialogProgressPopWindow == null) {

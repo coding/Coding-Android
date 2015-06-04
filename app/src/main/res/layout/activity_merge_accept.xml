@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.detail.merge.MergeAcceptActivity">
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg"
+        android:gravity="left|top"
+        android:hint="输入合并信息"
+        android:minLines="5"
+        android:padding="@dimen/padding_15" />
+
+    <include layout="@layout/divide_15_top_bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mergefile_list_item_height"
+        android:background="@color/stand_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="删除源分支" />
+
+        <View
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@color/merge_red" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_15_top" />
+
+    <TextView
+        android:id="@+id/send"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_15"
+        android:gravity="center"
+        android:text="合并" />
+
+</LinearLayout>
