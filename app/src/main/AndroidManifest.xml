@@ -613,10 +613,14 @@
         <activity
             android:name=".project.detail.merge.CommitFileListActivity_"
             android:label="@string/title_activity_commit_file_list"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.merge.MergeAcceptActivity_"
             android:label="@string/title_activity_merge_accept"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".project.detail.merge.MergeFileDetailActivity_"
+            android:label="@string/title_activity_merge_file_detail"
             android:screenOrientation="portrait">
         </activity>
     </application>

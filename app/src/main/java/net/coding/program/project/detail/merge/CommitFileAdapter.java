@@ -19,10 +19,13 @@ import net.coding.program.model.DiffFile;
  */
 public class CommitFileAdapter extends DataAdapter<Object> {
 
+    public static final int VIEW_TAG_FILE_DATA = R.layout.mergefile_list_item;
     BaseCommentParam mCommentParam;
+    private View.OnClickListener mClickFileItem;
 
-    public CommitFileAdapter(BaseCommentParam param) {
+    public CommitFileAdapter(BaseCommentParam param, View.OnClickListener clickFileItem) {
         mCommentParam = param;
+        mClickFileItem = clickFileItem;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class CommitFileAdapter extends DataAdapter<Object> {
             if (convertView == null) {
                 holder = new ViewHoder();
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mergefile_list_item, parent, false);
+                convertView.setOnClickListener(mClickFileItem);
                 holder.icon = convertView.findViewById(R.id.icon);
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.insertion = (TextView) convertView.findViewById(R.id.insertion);
@@ -45,6 +49,7 @@ public class CommitFileAdapter extends DataAdapter<Object> {
             holder.title.setText(data.getName());
             holder.insertion.setText(data.getInsertions());
             holder.deletion.setText(data.getDeletions());
+            convertView.setTag(VIEW_TAG_FILE_DATA, data);
 
             return convertView;
         } else {

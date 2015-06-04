@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import net.coding.program.common.Global;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -81,6 +83,11 @@ public class DiffFile implements Serializable {
             }
 
             return path;
+        }
+
+        public String getHttpFileDiffDetail(String projectPath) {
+            String realPath = ProjectObject.translatePath(projectPath);
+            return Global.HOST_API + realPath + "/git/commitDiffContent/" + commitId + "/" + path;
         }
     }
 }

@@ -61,12 +61,20 @@ public class CommitFileListActivity extends BackActivity {
         }
     };
 
+    private View.OnClickListener mClickFile = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            DiffFile.DiffSingleFile fileData = (DiffFile.DiffSingleFile) v.getTag(CommitFileAdapter.VIEW_TAG_FILE_DATA);
+            MergeFileDetailActivity_.intent(CommitFileListActivity.this).mProjectPath(mProjectPath).mSingleFile(fileData).start();
+        }
+    };
+
     @AfterViews
     protected final void initCommitFileListActivity() {
         getSupportActionBar().setTitle(mCommit.getTitle());
 
         BaseCommentParam param = new BaseCommentParam(mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
-        mAdapter = new CommitFileAdapter(param);
+        mAdapter = new CommitFileAdapter(param, mClickFile);
 
         initListhead();
         initListFooter();
