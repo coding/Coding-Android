@@ -30,7 +30,7 @@ public class ListItem1 extends FrameLayout {
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ListItem1);
         String title = array.getString(R.styleable.ListItem1_itemTitle);
-        int icon = array.getInt(R.styleable.ListItem1_itemIcon, R.drawable.user_home_project);
+        int icon = array.getResourceId(R.styleable.ListItem1_itemIcon, R.drawable.user_home_project);
         array.recycle();
 
         if (title == null) title = "qq";

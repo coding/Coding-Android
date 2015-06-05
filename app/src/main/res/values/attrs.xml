@@ -31,7 +31,7 @@
     </declare-styleable>
 
     <declare-styleable name="ListItem1">
-        <attr name="itemIcon" format="integer" />
+        <attr name="itemIcon" format="reference" />
         <attr name="itemTitle" format="string" />
     </declare-styleable>
 </resources>

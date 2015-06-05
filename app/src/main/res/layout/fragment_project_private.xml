@@ -2,12 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/divide"
     android:orientation="vertical"
+    android:scrollbars="none"
     tools:context="net.coding.program.project.PublicProjectHomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/stand_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,9 +24,7 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="15dp"
+                android:layout_margin="@dimen/padding_15"
                 android:textColor="@color/font_black_2"
                 android:textSize="15sp" />
 
@@ -49,21 +50,31 @@
                     android:id="@+id/itemDynamic"
                     layout="@layout/project_home_list_head_button" />
 
+                <include layout="@layout/divideline_15" />
+
                 <include
                     android:id="@+id/itemTask"
                     layout="@layout/project_home_list_head_button" />
+
+                <include layout="@layout/divideline_15" />
 
                 <include
                     android:id="@+id/itemTopic"
                     layout="@layout/project_home_list_head_button" />
 
+                <include layout="@layout/divideline_15" />
+
                 <include
                     android:id="@+id/itemDocment"
                     layout="@layout/project_home_list_head_button" />
 
+                <include layout="@layout/divideline_15" />
+
                 <include
                     android:id="@+id/itemCode"
                     layout="@layout/project_home_list_head_button" />
+
+                <include layout="@layout/divideline_15" />
 
                 <include
                     android:id="@+id/itemMember"
@@ -84,6 +95,8 @@
             <include
                 android:id="@+id/itemReadme"
                 layout="@layout/project_home_list_head_button" />
+
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/itemMerge"

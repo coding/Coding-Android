@@ -34,7 +34,6 @@ public class GitTreeActivity extends UmengActivity {
         if (savedInstanceState != null) {
             mVersion = savedInstanceState.getString("mVersion", ProjectGitFragment.MASTER);
         } else {
-
             String userId = getIntent().getStringExtra("id");
 
             ProjectGitFragment fragment = ProjectGitFragment_.builder().mGitFileInfoObject(mGitFileInfoObject).mProjectObject(mProjectObject).mVersion(mVersion).build();

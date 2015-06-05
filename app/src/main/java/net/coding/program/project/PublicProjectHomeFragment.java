@@ -37,7 +37,10 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     ProjectMarkButton mButtonStar;
     ProjectMarkButton mButtonWatch;
     ProjectMarkButton mButtonFork;
-
+    String mUrlStar;
+    String mUrlUnstar;
+    String mUrlWatch;
+    String mUrlUnwatch;
     private String httpProjectObject;
     private String forkUrl;
 
@@ -140,8 +143,8 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 R.drawable.project_button_icon_topic,
                 R.drawable.project_button_icon_code,
                 R.drawable.project_button_icon_member,
-                R.drawable.project_button_icon_code,
-                R.drawable.project_button_icon_code
+                R.drawable.project_button_icon_readme,
+                R.drawable.project_button_icon_merge
         };
 
         final String[] titles = new String[]{
@@ -169,11 +172,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             });
         }
     }
-
-    String mUrlStar;
-    String mUrlUnstar;
-    String mUrlWatch;
-    String mUrlUnwatch;
 
     protected void postNetwork(String url) {
         postNetwork(url, new RequestParams(), url);

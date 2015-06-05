@@ -38,7 +38,7 @@ public abstract class DataAdapter<T> extends BaseAdapter {
         mData.add(data);
     }
 
-    public void appendDataUpdate(T data) {
+    public void appendSingeDataUpdate(T data) {
         mData.add(data);
         notifyDataSetChanged();
     }

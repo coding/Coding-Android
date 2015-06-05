@@ -1,5 +1,6 @@
 package net.coding.program.model;
 
+import net.coding.program.R;
 import net.coding.program.common.Global;
 
 import org.json.JSONArray;
@@ -46,7 +47,7 @@ public class DiffFile implements Serializable {
     }
 
     public static class DiffSingleFile implements Serializable {
-        String changeType; // "MODIFY",
+        String changeType; // "MODIFY","ADD", "DELETE"
         int insertions; // 3,
         int deletions; // 1,
         String name; // "README.md",
@@ -88,6 +89,16 @@ public class DiffFile implements Serializable {
         public String getHttpFileDiffDetail(String projectPath) {
             String realPath = ProjectObject.translatePath(projectPath);
             return Global.HOST_API + realPath + "/git/commitDiffContent/" + commitId + "/" + path;
+        }
+
+        public int getIconId() {
+            if (changeType.equals("MODIFY")) {
+                return R.drawable.ic_mergefile_modify;
+            } else if (changeType.equals("ADD")) {
+                return R.drawable.ic_mergefile_add;
+            } else { // DELETE
+                return R.drawable.ic_mergefile_delete;
+            }
         }
     }
 }

@@ -38,8 +38,8 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                 R.drawable.project_button_icon_docment,
                 R.drawable.project_button_icon_code,
                 R.drawable.project_button_icon_member,
-                R.drawable.project_button_icon_member,
-                R.drawable.project_button_icon_member,
+                R.drawable.project_button_icon_readme,
+                R.drawable.project_button_icon_merge,
         };
 
         final int buttonId[] = new int[]{

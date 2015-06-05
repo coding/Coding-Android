@@ -169,7 +169,7 @@ public class CommitFileListActivity extends BackActivity {
             if (resultCode == RESULT_OK) {
                 showMiddleToast("有");
                 BaseComment comment = (BaseComment) data.getSerializableExtra("data");
-                mAdapter.appendDataUpdate(comment);
+                mAdapter.appendSingeDataUpdate(comment);
             } else {
                 showMiddleToast("没有");
             }

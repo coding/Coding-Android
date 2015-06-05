@@ -15,6 +15,8 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 //@EActivity(R.layout.activity_merge_file_list)
 @EActivity(R.layout.activity_commit_list)
 @OptionsMenu(R.menu.menu_merge_file_list)
@@ -40,7 +42,7 @@ public class MergeFileListActivity extends BackActivity {
         if (tag.equals(HOST_MERGE_FILES)) {
             if (code == 0) {
                 DiffFile diffFile = new DiffFile(respanse.getJSONObject("data"));
-                mAdapter.appendDataUpdate(diffFile.getFiles());
+                mAdapter.appendDataUpdate((ArrayList) diffFile.getFiles());
             } else {
                 showErrorMsg(code, respanse);
             }

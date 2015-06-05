@@ -53,8 +53,10 @@ public class MergeDetailActivity extends BackActivity {
     View actionCannel;
     @ViewById
     ListView listView;
+
     MergeCommentAdaper mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
+
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -72,7 +74,9 @@ public class MergeDetailActivity extends BackActivity {
             }
         }
     };
+
     private MergeDetail mMergeDetail;
+    private TextView mergeContent;
 
     @AfterViews
     protected final void initMergeDetailActivity() {
@@ -81,9 +85,9 @@ public class MergeDetailActivity extends BackActivity {
         String uri = mMerge.getHttpComments();
         getNetwork(uri, HOST_MERGE_COMMENTS);
 
-        View head = mInflater.inflate(R.layout.activity_merge_detail_head, null);
-        initHead(head);
-        listView.addHeaderView(head);
+        View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, null);
+        initHead(mListHead);
+        listView.addHeaderView(mListHead);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
         listView.addFooterView(footer);
         initFooter(footer);
@@ -204,6 +208,28 @@ public class MergeDetailActivity extends BackActivity {
 
 //        mMerge.getActionAuthor().
 //        ((TextView) findViewById(R.id.mergeLog)).setText(R.id.mergeLog);
+
+        View mergeTreate = head.findViewById(R.id.mergeTreate);
+        if (mMerge.isMergeTreate()) {
+            mergeTreate.setVisibility(View.VISIBLE);
+            int color;
+            int iconRes;
+            if (mMerge.isMergeAccept()) {
+                color = R.color.merge_green;
+                iconRes = R.drawable.ic_listitem_merge_accept;
+            } else {
+                color = R.color.merge_red;
+                iconRes = R.drawable.ic_listitem_merge_refuse;
+            }
+            head.findViewById(R.id.mergeIcon0).setBackgroundResource(color);
+            head.findViewById(R.id.mergeIcon1).setBackgroundResource(iconRes);
+        } else {
+            mergeTreate.setVisibility(View.GONE);
+        }
+
+        // 取到 detail 后再显示
+        mergeContent = (TextView) head.findViewById(R.id.mergeContent);
+        mergeContent.setVisibility(View.GONE);
     }
 
     private void initFooter(View footer) {
@@ -267,7 +293,8 @@ public class MergeDetailActivity extends BackActivity {
             if (code == 0) {
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
                 updateBottomBarStyle();
-
+                mergeContent.setVisibility(View.VISIBLE);
+                mergeContent.setText(Global.changeHyperlinkColor(mMergeDetail.getContent()));
             } else {
                 showErrorMsg(code, respanse);
             }

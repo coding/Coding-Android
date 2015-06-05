@@ -2,15 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide_15_e5"
+    android:background="@color/divide"
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.merge.MergeDetailActivity">
 
-    <include
-        layout="@layout/common_refresh_listview"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/stand_bg" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/actionLayout"

@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_project_attachment_folder" />
 
         </RelativeLayout>
@@ -29,11 +29,11 @@
             android:id="@+id/file_info_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_alignTop="@+id/icon_layout"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/icon_layout"
             android:layout_toLeftOf="@+id/checkbox"
-            android:layout_alignTop="@+id/icon_layout">
+            android:layout_toRightOf="@id/icon_layout"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/name"
@@ -45,15 +45,15 @@
                 android:textSize="17sp" />
 
             <TextView
+                android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/font_gray"
-                android:text="Medium Text"
-                android:singleLine="true"
-                android:textSize="12sp"
                 android:layout_marginBottom="0dp"
-                android:id="@+id/comment"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp"
+                android:singleLine="true"
+                android:text="Medium Text"
+                android:textColor="@color/font_gray"
+                android:textSize="12sp" />
 
         </LinearLayout>
 

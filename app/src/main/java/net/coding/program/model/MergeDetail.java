@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import net.coding.program.common.HtmlContent;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -31,5 +33,9 @@ public class MergeDetail implements Serializable {
 
     public boolean isCanEdit() {
         return can_edit;
+    }
+
+    public String getContent() {
+        return HtmlContent.parseReplacePhoto(merge_request_description).text;
     }
 }

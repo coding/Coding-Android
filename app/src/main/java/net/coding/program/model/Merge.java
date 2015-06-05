@@ -14,12 +14,15 @@ import java.io.Serializable;
  * Created by chenchao on 15/5/25.
  */
 public class Merge implements Serializable {
+    private static final String STYLE_ACCEPT = "ACCEPTED";
+    private static final String STYLE_REFUSE = "REFUSED";
+    private static final String STYLE_CANNEL = "CANCEL";
     public static final String[] STYLES = new String[]{
-            "ACCEPTED",
-            "REFUSED",
+            STYLE_ACCEPT,
+            STYLE_REFUSE,
             "CANMERGE",
             "CANNOTMERGE",
-            "CANCEL",
+            STYLE_CANNEL,
     };
 
     private int id;
@@ -37,6 +40,7 @@ public class Merge implements Serializable {
     private int action_at;
     private SourceDepot source_depot;
     private String merged_sha = "";
+    private String content = "";
     private boolean srcExist;
 
     public Merge(JSONObject json) {
@@ -58,6 +62,7 @@ public class Merge implements Serializable {
         }
         merged_sha = json.optString("merged_sha");
         srcExist = json.optBoolean("srcExist");
+        content = json.optString("content", "");
     }
 
     public UserObject getAuthor() {
@@ -95,6 +100,16 @@ public class Merge implements Serializable {
 
     public String getMergeStatus() {
         return merge_status;
+    }
+
+    public boolean isMergeAccept() {
+        return merge_status.equals(STYLE_ACCEPT);
+    }
+
+    public boolean isMergeTreate() {
+        return merge_status.equals(STYLE_ACCEPT) ||
+                merge_status.equals(STYLE_REFUSE) ||
+                merge_status.equals(STYLE_CANNEL);
     }
 
     public long getCreatedAt() {

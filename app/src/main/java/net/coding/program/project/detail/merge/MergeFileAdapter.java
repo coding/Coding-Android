@@ -11,8 +11,10 @@ import net.coding.program.model.DiffFile;
 
 /**
  * Created by chenchao on 15/6/2.
+ * 应该为 DataAdapter<DiffFile.DiffSingleFile>，
+ * 但为了方便 CommitFileAdapter 继承，CommitFileAdapter 有2种数据类型，所以用了 Object，
  */
-public class MergeFileAdapter extends DataAdapter<DiffFile.DiffSingleFile> {
+public class MergeFileAdapter extends DataAdapter<Object> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -30,6 +32,7 @@ public class MergeFileAdapter extends DataAdapter<DiffFile.DiffSingleFile> {
         }
 
         DiffFile.DiffSingleFile data = (DiffFile.DiffSingleFile) getItem(position);
+        holder.icon.setBackgroundResource(data.getIconId());
         holder.title.setText(data.getName());
         holder.insertion.setText(data.getInsertions());
         holder.deletion.setText(data.getDeletions());

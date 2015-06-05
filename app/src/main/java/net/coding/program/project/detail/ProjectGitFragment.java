@@ -35,36 +35,78 @@ import java.util.Stack;
  * Created by yangzhen on 2014/10/25.
  */
 @EFragment(R.layout.common_refresh_listview)
-@OptionsMenu(R.menu.common_more)
+@OptionsMenu(R.menu.fragment_project_git)
 public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     public static final String MASTER = "master";
-    private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
-
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
-
-    private String host_git_tree_url = "";
-    private String host_git_treeinfo_url = "";
-
-    private String commentFormat = "%s 发布于%s";
-
-    private Stack<String> pathStack = new Stack<String>();
-
     @FragmentArg
     ProjectObject mProjectObject;
-
     @FragmentArg
     GitFileInfoObject mGitFileInfoObject;
-
     @FragmentArg
     String mVersion = "";
-
     @ViewById
     ListView listView;
-
     @ViewById
     View blankLayout;
+    private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
+    private String host_git_tree_url = "";
+    private String host_git_treeinfo_url = "";
+    private String commentFormat = "%s 发布于%s";
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.project_git_tree_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.comment = (TextView) convertView.findViewById(R.id.comment);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            GitFileInfoObject data = mData.get(position);
+            holder.name.setText(data.name);
+            if (data.isTree())
+                holder.icon.setImageResource(R.drawable.ic_project_git_folder);
+            else
+                holder.icon.setImageResource(R.drawable.ic_project_git_file);
+
+            holder.comment.setText(String.format(commentFormat, data.lastCommitter.name, Global.dayToNow(data.lastCommitDate)));
+            /*if (position == mData.size() - 1) {
+                loadMore();
+            }*/
+
+            return convertView;
+        }
+
+    };
+    private Stack<String> pathStack = new Stack<String>();
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
 
     @AfterViews
     protected final void init() {
@@ -160,65 +202,6 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     protected void switchVersionSuccess() {
     }
 
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
-
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_git_tree_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.comment = (TextView) convertView.findViewById(R.id.comment);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            GitFileInfoObject data = mData.get(position);
-            holder.name.setText(data.name);
-            if (data.isTree())
-                holder.icon.setImageResource(R.drawable.ic_project_git_folder);
-            else
-                holder.icon.setImageResource(R.drawable.ic_project_git_file);
-
-            holder.comment.setText(String.format(commentFormat, data.lastCommitter.name, Global.dayToNow(data.lastCommitDate)));
-            /*if (position == mData.size() - 1) {
-                loadMore();
-            }*/
-
-            return convertView;
-        }
-
-    };
-
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        TextView comment;
-    }
-
     @Override
     protected String getLink() {
         if (pathStack.peek().isEmpty()) {
@@ -226,5 +209,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         } else {
             return mProjectObject.getPath() + "/git/tree/" + mVersion + "/" + pathStack.peek();
         }
+    }
+
+    static class ViewHolder {
+        ImageView icon;
+        TextView name;
+        TextView comment;
     }
 }
