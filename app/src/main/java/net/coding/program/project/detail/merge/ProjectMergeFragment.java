@@ -25,6 +25,8 @@ public class ProjectMergeFragment extends BaseFragment {
     protected ViewPager viewPager;
     @FragmentArg
     ProjectObject mProjectObject;
+    @ViewById
+    RadioGroup checkGroup;
     private MergePagerAdapter mAdapter;
 
     @AfterViews
@@ -40,6 +42,25 @@ public class ProjectMergeFragment extends BaseFragment {
                 } else {
                     viewPager.setCurrentItem(0);
                 }
+            }
+        });
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int radios[] = new int[]{
+                        R.id.checkOpen,
+                        R.id.checkClose
+                };
+                checkGroup.check(radios[position]);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
             }
         });
     }

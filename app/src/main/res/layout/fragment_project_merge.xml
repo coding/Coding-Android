@@ -35,7 +35,7 @@
                 android:checked="true"
                 android:gravity="center"
                 android:text="未处理"
-                android:textColor="@drawable/merge_button_left" />
+                android:textColor="@drawable/merge_button_color" />
 
             <RadioButton
                 android:id="@+id/checkClose"
@@ -46,7 +46,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="已处理"
-                android:textColor="@drawable/merge_button_left" />
+                android:textColor="@drawable/merge_button_color" />
         </RadioGroup>
 
     </FrameLayout>
