@@ -136,7 +136,7 @@ public class MergeDetailActivity extends BackActivity {
 
     @Click
     protected final void actionRefuse() {
-        showDialog(mMerge.getTitle(), "确定要拒绝么？", new DialogInterface.OnClickListener() {
+        showDialog(mMerge.getTitle(), "确定要拒绝吗？", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String host = mMerge.getHttpRefuse();
@@ -147,7 +147,7 @@ public class MergeDetailActivity extends BackActivity {
 
     @Click
     protected final void actionCannel() {
-        showDialog(mMerge.getTitle(), "确定要取消么？", new DialogInterface.OnClickListener() {
+        showDialog(mMerge.getTitle(), "确定要取消吗？", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String host = mMerge.getHttpCannel();

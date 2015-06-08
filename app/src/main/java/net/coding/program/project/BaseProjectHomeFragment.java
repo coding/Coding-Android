@@ -12,6 +12,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -36,6 +37,7 @@ public class BaseProjectHomeFragment extends BaseFragment {
     TextView projectAuthor;
     @ViewById
     View projectHeaderLayout;
+    private boolean isBackToRefresh = false;
 
     @AfterViews
     protected final void initBaseProjectHomeFragment() {
@@ -50,6 +52,24 @@ public class BaseProjectHomeFragment extends BaseFragment {
             description.setText(mProjectObject.description);
         }
 
+        isEnableProjectSet(projectHeaderLayout);
+
+    }
+
+    private void isEnableProjectSet(View view) {
+        if (mProjectObject.isMy()) {
+            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
+                    intent.putExtra("projectObject", mProjectObject);
+                    startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
+                }
+            });
+
+        } else {
+            view.findViewById(R.id.iconRight).setVisibility(View.GONE);
+        }
     }
 
     private void initHeadHead() {
@@ -64,8 +84,6 @@ public class BaseProjectHomeFragment extends BaseFragment {
             description.setText(mProjectObject.description);
         }
     }
-
-    private boolean isBackToRefresh = false;
 
     public boolean isBackToRefresh() {
         return isBackToRefresh;

@@ -19,6 +19,7 @@ import net.coding.program.model.DiffFile;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,20 +62,20 @@ public class CommitFileListActivity extends BackActivity {
         }
     };
 
-    private View.OnClickListener mClickFile = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            DiffFile.DiffSingleFile fileData = (DiffFile.DiffSingleFile) v.getTag(CommitFileAdapter.VIEW_TAG_FILE_DATA);
+    @ItemClick
+    public final void listView(Object data) {
+        if (data instanceof DiffFile.DiffSingleFile) {
+            DiffFile.DiffSingleFile fileData = (DiffFile.DiffSingleFile) data;
             MergeFileDetailActivity_.intent(CommitFileListActivity.this).mProjectPath(mProjectPath).mSingleFile(fileData).start();
         }
-    };
+    }
 
     @AfterViews
     protected final void initCommitFileListActivity() {
         getSupportActionBar().setTitle(mCommit.getTitle());
 
         BaseCommentParam param = new BaseCommentParam(mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
-        mAdapter = new CommitFileAdapter(param, mClickFile);
+        mAdapter = new CommitFileAdapter(param);
 
         initListhead();
         initListFooter();

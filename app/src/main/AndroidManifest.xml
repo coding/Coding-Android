@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="44"
-    android:versionName="2.8.2" >
+    android:versionCode="45"
+    android:versionName="2.9.1">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -57,10 +57,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
 
     <application
         android:name=".MyApp"
@@ -605,7 +601,8 @@
         <activity
             android:name=".project.detail.merge.CommentActivity_"
             android:label="@string/title_activity_comment"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
         <activity
             android:name=".project.detail.merge.MergeFileListActivity_"
             android:label="@string/title_activity_merge_file_list"
@@ -617,7 +614,7 @@
         <activity
             android:name=".project.detail.merge.MergeAcceptActivity_"
             android:label="@string/title_activity_merge_accept"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.merge.MergeFileDetailActivity_"
             android:label="@string/title_activity_merge_file_detail"

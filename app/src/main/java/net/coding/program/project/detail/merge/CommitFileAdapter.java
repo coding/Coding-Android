@@ -19,13 +19,12 @@ public class CommitFileAdapter extends MergeFileAdapter {
 
     public static final int VIEW_TAG_FILE_DATA = R.layout.mergefile_list_item;
     BaseCommentParam mCommentParam;
-    private View.OnClickListener mClickFileItem;
+//    private View.OnClickListener mClickFileItem;
 
-    public CommitFileAdapter(BaseCommentParam param, View.OnClickListener clickFileItem) {
+    public CommitFileAdapter(BaseCommentParam param) {
         super();
 
         mCommentParam = param;
-        mClickFileItem = clickFileItem;
     }
 
     @Override

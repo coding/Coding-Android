@@ -28,7 +28,7 @@ public class MergeDetail implements Serializable {
     }
 
     public boolean isCanEditSrcBranch() {
-        return can_edit_src_branch;
+        return merge_request.authorIsMe();
     }
 
     public boolean isCanEdit() {

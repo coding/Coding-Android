@@ -1,16 +1,11 @@
 package net.coding.program.project;
 
-import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
-import net.coding.program.project.init.InitProUtils;
-import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -70,30 +65,12 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         }
     }
 
-    private void initHeadHead(View view) {
-        ImageView projectIcon = (ImageView) view.findViewById(R.id.projectIcon);
-        iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
-
-        ((TextView) view.findViewById(R.id.projectName)).setText(mProjectObject.name);
-        view.findViewById(R.id.iconPrivate).setVisibility(View.VISIBLE);
-        ((TextView) view.findViewById(R.id.projectAuthor)).setText("      " + mProjectObject.owner_user_name);
-
-    }
-
-    private void isEnableProjectSet(View view) {
-        if (mProjectObject.isMy()) {
-            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
-                    intent.putExtra("projectObject", mProjectObject);
-                    startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
-                }
-            });
-
-        } else {
-            view.findViewById(R.id.iconRight).setVisibility(View.GONE);
-        }
-    }
-
+//    private void initHeadHead(View view) {
+//        ImageView projectIcon = (ImageView) view.findViewById(R.id.projectIcon);
+//        iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
+//
+//        ((TextView) view.findViewById(R.id.projectName)).setText(mProjectObject.name);
+//        view.findViewById(R.id.iconPrivate).setVisibility(View.VISIBLE);
+//        ((TextView) view.findViewById(R.id.projectAuthor)).setText("      " + mProjectObject.owner_user_name);
+//    }
 }

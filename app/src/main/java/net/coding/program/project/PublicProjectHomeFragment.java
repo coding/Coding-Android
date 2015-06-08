@@ -2,7 +2,6 @@ package net.coding.program.project;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,8 +14,6 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.git.MergeActivity_;
-import net.coding.program.project.init.InitProUtils;
-import net.coding.program.project.init.setting.ProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -54,8 +51,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         View root = getView();
         initHead2();
         initHead3(root);
-
-        isEnableProjectSet(root);
 
         httpProjectObject = mProjectObject.getHttpProjectObject();
         getNetwork(httpProjectObject);
@@ -218,21 +213,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     }
 
 
-    private void isEnableProjectSet(View view) {
-        if (mProjectObject.isMy()) {
-            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
-                    intent.putExtra("projectObject", mProjectObject);
-                    startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
-                }
-            });
-
-        } else {
-            view.findViewById(R.id.iconRight).setVisibility(View.GONE);
-        }
-    }
 
     class ProjectMarkButton {
 

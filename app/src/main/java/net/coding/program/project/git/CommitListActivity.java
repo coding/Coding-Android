@@ -14,7 +14,6 @@ import net.coding.program.project.detail.merge.CommitFileListActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,10 +52,10 @@ public class CommitListActivity extends BackActivity {
         getNetwork(mMerge.getHttpCommits(), HOST_COMMITS);
     }
 
-    @ItemClick
-    protected final void listView(Commit commit) {
-        CommitFileListActivity_.intent(this).mCommit(commit).start();
-    }
+//    @ItemClick
+//    protected final void listView(Commit commit) {
+//        CommitFileListActivity_.intent(this).mCommit(commit).start();
+//    }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

@@ -10,7 +10,7 @@ import net.coding.program.model.Merge;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 //@EActivity(R.layout.activity_merge_file_list)
 @EActivity(R.layout.activity_commit_list)
-@OptionsMenu(R.menu.menu_merge_file_list)
+//@OptionsMenu(R.menu.menu_merge_file_list)
 public class MergeFileListActivity extends BackActivity {
 
     private static final String HOST_MERGE_FILES = "HOST_MERGE_FILES";
@@ -35,6 +35,11 @@ public class MergeFileListActivity extends BackActivity {
         listView.setAdapter(mAdapter);
 
         getNetwork(mMerge.getHttpFiles(), HOST_MERGE_FILES);
+    }
+
+    @ItemClick
+    public final void listView(DiffFile.DiffSingleFile data) {
+        MergeFileDetailActivity_.intent(this).mProjectPath(mMerge.getProjectPath()).mSingleFile(data).start();
     }
 
     @Override

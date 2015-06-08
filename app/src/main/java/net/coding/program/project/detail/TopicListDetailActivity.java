@@ -2,7 +2,6 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,7 +32,6 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.TopicLabelObject;
@@ -87,7 +85,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     String urlTopic = "";
     ArrayList<TopicObject> mData = new ArrayList<>();
     Intent mResultData = new Intent();
-    String bubble;
     View mListHead;
     String tagUrlCommentPhoto = "";
     HashMap<String, String> mSendedImages = new HashMap<>();
@@ -163,17 +160,10 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             return convertView;
         }
     };
-    private WebView webView;
     private TextView topicTitleTextView;
     private TopicLabelBar labelBar;
     private int currentLabelId;
     private TextView textViewCommentCount;
-
-    static public void setTopicWebView(Context context, WebView webView, String bubble, String content) {
-        Global.initWebView(webView);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
-        webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
-    }
 
     @AfterViews
     void init() {
@@ -336,14 +326,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             listView.addHeaderView(mListHead);
         }
 
-        try {
-            if (bubble == null) {
-                bubble = Global.readTextFile(getAssets().open("topic-android"));
-            }
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         iconfromNetwork(icon, topicObject.owner.avatar);
         icon.setTag(topicObject.owner.global_key);
@@ -358,8 +340,8 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
         updateLabels(topicObject.labels);
 
-        webView = (WebView) mListHead.findViewById(R.id.comment);
-        setTopicWebView(this, webView, bubble, topicObject.content);
+        WebView webView = (WebView) mListHead.findViewById(R.id.comment);
+        Global.setWebViewContent(webView, "topic-android", topicObject.content);
 
         textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();

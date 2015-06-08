@@ -43,7 +43,7 @@
     <dimen name="project_icon_circle">2dp</dimen>
     <dimen name="project_icon_edge_width">0.5dp</dimen>
 
-    <dimen name="project_icon_width">20dp</dimen>
+    <dimen name="project_icon_width">23dp</dimen>
     <dimen name="project_icon_text">15sp</dimen>
     <dimen name="project_item_height">45dp</dimen>
 
@@ -51,5 +51,6 @@
 
     <dimen name="mergefile_list_item_height">54dp</dimen>
     <dimen name="mergefile_list_item_icon_width">15dp</dimen>
+
 
 </resources>

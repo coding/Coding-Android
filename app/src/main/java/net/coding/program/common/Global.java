@@ -33,6 +33,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import net.coding.program.MyApp;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.maopao.MaopaoDetailActivity;
 
 import org.apache.http.cookie.Cookie;
 import org.json.JSONObject;
@@ -115,19 +116,6 @@ public class Global {
         } catch (Exception e) {
             return "";
         }
-    }
-
-    public static void initWebView(WebView webView) {
-        webView.getSettings().setJavaScriptEnabled(true);
-
-        // 防止webview滚动时背景变成黑色
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            webView.setBackgroundColor(0x00000000);
-        } else {
-            webView.setBackgroundColor(Color.argb(1, 0, 0, 0));
-        }
-
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
     }
 
     public static boolean isImageUri(String s1) {
@@ -343,6 +331,36 @@ public class Global {
 
         return outputStream.toString();
     }
+
+    public static void initWebView(WebView webView) {
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        // 防止webview滚动时背景变成黑色
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            webView.setBackgroundColor(0x00000000);
+        } else {
+            webView.setBackgroundColor(Color.argb(1, 0, 0, 0));
+        }
+
+        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+    }
+
+    static public void setWebViewContent(WebView webView, String tempate, String content) {
+        setWebViewContent(webView, tempate, "${webview_content}", content);
+    }
+
+    static public void setWebViewContent(WebView webView, String tempate, String replaceString, String content) {
+        Context context = webView.getContext();
+        Global.initWebView(webView);
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
+        try {
+            String bubble = readTextFile(context.getAssets().open(tempate));
+            webView.loadDataWithBaseURL(Global.HOST, bubble.replace(replaceString, content), "text/html", "UTF-8", null);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
 
     public static boolean isGif(String uri) {
         return uri.toLowerCase().endsWith(".gif");

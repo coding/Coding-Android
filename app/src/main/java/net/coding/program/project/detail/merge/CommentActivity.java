@@ -32,6 +32,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     Merge mMerge;
     @Extra
     CommitCommentParam mCommitParam;
+
     CommentEditFragment editFragment;
     Fragment previewFragment;
     private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();

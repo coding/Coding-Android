@@ -65,6 +65,10 @@ public class Merge implements Serializable {
         content = json.optString("content", "");
     }
 
+    public boolean authorIsMe() {
+        return author.isMe();
+    }
+
     public UserObject getAuthor() {
         return author;
     }

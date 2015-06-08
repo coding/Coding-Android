@@ -71,13 +71,7 @@ public class TopicPreviewFragment extends BaseFragment {
         if (tag.equals(TaskDescripHtmlFragment.HOST_PREVIEW)) {
             if (code == 0) {
                 String html = respanse.optString("data", "");
-                String bubble = "";
-                try {
-                    bubble = Global.readTextFile(getActivity().getAssets().open("topic-android"));
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
-                TopicListDetailActivity.setTopicWebView(getActivity(), content, bubble, html);
+                Global.setWebViewContent(content, "topic-android", html);
 
             } else {
                 showErrorMsg(code, respanse);
