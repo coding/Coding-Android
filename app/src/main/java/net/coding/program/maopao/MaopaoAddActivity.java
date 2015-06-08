@@ -67,34 +67,113 @@ import java.util.ArrayList;
 public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     public static final int PHOTO_MAX_COUNT = 6;
-
+    public static final int RESULT_REQUEST_IMAGE = 100;
+    public static final int RESULT_REQUEST_FOLLOW = 1002;
+    public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
+    public static final int RESULT_REQUEST_PHOTO = 1005;
+    public static final int RESULT_REQUEST_LOCATION = 1006;
     final String sendUrl = Global.HOST + "/api/tweet";
-
+    final String HOST_IMAGE = Global.HOST + "/api/tweet/insert_image";
     String mIntentExtraString = null;
-
     @ViewById
     GridView gridView;
     @ViewById
     TextView locationText;
     @InstanceState
     LocationObject currentLocation = LocationObject.undefined();
-
     int imageWidthPx;
     ImageSize mSize;
-
     PhotoOperate photoOperate = new PhotoOperate(this);
-
     EnterEmojiLayout mEnterLayout;
     EditText message;
-
-    private Uri fileUri;
-
+    ArrayList<PhotoData> mData = new ArrayList();
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
             uploadMaopao();
         }
     };
+    BaseAdapter adapter = new BaseAdapter() {
+
+        ArrayList<ViewHolder> holderList = new ArrayList<ViewHolder>();
+
+        public int getCount() {
+            return mData.size() + 1;
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        // create a new ImageView for each item referenced by the Adapter
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                holder = new ViewHolder();
+                holder.image = (ImageView) mInflater.inflate(R.layout.image_make_maopao, parent, false);
+                holderList.add(holder);
+                holder.image.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+
+            if (position == getCount() - 1) {
+                if (getCount() == (PHOTO_MAX_COUNT + 1)) {
+                    holder.image.setVisibility(View.INVISIBLE);
+
+                } else {
+                    holder.image.setVisibility(View.VISIBLE);
+                    holder.image.setImageResource(R.drawable.make_maopao_add);
+                    holder.uri = "";
+                }
+
+            } else {
+                holder.image.setVisibility(View.VISIBLE);
+                PhotoData photoData = mData.get(position);
+                Uri data = photoData.uri;
+                holder.uri = data.toString();
+
+                ImageLoader.getInstance().loadImage(data.toString(), mSize, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        for (ViewHolder item : holderList) {
+                            if (item.uri.equals(imageUri)) {
+                                item.image.setImageBitmap(loadedImage);
+                            }
+                        }
+                    }
+                });
+            }
+
+            return holder.image;
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            gridView.setVisibility(getCount() > 1 ? View.VISIBLE : View.GONE);
+        }
+
+        class ViewHolder {
+            ImageView image;
+            String uri = "";
+        }
+
+    };
+    private Uri fileUri;
+    private MenuItem mMenuAdd;
+
+    private static String ensureLength(String src, int maxLength) {
+        if (TextUtils.isEmpty(src)) return "";
+        if (src.length() <= maxLength) return src;
+        if (maxLength < 1) throw new IllegalArgumentException("maxLength");
+        return src.substring(0, maxLength - 1) + "…";
+    }
 
     @AfterViews
     void init() {
@@ -172,7 +251,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     }
 
     private void updateAddButton() {
-        enableSendButton(!message.getText().toString().isEmpty() ||
+        enableSendButton(!Global.isEmptyContainSpace(message) ||
                 mData.size() > 0);
     }
 
@@ -200,8 +279,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
-    private MenuItem mMenuAdd;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -212,12 +289,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-
-    public static final int RESULT_REQUEST_IMAGE = 100;
-    public static final int RESULT_REQUEST_FOLLOW = 1002;
-    public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
-    public static final int RESULT_REQUEST_PHOTO = 1005;
-    public static final int RESULT_REQUEST_LOCATION = 1006;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -358,15 +429,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         postNetwork(sendUrl, params, sendUrl);
     }
 
-    private static String ensureLength(String src, int maxLength) {
-        if (TextUtils.isEmpty(src)) return "";
-        if (src.length() <= maxLength) return src;
-        if (maxLength < 1) throw new IllegalArgumentException("maxLength");
-        return src.substring(0, maxLength - 1) + "…";
-    }
-
-    final String HOST_IMAGE = Global.HOST + "/api/tweet/insert_image";
-
     private void finishWithoutSave() {
         // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
         mEnterLayout.clearContent();
@@ -413,140 +475,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
-    public static class PhotoData {
-        Uri uri = Uri.parse("");
-        String serviceUri = "";
-
-        public PhotoData(File file) {
-            uri = Uri.fromFile(file);
-        }
-
-        public PhotoData(PhotoDataSerializable data) {
-            uri = Uri.parse(data.uriString);
-            serviceUri = data.serviceUri;
-        }
-    }
-
-    // 因为PhotoData包含Uri，不能直接序列化，所以有了这个类
-    public static class PhotoDataSerializable implements Serializable {
-        String uriString = "";
-        String serviceUri = "";
-
-        public PhotoDataSerializable(PhotoData data) {
-            uriString = data.uri.toString();
-            serviceUri = data.serviceUri;
-        }
-    }
-
-    public static class MaopaoDraft implements Serializable {
-        private String input = "";
-
-        private ArrayList<PhotoDataSerializable> photos = new ArrayList();
-
-        public MaopaoDraft() {
-        }
-
-        public MaopaoDraft(String input, ArrayList<PhotoData> photos) {
-            this.input = input;
-            this.photos = new ArrayList();
-            for (PhotoData item : photos) {
-                this.photos.add(new PhotoDataSerializable(item));
-            }
-        }
-
-        public boolean isEmpty() {
-            return input.isEmpty() && photos.isEmpty();
-        }
-
-        public String getInput() {
-            return input;
-        }
-
-        public ArrayList<PhotoData> getPhotos() {
-            ArrayList<PhotoData> data = new ArrayList();
-            for (PhotoDataSerializable item : photos) {
-                data.add(new PhotoData(item));
-            }
-
-            return data;
-        }
-    }
-
-    ArrayList<PhotoData> mData = new ArrayList();
-
-    BaseAdapter adapter = new BaseAdapter() {
-
-        public int getCount() {
-            return mData.size() + 1;
-        }
-
-        public Object getItem(int position) {
-            return null;
-        }
-
-        public long getItemId(int position) {
-            return position;
-        }
-
-        ArrayList<ViewHolder> holderList = new ArrayList<ViewHolder>();
-
-        // create a new ImageView for each item referenced by the Adapter
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                holder.image = (ImageView) mInflater.inflate(R.layout.image_make_maopao, parent, false);
-                holderList.add(holder);
-                holder.image.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-
-            if (position == getCount() - 1) {
-                if (getCount() == (PHOTO_MAX_COUNT + 1)) {
-                    holder.image.setVisibility(View.INVISIBLE);
-
-                } else {
-                    holder.image.setVisibility(View.VISIBLE);
-                    holder.image.setImageResource(R.drawable.make_maopao_add);
-                    holder.uri = "";
-                }
-
-            } else {
-                holder.image.setVisibility(View.VISIBLE);
-                PhotoData photoData = mData.get(position);
-                Uri data = photoData.uri;
-                holder.uri = data.toString();
-
-                ImageLoader.getInstance().loadImage(data.toString(), mSize, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        for (ViewHolder item : holderList) {
-                            if (item.uri.equals(imageUri)) {
-                                item.image.setImageBitmap(loadedImage);
-                            }
-                        }
-                    }
-                });
-            }
-
-            return holder.image;
-        }
-
-        @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-            gridView.setVisibility(getCount() > 1 ? View.VISIBLE : View.GONE);
-        }
-
-        class ViewHolder {
-            ImageView image;
-            String uri = "";
-        }
-
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -561,7 +489,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         String type = intent.getType();
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("image/")) {
-                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     File outputFile = null;
                     try {
@@ -627,5 +555,64 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     @Click
     protected final void popAt() {
         TextWatcherAt.startActivityAt(this, this, RESULT_REQUEST_FOLLOW);
+    }
+
+    public static class PhotoData {
+        Uri uri = Uri.parse("");
+        String serviceUri = "";
+
+        public PhotoData(File file) {
+            uri = Uri.fromFile(file);
+        }
+
+        public PhotoData(PhotoDataSerializable data) {
+            uri = Uri.parse(data.uriString);
+            serviceUri = data.serviceUri;
+        }
+    }
+
+    // 因为PhotoData包含Uri，不能直接序列化，所以有了这个类
+    public static class PhotoDataSerializable implements Serializable {
+        String uriString = "";
+        String serviceUri = "";
+
+        public PhotoDataSerializable(PhotoData data) {
+            uriString = data.uri.toString();
+            serviceUri = data.serviceUri;
+        }
+    }
+
+    public static class MaopaoDraft implements Serializable {
+        private String input = "";
+
+        private ArrayList<PhotoDataSerializable> photos = new ArrayList();
+
+        public MaopaoDraft() {
+        }
+
+        public MaopaoDraft(String input, ArrayList<PhotoData> photos) {
+            this.input = input;
+            this.photos = new ArrayList();
+            for (PhotoData item : photos) {
+                this.photos.add(new PhotoDataSerializable(item));
+            }
+        }
+
+        public boolean isEmpty() {
+            return input.isEmpty() && photos.isEmpty();
+        }
+
+        public String getInput() {
+            return input;
+        }
+
+        public ArrayList<PhotoData> getPhotos() {
+            ArrayList<PhotoData> data = new ArrayList();
+            for (PhotoDataSerializable item : photos) {
+                data.add(new PhotoData(item));
+            }
+
+            return data;
+        }
     }
 }

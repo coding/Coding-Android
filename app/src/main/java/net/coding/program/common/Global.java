@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.loopj.android.http.PersistentCookieStore;
@@ -84,6 +85,11 @@ public class Global {
         final String format = "yyyy-MM-dd";
         final SimpleDateFormat sd = new SimpleDateFormat(format);
         return sd.parse(day).getTime();
+    }
+
+
+    public static boolean isEmptyContainSpace(EditText edit) {
+        return edit.getText().toString().replace(" ", "").replace("　", "").isEmpty();
     }
 
     public static String dayCount(long time) {
