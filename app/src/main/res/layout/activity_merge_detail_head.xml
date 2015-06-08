@@ -110,7 +110,6 @@
             android:layout_height="wrap_content"
             android:text="Jeffery 1天前 拒绝了这个合并请求" />
 
-
     </LinearLayout>
 
     <TextView

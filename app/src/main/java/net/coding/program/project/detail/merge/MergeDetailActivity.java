@@ -2,6 +2,7 @@ package net.coding.program.project.detail.merge;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Spannable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -293,8 +294,13 @@ public class MergeDetailActivity extends BackActivity {
             if (code == 0) {
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
                 updateBottomBarStyle();
-                mergeContent.setVisibility(View.VISIBLE);
-                mergeContent.setText(Global.changeHyperlinkColor(mMergeDetail.getContent()));
+                Spannable spanContent = Global.changeHyperlinkColor(mMergeDetail.getContent());
+                if (spanContent.length() == 0) {
+                    mergeContent.setVisibility(View.GONE);
+                } else {
+                    mergeContent.setVisibility(View.VISIBLE);
+                    mergeContent.setText(spanContent);
+                }
             } else {
                 showErrorMsg(code, respanse);
             }
