@@ -3,7 +3,7 @@ package net.coding.program.common.base;
 import android.widget.ListView;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.network.RefreshBaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -13,7 +13,7 @@ import org.androidannotations.annotations.ViewById;
  * Created by chenchao on 15/6/1.
  */
 @EFragment
-public class BaseLoadMoreFragment extends BaseFragment implements FootUpdate.LoadMore {
+public abstract class BaseLoadMoreFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
 
     @ViewById
     protected ListView listView;

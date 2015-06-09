@@ -1,13 +1,30 @@
 <html><head lang="zh-cn">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.5,maximum-scale=2.0,user-scalable=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.5,maximum-scale=2.0,user-scalable=1">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
 	<base href="https://coding.net">
 	<title>Coding Diff</title>
-	<style type="text/css">.diff {
+	<style type="text/css">* {
+  box-sizing:border-box;
+}
+html {
+  font-size: 14px;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+  color: #333;
+  font: 1rem/1.42 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 100%;
+}
+.diff {
   overflow: auto;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -23,8 +40,7 @@
 }
 .diff .diff-line-num {
   width: 24px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 0 5px;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   line-height: 18px;
   color: rgba(0,0,0,0.3);
@@ -47,8 +63,7 @@
 }
 .diff .diff-line-code {
   width: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: 13px;
   color: #333;
@@ -57,18 +72,15 @@
 }
 .diff td.diff-line-code.gi:before {
   content: "+";
-  vertical-align: top;
 }
 .diff td.diff-line-code.gd:before {
   content: "-";
-  vertical-align: top;
 }
 .diff td.diff-line-code.ge:before {
   content: "\00a0";
-  vertical-align: top;
 }
 .diff pre {
-  display: inline-block;
+  display: inline;
   margin: 0;
   padding: 0;
   font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace !important;
@@ -77,10 +89,12 @@
 .diff .gi {
   color: #000;
   background: #eaffea;
+  border-color: #c1e9c1;
 }
 .diff .gd {
   color: #000;
   background-color: #ffecec;
+  border-color: #f1c0c0;
 }
 .diff .gc {
   color: #999;
@@ -129,6 +143,12 @@ var diff = function (diffLines) {
     if (prefixClass === 'gc') {
       html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
       html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
+    } else if (prefixClass === 'gi') {
+      html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
+      html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
+    } else if (prefixClass === 'gd') {
+      html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
+      html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
     } else {
       html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
       html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
@@ -146,7 +166,14 @@ $(function() {
   $.ajax({
     url: diffContent.html().trim(),
     success: function(result) {
-      body.html(diff(result.data));
+      if (result && result.data) {
+        body.html(diff(result.data));
+      } else {
+        body.html('diff 过大，无法显示');
+      }
+    },
+    error: function() {
+      body.html('数据出错');
     }
   })
 });

@@ -59,11 +59,73 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     Button btnRight;
 
     //Boolean isTopFolder = true;
-
+    @ViewById
+    ListView listView;
     private String HOST_FOLDER = Global.HOST + "/api/project/%s/all_folders?pageSize=9999";
     private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%s/mkdir";
-
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
+    BaseAdapter adapter = new BaseAdapter() {
+        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AttachmentFolderObject data = mData.get((Integer) buttonView.getTag());
+                data.isSelected = isChecked;
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.project_attachment_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            AttachmentFolderObject data = mData.get(position);
+            //holder.name.setText(data.getNameCount());
+            holder.name.setText(data.name);
+            if (data.file_id.equals("0")) {
+                holder.icon.setImageResource(R.drawable.ic_project_git_folder);
+                holder.more.setVisibility(View.GONE);
+            } else {
+                holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
+                holder.more.setVisibility(View.VISIBLE);
+            }
+            //iconfromNetwork(holder.icon, data.user.avatar);
+
+            holder.checkBox.setVisibility(View.GONE);
+
+            holder.more.setVisibility(View.GONE);
+
+            /*if (position == mData.size() - 1) {
+                loadMore();
+            }*/
+
+            return convertView;
+        }
+
+    };
     private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<AttachmentFolderObject>();
 
     @OptionsItem(android.R.id.home)
@@ -95,9 +157,6 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     void action_cancel() {
         finish();
     }
-
-    @ViewById
-    ListView listView;
 
     @AfterViews
     void init() {
@@ -254,69 +313,6 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             }
         }
     }
-
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_attachment_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            AttachmentFolderObject data = mData.get(position);
-            //holder.name.setText(data.getNameCount());
-            holder.name.setText(data.name);
-            if (data.file_id.equals("0")) {
-                holder.icon.setImageResource(R.drawable.ic_project_attachment_folder_2);
-                holder.more.setVisibility(View.GONE);
-            } else {
-                holder.icon.setImageResource(R.drawable.ic_project_attachment_folder);
-                holder.more.setVisibility(View.VISIBLE);
-            }
-            //iconfromNetwork(holder.icon, data.user.avatar);
-
-            holder.checkBox.setVisibility(View.GONE);
-
-            holder.more.setVisibility(View.GONE);
-
-            /*if (position == mData.size() - 1) {
-                loadMore();
-            }*/
-
-            return convertView;
-        }
-
-        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AttachmentFolderObject data = mData.get((Integer) buttonView.getTag());
-                data.isSelected = isChecked;
-            }
-        };
-
-    };
 
     static class ViewHolder {
         ImageView icon;

@@ -64,55 +64,17 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     ProjectJumpParam.JumpType mJumpType = ProjectJumpParam.JumpType.typeDynamic;
 
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
-
-
-    public static class ProjectJumpParam implements Serializable {
-        public String mProject = "";
-        public String mUser = "";
-
-        public enum JumpType {
-            typeDynamic,
-            typeTask,
-            typeTopic,
-            typeDocument,
-            typeCode,
-            typeMember,
-            typeReadme,
-            typeMerge,
-            typeHome
-        }
-
-        public ProjectJumpParam(String mUser, String mProject) {
-            this.mUser = mUser;
-            this.mProject = mProject;
-//            this.mJumpType = mJumpType;
-        }
-
-        public ProjectJumpParam(String path) {
-            Pattern pattern = Pattern.compile("^/u/(\\w*)/p/(\\w*)$");
-            Matcher matcher = pattern.matcher(path);
-            if (matcher.find()) {
-                this.mUser = matcher.group(1);
-                this.mProject = matcher.group(2);
-            }
-        }
-    }
-
     ArrayList<String> project_activity_action_list = new ArrayList(Arrays.asList(
             "项目动态",
             "项目讨论",
             "项目代码",
             "项目成员",
             "readme",
-            "merge request"
+            "mergerequest"
     ));
-
-//    MySpinnerAdapter mSpinnerAdapter;
-
     String urlProject;
 
-    private NetworkImpl networkImpl;
-
+//    MySpinnerAdapter mSpinnerAdapter;
     ArrayList<Integer> spinnerIcons = new ArrayList(Arrays.asList(
             R.drawable.ic_spinner_dynamic,
             R.drawable.ic_spinner_topic,
@@ -121,7 +83,6 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             R.drawable.ic_spinner_user,
             R.drawable.ic_spinner_user
     ));
-
     ArrayList<Class> spinnerFragments = new ArrayList<Class>(Arrays.asList(
             ProjectDynamicParentFragment_.class,
             TopicFragment_.class,
@@ -130,6 +91,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             ReadmeFragment_.class,
             ProjectMergeFragment_.class
     ));
+    private NetworkImpl networkImpl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -253,10 +215,20 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
         }
     }
 
-
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
+    }
+
+    @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
+    void onFileResult(int resultCode, Intent data) {
+
+        for (WeakReference<Fragment> item : mFragments) {
+            Fragment f = item.get();
+            if (f instanceof ProjectAttachmentFragment_) {
+                ((ProjectAttachmentFragment_) f).onFileResult(resultCode, data);
+            }
+        }
     }
 
 //    class MySpinnerAdapter extends BaseAdapter {
@@ -323,14 +295,35 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
 //        }
 //    }
 
-    @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
-    void onFileResult(int resultCode, Intent data) {
+    public static class ProjectJumpParam implements Serializable {
+        public String mProject = "";
+        public String mUser = "";
 
-        for (WeakReference<Fragment> item : mFragments) {
-            Fragment f = item.get();
-            if (f instanceof ProjectAttachmentFragment_) {
-                ((ProjectAttachmentFragment_) f).onFileResult(resultCode, data);
+        public ProjectJumpParam(String mUser, String mProject) {
+            this.mUser = mUser;
+            this.mProject = mProject;
+//            this.mJumpType = mJumpType;
+        }
+
+        public ProjectJumpParam(String path) {
+            Pattern pattern = Pattern.compile("^/u/(\\w*)/p/(\\w*)$");
+            Matcher matcher = pattern.matcher(path);
+            if (matcher.find()) {
+                this.mUser = matcher.group(1);
+                this.mProject = matcher.group(2);
             }
+        }
+
+        public enum JumpType {
+            typeDynamic,
+            typeTask,
+            typeTopic,
+            typeDocument,
+            typeCode,
+            typeMember,
+            typeReadme,
+            typeMerge,
+            typeHome
         }
     }
 }

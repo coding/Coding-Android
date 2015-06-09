@@ -13,6 +13,7 @@ import net.coding.program.project.detail.ProjectDynamicFragment;
 import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicListFragment;
+import net.coding.program.project.detail.merge.MergeListFragment;
 import net.coding.program.user.UserProjectListFragment;
 
 /**
@@ -91,6 +92,9 @@ public class BlankViewDisplay {
                 } else if (fragment instanceof MessageListActivity) {
                     iconId = R.drawable.ic_exception_blank_maopao;
                     text = "无私信\n打个招呼吧~";
+                } else if (fragment instanceof MergeListFragment) {
+                    iconId = R.drawable.ic_exception_blank_task;
+                    text = "这里还什么都没有\n赶快起来弄出一点动静吧";
                 }
 
             } else {

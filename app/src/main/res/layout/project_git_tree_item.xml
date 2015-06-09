@@ -19,9 +19,9 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_project_attachment_folder" />
+                android:layout_width="@dimen/folder_icon_width"
+                android:layout_height="@dimen/folder_icon_width"
+                android:src="@drawable/ic_project_git_folder2" />
 
         </RelativeLayout>
 

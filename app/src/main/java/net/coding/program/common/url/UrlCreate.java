@@ -22,6 +22,13 @@ public class UrlCreate {
                 owner, project, version, filePath);
     }
 
+    public static String gitTreeCommit(String owner, String project, String version, String path) {
+        final String HOST_GIT_TREEINFO = Global.HOST + "/api/user/%s/project/%s/git/commits/%s%s";
+        String filePath = encode2(path);
+        return String.format(HOST_GIT_TREEINFO,
+                owner, project, version, filePath);
+    }
+
     // 重编码2次，git服务器那边要求的
     private static String encode2(String path) {
         if (path == null || path.isEmpty()) {

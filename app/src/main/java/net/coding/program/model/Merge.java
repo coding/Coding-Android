@@ -17,11 +17,13 @@ public class Merge implements Serializable {
     private static final String STYLE_ACCEPT = "ACCEPTED";
     private static final String STYLE_REFUSE = "REFUSED";
     private static final String STYLE_CANNEL = "CANCEL";
+    private static final String STYLE_CANMERGE = "CANMERGE";
+    private static final String STYLE_CANNOTMERGE = "CANNOTMERGE";
     public static final String[] STYLES = new String[]{
             STYLE_ACCEPT,
             STYLE_REFUSE,
-            "CANMERGE",
-            "CANNOTMERGE",
+            STYLE_CANMERGE,
+            STYLE_CANNOTMERGE,
             STYLE_CANNEL,
     };
 
@@ -73,6 +75,15 @@ public class Merge implements Serializable {
         return author;
     }
 
+
+    public boolean isStyleCanMerge() {
+        return merge_status.equals(STYLE_CANMERGE);
+    }
+
+    public boolean isStyleCannotMerge() {
+        return merge_status.equals(STYLE_CANNOTMERGE);
+    }
+
     public String getTitle() {
         return title;
     }
@@ -93,7 +104,7 @@ public class Merge implements Serializable {
         }
     }
 
-    public boolean isMerge() {
+    public boolean isPull() {
         return source_depot != null;
     }
 

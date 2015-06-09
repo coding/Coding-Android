@@ -82,7 +82,7 @@ public class MergeDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initMergeDetailActivity() {
-        String title = ProjectObject.getTitle(mMerge.isMerge());
+        String title = ProjectObject.getTitle(mMerge.isPull());
         getSupportActionBar().setTitle(title);
 
         String uri = mMerge.getHttpComments();
@@ -108,12 +108,11 @@ public class MergeDetailActivity extends BackActivity {
             return;
         }
 
-        String style = mMerge.getMergeStatus();
         boolean canEdit = mMergeDetail.isCanEdit();
         boolean canEditSrc = mMergeDetail.isCanEditSrcBranch();
-        if (style.equals(Merge.STYLES[2])) {
+        if (mMerge.isStyleCanMerge()) {
             setActionStyle(canEdit, canEdit, canEditSrc);
-        } else if (style.equals(Merge.STYLES[3])) {
+        } else if (mMerge.isStyleCannotMerge()) {
             setActionStyle(canEdit, false, canEditSrc);
         } else {
             setActionStyle(false, false, false);
@@ -178,11 +177,9 @@ public class MergeDetailActivity extends BackActivity {
         ImageView imageView = (ImageView) head.findViewById(R.id.icon);
         iconfromNetwork(imageView, mMerge.getAuthor().avatar);
 
-        String timeString = "创建于 " + Global.dayToNow(mMerge.getCreatedAt());
-        ((TextView) head.findViewById(R.id.time)).setText(timeString);
+        ((TextView) head.findViewById(R.id.time)).setText(Global.dayToNowCreate(mMerge.getCreatedAt()));
 
         TextView styleView = (TextView) head.findViewById(R.id.mergeStyle);
-
 
         String[] styles = Merge.STYLES;
         final String[] styleStrings = new String[]{

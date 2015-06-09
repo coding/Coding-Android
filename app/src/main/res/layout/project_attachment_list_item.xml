@@ -10,11 +10,11 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_margin="12dp"
+            android:layout_width="@dimen/folder_icon_width"
+            android:layout_height="@dimen/folder_icon_width"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_project_attachment_folder" />
+            android:layout_margin="12dp"
+            android:src="@drawable/ic_project_git_folder2" />
 
         <TextView
             android:id="@+id/name"
@@ -33,31 +33,31 @@
             android:id="@+id/more"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:padding="12dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:padding="12dp">
 
             <ImageView
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/pick_phone_bottom_3"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:background="@drawable/pick_phone_bottom_3" />
         </RelativeLayout>
 
         <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:id="@+id/checkbox"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
             android:layout_centerVertical="true"
-            android:focusable="false"
-            android:button="@drawable/checkbox_attachment"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="12dp"
             android:layout_marginTop="13dp"
-            android:checked="false" />
+            android:button="@drawable/checkbox_attachment"
+            android:checked="false"
+            android:focusable="false" />
         <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

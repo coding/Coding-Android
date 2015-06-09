@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="45"
-    android:versionName="2.9.1">
+    android:versionCode="46"
+    android:versionName="2.9.2">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -57,6 +57,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:name=".MyApp"
@@ -618,6 +622,10 @@
         <activity
             android:name=".project.detail.merge.MergeFileDetailActivity_"
             android:label="@string/title_activity_merge_file_detail"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".project.git.BranchCommitListActivity_"
+            android:label="@string/title_activity_branch_commit_list"
             android:screenOrientation="portrait">
         </activity>
     </application>

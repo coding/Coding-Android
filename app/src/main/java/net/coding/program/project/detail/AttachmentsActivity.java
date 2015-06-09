@@ -85,64 +85,407 @@ import java.util.regex.Pattern;
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
 public class AttachmentsActivity extends CustomMoreActivity implements FootUpdate.LoadMore {
+    public static final String HOST_PROJECT_ID = Global.HOST + "/api/project/%d";
+    final public static int FILE_SELECT_CODE = 10;
+    final public static int FILE_DELETE_CODE = 11;
+    final public static int FILE_MOVE_CODE = 12;
     private static String TAG = AttachmentsActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
-
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-
     ProjectObject mProjectObject;
-
-    public static final String HOST_PROJECT_ID = Global.HOST + "/api/project/%d";
-
     String urlFiles = Global.HOST + "/api/project/%s/files/%s?height=90&width=90&pageSize=9999";
     String urlUpload = Global.HOST + "/api/project/%s/file/upload";
+    ArrayList<AttachmentFileObject> mFilesArray = new ArrayList();
+    boolean mNoMore = false;
+    @ViewById
+    ListView listView;
+    @ViewById
+    RelativeLayout uploadLayout;
+    @ViewById
+    View blankLayout;
+    SharedPreferences.Editor downloadListEditor;
+    //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
+    // /\.(pdf)$/
+    @ViewById
+    ImageView uploadCloseBtn;
+    @ViewById
+    TextView uploadDoneHint;
+    @ViewById
+    TextView uploadLeftHint;
+    @ViewById
+    TextView uploadRightHint;
+    @ViewById
+    TextView uploadMiddleHint;
+    @ViewById
+    RelativeLayout uploadDoneLayout;
+    @ViewById
+    RelativeLayout uploadStatusLayout;
+    @ViewById
+    ImageView uploadStatusProgress;
+    @ViewById
+    ImageView uploadStatusProgressRemain;
+    @ViewById
+    RelativeLayout uploadFailureLayout;
+    @ViewById
+    ImageView uploadFailureCloseBtn;
+    LinearLayout.LayoutParams barParams;
+    LinearLayout.LayoutParams barParamsRemain;
+    ActionMode mActionMode;
+    ArrayList<AttachmentFileObject> selectFile;
+    ArrayList<AttachmentFolderObject> selectFolder;
+    ArrayList<AttachmentFileObject> downloadFiles;
     private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST + "/api/project/%s/files/moveto/%s?%s";
-
     private String HOST_FILECOUNT = Global.HOST + "/api/project/%s/folders/all_file_count";
-
     private String HOST_FOLDER_NAME = Global.HOST + "/api/project/%s/dir/%s/name/%s";
     private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%s/mkdir";
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
-
     private String urlDownload = Global.HOST + "/api/project/%s/files/%s/download";
-
     private HashMap<String, Integer> fileCountMap = new HashMap();
-    //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
-    // /\.(pdf)$/
-
-    ArrayList<AttachmentFileObject> mFilesArray = new ArrayList();
-
-    boolean mNoMore = false;
-
     private DownloadManager downloadManager;
     private DownloadManagerPro downloadManagerPro;
     private DownloadChangeObserver downloadObserver;
     private CompleteReceiver completeReceiver;
-
     private MyHandler handler;
+    private SharedPreferences share;
+    private SharedPreferences downloadList;
+    private String defaultPath;
+    private boolean isUploading = false;
+    private String uploadHitLeftFormat = "正在上传%s项";
+    private String uploadHitMiddleFormat = "%s%%";
+    private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
+    private long uploadStartTime = 0l;
+    private boolean isEditMode = false;
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+
+            inflater.inflate(R.menu.project_attachment_file_edit, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;// Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                /*case R.id.action_delete:
+                    action_delete();
+                    return true;*/
+                case R.id.action_all:
+                    action_all();
+                    return true;
+                case R.id.action_inverse:
+                    action_inverse();
+                    return true;
+                case R.id.action_move:
+                    action_move();
+                    return true;
+
+                case R.id.action_download:
+                    action_download();
+                    return true;
+
+                case R.id.action_delete:
+                    if (isChooseOthers()) {
+                        showButtomToast("不要选择别人上传的文件");
+                    } else {
+                        action_delete();
+                    }
+                    return true;
+                /*case R.id.action_move:
+                    action_move();
+                    return true;*/
+//                case R.id.action_more:
+//                    showRightTopPop();
+//                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            setListEditMode(false);
+        }
+    };
+    /**
+     * 弹出框
+     */
+    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文档目录的底部弹出框
+    private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文档文件的底部弹出框
+    private int selectedPosition;
+    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    doRename(selectedPosition, mFilesArray.get(selectedPosition).folderObject);
+                    break;
+                case 1:
+                    AttachmentFolderObject selectedFolderObject = mFilesArray.get(selectedPosition).folderObject;
+                    if (selectedFolderObject.isDeleteable()) {
+                        action_delete_single(selectedFolderObject);
+                    } else {
+                        showButtomToast("请先清空文件夹");
+                        return;
+                    }
+                    break;
+            }
+            mAttachmentPopupWindow.dismiss();
+        }
+    };
+    private AdapterView.OnItemClickListener onFilePopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    // 移动
+                    action_move_single(mFilesArray.get(selectedPosition));
+                    break;
+                case 1:
+                    // 下载
+                    action_download_single(mFilesArray.get(selectedPosition));
+                    break;
+                case 2:
+                    // 删除
+                    action_delete_single(mFilesArray.get(selectedPosition));
+                    break;
+            }
+            mAttachmentFilePopupWindow.dismiss();
+        }
+    };
+    BaseAdapter adapter = new BaseAdapter() {
+        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AttachmentFileObject data = mFilesArray.get((Integer) buttonView.getTag());
+                data.isSelected = isChecked;
+            }
+        };
+        private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPop(view, (Integer) view.getTag());
+            }
+        };
+        private View.OnClickListener cancelClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
+
+                long downloadId = data.downloadId;
+                Log.d(TAG, "cancel:" + downloadId);
+                downloadManager.remove(downloadId);
+                data.downloadId = 0L;
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return mFilesArray.size();
+        }
+
+        /*private View.OnClickListener btnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AttachmentFileObject data = (AttachmentFileObject) v.getTag();
+                if (data.isImage()) {
+                    AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+                } else if (data.isHtml() || data.isMd()) {
+                    AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+                } else if (data.isTxt()) {
+                    AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+                } else {
+                    AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+                }
+            }
+        };*/
+
+        @Override
+        public Object getItem(int position) {
+            return mFilesArray.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.project_attachment_file_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon_txt = (TextView) convertView.findViewById(R.id.icon_txt);
+                holder.content = (TextView) convertView.findViewById(R.id.comment);
+                holder.desc = (TextView) convertView.findViewById(R.id.desc);
+                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+                //holder.btn = (TextView) convertView.findViewById(R.id.btn_right);
+
+                holder.file_info_layout = (LinearLayout) convertView.findViewById(R.id.file_info_layout);
+                holder.folder_name = (TextView) convertView.findViewById(R.id.folder_name);
+
+                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
+
+                holder.downloadIcon = (ImageView) convertView.findViewById(R.id.downloadIcon);
+                holder.username = (TextView) convertView.findViewById(R.id.username);
+                holder.bottomLine = convertView.findViewById(R.id.bottomLine);
+
+                holder.icon_layout = (RelativeLayout) convertView.findViewById(R.id.icon_layout);
+
+                holder.desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
+                holder.progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
+                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+                holder.cancel = (TextView) convertView.findViewById(R.id.cancel);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            AttachmentFileObject data = mFilesArray.get(position);
+            holder.name.setText(data.name);
+
+            if (data.isFolder) {
+                holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
+                holder.icon.setVisibility(View.VISIBLE);
+                holder.icon.setBackgroundResource(android.R.color.transparent);
+                holder.icon_txt.setVisibility(View.GONE);
+                holder.file_info_layout.setVisibility(View.GONE);
+                holder.folder_name.setText(data.name);
+                holder.folder_name.setVisibility(View.VISIBLE);
+            } else if (data.isImage()) {
+                //Log.d("imagePattern", "data.preview:" + data.preview);
+                imagefromNetwork(holder.icon, data.preview, ImageLoadTool.optionsRounded);
+                holder.icon.setVisibility(View.VISIBLE);
+                holder.icon.setBackgroundResource(R.drawable.shape_image_icon_bg);
+                holder.icon_txt.setVisibility(View.GONE);
+                holder.file_info_layout.setVisibility(View.VISIBLE);
+                holder.folder_name.setVisibility(View.GONE);
+            } else {
+                imagefromNetwork(holder.icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded);
+                holder.icon.setVisibility(View.VISIBLE);
+                holder.icon.setBackgroundResource(android.R.color.transparent);
+                holder.icon_txt.setVisibility(View.GONE);
+                holder.file_info_layout.setVisibility(View.VISIBLE);
+                holder.folder_name.setVisibility(View.GONE);
+            }
+
+            /*holder.btn.setTag(data);
+            holder.btn.setOnClickListener(btnClickListener);
+
+            if (data.isImage() || data.isHtml() || data.isMd() || data.isTxt()) {
+                //holder.btn.setVisibility(View.VISIBLE);
+                holder.btn.setText("查看");
+            } else {
+                //holder.btn.setVisibility(View.GONE);
+                holder.btn.setText("下载");
+            }*/
+
+            holder.content.setText(Global.HumanReadableFilesize(data.size));
+            holder.desc.setText(String.format("发布于%s", Global.dayToNow(data.created_at)));
+            holder.username.setText(data.owner.name);
+
+            if (position == mFilesArray.size() - 1) {
+                if (!mNoMore) {
+                    loadMore();
+                }
+            }
+
+            holder.checkBox.setTag(new Integer(position));
+            if (isEditMode) {
+                if (!data.isFolder)
+                    holder.checkBox.setVisibility(View.VISIBLE);
+                else
+                    holder.checkBox.setVisibility(View.INVISIBLE);
+
+                if (data.isSelected) {
+                    holder.checkBox.setChecked(true);
+                } else {
+                    holder.checkBox.setChecked(false);
+                }
+                //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, R.id.icon);
+                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(58);
+            } else {
+                holder.checkBox.setVisibility(View.GONE);
+                //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).removeRule(RelativeLayout.LEFT_OF);
+                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = 0;
+            }
+            holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+
+            holder.more.setOnClickListener(onMoreClickListener);
+            holder.more.setTag(new Integer(position));
+
+
+            if (data.downloadId != 0L) {
+                holder.cancel.setTag(new Integer(position));
+                int status = data.bytesAndStatus[2];
+                holder.progressBar.setMax(data.size);
+                if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
+                    if (data.bytesAndStatus[1] < 0) {
+                        holder.progressBar.setProgress(0);
+                    } else {
+                        holder.progressBar.setProgress(data.bytesAndStatus[0]);
+
+                    }
+                    data.isDownload = false;
+                    holder.desc_layout.setVisibility(View.GONE);
+                    holder.content.setVisibility(View.GONE);
+                    holder.more.setVisibility(View.GONE);
+                    holder.progress_layout.setVisibility(View.VISIBLE);
+                } else {
+                    if (status == DownloadManager.STATUS_FAILED) {
+                        data.isDownload = false;
+                    } else if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                        data.isDownload = true;
+                        downloadListEditor.remove(data.file_id);
+                        downloadListEditor.commit();
+                    } else {
+                        data.isDownload = false;
+                    }
+
+                    data.downloadId = 0L;
+
+                    holder.desc_layout.setVisibility(View.VISIBLE);
+                    holder.content.setVisibility(View.VISIBLE);
+                    holder.more.setVisibility(View.VISIBLE);
+                    holder.progress_layout.setVisibility(View.GONE);
+                }
+            } else {
+                holder.desc_layout.setVisibility(View.VISIBLE);
+                holder.content.setVisibility(View.VISIBLE);
+                holder.more.setVisibility(View.VISIBLE);
+                holder.progress_layout.setVisibility(View.GONE);
+            }
+
+            if (data.isDownload) {
+                holder.downloadIcon.setImageResource(R.drawable.ic_attachment_state_1);
+            } else {
+                holder.downloadIcon.setImageResource(R.drawable.ic_attachment_state_0);
+            }
+
+            holder.cancel.setOnClickListener(cancelClickListener);
+
+            return convertView;
+        }
+    };
 
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
     }
-
-    @ViewById
-    ListView listView;
-
-    @ViewById
-    RelativeLayout uploadLayout;
-
-    @ViewById
-    View blankLayout;
-
-    private SharedPreferences share;
-    private SharedPreferences downloadList;
-    SharedPreferences.Editor downloadListEditor;
-    private String defaultPath;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -368,12 +711,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
     }
 
-    final public static int FILE_SELECT_CODE = 10;
-    final public static int FILE_DELETE_CODE = 11;
-    final public static int FILE_MOVE_CODE = 12;
-
-    private boolean isUploading = false;
-
     @Click
     protected final void common_folder_bottom_upload() {
         if (isUploading) {
@@ -399,35 +736,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             uploadFile(selectedFile);
         }
     }
-
-    private String uploadHitLeftFormat = "正在上传%s项";
-    private String uploadHitMiddleFormat = "%s%%";
-    private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
-    @ViewById
-    ImageView uploadCloseBtn;
-    @ViewById
-    TextView uploadDoneHint;
-    @ViewById
-    TextView uploadLeftHint;
-    @ViewById
-    TextView uploadRightHint;
-    @ViewById
-    TextView uploadMiddleHint;
-    @ViewById
-    RelativeLayout uploadDoneLayout;
-    @ViewById
-    RelativeLayout uploadStatusLayout;
-    @ViewById
-    ImageView uploadStatusProgress;
-    @ViewById
-    ImageView uploadStatusProgressRemain;
-    @ViewById
-    RelativeLayout uploadFailureLayout;
-    @ViewById
-    ImageView uploadFailureCloseBtn;
-
-    LinearLayout.LayoutParams barParams;
-    LinearLayout.LayoutParams barParamsRemain;
 
     private void uploadFile(File selectedFile) {
 
@@ -501,12 +809,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
 
     }
-
-    private enum UploadStatus {
-        Uploading, Finish, Close, Failure
-    }
-
-    private long uploadStartTime = 0l;
 
     private void showUploadStatus(UploadStatus status) {
         switch (status) {
@@ -591,258 +893,10 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
     }
 
-    private boolean isEditMode = false;
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mFilesArray.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mFilesArray.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_attachment_file_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon_txt = (TextView) convertView.findViewById(R.id.icon_txt);
-                holder.content = (TextView) convertView.findViewById(R.id.comment);
-                holder.desc = (TextView) convertView.findViewById(R.id.desc);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                //holder.btn = (TextView) convertView.findViewById(R.id.btn_right);
-
-                holder.file_info_layout = (LinearLayout) convertView.findViewById(R.id.file_info_layout);
-                holder.folder_name = (TextView) convertView.findViewById(R.id.folder_name);
-
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-
-                holder.downloadIcon = (ImageView) convertView.findViewById(R.id.downloadIcon);
-                holder.username = (TextView) convertView.findViewById(R.id.username);
-                holder.bottomLine = convertView.findViewById(R.id.bottomLine);
-
-                holder.icon_layout = (RelativeLayout) convertView.findViewById(R.id.icon_layout);
-
-                holder.desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
-                holder.progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
-                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-                holder.cancel = (TextView) convertView.findViewById(R.id.cancel);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            AttachmentFileObject data = mFilesArray.get(position);
-            holder.name.setText(data.name);
-
-            if (data.isFolder) {
-                holder.icon.setImageResource(R.drawable.ic_project_attachment_folder);
-                holder.icon.setVisibility(View.VISIBLE);
-                holder.icon.setBackgroundResource(android.R.color.transparent);
-                holder.icon_txt.setVisibility(View.GONE);
-                holder.file_info_layout.setVisibility(View.GONE);
-                holder.folder_name.setText(data.name);
-                holder.folder_name.setVisibility(View.VISIBLE);
-            } else if (data.isImage()) {
-                //Log.d("imagePattern", "data.preview:" + data.preview);
-                imagefromNetwork(holder.icon, data.preview, ImageLoadTool.optionsRounded);
-                holder.icon.setVisibility(View.VISIBLE);
-                holder.icon.setBackgroundResource(R.drawable.shape_image_icon_bg);
-                holder.icon_txt.setVisibility(View.GONE);
-                holder.file_info_layout.setVisibility(View.VISIBLE);
-                holder.folder_name.setVisibility(View.GONE);
-            } else {
-                imagefromNetwork(holder.icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded);
-                holder.icon.setVisibility(View.VISIBLE);
-                holder.icon.setBackgroundResource(android.R.color.transparent);
-                holder.icon_txt.setVisibility(View.GONE);
-                holder.file_info_layout.setVisibility(View.VISIBLE);
-                holder.folder_name.setVisibility(View.GONE);
-            }
-
-            /*holder.btn.setTag(data);
-            holder.btn.setOnClickListener(btnClickListener);
-
-            if (data.isImage() || data.isHtml() || data.isMd() || data.isTxt()) {
-                //holder.btn.setVisibility(View.VISIBLE);
-                holder.btn.setText("查看");
-            } else {
-                //holder.btn.setVisibility(View.GONE);
-                holder.btn.setText("下载");
-            }*/
-
-            holder.content.setText(Global.HumanReadableFilesize(data.size));
-            holder.desc.setText(String.format("发布于%s", Global.dayToNow(data.created_at)));
-            holder.username.setText(data.owner.name);
-
-            if (position == mFilesArray.size() - 1) {
-                if (!mNoMore) {
-                    loadMore();
-                }
-            }
-
-            holder.checkBox.setTag(new Integer(position));
-            if (isEditMode) {
-                if (!data.isFolder)
-                    holder.checkBox.setVisibility(View.VISIBLE);
-                else
-                    holder.checkBox.setVisibility(View.INVISIBLE);
-
-                if (data.isSelected) {
-                    holder.checkBox.setChecked(true);
-                } else {
-                    holder.checkBox.setChecked(false);
-                }
-                //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, R.id.icon);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(58);
-            } else {
-                holder.checkBox.setVisibility(View.GONE);
-                //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).removeRule(RelativeLayout.LEFT_OF);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = 0;
-            }
-            holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
-
-            holder.more.setOnClickListener(onMoreClickListener);
-            holder.more.setTag(new Integer(position));
-
-
-            if (data.downloadId != 0L) {
-                holder.cancel.setTag(new Integer(position));
-                int status = data.bytesAndStatus[2];
-                holder.progressBar.setMax(data.size);
-                if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
-                    if (data.bytesAndStatus[1] < 0) {
-                        holder.progressBar.setProgress(0);
-                    } else {
-                        holder.progressBar.setProgress(data.bytesAndStatus[0]);
-
-                    }
-                    data.isDownload = false;
-                    holder.desc_layout.setVisibility(View.GONE);
-                    holder.content.setVisibility(View.GONE);
-                    holder.more.setVisibility(View.GONE);
-                    holder.progress_layout.setVisibility(View.VISIBLE);
-                } else {
-                    if (status == DownloadManager.STATUS_FAILED) {
-                        data.isDownload = false;
-                    } else if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        data.isDownload = true;
-                        downloadListEditor.remove(data.file_id);
-                        downloadListEditor.commit();
-                    } else {
-                        data.isDownload = false;
-                    }
-
-                    data.downloadId = 0L;
-
-                    holder.desc_layout.setVisibility(View.VISIBLE);
-                    holder.content.setVisibility(View.VISIBLE);
-                    holder.more.setVisibility(View.VISIBLE);
-                    holder.progress_layout.setVisibility(View.GONE);
-                }
-            } else {
-                holder.desc_layout.setVisibility(View.VISIBLE);
-                holder.content.setVisibility(View.VISIBLE);
-                holder.more.setVisibility(View.VISIBLE);
-                holder.progress_layout.setVisibility(View.GONE);
-            }
-
-            if (data.isDownload) {
-                holder.downloadIcon.setImageResource(R.drawable.ic_attachment_state_1);
-            } else {
-                holder.downloadIcon.setImageResource(R.drawable.ic_attachment_state_0);
-            }
-
-            holder.cancel.setOnClickListener(cancelClickListener);
-
-            return convertView;
-        }
-
-        /*private View.OnClickListener btnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AttachmentFileObject data = (AttachmentFileObject) v.getTag();
-                if (data.isImage()) {
-                    AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                } else if (data.isHtml() || data.isMd()) {
-                    AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                } else if (data.isTxt()) {
-                    AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                } else {
-                    AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                }
-            }
-        };*/
-
-        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AttachmentFileObject data = mFilesArray.get((Integer) buttonView.getTag());
-                data.isSelected = isChecked;
-            }
-        };
-        private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPop(view, (Integer) view.getTag());
-            }
-        };
-
-        private View.OnClickListener cancelClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
-
-                long downloadId = data.downloadId;
-                Log.d(TAG, "cancel:" + downloadId);
-                downloadManager.remove(downloadId);
-                data.downloadId = 0L;
-                adapter.notifyDataSetChanged();
-            }
-        };
-    };
-
-    static class ViewHolder {
-        ImageView icon;
-        TextView icon_txt;
-        TextView name;
-        TextView content;
-        TextView desc;
-        //TextView btn;
-
-        LinearLayout file_info_layout;
-        TextView folder_name;
-
-        CheckBox checkBox;
-
-        RelativeLayout more;
-
-        ImageView downloadIcon;
-        TextView username;
-        View bottomLine;
-
-        RelativeLayout icon_layout;
-
-        LinearLayout desc_layout, progress_layout;
-        ProgressBar progressBar;
-        TextView cancel;
-    }
-
     @OptionsItem
     void action_edit() {
         doEdit();
     }
-
-    ActionMode mActionMode;
 
     private void doEdit() {
         if (mActionMode != null) {
@@ -857,68 +911,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         this.isEditMode = isEditMode;
         adapter.notifyDataSetChanged();
     }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-
-            inflater.inflate(R.menu.project_attachment_file_edit, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;// Return false if nothing is done
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                /*case R.id.action_delete:
-                    action_delete();
-                    return true;*/
-                case R.id.action_all:
-                    action_all();
-                    return true;
-                case R.id.action_inverse:
-                    action_inverse();
-                    return true;
-                case R.id.action_move:
-                    action_move();
-                    return true;
-
-                case R.id.action_download:
-                    action_download();
-                    return true;
-
-                case R.id.action_delete:
-                    if (isChooseOthers()) {
-                        showButtomToast("不要选择别人上传的文件");
-                    } else {
-                        action_delete();
-                    }
-                    return true;
-                /*case R.id.action_move:
-                    action_move();
-                    return true;*/
-//                case R.id.action_more:
-//                    showRightTopPop();
-//                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            setListEditMode(false);
-        }
-    };
-
-    ArrayList<AttachmentFileObject> selectFile;
 
     /**
      * 删除选中的文件
@@ -1071,13 +1063,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
     }
 
-    /**
-     * 弹出框
-     */
-    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文档目录的底部弹出框
-    private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文档文件的底部弹出框
-    private int selectedPosition;
-
     public void initBottomPop() {
         if (mAttachmentPopupWindow == null) {
             ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<DialogUtil.BottomPopupItem>();
@@ -1159,48 +1144,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
     }
 
-    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    doRename(selectedPosition, mFilesArray.get(selectedPosition).folderObject);
-                    break;
-                case 1:
-                    AttachmentFolderObject selectedFolderObject = mFilesArray.get(selectedPosition).folderObject;
-                    if (selectedFolderObject.isDeleteable()) {
-                        action_delete_single(selectedFolderObject);
-                    } else {
-                        showButtomToast("请先清空文件夹");
-                        return;
-                    }
-                    break;
-            }
-            mAttachmentPopupWindow.dismiss();
-        }
-    };
-
-    private AdapterView.OnItemClickListener onFilePopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    // 移动
-                    action_move_single(mFilesArray.get(selectedPosition));
-                    break;
-                case 1:
-                    // 下载
-                    action_download_single(mFilesArray.get(selectedPosition));
-                    break;
-                case 2:
-                    // 删除
-                    action_delete_single(mFilesArray.get(selectedPosition));
-                    break;
-            }
-            mAttachmentFilePopupWindow.dismiss();
-        }
-    };
-
     /**
      * 是否选中了别人创建的文件，别人创建的文件，没有权限删除
      *
@@ -1259,8 +1202,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         dialogTitleLineColor(dialog);
         input.requestFocus();
     }
-
-    ArrayList<AttachmentFolderObject> selectFolder;
 
     void action_delete_single(AttachmentFolderObject selectedFolderObject) {
         if (selectedFolderObject == null)
@@ -1392,39 +1333,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         adapter.notifyDataSetChanged();
     }
 
-    class DownloadChangeObserver extends ContentObserver {
-
-        public DownloadChangeObserver() {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            checkFileDownloadStatus();
-        }
-
-    }
-
-    class CompleteReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-        }
-    }
-
-    ;
-
-    private class MyHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-
-        }
-    }
-
     public void updateFileDownloadStatus(AttachmentFileObject mFileObject) {
         if (mFileObject.downloadId != 0L) {
             mFileObject.bytesAndStatus = downloadManagerPro.getBytesAndStatus(mFileObject.downloadId);
@@ -1433,8 +1341,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             //handler.sendMessage(handler.obtainMessage(0, bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2]));
         }
     }
-
-    ArrayList<AttachmentFileObject> downloadFiles;
 
     private void action_download_single(final AttachmentFileObject selectedFile) {
         if (selectedFile == null) {
@@ -1549,5 +1455,66 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
 
         return mProjectObject.getPath() + "/attachment/" + mAttachmentFolderObject.file_id;
+    }
+
+    private enum UploadStatus {
+        Uploading, Finish, Close, Failure
+    }
+
+    static class ViewHolder {
+        ImageView icon;
+        TextView icon_txt;
+        TextView name;
+        TextView content;
+        TextView desc;
+        //TextView btn;
+
+        LinearLayout file_info_layout;
+        TextView folder_name;
+
+        CheckBox checkBox;
+
+        RelativeLayout more;
+
+        ImageView downloadIcon;
+        TextView username;
+        View bottomLine;
+
+        RelativeLayout icon_layout;
+
+        LinearLayout desc_layout, progress_layout;
+        ProgressBar progressBar;
+        TextView cancel;
+    }
+
+    class DownloadChangeObserver extends ContentObserver {
+
+        public DownloadChangeObserver() {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            checkFileDownloadStatus();
+        }
+
+    }
+
+    class CompleteReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+        }
+    }
+
+    private class MyHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+
+        }
     }
 }

@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.coding.program.project.detail.readme.ReadmeFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.detail.readme.ReadmeFragment">
 
     <TextView
         android:id="@+id/readme"
@@ -49,7 +49,5 @@
         android:lineSpacingMultiplier="1.1"
         android:textColor="@color/font_black_content"
         android:textSize="15sp" />
-
-    <include layout="@layout/divide_15_top" />
 
 </LinearLayout>

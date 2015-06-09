@@ -35,117 +35,15 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     private final String HOST_LIST_BRANCHES = Global.HOST + "/api/user/%s/project/%s/git/branches?pageSize=1000";
     private final String HOST_LIST_TAG = Global.HOST + "/api/user/%s/project/%s/git/list_tags";
-
-    private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList(), new ArrayList()};
-
     @ViewById
     TextView versionButton;
-
     @ViewById
     View versionLayout;
-
     @ViewById
     ExpandableListView versionList;
-
     @ViewById
     View expandableIndicator;
-
-    // 父类已经使用了 init，子类就不能再用这个名字，否则 init 会调用两次
-    @AfterViews
-    protected void init2() {
-        setHasOptionsMenu(true);
-
-        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectObject.owner_user_name, mProjectObject.name);
-        getNetwork(urlBranches, HOST_LIST_BRANCHES);
-
-        String urlTag = String.format(HOST_LIST_TAG, mProjectObject.owner_user_name, mProjectObject.name);
-        getNetwork(urlTag, HOST_LIST_TAG);
-        versionList.setAdapter(versionAdapter);
-
-        int left = Global.dpToPx(MyApp.sWidthDp - 40);
-        int right = Global.dpToPx(MyApp.sWidthDp - 12);
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            versionList.setIndicatorBounds(left, right);
-        } else {
-            versionList.setIndicatorBoundsRelative(left, right);
-        }
-        versionList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
-                switchVersion(data.name);
-                return true;
-            }
-        });
-    }
-
-    @Click
-    protected final void versionButton() {
-        showList(versionLayout.getVisibility() != View.VISIBLE);
-    }
-
-    @Click
-    protected final void versionLayout() {
-        showList(versionLayout.getVisibility() != View.VISIBLE);
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_LIST_BRANCHES)) {
-            if (code == 0) {
-                JSONObject jsonData = respanse.optJSONObject("data");
-                if (jsonData == null) {
-                    if (mDataVers[0].isEmpty()) {
-                        hideProgressDialog();
-                        getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
-                        BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
-                    }
-                } else {
-                    parseVersion(mDataVers[0], jsonData.optJSONArray("list"));
-                }
-            } else {
-                showErrorMsg(code, respanse);
-                hideProgressDialog();
-            }
-        } else if (tag.equals(HOST_LIST_TAG)) {
-            if (code == 0) {
-                parseVersion(mDataVers[1], respanse.optJSONArray("data"));
-            } else {
-                showErrorMsg(code, respanse);
-                hideProgressDialog();
-            }
-        } else {
-            super.parseJson(code, respanse, tag, pos, data);
-        }
-    }
-
-    private void switchVersion(String name) {
-        mVersion = name;
-        onRefresh();
-    }
-
-    @Override
-    protected void switchVersionSuccess() {
-        showButtomToast(String.format("已切换到 %s", mVersion));
-        versionButton.setText(mVersion);
-    }
-
-    private void parseVersion(ArrayList<BranchItem> data, JSONArray jsonArray) {
-        data.clear();
-        int len = jsonArray.length();
-        for (int i = 0; i < len; ++i) {
-            BranchItem item = new BranchItem(jsonArray.optJSONObject(i));
-            data.add(item);
-
-            if (item.is_default_branch) {
-                switchVersion(item.name);
-            }
-        }
-
-        ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
-
-    }
-
+    private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList(), new ArrayList()};
     ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
         @Override
         public int getGroupCount() {
@@ -221,15 +119,101 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     };
 
-    private static class ViewGroupHolder {
+    // 父类已经使用了 init，子类就不能再用这个名字，否则 init 会调用两次
+    @AfterViews
+    protected void init2() {
+        setHasOptionsMenu(true);
 
-        public ViewGroupHolder(View parent) {
-            icon = parent.findViewById(R.id.icon);
-            title = (TextView) parent.findViewById(R.id.title);
+        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectObject.owner_user_name, mProjectObject.name);
+        getNetwork(urlBranches, HOST_LIST_BRANCHES);
+
+        String urlTag = String.format(HOST_LIST_TAG, mProjectObject.owner_user_name, mProjectObject.name);
+        getNetwork(urlTag, HOST_LIST_TAG);
+        versionList.setAdapter(versionAdapter);
+
+        int left = Global.dpToPx(MyApp.sWidthDp - 40);
+        int right = Global.dpToPx(MyApp.sWidthDp - 12);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            versionList.setIndicatorBounds(left, right);
+        } else {
+            versionList.setIndicatorBoundsRelative(left, right);
+        }
+        versionList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
+                switchVersion(data.name);
+                showList(versionLayout.getVisibility() != View.VISIBLE);
+                return true;
+            }
+        });
+    }
+
+    @Click
+    protected final void versionButton() {
+        showList(versionLayout.getVisibility() != View.VISIBLE);
+    }
+
+    @Click
+    protected final void versionLayout() {
+        showList(versionLayout.getVisibility() != View.VISIBLE);
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_LIST_BRANCHES)) {
+            if (code == 0) {
+                JSONObject jsonData = respanse.optJSONObject("data");
+                if (jsonData == null) {
+                    if (mDataVers[0].isEmpty()) {
+                        hideProgressDialog();
+                        getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
+                        BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
+                    }
+                } else {
+                    parseVersion(mDataVers[0], jsonData.optJSONArray("list"));
+                }
+            } else {
+                showErrorMsg(code, respanse);
+                hideProgressDialog();
+            }
+        } else if (tag.equals(HOST_LIST_TAG)) {
+            if (code == 0) {
+                parseVersion(mDataVers[1], respanse.optJSONArray("data"));
+            } else {
+                showErrorMsg(code, respanse);
+                hideProgressDialog();
+            }
+        } else {
+            super.parseJson(code, respanse, tag, pos, data);
+        }
+    }
+
+    private void switchVersion(String name) {
+        mVersion = name;
+        onRefresh();
+    }
+
+    @Override
+    protected void switchVersionSuccess() {
+        showButtomToast(String.format("已切换到 %s", mVersion));
+        versionButton.setText(mVersion);
+    }
+
+    private void parseVersion(ArrayList<BranchItem> data, JSONArray jsonArray) {
+        data.clear();
+        int len = jsonArray.length();
+        for (int i = 0; i < len; ++i) {
+            BranchItem item = new BranchItem(jsonArray.optJSONObject(i));
+            data.add(item);
+
+            if (item.is_default_branch) {
+                switchVersion(item.name);
+            }
         }
 
-        View icon;
-        TextView title;
+        ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
+
     }
 
     private void showList(boolean show) {
@@ -277,6 +261,16 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
         if (show) {
             versionLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private static class ViewGroupHolder {
+
+        View icon;
+        TextView title;
+        public ViewGroupHolder(View parent) {
+            icon = parent.findViewById(R.id.icon);
+            title = (TextView) parent.findViewById(R.id.title);
         }
     }
 

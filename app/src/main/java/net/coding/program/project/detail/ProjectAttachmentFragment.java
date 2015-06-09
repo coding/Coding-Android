@@ -54,6 +54,20 @@ import java.util.regex.Pattern;
 @EFragment(R.layout.folder_main_refresh_listview)
 @OptionsMenu(R.menu.project_attachment_folder)
 public class ProjectAttachmentFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+    public static final int RESULT_REQUEST_FILES = 1;
+    //@FragmentArg
+    boolean mShowAdd = true;
+    @FragmentArg
+    ProjectObject mProjectObject;
+    @ViewById
+    ListView listView;
+    @ViewById
+    View blankLayout;
+    ActionMode mActionMode;
+    ArrayList<AttachmentFolderObject> selectFolder;
+    //https://coding.net/api/project/20945/rmdir/37282
+    //https://coding.net/api/project/20945/mkdir?name=%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9
+    //https://coding.net/api/project/20945/dir/34365/name/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B92
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
     //private String HOST_FOLDER = Global.HOST + "/api/project/%s/folders?pageSize=20";
     private String HOST_FOLDER = Global.HOST + "/api/project/%d/all_folders?pageSize=9999";
@@ -63,30 +77,169 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     //https://coding.net/api/project/20945/folders/all_file_count
     private String HOST_FOLDER_NAME = Global.HOST + "/api/project/%d/dir/%s/name/%s";
     private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%d/mkdir";
-    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%d/rmdir/%s";
-    private String HOST_FOLDER_DELETE;
-    //https://coding.net/api/project/20945/rmdir/37282
-    //https://coding.net/api/project/20945/mkdir?name=%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9
-    //https://coding.net/api/project/20945/dir/34365/name/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B92
-
-    private HashMap<String, Integer> fileCountMap = new HashMap<String, Integer>();
-
-    //@FragmentArg
-    boolean mShowAdd = true;
-
-    @FragmentArg
-    ProjectObject mProjectObject;
-
-    @ViewById
-    ListView listView;
-
-    @ViewById
-    View blankLayout;
 
     //@ViewById
     //SwipeRefreshLayout swipeRefreshLayout;
+    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%d/rmdir/%s";
+    private String HOST_FOLDER_DELETE;
+    private HashMap<String, Integer> fileCountMap = new HashMap<String, Integer>();
+    private boolean isEditMode = false;
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
-    public static final int RESULT_REQUEST_FILES = 1;
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.project_attachment_folder_edit, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                //case R.id.menu_share:
+                //    shareCurrentItem();
+                //    mode.finish(); // Action picked, so close the CAB
+                //    return true;
+                case R.id.action_delete:
+                    action_delete();
+                    return true;
+                case R.id.action_all:
+                    action_all();
+                    return true;
+                case R.id.action_inverse:
+                    action_inverse();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            setListEditMode(false);
+        }
+    };
+
+    //@OptionsItem
+    //void action_edit_folder(){
+    //    doEdit();
+    //}
+    /**
+     * 弹出框
+     */
+    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;
+    //private AttachmentFolderObject selectedFolderObject = null;
+    private int selectedPosition;
+    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    //showButtomToast("rename");
+                    doRename(selectedPosition, mData.get(selectedPosition));
+                    break;
+                case 1:
+                    //showButtomToast("delete");
+                    AttachmentFolderObject selectedFolderObject = mData.get(selectedPosition);
+                    if (selectedFolderObject.isDeleteable()) {
+                        action_delete_single(selectedFolderObject);
+                    } else {
+                        showButtomToast("请先清空文件夹");
+                        return;
+                    }
+                    break;
+            }
+            mAttachmentPopupWindow.dismiss();
+        }
+    };
+    BaseAdapter adapter = new BaseAdapter() {
+        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AttachmentFolderObject data = mData.get((Integer) buttonView.getTag());
+                data.isSelected = isChecked;
+            }
+        };
+        private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPop(view, (Integer) view.getTag());
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.project_attachment_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            AttachmentFolderObject data = mData.get(position);
+            holder.name.setText(data.getNameCount());
+            if (data.file_id.equals("0")) {
+                holder.icon.setImageResource(R.drawable.ic_project_git_folder);
+                holder.more.setVisibility(View.GONE);
+            } else {
+                holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
+                holder.more.setVisibility(View.VISIBLE);
+            }
+            //iconfromNetwork(holder.icon, data.user.avatar);
+            if (isEditMode && data.isDeleteable()) {
+                holder.checkBox.setVisibility(View.VISIBLE);
+                if (data.isSelected) {
+                    holder.checkBox.setChecked(true);
+                } else {
+                    holder.checkBox.setChecked(false);
+                }
+            } else {
+                holder.checkBox.setVisibility(View.GONE);
+            }
+            holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
+            holder.checkBox.setTag(new Integer(position));
+
+            holder.more.setOnClickListener(onMoreClickListener);
+            holder.more.setTag(new Integer(position));
+
+            if (position == mData.size() - 1) {
+                loadMore();
+            }
+
+            return convertView;
+        }
+    };
 
     @AfterViews
     protected void init() {
@@ -143,11 +296,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     void common_folder_bottom_add() {
         doNowFolder();
     }
-
-    //@OptionsItem
-    //void action_edit_folder(){
-    //    doEdit();
-    //}
 
     @Override
     public void loadMore() {
@@ -231,93 +379,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
                 showErrorMsg(code, respanse);
             }
         }
-    }
-
-    private boolean isEditMode = false;
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_attachment_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            AttachmentFolderObject data = mData.get(position);
-            holder.name.setText(data.getNameCount());
-            if (data.file_id.equals("0")) {
-                holder.icon.setImageResource(R.drawable.ic_project_attachment_folder_2);
-                holder.more.setVisibility(View.GONE);
-            } else {
-                holder.icon.setImageResource(R.drawable.ic_project_attachment_folder);
-                holder.more.setVisibility(View.VISIBLE);
-            }
-            //iconfromNetwork(holder.icon, data.user.avatar);
-            if (isEditMode && data.isDeleteable()) {
-                holder.checkBox.setVisibility(View.VISIBLE);
-                if (data.isSelected) {
-                    holder.checkBox.setChecked(true);
-                } else {
-                    holder.checkBox.setChecked(false);
-                }
-            } else {
-                holder.checkBox.setVisibility(View.GONE);
-            }
-            holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
-            holder.checkBox.setTag(new Integer(position));
-
-            holder.more.setOnClickListener(onMoreClickListener);
-            holder.more.setTag(new Integer(position));
-
-            if (position == mData.size() - 1) {
-                loadMore();
-            }
-
-            return convertView;
-        }
-
-        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AttachmentFolderObject data = mData.get((Integer) buttonView.getTag());
-                data.isSelected = isChecked;
-            }
-        };
-
-        private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPop(view, (Integer) view.getTag());
-            }
-        };
-    };
-
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        CheckBox checkBox;
-        RelativeLayout more;
     }
 
     private void doRename(final int position, final AttachmentFolderObject folderObject) {
@@ -404,8 +465,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         input.requestFocus();
     }
 
-    ActionMode mActionMode;
-
     private void doEdit() {
         if (mActionMode != null) {
             return;
@@ -421,55 +480,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         this.isEditMode = isEditMode;
         adapter.notifyDataSetChanged();
     }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        // Called when the action mode is created; startActionMode() was called
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.project_attachment_folder_edit, menu);
-            return true;
-        }
-
-        // Called each time the action mode is shown. Always called after onCreateActionMode, but
-        // may be called multiple times if the mode is invalidated.
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                //case R.id.menu_share:
-                //    shareCurrentItem();
-                //    mode.finish(); // Action picked, so close the CAB
-                //    return true;
-                case R.id.action_delete:
-                    action_delete();
-                    return true;
-                case R.id.action_all:
-                    action_all();
-                    return true;
-                case R.id.action_inverse:
-                    action_inverse();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        // Called when the user exits the action mode
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            setListEditMode(false);
-        }
-    };
-
-    ArrayList<AttachmentFolderObject> selectFolder;
 
     void action_delete() {
         selectFolder = new ArrayList<AttachmentFolderObject>();
@@ -540,13 +550,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         adapter.notifyDataSetChanged();
     }
 
-    /**
-     * 弹出框
-     */
-    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;
-    //private AttachmentFolderObject selectedFolderObject = null;
-    private int selectedPosition;
-
     public void initBottomPop() {
         if (mAttachmentPopupWindow == null) {
             ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<DialogUtil.BottomPopupItem>();
@@ -585,31 +588,15 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         mAttachmentPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    //showButtomToast("rename");
-                    doRename(selectedPosition, mData.get(selectedPosition));
-                    break;
-                case 1:
-                    //showButtomToast("delete");
-                    AttachmentFolderObject selectedFolderObject = mData.get(selectedPosition);
-                    if (selectedFolderObject.isDeleteable()) {
-                        action_delete_single(selectedFolderObject);
-                    } else {
-                        showButtomToast("请先清空文件夹");
-                        return;
-                    }
-                    break;
-            }
-            mAttachmentPopupWindow.dismiss();
-        }
-    };
-
     @Override
     protected String getLink() {
         return Global.HOST + mProjectObject.project_path + "/attachment";
+    }
+
+    static class ViewHolder {
+        ImageView icon;
+        TextView name;
+        CheckBox checkBox;
+        RelativeLayout more;
     }
 }

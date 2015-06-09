@@ -485,6 +485,10 @@ public class Global {
         return String.format("%s %s", dataString, DateFormatTime.format(new Date(timeInMillis)));
     }
 
+    public static String dayToNowCreate(long time) {
+        return "创建于 " + Global.dayToNow(time);
+    }
+
     public static String dayToNow(long time) {
         Calendar now = Calendar.getInstance();
 

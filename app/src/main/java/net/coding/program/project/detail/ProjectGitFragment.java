@@ -18,10 +18,12 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.git.BranchCommitListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -145,6 +147,12 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             mVersion = savedInstanceState.getString("mVersion", MASTER);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @OptionsItem
+    protected final void action_history() {
+        String commitUrl = UrlCreate.gitTreeCommit(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+        BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
     }
 
     @Override

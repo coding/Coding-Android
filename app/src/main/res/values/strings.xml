@@ -117,5 +117,6 @@
     <string name="title_activity_commit_file_list">CommitFileListActivity</string>
     <string name="title_activity_merge_accept">MergeAcceptActivity</string>
     <string name="title_activity_merge_file_detail">MergeFileDetail</string>
+    <string name="title_activity_branch_commit_list">提交历史</string>
 
 </resources>
