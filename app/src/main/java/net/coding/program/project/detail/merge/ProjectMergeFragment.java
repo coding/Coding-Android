@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
@@ -31,6 +32,8 @@ public class ProjectMergeFragment extends BaseFragment {
 
     @AfterViews
     protected final void initProjectMergeFragment() {
+        String title = ProjectObject.getTitle(mProjectObject.isPublic());
+        ((BaseActivity) getActivity()).getSupportActionBar().setTitle(title);
         mAdapter = new MergePagerAdapter(getChildFragmentManager(), mProjectObject);
         viewPager.setAdapter(mAdapter);
 

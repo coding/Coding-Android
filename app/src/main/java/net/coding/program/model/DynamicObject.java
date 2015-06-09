@@ -23,6 +23,10 @@ public class DynamicObject {
     static final String BLACK_HTML = "<font color='#666666'>%s</font>";
     static final int BLACK_COLOR = 0xff666666;
 
+    static String black(String s) {
+        return String.format(BLACK_HTML, s);
+    }
+
     public static class DynamicBaseObject implements Serializable {
         public String action = "";
         public String action_msg = "";
@@ -67,10 +71,6 @@ public class DynamicObject {
         protected String makeJump(String url) {
             return Global.HOST + url;
         }
-    }
-
-    static String black(String s) {
-        return String.format(BLACK_HTML, s);
     }
 
     public static class PullRequestBean extends DynamicBaseObject implements Serializable {
@@ -423,6 +423,24 @@ public class DynamicObject {
         String content = "";
         Parent parent = new Parent();
 
+        public Project_topic(JSONObject json) throws JSONException {
+            path = json.optString("path");
+            title = json.optString("title");
+
+            if (json.has("content")) {
+                content = json.optString("content");
+                parent = new Parent(json.optJSONObject("parent"));
+            }
+        }
+
+        public String getHtml() {
+            if (parent.isEmpty()) {
+                return String.format(BLACK_HTML, title);
+            } else {
+                return String.format(BLACK_HTML, HtmlContent.parseReplacePhoto(content));
+            }
+        }
+
         static class Parent {
             String path = "";
             String title = "";
@@ -447,24 +465,6 @@ public class DynamicObject {
                 return String.format(BLACK_HTML, title);
             }
         }
-
-        public Project_topic(JSONObject json) throws JSONException {
-            path = json.optString("path");
-            title = json.optString("title");
-
-            if (json.has("content")) {
-                content = json.optString("content");
-                parent = new Parent(json.optJSONObject("parent"));
-            }
-        }
-
-        public String getHtml() {
-            if (parent.isEmpty()) {
-                return String.format(BLACK_HTML, title);
-            } else {
-                return String.format(BLACK_HTML, HtmlContent.parseReplacePhoto(content));
-            }
-        }
     }
 
     public static class DynamicProjectFile extends DynamicBaseObject implements Serializable {
@@ -472,25 +472,7 @@ public class DynamicObject {
         File file;
         Project project;
         String type = "";
-
-        public static class File {
-            String name = "";
-            String path = "";
-
-            public File(JSONObject json) throws JSONException {
-                if (json.has("name")) {
-                    name = json.optString("name");
-                }
-
-                if (json.has("path")) {
-                    path = json.optString("path");
-                }
-            }
-
-            public String getHtml() {
-                return String.format(BLACK_HTML, name);
-            }
-        }
+        int mProjectId;
 
         public DynamicProjectFile(JSONObject json) throws JSONException {
             super(json);
@@ -532,11 +514,28 @@ public class DynamicObject {
             return makeJump(file.path + "/projectid/" + mProjectId + "/name/" + file.name);
         }
 
-        int mProjectId;
-
         public DynamicProjectFile projectId(int id) {
             mProjectId = id;
             return this;
+        }
+
+        public static class File {
+            String name = "";
+            String path = "";
+
+            public File(JSONObject json) throws JSONException {
+                if (json.has("name")) {
+                    name = json.optString("name");
+                }
+
+                if (json.has("path")) {
+                    path = json.optString("path");
+                }
+            }
+
+            public String getHtml() {
+                return String.format(BLACK_HTML, name);
+            }
         }
     }
 
@@ -599,8 +598,12 @@ public class DynamicObject {
 
         @Override
         public Spanned title() {
-            final String format = "%s %s 项目分支 " + BLACK_HTML;
-            String title = String.format(format, user.getHtml(), action_msg, ref);
+            String branch = "分支";
+            if (ref_type.equals("tag")) {
+                branch = "标签";
+            }
+            final String format = "%s %s 项目%s " + BLACK_HTML;
+            String title = String.format(format, user.getHtml(), action_msg, branch, ref);
             return Global.changeHyperlinkColor(title);
         }
 

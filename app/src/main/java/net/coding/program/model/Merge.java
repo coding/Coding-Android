@@ -93,6 +93,10 @@ public class Merge implements Serializable {
         }
     }
 
+    public boolean isMerge() {
+        return source_depot != null;
+    }
+
     public String getDescBranch() {
         if (source_depot == null) {
             return desBranch;

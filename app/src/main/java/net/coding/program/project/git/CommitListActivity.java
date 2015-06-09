@@ -42,8 +42,6 @@ public class CommitListActivity extends BackActivity {
 
     @AfterViews
     protected final void initCommitListActivity() {
-        getSupportActionBar().setTitle(mMerge.getTitle());
-
         BaseCommentParam param = new BaseCommentParam(mOnClickListItem,
                 new MyImageGetter(this), getImageLoad(), mOnClickUser);
         mAdapter = new CommitsAdapter(param);

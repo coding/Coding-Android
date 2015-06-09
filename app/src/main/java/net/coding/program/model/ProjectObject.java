@@ -82,6 +82,10 @@ public class ProjectObject implements Serializable {
         return path.replace("/u/", "/user/").replace("/p/", "/project/");
     }
 
+    public static String getTitle(boolean isMerge) {
+        return isMerge ? "Merge Request" : "Pull Request";
+    }
+
     public boolean isPin() {
         return pin;
     }

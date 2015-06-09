@@ -16,6 +16,7 @@ import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.CommitListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -81,7 +82,8 @@ public class MergeDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initMergeDetailActivity() {
-        getSupportActionBar().setTitle(mMerge.getTitle());
+        String title = ProjectObject.getTitle(mMerge.isMerge());
+        getSupportActionBar().setTitle(title);
 
         String uri = mMerge.getHttpComments();
         getNetwork(uri, HOST_MERGE_COMMENTS);

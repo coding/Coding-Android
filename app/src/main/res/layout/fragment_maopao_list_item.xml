@@ -62,29 +62,29 @@
                 android:layout_alignLeft="@+id/name"
                 android:layout_below="@+id/name"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/content_pressed_selector"
                 android:lineSpacingExtra="1dp"
                 android:lineSpacingMultiplier="1.1"
-                android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
+                android:text="陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/font_black_content"
-                android:background="@drawable/content_pressed_selector"
                 android:textSize="15sp" />
 
             <net.coding.program.common.MinSizeImageView
-                custom:microSize="@dimen/image_single_micro_width"
-                custom:minWidth="@dimen/image_single_min_size"
-                custom:minHeight="@dimen/image_single_min_size"
                 android:id="@+id/imageSingle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
                 android:layout_marginTop="13dp"
-                android:maxWidth="@dimen/image_single_width"
+                android:adjustViewBounds="true"
+                android:longClickable="true"
                 android:maxHeight="@dimen/image_single_width"
-                android:minWidth="@dimen/image_single_min_width"
+                android:maxWidth="@dimen/image_single_width"
                 android:minHeight="@dimen/image_single_min_width"
-                android:longClickable="true" />
+                android:minWidth="@dimen/image_single_min_width"
+                android:scaleType="centerCrop"
+                custom:microSize="@dimen/image_single_micro_width"
+                custom:minHeight="@dimen/image_single_min_size"
+                custom:minWidth="@dimen/image_single_min_size" />
 
             <LinearLayout
                 android:id="@+id/imageLayout"
@@ -98,21 +98,21 @@
                     android:id="@+id/imagesLayout0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_marginTop="4dp">
+                    android:visibility="gone">
 
                     <include
-                        layout="@layout/maopao_image"
-                        android:id="@+id/image0" />
+                        android:id="@+id/image0"
+                        layout="@layout/maopao_image" />
 
                     <include
-                        layout="@layout/maopao_image"
-                        android:id="@+id/image1" />
+                        android:id="@+id/image1"
+                        layout="@layout/maopao_image" />
 
                     <include
-                        layout="@layout/maopao_image"
-                        android:id="@+id/image2" />
+                        android:id="@+id/image2"
+                        layout="@layout/maopao_image" />
 
                 </LinearLayout>
 
@@ -124,66 +124,66 @@
                     android:visibility="gone">
 
                     <include
-                        layout="@layout/maopao_image"
-                        android:id="@+id/image3" />
+                        android:id="@+id/image3"
+                        layout="@layout/maopao_image" />
 
                     <include
-                        layout="@layout/maopao_image"
-                        android:id="@+id/image4" />
+                        android:id="@+id/image4"
+                        layout="@layout/maopao_image" />
 
                     <include
-                        layout="@layout/maopao_image"
-                        android:id="@+id/image5" />
+                        android:id="@+id/image5"
+                        layout="@layout/maopao_image" />
 
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/goodCommentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:singleLine="true"
                     android:ellipsize="end"
-                    android:textSize="12sp"
-                    android:text="北京"
                     android:gravity="bottom"
-                    android:textColor="@color/font_green" />
+                    android:singleLine="true"
+                    android:text="北京"
+                    android:textColor="@color/font_green"
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|right"
                     android:baselineAligned="true"
+                    android:gravity="center_vertical|right"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/photoType"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
+                        android:layout_weight="1"
                         android:ellipsize="end"
-                        android:textSize="13sp"
                         android:gravity="center_vertical"
+                        android:singleLine="true"
                         android:text="来自 iPhone 6"
-                        android:textColor="@color/font_gray" />
+                        android:textColor="@color/font_gray"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/maopaoDelete"
                         android:layout_width="wrap_content"
-                        android:textSize="13sp"
                         android:layout_height="wrap_content"
-                        android:text="删除"
                         android:gravity="center_vertical"
-                        android:textColor="@color/font_gray" />
+                        android:text="删除"
+                        android:textColor="@color/font_gray"
+                        android:textSize="13sp" />
 
                     <CheckBox
                         android:id="@+id/likeBtn"
@@ -226,10 +226,10 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/likesAllLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:id="@+id/likesAllLayout"
                         android:visibility="visible">
 
                         <LinearLayout
@@ -245,8 +245,8 @@
                             android:id="@+id/likeAreaDivide"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@drawable/maopao_comment_divide"
-                            android:layout_gravity="bottom" />
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/maopao_comment_divide" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -282,11 +282,11 @@
 
 
                             <View
-                                android:layout_alignLeft="@id/temp1"
-                                android:background="@drawable/maopao_comment_divide"
-                                android:layout_height="1dp"
                                 android:layout_width="match_parent"
-                                android:layout_alignParentBottom="true" />
+                                android:layout_height="1dp"
+                                android:layout_alignLeft="@id/temp1"
+                                android:layout_alignParentBottom="true"
+                                android:background="@drawable/maopao_comment_divide" />
                         </RelativeLayout>
 
                         <include
