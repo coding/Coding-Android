@@ -17,6 +17,7 @@ import java.util.Calendar;
 
 /**
  * Created by cc191954 on 14-8-9.
+ * 动态的各种类型都在这里
  */
 public class DynamicObject {
 
@@ -165,8 +166,19 @@ public class DynamicObject {
 
         @Override
         public Spanned title() {
-            final String farmat = "%s %s 项目 %s 的提交 %s";
-            String title = String.format(farmat, user.getHtml(), action_msg, project.getHtml(), lineNote.getHtml());
+            String s;
+            switch (lineNote.noteable_type) {
+                case "Commit":
+                    s = "commit";
+                    break;
+                case "MergeRequestBean":
+                    s = "Merge Request";
+                    break;
+                default: //  "PullRequestBean":
+                    s = "提交";
+            }
+            final String farmat = "%s %s 项目 %s 的 %s %s";
+            String title = String.format(farmat, user.getHtml(), action_msg, project.getHtml(), s, lineNote.getHtml());
             return Global.changeHyperlinkColor(title);
         }
 
@@ -182,6 +194,7 @@ public class DynamicObject {
         int id;
         String commit_id = ""; //: "0f66fb520ee8560e63c4cdf1c7036eb9331119d7",
         String path = ""; // : "src/main/java/net/coding/core/Application.java",
+        String noteable_type = "";
         String commit_path = ""; //: "/u/wzw/p/coding/git/commit/0f66fb520ee8560e63c4cdf1c7036eb9331119d7"
 
         public line_note(JSONObject json) {
@@ -189,6 +202,7 @@ public class DynamicObject {
             commit_id = json.optString("commit_id");
             path = json.optString("path");
             id = json.optInt("id");
+            noteable_type = json.optString("noteable_type", "");
         }
 
         public String getHtml() {
@@ -576,7 +590,7 @@ public class DynamicObject {
         public DynamicDepotPush(JSONObject json) throws JSONException {
             super(json);
 
-            commits = new ArrayList<Commit>();
+            commits = new ArrayList<>();
             if (json.has("commits")) {
                 JSONArray arrayCommits = json.optJSONArray("commits");
 
