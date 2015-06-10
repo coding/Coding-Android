@@ -20,9 +20,14 @@ public class TextWatcherAt implements TextWatcher {
     int mResult;
 
     ProjectObject mProjectObject;
+    String mMergeUrl;
 
     public TextWatcherAt(Context ctx, StartActivity startActivity, int activityResult) {
-        this(ctx, startActivity, activityResult, null);
+        this(ctx, startActivity, activityResult, null, null);
+    }
+
+    public TextWatcherAt(Context ctx, StartActivity startActivity, int activityResult, String mergeUrl) {
+        this(ctx, startActivity, activityResult, null, mergeUrl);
     }
 
     public TextWatcherAt(Context mContext, StartActivity mStartActivity, int mResult, ProjectObject mProjectObject) {
@@ -30,6 +35,22 @@ public class TextWatcherAt implements TextWatcher {
         this.mStartActivity = mStartActivity;
         this.mResult = mResult;
         this.mProjectObject = mProjectObject;
+    }
+
+    private TextWatcherAt(Context mContext, StartActivity mStartActivity, int mResult, ProjectObject mProjectObject, String mMergeUrl) {
+        this.mContext = mContext;
+        this.mStartActivity = mStartActivity;
+        this.mResult = mResult;
+        this.mProjectObject = mProjectObject;
+        this.mMergeUrl = mMergeUrl;
+    }
+
+    public static void startActivityAt(Context context, StartActivity startActivity, int result) {
+        Intent intent;
+        intent = new Intent(context, UsersListActivity_.class);
+        intent.putExtra("type", UsersListActivity.Friend.Follow);
+        intent.putExtra("select", true);
+        startActivity.startActivityForResult(intent, result);
     }
 
     @Override
@@ -40,6 +61,13 @@ public class TextWatcherAt implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String newEnter = s.toString().substring(start, start + count);
         if (newEnter.equals("@")) {
+            if (mMergeUrl != null && !mMergeUrl.isEmpty()) {
+                Intent intent;
+                intent = new Intent(mContext, MembersSelectActivity_.class);
+                intent.putExtra("mMergeUrl", mMergeUrl);
+                mStartActivity.startActivityForResult(intent, mResult);
+
+            }
             if (mProjectObject == null) {
                 startActivityAt(mContext, mStartActivity, mResult);
             } else {
@@ -53,14 +81,6 @@ public class TextWatcherAt implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-    }
-
-    public static void startActivityAt(Context context, StartActivity startActivity, int result) {
-        Intent intent;
-        intent = new Intent(context, UsersListActivity_.class);
-        intent.putExtra("type", UsersListActivity.Friend.Follow);
-        intent.putExtra("select", true);
-        startActivity.startActivityForResult(intent, result);
     }
 
 }

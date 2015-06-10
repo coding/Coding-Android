@@ -22,17 +22,28 @@ public class MembersSelectActivity extends BaseActivity {
     @Extra
     ProjectObject mProjectObject;
 
+    @Extra
+    String mMergeUrl;
+
     MembersListFragment fragment;
 
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fragment = new MembersListFragment_
-                .FragmentBuilder_()
-                .mProjectObject(mProjectObject)
-                .mSelect(true)
-                .build();
+        if (mProjectObject != null) {
+            fragment = new MembersListFragment_
+                    .FragmentBuilder_()
+                    .mProjectObject(mProjectObject)
+                    .mSelect(true)
+                    .build();
+        } else if (mMergeUrl != null) {
+            fragment = new MembersListFragment_
+                    .FragmentBuilder_()
+                    .mMergeUrl(mMergeUrl)
+                    .mSelect(true)
+                    .build();
+        }
 
         getSupportFragmentManager()
                 .beginTransaction()

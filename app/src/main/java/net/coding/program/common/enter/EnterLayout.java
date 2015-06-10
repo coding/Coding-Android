@@ -20,17 +20,22 @@ import net.coding.program.common.Global;
  */
 public class EnterLayout {
 
-    private Activity mActivity;
-
     public TextView sendText;
     public ImageButton send;
     public EditText content;
-
-    public enum Type {
-        Default, TextOnly
-    }
-
+    private Activity mActivity;
     private Type mType = Type.Default;
+    private TextWatcher restoreWatcher = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            Object tag = content.getTag();
+            if (tag == null) {
+                return;
+            }
+
+            CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
+        }
+    };
 
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type) {
         mType = type;
@@ -88,6 +93,19 @@ public class EnterLayout {
         });
     }
 
+    public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
+        this(activity, sendTextOnClick, Type.Default);
+    }
+
+    public static void insertText(EditText edit, String s) {
+        edit.requestFocus();
+        int insertPos = edit.getSelectionStart();
+
+        String insertString = s + " ";
+        Editable editable = edit.getText();
+        editable.insert(insertPos, insertString);
+    }
+
     public void updateSendButtonStyle() {
         if (mType == Type.Default) {
             if (sendButtonEnable()) {
@@ -112,10 +130,6 @@ public class EnterLayout {
         return content.getText().length() > 0;
     }
 
-    public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
-        this(activity, sendTextOnClick, Type.Default);
-    }
-
     public void hideKeyboard() {
         Global.popSoftkeyboard(mActivity, content, false);
     }
@@ -126,14 +140,7 @@ public class EnterLayout {
     }
 
     public void insertText(String s) {
-        content.requestFocus();
-        int insertPos = content.getSelectionStart();
-
-        String insertString = s + " ";
-        Editable editable = content.getText();
-        editable.insert(insertPos, insertString);
-
-//        content.setSelection(insertPos + insertString.length());
+        insertText(content, s);
     }
 
     public void setText(String s) {
@@ -200,17 +207,9 @@ public class EnterLayout {
         restoreSaveStart();
     }
 
-    private TextWatcher restoreWatcher = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            Object tag = content.getTag();
-            if (tag == null) {
-                return;
-            }
-
-            CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
-        }
-    };
+    public enum Type {
+        Default, TextOnly
+    }
 
 
     public interface CameraAndPhoto {

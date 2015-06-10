@@ -218,6 +218,12 @@ public class Merge implements Serializable {
         return Global.changeHyperlinkColor(spanString);
     }
 
+    public String getMergeAtMemberUrl() {
+        String url = Global.HOST_API + "/user/relationships/context?context_type=%s&extra_id=%d&item_id=%d";
+        String type = isPull() ? "pull_request_comment" : "merge_request_comment";
+        return String.format(url, type, 33, iid);
+    }
+
     static class ActionAuthor extends UserObject implements Serializable {
 
         private int status;

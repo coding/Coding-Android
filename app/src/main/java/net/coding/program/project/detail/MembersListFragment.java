@@ -46,29 +46,139 @@ import java.util.ArrayList;
 @EFragment(R.layout.common_refresh_listview)
 public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
+    static final int RESULT_ADD_USER = 111;
+    final String urlDeleteUser = Global.HOST + "/api/project/%d/kickout/%d";
     String urlMembers = Global.HOST + "/api/project/%d/members?pagesize=1000";
     String urlQuit = Global.HOST + "/api/project/%d/quit";
-
-    final String urlDeleteUser = Global.HOST + "/api/project/%d/kickout/%d";
-
     @FragmentArg
     ProjectObject mProjectObject;
-
+    @FragmentArg
+    String mMergeUrl;
     // 为true表示是用@选成员，为false表示项目成员列表
     @FragmentArg
     boolean mSelect;
-
     @ViewById
     ListView listView;
-
     ArrayList<TaskObject.Members> mSearchData = new ArrayList<>();
     ArrayList<TaskObject.Members> mData = new ArrayList<>();
+    BaseAdapter adapter = new BaseAdapter() {
+
+        private View.OnClickListener sendMessage = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserObject user = (UserObject) v.getTag();
+                Intent intent = new Intent(getActivity(), MessageListActivity_.class);
+                intent.putExtra("mUserObject", user);
+                startActivity(intent);
+            }
+        };
+        private View.OnClickListener quitProject = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //showButtomToast("quit");
+//                String.format(urlMembers, mProjectObject.getId());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog dialog = builder.setTitle("确认退出项目")
+                        .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                RequestParams params = new RequestParams();
+                                postNetwork(urlQuit, params, urlQuit);
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+                CustomDialog.dialogTitleLineColor(getActivity(), dialog);
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return mSearchData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mSearchData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.fragment_members_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                //holder.desc = (TextView) convertView.findViewById(R.id.desc);
+                holder.ic = (ImageView) convertView.findViewById(R.id.ic);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+//                holder.icon.setOnClickListener(mOnClickUser);
+//                holder.icon.setFocusable(false);
+                holder.btn = (ImageView) convertView.findViewById(R.id.btn);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            TaskObject.Members data = mSearchData.get(position);
+            holder.name.setText(data.user.name);
+            if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                //holder.desc.setText("(创建者)");
+                holder.ic.setVisibility(View.VISIBLE);
+            } else {
+                holder.ic.setVisibility(View.GONE);
+            }
+            iconfromNetwork(holder.icon, data.user.avatar);
+            holder.icon.setTag(data.user.global_key);
+
+            if (mSearchData.size() - 1 == position) {
+                loadMore();
+            }
+
+            if (mSelect) {
+                holder.btn.setVisibility(View.GONE);
+            } else if (data.user.name.equals(MyApp.sUserObject.name)) {
+                holder.btn.setImageResource(R.drawable.ic_member_list_quit);
+                holder.btn.setOnClickListener(quitProject);
+                if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                    holder.btn.setVisibility(View.GONE);
+                } else {
+                    holder.btn.setVisibility(View.VISIBLE);
+                }
+            } else {
+                holder.btn.setImageResource(R.drawable.ic_send_message);
+                holder.btn.setTag(data.user);
+                holder.btn.setOnClickListener(sendMessage);
+                holder.btn.setVisibility(View.VISIBLE);
+            }
+
+            return convertView;
+        }
+    };
 
     @AfterViews
     protected void init() {
         initRefreshLayout();
 
-        mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
+        if (mProjectObject != null) {
+            mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
+        } else {
+            mData = new ArrayList<>();
+        }
         mSearchData = new ArrayList<>(mData);
         if (mSearchData.isEmpty()) {
             showDialogLoading();
@@ -137,8 +247,12 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             });
         }
 
-        urlMembers = String.format(urlMembers, mProjectObject.getId());
-        urlQuit = String.format(urlQuit, mProjectObject.getId());
+        if (mProjectObject != null) {
+            urlMembers = String.format(urlMembers, mProjectObject.getId());
+            urlQuit = String.format(urlQuit, mProjectObject.getId());
+        } else {  // mMergeUrl 不为空
+            urlMembers = mMergeUrl;
+        }
 
         loadMore();
 
@@ -165,8 +279,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     public void loadMore() {
         getNextPageNetwork(urlMembers, urlMembers);
     }
-
-    static final int RESULT_ADD_USER = 111;
 
     private boolean projectCreateByMe() {
         return mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
@@ -262,125 +374,15 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         }
     }
 
-    BaseAdapter adapter = new BaseAdapter() {
-
-        @Override
-        public int getCount() {
-            return mSearchData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mSearchData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_members_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                //holder.desc = (TextView) convertView.findViewById(R.id.desc);
-                holder.ic = (ImageView) convertView.findViewById(R.id.ic);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-//                holder.icon.setOnClickListener(mOnClickUser);
-//                holder.icon.setFocusable(false);
-                holder.btn = (ImageView) convertView.findViewById(R.id.btn);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            TaskObject.Members data = mSearchData.get(position);
-            holder.name.setText(data.user.name);
-            if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                //holder.desc.setText("(创建者)");
-                holder.ic.setVisibility(View.VISIBLE);
-            } else {
-                holder.ic.setVisibility(View.GONE);
-            }
-            iconfromNetwork(holder.icon, data.user.avatar);
-            holder.icon.setTag(data.user.global_key);
-
-            if (mSearchData.size() - 1 == position) {
-                loadMore();
-            }
-
-            if (mSelect) {
-                holder.btn.setVisibility(View.GONE);
-            } else if (data.user.name.equals(MyApp.sUserObject.name)) {
-                holder.btn.setImageResource(R.drawable.ic_member_list_quit);
-                holder.btn.setOnClickListener(quitProject);
-                if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                    holder.btn.setVisibility(View.GONE);
-                } else {
-                    holder.btn.setVisibility(View.VISIBLE);
-                }
-            } else {
-                holder.btn.setImageResource(R.drawable.ic_send_message);
-                holder.btn.setTag(data.user);
-                holder.btn.setOnClickListener(sendMessage);
-                holder.btn.setVisibility(View.VISIBLE);
-            }
-
-            return convertView;
-        }
-
-        private View.OnClickListener sendMessage = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserObject user = (UserObject) v.getTag();
-                Intent intent = new Intent(getActivity(), MessageListActivity_.class);
-                intent.putExtra("mUserObject", user);
-                startActivity(intent);
-            }
-        };
-
-        private View.OnClickListener quitProject = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //showButtomToast("quit");
-//                String.format(urlMembers, mProjectObject.getId());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                AlertDialog dialog = builder.setTitle("确认退出项目")
-                        .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                RequestParams params = new RequestParams();
-                                postNetwork(urlQuit, params, urlQuit);
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .show();
-
-                CustomDialog.dialogTitleLineColor(getActivity(), dialog);
-            }
-        };
-    };
+    @Override
+    protected String getLink() {
+        return Global.HOST + mProjectObject.project_path + "/members";
+    }
 
     static class ViewHolder {
         ImageView icon;
         TextView name;
         ImageView ic;
         ImageView btn;
-    }
-
-    @Override
-    protected String getLink() {
-        return Global.HOST + mProjectObject.project_path + "/members";
     }
 }

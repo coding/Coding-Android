@@ -41,7 +41,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editFragment = CommentEditFragment_.builder().build();
+        editFragment = CommentEditFragment_.builder().mMergeUrl(mMerge.getMergeAtMemberUrl()).build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
