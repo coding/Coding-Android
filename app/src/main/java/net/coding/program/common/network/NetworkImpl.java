@@ -23,13 +23,8 @@ public class NetworkImpl {
     private final NetworkCallback callback;
 
     public HashMap<String, PageInfo> mPages = new HashMap<>();
-    private HashMap<String, Boolean> mUpdateing = new HashMap<>();
-
     Context appContext;
-
-    public enum Request {
-        Get, Post, Put, Delete
-    }
+    private HashMap<String, Boolean> mUpdateing = new HashMap<>();
 
     public NetworkImpl(Context ctx, NetworkCallback networkCallback) {
         this.appContext = ctx;
@@ -184,13 +179,22 @@ public class NetworkImpl {
 
         PageInfo pageInfo = mPages.get(tag);
         if (json.has("data")) {
-            json = json.getJSONObject("data");
-            if (json.has("totalPage")) {
-                pageInfo.pageAll = json.getInt("totalPage");
-                pageInfo.pageIndex = json.getInt("page");
-            } else if (json.has("page")) {
-                pageInfo.pageIndex = json.getInt("page");
-                pageInfo.pageAll = json.getInt("pageSize");
+            JSONObject jsonData = json.getJSONObject("data");
+            if (jsonData.has("totalPage")) {
+                pageInfo.pageAll = jsonData.getInt("totalPage");
+                pageInfo.pageIndex = jsonData.getInt("page");
+            } else if (jsonData.has("page")) {
+                pageInfo.pageIndex = jsonData.getInt("page");
+                pageInfo.pageAll = jsonData.getInt("pageSize");
+            } else if (jsonData.has("commits")) {
+                JSONObject jsonCommits = jsonData.getJSONObject("commits");
+                if (jsonCommits.has("totalPage")) {
+                    pageInfo.pageAll = jsonCommits.getInt("totalPage");
+                    pageInfo.pageIndex = jsonCommits.getInt("page");
+                } else {
+                    pageInfo.pageIndex = 0;
+                    pageInfo.pageAll = 0;
+                }
             } else {
                 pageInfo.pageIndex = 0;
                 pageInfo.pageAll = 0;
@@ -206,7 +210,6 @@ public class NetworkImpl {
 //            callback.setPageBottom(NetworkCallback.PageStyle.Loading);
 //        }
     }
-
 
     private void updateRequest(JSONObject json, final String tag) throws JSONException {
         if (!isPageRequest(tag)) {
@@ -236,6 +239,10 @@ public class NetworkImpl {
 
         String pageUrl = url + "&page=" + (pageInfo.pageIndex + 1);
         callback.getNetwork(pageUrl, tag);
+    }
+
+    public enum Request {
+        Get, Post, Put, Delete
     }
 
 }
