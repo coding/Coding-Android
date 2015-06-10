@@ -2,7 +2,6 @@ package net.coding.program;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import net.coding.program.common.Global;
 
@@ -36,13 +35,6 @@ public class FootUpdate {
         mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            }
-        });
-
-        mLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                return false;
             }
         });
 

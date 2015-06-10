@@ -622,12 +622,11 @@
         <activity
             android:name=".project.detail.merge.MergeFileDetailActivity_"
             android:label="@string/title_activity_merge_file_detail"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="unspecified" />
         <activity
             android:name=".project.git.BranchCommitListActivity_"
             android:label="@string/title_activity_branch_commit_list"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
