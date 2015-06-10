@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,123 +7,133 @@
     android:scrollbars="none"
     tools:context="net.coding.program.project.PublicProjectHomeFragment">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/stand_bg"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/divide"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        tools:context="net.coding.program.project.PublicProjectHomeFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/stand_bg"
             android:orientation="vertical">
-
-            <include layout="@layout/project_home_list_head_head" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_15"
-                android:textColor="@color/font_black_2"
-                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_15"
-                android:layout_marginLeft="@dimen/padding_15"
-                android:layout_marginRight="@dimen/padding_15"
-                android:layout_marginTop="0dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <include
-                    android:id="@+id/buttonStar"
-                    layout="@layout/project_home_list_head_public_button"
-                    android:layout_width="0dp"
-                    android:layout_height="38dp"
-                    android:layout_weight="1" />
+                <include layout="@layout/project_home_list_head_head" />
 
-                <include
-                    android:id="@+id/buttonWatch"
-                    layout="@layout/project_home_list_head_public_button"
-                    android:layout_width="0dp"
-                    android:layout_height="38dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_15"
+                    android:textColor="@color/font_black_2"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
-                <include
-                    android:id="@+id/buttonFork"
-                    layout="@layout/project_home_list_head_public_button"
-                    android:layout_width="0dp"
-                    android:layout_height="38dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1" />
+            <include layout="@layout/divide_15_top_bottom" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/buttonsRoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/itemDynamic"
+                        layout="@layout/project_home_list_head_button" />
+
+                    <include layout="@layout/divideline_15" />
+
+                    <include
+                        android:id="@+id/itemTopic"
+                        layout="@layout/project_home_list_head_button" />
+
+                    <include layout="@layout/divideline_15" />
+
+                    <include
+                        android:id="@+id/itemCode"
+                        layout="@layout/project_home_list_head_button" />
+
+                    <include layout="@layout/divideline_15" />
+
+                    <include
+                        android:id="@+id/itemMember"
+                        layout="@layout/project_home_list_head_button" />
+
+                </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
 
-        <include layout="@layout/divide_15_top_bottom" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            <include layout="@layout/divide_15_top_bottom" />
 
             <LinearLayout
-                android:id="@+id/buttonsRoot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/itemDynamic"
+                    android:id="@+id/itemReadme"
                     layout="@layout/project_home_list_head_button" />
 
                 <include layout="@layout/divideline_15" />
 
                 <include
-                    android:id="@+id/itemTopic"
-                    layout="@layout/project_home_list_head_button" />
-
-                <include layout="@layout/divideline_15" />
-
-                <include
-                    android:id="@+id/itemCode"
-                    layout="@layout/project_home_list_head_button" />
-
-                <include layout="@layout/divideline_15" />
-
-                <include
-                    android:id="@+id/itemMember"
+                    android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <include layout="@layout/divide_15_top_bottom" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/itemReadme"
-                layout="@layout/project_home_list_head_button" />
-
-            <include layout="@layout/divideline_15" />
-
-            <include
-                android:id="@+id/itemMerge"
-                layout="@layout/project_home_list_head_button" />
+            <include layout="@layout/divide_15_top" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <include layout="@layout/divide_15_top" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_15">
+
+        <include
+            android:id="@+id/buttonStar"
+            layout="@layout/project_home_list_head_public_button"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/buttonWatch"
+            layout="@layout/project_home_list_head_public_button"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/buttonFork"
+            layout="@layout/project_home_list_head_public_button"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>
