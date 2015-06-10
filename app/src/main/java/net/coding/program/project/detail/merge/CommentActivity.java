@@ -119,6 +119,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_SEND_COMMENT)) {
+            showProgressBar(false);
             if (code == 0) {
                 BaseComment comment = new BaseComment(respanse.getJSONObject("data"));
                 Intent intent = new Intent();

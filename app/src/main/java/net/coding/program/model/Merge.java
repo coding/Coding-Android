@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * Created by chenchao on 15/5/25.
+ * Merge对象，由json生成
  */
 public class Merge implements Serializable {
     private static final String STYLE_ACCEPT = "ACCEPTED";
@@ -157,7 +158,6 @@ public class Merge implements Serializable {
     }
 
 
-
     public String getHttpCommits() {
         return getHostPublicHead("/commits");
     }
@@ -194,7 +194,8 @@ public class Merge implements Serializable {
     public PostRequest getHttpSendComment() {
         String url = getHttpHostComment();
         RequestParams params = new RequestParams();
-        params.put("noteable_type", "PullRequestBean");
+        String mergeType = isPull() ? "PullRequestBean" : "MergeRequestBean";
+        params.put("noteable_type", mergeType);
         params.put("noteable_id", id);
 
         return new PostRequest(url, params);
