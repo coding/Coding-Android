@@ -55,15 +55,16 @@ import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-23.
+ * 放一些公共的全局方法
  */
 public class Global {
 
     public static final String HOST = "https://coding.net";
     public static final String HOST_API = HOST + "/api";
+    public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat MonthDayFormatTime = new SimpleDateFormat("MMMdd日");
-
     public static SimpleDateFormat WeekFormatTime = new SimpleDateFormat("EEE");
     public static SimpleDateFormat NextWeekFormatTime = new SimpleDateFormat("下EEE");
     public static SimpleDateFormat LastWeekFormatTime = new SimpleDateFormat("上EEE");

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sectionTitle"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_section_commit"
+    android:background="@color/divide"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/padding_15"
+    android:text="Title"
+    android:textColor="@color/font_black_6" />

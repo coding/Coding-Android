@@ -74,10 +74,15 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     };
     private LayoutInflater inflater;
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("a HH:mm");
     private MyImageGetter myImageGetter;
     private LoadingAnimation mLoadingAnimation;
+
+    public static boolean isDifferentDay(Calendar c1, Calendar c2) {
+        return (c1.get(Calendar.DAY_OF_MONTH) != c2.get(Calendar.DAY_OF_MONTH))
+                || (c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH))
+                || (c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR));
+    }
 
     protected void destoryLoadingAnimation() {
         if (mLoadingAnimation != null) {
@@ -106,12 +111,13 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
         Calendar calendar = Calendar.getInstance();
         Long today = calendar.getTimeInMillis();
-        sToday = mDateFormat.format(today);
+        sToday = Global.mDateFormat.format(today);
         Long yesterday = calendar.getTimeInMillis() - 1000 * 60 * 60 * 24;
-        sYesterday = mDateFormat.format(yesterday);
+        sYesterday = Global.mDateFormat.format(yesterday);
 
         mLastId = UPDATE_ALL_INT;
 
+        listView.setDividerHeight(0);
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
 
@@ -325,11 +331,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
             return false;
         }
 
-        public boolean isDifferentDay(Calendar c1, Calendar c2) {
-            return (c1.get(Calendar.DAY_OF_MONTH) != c2.get(Calendar.DAY_OF_MONTH))
-                    || (c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH))
-                    || (c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR));
-        }
 
         public void initSection() {
             mSectionTitle.clear();
@@ -487,7 +488,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
             }
 
             Long time = mSectionTitle.get(getSectionForPosition(position));
-            String s = mDateFormat.format(time);
+            String s = Global.mDateFormat.format(time);
             if (s.equals(sToday)) {
                 s += " (今天)";
             } else if (s.equals(sYesterday)) {
