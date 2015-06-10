@@ -69,17 +69,17 @@ public class TopicEditFragment extends MDEditFragment {
     }
 
     public interface SaveData {
-        public void saveData(TopicAddActivity.TopicData data);
+        void saveData(TopicAddActivity.TopicData data);
 
-        public TopicAddActivity.TopicData loadData();
+        TopicAddActivity.TopicData loadData();
 
-        public void switchPreview();
+        void switchPreview();
 
-        public void switchEdit();
+        void switchEdit();
 
-        public void exit();
+        void exit();
 
-        public int getProjectId();
+        String getProjectPath();
 
         boolean isProjectPublic();
 

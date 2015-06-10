@@ -107,13 +107,13 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     }
 
     @Override
-    public int getProjectId() {
-        return 0;
+    public String getProjectPath() {
+        return mMerge.getProjectPath();
     }
 
     @Override
     public boolean isProjectPublic() {
-        return false;
+        return mMerge.isPull();
     }
 
     @Override

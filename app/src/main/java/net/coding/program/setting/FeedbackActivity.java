@@ -25,8 +25,8 @@ public class FeedbackActivity extends TopicAddActivity {
     }
 
     @Override
-    public int getProjectId() {
-        return 39583;
+    public String getProjectPath() {
+        return "/user/coding/project/Coding-Android/";
     }
 
     @Override

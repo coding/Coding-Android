@@ -134,6 +134,10 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path;
     }
 
+    public String getProjectPath() {
+        return backend_project_path;
+    }
+
     public boolean isMy() {
         return MyApp.sUserObject.id == owner_id;
     }

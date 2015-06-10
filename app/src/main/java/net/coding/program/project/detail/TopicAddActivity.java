@@ -30,28 +30,20 @@ import java.util.List;
 @EActivity(R.layout.activity_topic_add)
 public class TopicAddActivity extends BaseActivity implements TopicEditFragment.SaveData, TopicLabelBar.Controller {
 
-    @Extra
-    protected ProjectObject projectObject;
-
-    @Extra
-    protected TopicObject topicObject;
-
-    private TopicData modifyData = new TopicData();
-
     final String HOST_TOPIC_NEW = Global.HOST + "/api/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST + "/api/topic/%d";
-
-    String url = "";
-
-    String HOST_TOPIC_DETAIL_CONTENT = Global.HOST + "/api/topic/%d?type=1";
-
     final int RESULT_LABEL = 1000;
-
-    TopicEditFragment editFragment;
-    TopicPreviewFragment previewFragment;
-
+    @Extra
+    protected ProjectObject projectObject;
+    @Extra
+    protected TopicObject topicObject;
     @InstanceState
     protected boolean labelsHasChanged;
+    String url = "";
+    String HOST_TOPIC_DETAIL_CONTENT = Global.HOST + "/api/topic/%d?type=1";
+    TopicEditFragment editFragment;
+    TopicPreviewFragment previewFragment;
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected void init() {
@@ -173,27 +165,6 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
         setResult(RESULT_CANCELED, intent);
     }
 
-    public static class TopicData implements Serializable {
-        public List<TopicLabelObject> labels;
-        public String title = "";
-        public String content = "";
-
-        public TopicData(TopicObject topicObject) {
-            this.title = topicObject.title;
-            this.content = topicObject.content;
-            this.labels = topicObject.labels;
-        }
-
-        public TopicData(String title, String content, List<TopicLabelObject> labels) {
-            this.title = title;
-            this.content = content;
-            this.labels = labels;
-        }
-
-        public TopicData() {
-        }
-    }
-
     @Override
     public void saveData(TopicData data) {
         modifyData = data;
@@ -249,15 +220,14 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     }
 
     @Override
-    public int getProjectId() {
-        return projectObject.getId();
+    public String getProjectPath() {
+        return projectObject.getPath();
     }
 
     @Override
     public boolean isProjectPublic() {
         return projectObject.isPublic();
     }
-
 
     @OnActivityResult(RESULT_LABEL)
     protected void onResultLabel(int code, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels) {
@@ -267,6 +237,27 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
             previewFragment.updateLabels(modifyData.labels);
             labelsHasChanged = true;
             saveLabelsIfCancel();
+        }
+    }
+
+    public static class TopicData implements Serializable {
+        public List<TopicLabelObject> labels;
+        public String title = "";
+        public String content = "";
+
+        public TopicData(TopicObject topicObject) {
+            this.title = topicObject.title;
+            this.content = topicObject.content;
+            this.labels = topicObject.labels;
+        }
+
+        public TopicData(String title, String content, List<TopicLabelObject> labels) {
+            this.title = title;
+            this.content = content;
+            this.labels = labels;
+        }
+
+        public TopicData() {
         }
     }
 }

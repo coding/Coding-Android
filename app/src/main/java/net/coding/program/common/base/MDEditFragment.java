@@ -34,29 +34,42 @@ import java.io.File;
 @EFragment(R.layout.fragment_mdedit)
 public class MDEditFragment extends BaseFragment {
 
+    private final String tipFont = "在此输入文字";
+    private final String HOST_UPLOAD_PHOTO_PUBLIC = Global.HOST + "/api/project/%s/upload_public_image";
+    private final String HOST_UPLOAD_PHOTO_PRIVATE = Global.HOST + "/api/project/%s/file/upload";
+    private final String HOST_UPLOAD_PHOTO_PUBLIC_PATH = Global.HOST + "/api%s/upload_public_image";
+//    private final String host_upload_photo = "https://coding.net/api/project/%d/file/upload";
+private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST + "/api%s/file/upload";
+    private final int RESULT_REQUEST_PHOTO = 1005;
     @ViewById
     protected EditText edit;
-
     private Uri fileUri;
     private Uri fileCropUri;
-
-    private final String tipFont = "在此输入文字";
-//    private final String host_upload_photo = "https://coding.net/api/project/%d/file/upload";
-
-    private final String HOST_UPLOAD_PHOTO_PUBLIC = Global.HOST + "/api/project/%d/upload_public_image";
-    private final String HOST_UPLOAD_PHOTO_PRIVATE = Global.HOST + "/api/project/%d/file/upload";
-
     private String hostUploadPhoto = "";
 
     @AfterViews
     protected final void initBase1() {
         TopicEditFragment.SaveData projectData = (TopicEditFragment.SaveData) getActivity();
-        int projectId = projectData.getProjectId();
+        String path = projectData.getProjectPath();
+        String template;
         if (projectData.isProjectPublic()) {
-            hostUploadPhoto = String.format(HOST_UPLOAD_PHOTO_PUBLIC, projectId);
+            if (path.startsWith("/")) {
+                template = HOST_UPLOAD_PHOTO_PUBLIC_PATH;
+            } else {
+                template = HOST_UPLOAD_PHOTO_PUBLIC;
+            }
+            hostUploadPhoto = String.format(template, path);
         } else {
-            hostUploadPhoto = String.format(HOST_UPLOAD_PHOTO_PRIVATE, projectId);
+            if (path.startsWith("/")) {
+                template = HOST_UPLOAD_PHOTO_PRIVATE_PATH;
+            } else {
+                template = HOST_UPLOAD_PHOTO_PRIVATE;
+            }
+            hostUploadPhoto = String.format(template, path);
         }
+
+        hostUploadPhoto = "https://coding.net/api/project/99160/upload_public_image";
+        hostUploadPhoto = "https://coding.net/api/user/8206503/project/deleteMR/upload_public_image";
     }
 
     @Click
@@ -101,7 +114,6 @@ public class MDEditFragment extends BaseFragment {
         insertString("\n----------\n", tipFont, "");
     }
 
-
     @Click
     public void mdPhoto(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -132,8 +144,6 @@ public class MDEditFragment extends BaseFragment {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_REQUEST_PHOTO);
     }
-
-    private final int RESULT_REQUEST_PHOTO = 1005;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

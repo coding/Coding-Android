@@ -40,6 +40,7 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
 
     TaskDespEditFragment editFragment;
     Fragment previewFragment;
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     void init() {
@@ -109,8 +110,6 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
         }
     }
 
-    private TopicData modifyData = new TopicData();
-
     @Override
     public void saveData(TopicData data) {
         modifyData = data;
@@ -140,8 +139,8 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     }
 
     @Override
-    public int getProjectId() {
-        return projectId;
+    public String getProjectPath() {
+        return String.valueOf(projectId);
     }
 
     // 有任务的项目必定是私有项目
