@@ -28,7 +28,6 @@ public class MergeFileDetailActivity extends BackActivity {
     @AfterViews
     protected final void initMergeFileDetailActivity() {
         String url = mSingleFile.getHttpFileDiffDetail(mProjectPath);
-
         Global.setWebViewContent(webView, "diff", "${diff-content}", url);
     }
 }

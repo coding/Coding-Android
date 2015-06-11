@@ -31,11 +31,23 @@ public class MergeDetail implements Serializable {
         return merge_request.authorIsMe();
     }
 
+    public boolean isCan_edit_src_branch() {
+        return can_edit_src_branch;
+    }
+
     public boolean isCanEdit() {
         return can_edit;
     }
 
     public String getContent() {
         return HtmlContent.parseReplacePhoto(merge_request_description).text;
+    }
+
+    public Merge.PostRequest getHttpMerge(String message, boolean delSrc) {
+        return merge_request.getHttpMerge(message, delSrc);
+    }
+
+    public String generalMergeMessage() {
+        return merge_request.generalMergeMessage();
     }
 }

@@ -1,12 +1,15 @@
 package net.coding.program.project.detail.merge;
 
+import android.view.View;
 import android.widget.EditText;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.Merge;
+import net.coding.program.model.MergeDetail;
 import net.coding.program.third.EmojiFilter;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -20,10 +23,23 @@ public class MergeAcceptActivity extends BackActivity {
 
     private static final String HOST_ACCEPT_MEREGE = "HOST_ACCEPT_MEREGE";
     @Extra
-    Merge mMerge;
+    MergeDetail mMergeDetail;
     @ViewById
     EditText message;
-    boolean isCheck;
+
+    @ViewById
+    View delSrc;
+
+    @AfterViews
+    protected final void initMergeAcceptActivity() {
+        message.setText(mMergeDetail.generalMergeMessage());
+        boolean canDelSrc = mMergeDetail.isCan_edit_src_branch();
+        if (canDelSrc) {
+            delSrc.setVisibility(View.VISIBLE);
+        } else {
+            delSrc.setVisibility(View.GONE);
+        }
+    }
 
     @Click
     protected final void send() {
@@ -32,9 +48,8 @@ public class MergeAcceptActivity extends BackActivity {
             return;
         }
 
-        Merge.PostRequest request = mMerge.getHttpMerge(text, isCheck);
+        Merge.PostRequest request = mMergeDetail.getHttpMerge(text, delSrc.getVisibility() == View.VISIBLE);
         postNetwork(request, HOST_ACCEPT_MEREGE);
-
     }
 
     @Override
@@ -46,6 +61,24 @@ public class MergeAcceptActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        }
+    }
+
+    @Click
+    public final void listItemDelSrc() {
+        int srcStyle = delSrc.getVisibility();
+        switch (srcStyle) {
+            case View.VISIBLE:
+                delSrc.setVisibility(View.INVISIBLE);
+                break;
+
+            case View.INVISIBLE:
+                delSrc.setVisibility(View.VISIBLE);
+                break;
+
+            case View.GONE:
+                showMiddleToast("不能删除源分支");
+                break;
         }
     }
 }

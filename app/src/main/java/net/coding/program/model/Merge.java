@@ -224,6 +224,11 @@ public class Merge implements Serializable {
         return String.format(url, type, iid);
     }
 
+    public String generalMergeMessage() {
+        String template = "Accept %s #%d : (%s -> %s)";
+        return String.format(template, ProjectObject.getTitle(isPull()), iid, desBranch, srcBranch);
+    }
+
     static class ActionAuthor extends UserObject implements Serializable {
 
         private int status;

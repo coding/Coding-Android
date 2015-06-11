@@ -97,6 +97,7 @@ int mFilesCount = 0;
 
     @Override
     public long getHeaderId(int i) {
-        return i < mFilesCount ? 0 : 1;
+//        return i < mFilesCount ? 0 : 1;
+        return i;
     }
 }

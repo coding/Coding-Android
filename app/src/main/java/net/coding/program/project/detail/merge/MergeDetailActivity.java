@@ -134,7 +134,7 @@ public class MergeDetailActivity extends BackActivity {
 
     @Click
     protected final void actionAccept() {
-        MergeAcceptActivity_.intent(this).mMerge(mMerge).startForResult(RESULT_MERGE);
+        MergeAcceptActivity_.intent(this).mMergeDetail(mMergeDetail).startForResult(RESULT_MERGE);
     }
 
     @Click
