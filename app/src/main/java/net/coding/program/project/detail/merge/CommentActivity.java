@@ -8,6 +8,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.Merge;
@@ -41,7 +42,11 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editFragment = CommentEditFragment_.builder().mMergeUrl(mMerge.getMergeAtMemberUrl()).build();
+        if (mMerge != null) {
+            editFragment = CommentEditFragment_.builder().mMergeUrl(mMerge.getMergeAtMemberUrl()).build();
+        } else {
+            editFragment = CommentEditFragment_.builder().mMergeUrl(mCommitParam.atUrl).build();
+        }
         previewFragment = TaskDespPreviewFragment_.builder().build();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
@@ -108,12 +113,21 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
 
     @Override
     public String getProjectPath() {
-        return mMerge.getProjectPath();
+        if (mMerge != null) {
+            return mMerge.getProjectPath();
+        } else {
+            return mCommitParam.projectPath;
+        }
     }
 
     @Override
     public boolean isProjectPublic() {
-        return mMerge.isPull();
+        if (mMerge != null) {
+            return mMerge.isPull();
+        } else {
+            return mCommitParam.isPull();
+
+        }
     }
 
     @Override
@@ -135,10 +149,16 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     public static class CommitCommentParam implements Serializable {
         String projectPath;
         String mCommitId;
+        String atUrl;
 
         public CommitCommentParam(String projectPath, String mCommitId) {
             this.projectPath = projectPath;
             this.mCommitId = mCommitId;
+            atUrl = Global.HOST_API + projectPath + "/relationships/context?context_type=pull_request_comment&item_id=" + mCommitId;
+        }
+
+        public boolean isPull() { // 这个参数没有用处
+            return true;
         }
     }
 }

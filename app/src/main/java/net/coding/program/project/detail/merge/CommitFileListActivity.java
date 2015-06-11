@@ -138,6 +138,7 @@ public class CommitFileListActivity extends BackActivity {
                         diffFile.getInsertions(), diffFile.getDeletions());
                 bindData(mListHead, R.id.preView, s);
 
+                mAdapter.setFilesCount(diffFile.getFiles().size());
                 mAdapter.insertDataUpdate((ArrayList) diffFile.getFiles());
             } else {
                 showErrorMsg(code, respanse);
