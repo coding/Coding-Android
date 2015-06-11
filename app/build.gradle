@@ -42,6 +42,7 @@ dependencies {
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
     compile 'org.apmem.tools:layouts:1.8@aar'
+
 }
 
 //################

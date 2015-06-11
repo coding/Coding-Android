@@ -146,5 +146,4 @@
         listItem1:itemIcon="@drawable/ic_listitem_mergefile"
         listItem1:itemTitle="文件改动" />
 
-    <include layout="@layout/divide_15_top_bottom" />
 </LinearLayout>

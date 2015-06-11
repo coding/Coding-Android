@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.Spannable;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.BackActivity;
@@ -29,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EActivity(R.layout.activity_merge_detail)
 //@OptionsMenu(R.menu.menu_merge_detail)
@@ -54,7 +55,7 @@ public class MergeDetailActivity extends BackActivity {
     @ViewById
     View actionCannel;
     @ViewById
-    ListView listView;
+    ExpandableStickyListHeadersListView listView;
 
     MergeCommentAdaper mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
@@ -98,6 +99,7 @@ public class MergeDetailActivity extends BackActivity {
         BaseCommentParam param = new BaseCommentParam(mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
         mAdapter = new MergeCommentAdaper(param);
         listView.setAdapter(mAdapter);
+        listView.setAreHeadersSticky(false);
 
         getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
         setActionStyle(false, false, false);

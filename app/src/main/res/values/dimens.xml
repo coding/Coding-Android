@@ -57,5 +57,7 @@
 
     <dimen name="list_section_commit">30dp</dimen>
 
+    <dimen name="divide_section_15">15dp</dimen>
+
 
 </resources>

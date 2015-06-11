@@ -33,5 +33,6 @@
     <declare-styleable name="ListItem1">
         <attr name="itemIcon" format="reference" />
         <attr name="itemTitle" format="string" />
+        <attr name="itemCenter" format="boolean" />
     </declare-styleable>
 </resources>

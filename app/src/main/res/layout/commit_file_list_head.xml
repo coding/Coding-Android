@@ -75,4 +75,6 @@
         android:paddingRight="@dimen/padding_15"
         android:text="5个文件，共1新增和0删除" />
 
+    <include layout="@layout/divide_15_top_bottom" />
+
 </LinearLayout>

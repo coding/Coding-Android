@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.common_refresh_listview)
+@EActivity(R.layout.activity_commit_file_list)
 //@OptionsMenu(R.menu.menu_commit_file_list)
 public class CommitFileListActivity extends BackActivity {
 

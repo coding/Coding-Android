@@ -25,6 +25,8 @@
         android:textColor="#222222"
         android:textSize="16sp" />
 
-    <include layout="@layout/list_item_common_arrow" />
+    <include
+        android:id="@+id/arrow"
+        layout="@layout/list_item_common_arrow" />
 
 </LinearLayout>
