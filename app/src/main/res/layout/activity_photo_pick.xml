@@ -8,15 +8,13 @@
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:horizontalSpacing="4dip"
-        android:numColumns="3"
-
         android:background="@android:color/black"
+        android:gravity="center"
+        android:horizontalSpacing="@dimen/pickimage_gridlist_item_space"
+        android:numColumns="3"
+        android:padding="@dimen/pickimage_gridlist_item_space"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="4dip"
-        android:padding="4dip" />
-
+        android:verticalSpacing="@dimen/pickimage_gridlist_item_space" />
 
     <LinearLayout
         android:id="@+id/layoutBottom"
@@ -39,15 +37,15 @@
                 android:id="@+id/foldName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffdddddd"
-                android:text="选择" />
+                android:text="选择"
+                android:textColor="#ffdddddd" />
 
             <View
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:background="@drawable/pick_phone_bottom_3"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:background="@drawable/pick_phone_bottom_3" />
 
 
         </LinearLayout>
@@ -58,14 +56,14 @@
             android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/preView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textColor="#ffbbbbbb"
-            android:id="@+id/preView"
-            android:text="预览" />
+            android:text="预览"
+            android:textColor="#ffbbbbbb" />
 
     </LinearLayout>
 
@@ -75,18 +73,18 @@
         android:layout_height="match_parent"
         android:layout_above="@id/layoutBottom"
         android:background="#55666666"
-        android:visibility="invisible"
-        android:paddingTop="40dp">
+        android:paddingTop="40dp"
+        android:visibility="invisible">
 
         <ListView
-            android:paddingTop="5dp"
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="0dp"
+            android:layout_gravity="bottom"
             android:background="@android:color/white"
             android:divider="@null"
-            android:layout_gravity="bottom" />
+            android:dividerHeight="0dp"
+            android:paddingTop="5dp" />
 
     </FrameLayout>
 

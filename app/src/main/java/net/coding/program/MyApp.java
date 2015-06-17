@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-9.
+ *
  */
 public class MyApp extends Application {
 
@@ -36,12 +37,39 @@ public class MyApp extends Application {
 
     public static boolean sMainCreate = false;
 
+    public static boolean getMainActivityState() {
+        return sMainCreate;
+    }
+
     public static void setMainActivityState(boolean create) {
         sMainCreate = create;
     }
 
-    public static boolean getMainActivityState() {
-        return sMainCreate;
+    public static void initImageLoader(Context context) {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .diskCacheSize(50 * 1024 * 1024) // 50 Mb
+                .diskCacheFileCount(300)
+                .imageDownloader(new MyImageDownloader(context))
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+//                .writeDebugLogs() // Remove for release app
+                .diskCacheExtraOptions(sWidthPix / 3, sWidthPix / 3, null)
+                .build();
+
+        ImageLoader.getInstance().init(config);
+    }
+
+    private static String getProcessName(Context context) {
+        ActivityManager actMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appList = actMgr.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo info : appList) {
+            if (info.pid == android.os.Process.myPid()) {
+                return info.processName;
+            }
+        }
+        return "";
     }
 
     @Override
@@ -68,33 +96,5 @@ public class MyApp extends Application {
 
         sUserObject = AccountInfo.loadAccount(this);
         sUnread = new Unread();
-    }
-
-    public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .diskCacheSize(50 * 1024 * 1024) // 50 Mb
-                .diskCacheFileCount(300)
-                .imageDownloader(new MyImageDownloader(context))
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-//                .writeDebugLogs() // Remove for release app
-                .diskCacheExtraOptions(sWidthPix / 3, sWidthPix / 3, null)
-                .build();
-
-        ImageLoader.getInstance().init(config);
-    }
-
-
-    private static String getProcessName(Context context) {
-        ActivityManager actMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appList = actMgr.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo info : appList) {
-            if (info.pid == android.os.Process.myPid()) {
-                return info.processName;
-            }
-        }
-        return "";
     }
 }

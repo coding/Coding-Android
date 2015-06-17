@@ -17,29 +17,43 @@ import net.coding.program.common.photopick.PhotoPickActivity.GridViewCheckTag;
 
 /**
  * Created by chenchao on 15/5/6.
+ *
  */
 class GridPhotoAdapter extends CursorAdapter {
 
+    final int itemWidth;
     LayoutInflater mInflater;
     PhotoPickActivity mActivity;
-//
+    //
 //    enum Mode { All, Folder }
 //    private Mode mMode = Mode.All;
 //
 //    void setmMode(Mode mMode) {
 //        this.mMode = mMode;
 //    }
+    View.OnClickListener mClickItem = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mActivity.clickPhotoItem(v);
+        }
+    };
 
     GridPhotoAdapter(Context context, Cursor c, boolean autoRequery, PhotoPickActivity activity) {
         super(context, c, autoRequery);
         mInflater = LayoutInflater.from(context);
         mActivity = activity;
+        int spacePix = context.getResources().getDimensionPixelSize(R.dimen.pickimage_gridlist_item_space);
+        itemWidth = (MyApp.sWidthPix - spacePix * 4) / 3;
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View convertView = mInflater.inflate(R.layout.photopick_gridlist_item, parent, false);
-        convertView.getLayoutParams().height = MyApp.sWidthPix / 3;
+        ViewGroup.LayoutParams layoutParams = convertView.getLayoutParams();
+        layoutParams.height = itemWidth;
+        layoutParams.width = itemWidth;
+        convertView.setLayoutParams(layoutParams);
+
 
         GridViewHolder holder = new GridViewHolder();
         holder.icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -49,6 +63,11 @@ class GridPhotoAdapter extends CursorAdapter {
         holder.check.setTag(checkTag);
         holder.check.setOnClickListener(mClickItem);
         convertView.setTag(holder);
+
+        ViewGroup.LayoutParams iconParam = holder.icon.getLayoutParams();
+        iconParam.width = itemWidth;
+        iconParam.height = itemWidth;
+        holder.icon.setLayoutParams(iconParam);
 
         return convertView;
     }
@@ -75,11 +94,4 @@ class GridPhotoAdapter extends CursorAdapter {
         ImageView iconFore;
         CheckBox check;
     }
-
-    View.OnClickListener mClickItem = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mActivity.clickPhotoItem(v);
-        }
-    };
 }

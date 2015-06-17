@@ -59,5 +59,7 @@
 
     <dimen name="divide_section_15">15dp</dimen>
 
+    <dimen name="pickimage_gridlist_item_space">4dp</dimen>
+
 
 </resources>

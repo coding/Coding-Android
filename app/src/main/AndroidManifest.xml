@@ -128,12 +128,6 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Channel" />
-
-        <activity
-            android:name=".common.photopick.PhotoPickActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/TranslateTheme" />
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
@@ -393,7 +387,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".common.photopick.PhotoPickDetailActivity"
-            android:label="@string/title_activity_photo_pick_detail" />
+            android:label="@string/title_activity_photo_pick_detail"
+            android:process=":pickimage"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".common.photopick.PhotoPickActivity"
+            android:label="@string/app_name"
+            android:process=":pickimage"
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslateTheme" />
+
         <activity
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
