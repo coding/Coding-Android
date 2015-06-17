@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
@@ -22,6 +21,8 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    public static final String PARAM_MAX_TODYA = "PARAM_MAX_TODYA";
+    public static final String PARAM_DATA = "date";
     //    SetTimeType mTimeType = SetTimeType.Cannel;
 // 小米手机不管按那个按钮都会调用 onDataSet，只好在click事件里面做标记
 //    enum SetTimeType {
@@ -40,17 +41,23 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        String dateString = getArguments().getString("date");
+        String dateString = getArguments().getString(PARAM_DATA);
         if (dateString.isEmpty()) {
             dateString = new SimpleDateFormat("yyyy-MM-dd")
                     .format(Calendar.getInstance().getTimeInMillis());
         }
+        boolean maxToday = getArguments().getBoolean(PARAM_MAX_TODYA, false);
+
         String[] date = dateString.split("-");
         int year = Integer.valueOf(date[0]);
         int month = Integer.valueOf(date[1]) - 1;
         int day = Integer.valueOf(date[2]);
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        if (maxToday) {
+            datePickerDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+        }
+
         if (getArguments().getBoolean("clear", false)) {
             datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "清除", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
@@ -110,12 +117,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
                 pf.setAccessible(true);
                 try {
                     pf.set(spindle, getResources().getDrawable(R.drawable.line_green));
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (Resources.NotFoundException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Global.errorLog(e);
                 }
                 break;
             }
@@ -123,6 +126,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public interface DateSet {
-        public void dateSetResult(String date, boolean clear);
+        void dateSetResult(String date, boolean clear);
     }
 }

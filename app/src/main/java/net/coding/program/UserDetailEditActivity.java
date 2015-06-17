@@ -52,118 +52,29 @@ import java.util.Iterator;
 @OptionsMenu(R.menu.user_detail_edit)
 public class UserDetailEditActivity extends BaseActivity implements DatePickerFragment.DateSet {
 
+    public final static int USERINFO_NAME = 0;
+    public final static int USERINFO_SEX = 1;
+    public final static int USERINFO_BIRTHDAY = 2;
+    public final static int USERINFO_LOCATION = 3;
+    public final static int USERINFO_SLOGAN = 4;
+    public final static int USERINFO_COMPANY = 5;
+    public final static int USERINFO_JOB = 6;
+    public final static int USERINFO_TAGS = 7;
+    final String HOST_USER = Global.HOST + "/api/user/key/%s";
+    final String HOST_USERINFO = Global.HOST + "/api/user/updateInfo";
+    private final int RESULT_REQUEST_PHOTO = 1005;
+    private final int RESULT_REQUEST_PHOTO_CROP = 1006;
+    public String HOST_USER_AVATAR = Global.HOST + "/api/user/avatar?update=1";
     ImageView icon;
-
-    private Uri fileCropUri;
-
-    void setIcon() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("更换头像")
-                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            camera();
-                        } else {
-                            photo();
-                        }
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
-    }
-
-    private void camera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
-    }
-
-    private void photo() {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_REQUEST_PHOTO);
-    }
-
     @StringArrayRes
     String[] sexs;
-
     UserObject user;
-
     @StringArrayRes
     String[] user_info_list_first;
-
     String[] user_info_list_second;
-
     @ViewById
     ListView listView;
-
     String[] user_jobs;
-
-    final String HOST_USER = Global.HOST + "/api/user/key/%s";
-
-    private Uri fileUri;
-
-    @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        user = AccountInfo.loadAccount(this);
-
-        View head = mInflater.inflate(R.layout.activity_user_info_head, null, false);
-        icon = (ImageView) head.findViewById(R.id.icon);
-        icon.setOnClickListener(new ClickSmallImage(this));
-        iconfromNetwork(icon, user.avatar);
-        icon.setTag(new MaopaoListFragment.ClickImageParam(user.avatar));
-        head.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setIcon();
-            }
-        });
-        listView.addHeaderView(head);
-
-        getUserInfoRows();
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(itemClickListener);
-
-        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
-    }
-
-    void getUserInfoRows() {
-        user_info_list_second = new String[]{
-                user.name,
-                sexs[user.sex],
-                user.birthday,
-                user.location,
-                user.slogan,
-                user.company,
-                user.job_str,
-                user.tags_str
-        };
-    }
-
-    final String HOST_USERINFO = Global.HOST + "/api/user/updateInfo";
-
-    void action_done() {
-        RequestParams params = new RequestParams();
-        params.put("email", user.email);
-        params.put("lavatar", user.lavatar);
-        params.put("name", user.name);
-        params.put("sex", user.sex);
-        params.put("phone", user.phone);
-        params.put("birthday", user.birthday);
-        params.put("location", user.location.trim());
-        params.put("company", user.company);
-        params.put("slogan", user.slogan);
-        params.put("introduction", user.introduction);
-        params.put("job", user.job);
-        params.put("tags", user.tags);
-
-        postNetwork(HOST_USERINFO, params, HOST_USERINFO);
-    }
-
     BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -204,18 +115,175 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
             return convertView;
         }
     };
+    String HOST = Global.HOST + "/api/user/key/%s";
+    String HOST_JOB = Global.HOST + "/api/options/jobs";
+    private Uri fileCropUri;
+    private Uri fileUri;
+    private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            //showButtomToast("position" + position);
+            switch ((int) id) {
 
-    static class ViewHolder {
-        TextView first;
-        TextView second;
+                case USERINFO_NAME:
+                    //昵称
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("昵称").row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
+                    break;
+
+                case USERINFO_SEX:
+                    //性别
+                    setSexs();
+                    break;
+
+                case USERINFO_BIRTHDAY:
+                    //生日
+                    DialogFragment newFragment = new DatePickerFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(DatePickerFragment.PARAM_MAX_TODYA, true);
+                    bundle.putString(DatePickerFragment.PARAM_DATA, user.birthday);
+                    newFragment.setArguments(bundle);
+                    newFragment.setCancelable(true);
+                    newFragment.show(getSupportFragmentManager(), "datePicker");
+                    getSupportFragmentManager().executePendingTransactions();
+                    dialogTitleLineColor(newFragment.getDialog());
+                    break;
+
+                case USERINFO_LOCATION:
+                    //所在地
+                    UserProvincesDialogFragment provincesDialogFragment = new UserProvincesDialogFragment();
+                    Bundle provincesBundle = new Bundle();
+                    provincesBundle.putString(ProvincesPickerDialog.LOCATION, user.location);
+                    provincesBundle.putString(ProvincesPickerDialog.TITLE, "选择所在地");
+                    provincesDialogFragment.setArguments(provincesBundle);
+                    provincesDialogFragment.setCallBack(new ProvincesPickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(String provinceStr) {
+                            if (!user.location.trim().equals(provinceStr)) {
+                                user.location = provinceStr;
+                                action_done();
+                            }
+                        }
+                    });
+                    //provincesDialogFragment.setCancelable(true);
+                    provincesDialogFragment.show(getSupportFragmentManager(), "provincesPicker");
+                    getSupportFragmentManager().executePendingTransactions();
+                    dialogTitleLineColor(provincesDialogFragment.getDialog());
+                    break;
+
+                case USERINFO_SLOGAN:
+                    //座右铭
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("座右铭").row(USERINFO_SLOGAN).startForResult(ListModify.RESULT_EDIT_LIST);
+                    break;
+
+                case USERINFO_COMPANY:
+                    //公司
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("公司").row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
+                    break;
+
+                case USERINFO_JOB:
+                    //职位
+                    chooseJob();
+                    break;
+
+                case USERINFO_TAGS:
+                    //个性标签
+                    SetUserTagActivity_.intent(UserDetailEditActivity.this).title("个性标签").startForResult(ListModify.RESULT_EDIT_LIST);
+                    break;
+            }
+        }
+    };
+
+    void setIcon() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("更换头像")
+                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            camera();
+                        } else {
+                            photo();
+                        }
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialogTitleLineColor(dialog);
+    }
+
+    private void camera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
+    }
+
+    private void photo() {
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_REQUEST_PHOTO);
+    }
+
+    @AfterViews
+    void init() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        user = AccountInfo.loadAccount(this);
+
+        View head = mInflater.inflate(R.layout.activity_user_info_head, null, false);
+        icon = (ImageView) head.findViewById(R.id.icon);
+        icon.setOnClickListener(new ClickSmallImage(this));
+        iconfromNetwork(icon, user.avatar);
+        icon.setTag(new MaopaoListFragment.ClickImageParam(user.avatar));
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setIcon();
+            }
+        });
+        listView.addHeaderView(head);
+
+        getUserInfoRows();
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(itemClickListener);
+
+        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
+    }
+
+    void getUserInfoRows() {
+        user_info_list_second = new String[]{
+                user.name,
+                sexs[user.sex],
+                user.birthday,
+                user.location,
+                user.slogan,
+                user.company,
+                user.job_str,
+                user.tags_str
+        };
+    }
+
+    void action_done() {
+        RequestParams params = new RequestParams();
+        params.put("email", user.email);
+        params.put("lavatar", user.lavatar);
+        params.put("name", user.name);
+        params.put("sex", user.sex);
+        params.put("phone", user.phone);
+        params.put("birthday", user.birthday);
+        params.put("location", user.location.trim());
+        params.put("company", user.company);
+        params.put("slogan", user.slogan);
+        params.put("introduction", user.introduction);
+        params.put("job", user.job);
+        params.put("tags", user.tags);
+
+        postNetwork(HOST_USERINFO, params, HOST_USERINFO);
     }
 
     @OptionsItem(android.R.id.home)
     void back() {
         onBackPressed();
     }
-
-    public String HOST_USER_AVATAR = Global.HOST + "/api/user/avatar?update=1";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -293,9 +361,6 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
         startActivityForResult(intent, requestCode);
     }
 
-    private final int RESULT_REQUEST_PHOTO = 1005;
-    private final int RESULT_REQUEST_PHOTO_CROP = 1006;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PHOTO) {
@@ -317,6 +382,7 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
                     postNetwork(HOST_USER_AVATAR, params, HOST_USER_AVATAR);
 
                 } catch (Exception e) {
+                    Global.errorLog(e);
                 }
             }
         } else if (requestCode == ListModify.RESULT_EDIT_LIST) {
@@ -326,100 +392,14 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
                 user = AccountInfo.loadAccount(this);
                 getUserInfoRows();
                 adapter.notifyDataSetChanged();
-            } else {
-                //showButtomToast("UNEDITED");
             }
         }
     }
-
-    public final static int USERINFO_NAME = 0;
-    public final static int USERINFO_SEX = 1;
-    public final static int USERINFO_BIRTHDAY = 2;
-    public final static int USERINFO_LOCATION = 3;
-    public final static int USERINFO_SLOGAN = 4;
-    public final static int USERINFO_COMPANY = 5;
-    public final static int USERINFO_JOB = 6;
-    public final static int USERINFO_TAGS = 7;
-
-    private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            //showButtomToast("position" + position);
-            switch ((int) id) {
-
-                case USERINFO_NAME:
-                    //昵称
-                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("昵称").row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
-                    break;
-
-                case USERINFO_SEX:
-                    //性别
-                    setSexs();
-                    break;
-
-                case USERINFO_BIRTHDAY:
-                    //生日
-                    DialogFragment newFragment = new DatePickerFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("date", user.birthday);
-                    newFragment.setArguments(bundle);
-                    newFragment.setCancelable(true);
-                    newFragment.show(getSupportFragmentManager(), "datePicker");
-                    getSupportFragmentManager().executePendingTransactions();
-                    dialogTitleLineColor(newFragment.getDialog());
-                    break;
-
-                case USERINFO_LOCATION:
-                    //所在地
-                    UserProvincesDialogFragment provincesDialogFragment = new UserProvincesDialogFragment();
-                    Bundle provincesBundle = new Bundle();
-                    provincesBundle.putString(ProvincesPickerDialog.LOCATION, user.location);
-                    provincesBundle.putString(ProvincesPickerDialog.TITLE, "选择所在地");
-                    provincesDialogFragment.setArguments(provincesBundle);
-                    provincesDialogFragment.setCallBack(new ProvincesPickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(String provinceStr) {
-                            if (!user.location.trim().equals(provinceStr)) {
-                                user.location = provinceStr;
-                                action_done();
-                            }
-                        }
-                    });
-                    //provincesDialogFragment.setCancelable(true);
-                    provincesDialogFragment.show(getSupportFragmentManager(), "provincesPicker");
-                    getSupportFragmentManager().executePendingTransactions();
-                    dialogTitleLineColor(provincesDialogFragment.getDialog());
-                    break;
-
-                case USERINFO_SLOGAN:
-                    //座右铭
-                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("座右铭").row(USERINFO_SLOGAN).startForResult(ListModify.RESULT_EDIT_LIST);
-                    break;
-
-                case USERINFO_COMPANY:
-                    //公司
-                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("公司").row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
-                    break;
-
-                case USERINFO_JOB:
-                    //职位
-                    chooseJob();
-                    break;
-
-                case USERINFO_TAGS:
-                    //个性标签
-                    SetUserTagActivity_.intent(UserDetailEditActivity.this).title("个性标签").startForResult(ListModify.RESULT_EDIT_LIST);
-                    break;
-            }
-        }
-    };
 
     public void updateUserinfo() {
         UserObject oldUser = AccountInfo.loadAccount(this);
         getNetwork(String.format(HOST, oldUser.global_key), HOST);
     }
-
-    String HOST = Global.HOST + "/api/user/key/%s";
 
     void setSexs() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -478,6 +458,9 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
         dialogTitleLineColor(dialog);
     }
 
-    String HOST_JOB = Global.HOST + "/api/options/jobs";
+    static class ViewHolder {
+        TextView first;
+        TextView second;
+    }
 
 }
