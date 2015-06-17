@@ -41,16 +41,15 @@ import java.util.regex.Pattern;
 public class URLSpanNoUnderline extends URLSpan {
 
     public static final String PATTERN_URL_MESSAGE = "^(?:https://[\\w.]*)?/user/messages/history/([\\w-]+)$";
-
-    public static final String createMessageUrl(String globalKey) {
-        return Global.HOST + "/user/messages/history/" + globalKey;
-    }
-
     private int color;
 
     public URLSpanNoUnderline(String url, int color) {
         super(url);
         this.color = color;
+    }
+
+    public static final String createMessageUrl(String globalKey) {
+        return Global.HOST + "/user/messages/history/" + globalKey;
     }
 
     public static void openActivityByUri(Context context, String uriString, boolean newTask) {
@@ -270,6 +269,8 @@ public class URLSpanNoUnderline extends URLSpan {
             context.startActivity(intent);
             return true;
         }
+
+        //
 
         try {
             if (defaultIntent) {

@@ -110,12 +110,22 @@
             android:background="@drawable/ic_listitem_merge_refuse" />
 
         <TextView
+            android:id="@+id/mergeActionUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jeff"
+            android:textColor="@color/font_black_2" />
+        <TextView
             android:id="@+id/mergeLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jeffery 1天前 拒绝了这个合并请求" />
+            android:text=" 1天前 拒绝了这个合并请求" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/mergeContentDivide"
+        layout="@layout/divideline_15" />
 
     <TextView
         android:id="@+id/mergeContent"
@@ -124,6 +134,7 @@
         android:layout_marginBottom="@dimen/padding_15"
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_15"
+        android:layout_marginTop="@dimen/padding_12"
         android:text="this is contetn" />
 
     <include layout="@layout/divide_15_top_bottom" />

@@ -17,6 +17,10 @@ public class MergeDetail implements Serializable {
 
     public MergeDetail(JSONObject json) {
         merge_request_description = json.optString("merge_request_description", "");
+        if (merge_request_description.isEmpty()) {
+            merge_request_description = json.optString("pull_request_description", "");
+        }
+
         can_edit_src_branch = json.optBoolean("can_edit_src_branch");
         can_edit = json.optBoolean("can_edit");
 
@@ -40,7 +44,11 @@ public class MergeDetail implements Serializable {
     }
 
     public String getContent() {
-        return HtmlContent.parseReplacePhoto(merge_request_description).text;
+        String content = merge_request_description;
+        if (content.isEmpty()) {
+            content = merge_request.getContent();
+        }
+        return HtmlContent.parseReplacePhoto(content).text;
     }
 
     public Merge.PostRequest getHttpMerge(String message, boolean delSrc) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -45,11 +46,40 @@ public class WebActivity extends UmengActivity {
 
     @ViewById
     ProgressBar progressBar;
-
+    String loading = "";
     private TextView actionbarTitle;
     private View actionbarClose;
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 
-    String loading = "";
+//    @OptionsItem
+//    void action_copy() {
+//        String urlString = webView.getUrl();
+//        Global.copy(this, urlString);
+//        Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
+//    }
+
+//    @OptionsItem
+//    void action_browser() {
+//        try {
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+//            startActivity(intent);
+//        } catch (Exception e) {
+//            Toast.makeText(this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
+//        }
+//    }
+private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        switch (position) {
+            case 0:
+                break;
+
+            case 1:
+                break;
+        }
+        mRightTopPopupWindow.dismiss();
+    }
+};
 
     @AfterViews
     void init() {
@@ -58,6 +88,7 @@ public class WebActivity extends UmengActivity {
 //        actionBar.setDisplayShowTitleEnabled(false);
 //        actionBar.setCustomView(R.layout.actionbar_close_icon);
 //        actionBar.setDisplayShowCustomEnabled(true);
+        Log.d("", "WebActivity " + url);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.custom_action_bar);
         setSupportActionBar(toolbar);
@@ -124,23 +155,6 @@ public class WebActivity extends UmengActivity {
         webView.loadUrl(url);
     }
 
-//    @OptionsItem
-//    void action_copy() {
-//        String urlString = webView.getUrl();
-//        Global.copy(this, urlString);
-//        Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
-//    }
-
-//    @OptionsItem
-//    void action_browser() {
-//        try {
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
-//            startActivity(intent);
-//        } catch (Exception e) {
-//            Toast.makeText(this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
-//        }
-//    }
-
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
@@ -150,6 +164,11 @@ public class WebActivity extends UmengActivity {
         }
     }
 
+//    @OptionsItem
+//    protected void action_more() {
+//        showRightTopPop();
+//    }
+
     @Override
     protected void onDestroy() {
         webView.destroy();
@@ -157,27 +176,6 @@ public class WebActivity extends UmengActivity {
 
         super.onDestroy();
     }
-
-    public static class CustomWebViewClient extends WebViewClient {
-
-        Context mContext;
-
-        public CustomWebViewClient(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
-        }
-    }
-
-//    @OptionsItem
-//    protected void action_more() {
-//        showRightTopPop();
-//    }
-
-    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 
     private void showRightTopPop() {
         if (mRightTopPopupWindow == null) {
@@ -219,25 +217,23 @@ public class WebActivity extends UmengActivity {
 
     @OptionsItem
     protected final void action_copy() {
-
         String urlString = webView.getUrl();
         Global.copy(WebActivity.this, urlString);
         Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
     }
 
+    public static class CustomWebViewClient extends WebViewClient {
 
-    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    break;
+        Context mContext;
 
-                case 1:
-                    break;
-            }
-            mRightTopPopupWindow.dismiss();
+        public CustomWebViewClient(Context context) {
+            mContext = context;
         }
-    };
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
+        }
+    }
 
 }

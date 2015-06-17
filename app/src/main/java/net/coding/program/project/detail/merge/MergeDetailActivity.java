@@ -81,6 +81,7 @@ public class MergeDetailActivity extends BackActivity {
 
     private MergeDetail mMergeDetail;
     private TextView mergeContent;
+    private View mergeContentDivide;
 
     @AfterViews
     protected final void initMergeDetailActivity() {
@@ -192,6 +193,15 @@ public class MergeDetailActivity extends BackActivity {
                 "不可合并",
                 "已取消"
         };
+
+        final String[] actionStrings = new String[]{
+                "已合并",
+                "已拒绝",
+                "已拒绝",
+                "已拒绝",
+                "已拒绝"
+        };
+        String action = "";
         final int[] styleColors = new int[]{
                 0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xffac8cd3, 0xff666666
         };
@@ -200,6 +210,7 @@ public class MergeDetailActivity extends BackActivity {
             if (mMerge.getMergeStatus().equals(styles[i])) {
                 styleView.setText(styleStrings[i]);
                 styleView.setTextColor(styleColors[i]);
+                action = actionStrings[i];
             }
         }
 
@@ -209,8 +220,12 @@ public class MergeDetailActivity extends BackActivity {
         ((TextView) head.findViewById(R.id.branchSrc)).setText(src);
         ((TextView) head.findViewById(R.id.branchDesc)).setText(desc);
 
-//        mMerge.getActionAuthor().
-//        ((TextView) findViewById(R.id.mergeLog)).setText(R.id.mergeLog);
+
+        ((TextView) head.findViewById(R.id.mergeActionUser)).setText(mMerge.getActionAuthor().name);
+        String mergeActionMessage = String.format(" %s %s这个%s", Global.dayToNow(mMerge.getCreatedAt()),
+                action, ProjectObject.getTitle(mMerge.isPull()));
+        ((TextView) head.findViewById(R.id.mergeLog)).setText(mergeActionMessage);
+
 
         View mergeTreate = head.findViewById(R.id.mergeTreate);
         if (mMerge.isMergeTreate()) {
@@ -233,6 +248,8 @@ public class MergeDetailActivity extends BackActivity {
         // 取到 detail 后再显示
         mergeContent = (TextView) head.findViewById(R.id.mergeContent);
         mergeContent.setVisibility(View.GONE);
+        mergeContentDivide = head.findViewById(R.id.mergeContentDivide);
+        mergeContentDivide.setVisibility(View.GONE);
     }
 
     private void initFooter(View footer) {
@@ -299,8 +316,10 @@ public class MergeDetailActivity extends BackActivity {
                 Spannable spanContent = Global.changeHyperlinkColor(mMergeDetail.getContent());
                 if (spanContent.length() == 0) {
                     mergeContent.setVisibility(View.GONE);
+                    mergeContentDivide.setVisibility(View.GONE);
                 } else {
                     mergeContent.setVisibility(View.VISIBLE);
+                    mergeContentDivide.setVisibility(View.VISIBLE);
                     mergeContent.setText(spanContent);
                 }
             } else {

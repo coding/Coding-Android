@@ -68,6 +68,10 @@ public class Merge implements Serializable {
         content = json.optString("content", "");
     }
 
+    public String getContent() {
+        return content;
+    }
+
     public boolean authorIsMe() {
         return author.isMe();
     }
@@ -229,7 +233,7 @@ public class Merge implements Serializable {
         return String.format(template, ProjectObject.getTitle(isPull()), iid, desBranch, srcBranch);
     }
 
-    static class ActionAuthor extends UserObject implements Serializable {
+    public static class ActionAuthor extends UserObject implements Serializable {
 
         private int status;
         private int is_member;
