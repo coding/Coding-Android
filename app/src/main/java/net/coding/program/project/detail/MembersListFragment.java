@@ -59,8 +59,10 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     boolean mSelect;
     @ViewById
     ListView listView;
-    ArrayList<TaskObject.Members> mSearchData = new ArrayList<>();
-    ArrayList<TaskObject.Members> mData = new ArrayList<>();
+
+    // TaskObject.Members
+    ArrayList<Object> mSearchData = new ArrayList<>();
+    ArrayList<Object> mData = new ArrayList<>();
     BaseAdapter adapter = new BaseAdapter() {
 
         private View.OnClickListener sendMessage = new View.OnClickListener() {
@@ -134,16 +136,24 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            TaskObject.Members data = mSearchData.get(position);
-            holder.name.setText(data.user.name);
-            if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                //holder.desc.setText("(创建者)");
-                holder.ic.setVisibility(View.VISIBLE);
-            } else {
-                holder.ic.setVisibility(View.GONE);
+            Object object = mSearchData.get(position);
+            UserObject user;
+            holder.ic.setVisibility(View.GONE);
+
+            if (object instanceof TaskObject.Members) {
+                TaskObject.Members data = (TaskObject.Members) object;
+                user = data.user;
+                if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                    //holder.desc.setText("(创建者)");
+                    holder.ic.setVisibility(View.VISIBLE);
+                }
+            } else { //  (object instanceof UserObject)
+                user = (UserObject) object;
             }
-            iconfromNetwork(holder.icon, data.user.avatar);
-            holder.icon.setTag(data.user.global_key);
+
+            holder.name.setText(user.name);
+            iconfromNetwork(holder.icon, user.avatar);
+            holder.icon.setTag(user.global_key);
 
             if (mSearchData.size() - 1 == position) {
                 loadMore();
@@ -151,17 +161,20 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
             if (mSelect) {
                 holder.btn.setVisibility(View.GONE);
-            } else if (data.user.name.equals(MyApp.sUserObject.name)) {
+            } else if (user.name.equals(MyApp.sUserObject.name)) {
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
                 holder.btn.setOnClickListener(quitProject);
-                if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                    holder.btn.setVisibility(View.GONE);
-                } else {
-                    holder.btn.setVisibility(View.VISIBLE);
+                if (object instanceof TaskObject.Members) {
+                    TaskObject.Members data = (TaskObject.Members) object;
+                    if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                        holder.btn.setVisibility(View.GONE);
+                    } else {
+                        holder.btn.setVisibility(View.VISIBLE);
+                    }
                 }
             } else {
                 holder.btn.setImageResource(R.drawable.ic_send_message);
-                holder.btn.setTag(data.user);
+                holder.btn.setTag(user);
                 holder.btn.setOnClickListener(sendMessage);
                 holder.btn.setVisibility(View.VISIBLE);
             }
@@ -175,7 +188,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         initRefreshLayout();
 
         if (mProjectObject != null) {
-            mData = AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
+            mData = (ArrayList) AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
         } else {
             mData = new ArrayList<>();
         }
@@ -191,7 +204,15 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent();
-                    intent.putExtra("name", mSearchData.get((int) id).user.name);
+                    UserObject userObject;
+                    Object object = mSearchData.get((int) id);
+                    if (object instanceof TaskObject.Members) {
+                        userObject = ((TaskObject.Members) object).user;
+                    } else {
+                        userObject = (UserObject) object;
+                    }
+
+                    intent.putExtra("name", userObject.name);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().finish();
                 }
@@ -203,7 +224,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                     UserDynamicActivity_
                             .intent(getActivity())
                             .mProjectObject(mProjectObject)
-                            .mMember(mSearchData.get(position))
+                            .mMember((TaskObject.Members) mSearchData.get(position))
                             .start();
 
                 }
@@ -215,8 +236,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
-                    final TaskObject.Members members = mSearchData.get((int) id);
-                    if (members.user.global_key.equals(MyApp.sUserObject.global_key)) {
+                    final UserObject user = getUser(mSearchData.get((int) id));
+                    if (user.global_key.equals(MyApp.sUserObject.global_key)) {
                         return false;
                     }
 
@@ -226,11 +247,11 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         public void onClick(DialogInterface dialog, int which) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
 
-                            builder1.setMessage(String.format("确定移除 %s ?", members.user.name))
+                            builder1.setMessage(String.format("确定移除 %s ?", user.name))
                                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String url = String.format(urlDeleteUser, mProjectObject.getId(), members.user.id);
+                                            String url = String.format(urlDeleteUser, mProjectObject.getId(), user.id);
                                             postNetwork(url, new RequestParams(), urlDeleteUser, (int) id, null);
                                             showProgressBar(true);
                                         }
@@ -259,14 +280,29 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         setHasOptionsMenu(true);
     }
 
+    private UserObject getUser(Object object) {
+        if (object instanceof UserObject) {
+            return (UserObject) object;
+        } else {
+            return ((TaskObject.Members) object).user;
+        }
+    }
+
     public void search(String input) {
         mSearchData.clear();
         if (input.isEmpty()) {
             mSearchData.addAll(mData);
         } else {
-            for (TaskObject.Members item : mData) {
-                if (item.user.global_key.toLowerCase().contains(input) ||
-                        item.user.name.toLowerCase().contains(input)) {
+            for (Object item : mData) {
+                UserObject user;
+                if (item instanceof TaskObject.Members) {
+                    user = ((TaskObject.Members) item).user;
+                } else {
+                    user = (UserObject) item;
+                }
+
+                if (user.global_key.toLowerCase().contains(input) ||
+                        user.name.toLowerCase().contains(input)) {
                     mSearchData.add(item);
                 }
             }
@@ -281,7 +317,11 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     }
 
     private boolean projectCreateByMe() {
-        return mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
+        if (mProjectObject != null) {
+            return mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
+        }
+
+        return false;
     }
 
     @OptionsItem
@@ -332,18 +372,28 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
                 }
+                // 项目成员的数据是 data - list，包了两层
+                if (mProjectObject != null) {
+                    JSONArray members;
+                    members = respanse.getJSONObject("data").getJSONArray("list");
 
-                JSONArray members = respanse.getJSONObject("data").getJSONArray("list");
-                for (int i = 0; i < members.length(); ++i) {
-                    TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
-                    if (member.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                        mData.add(0, member);
-                    } else {
+                    for (int i = 0; i < members.length(); ++i) {
+                        TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
+                        if (member.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                            mData.add(0, member);
+                        } else {
+                            mData.add(member);
+                        }
+                    }
+
+                    AccountInfo.saveProjectMembers(getActivity(), (ArrayList) mData, mProjectObject.getId());
+                } else { // merge 的at他人列表只用 data 包了一层
+                    JSONArray members = respanse.getJSONArray("data");
+                    for (int i = 0; i < members.length(); ++i) {
+                        UserObject member = new UserObject(members.getJSONObject(i));
                         mData.add(member);
                     }
                 }
-
-                AccountInfo.saveProjectMembers(getActivity(), mData, mProjectObject.getId());
 
                 mSearchData.clear();
                 mSearchData.addAll(mData);

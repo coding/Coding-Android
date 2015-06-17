@@ -22,6 +22,7 @@ public class TopicEditFragment extends MDEditFragment {
 
     @ViewById
     protected EditText title;
+
     @ViewById
     protected TopicLabelBar labelBar;
 
@@ -33,7 +34,9 @@ public class TopicEditFragment extends MDEditFragment {
         mOldData = ((SaveData) getActivity()).loadData();
         Log.e("TopicLabel", String.format("labels %s", mOldData.labels == null ? "null" : String.valueOf(mOldData.labels.size())));
         title.setText(mOldData.title);
-        edit.setText(mOldData.content);
+        String content = mOldData.content;
+        edit.setText(content);
+        edit.setSelection(content.length());
         updateLabels(mOldData.labels);
     }
 

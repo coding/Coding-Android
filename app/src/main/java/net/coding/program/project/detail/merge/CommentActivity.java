@@ -34,6 +34,9 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     @Extra
     CommitCommentParam mCommitParam;
 
+    @Extra
+    String mAtName;
+
     CommentEditFragment editFragment;
     Fragment previewFragment;
     private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
@@ -41,6 +44,10 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (mAtName != null) {
+            modifyData.content = String.format("@%s ", mAtName);
+        }
 
         if (mMerge != null) {
             editFragment = CommentEditFragment_.builder().mMergeUrl(mMerge.getMergeAtMemberUrl()).build();

@@ -178,8 +178,9 @@ public class NetworkImpl {
         }
 
         PageInfo pageInfo = mPages.get(tag);
-        if (json.has("data")) {
-            JSONObject jsonData = json.getJSONObject("data");
+
+        JSONObject jsonData = json.optJSONObject("data");
+        if (jsonData != null) {
             if (jsonData.has("totalPage")) {
                 pageInfo.pageAll = jsonData.getInt("totalPage");
                 pageInfo.pageIndex = jsonData.getInt("page");

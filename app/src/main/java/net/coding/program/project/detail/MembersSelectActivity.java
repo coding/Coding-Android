@@ -38,6 +38,7 @@ public class MembersSelectActivity extends BaseActivity {
                     .mSelect(true)
                     .build();
         } else if (mMergeUrl != null) {
+            getSupportActionBar().setTitle("选择@对象");
             fragment = new MembersListFragment_
                     .FragmentBuilder_()
                     .mMergeUrl(mMergeUrl)

@@ -73,7 +73,8 @@ public class MergeDetailActivity extends BackActivity {
                     }
                 });
             } else {
-                CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).startForResult(RESULT_COMMENT);
+                String name = item.owner.name;
+                CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).mAtName(name).startForResult(RESULT_COMMENT);
             }
         }
     };

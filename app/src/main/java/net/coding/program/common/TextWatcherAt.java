@@ -67,8 +67,7 @@ public class TextWatcherAt implements TextWatcher {
                 intent.putExtra("mMergeUrl", mMergeUrl);
                 mStartActivity.startActivityForResult(intent, mResult);
 
-            }
-            if (mProjectObject == null) {
+            } else if (mProjectObject == null) {
                 startActivityAt(mContext, mStartActivity, mResult);
             } else {
                 Intent intent;

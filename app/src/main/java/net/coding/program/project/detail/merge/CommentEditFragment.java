@@ -19,7 +19,6 @@ import org.androidannotations.annotations.OnActivityResult;
 @EFragment(R.layout.fragment_comment_edit)
 public class CommentEditFragment extends TopicEditFragment implements StartActivity {
 
-
     final int RESULT_REQUEST_AT = 1;
 
     @FragmentArg
