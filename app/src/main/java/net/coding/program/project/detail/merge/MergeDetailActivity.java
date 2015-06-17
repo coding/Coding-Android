@@ -46,6 +46,10 @@ public class MergeDetailActivity extends BackActivity {
 
     @Extra
     Merge mMerge;
+
+    @Extra
+    String mMergeUrl;
+
     @ViewById
     View actionLayout;
     @ViewById
@@ -85,6 +89,20 @@ public class MergeDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initMergeDetailActivity() {
+        if (mMerge != null) {
+            initByMereData();
+            getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
+        } else {
+            showDialogLoading();
+            String s = mMergeUrl.replace("/u/", "/api/user/")
+                    .replace("/p/", "/project/");
+            s += "/base";
+
+            getNetwork(s, HOST_MERGE_DETAIL);
+        }
+    }
+
+    private void initByMereData() {
         String title = ProjectObject.getTitle(mMerge.isPull());
         getSupportActionBar().setTitle(title);
 
@@ -103,7 +121,6 @@ public class MergeDetailActivity extends BackActivity {
         listView.setAdapter(mAdapter);
         listView.setAreHeadersSticky(false);
 
-        getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
         setActionStyle(false, false, false);
     }
 
@@ -310,8 +327,13 @@ public class MergeDetailActivity extends BackActivity {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_MERGE_DETAIL)) {
+            hideProgressDialog();
             if (code == 0) {
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
+                if (mMerge == null) {
+                    mMerge = mMergeDetail.getMerge();
+                    initByMereData();
+                }
                 updateBottomBarStyle();
                 Spannable spanContent = Global.changeHyperlinkColor(mMergeDetail.getContent());
                 if (spanContent.length() == 0) {

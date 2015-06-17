@@ -35,11 +35,15 @@ public class CommitFileListActivity extends BackActivity {
     private static final String HOST_COMMIT_FILES = "HOST_COMMIT_FILES";
     private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
     private static final String HOST_DELETE_COMMENT = "HOST_DELETE_COMMENT";
+    private static final String HOST_COMMIT_DETAIL = "HOST_COMMIT_DETAIL";
 
     @Extra
     Commit mCommit;
     @Extra
     String mProjectPath = "";
+    @Extra
+    String mCommitUrl;
+
     @ViewById
     ListView listView;
     CommitFileAdapter mAdapter;
@@ -72,6 +76,21 @@ public class CommitFileListActivity extends BackActivity {
 
     @AfterViews
     protected final void initCommitFileListActivity() {
+        if (mCommit != null) {
+            initByCommit();
+        } else {
+            String s = mCommitUrl.split("#")[0];
+            s = s.replace("/u/", "/api/user/")
+                    .replace("/p/", "/project/");
+            int start = s.indexOf("/user/");
+            int end = s.indexOf("/git/");
+            mProjectPath = s.substring(start, end);
+            getNetwork(s, HOST_COMMIT_DETAIL);
+            showDialogLoading();
+        }
+    }
+
+    private void initByCommit() {
         getSupportActionBar().setTitle(mCommit.getTitle());
 
         BaseCommentParam param = new BaseCommentParam(mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
@@ -162,6 +181,16 @@ public class CommitFileListActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(HOST_COMMIT_DETAIL)) {
+            hideProgressDialog();
+            if (code == 0) {
+                JSONObject jsonDetail = respanse.getJSONObject("data").getJSONObject("commitDetail");
+                mCommit = new Commit(jsonDetail);
+                initByCommit();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+
         }
     }
 

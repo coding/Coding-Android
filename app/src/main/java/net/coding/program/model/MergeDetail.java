@@ -58,4 +58,8 @@ public class MergeDetail implements Serializable {
     public String generalMergeMessage() {
         return merge_request.generalMergeMessage();
     }
+
+    public Merge getMerge() {
+        return merge_request;
+    }
 }

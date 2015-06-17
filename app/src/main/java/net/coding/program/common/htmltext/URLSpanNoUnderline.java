@@ -28,6 +28,8 @@ import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.TopicListDetailActivity;
 import net.coding.program.project.detail.TopicListDetailActivity_;
+import net.coding.program.project.detail.merge.CommitFileListActivity_;
+import net.coding.program.project.detail.merge.MergeDetailActivity_;
 import net.coding.program.task.TaskAddActivity;
 import net.coding.program.task.TaskAddActivity_;
 import net.coding.program.user.UserDetailActivity_;
@@ -270,7 +272,27 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
-        //
+        // 跳转到merge或pull
+        final String mergeString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/(merge)?(pull)?/(\\w+)$";
+        pattern = Pattern.compile(mergeString);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, MergeDetailActivity_.class);
+            intent.putExtra("mMergeUrl", uriString);
+            context.startActivity(intent);
+            return true;
+        }
+
+        // 跳转到commit
+        final String commitString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/commit/(\\w+)#(.+)$";
+        pattern = Pattern.compile(commitString);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, CommitFileListActivity_.class);
+            intent.putExtra("mCommitUrl", uriString);
+            context.startActivity(intent);
+            return true;
+        }
 
         try {
             if (defaultIntent) {
