@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.loopj.android.http.PersistentCookieStore;
+import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
@@ -694,6 +695,16 @@ public class Global {
         }
         //return Math.round(size) + units[i];
         return df.format(size) + " " + units[i];
+    }
+
+    public static void setBadgeView(BadgeView badge, int count) {
+        if (count > 0) {
+            String countString = count > 99 ? "99+" : ("" + count);
+            badge.setText(countString);
+            badge.setVisibility(View.VISIBLE);
+        } else {
+            badge.setVisibility(View.INVISIBLE);
+        }
     }
 
     public static class MessageParse {

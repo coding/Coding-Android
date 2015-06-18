@@ -24,9 +24,9 @@ import java.util.regex.Pattern;
 public class InitProUtils {
 
     public static final String FLAG_REFRESH = "init.pro.refresh";
+    public static final String FLAG_UPDATE_DYNAMIC = "FLAG_UPDATE_DYNAMIC";
 
     public static final int REQUEST_PRO_UPDATE = 1001;
-
 
     //跳转到主界面并刷新项目列表
     public static void intentToMain(Context context) {
@@ -34,6 +34,13 @@ public class InitProUtils {
         intent.putExtra("action", FLAG_REFRESH);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    public static void updateDynamic(Activity activity, int projectId) {
+        Intent intent = new Intent();
+        intent.putExtra("action", FLAG_UPDATE_DYNAMIC);
+        intent.putExtra("projectId", projectId);
+        activity.setResult(Activity.RESULT_OK, intent);
     }
 
     //返回到主界面并刷新项目列表
@@ -49,10 +56,7 @@ public class InitProUtils {
             return false;
         }
         Matcher matcher = Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9_-]+$").matcher(text);
-        if (matcher.find()) {
-            return true;
-        }
-        return false;
+        return matcher.find();
     }
 
     public static boolean saveBitmap2file(Bitmap bmp, String filename) {

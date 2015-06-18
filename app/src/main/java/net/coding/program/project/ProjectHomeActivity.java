@@ -63,7 +63,7 @@ public class ProjectHomeActivity extends BaseActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(ProjectListFragment.HOST_VISTIT)) {
+        } else if (tag.equals(PrivateProjectHomeFragment.HOST_VISTIT)) {
             if (code == 0) {
                 sendBroadcast(new Intent(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT));
             } else {
@@ -74,8 +74,8 @@ public class ProjectHomeActivity extends BaseActivity {
 
     private void initFragment() {
         if (mNeedUpdateList) {
-            String url = String.format(ProjectListFragment.HOST_VISTIT, mProjectObject.getId());
-            getNetwork(url, ProjectListFragment.HOST_VISTIT);
+            String url = String.format(PrivateProjectHomeFragment.HOST_VISTIT, mProjectObject.getId());
+            getNetwork(url, PrivateProjectHomeFragment.HOST_VISTIT);
         }
 
         Fragment fragment;

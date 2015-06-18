@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -40,6 +41,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     String mUrlUnwatch;
     private String httpProjectObject;
     private String forkUrl;
+
 
     @AfterViews
     final void init() {
@@ -152,21 +154,32 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         for (int i = 0; i < buttons.length; ++i) {
-            View v = root.findViewById(buttons[i]);
-            v.findViewById(R.id.icon).setBackgroundResource(buttonBackgrounds[i]);
-            ((TextView) v.findViewById(R.id.title)).setText(titles[i]);
+            View item = root.findViewById(buttons[i]);
+            item.findViewById(R.id.icon).setBackgroundResource(buttonBackgrounds[i]);
+            ((TextView) item.findViewById(R.id.title)).setText(titles[i]);
             final int pos = i;
-            v.setOnClickListener(new View.OnClickListener() {
+            item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (pos == 0) {
+                        updateDynamic();
+                    }
                     ProjectActivity_.intent(PublicProjectHomeFragment.this)
                             .mProjectObject(mProjectObject)
                             .mJumpType(ProjectActivity.PUBLIC_JUMP_TYPES[pos])
                             .start();
                 }
             });
+
+            if (i == 0) {
+                dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
+                Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
+            } else {
+                Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
+            }
         }
     }
+
 
     protected void postNetwork(String url) {
         postNetwork(url, new RequestParams(), url);
@@ -211,7 +224,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             });
         }
     }
-
 
 
     class ProjectMarkButton {

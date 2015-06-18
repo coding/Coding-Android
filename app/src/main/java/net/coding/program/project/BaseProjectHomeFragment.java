@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.readystatesoftware.viewbadger.BadgeView;
+
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
@@ -18,13 +21,16 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_public_project_home)
 public class BaseProjectHomeFragment extends BaseFragment {
 
+    public static final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
+    protected boolean isUpdateDynamic = false;
     @FragmentArg
     ProjectObject mProjectObject;
-
     @ViewById
     View recommendIcon;
     @ViewById
@@ -37,6 +43,7 @@ public class BaseProjectHomeFragment extends BaseFragment {
     TextView projectAuthor;
     @ViewById
     View projectHeaderLayout;
+    BadgeView dynamicBadge;
     private boolean isBackToRefresh = false;
 
     @AfterViews
@@ -53,7 +60,6 @@ public class BaseProjectHomeFragment extends BaseFragment {
         }
 
         isEnableProjectSet(projectHeaderLayout);
-
     }
 
     private void isEnableProjectSet(View view) {
@@ -99,5 +105,22 @@ public class BaseProjectHomeFragment extends BaseFragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    protected final void updateDynamic() {
+        String s = String.format(BaseProjectHomeFragment.HOST_VISTIT, mProjectObject.getId());
+        getNetwork(s, HOST_VISTIT, 0, mProjectObject.getId());
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_VISTIT)) {
+            if (respanse.getInt("code") == 0) {
+                int id = (int) data;
+                InitProUtils.updateDynamic(getActivity(), id);
+                Global.setBadgeView(dynamicBadge, 0);
+                mProjectObject.setReadActivities();
+            }
+        }
     }
 }

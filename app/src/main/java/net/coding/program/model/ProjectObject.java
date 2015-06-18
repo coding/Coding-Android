@@ -87,6 +87,10 @@ public class ProjectObject implements Serializable {
         return isPull ? "Pull Request" : "Merge Request";
     }
 
+    public void setReadActivities() {
+        un_read_activities_count = 0;
+    }
+
     public boolean isPin() {
         return pin;
     }

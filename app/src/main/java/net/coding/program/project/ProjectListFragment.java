@@ -44,10 +44,28 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment {
 
+    private static final String URL_PIN_DELETE = Global.HOST + "/api/user/projects/pin?ids=%d";
+    private static final String URL_PIN_SET = Global.HOST + "/api/user/projects/pin";
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<ProjectObject>();
-
     boolean mRequestOk;
+    @ViewById
+    ExpandableStickyListHeadersListView listView;
+
+    @ViewById
+    View blankLayout;
+
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    MyAdapter myAdapter = new MyAdapter();
+    int msectionId = 0;
+    private View.OnClickListener mOnClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
 
     public void setData(ArrayList<ProjectObject> data, boolean requestOk) {
         mData = data;
@@ -61,17 +79,6 @@ public class ProjectListFragment extends RefreshBaseFragment {
         // 不让空白画面出现
         BlankViewDisplay.setBlank(1, this, true, blankLayout, mOnClickRetry);
     }
-
-    @ViewById
-    ExpandableStickyListHeadersListView listView;
-
-    @ViewById
-    View blankLayout;
-
-    @ViewById
-    SwipeRefreshLayout swipeRefreshLayout;
-
-    MyAdapter myAdapter = new MyAdapter();
 
     @AfterViews
     protected final void init() {
@@ -93,9 +100,6 @@ public class ProjectListFragment extends RefreshBaseFragment {
             BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, mOnClickRetry);
         }
     }
-
-    private static final String URL_PIN_DELETE = Global.HOST + "/api/user/projects/pin?ids=%d";
-    private static final String URL_PIN_SET = Global.HOST + "/api/user/projects/pin";
 
     @ItemLongClick
     protected final void listView(int pos) {
@@ -162,18 +166,9 @@ public class ProjectListFragment extends RefreshBaseFragment {
         }
     }
 
-    public static final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_VISTIT)) {
-            if (respanse.getInt("code") == 0) {
-                int id = (int) data;
-                ((UpdateData) getParentFragment()).updateRead(id);
-                UnreadNotify.update(getActivity());
-            }
-
-        } else if (tag.equals(URL_PIN_SET)) {
+        if (tag.equals(URL_PIN_SET)) {
             if (code == 0) {
                 int id = (int) data;
                 ((UpdateData) getParentFragment()).updatePin(id, true);
@@ -195,8 +190,8 @@ public class ProjectListFragment extends RefreshBaseFragment {
     public void listView(ProjectObject item) {
 //        if (item.un_read_activities_count > 0) {
         // 调用此函数，则按hot排序时项目会排序到有动态的项目后面
-        String s = String.format(HOST_VISTIT, item.getId());
-        getNetwork(s, HOST_VISTIT, 0, item.getId());
+//        String s = String.format(HOST_VISTIT, item.getId());
+//        getNetwork(s, HOST_VISTIT, 0, item.getId());
 //        }
 
         // 在搜索界面不是嵌套的，getParentFragment会返回null
@@ -215,13 +210,36 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 String action = data.getStringExtra("action");
                 if (action.equals(InitProUtils.FLAG_REFRESH)) {
                     onRefresh();
+                } else if (action.equals(InitProUtils.FLAG_UPDATE_DYNAMIC)) {
+                    int projectId = data.getIntExtra("projectId", 0);
+                    if (projectId != 0) {
+                        ((UpdateData) getParentFragment()).updateRead(projectId);
+                        UnreadNotify.update(getActivity());
+                    }
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    int msectionId = 0;
+
+    public interface UpdateData {
+        void updateRead(int id);
+
+        void updatePin(int id, boolean pin);
+    }
+
+    static class HeaderViewHolder {
+        TextView mHead;
+    }
+
+    private static class ViewHolder {
+        TextView name;
+        ImageView image;
+        TextView content;
+        BadgeView badge;
+        View privateIcon;
+    }
 
     class MyAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
 
@@ -272,13 +290,8 @@ public class ProjectListFragment extends RefreshBaseFragment {
             holder.content.setText(ownerName);
 
             int count = item.un_read_activities_count;
-            if (count > 0) {
-                String countString = count > 99 ? "99+" : ("" + count);
-                holder.badge.setText(countString);
-                holder.badge.setVisibility(View.VISIBLE);
-            } else {
-                holder.badge.setVisibility(View.INVISIBLE);
-            }
+            BadgeView badge = holder.badge;
+            Global.setBadgeView(badge, count);
 
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
 
@@ -328,32 +341,5 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 return 1;
             }
         }
-    }
-
-    ;
-
-    private View.OnClickListener mOnClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
-
-    static class HeaderViewHolder {
-        TextView mHead;
-    }
-
-    private static class ViewHolder {
-        TextView name;
-        ImageView image;
-        TextView content;
-        BadgeView badge;
-        View privateIcon;
-    }
-
-    public interface UpdateData {
-        void updateRead(int id);
-
-        void updatePin(int id, boolean pin);
     }
 }

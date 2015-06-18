@@ -3,7 +3,10 @@ package net.coding.program.project;
 import android.view.View;
 import android.widget.TextView;
 
+import com.readystatesoftware.viewbadger.BadgeView;
+
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 
@@ -12,6 +15,7 @@ import org.androidannotations.annotations.EFragment;
 
 @EFragment(R.layout.fragment_project_private)
 public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
+
 
     @AfterViews
     protected void init2() {
@@ -49,23 +53,34 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         for (int i = 0; i < buttonId.length; ++i) {
-            View button = getView().findViewById(buttonId[i]);
-            button.findViewById(R.id.icon).setBackgroundResource(buttonIcon[i]);
-            ((TextView) button.findViewById(R.id.title)).setText(buttonTitle[i]);
+            View item = getView().findViewById(buttonId[i]);
+            item.findViewById(R.id.icon).setBackgroundResource(buttonIcon[i]);
+            ((TextView) item.findViewById(R.id.title)).setText(buttonTitle[i]);
             final int pos = i;
-            button.setOnClickListener(new View.OnClickListener() {
+            item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (pos == 0) {
+                        updateDynamic();
+                    }
+
                     ProjectActivity_.intent(PrivateProjectHomeFragment.this)
                             .mProjectObject(mProjectObject)
                             .mJumpType(ProjectActivity.PRIVATE_JUMP_TYPES[pos])
                             .start();
                 }
             });
+
+            if (i == 0) {
+                dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
+                Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
+            } else {
+                Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
+            }
         }
     }
 
-//    private void initHeadHead(View view) {
+    //    private void initHeadHead(View view) {
 //        ImageView projectIcon = (ImageView) view.findViewById(R.id.projectIcon);
 //        iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
 //
