@@ -23,7 +23,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                 "代码",
                 "成员",
                 "Readme",
-                "合并请求"
+                "Merge Request"
         };
 
         final int buttonIcon[] = new int[]{

@@ -103,8 +103,7 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     private void initByMereData() {
-        String title = ProjectObject.getTitle(mMerge.isPull());
-        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setTitle(mMerge.getTitleIId());
 
         String uri = mMerge.getHttpComments();
         getNetwork(uri, HOST_MERGE_COMMENTS);
@@ -216,7 +215,7 @@ public class MergeDetailActivity extends BackActivity {
                 "已拒绝",
                 "已拒绝",
                 "已拒绝",
-                "已拒绝"
+                "已取消"
         };
         String action = "";
         final int[] styleColors = new int[]{

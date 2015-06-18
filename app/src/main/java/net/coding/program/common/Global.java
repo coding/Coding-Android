@@ -150,7 +150,7 @@ public class Global {
     }
 
     public static String replaceAvatar(JSONObject json) {
-        return replaceUrl(json, "avatar");
+        return replaceHeadUrl(json, "avatar");
     }
 
     public static String getErrorMsg(JSONObject jsonObject) {
@@ -166,7 +166,8 @@ public class Global {
         return s;
     }
 
-    public static String replaceUrl(JSONObject json, String name) {
+    // 用于头像，有些头像是 “/static/fruit_avatar/Fruit-12.png”
+    public static String replaceHeadUrl(JSONObject json, String name) {
         String s = json.optString(name);
         if (s.indexOf("/static") == 0) {
             return Global.HOST + s;

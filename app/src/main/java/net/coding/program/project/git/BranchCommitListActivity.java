@@ -51,7 +51,6 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
         onRefresh();
 
         showDialogLoading();
-        initRefreshLayout();
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

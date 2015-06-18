@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 /**
  * Created by cc191954 on 14-8-8.
+ *
  */
 
 public class ProjectObject implements Serializable {
@@ -58,7 +59,7 @@ public class ProjectObject implements Serializable {
         description = json.optString("description");
         git_url = json.optString("git_url");
         https_url = json.optString("https_url");
-        icon = Global.replaceUrl(json, "icon");
+        icon = Global.replaceHeadUrl(json, "icon");
         id = json.optInt("id");
         created_at = json.optLong("created_at");
         update_at = json.optLong("update_at");
@@ -156,7 +157,6 @@ public class ProjectObject implements Serializable {
     public String getHttpMerge(boolean open) {
         String type = open ? "open" : "closed";
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
-        String url = Global.HOST_API + backend_project_path + pull + type + "?";
-        return url;
+        return Global.HOST_API + backend_project_path + pull + type + "?";
     }
 }

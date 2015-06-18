@@ -148,7 +148,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 "代码",
                 "成员",
                 "Readme",
-                "合并请求"
+                "Pull Request"
         };
 
         for (int i = 0; i < buttons.length; ++i) {

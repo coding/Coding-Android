@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -29,7 +30,8 @@ public abstract class RefreshBaseActivity extends BackActivity implements SwipeR
         swipeRefreshLayout.setRefreshing(refreshing);
     }
 
-    protected final void initRefreshLayout() {
+    @AfterViews
+    protected final void initRefreshBaseActivity() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.green);

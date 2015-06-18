@@ -218,8 +218,11 @@ public class Merge implements Serializable {
     }
 
     public Spannable getTitleSpannable() {
-        String spanString = String.format("<font color=\"#4e90bf\">#%d</font> %s", iid, title);
-        return Global.changeHyperlinkColor(spanString);
+        return Global.changeHyperlinkColor(title);
+    }
+
+    public String getTitleIId() {
+        return "# " + iid;
     }
 
     public String getMergeAtMemberUrl() {

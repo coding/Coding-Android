@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 /**
  * Created by chenchao on 15/5/29.
+ *
  */
 public class Commit implements Serializable {
 
@@ -91,7 +92,7 @@ public class Commit implements Serializable {
         public Committer(JSONObject json) {
             name = json.optString("name");
             email = json.optString("email");
-            avatar = json.optString("avatar");
+            avatar = Global.replaceAvatar(json);
             link = json.optString("link");
         }
     }

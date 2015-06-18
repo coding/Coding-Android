@@ -198,11 +198,8 @@ public class CommitFileListActivity extends BackActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_COMMENT) {
             if (resultCode == RESULT_OK) {
-                showMiddleToast("有");
                 BaseComment comment = (BaseComment) data.getSerializableExtra("data");
                 mAdapter.appendSingeDataUpdate(comment);
-            } else {
-                showMiddleToast("没有");
             }
         }
     }
