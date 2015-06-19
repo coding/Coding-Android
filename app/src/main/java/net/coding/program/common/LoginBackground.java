@@ -29,7 +29,7 @@ public class LoginBackground {
 
     private Context context;
 
-    final String URL_DOWNLOAD = Global.HOST + "/api/wallpaper/wallpapers?type=4";
+    final String URL_DOWNLOAD = Global.HOST + "/api/wallpaper/wallpapers?type=3";
 
     public LoginBackground(Context context) {
         this.context = context;
@@ -207,6 +207,25 @@ public class LoginBackground {
 
         public boolean isCached(Context ctx) {
             return getCacheFile(ctx).exists();
+        }
+
+        class Group implements Serializable {
+            String name = "";
+            String author = "";
+            String link = "";
+            String description = "";
+            int id;
+
+            Group(JSONObject json) {
+                name = json.optString("name");
+                author = json.optString("author");
+                link = json.optString("link");
+                description = json.optString("description");
+                id = json.optInt("id");
+            }
+
+            Group() {
+            }
         }
 
         private File getPhotoDir(Context ctx) {

@@ -233,7 +233,7 @@ public class Merge implements Serializable {
 
     public String generalMergeMessage() {
         String template = "Accept %s #%d : (%s -> %s)";
-        return String.format(template, ProjectObject.getTitle(isPull()), iid, desBranch, srcBranch);
+        return String.format(template, ProjectObject.getTitle(isPull()), iid, srcBranch, desBranch);
     }
 
     public static class ActionAuthor extends UserObject implements Serializable {

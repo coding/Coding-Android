@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -33,29 +36,37 @@ import java.io.File;
 @EActivity(R.layout.entrance_image)
 public class EntranceActivity extends BaseActivity {
 
+    static final String HOST_CURRENT = Global.HOST + "/api/current_user";
     @ViewById
     ImageView image;
-
     @ViewById
     TextView title;
-
+    //    @ViewById
+//    View mask;
     @ViewById
-    View mask;
-
+    View foreMask;
     @ViewById
     View logo;
-
     @AnimationRes
     Animation entrance;
-
     Uri background = null;
-
-    static final String HOST_CURRENT = Global.HOST + "/api/current_user";
-
     boolean mNeedUpdateUser = false;
+
+    Handler mHandler;
 
     @AfterViews
     void init() {
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 0) {
+                    playAnimator1();
+                } else if (msg.what == 1) {
+                    next();
+                }
+            }
+        };
+
         LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
         File file = photoItem.getCacheFile(this);
         getImageLoad().imageLoader.clearMemoryCache();
@@ -80,7 +91,7 @@ public class EntranceActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (!mNeedUpdateUser) {
-                    next();
+                    mHandler.sendEmptyMessageDelayed(1, 500);
                 }
             }
 
@@ -88,16 +99,21 @@ public class EntranceActivity extends BaseActivity {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-        image.startAnimation(entrance);
 
         if (MyApp.sUserObject.global_key.isEmpty() && AccountInfo.isLogin(this)) {
             getNetwork(HOST_CURRENT, HOST_CURRENT);
             mNeedUpdateUser = true;
         }
+
+        mHandler.sendEmptyMessageDelayed(0, 900);
+    }
+
+    private void playAnimator1() {
+        foreMask.startAnimation(entrance);
     }
 
     private void hideLogo() {
-        mask.setVisibility(View.GONE);
+//        mask.setVisibility(View.GONE);
         title.setVisibility(View.GONE);
         logo.setVisibility(View.GONE);
     }
@@ -111,6 +127,7 @@ public class EntranceActivity extends BaseActivity {
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user.email, user.global_key);
+                next();
             } else {
                 AlertDialog dialog = new AlertDialog.Builder(this).setTitle("更新")
                         .setMessage("刷新账户信息失败")
@@ -146,10 +163,10 @@ public class EntranceActivity extends BaseActivity {
         }
 
         startActivity(intent);
+        overridePendingTransition(R.anim.scroll_in, R.anim.scroll_out);
 
         UnreadNotify.update(this);
         finish();
-        overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out);
     }
 }
 

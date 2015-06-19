@@ -10,12 +10,12 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <View
-        android:id="@+id/mask"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/entrance_bottom_bg" />
+    <!--<View-->
+    <!--android:id="@+id/mask"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="300dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:background="@drawable/entrance_bottom_bg" />-->
 
     <TextView
         android:id="@+id/title"
@@ -29,12 +29,17 @@
         android:textSize="9sp" />
 
     <View
+        android:id="@+id/foreMask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
+
+    <View
         android:id="@+id/logo"
-        android:layout_width="193dp"
-        android:layout_height="43dp"
-        android:layout_above="@id/title"
+        android:layout_width="226dp"
+        android:layout_height="47dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="44dp"
+        android:layout_marginTop="85dp"
         android:background="@drawable/entrance_logo" />
 
 </RelativeLayout>

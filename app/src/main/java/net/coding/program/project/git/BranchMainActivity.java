@@ -1,6 +1,6 @@
 package net.coding.program.project.git;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.project.detail.ProjectGitFragmentMain;
 import net.coding.program.project.detail.ProjectGitFragmentMain_;
@@ -10,7 +10,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 @EActivity(R.layout.activity_branch_main)
-public class BranchMainActivity extends BaseActivity {
+public class BranchMainActivity extends BackActivity {
 
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,11 @@ public class BranchMainActivity extends BaseActivity {
 
     @AfterViews
     protected final void initBranchMainActivity() {
+        String projectString = "/project/";
+        int start = mProjectPath.indexOf(projectString) + projectString.length();
+        String title = mProjectPath.substring(start);
+        getSupportActionBar().setTitle(title);
+
         ProjectGitFragmentMain fragment = ProjectGitFragmentMain_.builder()
                 .mProjectPath(mProjectPath)
                 .mVersion(mVersion)
