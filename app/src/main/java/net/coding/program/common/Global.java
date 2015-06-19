@@ -100,6 +100,10 @@ public class Global {
     }
 
     public static void errorLog(Exception e) {
+        if (e == null) {
+            return;
+        }
+
         e.printStackTrace();
         Log.e("", "" + e);
     }
