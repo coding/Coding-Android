@@ -225,7 +225,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         }
     }
 
-
     class ProjectMarkButton {
 
         // 普通和选中

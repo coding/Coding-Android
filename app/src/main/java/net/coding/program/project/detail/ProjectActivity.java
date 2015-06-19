@@ -202,6 +202,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             fragment = (Fragment) spinnerFragments.get(position).newInstance();
 
             bundle.putSerializable("mProjectObject", mProjectObject);
+            bundle.putSerializable("mProjectPath", ProjectObject.translatePath(mProjectObject.project_path));
             fragment.setArguments(bundle);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

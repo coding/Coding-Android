@@ -97,7 +97,6 @@ public class MergeDetailActivity extends BackActivity {
             String s = mMergeUrl.replace("/u/", "/api/user/")
                     .replace("/p/", "/project/");
             s += "/base";
-
             getNetwork(s, HOST_MERGE_DETAIL);
         }
     }

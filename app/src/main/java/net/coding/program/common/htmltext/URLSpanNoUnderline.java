@@ -30,6 +30,7 @@ import net.coding.program.project.detail.TopicListDetailActivity;
 import net.coding.program.project.detail.TopicListDetailActivity_;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
+import net.coding.program.project.git.BranchMainActivity_;
 import net.coding.program.task.TaskAddActivity;
 import net.coding.program.task.TaskAddActivity_;
 import net.coding.program.user.UserDetailActivity_;
@@ -284,12 +285,29 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到commit
-        final String commitString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/commit/(\\w+)#(.+)$";
+        final String commitString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/commit/.+$";
         pattern = Pattern.compile(commitString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             intent.setClass(context, CommitFileListActivity_.class);
             intent.putExtra("mCommitUrl", uriString);
+            context.startActivity(intent);
+            return true;
+        }
+
+        // 跳转到branch
+        final String branchString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/tree/(.+)$";
+        pattern = Pattern.compile(branchString);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, BranchMainActivity_.class);
+            String userString = matcher.group(1);
+            String projectString = matcher.group(2);
+            String version = matcher.group(3);
+            String projectPath = String.format("/user/%s/project/%s", userString, projectString);
+
+            intent.putExtra("mProjectPath", projectPath);
+            intent.putExtra("mVersion", version);
             context.startActivity(intent);
             return true;
         }

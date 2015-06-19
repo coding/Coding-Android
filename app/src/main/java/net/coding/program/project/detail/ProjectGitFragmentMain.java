@@ -33,8 +33,8 @@ import java.util.ArrayList;
 @EFragment(R.layout.project_git_fragment_main)
 public class ProjectGitFragmentMain extends ProjectGitFragment {
 
-    private final String HOST_LIST_BRANCHES = Global.HOST + "/api/user/%s/project/%s/git/branches?pageSize=1000";
-    private final String HOST_LIST_TAG = Global.HOST + "/api/user/%s/project/%s/git/list_tags";
+    private final String HOST_LIST_BRANCHES = Global.HOST + "/api%s/git/branches?pageSize=1000";
+    private final String HOST_LIST_TAG = Global.HOST + "/api%s/git/list_tags";
     @ViewById
     TextView versionButton;
     @ViewById
@@ -119,15 +119,18 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     };
 
-    // 父类已经使用了 init，子类就不能再用这个名字，否则 init 会调用两次
     @AfterViews
-    protected void init2() {
+    protected void initProjectGitFragmentMain() {
         setHasOptionsMenu(true);
 
-        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectObject.owner_user_name, mProjectObject.name);
+        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectPath);
         getNetwork(urlBranches, HOST_LIST_BRANCHES);
 
-        String urlTag = String.format(HOST_LIST_TAG, mProjectObject.owner_user_name, mProjectObject.name);
+        if (mVersion != null && !mVersion.isEmpty()) {
+            switchVersion(mVersion);
+        }
+
+        String urlTag = String.format(HOST_LIST_TAG, mProjectPath);
         getNetwork(urlTag, HOST_LIST_TAG);
         versionList.setAdapter(versionAdapter);
 
@@ -207,13 +210,12 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             BranchItem item = new BranchItem(jsonArray.optJSONObject(i));
             data.add(item);
 
-            if (item.is_default_branch) {
+            if (item.is_default_branch && (mVersion == null || mVersion.isEmpty())) {
                 switchVersion(item.name);
             }
         }
 
         ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
-
     }
 
     private void showList(boolean show) {

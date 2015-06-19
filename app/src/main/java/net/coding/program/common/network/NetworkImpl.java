@@ -39,6 +39,9 @@ public class NetworkImpl {
 
     public void loadData(String url, RequestParams params, final String tag, final int dataPos, final Object data, Request type) {
         Log.d("", "url " + type + " " + url);
+        if (!url.startsWith("http")) {
+            url = Global.HOST + url;
+        }
 
         if (mUpdateing.containsKey(tag) && mUpdateing.get(tag)) {
             Log.d("", "url#" + (params == null ? "get " : "post ") + url);

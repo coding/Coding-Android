@@ -46,7 +46,8 @@ public class GitViewActivity extends CustomMoreActivity {
     private static String TAG = GitViewActivity.class.getSimpleName();
 
     @Extra
-    ProjectObject mProjectObject;
+    String mProjectPath;
+//    ProjectObject mProjectObject;
 
     @Extra
     GitFileInfoObject mGitFileInfoObject;
@@ -67,8 +68,8 @@ public class GitViewActivity extends CustomMoreActivity {
 
     File mTempPicFile;
 
-    String urlBlob = Global.HOST + "/api/user/%s/project/%s/git/blob/%s/%s";
-    String urlImage = Global.HOST + "/u/%s/p/%s/git/raw/%s/%s";
+    String urlBlob = Global.HOST + "/api%s/git/blob/%s/%s";
+    String urlImage = Global.HOST + "%s/git/raw/%s/%s";
 
     GitFileObject mFile;
 
@@ -86,7 +87,7 @@ public class GitViewActivity extends CustomMoreActivity {
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
-        urlBlob = String.format(urlBlob, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mGitFileInfoObject.path);
+        urlBlob = String.format(urlBlob, mProjectPath, mVersion, mGitFileInfoObject.path);
         webview.getSettings().setBuiltInZoomControls(true);
         Global.initWebView(webview);
 
@@ -115,7 +116,8 @@ public class GitViewActivity extends CustomMoreActivity {
 
                         mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
                         mTempPicFile.deleteOnExit();
-                        download(String.format(urlImage, mProjectObject.owner_user_name, mProjectObject.name, mVersion, mFile.path));
+                        String s = ProjectObject.translatePathToOld(mProjectPath);
+                        download(String.format(urlImage, s, mVersion, mFile.path));
                     } catch (IOException e) {
                         showButtomToast("图片无法下载");
                     }
@@ -165,41 +167,6 @@ public class GitViewActivity extends CustomMoreActivity {
         return outputStream.toString();
     }
 
-    class ImagePager extends FragmentPagerAdapter {
-
-        public ImagePager(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            ImagePagerFragment_ fragment = new ImagePagerFragment_();
-            Bundle bundle = new Bundle();
-            bundle.putString("uri", mArrayUri.get(i));
-            fragment.setArguments(bundle);
-            return fragment;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImagePagerFragment fragment = (ImagePagerFragment) super.instantiateItem(container, position);
-            fragment.setData(mArrayUri.get(position));
-            return fragment;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public int getCount() {
-            return mArrayUri.size();
-        }
-    }
-
-    ;
-
     private void download(String url) {
         //url = "https://coding.net/api/project/5166/files/58705/download";
         //File mFile = FileUtil.getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
@@ -232,6 +199,40 @@ public class GitViewActivity extends CustomMoreActivity {
 
     @Override
     protected String getLink() {
-        return mProjectObject.getPath() + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
+        String s = ProjectObject.translatePathToOld(mProjectPath);
+        return Global.HOST + s + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
+    }
+
+    class ImagePager extends FragmentPagerAdapter {
+
+        public ImagePager(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            ImagePagerFragment_ fragment = new ImagePagerFragment_();
+            Bundle bundle = new Bundle();
+            bundle.putString("uri", mArrayUri.get(i));
+            fragment.setArguments(bundle);
+            return fragment;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImagePagerFragment fragment = (ImagePagerFragment) super.instantiateItem(container, position);
+            fragment.setData(mArrayUri.get(position));
+            return fragment;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
+        public int getCount() {
+            return mArrayUri.size();
+        }
     }
 }

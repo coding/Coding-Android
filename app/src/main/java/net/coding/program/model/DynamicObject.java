@@ -24,6 +24,11 @@ public class DynamicObject {
     static final String BLACK_HTML = "<font color='#666666'>%s</font>";
     static final int BLACK_COLOR = 0xff666666;
 
+    private static String createLink(String name, String link) {
+        final String TEMPLATE_LINK = "<a href=\"%s\">%s</a>";
+        return String.format(TEMPLATE_LINK, link, name);
+    }
+
     static String black(String s) {
         return String.format(BLACK_HTML, s);
     }
@@ -241,7 +246,7 @@ public class DynamicObject {
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            String content = merge_request_title;
+            String content = createLink(merge_request_title, merge_request_path);
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
 
@@ -269,7 +274,8 @@ public class DynamicObject {
         @Override
         public Spanned title() {
             final String format = "%s %s 项目%s中的 Merge Request %s";
-            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml(), merge_request_title);
+            String mergeLink = createLink(merge_request_title, merge_request_path);
+            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml(), mergeLink);
             return Global.changeHyperlinkColor(title);
         }
 
@@ -617,7 +623,8 @@ public class DynamicObject {
                 branch = "标签";
             }
             final String format = "%s %s 项目%s " + BLACK_HTML;
-            String title = String.format(format, user.getHtml(), action_msg, branch, ref);
+            String html = createLink(ref, ref_path);
+            String title = String.format(format, user.getHtml(), action_msg, branch, html);
             return Global.changeHyperlinkColor(title);
         }
 
@@ -631,7 +638,14 @@ public class DynamicObject {
 
             for (int i = 0; i < commits.size(); ++i) {
                 Commit commit = commits.get(i);
-                String singleContent = String.format("%s : [%s] %s", commit.committer.getHtml(), commit.sha, commit.short_message);
+                String url = depot.path + "/commit/" + commit.sha;
+                String display = commit.sha;
+                if (display.length() > 7) {
+                    display = display.substring(0, 7);
+                }
+
+                String html = String.format("<a href=\"%s\">[%s] %s</a>", url, display, commit.short_message);
+                String singleContent = String.format("%s : %s", commit.committer.getHtml(), html);
 
                 if (i > 0) {
                     content += "<br/>";
@@ -889,9 +903,6 @@ public class DynamicObject {
 
         public Commit(JSONObject json) throws JSONException {
             sha = json.optString("sha", "");
-            if (sha.length() >= 7) {
-                sha = sha.substring(0, 7);
-            }
 
             short_message = json.optString("short_message");
             if (json.has("committer")) {

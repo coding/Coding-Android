@@ -44,7 +44,9 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
     @FragmentArg
-    ProjectObject mProjectObject;
+    String mProjectPath;
+//    ProjectObject mProjectObject;
+
     @FragmentArg
     GitFileInfoObject mGitFileInfoObject;
     @FragmentArg
@@ -111,7 +113,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     };
 
     @AfterViews
-    protected final void init() {
+    protected final void initProjectGitFragment() {
         initRefreshLayout();
         showDialogLoading();
 
@@ -121,9 +123,9 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GitFileInfoObject selectedFile = mData.get(position);
                 if (selectedFile.isTree()) {
-                    GitTreeActivity_.intent(getActivity()).mProjectObject(mProjectObject).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+                    GitTreeActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
                 } else {
-                    GitViewActivity_.intent(getActivity()).mProjectObject(mProjectObject).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+                    GitViewActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
                 }
             }
         });
@@ -136,7 +138,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }
 
         if (!mVersion.isEmpty()) {
-            host_git_tree_url = UrlCreate.gitTree(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+            host_git_tree_url = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
             getNetwork(host_git_tree_url, HOST_GIT_TREE);
         }
     }
@@ -151,7 +153,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_history() {
-        String commitUrl = UrlCreate.gitTreeCommit(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+        String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, pathStack.peek());
         BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
     }
 
@@ -164,13 +166,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     @Override
     public void onRefresh() {
         initSetting();
-        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
         getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
     @Override
     public void loadMore() {
-        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
         getNextPageNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
@@ -197,7 +199,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
-                host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectObject.owner_user_name, mProjectObject.name, mVersion, pathStack.peek());
+                host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
                 getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
             } else {
                 hideProgressDialog();
@@ -212,10 +214,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @Override
     protected String getLink() {
+        String head = Global.HOST + ProjectObject.translatePathToOld(mProjectPath);
         if (pathStack.peek().isEmpty()) {
-            return mProjectObject.getPath() + "/git";
+            return head + "/git";
         } else {
-            return mProjectObject.getPath() + "/git/tree/" + mVersion + "/" + pathStack.peek();
+            return head + "/git/tree/" + mVersion + "/" + pathStack.peek();
         }
     }
 

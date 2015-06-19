@@ -85,6 +85,7 @@ public class CommitFileListActivity extends BackActivity {
             int start = s.indexOf("/user/");
             int end = s.indexOf("/git/");
             mProjectPath = s.substring(start, end);
+
             getNetwork(s, HOST_COMMIT_DETAIL);
             showDialogLoading();
         }

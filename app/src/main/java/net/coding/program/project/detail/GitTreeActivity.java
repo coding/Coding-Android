@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.model.GitFileInfoObject;
-import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -17,7 +16,8 @@ import org.androidannotations.annotations.Extra;
 public class GitTreeActivity extends UmengActivity {
 
     @Extra
-    ProjectObject mProjectObject;
+    String mProjectPath;
+//    ProjectObject mProjectObject;
 
     @Extra
     GitFileInfoObject mGitFileInfoObject;
@@ -36,7 +36,7 @@ public class GitTreeActivity extends UmengActivity {
         } else {
             String userId = getIntent().getStringExtra("id");
 
-            ProjectGitFragment fragment = ProjectGitFragment_.builder().mGitFileInfoObject(mGitFileInfoObject).mProjectObject(mProjectObject).mVersion(mVersion).build();
+            ProjectGitFragment fragment = ProjectGitFragment_.builder().mGitFileInfoObject(mGitFileInfoObject).mProjectPath(mProjectPath).mVersion(mVersion).build();
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
