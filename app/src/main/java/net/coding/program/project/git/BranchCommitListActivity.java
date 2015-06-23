@@ -1,6 +1,7 @@
 package net.coding.program.project.git;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import net.coding.program.FootUpdate;
@@ -31,7 +32,9 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
     protected ExpandableStickyListHeadersListView listView;
     @Extra
     String mCommitsUrl;
-    CommitsAdapter mAdapter;
+    PageCommitAdapter mAdapter;
+
+    CommitPage mCommitPage;
 
     private View.OnClickListener mOnClickListItem = new View.OnClickListener() {
         @Override
@@ -43,9 +46,11 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
 
     @AfterViews
     protected final void initBranchCommitListActivity() {
+        mCommitPage = new CommitPage(mCommitsUrl);
+
         BaseCommentParam param = new BaseCommentParam(mOnClickListItem,
                 new MyImageGetter(this), getImageLoad(), mOnClickUser);
-        mAdapter = new CommitsAdapter(param);
+        mAdapter = new PageCommitAdapter(param);
         listView.setAdapter(mAdapter);
         mFootUpdate.init(listView, mInflater, this);
         onRefresh();
@@ -72,11 +77,13 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
             hideProgressDialog();
             setRefreshing(false);
             if (code == 0) {
-                if (isLoadingFirstPage(HOST_COMMITS_PAGER)) {
+                if (mCommitPage.isLoadingFirstPage()) {
                     mAdapter.clearData();
                 }
 
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONObject("commits").getJSONArray("list");
+                JSONObject jsonCommits = respanse.getJSONObject("data").getJSONObject("commits");
+                mCommitPage.setNextPage(jsonCommits);
+                JSONArray jsonArray = jsonCommits.getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Commit commit = new Commit(jsonArray.getJSONObject(i));
                     mAdapter.appendData(commit);
@@ -85,18 +92,92 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
             } else {
                 showErrorMsg(code, respanse);
             }
-            mFootUpdate.updateState(code, isLoadingLastPage(HOST_COMMITS_PAGER), mAdapter.getCount());
+
+            mCommitPage.setLoading(false);
+            mFootUpdate.updateState(code, mCommitPage.isLoadAll(), mAdapter.getCount());
         }
     }
 
     @Override
     public void onRefresh() {
         initSetting();
-        getNextPageNetwork(mCommitsUrl, HOST_COMMITS_PAGER);
+        mCommitPage.reset();
+        loadMore();
     }
 
     @Override
     public void loadMore() {
-        getNextPageNetwork(mCommitsUrl, HOST_COMMITS_PAGER);
+        if (mCommitPage.isLoadAll()) {
+            return;
+        }
+
+        String nextPageUrl = mCommitPage.getNextPageUrl();
+        if (mCommitPage.isLoading()) {
+            return;
+        }
+
+        mCommitPage.setLoading(true);
+        getNetwork(nextPageUrl, HOST_COMMITS_PAGER);
+    }
+
+    private static class CommitPage {
+        final String mCommitsUrl;
+        boolean mIsEnd = false;
+        int mNextPage = 1;
+        boolean mLoading = false;
+
+        public CommitPage(String url) {
+            mCommitsUrl = url;
+            reset();
+        }
+
+        public boolean isLoading() {
+            return mLoading;
+        }
+
+        public void setLoading(boolean loading) {
+            mLoading = loading;
+        }
+
+        public boolean isLoadingFirstPage() {
+            return mNextPage == 1;
+        }
+
+        public boolean isLoadAll() {
+            return mIsEnd;
+        }
+
+        public void reset() {
+            mNextPage = 1;
+            mIsEnd = false;
+        }
+
+        public void setNextPage(JSONObject json) {
+            ++mNextPage;
+            int count = json.optInt("pageSize", 0);
+            int realData = json.optJSONArray("list").length();
+            if (realData < count) {
+                mIsEnd = true;
+            }
+        }
+
+        public String getNextPageUrl() {
+            return String.format("%spage=%d", mCommitsUrl, mNextPage);
+        }
+    }
+
+    class PageCommitAdapter extends CommitsAdapter {
+        public PageCommitAdapter(BaseCommentParam param) {
+            super(param);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (getCount() - 1 <= position) {
+                loadMore();
+            }
+
+            return super.getView(position, convertView, parent);
+        }
     }
 }
