@@ -57,49 +57,314 @@ import java.util.Calendar;
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
+    //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
+    public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
+    public final static int TAG_MAOPAO = R.id.clickMaopao;
+    public final static int TAG_COMMENT = R.id.comment;
+    static final int RESULT_EDIT_MAOPAO = 100;
+    static final int RESULT_AT = 101;
     final String maopaoUrlFormat = Global.HOST + "/api/tweet/public_tweets?last_id=%s&sort=%s";
     final String friendUrl = Global.HOST + "/api/activities/user_tweet?last_id=%s";
-
     final String myUrl = Global.HOST + "/api/tweet/user_public?user_id=%s&last_id=%s";
-
-
     final String URI_COMMENT = Global.HOST + "/api/tweet/%s/comment";
-
+    final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
+    final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
+    final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
+    ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
     int id = UPDATE_ALL_INT;
-
     boolean mNoMore = false;
-
-    public enum Type {
-        user, friends, hot, my, time
-    }
-
     @FragmentArg
     Type mType;
-
     @FragmentArg
     int userId;
-
     @ViewById
     ListView listView;
-
     @ViewById
     View blankLayout;
-
     @ViewById
     View commonEnterRoot;
-
     @ViewById
     FloatingActionButton floatButton;
-
     EnterEmojiLayout mEnterLayout;
     int needScrollY = 0;
     int oldListHigh = 0;
-
     int cal1 = 0;
+    View.OnClickListener onClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+            String input = mEnterLayout.getContent();
+
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
+                return;
+            }
+
+            Maopao.Comment commentObject = (Maopao.Comment) mEnterLayout.content.getTag();
+            String uri = String.format(URI_COMMENT, commentObject.tweet_id);
+
+            RequestParams params = new RequestParams();
+
+            String commentString;
+            if (commentObject.id == 0) {
+                commentString = input;
+            } else {
+                commentString = Global.encodeInput(commentObject.owner.name, input);
+            }
+            params.put("content", commentString);
+            postNetwork(uri, params, URI_COMMENT, 0, commentObject);
+
+            showProgressBar(R.string.sending_comment);
+        }
+    };
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
     private MyImageGetter myImageGetter;
     private int mPxImageWidth;
+    BaseAdapter mAdapter = new BaseAdapter() {
+        protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
+                Fragment parent = getParentFragment();
+                if (parent == null) {
+                    MaopaoDetailActivity_
+                            .intent(MaopaoListFragment.this)
+                            .mMaopaoObject(data)
+                            .startForResult(RESULT_EDIT_MAOPAO);
+                } else {
+                    MaopaoDetailActivity_
+                            .intent(parent)
+                            .mMaopaoObject(data)
+                            .startForResult(RESULT_EDIT_MAOPAO);
+                }
+
+            }
+        };
+        ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListFragment.this);
+        View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
+                showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%s";
+                        deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
+                                -1, maopaoId);
+                    }
+                });
+            }
+        };
+        View.OnClickListener onClickComment = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
+                if (MyApp.sUserObject.id == (comment.owner_id)) {
+                    showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/%d/comment/%d";
+                            deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
+                        }
+                    });
+                } else {
+                    popComment(v);
+                }
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ViewHolder holder;
+
+            if (convertView == null) {
+                holder = new ViewHolder();
+                convertView = mInflater.inflate(R.layout.fragment_maopao_list_item, parent, false);
+
+                holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
+                holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
+
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon.setOnClickListener(mOnClickUser);
+
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.time = (TextView) convertView.findViewById(R.id.time);
+
+                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
+
+                holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
+                holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);
+
+                holder.location = (TextView) convertView.findViewById(R.id.location);
+                holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
+                holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
+                holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
+                holder.likeBtn.setTag(R.id.likeBtn, holder);
+                holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
+                holder.commentBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popComment(v);
+                    }
+                });
+
+                holder.maopaoDelete = convertView.findViewById(R.id.maopaoDelete);
+                holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
+
+                holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
+                // 隐藏第一条评论的分割线
+                convertView.findViewById(R.id.comment0).findViewById(R.id.commentTopDivider).setVisibility(View.INVISIBLE);
+
+
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
+
+            holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
+            holder.likeUsersArea.displayLikeUser();
+
+            if (data.likes > 0 || data.comments > 0) {
+                holder.commentLikeArea.setVisibility(View.VISIBLE);
+            } else {
+                holder.commentLikeArea.setVisibility(View.GONE);
+            }
+
+            MaopaoLocationArea.bind(holder.location, data);
+
+            String device = data.device;
+            if (!device.isEmpty()) {
+                final String format = "来自 %s";
+                device = String.format(format, device);
+                holder.photoType.setVisibility(View.VISIBLE);
+            } else {
+                holder.photoType.setVisibility(View.GONE);
+            }
+            holder.photoType.setText(device);
+
+            iconfromNetwork(holder.icon, data.owner.avatar);
+            holder.icon.setTag(data.owner.global_key);
+
+            holder.name.setText(data.owner.name);
+            holder.name.setTag(data.owner.global_key);
+
+            holder.maopaoItem.setTag(data);
+
+            holder.contentArea.setData(data);
+
+            holder.time.setText(Global.dayToNow(data.created_at));
+
+            holder.likeBtn.setOnCheckedChangeListener(null);
+            holder.likeBtn.setChecked(data.liked);
+            holder.likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String type = ((CheckBox) v).isChecked() ? "like" : "unlike";
+                    String uri = String.format(HOST_GOOD, data.id, type);
+                    v.setTag(data);
+
+                    postNetwork(uri, new RequestParams(), HOST_GOOD, 0, data);
+                }
+            });
+
+            if (data.likes > 0) {
+                holder.likeAreaDivide.setVisibility(data.comments > 0 ? View.VISIBLE : View.INVISIBLE);
+            }
+
+            holder.commentBtn.setTag(data);
+
+            if (data.owner_id == (MyApp.sUserObject.id)) {
+                holder.maopaoDelete.setVisibility(View.VISIBLE);
+                holder.maopaoDelete.setTag(TAG_MAOPAO_ID, data.id);
+            } else {
+                holder.maopaoDelete.setVisibility(View.INVISIBLE);
+            }
+
+
+            holder.commentArea.displayContentData(data);
+
+
+            if (mData.size() - position <= 1) {
+                if (!mNoMore) {
+                    getNetwork(createUrl(), maopaoUrlFormat);
+                }
+            }
+
+            return convertView;
+        }
+
+        void popComment(View v) {
+            EditText comment = mEnterLayout.content;
+
+            Object data = v.getTag();
+            Maopao.Comment commentObject = null;
+            if (data instanceof Maopao.Comment) {
+                commentObject = (Maopao.Comment) v.getTag();
+                comment.setHint("回复 " + commentObject.owner.name);
+                comment.setTag(commentObject);
+            } else if (data instanceof Maopao.MaopaoObject) {
+                commentObject = new Maopao.Comment((Maopao.MaopaoObject) data);
+                comment.setHint("评论冒泡");
+                comment.setTag(commentObject);
+            } else {
+                data = v.getTag(MaopaoListFragment.TAG_COMMENT);
+                if (data instanceof Maopao.Comment) {
+                    commentObject = (Maopao.Comment) data;
+                    comment.setHint("回复 " + commentObject.owner.name);
+                    comment.setTag(commentObject);
+                }
+            }
+
+            mEnterLayout.closeEmojiKeyboard();
+            mEnterLayout.show();
+
+            mEnterLayout.restoreLoad(commentObject);
+
+            Object tag1 = v.getTag(R.id.likeBtn);
+
+            int itemLocation[] = new int[2];
+            v.getLocationOnScreen(itemLocation);
+            int itemHeight = v.getHeight();
+
+            int listLocation[] = new int[2];
+            listView.getLocationOnScreen(listLocation);
+            int listHeight = listView.getHeight();
+
+            oldListHigh = listHeight;
+            if (tag1 == null) {
+                needScrollY = (itemLocation[1] + itemHeight) - (listLocation[1] + listHeight);
+            } else {
+                needScrollY = (itemLocation[1] + itemHeight + commonEnterRoot.getHeight()) - (listLocation[1] + listHeight);
+            }
+
+            cal1 = 0;
+
+            comment.requestFocus();
+            Global.popSoftkeyboard(MaopaoListFragment.this.getActivity(), comment, true);
+        }
+
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -201,8 +466,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         if (v != null && v.getParent() != null) {
             ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
 
-                long mLastTime = 0;
                 final long DOUBLE_CLICK_TIME = 300;
+                long mLastTime = 0;
 
                 @Override
                 public void onClick(View v) {
@@ -244,37 +509,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         super.initSetting();
         id = UPDATE_ALL_INT;
     }
-
-    View.OnClickListener onClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            String input = mEnterLayout.getContent();
-
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
-                return;
-            }
-
-            Maopao.Comment commentObject = (Maopao.Comment) mEnterLayout.content.getTag();
-            String uri = String.format(URI_COMMENT, commentObject.tweet_id);
-
-            RequestParams params = new RequestParams();
-
-            String commentString;
-            if (commentObject.id == 0) {
-                commentString = input;
-            } else {
-                commentString = Global.encodeInput(commentObject.owner.name, input);
-            }
-            params.put("content", commentString);
-            postNetwork(uri, params, URI_COMMENT, 0, commentObject);
-
-            showProgressBar(R.string.sending_comment);
-        }
-    };
-
-    static final int RESULT_EDIT_MAOPAO = 100;
-    static final int RESULT_AT = 101;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -333,24 +567,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
     }
 
-    final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
-
     private void hideSoftkeyboard() {
         mEnterLayout.restoreSaveStop();
         mEnterLayout.clearContent();
         mEnterLayout.hideKeyboard();
         mEnterLayout.hide();
     }
-
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
-
-    final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
-    final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -498,249 +720,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
     }
 
-    BaseAdapter mAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
-
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_maopao_list_item, parent, false);
-
-                holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
-                holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
-
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(mOnClickUser);
-
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-
-                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
-
-                holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
-                holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListFragment.this, getImageLoad(), mOnClickUser);
-
-                holder.location = (TextView) convertView.findViewById(R.id.location);
-                holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
-                holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
-                holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
-                holder.likeBtn.setTag(R.id.likeBtn, holder);
-                holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
-                holder.commentBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popComment(v);
-                    }
-                });
-
-                holder.maopaoDelete = convertView.findViewById(R.id.maopaoDelete);
-                holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
-
-                holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
-                // 隐藏第一条评论的分割线
-                convertView.findViewById(R.id.comment0).findViewById(R.id.commentTopDivider).setVisibility(View.INVISIBLE);
-
-
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
-
-            holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
-            holder.likeUsersArea.displayLikeUser();
-
-            if (data.likes > 0 || data.comments > 0) {
-                holder.commentLikeArea.setVisibility(View.VISIBLE);
-            } else {
-                holder.commentLikeArea.setVisibility(View.GONE);
-            }
-
-            MaopaoLocationArea.bind(holder.location, data);
-
-            String device = data.device;
-            if (!device.isEmpty()) {
-                final String format = "来自 %s";
-                device = String.format(format, device);
-                holder.photoType.setVisibility(View.VISIBLE);
-            } else {
-                holder.photoType.setVisibility(View.GONE);
-            }
-            holder.photoType.setText(device);
-
-            iconfromNetwork(holder.icon, data.owner.avatar);
-            holder.icon.setTag(data.owner.global_key);
-
-            holder.name.setText(data.owner.name);
-            holder.name.setTag(data.owner.global_key);
-
-            holder.maopaoItem.setTag(data);
-
-            holder.contentArea.setData(data);
-
-            holder.time.setText(Global.dayToNow(data.created_at));
-
-            holder.likeBtn.setOnCheckedChangeListener(null);
-            holder.likeBtn.setChecked(data.liked);
-            holder.likeBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String type = ((CheckBox) v).isChecked() ? "like" : "unlike";
-                    String uri = String.format(HOST_GOOD, data.id, type);
-                    v.setTag(data);
-
-                    postNetwork(uri, new RequestParams(), HOST_GOOD, 0, data);
-                }
-            });
-
-            if (data.likes > 0) {
-                holder.likeAreaDivide.setVisibility(data.comments > 0 ? View.VISIBLE : View.INVISIBLE);
-            }
-
-            holder.commentBtn.setTag(data);
-
-            if (data.owner_id == (MyApp.sUserObject.id)) {
-                holder.maopaoDelete.setVisibility(View.VISIBLE);
-                holder.maopaoDelete.setTag(TAG_MAOPAO_ID, data.id);
-            } else {
-                holder.maopaoDelete.setVisibility(View.INVISIBLE);
-            }
-
-
-            holder.commentArea.displayContentData(data);
-
-
-            if (mData.size() - position <= 1) {
-                if (!mNoMore) {
-                    getNetwork(createUrl(), maopaoUrlFormat);
-                }
-            }
-
-            return convertView;
-        }
-
-        ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListFragment.this);
-
-        View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
-                showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%s";
-                        deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
-                                -1, maopaoId);
-                    }
-                });
-            }
-        };
-
-        protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-                Fragment parent = getParentFragment();
-                if (parent == null) {
-                    MaopaoDetailActivity_
-                            .intent(MaopaoListFragment.this)
-                            .mMaopaoObject(data)
-                            .startForResult(RESULT_EDIT_MAOPAO);
-                } else {
-                    MaopaoDetailActivity_
-                            .intent(parent)
-                            .mMaopaoObject(data)
-                            .startForResult(RESULT_EDIT_MAOPAO);
-                }
-
-            }
-        };
-
-        View.OnClickListener onClickComment = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
-                if (MyApp.sUserObject.id == (comment.owner_id)) {
-                    showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/%d/comment/%d";
-                            deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
-                        }
-                    });
-                } else {
-                    popComment(v);
-                }
-            }
-        };
-
-        void popComment(View v) {
-            EditText comment = mEnterLayout.content;
-
-            Object data = v.getTag();
-            Maopao.Comment commentObject = null;
-            if (data instanceof Maopao.Comment) {
-                commentObject = (Maopao.Comment) v.getTag();
-                comment.setHint("回复 " + commentObject.owner.name);
-                comment.setTag(commentObject);
-            } else if (data instanceof Maopao.MaopaoObject) {
-                commentObject = new Maopao.Comment((Maopao.MaopaoObject) data);
-                comment.setHint("评论冒泡");
-                comment.setTag(commentObject);
-            } else {
-                data = v.getTag(MaopaoListFragment.TAG_COMMENT);
-                if (data instanceof Maopao.Comment) {
-                    commentObject = (Maopao.Comment) data;
-                    comment.setHint("回复 " + commentObject.owner.name);
-                    comment.setTag(commentObject);
-                }
-            }
-
-            mEnterLayout.show();
-
-            mEnterLayout.restoreLoad(commentObject);
-
-            Object tag1 = v.getTag(R.id.likeBtn);
-
-            int itemLocation[] = new int[2];
-            v.getLocationOnScreen(itemLocation);
-            int itemHeight = v.getHeight();
-
-            int listLocation[] = new int[2];
-            listView.getLocationOnScreen(listLocation);
-            int listHeight = listView.getHeight();
-
-            oldListHigh = listHeight;
-            if (tag1 == null) {
-                needScrollY = (itemLocation[1] + itemHeight) - (listLocation[1] + listHeight);
-            } else {
-                needScrollY = (itemLocation[1] + itemHeight + commonEnterRoot.getHeight()) - (listLocation[1] + listHeight);
-            }
-
-            cal1 = 0;
-
-            comment.requestFocus();
-            Global.popSoftkeyboard(MaopaoListFragment.this.getActivity(), comment, true);
-        }
-
-    };
+    public enum Type {
+        user, friends, hot, my, time
+    }
 
     static class ViewHolder {
         View maopaoItem;
@@ -764,11 +746,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         View likeAreaDivide;
         TextView location;
     }
-
-    //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
-    public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
-    public final static int TAG_MAOPAO = R.id.clickMaopao;
-    public final static int TAG_COMMENT = R.id.comment;
 
     public static class ClickImageParam {
         public ArrayList<String> urls;

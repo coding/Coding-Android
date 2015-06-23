@@ -26,10 +26,8 @@ import java.util.Random;
 public class LoginBackground {
 
     static final String TAG = "LoginBackground";
-
-    private Context context;
-
     final String URL_DOWNLOAD = Global.HOST + "/api/wallpaper/wallpapers?type=3";
+    private Context context;
 
     public LoginBackground(Context context) {
         this.context = context;
@@ -153,25 +151,6 @@ public class LoginBackground {
         public PhotoItem() {
         }
 
-        class Group implements Serializable {
-            String name = "";
-            String author = "";
-            String link = "";
-            String description = "";
-            int id;
-
-            Group(JSONObject json) {
-                name = json.optString("name");
-                author = json.optString("author");
-                link = json.optString("link");
-                description = json.optString("description");
-                id = json.optInt("id");
-            }
-
-            Group() {
-            }
-        }
-
         public String getUrl() {
             return url;
         }
@@ -209,6 +188,17 @@ public class LoginBackground {
             return getCacheFile(ctx).exists();
         }
 
+        private File getPhotoDir(Context ctx) {
+            final String dirName = "BACKGROUND";
+            File root = ctx.getExternalFilesDir(null);
+            File dir = new File(root, dirName);
+            if (!dir.exists() || !dir.isDirectory()) {
+                dir.mkdirs();
+            }
+
+            return dir;
+        }
+
         class Group implements Serializable {
             String name = "";
             String author = "";
@@ -226,17 +216,6 @@ public class LoginBackground {
 
             Group() {
             }
-        }
-
-        private File getPhotoDir(Context ctx) {
-            final String dirName = "BACKGROUND";
-            File root = ctx.getExternalFilesDir(null);
-            File dir = new File(root, dirName);
-            if (!dir.exists() || !dir.isDirectory()) {
-                dir.mkdirs();
-            }
-
-            return dir;
         }
     }
 }
