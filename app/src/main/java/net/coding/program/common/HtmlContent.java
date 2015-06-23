@@ -13,6 +13,7 @@ public class HtmlContent {
     private static final String REPLACE_PHOTO = "[图片]";
 
     private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";
+    private static final String REGX_EMOJI = "<img class=\"emotion emoji\" src=\".*?\" title=\"(.*?)\">";
 
     private static final String REGX_CODE = "(<pre>)?<code(.*\\n)*</code>(</pre>)?";
 
@@ -55,6 +56,13 @@ public class HtmlContent {
         parse.text = replaceAllSpace(replaceImage);
 
         return parse;
+    }
+
+    public static String parseReplacePhotoEmoji(String s) {
+        String replaceImage = s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO);
+
+        return replaceImage.replaceAll(REGX_MONKEY, " :$1: ")
+                .replaceAll(REGX_EMOJI, " :$1: ");
     }
 
     public static String parseToText(String s) {

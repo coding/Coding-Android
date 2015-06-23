@@ -19,9 +19,9 @@ public class DiffFile implements Serializable {
     ArrayList<DiffSingleFile> paths = new ArrayList<>();
 
     public DiffFile(JSONObject json) {
-        commitId = json.optString("");
-        insertions = json.optInt("");
-        deletions = json.optInt("");
+        commitId = json.optString("commitId");
+        insertions = json.optInt("insertions");
+        deletions = json.optInt("deletions");
         JSONArray jsonPaths = json.optJSONArray("paths");
         if (jsonPaths != null) {
             for (int i = 0; i < jsonPaths.length(); ++i) {

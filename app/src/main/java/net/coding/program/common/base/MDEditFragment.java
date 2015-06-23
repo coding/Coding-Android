@@ -173,12 +173,15 @@ private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST + "/api%s/file
             showProgressBar(false);
             if (code == 0) {
                 String fileUri;
-                if (((TopicEditFragment.SaveData) getActivity()).isProjectPublic()) {
-                    fileUri = respanse.optString("data", "");
+
+                String url = respanse.optString("data", "");
+                if (!url.isEmpty()) {
+                    fileUri = url;
                 } else {
                     AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
                     fileUri = fileObject.owner_preview;
                 }
+
                 String mdPhotoUri = String.format("![图片](%s)\n", fileUri);
                 insertString(mdPhotoUri, "", "");
             } else {

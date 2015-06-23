@@ -1,7 +1,6 @@
 package net.coding.program.project.git;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import net.coding.program.FootUpdate;
@@ -32,7 +31,8 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
     protected ExpandableStickyListHeadersListView listView;
     @Extra
     String mCommitsUrl;
-    PageCommitAdapter mAdapter;
+
+    CommitsAdapter mAdapter;
 
     CommitPage mCommitPage;
 
@@ -40,7 +40,10 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
         @Override
         public void onClick(View v) {
             Commit commit = (Commit) v.getTag();
-            CommitFileListActivity_.intent(BranchCommitListActivity.this).mCommit(commit).mProjectPath("").start();
+            int start = mCommitsUrl.indexOf("/user/");
+            int end = mCommitsUrl.indexOf("/git/");
+            CommitFileListActivity_.intent(BranchCommitListActivity.this).mCommit(commit)
+                    .mProjectPath(mCommitsUrl.substring(start, end)).start();
         }
     };
 
@@ -50,7 +53,7 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
 
         BaseCommentParam param = new BaseCommentParam(mOnClickListItem,
                 new MyImageGetter(this), getImageLoad(), mOnClickUser);
-        mAdapter = new PageCommitAdapter(param);
+        mAdapter = new CommitsAdapter(param);
         listView.setAdapter(mAdapter);
         mFootUpdate.init(listView, mInflater, this);
         onRefresh();
@@ -166,18 +169,18 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
         }
     }
 
-    class PageCommitAdapter extends CommitsAdapter {
-        public PageCommitAdapter(BaseCommentParam param) {
-            super(param);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (getCount() - 1 <= position) {
-                loadMore();
-            }
-
-            return super.getView(position, convertView, parent);
-        }
-    }
+//    class PageCommitAdapter extends CommitsAdapter {
+//        public PageCommitAdapter(BaseCommentParam param) {
+//            super(param);
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            if (getCount() - 1 <= position) {
+//                loadMore();
+//            }
+//
+//            return super.getView(position, convertView, parent);
+//        }
+//    }
 }

@@ -142,6 +142,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             host_git_tree_url = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
             getNetwork(host_git_tree_url, HOST_GIT_TREE);
         }
+
+        setHasOptionsMenu(true);
     }
 
     @Override

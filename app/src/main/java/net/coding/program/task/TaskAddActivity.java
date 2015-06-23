@@ -141,6 +141,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             sendCommentAll();
         }
     };
+    boolean mTaskNoFound = false;
     private TextView commentCount;
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
@@ -265,7 +266,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private boolean isContentUnmodify() {
-        return mNewParam != null && mNewParam.equals(mOldParam) && !descripChange();
+        return ((mNewParam != null && mNewParam.equals(mOldParam)) && !descripChange()) ||
+                mTaskNoFound;
     }
 
     private boolean descripChange() {
@@ -392,19 +394,19 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-
-        if (mJumpParams == null && mSingleTask.isEmpty()) {
-            menuInflater.inflate(R.menu.task_add, menu);
-        } else {
-            menuInflater.inflate(R.menu.task_add_edit, menu);
-            if (mSingleTask != null && !mSingleTask.isEmpty() && !mSingleTask.creator.isMe()) {
-                menu.findItem(R.id.action_delete).setVisible(false);
+        if (!mTaskNoFound) {
+            MenuInflater menuInflater = getMenuInflater();
+            if (mJumpParams == null && mSingleTask.isEmpty()) {
+                menuInflater.inflate(R.menu.task_add, menu);
+            } else {
+                menuInflater.inflate(R.menu.task_add_edit, menu);
+                if (mSingleTask != null && !mSingleTask.isEmpty() && !mSingleTask.creator.isMe()) {
+                    menu.findItem(R.id.action_delete).setVisible(false);
+                }
             }
+            mMenuSave = menu.findItem(R.id.action_save);
+            updateSendButton();
         }
-
-        mMenuSave = menu.findItem(R.id.action_save);
-        updateSendButton();
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -708,8 +710,14 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 BlankViewDisplay.setBlank(1, this, true, blankLayout, onClickRetry);
             } else {
                 showErrorMsg(code, respanse);
-
-                BlankViewDisplay.setBlank(0, this, false, blankLayout, onClickRetry);
+                if (code == 1600) {
+                    mEnterComment.hide();
+                    mTaskNoFound = true;
+                    invalidateOptionsMenu();
+                    BlankViewDisplay.setBlank(0, this, false, blankLayout, onClickRetry, "任务不存在");
+                } else {
+                    BlankViewDisplay.setBlank(0, this, false, blankLayout, onClickRetry);
+                }
             }
             hideProgressDialog();
 

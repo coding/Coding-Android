@@ -102,7 +102,11 @@ public class BlankViewDisplay {
                 text = "获取数据失败\n请检查下网络是否通畅";
             }
         } else {
-            iconId = R.drawable.ic_exception_blank_task;
+            if (request) {
+                iconId = R.drawable.ic_exception_blank_task;
+            } else {
+                iconId = R.drawable.ic_exception_no_network;
+            }
             text = tipString;
         }
 

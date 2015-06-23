@@ -190,7 +190,8 @@ public class DynamicObject {
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String textContent = HtmlContent.parseToText(lineNote.getContent());
-            return Global.changeHyperlinkColor(textContent, BLACK_COLOR, imageGetter);
+            String link = createLink(textContent, lineNote.getLinkPath());
+            return Global.changeHyperlinkColor(link, BLACK_COLOR, imageGetter);
         }
     }
 
@@ -200,7 +201,10 @@ public class DynamicObject {
         String commit_id = ""; //: "0f66fb520ee8560e63c4cdf1c7036eb9331119d7",
         String path = ""; // : "src/main/java/net/coding/core/Application.java",
         String noteable_type = "";
+
+        // 这两个不是同时存在
         String commit_path = ""; //: "/u/wzw/p/coding/git/commit/0f66fb520ee8560e63c4cdf1c7036eb9331119d7"
+        String noteable_url = ""; // "/u/1984/p/TestPrivate/git/merge/18"
 
         public line_note(JSONObject json) {
             content = json.optString("content");
@@ -208,6 +212,8 @@ public class DynamicObject {
             path = json.optString("path");
             id = json.optInt("id");
             noteable_type = json.optString("noteable_type", "");
+            commit_path = json.optString("commit_path", "");
+            noteable_url = json.optString("noteable_url", "");
         }
 
         public String getHtml() {
@@ -217,6 +223,13 @@ public class DynamicObject {
             }
 
             return "";
+        }
+
+        public String getLinkPath() {
+            if (!commit_path.isEmpty())
+                return commit_path;
+
+            return noteable_url;
         }
 
         public String getContent() {

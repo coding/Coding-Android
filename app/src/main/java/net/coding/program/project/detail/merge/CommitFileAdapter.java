@@ -23,8 +23,8 @@ public class CommitFileAdapter extends MergeFileAdapter implements StickyListHea
 
     public static final int VIEW_TAG_FILE_DATA = R.layout.mergefile_list_item;
     BaseCommentParam mCommentParam;
-//    private View.OnClickListener mClickFileItem;
-int mFilesCount = 0;
+    //    private View.OnClickListener mClickFileItem;
+    int mFilesCount = 0;
 
     public CommitFileAdapter(BaseCommentParam param) {
         super();

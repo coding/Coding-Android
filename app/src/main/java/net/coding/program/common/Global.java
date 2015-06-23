@@ -151,6 +151,7 @@ public class Global {
 
     public static void copy(Context context, String content) {
         ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        String url = HtmlContent.parseReplacePhotoEmoji(content);
         cmb.setText(content);
     }
 
