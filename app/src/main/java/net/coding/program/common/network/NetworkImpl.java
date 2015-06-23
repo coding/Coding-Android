@@ -87,7 +87,7 @@ public class NetworkImpl {
                 try {
                     int translateStatusCode = translateErrorCode(statusCode);
                     if (errorResponse == null) {
-                        errorResponse = makeErrorJson(statusCode);
+                        errorResponse = makeErrorJson(translateStatusCode);
                     }
                     callback.parseJson(translateStatusCode, errorResponse, tag, dataPos, data);
 
@@ -101,7 +101,7 @@ public class NetworkImpl {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 try {
                     int translateErrorCode = translateErrorCode(statusCode);
-                    JSONObject json = makeErrorJson(statusCode);
+                    JSONObject json = makeErrorJson(translateErrorCode);
 
                     callback.parseJson(translateErrorCode, json, tag, dataPos, data);
 
