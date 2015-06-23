@@ -12,6 +12,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
@@ -25,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_public_project_home)
-public class BaseProjectHomeFragment extends BaseFragment {
+public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     public static final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
     protected boolean isUpdateDynamic = false;
@@ -94,6 +95,21 @@ public class BaseProjectHomeFragment extends BaseFragment {
     public boolean isBackToRefresh() {
         return isBackToRefresh;
     }
+
+
+    protected void setRedPointStyle(int buttonId, RedPointTip.Type type) {
+        View item = getView().findViewById(buttonId);
+        View redPoint = item.findViewById(R.id.badge);
+        boolean show = RedPointTip.show(getActivity(), type);
+        redPoint.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    protected void markUsed(RedPointTip.Type type) {
+        RedPointTip.markUsed(getActivity(), type);
+        updateRedPoinitStyle();
+    }
+
+    abstract void updateRedPoinitStyle();
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

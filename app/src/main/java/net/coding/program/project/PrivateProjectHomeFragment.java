@@ -7,6 +7,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 
@@ -15,7 +16,6 @@ import org.androidannotations.annotations.EFragment;
 
 @EFragment(R.layout.fragment_project_private)
 public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
-
 
     @AfterViews
     protected void init2() {
@@ -60,8 +60,26 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (pos == 0) {
-                        updateDynamic();
+                    switch (buttonId[pos]) {
+                        case R.id.itemDynamic:
+                            updateDynamic();
+                            break;
+
+                        case R.id.itemTask:
+                            markUsed(RedPointTip.Type.Task);
+                            break;
+
+                        case R.id.itemCode:
+                            markUsed(RedPointTip.Type.Code);
+                            break;
+
+                        case R.id.itemReadme:
+                            markUsed(RedPointTip.Type.Readme);
+                            break;
+
+                        case R.id.itemMerge:
+                            markUsed(RedPointTip.Type.Merge);
+                            break;
                     }
 
                     ProjectActivity_.intent(PrivateProjectHomeFragment.this)
@@ -69,14 +87,38 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                             .mJumpType(ProjectActivity.PRIVATE_JUMP_TYPES[pos])
                             .start();
                 }
+
             });
 
-            if (i == 0) {
+            if (buttonId[i] == R.id.itemDynamic) {
                 dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
                 Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
             } else {
                 Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
             }
+        }
+
+        updateRedPoinitStyle();
+    }
+
+
+    void updateRedPoinitStyle() {
+        final int[] buttons = new int[]{
+                R.id.itemTask,
+                R.id.itemCode,
+                R.id.itemReadme,
+                R.id.itemMerge
+        };
+
+        final RedPointTip.Type[] types = new RedPointTip.Type[]{
+                RedPointTip.Type.Task,
+                RedPointTip.Type.Code,
+                RedPointTip.Type.Readme,
+                RedPointTip.Type.Merge,
+        };
+
+        for (int i = 0; i < buttons.length; ++i) {
+            setRedPointStyle(buttons[i], types[i]);
         }
     }
 

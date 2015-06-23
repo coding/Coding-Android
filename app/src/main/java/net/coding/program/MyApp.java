@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import net.coding.program.common.PhoneType;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -117,6 +118,8 @@ public class MyApp extends Application {
 
         sUserObject = AccountInfo.loadAccount(this);
         sUnread = new Unread();
+
+        RedPointTip.init(this);
     }
 
     private void loadBaiduMap() {

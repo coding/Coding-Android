@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--与 project_home_list_head_button.xml 的区别在于小红点可以显示数字-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/project_item_height"
@@ -26,10 +26,10 @@
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
-        android:layout_width="9dp"
-        android:layout_height="9dp"
-        android:layout_marginRight="19.5dp"
-        android:background="@drawable/ic_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/ic_notify_txt"
         android:gravity="center"
         android:visibility="invisible" />
 

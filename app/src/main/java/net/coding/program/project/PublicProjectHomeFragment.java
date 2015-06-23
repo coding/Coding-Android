@@ -10,6 +10,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
@@ -42,7 +43,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     private String httpProjectObject;
     private String forkUrl;
 
-
     @AfterViews
     final void init() {
         mUrlStar = mProjectObject.getHttpStar(true);
@@ -50,9 +50,9 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         mUrlWatch = mProjectObject.getHttpWatch(true);
         mUrlUnwatch = mProjectObject.getHttpWatch(false);
 
-        View root = getView();
+        View mRoot = getView();
         initHead2();
-        initHead3(root);
+        initHead3(mRoot);
 
         httpProjectObject = mProjectObject.getHttpProjectObject();
         getNetwork(httpProjectObject);
@@ -161,9 +161,24 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (pos == 0) {
-                        updateDynamic();
+                    switch (buttons[pos]) {
+                        case R.id.itemDynamic:
+                            updateDynamic();
+                            break;
+
+                        case R.id.itemCode:
+                            markUsed(RedPointTip.Type.Code);
+                            break;
+
+                        case R.id.itemReadme:
+                            markUsed(RedPointTip.Type.Readme);
+                            break;
+
+                        case R.id.itemMerge:
+                            markUsed(RedPointTip.Type.Pull);
+                            break;
                     }
+
                     ProjectActivity_.intent(PublicProjectHomeFragment.this)
                             .mProjectObject(mProjectObject)
                             .mJumpType(ProjectActivity.PUBLIC_JUMP_TYPES[pos])
@@ -171,15 +186,32 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 }
             });
 
-            if (i == 0) {
+            if (titles[i].equals("动态")) {
                 dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
                 Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
             } else {
                 Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
             }
         }
+
+        updateRedPoinitStyle();
     }
 
+    void updateRedPoinitStyle() {
+        final int[] buttons = new int[]{
+                R.id.itemCode,
+                R.id.itemMerge
+        };
+
+        final RedPointTip.Type[] types = new RedPointTip.Type[]{
+                RedPointTip.Type.Code,
+                RedPointTip.Type.Pull
+        };
+
+        for (int i = 0; i < buttons.length; ++i) {
+            setRedPointStyle(buttons[i], types[i]);
+        }
+    }
 
     protected void postNetwork(String url) {
         postNetwork(url, new RequestParams(), url);

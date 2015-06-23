@@ -2,6 +2,8 @@ package net.coding.program.project.detail;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +16,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileInfoObject;
@@ -24,7 +27,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +39,6 @@ import java.util.Stack;
  * Created by yangzhen on 2014/10/25.
  */
 @EFragment(R.layout.common_refresh_listview)
-@OptionsMenu(R.menu.fragment_project_git)
 public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     public static final String MASTER = "master";
@@ -151,10 +152,27 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_project_git, menu);
+        int icon = RedPointTip.show(getActivity(), RedPointTip.Type.CodeHistory) ?
+                R.drawable.ic_menu_history_red_point : R.drawable.ic_menu_history;
+        menu.findItem(R.id.action_history).setIcon(icon);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().invalidateOptionsMenu();
+    }
+
     @OptionsItem
     protected final void action_history() {
         String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, pathStack.peek());
         BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
+        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
     }
 
     @Override
