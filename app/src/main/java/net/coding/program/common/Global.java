@@ -152,7 +152,7 @@ public class Global {
     public static void copy(Context context, String content) {
         ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         String url = HtmlContent.parseReplacePhotoEmoji(content);
-        cmb.setText(content);
+        cmb.setText(url);
     }
 
     public static String replaceAvatar(JSONObject json) {
@@ -250,7 +250,7 @@ public class Global {
 
     public static String makeLargeUrl(String url) {
         final int MAX = 4096; // ImageView显示的图片不能大于这个数
-        return String.format(IMAGE_URL_SCAL, url, MAX, MAX);
+        return String.format(IMAGE_URL_SCAL, url, MAX);
     }
 
     private static String intToString(int length) {

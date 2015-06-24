@@ -1,12 +1,14 @@
 package net.coding.program.common;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
+import net.coding.program.maopao.MaopaoListFragment;
 
 /**
  * Created by chaochen on 15/1/29.
@@ -25,8 +27,17 @@ public class DialogCopy {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                Global.copy(v.getContext(), ((TextView) v).getText().toString());
-                                Toast.makeText(v.getContext(), "已复制", Toast.LENGTH_SHORT).show();
+                                TextView textView = (TextView) v;
+                                Context context = v.getContext();
+                                Object dataString = textView.getTag(MaopaoListFragment.TAG_COMMENT_TEXT);
+                                String text;
+                                if (dataString instanceof String) {
+                                    text = (String) dataString;
+                                } else {
+                                    text = textView.getText().toString();
+                                }
+                                Global.copy(context, text);
+                                Toast.makeText(context, "已复制", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

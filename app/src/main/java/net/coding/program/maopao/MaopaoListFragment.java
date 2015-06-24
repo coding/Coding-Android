@@ -61,6 +61,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
     public final static int TAG_MAOPAO = R.id.clickMaopao;
     public final static int TAG_COMMENT = R.id.comment;
+    public final static int TAG_COMMENT_TEXT = R.id.commentArea;
     static final int RESULT_EDIT_MAOPAO = 100;
     static final int RESULT_AT = 101;
     final String maopaoUrlFormat = Global.HOST + "/api/tweet/public_tweets?last_id=%s&sort=%s";

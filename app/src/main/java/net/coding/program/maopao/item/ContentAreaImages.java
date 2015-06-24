@@ -24,13 +24,6 @@ import java.util.ArrayList;
  */
 public class ContentAreaImages extends ContentAreaBase {
 
-    protected ImageLoadTool imageLoad;
-
-    private int contentMarginBottom = 0;
-
-    protected View imageLayout0;
-    protected View imageLayout1;
-
     private static final int[] itemImages = new int[]{
             R.id.image0,
             R.id.image1,
@@ -39,7 +32,10 @@ public class ContentAreaImages extends ContentAreaBase {
             R.id.image4,
             R.id.image5
     };
-
+    private static final int itemImagesMaxCount = itemImages.length;
+    protected ImageLoadTool imageLoad;
+    protected View imageLayout0;
+    protected View imageLayout1;
     protected DisplayImageOptions imageOptions = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
@@ -50,9 +46,7 @@ public class ContentAreaImages extends ContentAreaBase {
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
-
-    private static final int itemImagesMaxCount = itemImages.length;
-
+    private int contentMarginBottom = 0;
     private ImageView images[] = new ImageView[itemImagesMaxCount];
 
 
@@ -86,14 +80,13 @@ public class ContentAreaImages extends ContentAreaBase {
         setDataContent(comment.content, comment);
     }
 
-    private void setDataContent(String s, Object contentObject) {
-        String data = s;
-
+    private void setDataContent(String data, Object contentObject) {
         Global.MessageParse maopaoData = HtmlContent.parseMaopao(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
         } else {
+            content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
             content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
             content.setTag(contentObject);
@@ -111,6 +104,7 @@ public class ContentAreaImages extends ContentAreaBase {
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
         } else {
+            content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
             content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
 

@@ -36,6 +36,7 @@ class CommentItem {
     public void setContent(Maopao.Comment commentData, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
         layout.setTag(MaopaoListFragment.TAG_COMMENT, commentData);
         comment.setTag(MaopaoListFragment.TAG_COMMENT, commentData);
+        comment.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, commentData.content);
 
         name.setText(commentData.owner.name);
         time.setText(Global.dayToNow(commentData.created_at));

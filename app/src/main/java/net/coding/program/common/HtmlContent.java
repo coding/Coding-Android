@@ -62,8 +62,8 @@ public class HtmlContent {
     public static String parseReplacePhotoEmoji(String s) {
         String replaceImage = s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO);
 
-        return replaceImage.replaceAll(REGX_MONKEY, " :$1: ")
-                .replaceAll(REGX_EMOJI, " :$1: ");
+        return replaceImage.replaceAll(REGX_MONKEY, ":$1:")
+                .replaceAll(REGX_EMOJI, ":$1:");
     }
 
     public static String parseToText(String s) {
