@@ -200,11 +200,13 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     void updateRedPoinitStyle() {
         final int[] buttons = new int[]{
                 R.id.itemCode,
+                R.id.itemReadme,
                 R.id.itemMerge
         };
 
         final RedPointTip.Type[] types = new RedPointTip.Type[]{
                 RedPointTip.Type.Code,
+                RedPointTip.Type.Readme,
                 RedPointTip.Type.Pull
         };
 

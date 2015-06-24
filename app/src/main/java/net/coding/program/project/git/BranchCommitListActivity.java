@@ -14,7 +14,6 @@ import net.coding.program.project.detail.merge.CommitFileListActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,6 @@ import org.json.JSONObject;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EActivity(R.layout.fragment_project_dynamic)
-@OptionsMenu(R.menu.menu_branch_commit_list)
 public class BranchCommitListActivity extends RefreshBaseActivity implements FootUpdate.LoadMore {
 
     private static final String HOST_COMMITS_PAGER = "HOST_COMMITS_PAGER";
