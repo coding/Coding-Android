@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="49"
-    android:versionName="2.9.4">
+    android:versionCode="50"
+    android:versionName="2.9.5">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -626,7 +626,7 @@
         <activity
             android:name=".project.git.BranchMainActivity_"
             android:label="@string/title_activity_branch_main"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

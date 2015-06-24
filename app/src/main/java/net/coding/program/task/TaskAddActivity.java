@@ -33,6 +33,7 @@ import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
@@ -43,6 +44,7 @@ import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.model.DynamicObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersActivity_;
@@ -62,6 +64,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -80,9 +83,9 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             R.drawable.ic_task_priority_2,
             R.drawable.ic_task_priority_3
     };
-    final String HOST_FORMAT_TASK_CONTENT = Global.HOST + "/api/user/%s/project/%s/task/%s";
     final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
-    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/task/%s/comments?pageSize=200";
+
+    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/activity/task/%s?last_id=9999999";
     final String HOST_TASK_UPDATE = Global.HOST + "/api/task/%s/update";
     final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
     final String hostDeleteComment = Global.HOST + "/api/task/%s/comment/%s";
@@ -112,7 +115,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     TextView description;
     ViewGroup descriptionLayout;
     TextView descriptionButton;
-    View blankDiscuss;
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
     @StringArrayRes
@@ -131,7 +133,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     };
     StatusBaseAdapter mStatusAdapter;
     PriorityAdapter mPriorityAdapter;
-    ArrayList<TaskObject.TaskComment> mData = new ArrayList<>();
+    ArrayList<DynamicObject.DynamicTask> mData = new ArrayList<>();
     HashMap<String, String> mSendedImages = new HashMap<>();
     String tagUrlCommentPhoto = "";
     // 发评论
@@ -142,7 +144,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     };
     boolean mTaskNoFound = false;
-    private TextView commentCount;
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -167,6 +168,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     };
+
     BaseAdapter commentAdpter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -184,21 +186,74 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageCommentHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
-                holder = new ImageCommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
-                convertView.setTag(R.id.layout, holder);
-
+        public int getItemViewType(int position) {
+            DynamicObject.DynamicTask task = mData.get(position);
+            if (task.target_type.equals("TaskComment")) {
+                return 0;
             } else {
-                holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
+                return 1;
             }
+        }
 
-            TaskObject.TaskComment data = mData.get(position);
-            holder.setContent(data);
+        @Override
+        public int getViewTypeCount() {
+            return 3;
+        }
 
-            return convertView;
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            int count = getCount();
+            if (getItemViewType(position) == 0) {
+                CommentHolder holder;
+                if (convertView == null) {
+                    convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
+                    holder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                    convertView.setTag(R.id.layout, holder);
+
+                } else {
+                    holder = (CommentHolder) convertView.getTag(R.id.layout);
+                }
+
+                TaskObject.TaskComment data = mData.get(position).getTaskComment();
+                holder.setContent(data);
+
+                holder.updateLine(position, count);
+
+                return convertView;
+            } else {
+                TaskListHolder holder;
+                if (convertView == null) {
+                    convertView = mInflater.inflate(R.layout.task_list_item_dynamic, parent, false);
+                    holder = new TaskListHolder();
+                    holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
+                    holder.mName = (TextView) convertView.findViewById(R.id.name);
+                    holder.mContent = (TextView) convertView.findViewById(R.id.content);
+                    holder.timeLineUp = convertView.findViewById(R.id.timeLineUp);
+                    holder.timeLineDown = convertView.findViewById(R.id.timeLineDown);
+                    convertView.setTag(R.id.layout, holder);
+                } else {
+                    holder = (TaskListHolder) convertView.getTag(R.id.layout);
+                }
+
+                DynamicObject.DynamicTask data = mData.get(position);
+
+                holder.mName.setText(data.user.getName());
+                holder.mContent.setText(data.dynamicTitle());
+
+                int iconResId = R.drawable.ic_task_dynamic_update;
+                try {
+                    String resName = "ic_task_dynamic_" + data.action;
+                    Field field = R.drawable.class.getField(resName);
+                    iconResId = Integer.parseInt(field.get(null).toString());
+                } catch (Exception e) {
+                    Global.errorLog(e);
+                }
+                holder.mIcon.setImageResource(iconResId);
+
+                holder.updateLine(position, count);
+
+                return convertView;
+            }
         }
     };
     private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
@@ -250,9 +305,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         deadline = (TextView) mHeadView.findViewById(R.id.deadline);
         descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
         description = (TextView) mHeadView.findViewById(R.id.description);
-        commentCount = (TextView) mHeadView.findViewById(R.id.commentCount);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
-        blankDiscuss = mHeadView.findViewById(R.id.blankDiscuss);
         listView.addHeaderView(mHeadView);
     }
 
@@ -320,7 +373,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             linearlayout2.setVisibility(View.GONE);
             mEnterComment.hide();
 
-            findViewById(R.id.layoutListHeadBottom).setVisibility(View.GONE);
             findViewById(R.id.line2_comment_off).setVisibility(View.VISIBLE);
             findViewById(R.id.line2_comment_on).setVisibility(View.GONE);
 
@@ -344,7 +396,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         // 获取任务的评论
         if (!mSingleTask.isEmpty()) {
             urlComments = String.format(HOST_FORMAT_TASK_COMMENT, mSingleTask.getId());
-            getNextPageNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
+            updateDynamicFromNetwork();
         }
 
         if (!mSingleTask.isEmpty()) {
@@ -363,6 +415,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             createName.setText(mSingleTask.creator.name);
             time.setText(Global.dayToNow(mSingleTask.created_at));
         }
+    }
+
+    private void updateDynamicFromNetwork() {
+        getNetwork(urlComments, HOST_FORMAT_TASK_COMMENT);
     }
 
     private void initDescription() {
@@ -613,13 +669,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         ImageLoader.getInstance().displayImage(Global.makeSmallUrl(circleIcon, mNewParam.owner.avatar), circleIcon);
     }
 
-    private void updateCommentCount() {
-        int count = mData.size();
-        String foramt = "%d 条评论";
-        commentCount.setText(String.format(foramt, count));
-        blankDiscuss.setVisibility(count > 0 ? View.GONE : View.VISIBLE);
-    }
-
     private void closeActivity(String msg) {
         Intent intent = new Intent();
         intent.putExtra(RESULT_GLOBARKEY, mNewParam.owner.global_key);
@@ -640,13 +689,14 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
         } else if (tag.equals(HOST_FORMAT_TASK_COMMENT)) {
             if (code == 0) {
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                mData.clear();
+                JSONArray jsonArray = respanse.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); ++i) {
-                    mData.add(new TaskObject.TaskComment(jsonArray.getJSONObject(i)));
+                    mData.add(new DynamicObject.DynamicTask(jsonArray.getJSONObject(i)));
                 }
                 commentAdpter.notifyDataSetChanged();
 
-                updateCommentCount();
+                updateDynamicFromNetwork();
 
             } else {
                 showErrorMsg(code, respanse);
@@ -655,8 +705,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         } else if (tag.equals(HOST_COMMENT_ADD)) {
             showProgressBar(false);
             if (code == 0) {
-                TaskObject.TaskComment item = new TaskObject.TaskComment(respanse.getJSONObject("data"));
-                mData.add(0, item);
 
                 EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
                 mEnterLayout.restoreDelete(data);
@@ -668,7 +716,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                 mEnterComment.clearContent();
 
                 commentAdpter.notifyDataSetChanged();
-                updateCommentCount();
+                updateDynamicFromNetwork();
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -682,8 +730,8 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                     }
                 }
                 commentAdpter.notifyDataSetChanged();
-                updateCommentCount();
                 showButtomToast("删除成功");
+                updateDynamicFromNetwork();
 
             } else {
                 showErrorMsg(code, respanse);
@@ -937,6 +985,72 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         sendComment(send);
     }
 
+    private static class TaskListHolder {
+        View timeLineUp;
+        View timeLineDown;
+        ImageView mIcon;
+        TextView mName;
+        TextView mContent;
+
+        public void updateLine(int position, int count) {
+            switch (count) {
+                case 1:
+                    setLine(false, false);
+                    break;
+
+                default:
+                    if (position == 0) {
+                        setLine(false, true);
+                    } else if (position == count - 1) {
+                        setLine(true, false);
+                    } else {
+                        setLine(true, true);
+                    }
+                    break;
+            }
+        }
+
+        private void setLine(boolean up, boolean down) {
+            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
+            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
+
+    private static class CommentHolder extends ImageCommentHolder {
+        View timeLineUp;
+        View timeLineDown;
+
+        public CommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
+            super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+
+            timeLineUp = convertView.findViewById(R.id.timeLineUp);
+            timeLineDown = convertView.findViewById(R.id.timeLineDown);
+        }
+
+        public void updateLine(int position, int count) {
+            switch (count) {
+                case 1:
+                    setLine(false, false);
+                    break;
+
+                default:
+                    if (position == 0) {
+                        setLine(false, true);
+                    } else if (position == count - 1) {
+                        setLine(true, false);
+                    } else {
+                        setLine(true, true);
+                    }
+                    break;
+            }
+        }
+
+        private void setLine(boolean up, boolean down) {
+            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
+            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
+
     static class ViewHolder {
         View mIcon;
         ImageView mCheck;
@@ -1114,6 +1228,5 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         private int getSelectPos() {
             return priorityDrawableInverse.length - 1 - mNewParam.priority;
         }
-
     }
 }

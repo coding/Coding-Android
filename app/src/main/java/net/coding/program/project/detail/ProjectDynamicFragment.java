@@ -257,10 +257,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     }
 
-    protected int getListItemResourceId() {
-        return R.layout.fragment_project_dynamic_list_item;
-    }
-
     protected int getListSectionResourceId() {
         return R.layout.fragment_project_dynamic_list_head;
     }
@@ -375,7 +371,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = inflater.inflate(getListItemResourceId(), parent, false);
+                convertView = inflater.inflate(R.layout.fragment_project_dynamic_list_item, parent, false);
                 holder.mTitle = (TextView) convertView.findViewById(R.id.title);
                 holder.mTitle.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.mTitle.setFocusable(false);

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
-    android:clickable="true">
-
+    android:clickable="true"
+    android:visibility="visible">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -37,51 +37,18 @@
         android:layout_marginLeft="13dp"
         android:background="@color/divide" />
 
-
     <LinearLayout
         android:id="@+id/layout_1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/padding_15"
-        android:layout_marginTop="7dp"
+        android:layout_alignTop="@id/icon"
         android:layout_toRightOf="@+id/icon"
-        android:background="@drawable/ic_task_dynamic_comment_bg"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/layoutContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/icon"
-                android:layout_below="@+id/name"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/content_pressed_selector"
-                android:lineSpacingExtra="1dp"
-                android:lineSpacingMultiplier="1.1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/font_black_content"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <org.apmem.tools.layouts.FlowLayout
-            android:id="@+id/flowLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:visibility="visible" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -92,21 +59,20 @@
                 android:layout_below="@id/layoutContent"
                 android:text="超级小胖纸"
                 android:textColor="@color/font_black_comment"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/name"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/name"
-                android:drawableLeft="@drawable/ic_clock"
                 android:drawablePadding="5dp"
 
-                android:text="3分钟前"
+                android:text="3分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前分钟前"
                 android:textColor="@color/font_gray"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 

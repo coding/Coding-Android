@@ -322,35 +322,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutListHeadBottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/stand_bg"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/commentCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout3"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="5dp"
-            android:text="载入评论中"
-            android:textColor="@color/font_gray"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:layout_below="@id/commentCount"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/ic_comment_line" />
-
-        <include
-            android:id="@+id/blankDiscuss"
-            layout="@layout/task_comment_empty" />
-    </LinearLayout>
 </LinearLayout>
 

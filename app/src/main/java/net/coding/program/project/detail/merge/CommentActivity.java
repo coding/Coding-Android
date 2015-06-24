@@ -96,7 +96,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     @Override
     public void exit() {
         String contentString = modifyData.content;
-        if (EmojiFilter.containsEmptyEmoji(this, contentString, "内容不能为空", "内容不能包含表情")) {
+        if (EmojiFilter.containsEmptyEmoji(this, contentString)) {
             return;
         }
 

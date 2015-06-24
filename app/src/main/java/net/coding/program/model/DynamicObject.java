@@ -1,5 +1,6 @@
 package net.coding.program.model;
 
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 
@@ -675,6 +676,7 @@ public class DynamicObject {
         Origin_task origin_task;
         Project project;
         Task task;
+        TaskObject.TaskComment taskComment;
 
         public DynamicTask(JSONObject json) throws JSONException {
             super(json);
@@ -695,6 +697,15 @@ public class DynamicObject {
             } else if (action.equals("update_priority")) {
                 action_msg = "更新了任务的优先级";
             }
+
+            if (json.has("taskComment")) {
+                taskComment = new TaskObject.TaskComment(json.optJSONObject("taskComment"));
+                taskComment.created_at = created_at;
+            }
+        }
+
+        public TaskObject.TaskComment getTaskComment() {
+            return taskComment;
         }
 
         @Override
@@ -719,6 +730,32 @@ public class DynamicObject {
                 default:
                     format = "%s %s %s 的任务";
                     title = String.format(format, user.getHtml(), action_msg, task.owner.getHtml());
+                    return Global.changeHyperlinkColor(title);
+            }
+        }
+
+        public Spannable dynamicTitle() {
+            final String format;
+            final String title;
+
+            String time = Global.dayToNow(created_at);
+            switch (action) {
+                case "update_deadline":
+                    if (task.deadline.isEmpty()) {
+                        action_msg = "移除了任务的截止日期";
+                    }
+                    format = "%s - %s";
+                    title = String.format(format, action_msg, time);
+                    return Global.changeHyperlinkColor(title);
+                case "update_priority":
+                case "update_description":
+                    format = "%s - %s";
+                    title = String.format(format, action_msg, time);
+                    return Global.changeHyperlinkColor(title);
+
+                default:
+                    format = "%s %s 的任务 - %s";
+                    title = String.format(format, action_msg, task.owner.getName(), time);
                     return Global.changeHyperlinkColor(title);
             }
         }
@@ -875,6 +912,10 @@ public class DynamicObject {
             path = data.path;
         }
 
+        public String getName() {
+            return name;
+        }
+
         public String getHtml() {
             return HtmlContent.createUserHtml(global_key, name);
         }
@@ -1013,6 +1054,10 @@ public class DynamicObject {
 
         public String getHtml() {
             return HtmlContent.createUserHtml(global_key, name);
+        }
+
+        public String getName() {
+            return name;
         }
     }
 

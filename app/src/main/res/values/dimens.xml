@@ -61,5 +61,7 @@
 
     <dimen name="pickimage_gridlist_item_space">4dp</dimen>
 
+    <dimen name="task_list_item_icon">28dp</dimen>
+
 
 </resources>
