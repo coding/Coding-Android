@@ -528,7 +528,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                         }
                     }
 
-
                 } else if (type == ListModify.Delete) {
                     int maopaoId = data.getIntExtra(ListModify.ID, 0);
                     for (int i = 0; i < mData.size(); ++i) {
