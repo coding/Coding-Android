@@ -132,8 +132,7 @@ public class Merge implements Serializable {
 
     public boolean isMergeTreate() {
         return merge_status.equals(STYLE_ACCEPT) ||
-                merge_status.equals(STYLE_REFUSE) ||
-                merge_status.equals(STYLE_CANNEL);
+                merge_status.equals(STYLE_REFUSE);
     }
 
     public long getCreatedAt() {

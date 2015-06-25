@@ -55,7 +55,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
         projectAuthor.setText(mProjectObject.owner_user_name);
 
         if (mProjectObject.description.isEmpty()) {
-            description.setVisibility(View.GONE);
+            description.setText("未填写");
         } else {
             description.setText(mProjectObject.description);
         }

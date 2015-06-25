@@ -66,9 +66,16 @@ public class CommitFileAdapter extends MergeFileAdapter implements StickyListHea
         }
     }
 
+    public int getViewTypeCount() {
+        return 2;
+    }
+
     @Override
     public Object[] getSections() {
-        return new String[]{};
+        return new String[]{
+                "",
+                ""
+        };
     }
 
     @Override
@@ -97,7 +104,7 @@ public class CommitFileAdapter extends MergeFileAdapter implements StickyListHea
 
     @Override
     public long getHeaderId(int i) {
-//        return i < mFilesCount ? 0 : 1;
-        return i;
+        return i < mFilesCount ? 0 : 1;
+//        return i;
     }
 }

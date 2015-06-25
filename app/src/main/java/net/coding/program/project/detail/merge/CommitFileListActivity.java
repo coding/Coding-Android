@@ -48,6 +48,7 @@ public class CommitFileListActivity extends BackActivity {
     ListView listView;
     CommitFileAdapter mAdapter;
     private View mListHead;
+
     private View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -92,8 +93,6 @@ public class CommitFileListActivity extends BackActivity {
     }
 
     private void initByCommit() {
-        getSupportActionBar().setTitle(mCommit.getTitle());
-
         BaseCommentParam param = new BaseCommentParam(mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
         mAdapter = new CommitFileAdapter(param);
 
