@@ -67,11 +67,11 @@ import java.util.ArrayList;
 public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     public static final int PHOTO_MAX_COUNT = 6;
-    public static final int RESULT_REQUEST_IMAGE = 100;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final int RESULT_REQUEST_PHOTO = 1005;
     public static final int RESULT_REQUEST_LOCATION = 1006;
+    public static final int RESULT_REQUEST_IMAGE = 1007;
     final String sendUrl = Global.HOST + "/api/tweet";
     final String HOST_IMAGE = Global.HOST + "/api/tweet/insert_image";
     String mIntentExtraString = null;
@@ -120,7 +120,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-
 
             if (position == getCount() - 1) {
                 if (getCount() == (PHOTO_MAX_COUNT + 1)) {
@@ -246,7 +245,13 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
 
         Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.EXTRA_MAX, count);
+        intent.putExtra(PhotoPickActivity.EXTRA_MAX, PHOTO_MAX_COUNT);
+
+        ArrayList<ImageInfo> pickImages = new ArrayList<>();
+        for (PhotoData item : mData) {
+            pickImages.add(item.mImageinfo);
+        }
+        intent.putExtra(PhotoPickActivity.EXTRA_PICKED, pickImages);
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
@@ -295,11 +300,12 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         if (requestCode == RESULT_REQUEST_PICK_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
+                    mData.clear();
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                     for (ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);
                         File outputFile = photoOperate.scal(uri);
-                        mData.add(new MaopaoAddActivity.PhotoData(outputFile));
+                        mData.add(new MaopaoAddActivity.PhotoData(outputFile, item));
                     }
                 } catch (Exception e) {
                     showMiddleToast("缩放图片失败");
@@ -310,8 +316,9 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         } else if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == RESULT_OK) {
                 try {
+                    ImageInfo imageInfo = new ImageInfo(fileUri.getPath());
                     File outputFile = photoOperate.scal(fileUri);
-                    mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile));
+                    mData.add(new MaopaoAddActivity.PhotoData(outputFile, imageInfo));
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -494,7 +501,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                     File outputFile = null;
                     try {
                         outputFile = photoOperate.scal(imageUri);
-                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile));
+                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));
                         adapter.notifyDataSetChanged();
                     } catch (Exception e) {
                         showMiddleToast("缩放图片失败");
@@ -512,7 +519,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                     try {
                         for (Uri uri : imagesUris) {
                             File outputFile = photoOperate.scal(uri);
-                            mData.add(new MaopaoAddActivity.PhotoData(outputFile));
+                            mData.add(new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(uri.toString())));
                         }
                     } catch (Exception e) {
                         showMiddleToast("缩放图片失败");
@@ -558,16 +565,19 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     }
 
     public static class PhotoData {
+        ImageInfo mImageinfo;
         Uri uri = Uri.parse("");
         String serviceUri = "";
 
-        public PhotoData(File file) {
+        public PhotoData(File file, ImageInfo info) {
             uri = Uri.fromFile(file);
+            mImageinfo = info;
         }
 
         public PhotoData(PhotoDataSerializable data) {
             uri = Uri.parse(data.uriString);
             serviceUri = data.serviceUri;
+            mImageinfo = data.mImageInfo;
         }
     }
 
@@ -575,10 +585,12 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     public static class PhotoDataSerializable implements Serializable {
         String uriString = "";
         String serviceUri = "";
+        ImageInfo mImageInfo;
 
         public PhotoDataSerializable(PhotoData data) {
             uriString = data.uri.toString();
             serviceUri = data.serviceUri;
+            mImageInfo = data.mImageinfo;
         }
     }
 

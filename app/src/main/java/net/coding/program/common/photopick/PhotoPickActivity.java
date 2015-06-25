@@ -40,11 +40,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
 
     public static final String EXTRA_MAX = "EXTRA_MAX";
     public static final String EXTRA_PICKED = "EXTRA_PICKED"; // mPickData
-    private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
-
-    private final String allPhotos = "所有图片";
-    private final String CameraItem = "CameraItem";
-
+    private static final String RESTORE_FILEURI = "fileUri";
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
@@ -56,21 +52,91 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             .bitmapConfig(Bitmap.Config.RGB_565)
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
-
+    final int RESULT_PICK = 20;
+    final int RESULT_CAMERA = 21;
+    private final String allPhotos = "所有图片";
+    private final String CameraItem = "CameraItem";
+    MenuItem mMenuItem;
+    int mFolderId = 0;
+    private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
     private LayoutInflater mInflater;
     private TextView mFoldName;
     private View mListViewGroup;
     private ListView mListView;
-    private GridView mGridView;
-    private TextView mPreView;
-
-    private ArrayList<ImageInfo> mPickData = new ArrayList<>();
-
-    private FolderAdapter mFolderAdapter;
-    private GridPhotoAdapter photoAdapter;
 
     //    LinkedHashMap<String, ArrayList<ImageInfo>> mFolders = new LinkedHashMap();
 //    ArrayList<String> mFoldersName = new ArrayList();
+    View.OnClickListener mOnClickFoldName = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mListViewGroup.getVisibility() == View.VISIBLE) {
+                hideFolderList();
+            } else {
+                showFolderList();
+            }
+        }
+
+    };
+    private GridView mGridView;
+    private TextView mPreView;
+    private ArrayList<ImageInfo> mPickData = new ArrayList<>();
+    private FolderAdapter mFolderAdapter;
+    GridView.OnItemClickListener mOnPhotoItemClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
+
+            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
+            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
+            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
+            if (isAllPhotoMode()) {
+                // 第一个item是照相机
+                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position - 1);
+            } else {
+                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
+            }
+            startActivityForResult(intent, RESULT_PICK);
+        }
+    };
+    private GridPhotoAdapter photoAdapter;
+    private String[] projection = {
+            MediaStore.Images.ImageColumns._ID,
+            MediaStore.Images.ImageColumns.DATA,
+            MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+            MediaStore.Images.ImageColumns.WIDTH,
+            MediaStore.Images.ImageColumns.HEIGHT
+    };
+    private View.OnClickListener onClickPre = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mPickData.size() == 0) {
+                return;
+            }
+
+            Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
+            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
+            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
+            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mPickData);
+            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
+            startActivityForResult(intent, RESULT_PICK);
+        }
+    };
+    private ListView.OnItemClickListener mOnItemClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mFolderAdapter.setSelect((int) id);
+            String folderName = mFolderAdapter.getSelect();
+            mFoldName.setText(folderName);
+            hideFolderList();
+
+            if (mFolderId != position) {
+                getLoaderManager().destroyLoader(mFolderId);
+                mFolderId = position;
+            }
+            getLoaderManager().initLoader(mFolderId, null, PhotoPickActivity.this);
+        }
+    };
+    private Uri fileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,61 +238,9 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         mListView.setOnItemClickListener(mOnItemClick);
     }
 
-    private String[] projection = {
-            MediaStore.Images.ImageColumns._ID,
-            MediaStore.Images.ImageColumns.DATA,
-            MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.ImageColumns.WIDTH,
-            MediaStore.Images.ImageColumns.HEIGHT
-    };
-
     private void initListView2() {
         getLoaderManager().initLoader(0, null, this);
     }
-
-    private View.OnClickListener onClickPre = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mPickData.size() == 0) {
-                return;
-            }
-
-            Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
-            startActivityForResult(intent, RESULT_PICK);
-        }
-    };
-
-    private ListView.OnItemClickListener mOnItemClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            mFolderAdapter.setSelect((int) id);
-            String folderName = mFolderAdapter.getSelect();
-            mFoldName.setText(folderName);
-            hideFolderList();
-
-            if (mFolderId != position) {
-                getLoaderManager().destroyLoader(mFolderId);
-                mFolderId = position;
-            }
-            getLoaderManager().initLoader(mFolderId, null, PhotoPickActivity.this);
-        }
-    };
-
-    View.OnClickListener mOnClickFoldName = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mListViewGroup.getVisibility() == View.VISIBLE) {
-                hideFolderList();
-            } else {
-                showFolderList();
-            }
-        }
-
-    };
 
     private void showFolderList() {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.listview_up);
@@ -258,9 +272,6 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         mListView.startAnimation(animation);
         mListViewGroup.startAnimation(fadeOut);
     }
-
-    MenuItem mMenuItem;
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -298,19 +309,12 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         finish();
     }
 
-    private static final String RESTORE_FILEURI = "fileUri";
-    private Uri fileUri;
-
     public void camera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = CameraPhotoUtil.getOutputMediaFileUri();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(intent, RESULT_CAMERA);
     }
-
-    final int RESULT_PICK = 20;
-    final int RESULT_CAMERA = 21;
-
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -341,11 +345,8 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             }
         } else if (requestCode == RESULT_CAMERA) {
             if (resultCode == RESULT_OK) {
-                ArrayList<ImageInfo> pickArray = new ArrayList<>();
-
                 ImageInfo itme = new ImageInfo(fileUri.toString());
-                pickArray.add(itme);
-                mPickData = pickArray;
+                mPickData.add(itme);
                 send();
             }
         }
@@ -385,17 +386,6 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         mPreView.setText(String.format(formatPreview, mPickData.size(), mMaxPick));
     }
 
-    static class GridViewCheckTag {
-        View iconFore;
-        String path = "";
-
-        GridViewCheckTag(View iconFore) {
-            this.iconFore = iconFore;
-        }
-    }
-
-    int mFolderId = 0;
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String where;
@@ -427,24 +417,6 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         mGridView.setOnItemClickListener(mOnPhotoItemClick);
     }
 
-    GridView.OnItemClickListener mOnPhotoItemClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
-
-            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
-            if (isAllPhotoMode()) {
-                // 第一个item是照相机
-                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position - 1);
-            } else {
-                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
-            }
-            startActivityForResult(intent, RESULT_PICK);
-        }
-    };
-
     /*
      * 选择了listview的第一个项，gridview的第一个是照相机
      */
@@ -455,5 +427,14 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         photoAdapter.swapCursor(null);
+    }
+
+    static class GridViewCheckTag {
+        View iconFore;
+        String path = "";
+
+        GridViewCheckTag(View iconFore) {
+            this.iconFore = iconFore;
+        }
     }
 }
