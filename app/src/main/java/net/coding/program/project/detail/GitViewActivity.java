@@ -52,15 +52,15 @@ public class GitViewActivity extends CustomMoreActivity {
     @Extra
     GitFileInfoObject mGitFileInfoObject;
 
+    @Extra
+    String mVersion = ProjectGitFragment.MASTER;
+
     @ViewById
     WebView webview;
 
     @ViewById
     ViewPager pager;
     int mPagerPosition = 0;
-
-    @Extra
-    String mVersion = ProjectGitFragment.MASTER;
 
     ImagePager adapter;
     ArrayList<String> mArrayUri;
@@ -91,7 +91,7 @@ public class GitViewActivity extends CustomMoreActivity {
         webview.getSettings().setBuiltInZoomControls(true);
         Global.initWebView(webview);
 
-        mArrayUri = new ArrayList();
+        mArrayUri = new ArrayList<>();
         adapter = new ImagePager(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
@@ -163,6 +163,7 @@ public class GitViewActivity extends CustomMoreActivity {
             inputStream.close();
 
         } catch (IOException e) {
+            Global.errorLog(e);
         }
         return outputStream.toString();
     }

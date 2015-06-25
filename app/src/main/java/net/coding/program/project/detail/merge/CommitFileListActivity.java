@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
@@ -93,7 +94,7 @@ public class CommitFileListActivity extends BackActivity {
     }
 
     private void initByCommit() {
-        BaseCommentParam param = new BaseCommentParam(mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
         mAdapter = new CommitFileAdapter(param);
 
         initListhead();

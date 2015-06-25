@@ -5,6 +5,7 @@ import android.widget.AbsListView;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.widget.RefreshBaseActivity;
@@ -49,7 +50,7 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
     protected final void initBranchCommitListActivity() {
         mCommitPage = new CommitPage(mCommitsUrl);
 
-        BaseCommentParam param = new BaseCommentParam(mOnClickListItem,
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickListItem,
                 new MyImageGetter(this), getImageLoad(), mOnClickUser);
         mAdapter = new CommitsAdapter(param);
         listView.setAdapter(mAdapter);

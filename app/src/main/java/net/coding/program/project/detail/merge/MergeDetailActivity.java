@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
@@ -114,7 +115,7 @@ public class MergeDetailActivity extends BackActivity {
         listView.addFooterView(footer);
         initFooter(footer);
 
-        BaseCommentParam param = new BaseCommentParam(mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
         mAdapter = new MergeCommentAdaper(param);
         listView.setAdapter(mAdapter);
         listView.setAreHeadersSticky(false);

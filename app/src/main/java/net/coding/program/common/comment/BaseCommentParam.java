@@ -7,6 +7,7 @@ import net.coding.program.common.ImageLoadTool;
 
 /**
  * Created by chenchao on 15/6/2.
+ * 为了简化参数，不用每次传一堆
  */
 public class BaseCommentParam {
 
@@ -14,8 +15,10 @@ public class BaseCommentParam {
     public Html.ImageGetter imageGetter;
     public ImageLoadTool imageLoadTool;
     public View.OnClickListener clickUser;
+    public View.OnClickListener mClickImage;
 
-    public BaseCommentParam(View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
+    public BaseCommentParam(View.OnClickListener clickImage, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
+        this.mClickImage = clickImage;
         this.onClickComment = onClickComment;
         this.imageGetter = imageGetter;
         this.imageLoadTool = imageLoadTool;

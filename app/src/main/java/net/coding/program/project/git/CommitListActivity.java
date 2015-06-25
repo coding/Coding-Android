@@ -4,6 +4,7 @@ import android.view.View;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.widget.RefreshBaseActivity;
@@ -50,7 +51,7 @@ public class CommitListActivity extends RefreshBaseActivity {
 
     @AfterViews
     protected final void initCommitListActivity() {
-        BaseCommentParam param = new BaseCommentParam(mOnClickListItem,
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickListItem,
                 new MyImageGetter(this), getImageLoad(), mOnClickUser);
         mAdapter = new CommitsAdapter(param);
         listView.setAdapter(mAdapter);

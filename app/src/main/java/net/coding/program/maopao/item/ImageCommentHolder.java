@@ -24,7 +24,7 @@ public class ImageCommentHolder extends BaseCommentHolder {
 
     public ImageCommentHolder(View convertView, BaseCommentParam param) {
         super(convertView, param);
-        this.contentArea = new ContentAreaMuchImages(convertView, param.onClickComment, null, param.imageGetter, param.imageLoadTool);
+        this.contentArea = new ContentAreaMuchImages(convertView, param.onClickComment, param.mClickImage, param.imageGetter, param.imageLoadTool);
     }
 
     @Override
