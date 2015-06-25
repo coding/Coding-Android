@@ -70,7 +70,7 @@
 
     <color name="emoji_line">#ffcbc9ca</color>
 
-    <color name="menu_item_text_disable">#84878c</color>
+    <color name="menu_item_text_disable">#ffffffff</color>
 
 
     <color name="init_light_gray">#e2e2e2</color>

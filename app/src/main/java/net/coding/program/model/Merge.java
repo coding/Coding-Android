@@ -40,7 +40,7 @@ public class Merge implements Serializable {
     private long created_at;
     private UserObject author;
     private ActionAuthor action_author;
-    private int action_at;
+    private long action_at;
     private SourceDepot source_depot;
     private String merged_sha = "";
     private String content = "";
@@ -59,7 +59,7 @@ public class Merge implements Serializable {
         created_at = json.optLong("created_at");
         author = new UserObject(json.optJSONObject("author"));
         action_author = new ActionAuthor(json.optJSONObject("action_author"));
-        action_at = json.optInt("action_at");
+        action_at = json.optLong("action_at");
         if (json.has("source_depot")) {
             source_depot = new SourceDepot(json.optJSONObject("source_depot"));
         }
@@ -137,6 +137,10 @@ public class Merge implements Serializable {
 
     public long getCreatedAt() {
         return created_at;
+    }
+
+    public long getAction_at() {
+        return action_at;
     }
 
     private String getHostPublicHead(String end) {

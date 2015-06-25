@@ -106,9 +106,10 @@ public class HtmlContent {
             return "";
         }
 
-        s = s.replaceAll("( ?<br> ?)+", "<br>").replaceAll("( ?(<br>)? ?\n?)+$", "")
-                .replaceAll("^( ?(<br>)? ?\\n?)+", "");
+//        s = s.replaceAll("( ?<br> ?)+", "<br>").replaceAll("( ?(<br>)? ?\n?)+$", "")
+//                .replaceAll("^( ?(<br>)? ?\n?)+", "");
 
+        s = s.replaceAll("( ?<br> ?)+", "<br>").replaceAll("( ?<br> ?\n?)+$", "").replaceAll("^( ?<br> ?\n?)+", "");
         return s;
     }
 

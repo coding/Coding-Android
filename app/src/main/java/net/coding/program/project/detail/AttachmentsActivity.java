@@ -136,6 +136,12 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     ArrayList<AttachmentFileObject> selectFile;
     ArrayList<AttachmentFolderObject> selectFolder;
     ArrayList<AttachmentFileObject> downloadFiles;
+    View.OnClickListener mClickReload = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            loadMore();
+        }
+    };
     private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST + "/api/project/%s/files/moveto/%s?%s";
     private String HOST_FILECOUNT = Global.HOST + "/api/project/%s/folders/all_file_count";
@@ -612,7 +618,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                     mFilesArray.add(fileObject);
                 }
 
-                BlankViewDisplay.setBlank(mFilesArray.size(), this, true, blankLayout, null);
 
                 int page = respanse.getJSONObject("data").optInt("page");
                 int totalPage = respanse.getJSONObject("data").optInt("totalPage");
@@ -623,6 +628,9 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
+
         } else if (tag.equals(HOST_FILE_DELETE)) {
             if (code == 0) {
                 hideProgressDialog();
@@ -633,6 +641,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             } else {
                 showErrorMsg(code, respanse);
             }
+            BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
+
         } else if (tag.equals(HOST_FILE_MOVETO)) {
             if (code == 0) {
                 showButtomToast("移动成功");
@@ -642,6 +652,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             } else {
                 showErrorMsg(code, respanse);
             }
+            BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
         } else if (tag.equals(HOST_FILECOUNT)) {
             if (code == 0) {
                 JSONArray counts = respanse.getJSONArray("data");
@@ -692,6 +703,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
         } else if (tag.equals(HOST_FOLDER_NEW)) {
             if (code == 0) {
                 AttachmentFolderObject folder = new AttachmentFolderObject(respanse.getJSONObject("data"));
@@ -702,6 +715,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             } else {
                 showErrorMsg(code, respanse);
             }
+            BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
+
         } else if (tag.equals(HOST_PROJECT_ID)) {
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.optJSONObject("data"));
@@ -754,6 +769,9 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    if (AttachmentsActivity.this.isFinishing()) {
+                        return;
+                    }
                     Log.v(TAG, "onSuccess");
                     try {
                         int code = response.getInt("code");
@@ -771,6 +789,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                         } else {
                             showErrorMsg(code, response);
                         }
+
+                        BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
 
                     } catch (Exception e) {
                         Global.errorLog(e);

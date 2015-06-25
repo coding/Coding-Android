@@ -26,6 +26,7 @@ public class DynamicObject {
     static final int BLACK_COLOR = 0xff666666;
 
     private static String createLink(String name, String link) {
+        name = name.replaceAll("<a (?:.*?)>(.*?)</a>", "$1");
         final String TEMPLATE_LINK = "<a href=\"%s\">%s</a>";
         return String.format(TEMPLATE_LINK, link, name);
     }

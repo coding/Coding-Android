@@ -208,6 +208,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.icon.setOnClickListener(mOnClickUser);
 
                 holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.name.setOnClickListener(mOnClickUser);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
 
                 holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);

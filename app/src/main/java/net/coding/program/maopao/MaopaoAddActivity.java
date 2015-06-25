@@ -230,6 +230,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             mEnterLayout.setText(draft.getInput());
             mData = draft.getPhotos();
             adapter.notifyDataSetChanged();
+            currentLocation = draft.getLocation();
+            updateLocationText();
         }
 
         locationText.setText(currentLocation.name);
@@ -262,7 +264,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     @Override
     protected void onStop() {
-        MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData);
+        MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData, currentLocation);
         AccountInfo.saveMaopaoDraft(this, draft);
 
         mEnterLayout.closeEmojiKeyboard();
@@ -546,12 +548,16 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     void on_RESULT_REQUEST_LOCATION(int result, @OnActivityResult.Extra LocationObject location) {
         if (result == RESULT_OK) {
             currentLocation = location;
-            locationText.setText(currentLocation.name);
-            locationText.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
-                    currentLocation.type == LocationObject.Type.Undefined
-                            ? R.drawable.ic_location_inactive
-                            : R.drawable.ic_location_active), null, null, null);
+            updateLocationText();
         }
+    }
+
+    private void updateLocationText() {
+        locationText.setText(currentLocation.name);
+        locationText.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(
+                currentLocation.type == LocationObject.Type.Undefined
+                        ? R.drawable.ic_location_inactive
+                        : R.drawable.ic_location_active), null, null, null);
     }
 
     @Click
@@ -597,17 +603,20 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     public static class MaopaoDraft implements Serializable {
         private String input = "";
 
+        private LocationObject locationObject = LocationObject.undefined();
+
         private ArrayList<PhotoDataSerializable> photos = new ArrayList();
 
         public MaopaoDraft() {
         }
 
-        public MaopaoDraft(String input, ArrayList<PhotoData> photos) {
+        public MaopaoDraft(String input, ArrayList<PhotoData> photos, LocationObject locationObject) {
             this.input = input;
             this.photos = new ArrayList();
             for (PhotoData item : photos) {
                 this.photos.add(new PhotoDataSerializable(item));
             }
+            this.locationObject = locationObject;
         }
 
         public boolean isEmpty() {
@@ -616,6 +625,10 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         public String getInput() {
             return input;
+        }
+
+        public LocationObject getLocation() {
+            return locationObject;
         }
 
         public ArrayList<PhotoData> getPhotos() {

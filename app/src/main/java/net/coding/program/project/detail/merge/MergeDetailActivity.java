@@ -203,7 +203,7 @@ public class MergeDetailActivity extends BackActivity {
 
         String[] styles = Merge.STYLES;
         final String[] styleStrings = new String[]{
-                "已接受",
+                "已合并",
                 "已拒绝",
                 "可合并",
                 "不可合并",
@@ -238,7 +238,7 @@ public class MergeDetailActivity extends BackActivity {
 
 
         ((TextView) head.findViewById(R.id.mergeActionUser)).setText(mMerge.getActionAuthor().name);
-        String mergeActionMessage = String.format(" %s %s这个%s", Global.dayToNow(mMerge.getCreatedAt()),
+        String mergeActionMessage = String.format(" %s %s这个%s", Global.dayToNow(mMerge.getAction_at()),
                 action, ProjectObject.getTitle(mMerge.isPull()));
         ((TextView) head.findViewById(R.id.mergeLog)).setText(mergeActionMessage);
 
