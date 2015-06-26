@@ -89,6 +89,12 @@ public class DiffFile implements Serializable {
         public String getHttpFileDiffDetail(String projectPath) {
             String realPath = ProjectObject.translatePath(projectPath);
             return Global.HOST_API + realPath + "/git/commitDiffContent/" + commitId + "/" + path;
+
+        }
+
+        public String getHttpFileDiffDetail(String projectPath, int mergeIid) {
+            String realPath = ProjectObject.translatePath(projectPath);
+            return Global.HOST_API + realPath + "/git/merge/"+ mergeIid +"/commitDiffContent?path=" + path;
         }
 
         public int getIconId() {

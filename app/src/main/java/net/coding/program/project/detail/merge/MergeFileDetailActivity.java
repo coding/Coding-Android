@@ -24,13 +24,20 @@ public class MergeFileDetailActivity extends BackActivity {
     String mProjectPath;
     @Extra
     DiffFile.DiffSingleFile mSingleFile;
+    @Extra
+    int mergeIid = 0;
 
     @ViewById
     WebView webView;
 
     @AfterViews
     protected final void initMergeFileDetailActivity() {
-        String url = mSingleFile.getHttpFileDiffDetail(mProjectPath);
+        String url;
+        if (mergeIid != 0) {
+            url = mSingleFile.getHttpFileDiffDetail(mProjectPath, mergeIid);
+        } else {
+            url = mSingleFile.getHttpFileDiffDetail(mProjectPath);
+        }
         Log.d("", "url Get " + url);
         Global.setWebViewContent(webView, "diff", "${diff-content}", url);
     }
