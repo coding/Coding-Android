@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -165,65 +167,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
     private long uploadStartTime = 0l;
     private boolean isEditMode = false;
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-
-            inflater.inflate(R.menu.project_attachment_file_edit, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;// Return false if nothing is done
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                /*case R.id.action_delete:
-                    action_delete();
-                    return true;*/
-                case R.id.action_all:
-                    action_all();
-                    return true;
-                case R.id.action_inverse:
-                    action_inverse();
-                    return true;
-                case R.id.action_move:
-                    action_move();
-                    return true;
-
-                case R.id.action_download:
-                    action_download();
-                    return true;
-
-                case R.id.action_delete:
-                    if (isChooseOthers()) {
-                        showButtomToast("不要选择别人上传的文件");
-                    } else {
-                        action_delete();
-                    }
-                    return true;
-                /*case R.id.action_move:
-                    action_move();
-                    return true;*/
-//                case R.id.action_more:
-//                    showRightTopPop();
-//                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-            setListEditMode(false);
-        }
-    };
     /**
      * 弹出框
      */
@@ -485,6 +428,92 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             holder.cancel.setOnClickListener(cancelClickListener);
 
             return convertView;
+        }
+    };
+    /**
+     * 为了实现设计的样式，右上角下拉没有用actionbar自带的，而是用了PopupWindow
+     */
+    private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    action_move();
+                    break;
+                case 1:
+                    action_download();
+                    break;
+                case 2:
+                    if (isChooseOthers()) {
+                        return;
+                    } else {
+                        action_delete();
+                    }
+
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
+        }
+    };
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+
+            inflater.inflate(R.menu.project_attachment_file_edit, menu);
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;// Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                /*case R.id.action_delete:
+                    action_delete();
+                    return true;*/
+                case R.id.action_all:
+                    action_all();
+                    return true;
+                case R.id.action_inverse:
+                    action_inverse();
+                    return true;
+//                case R.id.action_move:
+//                    action_move();
+//                    return true;
+//
+//                case R.id.action_download:
+//                    action_download();
+//                    return true;
+//
+//                case R.id.action_delete:
+//                    if (isChooseOthers()) {
+//                        showButtomToast("不要选择别人上传的文件");
+//                    } else {
+//                        action_delete();
+//                    }
+//                    return true;
+                /*case R.id.action_move:
+                    action_move();
+                    return true;*/
+                case R.id.action_more:
+                    showRightTopPop();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            setListEditMode(false);
         }
     };
 
@@ -1180,7 +1209,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         return hasOtherFile;
     }
 
-
     private void doRename(final int position, final AttachmentFolderObject folderObject) {
         if (folderObject.file_id.equals("0")) {
             showButtomToast("默认文件夹无法重命名");
@@ -1475,6 +1503,45 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
 
         return mProjectObject.getPath() + "/attachment/" + mAttachmentFolderObject.file_id;
+    }
+
+    public void initRightTopPop() {
+        if (mRightTopPopupWindow == null) {
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
+            DialogUtil.RightTopPopupItem moveItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_move), R.drawable.ic_popup_attachment_move);
+            popupItemArrayList.add(moveItem);
+            DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_download), R.drawable.ic_popup_attachment_download);
+            popupItemArrayList.add(downloadItem);
+            DialogUtil.RightTopPopupItem deleteItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_delete), R.drawable.ic_menu_delete_selector);
+            popupItemArrayList.add(deleteItem);
+            mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
+        }
+    }
+
+    public void showRightTopPop() {
+
+        if (mRightTopPopupWindow == null) {
+            initRightTopPop();
+        }
+
+        DialogUtil.RightTopPopupItem moveItem = mRightTopPopupWindow.adapter.getItem(0);
+        DialogUtil.RightTopPopupItem deleteItem = mRightTopPopupWindow.adapter.getItem(2);
+
+        deleteItem.enabled = !isChooseOthers();
+
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+
+        Rect rectgle = new Rect();
+        Window window = getWindow();
+        window.getDecorView().getWindowVisibleDisplayFrame(rectgle);
+        int StatusBarHeight = rectgle.top;
+        int contentViewTop =
+                window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+        //int TitleBarHeight= contentViewTop - StatusBarHeight;
+        mRightTopPopupWindow.adapter.notifyDataSetChanged();
+        mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        mRightTopPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
+
     }
 
     private enum UploadStatus {
