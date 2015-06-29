@@ -635,7 +635,7 @@
         <activity
             android:name=".project.detail.merge.SourceActivity_"
             android:label="@string/title_activity_source"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
