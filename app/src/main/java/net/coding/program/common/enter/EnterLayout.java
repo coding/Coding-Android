@@ -183,6 +183,11 @@ public class EnterLayout {
         root.setVisibility(View.VISIBLE);
     }
 
+    public boolean isShow() {
+        View root = mActivity.findViewById(R.id.commonEnterRoot);
+        return root.getVisibility() == View.VISIBLE;
+    }
+
     public void restoreSaveStart() {
         content.addTextChangedListener(restoreWatcher);
     }

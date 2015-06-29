@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/guide_item1_w"
+        android:layout_height="@dimen/guide_item0_h"
         android:src="@drawable/guide_0_1"
         app:a_in="@dimen/parallax_speed_medium"
         app:a_out="@dimen/parallax_speed_medium"

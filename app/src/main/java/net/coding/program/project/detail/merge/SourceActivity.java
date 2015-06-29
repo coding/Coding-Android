@@ -28,6 +28,8 @@ public class SourceActivity extends BackActivity {
     @AfterViews
     protected final void initSourceActivity() {
         showDialogLoading();
+
+        webView.getSettings().setBuiltInZoomControls(true);
         Global.initWebView(webView);
         getNetwork(url, HOST_FILE_SOURCE);
     }

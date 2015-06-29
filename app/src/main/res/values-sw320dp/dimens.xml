@@ -6,8 +6,9 @@
     <dimen name="image_square_width">70dp</dimen>
     <dimen name="image_add_maopao_width">62dp</dimen>
 
-    <dimen name="guide_item1_w">146dp</dimen>
-    <dimen name="guide_item1_h">135dp</dimen>
-    <dimen name="guide_item2_h">40dp</dimen>
+    <dimen name="guide_item1_w">248dp</dimen>
+    <dimen name="guide_item1_h">230dp</dimen>
+    <dimen name="guide_item2_h">68dp</dimen>
+    <dimen name="guide_item0_h">85dp</dimen>
 
 </resources>

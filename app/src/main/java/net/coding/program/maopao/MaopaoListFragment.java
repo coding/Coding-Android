@@ -46,6 +46,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -338,6 +339,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 }
             }
 
+            floatButton.setVisibility(View.INVISIBLE);
+
             mEnterLayout.closeEmojiKeyboard();
             mEnterLayout.show();
 
@@ -433,12 +436,10 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                         cal1 = 1;
                         needScrollY = needScrollY + oldListHigh - listHeight;
 
-
                     } else if (cal1 == 1) {
                         int scrollResult = needScrollY + oldListHigh - listHeight;
                         listView.smoothScrollBy(scrollResult, 1);
                         needScrollY = 0;
-
                     }
 
                     oldListHigh = listHeight;
@@ -571,10 +572,24 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     private void hideSoftkeyboard() {
+        if (!mEnterLayout.isShow()) {
+            return;
+        }
+
         mEnterLayout.restoreSaveStop();
         mEnterLayout.clearContent();
         mEnterLayout.hideKeyboard();
         mEnterLayout.hide();
+
+        floatButton.hide(false);
+        showFloatButton();
+    }
+
+    // 如果不设延时的话会闪一下
+    @UiThread(delay = 1500)
+    void showFloatButton() {
+        floatButton.hide(false);
+        floatButton.setVisibility(View.VISIBLE);
     }
 
     @Override

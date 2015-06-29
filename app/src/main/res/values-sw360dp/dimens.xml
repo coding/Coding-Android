@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="guide_item1_w">293dp</dimen>
+    <dimen name="guide_item1_h">270dp</dimen>
+    <dimen name="guide_item2_h">80dp</dimen>
+    <dimen name="guide_item0_h">100dp</dimen>
+</resources>

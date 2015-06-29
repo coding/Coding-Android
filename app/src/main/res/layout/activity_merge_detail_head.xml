@@ -70,7 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/merge_detail_branch_buttom"
-            android:text="merge_request" />
+            android:text="merge_request"
+            android:textColor="@color/merge_id" />
 
         <View
             android:layout_width="24dp"
@@ -83,7 +84,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/merge_detail_branch_buttom"
-            android:text="master" />
+            android:text="master"
+            android:textColor="@color/merge_id" />
     </LinearLayout>
 
     <LinearLayout
