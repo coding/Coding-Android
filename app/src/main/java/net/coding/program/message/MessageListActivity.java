@@ -98,28 +98,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     };
     String HOST_INSERT_IMAGE = Global.HOST + "/api/tweet/insert_image";
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = mEnterLayout.getContent();
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
-                return;
-            }
-
-            RequestParams params = new RequestParams();
-            params.put("content", s);
-            params.put("receiver_global_key", mUserObject.global_key);
-
-            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
-            temp.content = s;
-            mData.add(temp);
-            adapter.notifyDataSetChanged();
-
-            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
-
-            mEnterLayout.clearContent();
-        }
-    };
     private PhotoOperate photoOperate = new PhotoOperate(this);
     private Uri fileUri;
     private int mPxImageWidth = 0;
@@ -171,6 +149,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                 holder.icon.setOnClickListener(mOnClickUser);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad(), mPxImageWidth);
+                holder.contentArea.clearConentLongClick();
                 holder.resend = convertView.findViewById(R.id.resend);
                 holder.sending = convertView.findViewById(R.id.sending);
 
@@ -245,6 +224,28 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             super.notifyDataSetChanged();
 
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
+        }
+    };
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String s = mEnterLayout.getContent();
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
+                return;
+            }
+
+            RequestParams params = new RequestParams();
+            params.put("content", s);
+            params.put("receiver_global_key", mUserObject.global_key);
+
+            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
+            temp.content = s;
+            mData.add(temp);
+            adapter.notifyDataSetChanged();
+
+            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
+
+            mEnterLayout.clearContent();
         }
     };
     private int mPxImageDivide = 0;
@@ -330,8 +331,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                     builder.setItems(R.array.message_action_image, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String url = String.format(hostDeleteMessage, msg.getId());
-                            deleteNetwork(url, hostDeleteMessage, msg.getId());
+                            deleteMessage(msg);
                         }
                     });
 
@@ -343,8 +343,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                                 Global.copy(MessageListActivity.this, msg.content);
                                 showButtomToast("已复制");
                             } else if (which == 1) {
-                                String url = String.format(hostDeleteMessage, msg.getId());
-                                deleteNetwork(url, hostDeleteMessage, msg.getId());
+                                deleteMessage(msg);
                             }
                         }
                     });
@@ -372,6 +371,16 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                 last = current;
             }
         });
+    }
+
+    private void deleteMessage(Message.MessageObject msg) {
+        if (msg instanceof MyMessage) {
+            mData.remove(msg);
+            adapter.notifyDataSetChanged();
+        } else {
+            String url = String.format(hostDeleteMessage, msg.getId());
+            deleteNetwork(url, hostDeleteMessage, msg.getId());
+        }
     }
 
     public void photo() {
@@ -738,7 +747,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
         public void addActivity(Object activity) {
             if (activity instanceof MessageListActivity) {
-                mRef = new WeakReference<MessageListActivity>((MessageListActivity) activity);
+                mRef = new WeakReference<>((MessageListActivity) activity);
             }
         }
 

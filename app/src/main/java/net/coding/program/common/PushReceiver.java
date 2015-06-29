@@ -22,6 +22,7 @@ import net.coding.program.model.AccountInfo;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,11 @@ import java.util.regex.Pattern;
  * Created by chaochen on 14-12-5.
  */
 public class PushReceiver extends XGPushBaseReceiver {
+
+    public static String sNotify[] = new String[5];
+    static int notifyId = 0;
+    private static long sLastNotify = 0;
+    NotificationCompat.Builder builder;
 
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         Log.d("", "" + context);
@@ -47,26 +53,26 @@ public class PushReceiver extends XGPushBaseReceiver {
     }
 
     public void onTextMessage(Context context, XGPushTextMessage message) {
-        Log.d("", "" + context);
-
         try {
             if (!AccountInfo.getNeedPush(context) || !AccountInfo.isLogin(context)) {
                 return;
             }
 
-            String title = message.getTitle();
-            String msg = message.getContent();
-            msg = msg.replaceAll("<img src='(.*?)'/>", "[$1]");
+            JSONObject jsonCustom = new JSONObject(message.getCustomContent());
 
-            String id = "";
-            String url = "";
-            try {
-                JSONObject jsonCustom = new JSONObject(message.getCustomContent());
-                id = jsonCustom.optString("notification_id");
-                url = jsonCustom.optString("param_url");
-            } catch (Exception e) {
-                Global.errorLog(e);
+            if (jsonCustom.has("cancel")) {
+                String cancelString = jsonCustom.optString("cancel");
+                if (cancelString.equals("message")) {
+                    cannel(context, true);
+                } else {
+                    cannel(context, false);
+                }
+
+                return;
             }
+
+            String id = jsonCustom.optString("notification_id", "");
+            String url = jsonCustom.optString("param_url", "");
 
             if (url.isEmpty()) {
                 Log.e("", "收到空消息");
@@ -82,10 +88,32 @@ public class PushReceiver extends XGPushBaseReceiver {
                 }
             }
 
+            String title = message.getTitle();
+            String msg = message.getContent();
+            msg = msg.replaceAll("<img src='(.*?)'/>", "[$1]");
+
             showNotify(context, title, msg, id, url);
 
         } catch (Exception e) {
             Global.errorLog(e);
+        }
+    }
+
+    private void cannel(Context ctx, boolean cannelMessage) {
+        String message = URLSpanNoUnderline.PATTERN_URL_MESSAGE;
+        Pattern pattern = Pattern.compile(message);
+        NotificationManager notificationManager = (NotificationManager)
+                ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        for (int i = 0; i < sNotify.length; ++i) {
+            if (sNotify[i] == null) {
+                continue;
+            }
+
+            Matcher matcher = pattern.matcher(sNotify[i]);
+            if (matcher.find() == cannelMessage) {
+                notificationManager.cancel(i);
+            }
         }
     }
 
@@ -98,15 +126,19 @@ public class PushReceiver extends XGPushBaseReceiver {
         Log.d("", "" + context);
     }
 
-    NotificationCompat.Builder builder;
-
     private void showNotify(Context context, String title, String msg, String id, String url) {
         builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(title)
-                .setContentText(msg)
-                .setDefaults(Notification.DEFAULT_ALL);
+                .setContentText(msg);
 
+        long time = Calendar.getInstance().getTimeInMillis();
+        if (time - sLastNotify <= 10 * 1000) { // 小于10秒很可能是联网后一次收到了多个推送，只用呼吸灯提示
+            builder.setDefaults(Notification.DEFAULT_LIGHTS);
+        } else {
+            builder.setDefaults(Notification.DEFAULT_ALL);
+        }
+        sLastNotify = time;
 
         Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
         resultIntent.putExtra("data", url);
@@ -149,8 +181,4 @@ public class PushReceiver extends XGPushBaseReceiver {
 
         mNotificationManager.notify(notifyIdInt, builder.build());
     }
-
-    static int notifyId = 0;
-
-    public static String sNotify[] = new String[5];
 }

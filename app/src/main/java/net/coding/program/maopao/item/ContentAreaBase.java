@@ -30,6 +30,10 @@ public class ContentAreaBase {
         imageGetter = imageGetterParamer;
     }
 
+    public void clearConentLongClick() {
+        content.setOnLongClickListener(null);
+    }
+
     public void setData(Object data) {
         String contentString = "";
         if (data instanceof TaskObject.TaskComment) {
