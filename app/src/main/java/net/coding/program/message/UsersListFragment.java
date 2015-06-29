@@ -46,27 +46,99 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    private final int RESULT_SELECT_USER = 2001;
-    @ViewById
-    ListView listView;
-
-    ArrayList<Message.MessageObject> mData = new ArrayList<>();
-
+    static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
     final String HOST_MESSAGE_USERS = Global.HOST + "/api/message/conversations?pageSize=10";
-
     final String HOST_UNREAD_AT = Global.HOST + "/api/notification/unread-count?type=0";
     final String HOST_UNREAD_COMMENT = Global.HOST + "/api/notification/unread-count?type=1&type=2";
     final String HOST_UNREAD_SYSTEM = Global.HOST + "/api/notification/unread-count?type=4";
-
     final String HOST_MARK_AT = Global.HOST + "/api/notification/mark-read?all=1&type=0";
     final String HOST_MARK_COMMENT = Global.HOST + "/api/notification/mark-read?all=1&type=1&type=2";
     final String HOST_MARK_SYSTEM = Global.HOST + "/api/notification/mark-read?all=1&type=4";
-
-    public static final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
-
+    final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
+    private final int RESULT_SELECT_USER = 2001;
+    @ViewById
+    ListView listView;
+    ArrayList<Message.MessageObject> mData = new ArrayList<>();
     BadgeView badgeAt;
     BadgeView badgeComment;
+
+    //    private void postMarkReaded(String globalKey) {
+//        String url = String.format(HOST_MARK_MESSAGE, globalKey);
+//        postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, -1, globalKey);
+//    }
     BadgeView badgeSystem;
+    boolean mUpdateAll = false;
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
+    MyImageGetter myImageGetter;
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.fragment_message_user_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.icon =
+                        (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon.setFocusable(false);
+                holder.title = (TextView) convertView.findViewById(R.id.title);
+                holder.content = (TextView) convertView.findViewById(R.id.comment);
+                holder.time = (TextView) convertView.findViewById(R.id.time);
+                holder.badge = (BadgeView) convertView.findViewById(R.id.badge);
+                holder.badge.setFocusable(false);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            Message.MessageObject user = (Message.MessageObject) getItem(position);
+            iconfromNetwork(holder.icon, user.friend.avatar);
+            holder.title.setText(user.friend.name);
+            holder.content.setText(Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
+            holder.time.setText(Global.dayToNow(user.created_at));
+
+            if (user.unreadCount > 0) {
+                UnreadNotify.displayNotify(holder.badge, Unread.countToString(user.unreadCount));
+                holder.badge.setVisibility(View.VISIBLE);
+            } else {
+                holder.badge.setVisibility(View.INVISIBLE);
+            }
+
+            if (position == (mData.size() - 1)) {
+                loadMore();
+            }
+
+            return convertView;
+        }
+    };
+
+    public static void receiverMessagePush(String globalKey, String content) {
+        if (mInstance != null) {
+            UsersListFragment fragment = mInstance.get();
+            if (fragment != null) {
+                fragment.messagePlus1(globalKey, content);
+            }
+        }
+    }
 
     @AfterViews
     protected void init() {
@@ -86,7 +158,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 intent.putExtra("mUserObject", user.friend);
                 startActivity(intent);
 
-                postMarkReaded(user.friend.global_key);
             }
         });
 
@@ -113,17 +184,10 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         initData();
     }
 
-    private void postMarkReaded(String globalKey) {
-        String url = String.format(HOST_MARK_MESSAGE, globalKey);
-        postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, -1, globalKey);
-    }
-
     @Override
     public void loadMore() {
         getNextPageNetwork(HOST_MESSAGE_USERS, HOST_MESSAGE_USERS);
     }
-
-    boolean mUpdateAll = false;
 
     void initData() {
         initSetting();
@@ -156,7 +220,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         String userGlobal = ReadedUserId.getReadedUser();
         if (!userGlobal.isEmpty()) {
             markUserReaded(userGlobal, ReadedUserId.getUserLastMessage());
-            postMarkReaded(userGlobal);
             ReadedUserId.remove();
         }
     }
@@ -240,15 +303,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
     }
 
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
-
-    final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MESSAGE_USERS)) {
@@ -328,11 +382,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
             UnreadNotify.update(getActivity());
 
-        } else if (tag.equals(HOST_MARK_MESSAGE)) {
-            if (code == 0) {
-                String globalKey = (String) data;
-                markUserReaded(globalKey);
-            }
         } else if (tag.equals(TAG_DELETE_MESSAGE)) {
             Message.MessageObject msg = (Message.MessageObject) data;
             if (code == 0) {
@@ -391,64 +440,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
     }
 
-    MyImageGetter myImageGetter;
-
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_message_user_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.icon =
-                        (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setFocusable(false);
-                holder.title = (TextView) convertView.findViewById(R.id.title);
-                holder.content = (TextView) convertView.findViewById(R.id.comment);
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-                holder.badge = (BadgeView) convertView.findViewById(R.id.badge);
-                holder.badge.setFocusable(false);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            Message.MessageObject user = (Message.MessageObject) getItem(position);
-            iconfromNetwork(holder.icon, user.friend.avatar);
-            holder.title.setText(user.friend.name);
-            holder.content.setText(Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
-            holder.time.setText(Global.dayToNow(user.created_at));
-
-            if (user.unreadCount > 0) {
-                UnreadNotify.displayNotify(holder.badge, Unread.countToString(user.unreadCount));
-                holder.badge.setVisibility(View.VISIBLE);
-            } else {
-                holder.badge.setVisibility(View.INVISIBLE);
-            }
-
-            if (position == (mData.size() - 1)) {
-                loadMore();
-            }
-
-            return convertView;
-        }
-    };
-
     static class ViewHolder {
         ImageView icon;
         TextView title;
@@ -484,17 +475,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         public static void remove() {
             sReadedUser = "";
             mData = null;
-        }
-    }
-
-    static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
-
-    public static void receiverMessagePush(String globalKey, String content) {
-        if (mInstance != null) {
-            UsersListFragment fragment = mInstance.get();
-            if (fragment != null) {
-                fragment.messagePlus1(globalKey, content);
-            }
         }
     }
 }

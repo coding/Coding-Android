@@ -98,6 +98,28 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     };
     String HOST_INSERT_IMAGE = Global.HOST + "/api/tweet/insert_image";
     MyImageGetter myImageGetter = new MyImageGetter(this);
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String s = mEnterLayout.getContent();
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
+                return;
+            }
+
+            RequestParams params = new RequestParams();
+            params.put("content", s);
+            params.put("receiver_global_key", mUserObject.global_key);
+
+            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
+            temp.content = s;
+            mData.add(temp);
+            adapter.notifyDataSetChanged();
+
+            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
+
+            mEnterLayout.clearContent();
+        }
+    };
     private PhotoOperate photoOperate = new PhotoOperate(this);
     private Uri fileUri;
     private int mPxImageWidth = 0;
@@ -223,28 +245,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             super.notifyDataSetChanged();
 
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
-        }
-    };
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = mEnterLayout.getContent();
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
-                return;
-            }
-
-            RequestParams params = new RequestParams();
-            params.put("content", s);
-            params.put("receiver_global_key", mUserObject.global_key);
-
-            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
-            temp.content = s;
-            mData.add(temp);
-            adapter.notifyDataSetChanged();
-
-            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
-
-            mEnterLayout.clearContent();
         }
     };
     private int mPxImageDivide = 0;
@@ -516,11 +516,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
-
-                    // 标记信息已读
-                    String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
-                    postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
-
                     mHandler.sendEmptyMessageDelayed(0, REFRUSH_TIME);
                 }
 
