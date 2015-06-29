@@ -14,11 +14,11 @@ import android.widget.EditText;
 import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.BaseActivity;
-import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
+import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.AccountInfo;
 
@@ -123,7 +123,7 @@ public class SettingFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 XGPushManager.registerPush(getActivity(), "*");
                 AccountInfo.loginOut(getActivity());
-                startActivity(new Intent(getActivity(), LoginActivity_.class));
+                startActivity(new Intent(getActivity(), GuideActivity.class));
                 getActivity().finish();
             }
         });

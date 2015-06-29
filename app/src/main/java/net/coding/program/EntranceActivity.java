@@ -18,6 +18,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
+import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -154,10 +155,11 @@ public class EntranceActivity extends BaseActivity {
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
-            intent = new Intent(this, LoginActivity_.class);
+            intent = new Intent(this, GuideActivity.class);
             if (background != null) {
-                intent.putExtra("background", background);
+                intent.putExtra(LoginActivity.EXTRA_BACKGROUND, background);
             }
+
         } else {
             intent = new Intent(this, MainActivity_.class);
         }

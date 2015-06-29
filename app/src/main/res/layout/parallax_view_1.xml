@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/guide_item1_w"
+        android:layout_height="@dimen/guide_item1_h"
+        android:src="@drawable/guide_1_1"
+        app:a_in="@dimen/parallax_speed_medium"
+        app:a_out="@dimen/parallax_speed_medium"
+        app:x_in="@dimen/parallax_speed_medium"
+        app:x_out="@dimen/parallax_speed_medium" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="@dimen/guide_item1_w"
+        android:layout_height="@dimen/guide_item2_h"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/guide_photo_divide_height"
+        android:src="@drawable/guide_1_2"
+        app:a_in="@dimen/parallax_speed_fast"
+        app:a_out="@dimen/parallax_speed_fast"
+        app:x_in="@dimen/parallax_speed_fast"
+        app:x_out="@dimen/parallax_speed_fast" />
+
+
+</LinearLayout>

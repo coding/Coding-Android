@@ -64,4 +64,15 @@
     <dimen name="task_list_item_icon">28dp</dimen>
 
 
+    <item name="parallax_speed_slow" format="float" type="dimen">2.5</item>
+    <item name="parallax_speed_medium" format="float" type="dimen">1.3</item>
+    <item name="parallax_speed_fast" format="float" type="dimen">2.3</item>
+    <item name="parallax_speed_very_fast" format="float" type="dimen">20.0</item>
+    <item name="parallax_speed_slow_rev" format="float" type="dimen">-2.5</item>
+    <item name="parallax_speed_medium_rev" format="float" type="dimen">-5.0</item>
+    <item name="parallax_speed_fast_rev" format="float" type="dimen">-10.0</item>
+    <dimen name="guide_photo_divide_height">30dp</dimen>
+    <dimen name="guide_item1_w">293dp</dimen>
+    <dimen name="guide_item1_h">270dp</dimen>
+    <dimen name="guide_item2_h">80dp</dimen>
 </resources>

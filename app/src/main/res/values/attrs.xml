@@ -35,4 +35,8 @@
         <attr name="itemTitle" format="string" />
         <attr name="itemCenter" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="IndicatorView">
+        <attr name="pointCount" format="integer" />
+    </declare-styleable>
 </resources>

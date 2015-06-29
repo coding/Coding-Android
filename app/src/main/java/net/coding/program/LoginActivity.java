@@ -54,9 +54,14 @@ import java.io.File;
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
 
+    public static final String EXTRA_BACKGROUND = "background";
+    public static String HOST_USER = Global.HOST + "/api/user/key/%s";
+    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
+    final float radius = 8;
+    final double scaleFactor = 16;
+    final private int RESULT_CLOSE = 100;
     @Extra
     Uri background;
-
     @ViewById
     ImageView userIcon;
     @ViewById
@@ -75,10 +80,6 @@ public class LoginActivity extends BaseActivity {
     View captchaLayout;
     @ViewById
     View loginButton;
-
-    final float radius = 8;
-    final double scaleFactor = 16;
-
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -89,6 +90,22 @@ public class LoginActivity extends BaseActivity {
             .considerExifParams(true)
             .displayer(new FadeInBitmapDisplayer(300))
             .build();
+    View androidContent;
+    String HOST_LOGIN = Global.HOST + "/api/login";
+    String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
+    TextWatcher textWatcher = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            upateLoginButton();
+        }
+    };
+    TextWatcher textWatcherName = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            userIcon.setImageResource(R.drawable.icon_user_monkey);
+//            userIcon.setBackgroundResource(R.drawable.icon_user_monkey);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,8 +170,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    View androidContent;
-
     private BitmapDrawable createBlur() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -203,8 +218,6 @@ public class LoginActivity extends BaseActivity {
         downloadValifyPhoto();
     }
 
-    final private int RESULT_CLOSE = 100;
-
     @Click
     void register() {
         RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
@@ -213,6 +226,7 @@ public class LoginActivity extends BaseActivity {
     @OnActivityResult(RESULT_CLOSE)
     void resultRegiter(int result) {
         if (result == Activity.RESULT_OK) {
+            setResult(Activity.RESULT_OK);
             finish();
         }
     }
@@ -298,14 +312,6 @@ public class LoginActivity extends BaseActivity {
         }).show();
     }
 
-    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
-
-    String HOST_LOGIN = Global.HOST + "/api/login";
-
-    public static String HOST_USER = Global.HOST + "/api/user/key/%s";
-
-    String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LOGIN)) {
@@ -337,6 +343,7 @@ public class LoginActivity extends BaseActivity {
                 String name = editName.getText().toString();
                 AccountInfo.saveLastLoginName(this, name);
 
+                setResult(Activity.RESULT_OK);
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
             } else {
@@ -379,21 +386,6 @@ public class LoginActivity extends BaseActivity {
 
         getNetwork(String.format(HOST_USER, global), HOST_USER_RELOGIN);
     }
-
-    TextWatcher textWatcher = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            upateLoginButton();
-        }
-    };
-
-    TextWatcher textWatcherName = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            userIcon.setImageResource(R.drawable.icon_user_monkey);
-//            userIcon.setBackgroundResource(R.drawable.icon_user_monkey);
-        }
-    };
 
     private void upateLoginButton() {
         if (editName.getText().length() == 0) {
