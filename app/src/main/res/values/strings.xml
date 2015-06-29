@@ -119,5 +119,6 @@
     <string name="title_activity_branch_commit_list">提交历史</string>
     <string name="title_activity_branch_main">branch</string>
     <string name="title_activity_guide">guide</string>
+    <string name="title_activity_source">文件详情</string>
 
 </resources>

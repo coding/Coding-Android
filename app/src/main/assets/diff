@@ -34,7 +34,7 @@ body {
 .diff .image-add {
   background-color:  #eaffea;
 }
-.diff .image-del {
+.diff .image-delete {
   background-color:  #ffecec;
 }
 .diff > table {
@@ -130,66 +130,63 @@ var htmlEscape = function (content) {
 };
 var diff = function (data) {
   if (!data.diffLines) {
-    return '<div class="diff" style="border: none">' + data.data + '</div>';
+    return '<div class="diff" style="border: none">' + data + '</div>';
   }
   var html = [];
   html.push('<div class="diff">');
   var noDiff = '<table><tbody><tr><td><pre>无内容变化</pre></td></tr></tbody></table>';
   var noPreview = '<table><tbody><tr><td><pre>不支持预览此文件</pre></td></tr></tbody></table>';
-  if (data.binary) {
-    if (data.image) {
-      if (data.imageChangeType && data.imageChangeType !== 'rename') {
-        html.push('<div class="image-' + data.imageChangeType + '"><img src="' + data.image + '"></div>')
-      } else {
-        html.push(noDiff);
+  if (data.fileType === 'image') {
+    if (data.changeType && (data.changeType === 'delete' || data.changeType === 'add' )) {
+      html.push('<div class="image-' + data.changeType + '"><img src="' + data.image + '"></div>')
+    } else {
+      html.push(noDiff);
+    }
+  } else if (data.fileType === 'binary') {
+     html.push(noPreview);
+  } else {
+    var diffLines = data.diffLines;
+    if (diffLines.length === 0) {
+      html.push(noDiff);
+      html.push('</div>');
+      return html.join('');
+    }
+    html.push('<table><tbody>');
+    $.each(diffLines, function (i, diffLine) {
+      var prefixClass = 'ge';
+      if (diffLine.prefix === '+') {
+        prefixClass = 'gi';
+      } else if (diffLine.prefix === '-') {
+        prefixClass = 'gd';
+      } else if (diffLine.rightNo === 0 && diffLine.leftNo === 0) {
+        prefixClass = 'gc';
       }
-    } else {
-      html.push(noPreview);
-    }
-    html.push('</div>');
-    return html.join('');
+      html.push('<tr data-index="'+i+'">');
+      if (prefixClass === 'gc') {
+        html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
+        html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
+      } else if (prefixClass === 'gi') {
+        html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
+        html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
+      } else if (prefixClass === 'gd') {
+        html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
+        html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
+      } else {
+        html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
+        html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
+      }
+      html.push('<td class="diff-line-code '+prefixClass+'"><pre>'+htmlEscape(diffLine.text)+'</pre></td>');
+      html.push('</tr>');
+    });
+    html.push('</table></tbody>');
   }
-  var diffLines = data.diffLines;
-  if (diffLines.length === 0) {
-    html.push(noDiff);
-    html.push('</div>');
-    return html.join('');
-  }
-  html.push('<table><tbody>');
-  $.each(diffLines, function (i, diffLine) {
-    var prefixClass = 'ge';
-    if (diffLine.prefix === '+') {
-      prefixClass = 'gi';
-    } else if (diffLine.prefix === '-') {
-      prefixClass = 'gd';
-    } else if (diffLine.rightNo === 0 && diffLine.leftNo === 0) {
-      prefixClass = 'gc';
-    }
-    html.push('<tr data-index="'+i+'">');
-    if (prefixClass === 'gc') {
-      html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
-      html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
-    } else if (prefixClass === 'gi') {
-      html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
-      html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
-    } else if (prefixClass === 'gd') {
-      html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
-      html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
-    } else {
-      html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
-      html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
-    }
-    html.push('<td class="diff-line-code '+prefixClass+'"><pre>'+htmlEscape(diffLine.text)+'</pre></td>');
-    html.push('</tr>');
-  });
-  html.push('</table></tbody>');
   html.push('</div>');
   return html.join('');
 };
 $(function() {
   var diffContent = $('#diff-content');
   var data = ${diff-content};
-  diffContent.html(diff(data));
+  diffContent.html(diff(data.data));
 });
 
 </script>

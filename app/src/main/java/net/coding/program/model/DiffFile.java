@@ -2,6 +2,7 @@ package net.coding.program.model;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.url.UrlCreate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -95,6 +96,11 @@ public class DiffFile implements Serializable {
         public String getHttpFileDiffDetail(String projectPath, int mergeIid) {
             String realPath = ProjectObject.translatePath(projectPath);
             return Global.HOST_API + realPath + "/git/merge/"+ mergeIid +"/commitDiffContent?path=" + path;
+        }
+
+        public String getHttpSourceFile(String projectPath, String refId) {
+            String realPath = ProjectObject.translatePath(projectPath);
+            return Global.HOST_API + realPath + "/git/blob/" + refId + UrlCreate.pathEncode2(path);
         }
 
         public int getIconId() {

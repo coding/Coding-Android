@@ -15,19 +15,15 @@ import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
-import net.coding.program.project.git.MergeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_public_project_home)
-@OptionsMenu(R.menu.common_more)
 public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
     @ViewById
@@ -56,11 +52,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
         httpProjectObject = mProjectObject.getHttpProjectObject();
         getNetwork(httpProjectObject);
-    }
-
-    @OptionsItem
-    protected final void action_copy() {
-        MergeActivity_.intent(this).start();
     }
 
     @Override

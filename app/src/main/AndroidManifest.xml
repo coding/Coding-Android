@@ -632,7 +632,10 @@
             android:label="@string/title_activity_guide"
             android:screenOrientation="portrait"
             android:theme="@style/TranslateThemeFull" />
-
+        <activity
+            android:name=".project.detail.merge.SourceActivity_"
+            android:label="@string/title_activity_source"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

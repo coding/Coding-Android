@@ -35,6 +35,7 @@ import net.coding.program.MyApp;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.model.GitFileObject;
 
 import org.apache.http.cookie.Cookie;
 import org.json.JSONObject;
@@ -367,6 +368,29 @@ public class Global {
         } catch (Exception e) {
             Global.errorLog(e);
         }
+    }
+
+    static public void setWebViewContent(WebView webview, GitFileObject gitFile) {
+        Context context = webview.getContext();
+        if (gitFile.lang.equals("markdown")) {
+            try {
+
+                String template = readTextFile(context.getAssets().open("markdown"));
+                webview.loadDataWithBaseURL("about:blank", template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
+
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
+        } else {
+            try {
+                String template = readTextFile(context.getAssets().open("code"));
+                gitFile.data = gitFile.data.replace("<", "&lt;").replace(">", "&gt;");
+                webview.loadDataWithBaseURL("about:blank", template.replace("${file_code}", gitFile.data).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
+        }
+
     }
 
 

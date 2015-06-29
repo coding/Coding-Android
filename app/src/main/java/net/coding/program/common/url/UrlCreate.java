@@ -10,14 +10,14 @@ public class UrlCreate {
     public static String gitTree(String projectPath, String version, String path) {
         final String HOST_GIT_TREE = Global.HOST + "/api%s/git/tree/%s%s";
 
-        String filePath = encode2(path);
+        String filePath = pathEncode2(path);
         return String.format(HOST_GIT_TREE,
                 projectPath, version, filePath);
     }
 
     public static String gitTreeinfo(String projectPath, String version, String path) {
         final String HOST_GIT_TREEINFO = Global.HOST + "/api%s/git/treeinfo/%s%s";
-        String filePath = encode2(path);
+        String filePath = pathEncode2(path);
         return String.format(HOST_GIT_TREEINFO,
                 projectPath, version, filePath);
     }
@@ -41,7 +41,7 @@ public class UrlCreate {
     }
 
     // 重编码2次，git服务器那边要求的
-    private static String encode2(String path) {
+    public static String pathEncode2(String path) {
         if (path == null || path.isEmpty()) {
             return "";
         }

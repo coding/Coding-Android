@@ -33,10 +33,8 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_attachments_html)
@@ -72,8 +70,6 @@ public class GitViewActivity extends CustomMoreActivity {
     String urlImage = Global.HOST + "%s/git/raw/%s/%s";
 
     GitFileObject mFile;
-
-    String template;
 
     @OptionsItem(android.R.id.home)
     void close() {
@@ -125,23 +121,7 @@ public class GitViewActivity extends CustomMoreActivity {
 
                 } else {
                     pager.setVisibility(View.GONE);
-                    if (mFile.lang.equals("markdown")) {
-                        try {
-                            template = readTextFile(getAssets().open("markdown"));
-                            webview.loadDataWithBaseURL("about:blank", template.replace("${webview_content}", mFile.preview), "text/html", "UTF-8", null);
-
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
-                    } else {
-                        try {
-                            template = readTextFile(getAssets().open("code"));
-                            mFile.data = mFile.data.replace("<", "&lt;").replace(">", "&gt;");
-                            webview.loadDataWithBaseURL("about:blank", template.replace("${file_code}", mFile.data).replace("${file_lang}", mFile.lang), "text/html", "UTF-8", null);
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
-                    }
+                    Global.setWebViewContent(webview, mFile);
                 }
 
             } else {
@@ -151,22 +131,22 @@ public class GitViewActivity extends CustomMoreActivity {
         }
     }
 
-    private String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-            Global.errorLog(e);
-        }
-        return outputStream.toString();
-    }
+//    private String readTextFile(InputStream inputStream) {
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        byte buf[] = new byte[1024];
+//        int len;
+//        try {
+//            while ((len = inputStream.read(buf)) != -1) {
+//                outputStream.write(buf, 0, len);
+//            }
+//            outputStream.close();
+//            inputStream.close();
+//
+//        } catch (IOException e) {
+//            Global.errorLog(e);
+//        }
+//        return outputStream.toString();
+//    }
 
     private void download(String url) {
         //url = "https://coding.net/api/project/5166/files/58705/download";
