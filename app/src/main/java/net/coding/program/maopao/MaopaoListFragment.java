@@ -433,10 +433,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                         cal1 = 1;
                         needScrollY = needScrollY + oldListHigh - listHeight;
 
+
                     } else if (cal1 == 1) {
                         int scrollResult = needScrollY + oldListHigh - listHeight;
                         listView.smoothScrollBy(scrollResult, 1);
                         needScrollY = 0;
+
                     }
 
                     oldListHigh = listHeight;

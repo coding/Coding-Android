@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,7 +24,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -53,20 +51,43 @@ import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EFragment(R.layout.fragment_task_list)
-public class TaskListFragment extends CustomMoreFragment implements TaskListUpdate {
+public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
 
+    public static final String hostTaskDelete = Global.HOST + "/api/user/%s/project/%s/task/%s";
+    final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    final String urlTaskCountProject = Global.HOST + "/api/project/%d/task/user/count";
+    final String urlTaskCountMy = Global.HOST + "/api/tasks/projects/count";
+    final String URL_TASK_SATUS = Global.HOST + "/api/task/%s/status";
     @FragmentArg
     boolean mShowAdd = false;
     @FragmentArg
     TaskObject.Members mMembers;
     @FragmentArg
     ProjectObject mProjectObject;
-
     @ViewById
     View blankLayout;
     @ViewById
     FloatingActionButton fab;
-
+    boolean mNeedUpdate = true;
+    ArrayList<TaskObject.SingleTask> mData = new ArrayList<TaskObject.SingleTask>();
+    int mSectionId;
+    @StringArrayRes
+    String[] task_titles;
+    @ViewById
+    ExpandableStickyListHeadersListView listView;
+    int mTaskCount[] = new int[2];
+    boolean mUpdateAll = true;
+    String urlAll = "";
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
+    TestBaseAdapter mAdapter;
+    String mToday = "";
+    String mTomorrow = "";
+    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<View, Integer>();
     private net.coding.program.task.TaskListParentUpdate mParent;
 
     public void setParent(net.coding.program.task.TaskListParentUpdate parent) {
@@ -111,24 +132,10 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.common_more, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mNeedUpdate = true;
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-    boolean mNeedUpdate = true;
-
-    ArrayList<TaskObject.SingleTask> mData = new ArrayList<TaskObject.SingleTask>();
-    int mSectionId;
-
-    @StringArrayRes
-    String[] task_titles;
 
     String createHost(String userId, String type) {
         String BASE_HOST = Global.HOST + "/api%s/tasks%s?";
@@ -146,14 +153,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
 
         return String.format(BASE_HOST, mProjectObject.backend_project_path, userType);
     }
-
-    @ViewById
-    ExpandableStickyListHeadersListView listView;
-
-    int mTaskCount[] = new int[2];
-
-
-    final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @AfterViews
     protected void init() {
@@ -303,22 +302,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
         mUpdateAll = true;
     }
 
-    boolean mUpdateAll = true;
-
-    String urlAll = "";
-
-    final String urlTaskCountProject = Global.HOST + "/api/project/%d/task/user/count";
-    final String urlTaskCountMy = Global.HOST + "/api/tasks/projects/count";
-    public static final String hostTaskDelete = Global.HOST + "/api/user/%s/project/%s/task/%s";
-    final String URL_TASK_SATUS = Global.HOST + "/api/task/%s/status";
-
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlAll)) {
@@ -415,6 +398,17 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
         deleteNetwork(url, hostTaskDelete, pos, null);
     }
 
+    void statusTask(final int pos, final int id, final boolean complete) {
+        RequestParams params = new RequestParams();
+        int completeStatus = complete ? 2 : 1;
+        params.put("status", completeStatus); // 任务完成2，任务正在进行1
+        putNetwork(String.format(URL_TASK_SATUS, id), params, URL_TASK_SATUS, new TaskParam(mData.get(pos), completeStatus));
+    }
+
+    public interface FloatButton {
+        void showFloatButton(boolean show);
+    }
+
     static class TaskParam {
         TaskObject.SingleTask mTask;
         int mStatus;
@@ -424,18 +418,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
             this.mStatus = mStatus;
         }
     }
-
-    void statusTask(final int pos, final int id, final boolean complete) {
-        RequestParams params = new RequestParams();
-        int completeStatus = complete ? 2 : 1;
-        params.put("status", completeStatus); // 任务完成2，任务正在进行1
-        putNetwork(String.format(URL_TASK_SATUS, id), params, URL_TASK_SATUS, new TaskParam(mData.get(pos), completeStatus));
-    }
-
-    TestBaseAdapter mAdapter;
-
-    String mToday = "";
-    String mTomorrow = "";
 
     public class TestBaseAdapter extends BaseAdapter implements
             StickyListHeadersAdapter, SectionIndexer {
@@ -611,8 +593,6 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
         }
     }
 
-    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<View, Integer>();
-
     //animation executor
     class AnimationExecutor implements ExpandableStickyListHeadersListView.IAnimationExecutor {
 
@@ -667,18 +647,5 @@ public class TaskListFragment extends CustomMoreFragment implements TaskListUpda
             });
             animator.start();
         }
-    }
-
-    @Override
-    protected String getLink() {
-        if (mMembers.user.global_key.isEmpty()) {
-            return Global.HOST + mProjectObject.project_path + "/tasks/user/all";
-        } else {
-            return Global.HOST + mProjectObject.project_path + "/tasks/user/" + mMembers.user.global_key + "/all";
-        }
-    }
-
-    public interface FloatButton {
-        void showFloatButton(boolean show);
     }
 }
