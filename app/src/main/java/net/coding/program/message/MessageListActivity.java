@@ -525,6 +525,11 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
+
+                    // 标记信息已读
+                    String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
+                    postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
+
                     mHandler.sendEmptyMessageDelayed(0, REFRUSH_TIME);
                 }
 

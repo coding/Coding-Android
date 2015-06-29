@@ -1,6 +1,9 @@
 package net.coding.program.common.guide;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +15,13 @@ import net.coding.program.R;
 
 public class GuideActivity extends ActionBarActivity {
 
+    public static final String BROADCAST_GUIDE_ACTIVITY = "BROADCAST_GUIDE_ACTIVITY";
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            GuideActivity.this.finish();
+        }
+    };
     private Uri mUri;
 
     @Override
@@ -29,6 +39,10 @@ public class GuideActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parallax);
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BROADCAST_GUIDE_ACTIVITY);
+        registerReceiver(receiver, filter);
+
         mUri = getIntent().getParcelableExtra(LoginActivity.EXTRA_BACKGROUND);
 
         if (savedInstanceState == null) {
@@ -36,6 +50,15 @@ public class GuideActivity extends ActionBarActivity {
                     .add(R.id.content, new ParallaxFragment())
                     .commit();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+            receiver = null;
+        }
+        super.onDestroy();
     }
 
     public Uri getUri() {

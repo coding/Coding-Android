@@ -172,7 +172,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_history() {
-        String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, pathStack.peek());
+        String peek = pathStack.peek();
+        if (peek.isEmpty() && mVersion.isEmpty()) {
+            showButtomToast("没有Commit记录");
+            return;
+        }
+
+        String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, peek);
         BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
         RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
     }

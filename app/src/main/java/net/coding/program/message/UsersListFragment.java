@@ -46,6 +46,7 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
+    public static final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
     final String HOST_MESSAGE_USERS = Global.HOST + "/api/message/conversations?pageSize=10";
     final String HOST_UNREAD_AT = Global.HOST + "/api/notification/unread-count?type=0";
@@ -140,6 +141,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
     }
 
+    private void postMarkReaded(String globalKey) {
+        String url = String.format(HOST_MARK_MESSAGE, globalKey);
+        postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, -1, globalKey);
+    }
+
     @AfterViews
     protected void init() {
         initRefreshLayout();
@@ -158,6 +164,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 intent.putExtra("mUserObject", user.friend);
                 startActivity(intent);
 
+                postMarkReaded(user.friend.global_key);
             }
         });
 
@@ -220,6 +227,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         String userGlobal = ReadedUserId.getReadedUser();
         if (!userGlobal.isEmpty()) {
             markUserReaded(userGlobal, ReadedUserId.getUserLastMessage());
+
+            postMarkReaded(userGlobal);
             ReadedUserId.remove();
         }
     }
@@ -382,6 +391,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
             UnreadNotify.update(getActivity());
 
+        } else if (tag.equals(HOST_MARK_MESSAGE)) {
+            if (code == 0) {
+                String globalKey = (String) data;
+                markUserReaded(globalKey);
+            }
         } else if (tag.equals(TAG_DELETE_MESSAGE)) {
             Message.MessageObject msg = (Message.MessageObject) data;
             if (code == 0) {

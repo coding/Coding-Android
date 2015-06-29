@@ -29,6 +29,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
@@ -226,7 +227,7 @@ public class LoginActivity extends BaseActivity {
     @OnActivityResult(RESULT_CLOSE)
     void resultRegiter(int result) {
         if (result == Activity.RESULT_OK) {
-            setResult(Activity.RESULT_OK);
+            sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
             finish();
         }
     }
@@ -343,7 +344,7 @@ public class LoginActivity extends BaseActivity {
                 String name = editName.getText().toString();
                 AccountInfo.saveLastLoginName(this, name);
 
-                setResult(Activity.RESULT_OK);
+                sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
             } else {

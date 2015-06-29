@@ -739,24 +739,25 @@ public class DynamicObject {
             final String format;
             final String title;
 
+            String userString = String.format(BLACK_HTML, user.getName());
             String time = Global.dayToNow(created_at);
             switch (action) {
                 case "update_deadline":
                     if (task.deadline.isEmpty()) {
                         action_msg = "移除了任务的截止日期";
                     }
-                    format = "%s - %s";
-                    title = String.format(format, action_msg, time);
+                    format = "%s %s - %s";
+                    title = String.format(format, userString, action_msg, time);
                     return Global.changeHyperlinkColor(title);
                 case "update_priority":
                 case "update_description":
-                    format = "%s - %s";
-                    title = String.format(format, action_msg, time);
+                    format = "%s %s - %s";
+                    title = String.format(format, userString, action_msg, time);
                     return Global.changeHyperlinkColor(title);
 
                 default:
-                    format = "%s %s 的任务 - %s";
-                    title = String.format(format, action_msg, task.owner.getName(), time);
+                    format = "%s %s任务 - %s";
+                    title = String.format(format, userString, action_msg, time);
                     return Global.changeHyperlinkColor(title);
             }
         }

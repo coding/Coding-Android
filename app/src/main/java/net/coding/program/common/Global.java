@@ -176,12 +176,17 @@ public class Global {
     // 用于头像，有些头像是 “/static/fruit_avatar/Fruit-12.png”
     public static String replaceHeadUrl(JSONObject json, String name) {
         String s = json.optString(name);
-        if (s.indexOf("/static") == 0) {
+        return translateStaticIcon(s);
+    }
+
+    private static String translateStaticIcon(String s) {
+        if (s.indexOf("/static/") == 0) {
             return Global.HOST + s;
         }
 
         return s;
     }
+
 
     public static void popSoftkeyboard(Context ctx, View view, boolean wantPop) {
         InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -226,7 +226,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                     convertView = mInflater.inflate(R.layout.task_list_item_dynamic, parent, false);
                     holder = new TaskListHolder();
                     holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
-                    holder.mName = (TextView) convertView.findViewById(R.id.name);
                     holder.mContent = (TextView) convertView.findViewById(R.id.content);
                     holder.timeLineUp = convertView.findViewById(R.id.timeLineUp);
                     holder.timeLineDown = convertView.findViewById(R.id.timeLineDown);
@@ -237,7 +236,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
                 DynamicObject.DynamicTask data = mData.get(position);
 
-                holder.mName.setText(data.user.getName());
                 holder.mContent.setText(data.dynamicTitle());
 
                 int iconResId = R.drawable.ic_task_dynamic_update;
@@ -989,7 +987,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         View timeLineUp;
         View timeLineDown;
         ImageView mIcon;
-        TextView mName;
         TextView mContent;
 
         public void updateLine(int position, int count) {

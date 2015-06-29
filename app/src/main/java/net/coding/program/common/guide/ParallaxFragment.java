@@ -1,6 +1,5 @@
 package net.coding.program.common.guide;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +17,6 @@ import net.coding.program.R;
 import net.coding.program.RegisterActivity_;
 
 public class ParallaxFragment extends Fragment implements ViewPager.OnPageChangeListener {
-
-    final private int RESULT_CLOSE = 1000;
 
     IndicatorView mIndicatorView;
 
@@ -49,7 +46,7 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
         view.findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisterActivity_.intent(ParallaxFragment.this).startForResult(RESULT_CLOSE);
+                RegisterActivity_.intent(ParallaxFragment.this).start();
             }
         });
 
@@ -62,7 +59,7 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
                     intent.putExtra(LoginActivity.EXTRA_BACKGROUND, uri);
                 }
 
-                startActivityForResult(intent, RESULT_CLOSE);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -87,12 +84,4 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
     public void onPageScrollStateChanged(int state) {
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_CLOSE) {
-            if (resultCode == Activity.RESULT_OK) {
-                getActivity().finish();
-            }
-        }
-    }
 }

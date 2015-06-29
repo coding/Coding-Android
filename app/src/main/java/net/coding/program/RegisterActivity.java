@@ -18,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.Global;
 import net.coding.program.common.TermsActivity;
 import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -33,29 +34,30 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BackActivity {
 
+    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/register";
     @ViewById
     EditText editName;
-
     @ViewById
     EditText editGlobal;
-
     @ViewById
     ImageView imageValify;
-
     @ViewById
     EditText editValify;
-
     @ViewById
     View captchaLayout;
-
     @ViewById
     View valifyDivide;
-
     @ViewById
     View loginButton;
-
     @ViewById
     TextView textClause;
+    String HOST_USER_REGISTER = Global.HOST + "/api/register";
+    TextWatcher textWatcher = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            upateLoginButton();
+        }
+    };
 
     @AfterViews
     void init() {
@@ -71,8 +73,6 @@ public class RegisterActivity extends BackActivity {
     private void needCaptcha() {
         getNetwork(HOST_NEED_CAPTCHA, HOST_NEED_CAPTCHA);
     }
-
-    String HOST_USER_REGISTER = Global.HOST + "/api/register";
 
     @Click
     void loginButton() {
@@ -125,8 +125,6 @@ public class RegisterActivity extends BackActivity {
         startActivity(intent);
     }
 
-    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/register";
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_USER_REGISTER)) {
@@ -153,6 +151,7 @@ public class RegisterActivity extends BackActivity {
                 Global.syncCookie(this);
 
                 setResult(RESULT_OK);
+                sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
                 startActivity(new Intent(this, MainActivity_.class));
                 Toast.makeText(this, "欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。", Toast.LENGTH_LONG).show();
@@ -176,13 +175,6 @@ public class RegisterActivity extends BackActivity {
             }
         }
     }
-
-    TextWatcher textWatcher = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            upateLoginButton();
-        }
-    };
 
     private void upateLoginButton() {
         if (editName.getText().length() == 0) {
