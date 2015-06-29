@@ -52,44 +52,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
 
-    private String URL_FILES_BASE = Global.HOST + "/api/project/%d/files/%s/view";
-    private String URL_FILES = "";
-
-    @ViewById
-    DonutProgress circleLoading;
-
-    @ViewById
-    View imageLoadFail;
-
-    @ViewById
-    ViewGroup rootLayout;
-
-    View image;
-
-    public void setData(String uriString) {
-        uri = uriString;
-    }
-
-    HashMap<String, AttachmentFileObject> picCache;
-
-    File mFile;
-
-    AttachmentsPicDetailActivity parentActivity;
-
-    @FragmentArg
-    String uri;
-
-    @FragmentArg
-    String fileId;
-
-    @FragmentArg
-    int mProjectObjectId;
-
-    public void setData(String fileId, int mProjectObjectId) {
-        this.fileId = fileId;
-        this.mProjectObjectId = mProjectObjectId;
-    }
-
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
             .showImageForEmptyUri(R.drawable.image_not_exist)
@@ -101,6 +63,52 @@ public class ImagePagerFragment extends BaseFragment {
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
+    private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getActivity().onBackPressed();
+        }
+    };
+    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = new PhotoViewAttacher.OnPhotoTapListener() {
+        @Override
+        public void onPhotoTap(View view, float v, float v2) {
+            getActivity().onBackPressed();
+        }
+    };
+    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = new PhotoViewAttacher.OnViewTapListener() {
+        @Override
+        public void onViewTap(View view, float v, float v1) {
+            getActivity().onBackPressed();
+        }
+    };
+    @ViewById
+    DonutProgress circleLoading;
+    @ViewById
+    View imageLoadFail;
+    @ViewById
+    ViewGroup rootLayout;
+    View image;
+    HashMap<String, AttachmentFileObject> picCache;
+    File mFile;
+    AttachmentsPicDetailActivity parentActivity;
+    @FragmentArg
+    String uri;
+    @FragmentArg
+    String fileId;
+    @FragmentArg
+    int mProjectObjectId;
+    private String URL_FILES_BASE = Global.HOST + "/api/project/%d/files/%s/view";
+    private String URL_FILES = "";
+    private AsyncHttpClient client;
+
+    public void setData(String uriString) {
+        uri = uriString;
+    }
+
+    public void setData(String fileId, int mProjectObjectId) {
+        this.fileId = fileId;
+        this.mProjectObjectId = mProjectObjectId;
+    }
 
     @AfterViews
     void init() {
@@ -210,12 +218,18 @@ public class ImagePagerFragment extends BaseFragment {
 
                                                             @Override
                                                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                                                                if (!isResumed()) {
+                                                                    return;
+                                                                }
                                                                 client = null;
                                                                 showButtomToast("保存失败");
                                                             }
 
                                                             @Override
                                                             public void onSuccess(int statusCode, Header[] headers, File file) {
+                                                                if (!isResumed()) {
+                                                                    return;
+                                                                }
                                                                 client = null;
                                                                 showButtomToast("图片已保存到:" + file.getPath());
                                                                 getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
@@ -260,27 +274,6 @@ public class ImagePagerFragment extends BaseFragment {
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
     }
 
-    private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            getActivity().onBackPressed();
-        }
-    };
-
-    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = new PhotoViewAttacher.OnPhotoTapListener() {
-        @Override
-        public void onPhotoTap(View view, float v, float v2) {
-            getActivity().onBackPressed();
-        }
-    };
-
-    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = new PhotoViewAttacher.OnViewTapListener() {
-        @Override
-        public void onViewTap(View view, float v, float v1) {
-            getActivity().onBackPressed();
-        }
-    };
-
     @Override
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URL_FILES)) {
@@ -298,8 +291,6 @@ public class ImagePagerFragment extends BaseFragment {
             }
         }
     }
-
-    private AsyncHttpClient client;
 
     @Override
     public void onDestroy() {

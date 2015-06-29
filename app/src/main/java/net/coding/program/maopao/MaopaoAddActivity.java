@@ -176,7 +176,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     @AfterViews
     void init() {
-        imageWidthPx = Global.dpToPx(100);
+        imageWidthPx = Global.dpToPx(getResources().getDimension(R.dimen.image_add_maopao_width));
         mSize = new ImageSize(imageWidthPx, imageWidthPx);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
