@@ -194,7 +194,7 @@ public class Merge implements Serializable {
         return getHostPublicHead("/refuse");
     }
 
-    public String getHttpCannel() {
+    public String getHttpCancel() {
         return getHostPublicHead("/cancel");
     }
 

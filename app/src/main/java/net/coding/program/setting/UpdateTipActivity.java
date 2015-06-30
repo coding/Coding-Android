@@ -63,9 +63,9 @@ public class UpdateTipActivity extends Activity {
         }
 
         if (mUpdateInfo.required == 1 || mUpdateInfo.required == 0) {
-            Button buttonCannel = (Button) findViewById(R.id.cancel);
-            buttonCannel.setVisibility(View.VISIBLE);
-            buttonCannel.setOnClickListener(new View.OnClickListener() {
+            Button buttonCancel = (Button) findViewById(R.id.cancel);
+            buttonCancel.setVisibility(View.VISIBLE);
+            buttonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 

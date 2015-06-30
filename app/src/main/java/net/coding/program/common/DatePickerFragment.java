@@ -23,10 +23,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public static final String PARAM_MAX_TODYA = "PARAM_MAX_TODYA";
     public static final String PARAM_DATA = "date";
-    //    SetTimeType mTimeType = SetTimeType.Cannel;
+    //    SetTimeType mTimeType = SetTimeType.Cancel;
 // 小米手机不管按那个按钮都会调用 onDataSet，只好在click事件里面做标记
 //    enum SetTimeType {
-//        Cannel, Set, Clear;
+//        Cancel, Set, Clear;
 //    };
     private DateSet mDateSet;
 

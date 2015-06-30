@@ -63,9 +63,9 @@ public class PushReceiver extends XGPushBaseReceiver {
             if (jsonCustom.has("cancel")) {
                 String cancelString = jsonCustom.optString("cancel");
                 if (cancelString.equals("message")) {
-                    cannel(context, true);
+                    cancel(context, true);
                 } else {
-                    cannel(context, false);
+                    cancel(context, false);
                 }
 
                 return;
@@ -99,7 +99,7 @@ public class PushReceiver extends XGPushBaseReceiver {
         }
     }
 
-    private void cannel(Context ctx, boolean cannelMessage) {
+    private void cancel(Context ctx, boolean cannelMessage) {
         String message = URLSpanNoUnderline.PATTERN_URL_MESSAGE;
         Pattern pattern = Pattern.compile(message);
         NotificationManager notificationManager = (NotificationManager)

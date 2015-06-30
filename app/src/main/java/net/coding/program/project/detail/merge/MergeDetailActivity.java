@@ -58,7 +58,7 @@ public class MergeDetailActivity extends BackActivity {
     @ViewById
     View actionRefuse;
     @ViewById
-    View actionCannel;
+    View actionCancel;
     @ViewById
     ExpandableStickyListHeadersListView listView;
 
@@ -139,14 +139,14 @@ public class MergeDetailActivity extends BackActivity {
         }
     }
 
-    private void setActionStyle(boolean refuse, boolean accept, boolean cannel) {
-        if (!refuse && !accept && !cannel) {
+    private void setActionStyle(boolean refuse, boolean accept, boolean cancel) {
+        if (!refuse && !accept && !cancel) {
             actionLayout.setVisibility(View.GONE);
         } else {
             actionLayout.setVisibility(View.VISIBLE);
             actionAccept.setVisibility(accept ? View.VISIBLE : View.GONE);
             actionRefuse.setVisibility(refuse ? View.VISIBLE : View.GONE);
-            actionCannel.setVisibility(cannel ? View.VISIBLE : View.GONE);
+            actionCancel.setVisibility(cancel ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -167,11 +167,11 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     @Click
-    protected final void actionCannel() {
+    protected final void actionCancel() {
         showDialog(mMerge.getTitle(), "确定要取消吗？", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String host = mMerge.getHttpCannel();
+                String host = mMerge.getHttpCancel();
                 postNetwork(host, HOST_MERGE_CANNEL);
             }
         });

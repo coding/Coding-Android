@@ -193,8 +193,8 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     }
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
-                              DialogInterface.OnClickListener clickCannel) {
-        showDialog(title, msg, clickOk, clickCannel, "确定", "取消");
+                              DialogInterface.OnClickListener clickCancel) {
+        showDialog(title, msg, clickOk, clickCancel, "确定", "取消");
     }
 
 //    protected void showListDialog() {
@@ -203,14 +203,14 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 //    }
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
-                              DialogInterface.OnClickListener clickCannel,
+                              DialogInterface.OnClickListener clickCancel,
                               String okButton,
                               String cannelButton) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog dialog = builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(okButton, clickOk)
-                .setNegativeButton(cannelButton, clickCannel)
+                .setNegativeButton(cannelButton, clickCancel)
                 .show();
         dialogTitleLineColor(dialog);
     }
