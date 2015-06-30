@@ -12,6 +12,7 @@ import android.widget.Toast;
 import net.coding.program.R;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashSet;
 
@@ -21,14 +22,10 @@ import java.util.HashSet;
 public class UserTagAdapter extends BaseAdapter {
     public static final int MAX_TAG_COUNT = 10;
 
-    HashSet hashSet = new HashSet();
+    HashSet mHashSet = new HashSet();
+    JSONArray tagJSONArray;
     private Context context;
     private LayoutInflater mInflater;
-    JSONArray tagJSONArray;
-
-    static class ViewHolder {
-        CheckedTextView tag;
-    }
 
     public UserTagAdapter(Context context, String tags, JSONArray tagJSONArray) {
         this.context = context;
@@ -51,12 +48,8 @@ public class UserTagAdapter extends BaseAdapter {
         return tagJSONArray.optJSONObject(position);
     }
 
-    public String getName(int position) {
-        return tagJSONArray.optJSONObject(position).optString("name");
-    }
-
     private boolean isSelectFill() {
-        return hashSet.size() >= MAX_TAG_COUNT;
+        return mHashSet.size() >= MAX_TAG_COUNT;
     }
 
     @Override
@@ -76,8 +69,9 @@ public class UserTagAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tag.setText(tagJSONArray.optJSONObject(position).optString("name"));
-        if (hashSet.contains(Integer.valueOf(position + 1))) {
+        TagObject data = new TagObject((JSONObject) getItem(position));
+        holder.tag.setText(data.getmTagName());
+        if (mHashSet.contains(data.getmTagId())) {
             holder.tag.setChecked(true);
         } else {
             holder.tag.setChecked(false);
@@ -85,43 +79,56 @@ public class UserTagAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public String getSelected() {
+        return TextUtils.join(",", mHashSet);
+    }
+
     public void setSelected(String tags) {
-        hashSet.clear();
+        mHashSet.clear();
         String[] selectedTagIdsStr = tags.trim().split(",");
         for (String s : selectedTagIdsStr) {
             if (!s.trim().isEmpty())
-                hashSet.add(Integer.parseInt(s));
+                mHashSet.add(Integer.parseInt(s));
         }
         notifyDataSetChanged();
     }
 
-    public String getSelected() {
-        return TextUtils.join(",", hashSet);
-    }
-
-    /*public String getSelectedStr(){
-        ArrayList<String> tagsStr = new ArrayList<String>();
-        Iterator it = hashSet.iterator();
-        while (it.hasNext()) {
-            Integer key = (Integer) it.next();
-            tagsStr.add(getName(key));
-        }
-        return TextUtils.join(",", tagsStr);
-    }*/
-
     public void setSelectedTag(int position) {
-        if (!hashSet.contains(Integer.valueOf(position + 1))) {
+        TagObject data = new TagObject(tagJSONArray.optJSONObject(position));
+        int tagId = data.getmTagId();
+        if (!mHashSet.contains(tagId)) {
             if (!isSelectFill()) {
-                hashSet.add(Integer.valueOf(position + 1));
+                mHashSet.add(tagId);
             } else {
                 Toast.makeText(context, String.format("最多只能选择%d个标签", UserTagAdapter.MAX_TAG_COUNT),
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            hashSet.remove(Integer.valueOf(position + 1));
+            mHashSet.remove(tagId);
         }
 
-
         notifyDataSetChanged();
+    }
+
+    static class ViewHolder {
+        CheckedTextView tag;
+    }
+
+    private static class TagObject {
+        private String mTagName;
+        private int mTagId;
+
+        public TagObject(JSONObject json) {
+            mTagName = json.optString("name");
+            mTagId = json.optInt("id");
+        }
+
+        public String getmTagName() {
+            return mTagName;
+        }
+
+        public int getmTagId() {
+            return mTagId;
+        }
     }
 }
