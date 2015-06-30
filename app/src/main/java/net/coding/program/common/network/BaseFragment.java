@@ -23,6 +23,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.StartActivity;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
@@ -33,13 +34,22 @@ import org.json.JSONObject;
  * 封装了图片下载
  * 封装了网络请求
  */
-public class BaseFragment extends Fragment implements NetworkCallback, FootUpdate.LoadMore {
+public class BaseFragment extends Fragment implements NetworkCallback, FootUpdate.LoadMore, StartActivity {
 
     protected NetworkImpl networkImpl;
-    private ImageLoadTool imageLoadTool = new ImageLoadTool();
-
     protected LayoutInflater mInflater;
+    protected FootUpdate mFootUpdate = new FootUpdate();
+    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String globalKey = (String) v.getTag();
 
+            Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
+            intent.putExtra("globalKey", globalKey);
+            startActivity(intent);
+        }
+    };
+    private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;
 
     protected void showProgressBar(boolean show) {
@@ -89,19 +99,6 @@ public class BaseFragment extends Fragment implements NetworkCallback, FootUpdat
     public void loadMore() {
 
     }
-
-    protected FootUpdate mFootUpdate = new FootUpdate();
-
-    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globalKey = (String) v.getTag();
-
-            Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-            intent.putExtra("globalKey", globalKey);
-            startActivity(intent);
-        }
-    };
 
     protected void initSetting() {
         networkImpl.initSetting();

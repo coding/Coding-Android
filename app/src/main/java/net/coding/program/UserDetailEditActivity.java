@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -345,22 +344,6 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
         }
     }
 
-    private void cropImageUri(Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", outputX);
-        intent.putExtra("outputY", outputY);
-        intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-        intent.putExtra("return-data", false);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true); // no face detection
-        startActivityForResult(intent, requestCode);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PHOTO) {
@@ -370,7 +353,7 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
                 }
 
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                cropImageUri(fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

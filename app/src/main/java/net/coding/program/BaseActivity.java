@@ -21,6 +21,7 @@ import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.StartActivity;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
@@ -35,7 +36,7 @@ import org.json.JSONObject;
  * Created by cc191954 on 14-8-16.
  * 封装了图片下载并缓存
  */
-public class BaseActivity extends UmengActivity implements NetworkCallback {
+public class BaseActivity extends UmengActivity implements NetworkCallback, StartActivity {
 
     protected LayoutInflater mInflater;
     protected FootUpdate mFootUpdate = new FootUpdate();

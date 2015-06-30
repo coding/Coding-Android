@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -45,43 +44,30 @@ import java.io.File;
 @OptionsMenu(R.menu.menu_fragment_create)
 public class ProjectSetFragment extends BaseFragment {
 
-    private static final String TAG = "ProjectSetFragment";
-
     public static final int RESULT_REQUEST_PHOTO = 3003;
-
-    private final int RESULT_REQUEST_PHOTO_CROP = 3006;
-
+    private static final String TAG = "ProjectSetFragment";
     final String host = Global.HOST + "/api/project";
-
+    private final int RESULT_REQUEST_PHOTO_CROP = 3006;
     ProjectObject mProjectObject;
 
     String iconPath;
 
     boolean isBackToRefresh = false;
-
-    private Uri fileUri;
-
-    private Uri fileCropUri;
-
     MenuItem mMenuSave;
-
     @ViewById
     ImageView projectIcon;
-
     @ViewById
     View iconPrivate;
-
     @ViewById
     TextView projectName;
-
     @ViewById
     EditText description;
-
     @ViewById
     View item;
-
     @ViewById(R.id.title)
     TextView advanceText;
+    private Uri fileUri;
+    private Uri fileCropUri;
 
     @AfterViews
     protected void init() {
@@ -240,7 +226,7 @@ public class ProjectSetFragment extends BaseFragment {
                     fileUri = data.getData();
                 }
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                cropImageUri(fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
@@ -259,22 +245,6 @@ public class ProjectSetFragment extends BaseFragment {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    private void cropImageUri(Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", outputX);
-        intent.putExtra("outputY", outputY);
-        intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-        intent.putExtra("return-data", false);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true); // no face detection
-        startActivityForResult(intent, requestCode);
     }
 
 

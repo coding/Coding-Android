@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -304,6 +306,26 @@ public class Global {
 
         Spannable s = (Spannable) Html.fromHtml(parse, imageGetter, null);
         return getCustomSpannable(0xff999999, s);
+    }
+
+    static public void cropImageUri(StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
+        try {
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(uri, "image/*");
+            intent.putExtra("crop", "true");
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("outputX", outputX);
+            intent.putExtra("outputY", outputY);
+            intent.putExtra("scale", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+            intent.putExtra("return-data", false);
+            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+            intent.putExtra("noFaceDetection", true);
+            activity.startActivityForResult(intent, requestCode);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
     }
 
     private static Spannable getCustomSpannable(int color, Spannable s) {

@@ -51,45 +51,29 @@ import java.io.File;
 @OptionsMenu(R.menu.menu_fragment_create)
 public class ProjectCreateFragment extends BaseFragment {
 
-    private static final String TAG = "ProjectCreateFragment";
-
     public static final int RESULT_REQUEST_PHOTO = 2003;
-
-    private final int RESULT_REQUEST_PHOTO_CROP = 2006;
-
     public static final int RESULT_REQUEST_PICK_TYPE = 2004;
-
-
+    private static final String TAG = "ProjectCreateFragment";
     final String host = Global.HOST + "/api/project";
-
+    private final int RESULT_REQUEST_PHOTO_CROP = 2006;
     String currentType = ProjectTypeActivity.TYPE_PRIVATE;
 
     ProjectInfo projectInfo;
-
-    private Uri fileUri;
-
-    private Uri fileCropUri;
-
-    private String defaultIconUrl;
-
-    private ImageLoadTool imageLoadTool = new ImageLoadTool();
-
     MenuItem mMenuSave;
-
     @ViewById
     ImageView projectIcon;
-
     @ViewById
     EditText projectName;
-
     @ViewById
     EditText description;
-
     @ViewById
     View item;
-
     @ViewById
     TextView projectTypeText;
+    private Uri fileUri;
+    private Uri fileCropUri;
+    private String defaultIconUrl;
+    private ImageLoadTool imageLoadTool = new ImageLoadTool();
 
     @AfterViews
     protected void init() {
@@ -165,7 +149,7 @@ public class ProjectCreateFragment extends BaseFragment {
                     fileUri = data.getData();
                 }
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                cropImageUri(fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
@@ -190,22 +174,6 @@ public class ProjectCreateFragment extends BaseFragment {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    private void cropImageUri(Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", outputX);
-        intent.putExtra("outputY", outputY);
-        intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-        intent.putExtra("return-data", false);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true); // no face detection
-        startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -345,19 +313,6 @@ public class ProjectCreateFragment extends BaseFragment {
         CustomDialog.dialogTitleLineColor(getActivity(), dialog);
     }
 
-    public final class ProjectInfo {
-        String name;
-        String description;
-        String type;
-        String gitEnable;
-        String gitReadmeEnabled;
-        String gitIgnore;
-        String gitLicense;
-        String importFrom;
-        String vcsType;
-        String icon;
-    }
-
     public static class IconRandom {
 
         public static String[] iconUrls = {
@@ -392,6 +347,19 @@ public class ProjectCreateFragment extends BaseFragment {
             return iconUrls[index];
         }
 
+    }
+
+    public final class ProjectInfo {
+        String name;
+        String description;
+        String type;
+        String gitEnable;
+        String gitReadmeEnabled;
+        String gitIgnore;
+        String gitLicense;
+        String importFrom;
+        String vcsType;
+        String icon;
     }
 
 
