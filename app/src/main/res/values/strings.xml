@@ -120,5 +120,8 @@
     <string name="title_activity_branch_main">branch</string>
     <string name="title_activity_guide">guide</string>
     <string name="title_activity_source">文件详情</string>
+    <string name="title_activity_login2_fatip">2FA</string>
+    <string name="qr_scan_activity">扫描二维码</string>
+    <string name="auth_list_activity">身份验证器</string>
 
 </resources>

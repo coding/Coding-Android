@@ -14,8 +14,7 @@
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
-
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- 友盟,腾讯push需要 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -636,6 +635,23 @@
             android:name=".project.detail.merge.SourceActivity_"
             android:label="@string/title_activity_source"
             android:screenOrientation="unspecified" />
+        <activity
+            android:name=".login.auth.AuthListActivity"
+            android:label="@string/auth_list_activity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".login.auth.QRScanActivity"
+            android:label="@string/qr_scan_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.auth.Login2FATipActivity"
+            android:label="@string/title_activity_login2_fatip"></activity>
     </application>
 
 </manifest>

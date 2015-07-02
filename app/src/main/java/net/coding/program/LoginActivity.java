@@ -35,6 +35,7 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
+import net.coding.program.login.auth.Login2FATipActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -311,6 +312,12 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         }).show();
+    }
+
+    @Click
+    protected final void login_2fa() {
+        Intent intent = new Intent(this, Login2FATipActivity.class);
+        startActivity(intent);
     }
 
     @Override

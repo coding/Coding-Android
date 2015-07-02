@@ -44,6 +44,8 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.8@aar'
     compile 'com.prolificinteractive:parallaxpager:2.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.0.1'
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
+
 }
 
 //################

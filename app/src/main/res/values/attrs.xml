@@ -39,4 +39,9 @@
     <declare-styleable name="IndicatorView">
         <attr name="pointCount" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CountdownIndicator">
+        <attr name="indicator_color" format="reference|color" />
+    </declare-styleable>
+
 </resources>
