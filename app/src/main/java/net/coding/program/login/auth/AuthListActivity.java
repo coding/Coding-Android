@@ -1,24 +1,46 @@
 package net.coding.program.login.auth;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import net.coding.program.BaseActivity;
 import net.coding.program.R;
+import net.coding.program.common.CustomDialog;
+import net.coding.program.common.Global;
+import net.coding.program.model.AccountInfo;
 
-public class AuthListActivity extends ActionBarActivity {
+import java.util.ArrayList;
+
+public class AuthListActivity extends BaseActivity {
 
     private static final int TIME_UPDATE = 100;
     private final int RESULT_ADD_ACCOUNT = 1000;
     private final TotpCounter mTotpCounter = new TotpCounter(PasscodeGenerator.INTERVAL);
-    android.os.Handler mHandler;
     private AuthAdapter mAuthAdapter;
     private TotpClock mClock;
     private ListView listView;
+    android.os.Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            if (mHandler != null) {
+                mHandler.sendEmptyMessageDelayed(0, TIME_UPDATE);
+
+                long now = mClock.currentTimeMillis();
+                setTotpCountdownPhaseFromTimeTillNextValue(getTimeTillNextCounterValue(now));
+                mAuthAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,25 +53,60 @@ public class AuthListActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(mAuthAdapter);
 
+        ArrayList<String> uris = AccountInfo.loadAuthDatas(this);
+        mAuthAdapter.setNotifyOnChange(false);
+        for (String uri : uris) {
+            AuthInfo info = new AuthInfo(uri, mClock, mTotpCounter);
+            mAuthAdapter.add(info);
+        }
+        mAuthAdapter.setNotifyOnChange(true);
+        mAuthAdapter.notifyDataSetChanged();
+
         String extraData = getIntent().getStringExtra("data");
         if (extraData != null && !extraData.isEmpty()) {
             AuthInfo info = new AuthInfo(extraData, mClock, mTotpCounter);
             mAuthAdapter.add(info);
+            mAuthAdapter.saveData();
         }
 
-        mHandler = new android.os.Handler() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void handleMessage(Message msg) {
-                mHandler.sendEmptyMessageDelayed(0, TIME_UPDATE);
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final AuthInfo info = mAuthAdapter.getItem((int) id);
 
-                long now = mClock.currentTimeMillis();
-                setTotpCountdownPhaseFromTimeTillNextValue(getTimeTillNextCounterValue(now));
-                mAuthAdapter.notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(AuthListActivity.this);
+                builder.setItems(R.array.auth_item_actions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            Global.copy(AuthListActivity.this, info.getCode());
+                            showButtomToast(R.string.copy_code_finish);
+                        } else {
+                            showDialog("删除", "这是一个危险的操作，删除后可能会导致无法登录，确定删除吗？",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mAuthAdapter.remove(info);
+                                        }
+                                    });
+                        }
+                    }
+                });
 
+                AlertDialog dialog = builder.show();
+                CustomDialog.dialogTitleLineColor(view.getContext(), dialog);
+                return true;
             }
-        };
+        });
 
         mHandler.sendEmptyMessageDelayed(0, TIME_UPDATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mHandler.removeMessages(0);
+        mHandler = null;
+        super.onDestroy();
     }
 
     @Override
@@ -89,6 +146,7 @@ public class AuthListActivity extends ActionBarActivity {
                 }
                 mAuthAdapter.setNotifyOnChange(true);
                 mAuthAdapter.add(item);
+                mAuthAdapter.saveData();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

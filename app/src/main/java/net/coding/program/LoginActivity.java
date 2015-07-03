@@ -35,6 +35,7 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
+import net.coding.program.login.auth.AuthListActivity;
 import net.coding.program.login.auth.Login2FATipActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -316,7 +317,13 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void login_2fa() {
-        Intent intent = new Intent(this, Login2FATipActivity.class);
+        Intent intent;
+        if (AccountInfo.loadAuthDatas(this).isEmpty()) {
+            intent = new Intent(this, Login2FATipActivity.class);
+        } else {
+            intent = new Intent(this, AuthListActivity.class);
+        }
+
         startActivity(intent);
     }
 

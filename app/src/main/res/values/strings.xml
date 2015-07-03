@@ -88,6 +88,7 @@
     <string name="edit">编辑</string>
     <string name="title_activity_update_tip">UpdateTipActivity</string>
     <string name="copy_link_finish">链接已复制</string>
+    <string name="copy_code_finish">已复制</string>
     <string name="title_activity_file_url" />
     <string name="title_activity_project_home">项目首页</string>
     <string name="open_by_browser">用浏览器打开</string>

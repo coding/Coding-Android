@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.model.AccountInfo;
+
+import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/7/1.
@@ -38,6 +41,16 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
         holder.code.setText(data.getCode());
 
         return convertView;
+    }
+
+    public void saveData() {
+        ArrayList<String> uris = new ArrayList<>();
+        for (int i = 0; i < getCount(); ++i) {
+            String uri = getItem(i).getUriString();
+            uris.add(uri);
+        }
+
+        AccountInfo.saveAuthDatas(getContext(), uris);
     }
 
     static final class HolderAuthinfo {

@@ -51,26 +51,29 @@ public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
 
     public static final String TAG = "MainActivity";
-
+    public static final String BroadcastPushStyle = "BroadcastPushStyle";
     NavigationDrawerFragment_ mNavigationDrawerFragment;
     String mTitle;
-
     @Extra
     String mPushUrl;
-
     @StringArrayRes
     String drawer_title[];
-
     @StringArrayRes
     String maopao_action_types[];
-
-    public static final String BroadcastPushStyle = "BroadcastPushStyle";
-
     @ViewById
     ViewGroup drawer_layout;
 
     boolean mFirstEnter = true;
+    BroadcastReceiver mUpdatePushReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateNotifyService();
+        }
+    };
+    int mSelectPos = 0;
+    MySpinnerAdapter mSpinnerAdapter;
     private View actionbarCustom;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +104,6 @@ public class MainActivity extends BaseActivity
             getIntent().getExtras().remove("mPushUrl");
         }
     }
-
 
     @Override
     protected void onDestroy() {
@@ -134,13 +136,6 @@ public class MainActivity extends BaseActivity
             XGPushManager.registerPush(this, "*");
         }
     }
-
-    BroadcastReceiver mUpdatePushReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateNotifyService();
-        }
-    };
 
     @AfterViews
     void init() {
@@ -218,8 +213,6 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    int mSelectPos = 0;
-
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         mSelectPos = position;
@@ -288,8 +281,6 @@ public class MainActivity extends BaseActivity
         restoreActionBar();
     }
 
-    MySpinnerAdapter mSpinnerAdapter;
-
     public void restoreActionBar() {
         mTitle = drawer_title[mSelectPos];
         ActionBar actionBar = getSupportActionBar();
@@ -318,8 +309,46 @@ public class MainActivity extends BaseActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+    //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
+    @Override
+    protected void onNewIntent(Intent intent) {
+        String action = intent.getStringExtra("action");
+        if (!TextUtils.isEmpty(action) && action.equals(InitProUtils.FLAG_REFRESH)) {
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            for (Fragment item : fragments) {
+                if (item instanceof ProjectFragment) {
+                    if (item.isAdded()) {
+                        ((ProjectFragment) item).onRefresh();
+                    }
+                    break;
+                }
+            }
+        }
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitApp();
+    }
+
+    private void exitApp() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            showButtomToast("再按一次退出Coding");
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
+    }
+
     class MySpinnerAdapter extends BaseAdapter {
 
+        final int spinnerIcons[] = new int[]{
+                R.drawable.ic_spinner_maopao_time,
+                R.drawable.ic_spinner_maopao_friend,
+                R.drawable.ic_spinner_maopao_hot,
+        };
+        int checkPos = 0;
         private LayoutInflater inflater;
         private String[] project_activity_action_list;
 
@@ -328,17 +357,9 @@ public class MainActivity extends BaseActivity
             this.project_activity_action_list = titles;
         }
 
-        int checkPos = 0;
-
         public void setCheckPos(int pos) {
             checkPos = pos;
         }
-
-        final int spinnerIcons[] = new int[]{
-                R.drawable.ic_spinner_maopao_time,
-                R.drawable.ic_spinner_maopao_friend,
-                R.drawable.ic_spinner_maopao_hot,
-        };
 
         @Override
         public int getCount() {
@@ -384,40 +405,6 @@ public class MainActivity extends BaseActivity
                 convertView.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
             return convertView;
-        }
-    }
-
-    //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
-    @Override
-    protected void onNewIntent(Intent intent) {
-        String action = intent.getStringExtra("action");
-        if (!TextUtils.isEmpty(action) && action.equals(InitProUtils.FLAG_REFRESH)) {
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-            for (Fragment item : fragments) {
-                if (item instanceof ProjectFragment) {
-                    if (item.isAdded()) {
-                        ((ProjectFragment) item).onRefresh();
-                    }
-                    break;
-                }
-            }
-        }
-        super.onNewIntent(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        exitApp();
-    }
-
-    private long exitTime = 0;
-
-    private void exitApp() {
-        if ((System.currentTimeMillis() - exitTime) > 2000) {
-            showButtomToast("再按一次退出Coding");
-            exitTime = System.currentTimeMillis();
-        } else {
-            finish();
         }
     }
 
