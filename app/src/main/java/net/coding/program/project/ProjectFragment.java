@@ -18,6 +18,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
@@ -40,21 +41,26 @@ import java.util.List;
 @OptionsMenu(R.menu.menu_fragment_project)
 public class ProjectFragment extends BaseFragment implements ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
-    private ArrayList<ProjectObject> mData = new ArrayList();
-
+    public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
+    final String host = Global.HOST + "/api/projects?pageSize=100&type=all&sort=hot";
     @StringArrayRes
     String[] program_title;
-
     @ViewById
     net.coding.program.third.WechatTab tabs;
-
     @ViewById(R.id.pagerFragmentProgram)
     ViewPager pager;
-
+    boolean requestOk = true;
+    boolean needRefresh = true;
+    private ArrayList<ProjectObject> mData = new ArrayList();
     private MyPagerAdapter adapter;
-    final String host = Global.HOST + "/api/projects?pageSize=100&type=all&sort=hot";
-
-    public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
+    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(RECEIVER_INTENT_REFRESH_PROJECT)) {
+                needRefresh = true;
+            }
+        }
+    };
 
     @AfterViews
     protected void init() {
@@ -105,11 +111,24 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     }
 
     @OptionsItem
-    void action_create() {
+    final void action_create() {
         ProjectCreateActivity_.intent(this).start();
     }
 
-    boolean requestOk = true;
+    @OptionsItem
+    final void action_create_task() {
+        showMiddleToast("^ - ^");
+    }
+
+    @OptionsItem
+    final void action_create_maopao() {
+        MaopaoAddActivity_.intent(this).start();
+    }
+
+    @OptionsItem
+    final void action_2fa() {
+        Global.start2FAActivity(getActivity());
+    }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -150,6 +169,43 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void registerRefreshReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(RECEIVER_INTENT_REFRESH_PROJECT);
+        try {
+            getActivity().registerReceiver(refreshReceiver, intentFilter);
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (needRefresh) {
+            needRefresh = false;
+            onRefresh();
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        registerRefreshReceiver();
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            getActivity().unregisterReceiver(refreshReceiver);
+        } catch (Exception e) {
+
+        }
+
+        super.onDestroy();
     }
 
     private class MyPagerAdapter extends SaveFragmentPagerAdapter {
@@ -221,53 +277,5 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
                 }
             }
         }
-    }
-
-    private void registerRefreshReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(RECEIVER_INTENT_REFRESH_PROJECT);
-        try {
-            getActivity().registerReceiver(refreshReceiver, intentFilter);
-        } catch (Exception e) {
-
-        }
-    }
-
-    boolean needRefresh = true;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (needRefresh) {
-            needRefresh = false;
-            onRefresh();
-        }
-    }
-
-    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(RECEIVER_INTENT_REFRESH_PROJECT)) {
-                needRefresh = true;
-            }
-        }
-    };
-
-    @Override
-    public void onCreate(Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
-        registerRefreshReceiver();
-    }
-
-    @Override
-    public void onDestroy() {
-        try {
-            getActivity().unregisterReceiver(refreshReceiver);
-        } catch (Exception e) {
-
-        }
-
-        super.onDestroy();
     }
 }

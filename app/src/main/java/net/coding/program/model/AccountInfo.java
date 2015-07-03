@@ -3,6 +3,7 @@ package net.coding.program.model;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.maopao.MaopaoAddActivity;
@@ -248,6 +249,24 @@ public class AccountInfo {
 
     public static ArrayList<String> loadAuthDatas(Context context) {
         return new DataCache<String>().loadGlobal(context, AUTH_URI_DATAS);
+    }
+
+    public static String loadAuth(Context context, String globalKey) {
+        if (globalKey == null || globalKey.isEmpty()) {
+            return "";
+        }
+
+        globalKey = "/" + globalKey;
+        ArrayList<String> uris = loadAuthDatas(context);
+        for (String uriString : uris) {
+            Uri uri = Uri.parse(uriString);
+            String[] item = uri.getPath().split("@");
+            if (item.length >= 2 && item[1].equals("Coding") && item[0].equals(globalKey)) {
+                return uriString;
+            }
+        }
+
+        return "";
     }
 
     public static void saveProjectMembers(Context ctx, ArrayList<TaskObject.Members> data, int projectId) {

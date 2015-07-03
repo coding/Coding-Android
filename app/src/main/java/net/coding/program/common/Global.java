@@ -1,6 +1,7 @@
 package net.coding.program.common;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
@@ -36,7 +37,10 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.MyApp;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.login.auth.AuthListActivity;
+import net.coding.program.login.auth.Login2FATipActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.GitFileObject;
 
 import org.apache.http.cookie.Cookie;
@@ -761,6 +765,17 @@ public class Global {
         } else {
             badge.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public static void start2FAActivity(Activity activity) {
+        Intent intent;
+        if (AccountInfo.loadAuthDatas(activity).isEmpty()) {
+            intent = new Intent(activity, Login2FATipActivity.class);
+        } else {
+            intent = new Intent(activity, AuthListActivity.class);
+        }
+
+        activity.startActivity(intent);
     }
 
     public static class MessageParse {

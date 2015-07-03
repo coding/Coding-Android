@@ -28,7 +28,6 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
             holder = new HolderAuthinfo();
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.code = (TextView) convertView.findViewById(R.id.code);
-            holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.indicator = (CountdownIndicator) convertView.findViewById(R.id.indicator);
 
             convertView.setTag(holder);
@@ -37,7 +36,7 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
         }
 
         AuthInfo data = getItem(position);
-        holder.name.setText(data.getUriString());
+        holder.name.setText(data.getAccountName());
         holder.code.setText(data.getCode());
 
         return convertView;
@@ -56,7 +55,6 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
     static final class HolderAuthinfo {
         public TextView name;
         public TextView code;
-        public TextView time;
         public CountdownIndicator indicator;
     }
 

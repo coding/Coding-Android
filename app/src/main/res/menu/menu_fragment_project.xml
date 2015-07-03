@@ -16,9 +16,33 @@
     <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
 
     <item
-        android:id="@+id/action_create"
-        android:icon="@drawable/ic_menu_add"
-        android:title="创建"
-        app:showAsAction="always" />
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        android:title="@string/action_more"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_create"
+                android:icon="@drawable/ic_menu_add"
+                android:title="创建项目"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_create_task"
+                android:icon="@drawable/ic_menu_add"
+                android:title="创建任务"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_create_maopao"
+                android:icon="@drawable/ic_menu_add"
+                android:title="发布冒泡"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_2fa"
+                android:icon="@drawable/ic_menu_add"
+                android:title="2FA"
+                app:showAsAction="always" />
+        </menu>
+    </item>
+
 
 </menu>

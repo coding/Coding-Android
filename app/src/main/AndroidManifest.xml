@@ -651,7 +651,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.auth.Login2FATipActivity"
-            android:label="@string/title_activity_login2_fatip"></activity>
+            android:label="@string/title_activity_login2_fatip"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

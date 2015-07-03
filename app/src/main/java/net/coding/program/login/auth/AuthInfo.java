@@ -17,6 +17,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class AuthInfo implements Serializable {
 
     public static final String LOCAL_TAG = "AuthInfo";
+    public static final String PARAM_SECRET = "secret";
+    private static final TotpCounter mTotpCounter = new TotpCounter(PasscodeGenerator.INTERVAL);
     private final String scheme;
     private final String path;
     private final String authority;
@@ -26,8 +28,7 @@ public class AuthInfo implements Serializable {
     TotpCounter counter = new TotpCounter(PasscodeGenerator.INTERVAL);
     private String uriString;
 
-
-    public AuthInfo(String uriString, TotpClock clock, TotpCounter totpCounter) {
+    public AuthInfo(String uriString, TotpClock clock) {
         this.uriString = uriString;
 
         Uri uri = Uri.parse(uriString);
@@ -35,9 +36,12 @@ public class AuthInfo implements Serializable {
         path = uri.getPath();
         authority = uri.getAuthority();
         issuer = uri.getQueryParameter("issuer");
-        secret = uri.getQueryParameter("secret");
+        this.secret = uri.getQueryParameter(PARAM_SECRET);
         this.clock = clock;
-        counter = totpCounter;
+    }
+
+    public static TotpCounter getTotpCountet() {
+        return mTotpCounter;
     }
 
     static Signer getSigningOracle(String secret) {
@@ -109,5 +113,14 @@ public class AuthInfo implements Serializable {
         }
 
         return code;
+    }
+
+    public String getAccountName() {
+        String name = path;
+        if (path.startsWith("/")) {
+            name = path.substring(1);
+        }
+
+        return name;
     }
 }

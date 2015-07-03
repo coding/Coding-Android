@@ -35,8 +35,8 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
-import net.coding.program.login.auth.AuthListActivity;
-import net.coding.program.login.auth.Login2FATipActivity;
+import net.coding.program.login.auth.AuthInfo;
+import net.coding.program.login.auth.TotpClock;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -62,6 +62,9 @@ public class LoginActivity extends BaseActivity {
     private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
+    final String HOST_LOGIN = Global.HOST_API + "/login";
+    final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
+    final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
     final private int RESULT_CLOSE = 100;
     @Extra
     Uri background;
@@ -80,9 +83,13 @@ public class LoginActivity extends BaseActivity {
     @ViewById
     EditText editValify;
     @ViewById
+    EditText edit2FA;
+    @ViewById
     View captchaLayout;
     @ViewById
     View loginButton;
+    @ViewById
+    View layout2fa, loginLayout;
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -94,8 +101,6 @@ public class LoginActivity extends BaseActivity {
             .displayer(new FadeInBitmapDisplayer(300))
             .build();
     View androidContent;
-    String HOST_LOGIN = Global.HOST + "/api/login";
-    String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     TextWatcher textWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -109,6 +114,7 @@ public class LoginActivity extends BaseActivity {
 //            userIcon.setBackgroundResource(R.drawable.icon_user_monkey);
         }
     };
+    private String globalKey = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,6 +264,27 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void loginButton() {
+        if (layout2fa.getVisibility() == View.GONE) {
+            login();
+        } else {
+            login2fa();
+        }
+    }
+
+    private void login2fa() {
+        String input = edit2FA.getText().toString();
+        if (input.isEmpty()) {
+            showMiddleToast("请输入身份验证器中的验证码");
+            return;
+        }
+
+        RequestParams params = new RequestParams();
+        params.put("code", input);
+        postNetwork(HOST_USER_NEED_2FA, params, HOST_USER_NEED_2FA);
+        showProgressBar(true, "登录中");
+    }
+
+    private void login() {
         try {
             String name = editName.getText().toString();
             String password = editPassword.getText().toString();
@@ -317,34 +344,55 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void login_2fa() {
-        Intent intent;
-        if (AccountInfo.loadAuthDatas(this).isEmpty()) {
-            intent = new Intent(this, Login2FATipActivity.class);
-        } else {
-            intent = new Intent(this, AuthListActivity.class);
-        }
+        Global.start2FAActivity(this);
+    }
 
-        startActivity(intent);
+    private void show2FA(boolean show) {
+        if (show) {
+            layout2fa.setVisibility(View.VISIBLE);
+            loginLayout.setVisibility(View.GONE);
+            if (globalKey.isEmpty()) {
+                globalKey = editName.getText().toString();
+            }
+            String uri = AccountInfo.loadAuth(this, globalKey);
+            if (!uri.isEmpty()) {
+                String code2FA = new AuthInfo(uri, new TotpClock(this)).getCode();
+                edit2FA.getText().insert(0, code2FA);
+                loginButton();
+            }
+
+        } else {
+            layout2fa.setVisibility(View.GONE);
+            loginLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LOGIN)) {
             if (code == 0) {
-                UserObject user = new UserObject(respanse.getJSONObject("data"));
-                getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
-                showProgressBar(true, R.string.logining);
+                if (respanse.optString("data", "").equals("please input two factor auth code")) {
+                    show2FA(true);
+                    showProgressBar(false);
+                } else {
+                    loginSuccess(respanse);
+                }
+
+            } else if (code == 3205) {
+                globalKey = respanse.optString("data", "");
+                show2FA(true);
+                showProgressBar(false);
 
             } else {
-                String msg = Global.getErrorMsg(respanse);
-                showMiddleToast(msg);
-                showProgressBar(false);
-                if (code != NetworkImpl.NETWORK_ERROR &&
-                        code != NetworkImpl.NETWORK_ERROR_SERVICE) {
-                    needCaptcha();
-                }
+                loginFail(code, respanse);
             }
 
+        } else if (tag.equals(HOST_USER_NEED_2FA)) {
+            if (code == 0) {
+                loginSuccess(respanse);
+            } else {
+                loginFail(code, respanse);
+            }
         } else if (tag.equals(HOST_USER)) {
             if (code == 0) {
                 showProgressBar(false);
@@ -380,6 +428,31 @@ public class LoginActivity extends BaseActivity {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 imagefromNetwork(userIcon, user.avatar, options);
             }
+        }
+    }
+
+    private void loginFail(int code, JSONObject respanse) {
+        String msg = Global.getErrorMsg(respanse);
+        showMiddleToast(msg);
+        showProgressBar(false);
+        if (code != NetworkImpl.NETWORK_ERROR &&
+                code != NetworkImpl.NETWORK_ERROR_SERVICE) {
+            needCaptcha();
+        }
+    }
+
+    private void loginSuccess(JSONObject respanse) throws JSONException {
+        UserObject user = new UserObject(respanse.getJSONObject("data"));
+        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
+        showProgressBar(true, R.string.logining);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (layout2fa.getVisibility() == View.GONE) {
+            finish();
+        } else {
+            show2FA(false);
         }
     }
 

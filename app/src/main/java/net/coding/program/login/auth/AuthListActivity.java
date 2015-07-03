@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
@@ -25,7 +26,6 @@ public class AuthListActivity extends BaseActivity {
 
     private static final int TIME_UPDATE = 100;
     private final int RESULT_ADD_ACCOUNT = 1000;
-    private final TotpCounter mTotpCounter = new TotpCounter(PasscodeGenerator.INTERVAL);
     private AuthAdapter mAuthAdapter;
     private TotpClock mClock;
     private ListView listView;
@@ -56,7 +56,7 @@ public class AuthListActivity extends BaseActivity {
         ArrayList<String> uris = AccountInfo.loadAuthDatas(this);
         mAuthAdapter.setNotifyOnChange(false);
         for (String uri : uris) {
-            AuthInfo info = new AuthInfo(uri, mClock, mTotpCounter);
+            AuthInfo info = new AuthInfo(uri, mClock);
             mAuthAdapter.add(info);
         }
         mAuthAdapter.setNotifyOnChange(true);
@@ -64,7 +64,7 @@ public class AuthListActivity extends BaseActivity {
 
         String extraData = getIntent().getStringExtra("data");
         if (extraData != null && !extraData.isEmpty()) {
-            AuthInfo info = new AuthInfo(extraData, mClock, mTotpCounter);
+            AuthInfo info = new AuthInfo(extraData, mClock);
             mAuthAdapter.add(info);
             mAuthAdapter.saveData();
         }
@@ -136,7 +136,7 @@ public class AuthListActivity extends BaseActivity {
         if (requestCode == RESULT_ADD_ACCOUNT) {
             if (resultCode == RESULT_OK) {
                 String uriString = data.getStringExtra("data");
-                AuthInfo item = new AuthInfo(uriString, mClock, mTotpCounter);
+                AuthInfo item = new AuthInfo(uriString, mClock);
                 mAuthAdapter.setNotifyOnChange(false);
                 for (int i = 0; i < mAuthAdapter.getCount(); ++i) {
                     AuthInfo info = mAuthAdapter.getItem(i);
@@ -155,24 +155,32 @@ public class AuthListActivity extends BaseActivity {
 
     private void setTotpCountdownPhaseFromTimeTillNextValue(long millisRemaining) {
         setTotpCountdownPhase(
-                ((double) millisRemaining) / Utilities.secondsToMillis(mTotpCounter.getTimeStep()));
+                ((double) millisRemaining) / Utilities.secondsToMillis(AuthInfo.getTotpCountet().getTimeStep()));
     }
 
     private long getTimeTillNextCounterValue(long time) {
         long currentValue = getCounterValue(time);
         long nextValue = currentValue + 1;
-        long nextValueStartTime = Utilities.secondsToMillis(mTotpCounter.getValueStartTime(nextValue));
+        long nextValueStartTime = Utilities.secondsToMillis(AuthInfo.getTotpCountet().getValueStartTime(nextValue));
         return nextValueStartTime - time;
     }
 
     private long getCounterValue(long time) {
-        return mTotpCounter.getValueAtTime(Utilities.millisToSeconds(time));
+        return AuthInfo.getTotpCountet().getValueAtTime(Utilities.millisToSeconds(time));
     }
 
     private void setTotpCountdownPhase(double phase) {
         for (int i = 0; i < listView.getChildCount(); ++i) {
-            CountdownIndicator indicator = (CountdownIndicator) listView.getChildAt(i).findViewById(R.id.indicator);
+            View listItemView = listView.getChildAt(i);
+            CountdownIndicator indicator = (CountdownIndicator) listItemView.findViewById(R.id.indicator);
             indicator.setPhase(phase);
+
+            TextView tv = (TextView) listItemView.findViewById(R.id.code);
+            if (phase >= 0.1) {
+                tv.setTextColor(0xff3bbd79);
+            } else {
+                tv.setTextColor(0xffe15957);
+            }
         }
     }
 }

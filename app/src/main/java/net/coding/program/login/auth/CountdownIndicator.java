@@ -35,7 +35,7 @@ import net.coding.program.R;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class CountdownIndicator extends View {
-    private static final int DEFAULT_COLOR = 0xff3060c0;
+    private static final int DEFAULT_COLOR = 0xff666666;
     private final Paint mRemainingSectorPaint;
     private final Paint mBorderPaint;
     /**
@@ -98,7 +98,7 @@ public class CountdownIndicator extends View {
         }
 
         // Draw the outer border
-        canvas.drawOval(drawingRect, mBorderPaint);
+//        canvas.drawOval(drawingRect, mBorderPaint);
     }
 
     /**

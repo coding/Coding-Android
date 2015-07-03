@@ -10,6 +10,7 @@
             android:id="@+id/layoutRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/backgroundImage"
                 android:layout_width="match_parent"
@@ -41,6 +42,7 @@
                     android:paddingLeft="22dp"
                     android:paddingRight="22dp">
 
+
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/userIcon"
                         android:layout_width="83dp"
@@ -52,65 +54,110 @@
                         app:border_color="#ffffffff"
                         app:border_width="1.5dp" />
 
-                    <net.coding.program.common.widget.LoginAutoCompleteEdit
-                        android:id="@+id/editName"
+                    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+                        android:id="@+id/loginLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/login_edit"
-                        android:hint="邮箱/个性后缀"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/font_white"
-                        android:textColorHint="@color/font_white_disable"
-                        android:textCursorDrawable="@null"
-                        android:textSize="18sp"
-                        custom:darkness="true" />
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-                    <net.coding.program.common.LoginEditText
-                        android:id="@+id/editPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/login_edit"
-                        android:hint="密码"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="@color/font_white"
-                        android:textColorHint="@color/font_white_disable"
-                        android:textCursorDrawable="@null"
-                        android:textSize="18sp"
-                        custom:dark="true" />
-
-                    <RelativeLayout
-                        android:id="@+id/captchaLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:visibility="gone">
-
-                        <EditText
-                            android:id="@+id/editValify"
+                        <net.coding.program.common.widget.LoginAutoCompleteEdit
+                            android:id="@+id/editName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/login_edit"
-                            android:hint="验证码"
+                            android:hint="邮箱/个性后缀"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
                             android:singleLine="true"
                             android:textColor="@color/font_white"
                             android:textColorHint="@color/font_white_disable"
                             android:textCursorDrawable="@null"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            custom:darkness="true" />
 
-                        <ImageView
-                            android:id="@+id/imageValify"
-                            android:layout_width="72dp"
-                            android:layout_height="30dp"
-                            android:layout_alignParentRight="true"
-                            android:scaleType="fitCenter" />
+                        <net.coding.program.common.LoginEditText
+                            android:id="@+id/editPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/login_edit"
+                            android:hint="密码"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/font_white"
+                            android:textColorHint="@color/font_white_disable"
+                            android:textCursorDrawable="@null"
+                            android:textSize="18sp"
+                            custom:dark="true" />
 
-                    </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/captchaLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/editValify"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/login_edit"
+                                android:hint="验证码"
+                                android:singleLine="true"
+                                android:textColor="@color/font_white"
+                                android:textColorHint="@color/font_white_disable"
+                                android:textCursorDrawable="@null"
+                                android:textSize="18sp" />
+
+                            <ImageView
+                                android:id="@+id/imageValify"
+                                android:layout_width="72dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                android:scaleType="fitCenter" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+                        android:id="@+id/layout2fa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/round_rect_2fa"
+                            android:gravity="center"
+                            android:padding="@dimen/padding_12"
+                            android:text="您的帐户开启了两步验证，请输入动态验证码"
+                            android:textColor="#ffEB7A19" />
+
+
+                        <net.coding.program.common.LoginEditText
+                            android:id="@+id/edit2FA"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/login_edit"
+                            android:hint="输入动态验证码"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/font_white"
+                            android:textColorHint="@color/font_white_disable"
+                            android:textCursorDrawable="@null"
+                            android:textSize="18sp"
+                            custom:dark="true" />
+                    </LinearLayout>
+
 
                     <Button
                         android:id="@+id/loginButton"
