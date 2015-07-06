@@ -88,6 +88,34 @@ public class EnterLayout {
                         editable.replace(start, start + count, replaced);
                         editable.setSpan(new EmojiconSpan(mActivity, imgName), start, start + replaced.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
+                } else {
+                    int emojiStart = 0;
+                    int emojiEnd;
+                    boolean startFinded = false;
+                    int end = start + count;
+                    for (int i = start; i < end; ++i) {
+                        if (s.charAt(i) == ':') {
+                            if (!startFinded) {
+                                emojiStart = i;
+                                startFinded = true;
+                            } else {
+                                emojiEnd = i;
+                                if (emojiEnd - emojiStart < 2) { // 指示的是两个：的位置，如果是表情的话，间距肯定大于1
+                                    emojiStart = emojiEnd;
+                                } else {
+                                    String newString = s.subSequence(emojiStart + 1, emojiEnd).toString();
+                                    EmojiconSpan emojiSpan = new EmojiconSpan(mActivity, newString);
+                                    if (emojiSpan.getDrawable() != null) {
+                                        Editable editable = content.getText();
+                                        editable.setSpan(emojiSpan, emojiStart, emojiEnd + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        startFinded = false;
+                                    } else {
+                                        emojiStart = emojiEnd;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
