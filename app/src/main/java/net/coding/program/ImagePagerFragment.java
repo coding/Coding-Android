@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,6 +24,7 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
@@ -52,6 +55,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
 
+    public static final int HTTP_CODE_FILE_NOT_EXIST = 1304;
     public static DisplayImageOptions optionsImage = new DisplayImageOptions
             .Builder()
             .showImageForEmptyUri(R.drawable.image_not_exist)
@@ -87,6 +91,10 @@ public class ImagePagerFragment extends BaseFragment {
     View imageLoadFail;
     @ViewById
     ViewGroup rootLayout;
+
+    @ViewById
+    View blankLayout;
+
     View image;
     HashMap<String, AttachmentFileObject> picCache;
     File mFile;
@@ -97,6 +105,8 @@ public class ImagePagerFragment extends BaseFragment {
     String fileId;
     @FragmentArg
     int mProjectObjectId;
+
+
     private String URL_FILES_BASE = Global.HOST + "/api/project/%d/files/%s/view";
     private String URL_FILES = "";
     private AsyncHttpClient client;
@@ -112,6 +122,9 @@ public class ImagePagerFragment extends BaseFragment {
 
     @AfterViews
     void init() {
+        setHasOptionsMenu(true);
+//        getActivity().invalidateOptionsMenu();
+
         circleLoading.setVisibility(View.INVISIBLE);
         if (uri == null) {
             parentActivity = (AttachmentsPicDetailActivity) getActivity();
@@ -125,12 +138,23 @@ public class ImagePagerFragment extends BaseFragment {
                 } else {
                     //如果之前没有缓存过，那么获取并在得到结果后存入
                     URL_FILES = String.format(URL_FILES_BASE, mProjectObjectId, fileId);
-                    getNetwork(URL_FILES, URL_FILES);
+                    getPhotoFromNetwork();
                 }
             }
         } else {
             showPhoto();
         }
+    }
+
+    private void getPhotoFromNetwork() {
+        getNetwork(URL_FILES, URL_FILES);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_empty, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Click
@@ -278,6 +302,9 @@ public class ImagePagerFragment extends BaseFragment {
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URL_FILES)) {
             if (code == 0) {
+                setHasOptionsMenu(false);
+                getActivity().invalidateOptionsMenu();
+
                 JSONObject file = response.getJSONObject("data").getJSONObject("file");
                 AttachmentFileObject mFileObject = new AttachmentFileObject(file);
                 if (picCache != null) {
@@ -287,7 +314,19 @@ public class ImagePagerFragment extends BaseFragment {
                 uri = mFileObject.preview;
                 showPhoto();
             } else {
+                setHasOptionsMenu(true);
+                getActivity().invalidateOptionsMenu();
                 showErrorMsg(code, response);
+                if (code == HTTP_CODE_FILE_NOT_EXIST) {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
+                } else {
+                    BlankViewDisplay.setBlank(0, this, false, blankLayout, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getPhotoFromNetwork();
+                        }
+                    });
+                }
             }
         }
     }

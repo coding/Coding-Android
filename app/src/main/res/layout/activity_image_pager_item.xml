@@ -4,7 +4,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000000">
+    android:background="@color/stand_bg">
 
     <ImageView
         android:id="@+id/imageLoadFail"
@@ -26,5 +26,11 @@
         custom:donut_progress="30"
         custom:donut_text_color="@color/transparent"
         custom:donut_unfinished_stroke_width="3dp" />
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

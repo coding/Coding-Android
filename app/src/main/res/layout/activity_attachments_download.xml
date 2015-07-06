@@ -111,8 +111,8 @@
             android:gravity="center"
             android:padding="12dp"
             android:text="下载原文件"
-            android:textSize="18dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/btnOpen"
@@ -126,8 +126,8 @@
             android:gravity="center"
             android:padding="12dp"
             android:text="用其他应用打开"
-            android:textSize="18dp"
-            android:textColor="@color/green" />
+            android:textColor="@color/green"
+            android:textSize="18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -160,5 +160,11 @@
             android:textColor="@color/attachment_btn_color" />
     </LinearLayout>
 
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

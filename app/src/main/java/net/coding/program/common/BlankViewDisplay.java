@@ -3,12 +3,14 @@ package net.coding.program.common;
 import android.view.View;
 import android.widget.TextView;
 
+import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.AttachmentsActivity;
+import net.coding.program.project.detail.AttachmentsDetailBaseActivity;
 import net.coding.program.project.detail.ProjectDynamicFragment;
 import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
@@ -95,6 +97,10 @@ public class BlankViewDisplay {
                 } else if (fragment instanceof MergeListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "这里还什么都没有\n赶快起来弄出一点动静吧";
+                } else if (fragment instanceof ImagePagerFragment &&
+                        fragment instanceof AttachmentsDetailBaseActivity) {
+                    iconId = R.drawable.ic_exception_no_network;
+                    text = "晚了一步\n文件已经被人删除了";
                 }
 
             } else {

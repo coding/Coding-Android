@@ -28,7 +28,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.BaseActivity;
+import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.DownloadManagerPro;
@@ -50,89 +52,136 @@ import java.io.File;
 @EActivity(R.layout.activity_attachments_download)
 public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
+    private static final int STATE_NEEDDOWNLOAD = 0;
+    private static final int STATE_STARTDOWNLOAD = 1;
+    private static final int STATE_FINISHDOWNLOAD = 2;
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
-
     @Extra
     int mProjectObjectId;
-
     @Extra
     AttachmentFileObject mAttachmentFileObject;
-
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-
     @ViewById
     ImageView icon;
-
     @ViewById
     TextView iconTxt;
-
     @ViewById
     TextView name;
-
     @ViewById
     TextView content;
-
     @ViewById
     ProgressBar progressBar;
-
     @ViewById
     TextView btnDownload;
-
     @ViewById
     TextView btnOpen;
-
     @ViewById
     TextView btnLeft;
-
     @ViewById
     TextView btnRight;
-
     @ViewById
     LinearLayout mainLayout;
-
     @ViewById
     RelativeLayout rlDownload;
-
     @ViewById
     TextView tvDownload;
-
+    @ViewById
+    View blankLayout;
     String downloadFormat = "下载中...(%s/%s)";
-
     @ViewById
     ImageView ivDownloadCancel;
-
-
     String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
     String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
     String urlDownload = Global.HOST + "/api/project/%d/files/%s/download";
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
-
     AttachmentFileObject mFileObject = new AttachmentFileObject();
-
     AsyncHttpClient client;
-
+    File mFile;
+    SharedPreferences.Editor downloadListEditor;
+    boolean fileUrlSuccess = false;
+    String fileInfoFormat =
+            "文件类型: %s\n" +
+                    "文件大小: %s\n" +
+                    "创建时间: %s\n" +
+                    "最近更新: %s\n" +
+                    "创建人: %s";
+    View.OnClickListener onOpenListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //File mFile = getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
+            if (mFile.exists() && mFile.isFile())
+                openFile(mFile);
+            else {
+                showButtomToast("无法打开，请重新下载");
+                showState(STATE_NEEDDOWNLOAD);
+            }
+        }
+    };
+    boolean isCanceled = false;
+    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
     private DownloadManager downloadManager;
     private DownloadManagerPro downloadManagerPro;
     private long downloadId = 0L;
     private DownloadChangeObserver downloadObserver;
     private CompleteReceiver completeReceiver;
-
     private MyHandler handler;
+    View.OnClickListener onCancelListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            isCanceled = true;
+            downloadManager.remove(downloadId);
+            updateView();
 
-    File mFile;
-
+        }
+    };
     private SharedPreferences share;
     private SharedPreferences downloadList;
-    SharedPreferences.Editor downloadListEditor;
     private String defaultPath;
+    View.OnClickListener onDownloadListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
+                String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDownloadDetailActivity.this);
+                builder.setTitle("提示")
+                        .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        download(urlDownload);
+                    }
+                });
+                //builder.create().show();
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialogTitleLineColor(dialog);
+
+                SharedPreferences.Editor editor = share.edit();
+                editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
+                editor.commit();
+            } else {
+                download(urlDownload);
+            }
+        }
+    };
+
+    public static boolean isDownloading(int downloadManagerStatus) {
+        return downloadManagerStatus == DownloadManager.STATUS_RUNNING
+                || downloadManagerStatus == DownloadManager.STATUS_PAUSED
+                || downloadManagerStatus == DownloadManager.STATUS_PENDING;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.project_attachment_download, menu);
-        if (!mAttachmentFileObject.isOwner()) {
-            menu.findItem(R.id.action_delete).setVisible(false);
+        if (fileUrlSuccess) {
+            getMenuInflater().inflate(R.menu.project_attachment_download, menu);
+            if (!mAttachmentFileObject.isOwner()) {
+                menu.findItem(R.id.action_delete).setVisible(false);
+            }
+        } else {
+            getMenuInflater().inflate(R.menu.menu_empty, menu);
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -140,13 +189,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     void close() {
         onBackPressed();
     }
-
-    String fileInfoFormat =
-            "文件类型: %s\n" +
-                    "文件大小: %s\n" +
-                    "创建时间: %s\n" +
-                    "最近更新: %s\n" +
-                    "创建人: %s";
 
     @OptionsItem
     void action_info() {
@@ -210,7 +252,8 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
         urlDownload = String.format(urlDownload, mProjectObjectId, mAttachmentFileObject.file_id);
         showDialogLoading();
-        getNetwork(urlFiles, urlFiles);
+
+        getFileUrlFromNetwork();
 
         btnDownload.setOnClickListener(onDownloadListener);
         btnOpen.setOnClickListener(onOpenListener);
@@ -218,10 +261,17 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
     }
 
+    private void getFileUrlFromNetwork() {
+        getNetwork(urlFiles, urlFiles);
+    }
+
     @Override
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlFiles)) {
             if (code == 0) {
+                fileUrlSuccess = true;
+                invalidateOptionsMenu();
+
                 hideProgressDialog();
                 JSONObject file = response.getJSONObject("data").getJSONObject("file");
                 mFileObject = new AttachmentFileObject(file);
@@ -258,6 +308,16 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
             } else {
                 hideProgressDialog();
                 showErrorMsg(code, response);
+                if (code == ImagePagerFragment.HTTP_CODE_FILE_NOT_EXIST) {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
+                } else {
+                    BlankViewDisplay.setBlank(0, this, false, blankLayout, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getFileUrlFromNetwork();
+                        }
+                    });
+                }
             }
         } else if (tag.equals(HOST_FILE_DELETE)) {
             if (code == 0) {
@@ -283,10 +343,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         return path;
     }
 
-    private static final int STATE_NEEDDOWNLOAD = 0;
-    private static final int STATE_STARTDOWNLOAD = 1;
-    private static final int STATE_FINISHDOWNLOAD = 2;
-
     public void showState(int state) {
         switch (state) {
             case STATE_NEEDDOWNLOAD:
@@ -306,59 +362,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
                 break;
         }
     }
-
-    View.OnClickListener onDownloadListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
-                String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDownloadDetailActivity.this);
-                builder.setTitle("提示")
-                        .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        download(urlDownload);
-                    }
-                });
-                //builder.create().show();
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                dialogTitleLineColor(dialog);
-
-                SharedPreferences.Editor editor = share.edit();
-                editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
-                editor.commit();
-            } else {
-                download(urlDownload);
-            }
-        }
-    };
-
-    View.OnClickListener onOpenListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //File mFile = getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
-            if (mFile.exists() && mFile.isFile())
-                openFile(mFile);
-            else {
-                showButtomToast("无法打开，请重新下载");
-                showState(STATE_NEEDDOWNLOAD);
-            }
-        }
-    };
-
-    boolean isCanceled = false;
-
-    View.OnClickListener onCancelListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            isCanceled = true;
-            downloadManager.remove(downloadId);
-            updateView();
-
-        }
-    };
 
     private void download(String url) {
         try {
@@ -514,12 +517,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         }
     }
 
-    public static boolean isDownloading(int downloadManagerStatus) {
-        return downloadManagerStatus == DownloadManager.STATUS_RUNNING
-                || downloadManagerStatus == DownloadManager.STATUS_PAUSED
-                || downloadManagerStatus == DownloadManager.STATUS_PENDING;
-    }
-
     class CompleteReceiver extends BroadcastReceiver {
 
         @Override
@@ -534,5 +531,4 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         }
     }
 
-    ;
 }
