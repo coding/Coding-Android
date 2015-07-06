@@ -67,9 +67,6 @@ private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST + "/api%s/file
             }
             hostUploadPhoto = String.format(template, path);
         }
-
-        hostUploadPhoto = "https://coding.net/api/project/99160/upload_public_image";
-        hostUploadPhoto = "https://coding.net/api/user/8206503/project/deleteMR/upload_public_image";
     }
 
     @Click

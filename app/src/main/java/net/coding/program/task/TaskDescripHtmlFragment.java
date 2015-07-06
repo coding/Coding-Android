@@ -15,6 +15,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.TopicEditFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -27,37 +29,18 @@ import org.json.JSONObject;
 @EFragment(R.layout.fragment_task_descrip_html)
 public class TaskDescripHtmlFragment extends BaseFragment {
 
+    private static final String TAG_HTTP_MD_PREVIEW = "TAG_HTTP_MD_PREVIEW";
     @ViewById
     WebView descWeb;
-
     @ViewById
     View loading;
-
     @FragmentArg
     String contentMd = "";
-
     @FragmentArg
     String contentHtml = "";
-
     @FragmentArg
     boolean preview = false;
-
     ActionMode mActionMode;
-
-    @AfterViews
-    void init() {
-        setHasOptionsMenu(true);
-
-        Global.syncCookie(getActivity());
-
-        if (contentHtml.isEmpty()) {
-            mdToHtml();
-            mActionMode = getActivity().startActionMode(mActionModeCallback);
-        } else {
-            displayWebView();
-        }
-    }
-
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         int id = 0;
@@ -110,6 +93,20 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         }
     };
 
+    @AfterViews
+    void init() {
+        setHasOptionsMenu(true);
+
+        Global.syncCookie(getActivity());
+
+        if (contentHtml.isEmpty()) {
+            mdToHtml();
+            mActionMode = getActivity().startActionMode(mActionModeCallback);
+        } else {
+            displayWebView();
+        }
+    }
+
     private void displayWebView() {
         String locateHtml = ((TaskDescrip) getActivity()).createLocateHtml(contentHtml);
 
@@ -122,7 +119,6 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         descWeb.loadDataWithBaseURL(Global.HOST, locateHtml, "text/html", "UTF-8", null);
     }
 
-    public static final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -134,7 +130,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_PREVIEW)) {
+        if (tag.equals(TAG_HTTP_MD_PREVIEW)) {
             if (code == 0) {
                 contentHtml = respanse.optString("data", "");
                 displayWebView();
@@ -151,7 +147,9 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
-        postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
+        String projectPath = ((TopicEditFragment.SaveData) getActivity()).getProjectPath();
+        String uri = ProjectObject.getMdPreview(projectPath);
+        postNetwork(uri, params, TAG_HTTP_MD_PREVIEW);
     }
 
     @OptionsItem

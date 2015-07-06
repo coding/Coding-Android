@@ -221,7 +221,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
 
     @Override
     public String getProjectPath() {
-        return projectObject.getPath();
+        return projectObject.getProjectPath();
     }
 
     @Override

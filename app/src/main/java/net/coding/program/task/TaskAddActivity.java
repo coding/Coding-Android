@@ -254,13 +254,14 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     };
+
     private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             TaskDescriptionActivity_
                     .intent(TaskAddActivity.this)
                     .taskId(0)
-                    .projectId(mSingleTask.project.getId())
+                    .projectPath(mSingleTask.project.getProjectPath())
                     .descriptionData(descriptionDataNew)
                     .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
         }
@@ -781,7 +782,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                                 .intent(TaskAddActivity.this)
                                 .descriptionData(descriptionDataNew)
                                 .taskId(mSingleTask.getId())
-                                .projectId(mSingleTask.project.getId())
+                                .projectPath(mSingleTask.project.getProjectPath())
                                 .startForResult(RESULT_REQUEST_DESCRIPTION);
                     }
                 });

@@ -91,6 +91,11 @@ public class ProjectObject implements Serializable {
         return isPull ? "Pull Request" : "Merge Request";
     }
 
+    public static String getMdPreview(String projectPath) {
+        final String HOST_PREVIEW = Global.HOST_API + "%s/project_preview_anchor";
+        return String.format(HOST_PREVIEW, projectPath);
+    }
+
     public void setReadActivities() {
         un_read_activities_count = 0;
     }
@@ -144,7 +149,7 @@ public class ProjectObject implements Serializable {
     }
 
     public String getProjectPath() {
-        return backend_project_path;
+        return translatePath(backend_project_path);
     }
 
     public boolean isMy() {

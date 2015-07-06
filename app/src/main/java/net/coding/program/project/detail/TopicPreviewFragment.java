@@ -8,9 +8,9 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.project.detail.TopicEditFragment.SaveData;
-import net.coding.program.task.TaskDescripHtmlFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -26,13 +26,13 @@ import java.util.List;
 @OptionsMenu(R.menu.topic_detail_edit_preview)
 public class TopicPreviewFragment extends BaseFragment {
 
+    private static final String TAG_HTTP_MD_PREVIEW = "TAG_HTTP_MD_PREVIEW";
     @ViewById
     protected TextView title;
     @ViewById
     protected TopicLabelBar labelBar;
     @ViewById
     protected WebView content;
-
     private SaveData saveData;
 
     @AfterViews
@@ -68,7 +68,7 @@ public class TopicPreviewFragment extends BaseFragment {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(TaskDescripHtmlFragment.HOST_PREVIEW)) {
+        if (tag.equals(TAG_HTTP_MD_PREVIEW)) {
             if (code == 0) {
                 String html = respanse.optString("data", "");
                 Global.setWebViewContent(content, "topic-android", html);
@@ -82,6 +82,7 @@ public class TopicPreviewFragment extends BaseFragment {
     private void mdToHtml(String contentMd) {
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
-        postNetwork(TaskDescripHtmlFragment.HOST_PREVIEW, params, TaskDescripHtmlFragment.HOST_PREVIEW);
+        String uri = ProjectObject.getMdPreview(saveData.getProjectPath());
+        postNetwork(uri, params, TAG_HTTP_MD_PREVIEW);
     }
 }
