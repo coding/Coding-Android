@@ -24,4 +24,25 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="185dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/auth_tip_image1" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="启用两步验证后，登录 Coding  账户\n或进行敏感操作时都将需要输入密码\n和本客户端生成的验证码。"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>

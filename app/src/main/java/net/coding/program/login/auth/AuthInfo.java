@@ -18,6 +18,7 @@ public class AuthInfo implements Serializable {
 
     public static final String LOCAL_TAG = "AuthInfo";
     public static final String PARAM_SECRET = "secret";
+    private static final String PARAM_ISSUER = "issuer";
     private static final TotpCounter mTotpCounter = new TotpCounter(PasscodeGenerator.INTERVAL);
     private final String scheme;
     private final String path;
@@ -35,9 +36,19 @@ public class AuthInfo implements Serializable {
         scheme = uri.getScheme();
         path = uri.getPath();
         authority = uri.getAuthority();
-        issuer = uri.getQueryParameter("issuer");
+        issuer = uri.getQueryParameter(PARAM_ISSUER);
         this.secret = uri.getQueryParameter(PARAM_SECRET);
         this.clock = clock;
+    }
+
+    public static boolean isAuthUrl(String uriString) {
+        Uri uri = Uri.parse(uriString);
+        return uri.getScheme() != null &&
+                uri.getPath() != null &&
+                uri.getAuthority() != null &&
+                uri.getQueryParameter(PARAM_ISSUER) != null &&
+                uri.getQueryParameter(PARAM_SECRET) != null &&
+                "totp".equals(uri.getAuthority());
     }
 
     public static TotpCounter getTotpCountet() {

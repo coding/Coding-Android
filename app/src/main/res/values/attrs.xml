@@ -44,4 +44,7 @@
         <attr name="indicator_color" format="reference|color" />
     </declare-styleable>
 
+    <declare-styleable name="ScanMaskView">
+        <attr name="scan_width" format="dimension" />
+    </declare-styleable>
 </resources>

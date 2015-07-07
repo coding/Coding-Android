@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
@@ -16,9 +16,8 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
 
     // 说明是由tip界面跳转过来的
     public static final String EXTRA_TIP = "EXTRA_TIP";
-
+    Toast mToast;
     private QRCodeReaderView qrCodeView;
-    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,6 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
         qrCodeView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
         qrCodeView.setOnQRCodeReadListener(this);
 
-        textView = (TextView) findViewById(R.id.textView);
     }
 
     @Override
@@ -58,9 +56,14 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
 
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
-        textView.setText(s);
-        Log.d("", "url " + s);
-
+        Log.d("", "scan " + s);
+        if (!AuthInfo.isAuthUrl(s)) {
+            if (mToast == null) {
+                mToast = Toast.makeText(this, "不符合要求的二维码", Toast.LENGTH_SHORT);
+            }
+            mToast.show();
+            return;
+        }
 
         if (getIntent().getBooleanExtra(EXTRA_TIP, false)) {
             Intent intent = new Intent(this, AuthListActivity.class);
@@ -76,12 +79,10 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
 
     @Override
     public void cameraNotFound() {
-        textView.setText("cameraNotFound");
     }
 
     @Override
     public void QRCodeNotFoundOnCamImage() {
-        textView.setText("QRCodeNotFoundOnCamImage");
     }
 
 }
