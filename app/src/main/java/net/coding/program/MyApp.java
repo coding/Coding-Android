@@ -3,7 +3,6 @@ package net.coding.program;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -123,17 +122,9 @@ public class MyApp extends Application {
     }
 
     private void loadBaiduMap() {
-        final boolean isLolliop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-        if (isLolliop) {
-            // 5.0 的小米不能开百度，会抛出链接异常
-            String ss = getSystemProperty("ro.miui.ui.version.name");
-            if (ss != null && !ss.isEmpty()) {
-                return;
-            }
-        }
-
-        if (!PhoneType.isX86()) {
+        if (!PhoneType.isX86or64()) {
             // x86的机器上会抛异常，因为百度没有提供x86的.so文件
+            // 64 位的机器也不行
             // 只在主进程初始化lbs
             if (this.getPackageName().equals(getProcessName(this))) {
                 SDKInitializer.initialize(this);
