@@ -11,4 +11,10 @@
         android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>

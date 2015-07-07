@@ -1,10 +1,14 @@
 package net.coding.program.project.detail;
 
+import android.view.Menu;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 
@@ -32,6 +36,9 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     @ViewById
     WebView webview;
 
+    @ViewById
+    View blankLayout;
+
     String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
     String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
     String urlMdPreview = Global.HOST + "/api/markdown/preview";
@@ -39,6 +46,8 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     AttachmentFileObject mFiles = new AttachmentFileObject();
 
     String markdown;
+
+    boolean downloadFileSuccess = false;
 
     @AfterViews
     void init1() {
@@ -55,7 +64,20 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         Global.initWebView(webview);
 
         showDialogLoading();
+        getFileUrlFromNetwork();
+    }
+
+    private void getFileUrlFromNetwork() {
         getNetwork(urlFiles, urlFiles);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (downloadFileSuccess) {
+            return super.onCreateOptionsMenu(menu);
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -75,8 +97,20 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
                     params.put("content", content);
                     postNetwork(urlMdPreview, params, urlMdPreview);
                 }
+                invalidateOptionsMenu();
 
             } else {
+                if (code == ImagePagerFragment.HTTP_CODE_FILE_NOT_EXIST) {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
+                } else {
+                    BlankViewDisplay.setBlank(0, this, false, blankLayout, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getFileUrlFromNetwork();
+                        }
+                    });
+                }
+
                 hideProgressDialog();
                 showErrorMsg(code, respanse);
             }
@@ -108,7 +142,9 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
             inputStream.close();
 
         } catch (IOException e) {
+            Global.errorLog(e);
         }
+
         return outputStream.toString();
     }
 

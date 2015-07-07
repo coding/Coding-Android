@@ -15,4 +15,11 @@
         android:layout_height="fill_parent"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </FrameLayout>
