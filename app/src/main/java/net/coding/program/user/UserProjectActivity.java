@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.model.UserObject;
@@ -15,13 +15,12 @@ import net.coding.program.third.WechatTab;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_user_project)
 @OptionsMenu(R.menu.menu_user_project)
-public class UserProjectActivity extends BaseActivity {
+public class UserProjectActivity extends BackActivity {
 
     @Extra
     UserObject mUserObject;
@@ -37,8 +36,6 @@ public class UserProjectActivity extends BaseActivity {
     @AfterViews
     protected final void init() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         if (mUserObject.isMe()) {
             fragmentTitles = getResources().getStringArray(R.array.user_me_program_title);
             actionBar.setTitle("我的项目");
@@ -53,11 +50,6 @@ public class UserProjectActivity extends BaseActivity {
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
         tabs.setViewPager(pager);
-    }
-
-    @OptionsItem(android.R.id.home)
-    protected final void back() {
-        finish();
     }
 
     class MyPagerAdapter extends SaveFragmentPagerAdapter {
@@ -78,10 +70,15 @@ public class UserProjectActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
+            final UserProjectListFragment.Type types[] = new UserProjectListFragment.Type[]{
+                    UserProjectListFragment.Type.joined,
+                    UserProjectListFragment.Type.stared
+            };
+
 
             Fragment fragment = UserProjectListFragment_.builder()
                     .mUserObject(mUserObject)
-                    .mType(position)
+                    .mType(types[position])
                     .build();
 
             saveFragment(fragment);

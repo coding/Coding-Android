@@ -14,6 +14,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SaveFragmentPagerAdapter;
@@ -22,6 +23,7 @@ import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
+import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -42,7 +44,7 @@ import java.util.List;
 public class ProjectFragment extends BaseFragment implements ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
-    final String host = Global.HOST + "/api/projects?pageSize=100&type=all&sort=hot";
+    final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
     @StringArrayRes
     String[] program_title;
     @ViewById
@@ -51,7 +53,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     ViewPager pager;
     boolean requestOk = true;
     boolean needRefresh = true;
-    private ArrayList<ProjectObject> mData = new ArrayList();
+    private ArrayList<ProjectObject> mData = new ArrayList<>();
     private MyPagerAdapter adapter;
     private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
         @Override
@@ -117,7 +119,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
 
     @OptionsItem
     final void action_create_task() {
-        showMiddleToast("^ - ^");
+        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
     }
 
     @OptionsItem
@@ -177,7 +179,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         try {
             getActivity().registerReceiver(refreshReceiver, intentFilter);
         } catch (Exception e) {
-
+            Global.errorLog(e);
         }
     }
 
@@ -202,7 +204,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         try {
             getActivity().unregisterReceiver(refreshReceiver);
         } catch (Exception e) {
-
+            Global.errorLog(e);
         }
 
         super.onDestroy();
@@ -252,7 +254,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         }
 
         private ArrayList<ProjectObject> getChildData(int position) {
-            ArrayList<ProjectObject> childData = new ArrayList<ProjectObject>();
+            ArrayList<ProjectObject> childData = new ArrayList<>();
 
             switch (position) {
                 case 1:

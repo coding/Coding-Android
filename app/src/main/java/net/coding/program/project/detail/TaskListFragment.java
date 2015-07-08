@@ -28,8 +28,8 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.task.TaskAddActivity_;
 import net.coding.program.task.TaskListUpdate;
+import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -69,7 +69,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     @ViewById
     FloatingActionButton fab;
     boolean mNeedUpdate = true;
-    ArrayList<TaskObject.SingleTask> mData = new ArrayList<TaskObject.SingleTask>();
+    ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
     int mSectionId;
     @StringArrayRes
     String[] task_titles;
@@ -87,7 +87,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     TestBaseAdapter mAdapter;
     String mToday = "";
     String mTomorrow = "";
-    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<View, Integer>();
+    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
     private net.coding.program.task.TaskListParentUpdate mParent;
 
     public void setParent(net.coding.program.task.TaskListParentUpdate parent) {
@@ -268,7 +268,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 //            });
 //        }
 
-        urlAll = String.format(createHost(mMembers.user.global_key, "/all"));
+        urlAll = createHost(mMembers.user.global_key, "/all");
 
         loadData();
     }
@@ -352,7 +352,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 JSONArray array = respanse.getJSONArray("data");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    if (item.getString("user").equals(mMembers.id)) {
+                    if (Integer.valueOf(item.getString("user")) == mMembers.id) {
                         mTaskCount[0] = item.getInt("processing");
                         mTaskCount[1] = item.getInt("done");
                         break;

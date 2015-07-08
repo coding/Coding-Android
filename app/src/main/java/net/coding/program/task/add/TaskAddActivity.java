@@ -1,4 +1,4 @@
-package net.coding.program.task;
+package net.coding.program.task.add;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,6 +26,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.BaseActivity;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
@@ -33,7 +34,6 @@ import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
@@ -41,17 +41,19 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.DynamicObject;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
+import net.coding.program.task.TaskDescriptionActivity_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -63,19 +65,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @EActivity(R.layout.activity_task_add)
-public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet {
+public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
 
     public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
+
     public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_DESCRIPTION = 4;
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
+    public static final int RESULT_REQUEST_PICK_PROJECT = 6;
+
     final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
     final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
@@ -115,6 +119,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     TextView description;
     ViewGroup descriptionLayout;
     TextView descriptionButton;
+
+    TextView projectName;
+    ImageView projectIcon;
+
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
     @StringArrayRes
@@ -131,8 +139,13 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             requestTaskFromNetwork();
         }
     };
-    StatusBaseAdapter mStatusAdapter;
+
+    @Bean
     PriorityAdapter mPriorityAdapter;
+
+    @Bean
+    StatusAdapter mStatusAdapter;
+
     ArrayList<DynamicObject.DynamicTask> mData = new ArrayList<>();
     HashMap<String, String> mSendedImages = new HashMap<>();
     String tagUrlCommentPhoto = "";
@@ -168,7 +181,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     };
-
     BaseAdapter commentAdpter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -254,10 +266,14 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
             }
         }
     };
-
     private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (mSingleTask.project.isEmpty()) {
+                showMiddleToast(R.string.pick_project_first);
+                return;
+            }
+
             TaskDescriptionActivity_
                     .intent(TaskAddActivity.this)
                     .taskId(0)
@@ -267,15 +283,23 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     };
 
+    @Override
+    public TaskParams getNewParam() {
+        return mNewParam;
+    }
+
     @AfterViews
-    void init() {
+    void initTaskAddActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initControl();
 
-        if (mJumpParams == null) {
+        if (mSingleTask != null) {
             initData();
-        } else { // 跳转过来的，要先取得任务数据
+        } else if (mJumpParams != null) { // 跳转过来的，要先取得任务数据
             requestTaskFromNetwork();
+        } else {
+            mSingleTask = new TaskObject.SingleTask();
+            initData();
         }
     }
 
@@ -310,7 +334,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
     private void updateSendButton() {
         if (title.getText().toString().isEmpty()
-                || isContentUnmodify()) {
+                || isContentUnmodify() || mSingleTask.project.isEmpty()) {
             enableSendButton(false);
         } else {
             enableSendButton(true);
@@ -361,8 +385,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
         setHeadData();
         listView.setAdapter(commentAdpter);
-        mStatusAdapter = new StatusBaseAdapter();
-        mPriorityAdapter = new PriorityAdapter();
 
         selectMember();
 
@@ -496,9 +518,33 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         });
         title.setText("");
 
+        View projectLayout = mHeadView.findViewById(R.id.linearlayout0);
+        View projectLine = mHeadView.findViewById(R.id.linePickProject);
+        if (mSingleTask.isEmpty() && mSingleTask.project.isEmpty()) {
+            projectLayout.setVisibility(View.VISIBLE);
+            projectLine.setVisibility(View.VISIBLE);
+
+            projectLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PickProjectActivity_.intent(TaskAddActivity.this)
+                            .startForResult(RESULT_REQUEST_PICK_PROJECT);
+                }
+            });
+            projectName = (TextView) projectLayout.findViewById(R.id.projectName);
+            projectIcon = (ImageView) projectLayout.findViewById(R.id.projectIcon);
+        } else {
+            projectLayout.setVisibility(View.GONE);
+            projectLine.setVisibility(View.GONE);
+        }
+
         mHeadView.findViewById(R.id.linearlayout1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mSingleTask.project.isEmpty()) {
+                    showMiddleToast(R.string.pick_project_first);
+                    return;
+                }
                 MembersActivity_
                         .intent(TaskAddActivity.this)
                         .mProjectObjectId(mSingleTask.project_id)
@@ -828,6 +874,21 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         }
     }
 
+    @OnActivityResult(RESULT_REQUEST_PICK_PROJECT)
+    final void pickProject(int result, Intent data) {
+        if (result == RESULT_OK) {
+            ProjectObject project = (ProjectObject) data.getSerializableExtra("data");
+            mSingleTask.project = project;
+            mSingleTask.project_id = project.getId();
+
+            iconfromNetwork(projectIcon, mSingleTask.project.icon);
+            projectName.setText(mSingleTask.project.name);
+
+            TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
+            setPickUser(member);
+        }
+    }
+
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
     final void commentImage(int result, Intent data) {
         if (result == RESULT_OK) {
@@ -877,10 +938,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         if (requestCode == RESULT_REQUEST_SELECT_USER) {
             if (resultCode == Activity.RESULT_OK) {
                 TaskObject.Members member = (TaskObject.Members) data.getSerializableExtra("members");
-                mNewParam.ownerId = member.user.id;
-                mNewParam.owner = member.user;
-                selectMember();
-                updateSendButton();
+                setPickUser(member);
             }
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
@@ -891,6 +949,13 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void setPickUser(TaskObject.Members member) {
+        mNewParam.ownerId = member.user.id;
+        mNewParam.owner = member.user;
+        selectMember();
+        updateSendButton();
     }
 
     @OptionsItem(android.R.id.home)
@@ -984,247 +1049,5 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         sendComment(send);
     }
 
-    private static class TaskListHolder {
-        View timeLineUp;
-        View timeLineDown;
-        ImageView mIcon;
-        TextView mContent;
 
-        public void updateLine(int position, int count) {
-            switch (count) {
-                case 1:
-                    setLine(false, false);
-                    break;
-
-                default:
-                    if (position == 0) {
-                        setLine(false, true);
-                    } else if (position == count - 1) {
-                        setLine(true, false);
-                    } else {
-                        setLine(true, true);
-                    }
-                    break;
-            }
-        }
-
-        private void setLine(boolean up, boolean down) {
-            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
-            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
-        }
-    }
-
-    private static class CommentHolder extends ImageCommentHolder {
-        View timeLineUp;
-        View timeLineDown;
-
-        public CommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
-            super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
-
-            timeLineUp = convertView.findViewById(R.id.timeLineUp);
-            timeLineDown = convertView.findViewById(R.id.timeLineDown);
-        }
-
-        public void updateLine(int position, int count) {
-            switch (count) {
-                case 1:
-                    setLine(false, false);
-                    break;
-
-                default:
-                    if (position == 0) {
-                        setLine(false, true);
-                    } else if (position == count - 1) {
-                        setLine(true, false);
-                    } else {
-                        setLine(true, true);
-                    }
-                    break;
-            }
-        }
-
-        private void setLine(boolean up, boolean down) {
-            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
-            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
-        }
-    }
-
-    static class ViewHolder {
-        View mIcon;
-        ImageView mCheck;
-        TextView mTitle;
-    }
-
-    public static class TaskJumpParams implements Serializable {
-        public String userKey;
-        public String projectName;
-        public String taskId;
-
-        public TaskJumpParams(String user, String project, String task) {
-            userKey = user;
-            projectName = project;
-            taskId = task;
-        }
-    }
-
-    private static class TaskParams {
-        String content = "";
-        int status;
-        int ownerId;
-        int priority;
-        String deadline = "";
-
-        UserObject owner;
-
-        public TaskParams(TaskObject.SingleTask singleTask) {
-            content = singleTask.content;
-            status = singleTask.status;
-            ownerId = singleTask.owner_id;
-            priority = singleTask.priority;
-            owner = singleTask.owner;
-            deadline = singleTask.deadline;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof TaskParams)) return false;
-
-            TaskParams that = (TaskParams) o;
-
-            if (ownerId != that.ownerId) return false;
-            if (priority != that.priority) return false;
-            if (status != that.status) return false;
-            if (!content.equals(that.content)) return false;
-            if (!deadline.equals(that.deadline)) return false;
-            return owner.equals(that.owner);
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = content.hashCode();
-            result = 31 * result + status;
-            result = 31 * result + ownerId;
-            result = 31 * result + priority;
-            result = 31 * result + deadline.hashCode();
-            result = 31 * result + owner.hashCode();
-            return result;
-        }
-    }
-
-    public class StatusBaseAdapter extends BaseAdapter {
-
-        String[] mData;
-
-        public StatusBaseAdapter() {
-            mData = getResources().getStringArray(R.array.task_status);
-        }
-
-        @Override
-        public int getCount() {
-            return mData.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.activity_task_status_list_item, parent, false);
-                holder.mTitle = (TextView) convertView.findViewById(R.id.title);
-                holder.mCheck = (ImageView) convertView.findViewById(R.id.check);
-                holder.mIcon = convertView.findViewById(R.id.icon);
-                holder.mIcon.setVisibility(View.GONE);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.mTitle.setText(mData[position]);
-            if (position == getSelectPos())
-                holder.mCheck.setVisibility(View.VISIBLE);
-            else
-                holder.mCheck.setVisibility(View.GONE);
-            return convertView;
-        }
-
-        private int getSelectPos() {
-            if (mNewParam.status == 1) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-    }
-
-    class PriorityAdapter extends BaseAdapter {
-
-        final int priorityDrawableInverse[] = new int[]{
-                R.drawable.ic_task_priority_3,
-                R.drawable.ic_task_priority_2,
-                R.drawable.ic_task_priority_1,
-                R.drawable.ic_task_priority_0
-        };
-
-        String[] mData;
-
-        public PriorityAdapter() {
-            mData = getResources().getStringArray(R.array.strings_priority_inverse);
-        }
-
-        @Override
-        public int getCount() {
-            return mData.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.activity_task_status_list_item, parent, false);
-                holder.mTitle = (TextView) convertView.findViewById(R.id.title);
-                holder.mCheck = (ImageView) convertView.findViewById(R.id.check);
-                holder.mIcon = convertView.findViewById(R.id.icon);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            holder.mTitle.setText(mData[position]);
-            holder.mIcon.setBackgroundResource(priorityDrawableInverse[position]);
-            if (position == getSelectPos())
-                holder.mCheck.setVisibility(View.VISIBLE);
-            else
-                holder.mCheck.setVisibility(View.GONE);
-            return convertView;
-        }
-
-        private int getSelectPos() {
-            return priorityDrawableInverse.length - 1 - mNewParam.priority;
-        }
-    }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="61"
-    android:versionName="3.0.1">
+    android:versionCode="62"
+    android:versionName="3.0.2">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -170,7 +170,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".task.TaskAddActivity_"
+            android:name=".task.add.TaskAddActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_task_add"
             android:screenOrientation="portrait"
@@ -638,13 +638,7 @@
         <activity
             android:name=".login.auth.AuthListActivity"
             android:label="@string/auth_list_activity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.auth.QRScanActivity"
             android:label="@string/qr_scan_activity"
@@ -652,6 +646,10 @@
         <activity
             android:name=".login.auth.Login2FATipActivity"
             android:label="@string/title_activity_login2_fatip"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".task.add.PickProjectActivity_"
+            android:label="@string/title_activity_pick_project"
             android:screenOrientation="portrait" />
     </application>
 

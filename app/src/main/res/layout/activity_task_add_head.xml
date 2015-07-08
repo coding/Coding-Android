@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/divide_15_e5"
     android:orientation="vertical"
-    tools:context="net.coding.program.task.TaskAddActivity">
+    tools:context="net.coding.program.task.add.TaskAddActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,19 +64,58 @@
 
     </RelativeLayout>
 
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="20dp"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_below="@+id/time"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:background="@color/task_list_head" />-->
-
-
     <include
         android:id="@+id/line1"
         layout="@layout/divide_15_top_bottom" />
+
+    <LinearLayout
+        android:id="@+id/linearlayout0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/line1"
+        android:background="@color/stand_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/projectIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_default_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="项目名"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/projectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/no_pick"
+            android:textColor="@color/font_gray"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_list_right_arr" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/linePickProject"
+        layout="@layout/divide_1" />
 
     <LinearLayout
         android:id="@+id/linearlayout1"
@@ -123,14 +162,8 @@
             android:src="@drawable/ic_list_right_arr" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/grayline1"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearlayout1"
-        android:background="@color/attachment_btn_layout" />
+    <include layout="@layout/divide_1" />
+
 
     <LinearLayout
         android:id="@+id/layout3"
@@ -176,13 +209,7 @@
             android:src="@drawable/ic_list_right_arr" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearlayout2"
-        android:background="@color/attachment_btn_layout" />
+    <include layout="@layout/divide_1" />
 
     <LinearLayout
         android:id="@+id/linearlayout3"
@@ -229,13 +256,7 @@
             android:src="@drawable/ic_list_right_arr" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearlayout2"
-        android:background="@color/attachment_btn_layout" />
+    <include layout="@layout/divide_1" />
 
     <LinearLayout
         android:id="@+id/linearlayout2"

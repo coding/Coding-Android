@@ -21,9 +21,9 @@ import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.task.TaskAddActivity;
 import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
+import net.coding.program.task.add.TaskAddActivity;
 import net.coding.program.third.MyPagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
@@ -42,21 +42,28 @@ import java.util.List;
 @EFragment(R.layout.fragment_project_task)
 public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
+    final String HOST_MEMBERS = Global.HOST + "/api/project/%d/members?pageSize=1000";
     @FragmentArg
     ProjectObject mProjectObject;
-
     @ViewById
     MyPagerSlidingTabStrip tabs;
-
     @ViewById(R.id.pagerProjectTask)
     ViewPager pager;
-
     @ViewById
     View blankLayout;
-
     @ViewById
     FloatingActionButton floatButton;
-
+    ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<>();
+    ArrayList<TaskObject.Members> mMembersAll = new ArrayList<>();
+    ArrayList<TaskObject.Members> mMembersAllAll = new ArrayList<>();
+    String HOST_TASK_MEMBER = Global.HOST + "/api/project/%d/task/user/count";
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            refresh();
+        }
+    };
+    MemberTaskCount mMemberTask = new MemberTaskCount();
     private MyPagerAdapter adapter;
 
     @AfterViews
@@ -78,20 +85,12 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         getNetwork(HOST_TASK_MEMBER, HOST_TASK_MEMBER);
     }
 
-    ArrayList<TaskObject.UserTaskCount> mUsers = new ArrayList<TaskObject.UserTaskCount>();
-    ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<TaskObject.Members>();
-    ArrayList<TaskObject.Members> mMembersAll = new ArrayList<TaskObject.Members>();
-    ArrayList<TaskObject.Members> mMembersAllAll = new ArrayList<TaskObject.Members>();
-
-    final String HOST_MEMBERS = Global.HOST + "/api/project/%d/members?pageSize=1000";
-    String HOST_TASK_MEMBER = Global.HOST + "/api/project/%d/task/user/count";
-
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MEMBERS)) {
             hideProgressDialog();
             if (code == 0) {
-                ArrayList<TaskObject.Members> usersInfo = new ArrayList<TaskObject.Members>();
+                ArrayList<TaskObject.Members> usersInfo = new ArrayList<>();
 
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
 
@@ -109,7 +108,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 }
 
                 mUsersInfo = usersInfo;
-                mMembersAll = new ArrayList();
+                mMembersAll = new ArrayList<>();
                 mMembersAll.add(new TaskObject.Members());
                 mMembersAll.addAll(mUsersInfo);
 
@@ -140,13 +139,6 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             }
         }
     }
-
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            refresh();
-        }
-    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -183,6 +175,61 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             Fragment item = ref.get();
             if (item instanceof TaskListUpdate) {
                 ((TaskListUpdate) item).taskListUpdate();
+            }
+        }
+    }
+
+    @Click
+    public final void floatButton() {
+        Fragment page = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.pagerProjectTask + ":" + pager.getCurrentItem());
+
+
+//        return "android:switcher:" + viewId + ":" + id;
+        if (page instanceof TaskListFragment) {
+            ((TaskListFragment) page).action_add();
+        }
+
+    }
+
+    @Override
+    public void showFloatButton(boolean show) {
+        if (show) {
+            floatButton.show();
+        } else {
+            floatButton.hide();
+        }
+    }
+
+    private static class MemberTaskCount {
+
+        private ArrayList<Count> mData = new ArrayList<>();
+
+        public void addItems(JSONArray jsonArray) throws JSONException {
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                Count count = new Count(jsonArray.getJSONObject(i));
+                mData.add(count);
+            }
+        }
+
+        public boolean memberHasTask(int id) {
+            for (Count item : mData) {
+                if (item.user == id) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        static class Count {
+            public int done;
+            public int processing;
+            public int user;
+
+            public Count(JSONObject json) {
+                done = json.optInt("done");
+                processing = json.optInt("processing");
+                user = json.optInt("user");
             }
         }
     }
@@ -229,63 +276,6 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         @Override
         public String getPageIconUrl(int position) {
             return mMembersAll.get(position).user.avatar;
-        }
-    }
-
-    MemberTaskCount mMemberTask = new MemberTaskCount();
-
-    private static class MemberTaskCount {
-
-        private ArrayList<Count> mData = new ArrayList<Count>();
-
-        public void addItems(JSONArray jsonArray) throws JSONException {
-            for (int i = 0; i < jsonArray.length(); ++i) {
-                Count count = new Count(jsonArray.getJSONObject(i));
-                mData.add(count);
-            }
-        }
-
-        public boolean memberHasTask(int id) {
-            for (Count item : mData) {
-                if (item.user == id) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        static class Count {
-            public int done;
-            public int processing;
-            public int user;
-
-            public Count(JSONObject json) {
-                done = json.optInt("done");
-                processing = json.optInt("processing");
-                user = json.optInt("user");
-            }
-        }
-    }
-
-    @Click
-    public final void floatButton() {
-        Fragment page = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.pagerProjectTask + ":" + pager.getCurrentItem());
-
-
-//        return "android:switcher:" + viewId + ":" + id;
-        if (page instanceof TaskListFragment) {
-            ((TaskListFragment) page).action_add();
-        }
-
-    }
-
-    @Override
-    public void showFloatButton(boolean show) {
-        if (show) {
-            floatButton.show();
-        } else {
-            floatButton.hide();
         }
     }
 }

@@ -31,8 +31,8 @@ import net.coding.program.project.detail.TopicListDetailActivity_;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 import net.coding.program.project.git.BranchMainActivity_;
-import net.coding.program.task.TaskAddActivity;
-import net.coding.program.task.TaskAddActivity_;
+import net.coding.program.task.add.TaskAddActivity_;
+import net.coding.program.task.add.TaskJumpParams;
 import net.coding.program.user.UserDetailActivity_;
 
 import java.util.regex.Matcher;
@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by chaochen on 15/1/12.
+ * 用来解析 url 以跳转到不同的界面
  */
 public class URLSpanNoUnderline extends URLSpan {
 
@@ -51,7 +52,7 @@ public class URLSpanNoUnderline extends URLSpan {
         this.color = color;
     }
 
-    public static final String createMessageUrl(String globalKey) {
+    public static String createMessageUrl(String globalKey) {
         return Global.HOST + "/user/messages/history/" + globalKey;
     }
 
@@ -146,7 +147,7 @@ public class URLSpanNoUnderline extends URLSpan {
         if (matcher.find()) {
             Log.d("", "gg " + matcher.group(1) + " " + matcher.group(2) + " " + matcher.group(3));
             intent.setClass(context, TaskAddActivity_.class);
-            intent.putExtra("mJumpParams", new TaskAddActivity.TaskJumpParams(matcher.group(1),
+            intent.putExtra("mJumpParams", new TaskJumpParams(matcher.group(1),
                     matcher.group(2), matcher.group(3)));
             context.startActivity(intent);
             return true;
@@ -327,7 +328,7 @@ public class URLSpanNoUnderline extends URLSpan {
                 context.startActivity(intent);
             }
         } catch (Exception e) {
-            Toast.makeText(context, "" + uriString.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "" + uriString, Toast.LENGTH_LONG).show();
             Global.errorLog(e);
         }
 

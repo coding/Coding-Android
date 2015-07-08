@@ -1,6 +1,9 @@
 package net.coding.program.user;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,92 +35,24 @@ import java.util.ArrayList;
 public class UserProjectListFragment extends RefreshBaseFragment {
 
     @FragmentArg
-    int mType; // 0:joined   1:stared
-
+    Type mType;
     @FragmentArg
     UserObject mUserObject;
-
+    // 可选，true表示选择项目
+    @FragmentArg
+    boolean mPickProject;
     @ViewById
     ListView listView;
-
     @ViewById
     View blankLayout;
-
     String mUrl;
-
-    ArrayList<ProjectObject> mData = new ArrayList();
-
-    @AfterViews
-    protected final void init() {
-        initRefreshLayout();
-
-        listView.setAdapter(mAdapter);
-        if (mType == 0) {
-            mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=joined";
-        } else {
-            mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=stared";
-        }
-
-        loadMore();
-    }
-
+    ArrayList<ProjectObject> mData = new ArrayList<>();
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             onRefresh();
         }
     };
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(mUrl)) {
-            setRefreshing(false);
-            if (code == 0) {
-                if (isLoadingFirstPage(tag)) {
-                    mData.clear();
-                }
-
-                JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    JSONObject json = jsonArray.getJSONObject(i);
-                    ProjectObject projectObject = new ProjectObject(json);
-                    mData.add(projectObject);
-                }
-
-                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
-
-                String tip = BlankViewDisplay.OTHER_PROJECT_BLANK;
-                if (mUserObject.isMe()) {
-                    tip = BlankViewDisplay.MY_PROJECT_BLANK;
-                }
-                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
-
-                mAdapter.notifyDataSetChanged();
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        }
-    }
-
-    @ItemClick
-    protected final void listView(ProjectObject projectObject) {
-        ProjectHomeActivity_
-                .intent(this)
-                .mProjectObject(projectObject)
-                .start();
-    }
-
-    @Override
-    public void onRefresh() {
-        initSetting();
-        loadMore();
-    }
-
-    @Override
-    public void loadMore() {
-        getNextPageNetwork(mUrl, mUrl);
-    }
-
     BaseAdapter mAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -186,6 +121,92 @@ public class UserProjectListFragment extends RefreshBaseFragment {
             return view;
         }
     };
+
+    @AfterViews
+    protected final void init() {
+        initRefreshLayout();
+
+        listView.setAdapter(mAdapter);
+        switch (mType) {
+            case stared:
+                mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=stared";
+                break;
+            case all_private:
+                mUrl = Global.HOST_API + "/projects?page=1&pageSize=1000&type=all"; // 没有取私有的api，只好取全部然后本地过滤
+                break;
+            default: // 0
+                mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=joined";
+                break;
+        }
+
+        loadMore();
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(mUrl)) {
+            setRefreshing(false);
+            if (code == 0) {
+                if (isLoadingFirstPage(tag)) {
+                    mData.clear();
+                }
+
+                JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    JSONObject json = jsonArray.getJSONObject(i);
+                    ProjectObject projectObject = new ProjectObject(json);
+                    if (mType == Type.all_private && !projectObject.isPublic()) {
+                        mData.add(projectObject);
+                    }
+                }
+
+                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
+
+                String tip = BlankViewDisplay.OTHER_PROJECT_BLANK;
+                if (mUserObject.isMe()) {
+                    tip = BlankViewDisplay.MY_PROJECT_BLANK;
+                }
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
+
+                mAdapter.notifyDataSetChanged();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    @ItemClick
+    protected final void listView(ProjectObject projectObject) {
+        if (mPickProject) {
+            Intent intent = new Intent();
+            intent.putExtra("data", projectObject);
+            FragmentActivity activity = getActivity();
+            activity.setResult(Activity.RESULT_OK, intent);
+            activity.finish();
+        } else {
+            ProjectHomeActivity_
+                    .intent(this)
+                    .mProjectObject(projectObject)
+                    .start();
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        initSetting();
+        loadMore();
+    }
+
+    @Override
+    public void loadMore() {
+        getNextPageNetwork(mUrl, mUrl);
+    }
+
+    public enum Type {
+        joined,
+        stared,
+        all_private
+    }
 
     private static class ViewHolder {
         TextView name;

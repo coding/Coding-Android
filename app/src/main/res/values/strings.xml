@@ -125,5 +125,8 @@
     <string name="qr_scan_activity">扫描二维码</string>
     <string name="auth_list_activity">身份验证器</string>
     <string name="scan_text">将二维码对准取景框，即可自动扫描</string>
+    <string name="title_activity_pick_project">选择项目</string>
+    <string name="no_pick">未指定</string>
+    <string name="pick_project_first">请先选择一个项目</string>
 
 </resources>

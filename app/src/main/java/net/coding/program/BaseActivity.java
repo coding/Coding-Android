@@ -223,6 +223,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
     }
 
+    protected void showMiddleToast(int id) {
+        String message = getString(id);
+        showMiddleToast(message);
+    }
+
     protected void showMiddleToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
