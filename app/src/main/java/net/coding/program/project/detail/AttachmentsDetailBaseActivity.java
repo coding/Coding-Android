@@ -48,29 +48,25 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
 
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
-    private String urlDownloadBase = Global.HOST + "/api/project/%d/files/%s/download";
     String urlDownload = "";
-
     File mFile;
-
-    private SharedPreferences share;
-    private String defaultPath;
-
     AsyncHttpClient client;
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     String fileInfoFormat =
             "文件类型: %s\n" +
                     "文件大小: %s\n" +
                     "创建时间: %s\n" +
                     "最近更新: %s\n" +
                     "创建人: %s";
+    private String HOST_FILE_DELETE = Global.HOST_API + "/project/%d/file/delete?fileIds=%s";
+    private String urlDownloadBase = Global.HOST_API + "/project/%d/files/%s/download";
+    private SharedPreferences share;
+    private String defaultPath;
+    private boolean isDownloading = false;
+
+    @OptionsItem(android.R.id.home)
+    void close() {
+        onBackPressed();
+    }
 
     @OptionsItem
     void action_info() {
@@ -208,8 +204,6 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
     }
-
-    private boolean isDownloading = false;
 
     private void download(String url) {
         Log.v(TAG, "download:" + url);

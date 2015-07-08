@@ -33,8 +33,8 @@ import java.util.ArrayList;
 @EFragment(R.layout.project_git_fragment_main)
 public class ProjectGitFragmentMain extends ProjectGitFragment {
 
-    private final String HOST_LIST_BRANCHES = Global.HOST + "/api%s/git/branches?pageSize=1000";
-    private final String HOST_LIST_TAG = Global.HOST + "/api%s/git/list_tags";
+    private final String HOST_LIST_BRANCHES = Global.HOST_API + "%s/git/branches?pageSize=1000";
+    private final String HOST_LIST_TAG = Global.HOST_API + "%s/git/list_tags";
     @ViewById
     TextView versionButton;
     @ViewById

@@ -72,8 +72,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     public static final int RESULT_REQUEST_PHOTO = 1005;
     public static final int RESULT_REQUEST_LOCATION = 1006;
     public static final int RESULT_REQUEST_IMAGE = 1007;
-    final String sendUrl = Global.HOST + "/api/tweet";
-    final String HOST_IMAGE = Global.HOST + "/api/tweet/insert_image";
+    final String sendUrl = Global.HOST_API + "/tweet";
+    final String HOST_IMAGE = Global.HOST_API + "/tweet/insert_image";
     String mIntentExtraString = null;
     @ViewById
     GridView gridView;

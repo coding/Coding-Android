@@ -59,11 +59,11 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
     public final static int USERINFO_COMPANY = 5;
     public final static int USERINFO_JOB = 6;
     public final static int USERINFO_TAGS = 7;
-    final String HOST_USER = Global.HOST + "/api/user/key/%s";
-    final String HOST_USERINFO = Global.HOST + "/api/user/updateInfo";
+    final String HOST_USER = Global.HOST_API + "/user/key/%s";
+    final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
     private final int RESULT_REQUEST_PHOTO = 1005;
     private final int RESULT_REQUEST_PHOTO_CROP = 1006;
-    public String HOST_USER_AVATAR = Global.HOST + "/api/user/avatar?update=1";
+    public String HOST_USER_AVATAR = Global.HOST_API + "/user/avatar?update=1";
     ImageView icon;
     @StringArrayRes
     String[] sexs;
@@ -114,8 +114,8 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
             return convertView;
         }
     };
-    String HOST = Global.HOST + "/api/user/key/%s";
-    String HOST_JOB = Global.HOST + "/api/options/jobs";
+    String HOST = Global.HOST_API + "/user/key/%s";
+    String HOST_JOB = Global.HOST_API + "/options/jobs";
     private Uri fileCropUri;
     private Uri fileUri;
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {

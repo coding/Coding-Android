@@ -61,10 +61,10 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     final int RESULT_AT = 1;
     final int RESULT_EDIT = 2;
     final int RESULT_LABEL = 3;
-    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
+    final String HOST_MAOPAO_DELETE = Global.HOST_API + "/topic/%s";
     final String TAG_DELETE_TOPIC_COMMENT = "TAG_DELETE_TOPIC_COMMENT";
     final String TAG_DELETE_TOPIC = "TAG_DELETE_TOPIC";
-    private final String HOST_COMMENT_SEND = Global.HOST + "/api/project/%s/topic?parent=%s";
+    private final String HOST_COMMENT_SEND = Global.HOST_API + "/project/%s/topic?parent=%s";
     private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @InstanceState
     protected boolean saveTopicWhenLoaded;
@@ -79,9 +79,9 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     //    EnterLayout mEnterLayout;
     ImageCommentLayout mEnterComment;
     String owerGlobar = "";
-    String urlCommentList = Global.HOST + "/api/topic/%s/comments?pageSize=20";
+    String urlCommentList = Global.HOST_API + "/topic/%s/comments?pageSize=20";
     String urlCommentSend = HOST_COMMENT_SEND;
-    String URI_DELETE_TOPIC_LABEL = Global.HOST + "/api/topic/%s/label/%s";
+    String URI_DELETE_TOPIC_LABEL = Global.HOST_API + "/topic/%s/label/%s";
     String urlTopic = "";
     ArrayList<TopicObject> mData = new ArrayList<>();
     Intent mResultData = new Intent();
@@ -104,7 +104,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                final String HOST_MAOPAO_DELETE = Global.HOST + "/api/topic/%s";
+                                final String HOST_MAOPAO_DELETE = Global.HOST_API + "/topic/%s";
                                 deleteNetwork(String.format(HOST_MAOPAO_DELETE, comment.id), TAG_DELETE_TOPIC_COMMENT, comment.id);
                             }
                         })
@@ -193,14 +193,14 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
 
     private void loadData() {
         if (topicObject == null) {
-            urlTopic = String.format(Global.HOST + "/api/topic/%s?", mJumpParam.mTopic);
+            urlTopic = String.format(Global.HOST_API + "/topic/%s?", mJumpParam.mTopic);
             getNetwork(urlTopic, urlTopic);
 
         } else {
             owerGlobar = topicObject.owner.global_key;
             getSupportActionBar().setTitle(topicObject.project.name);
 
-            urlTopic = String.format(Global.HOST + "/api/topic/%s?", topicObject.id);
+            urlTopic = String.format(Global.HOST_API + "/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
         }
     }

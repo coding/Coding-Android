@@ -37,7 +37,7 @@ import java.io.File;
 @EActivity(R.layout.entrance_image)
 public class EntranceActivity extends BaseActivity {
 
-    static final String HOST_CURRENT = Global.HOST + "/api/current_user";
+    static final String HOST_CURRENT = Global.HOST_API + "/current_user";
     @ViewById
     ImageView image;
     @ViewById

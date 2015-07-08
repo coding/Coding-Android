@@ -10,6 +10,6 @@ public class ResetPasswordActivity extends ResetPasswordBaseActivity {
 
     @Override
     String getRequestHost() {
-        return Global.HOST + "/api/resetPassword";
+        return Global.HOST_API + "/resetPassword";
     }
 }

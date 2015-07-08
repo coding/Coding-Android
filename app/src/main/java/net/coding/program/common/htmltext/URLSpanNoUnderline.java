@@ -264,7 +264,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 跳转图片链接
         // https://coding.net/api/project/78813/files/137849/imagePreview
-        final String imageJumpString = Global.HOST + "/api/project/\\d+/files/\\d+/imagePreview";
+        final String imageJumpString = Global.HOST_API + "/project/\\d+/files/\\d+/imagePreview";
         pattern = Pattern.compile(imageJumpString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {

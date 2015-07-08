@@ -30,8 +30,8 @@ import java.util.List;
 @EActivity(R.layout.activity_topic_add)
 public class TopicAddActivity extends BaseActivity implements TopicEditFragment.SaveData, TopicLabelBar.Controller {
 
-    final String HOST_TOPIC_NEW = Global.HOST + "/api/project/%s/topic?parent=0";
-    final String HOST_TOPIC_EDIT = Global.HOST + "/api/topic/%d";
+    final String HOST_TOPIC_NEW = Global.HOST_API + "/project/%s/topic?parent=0";
+    final String HOST_TOPIC_EDIT = Global.HOST_API + "/topic/%d";
     final int RESULT_LABEL = 1000;
     @Extra
     protected ProjectObject projectObject;
@@ -40,7 +40,7 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     @InstanceState
     protected boolean labelsHasChanged;
     String url = "";
-    String HOST_TOPIC_DETAIL_CONTENT = Global.HOST + "/api/topic/%d?type=1";
+    String HOST_TOPIC_DETAIL_CONTENT = Global.HOST_API + "/topic/%d?type=1";
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();

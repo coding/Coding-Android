@@ -31,7 +31,7 @@ import java.util.ArrayList;
 @EActivity(R.layout.fragment_notify_list)
 public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadMore {
 
-    private final String HOST_MARK_READ = Global.HOST + "/api/notification/mark-read";
+    private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
 
     @Extra
     int type;
@@ -42,75 +42,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
     int defaultIcon = R.drawable.ic_notify_at;
 
     ArrayList<NotifyObject> mData = new ArrayList<NotifyObject>();
-
-    @AfterViews
-    void init() {
-        showDialogLoading();
-        URI_NOTIFY = Global.HOST + "/api/notification?type=" + type;
-        if (type == 1) {
-            URI_NOTIFY += "&type=2";
-        }
-
-        setDefaultByType();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mFootUpdate.init(listView, mInflater, this);
-        listView.setAdapter(baseAdapter);
-        loadMore();
-    }
-
-    @Override
-    public void loadMore() {
-        getNextPageNetwork(URI_NOTIFY, URI_NOTIFY);
-    }
-
-    private void setDefaultByType() {
-        if (type == 0) {
-            getSupportActionBar().setTitle("@我的");
-            defaultIcon = R.drawable.ic_notify_at;
-        } else if (type == 1) {
-            getSupportActionBar().setTitle("评论");
-            defaultIcon = R.drawable.ic_notify_comment;
-        } else {
-            getSupportActionBar().setTitle("系统通知");
-            defaultIcon = R.drawable.ic_notify_comment;
-        }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     String URI_NOTIFY;
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(URI_NOTIFY)) {
-            hideProgressDialog();
-            if (code == 0) {
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    NotifyObject notifyObject = new NotifyObject(jsonArray.getJSONObject(i));
-                    mData.add(notifyObject);
-                }
-
-                baseAdapter.notifyDataSetChanged();
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        } else if (tag.equals(HOST_MARK_READ)) {
-            int id = (int) data;
-            for (NotifyObject item : mData) {
-                if (item.id == id) {
-                    item.setRead();
-                    baseAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
-        }
-    }
-
     View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -121,7 +53,6 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
             postNetwork(HOST_MARK_READ, params, HOST_MARK_READ, 0, notifyObject.id);
         }
     };
-
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -236,6 +167,72 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
         }
 
     };
+
+    @AfterViews
+    void init() {
+        showDialogLoading();
+        URI_NOTIFY = Global.HOST_API + "/notification?type=" + type;
+        if (type == 1) {
+            URI_NOTIFY += "&type=2";
+        }
+
+        setDefaultByType();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mFootUpdate.init(listView, mInflater, this);
+        listView.setAdapter(baseAdapter);
+        loadMore();
+    }
+
+    @Override
+    public void loadMore() {
+        getNextPageNetwork(URI_NOTIFY, URI_NOTIFY);
+    }
+
+    private void setDefaultByType() {
+        if (type == 0) {
+            getSupportActionBar().setTitle("@我的");
+            defaultIcon = R.drawable.ic_notify_at;
+        } else if (type == 1) {
+            getSupportActionBar().setTitle("评论");
+            defaultIcon = R.drawable.ic_notify_comment;
+        } else {
+            getSupportActionBar().setTitle("系统通知");
+            defaultIcon = R.drawable.ic_notify_comment;
+        }
+    }
+
+    @OptionsItem(android.R.id.home)
+    void close() {
+        onBackPressed();
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(URI_NOTIFY)) {
+            hideProgressDialog();
+            if (code == 0) {
+                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    NotifyObject notifyObject = new NotifyObject(jsonArray.getJSONObject(i));
+                    mData.add(notifyObject);
+                }
+
+                baseAdapter.notifyDataSetChanged();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(HOST_MARK_READ)) {
+            int id = (int) data;
+            for (NotifyObject item : mData) {
+                if (item.id == id) {
+                    item.setRead();
+                    baseAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
+    }
 
     private static class ViewHolder {
         public ImageView icon;

@@ -80,21 +80,21 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
     public static final int RESULT_REQUEST_PICK_PROJECT = 6;
 
-    final String HOST_COMMENT_ADD = Global.HOST + "/api/task/%s/comment";
+    final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
     final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
             R.drawable.ic_task_priority_1,
             R.drawable.ic_task_priority_2,
             R.drawable.ic_task_priority_3
     };
-    final String HOST_TASK_ADD = Global.HOST + "/api%s/task";
+    final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
 
-    final String HOST_FORMAT_TASK_COMMENT = Global.HOST + "/api/activity/task/%s?last_id=9999999";
-    final String HOST_TASK_UPDATE = Global.HOST + "/api/task/%s/update";
+    final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=9999999";
+    final String HOST_TASK_UPDATE = Global.HOST_API + "/task/%s/update";
     final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
-    final String hostDeleteComment = Global.HOST + "/api/task/%s/comment/%s";
+    final String hostDeleteComment = Global.HOST_API + "/task/%s/comment/%s";
     final String tagTaskDetail = "tagTaskDetail";
-    final String HOST_PREVIEW = Global.HOST + "/api/markdown/preview";
+    final String HOST_PREVIEW = Global.HOST_API + "/markdown/preview";
     private final MyImageGetter myImageGetter = new MyImageGetter(TaskAddActivity.this);
     private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @ViewById
@@ -130,7 +130,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     TaskParams mNewParam;
     TaskParams mOldParam;
     ImageCommentLayout mEnterComment;
-    String HOST_DESCRIPTER = Global.HOST + "/api/task/%s/description";
+    String HOST_DESCRIPTER = Global.HOST_API + "/task/%s/description";
     MenuItem mMenuSave;
     String urlComments = "";
     View.OnClickListener onClickRetry = new View.OnClickListener() {
@@ -304,7 +304,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private void requestTaskFromNetwork() {
-        final String hostTaskDetail = Global.HOST + "/api/user/%s/project/%s/task/%s";
+        final String hostTaskDetail = Global.HOST_API + "/user/%s/project/%s/task/%s";
         String url = String.format(hostTaskDetail, mJumpParams.userKey, mJumpParams.projectName, mJumpParams.taskId);
         getNetwork(url, tagTaskDetail);
         showDialogLoading();

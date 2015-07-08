@@ -66,7 +66,7 @@ public class GitViewActivity extends CustomMoreActivity {
 
     File mTempPicFile;
 
-    String urlBlob = Global.HOST + "/api%s/git/blob/%s/%s";
+    String urlBlob = Global.HOST_API + "%s/git/blob/%s/%s";
     String urlImage = Global.HOST + "%s/git/raw/%s/%s";
 
     GitFileObject mFile;

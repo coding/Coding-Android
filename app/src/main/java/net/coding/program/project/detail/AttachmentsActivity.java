@@ -87,7 +87,7 @@ import java.util.regex.Pattern;
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
 public class AttachmentsActivity extends CustomMoreActivity implements FootUpdate.LoadMore {
-    public static final String HOST_PROJECT_ID = Global.HOST + "/api/project/%d";
+    public static final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
     final public static int FILE_MOVE_CODE = 12;
@@ -97,8 +97,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
     ProjectObject mProjectObject;
-    String urlFiles = Global.HOST + "/api/project/%s/files/%s?height=90&width=90&pageSize=9999";
-    String urlUpload = Global.HOST + "/api/project/%s/file/upload";
+    String urlFiles = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
+    String urlUpload = Global.HOST_API + "/project/%s/file/upload";
     ArrayList<AttachmentFileObject> mFilesArray = new ArrayList();
     boolean mNoMore = false;
     @ViewById
@@ -144,14 +144,14 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             loadMore();
         }
     };
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%s/file/delete?%s";
-    private String HOST_FILE_MOVETO = Global.HOST + "/api/project/%s/files/moveto/%s?%s";
-    private String HOST_FILECOUNT = Global.HOST + "/api/project/%s/folders/all_file_count";
-    private String HOST_FOLDER_NAME = Global.HOST + "/api/project/%s/dir/%s/name/%s";
-    private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%s/mkdir";
-    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%s/rmdir/%s";
+    private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
+    private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
+    private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
+    private String HOST_FOLDER_NAME = Global.HOST_API + "/project/%s/dir/%s/name/%s";
+    private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
+    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
-    private String urlDownload = Global.HOST + "/api/project/%s/files/%s/download";
+    private String urlDownload = Global.HOST_API + "/project/%s/files/%s/download";
     private HashMap<String, Integer> fileCountMap = new HashMap();
     private DownloadManager downloadManager;
     private DownloadManagerPro downloadManagerPro;

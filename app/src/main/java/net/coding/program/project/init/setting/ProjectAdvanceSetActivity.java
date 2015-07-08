@@ -42,7 +42,7 @@ public class ProjectAdvanceSetActivity extends BaseActivity {
 
     private static final String TAG = "ProjectAdvanceSetActivity";
 
-    final String host = Global.HOST + "/api/project/";
+    final String host = Global.HOST_API + "/project/";
     String hostDelete;
 
     ProjectObject mProjectObject;

@@ -161,9 +161,9 @@ public class ProjectObject implements Serializable {
      */
     public String getHttpUploadPhoto() {
         if (is_public) {
-            return Global.HOST + "/api/project/" + id + "/upload_public_image";
+            return Global.HOST_API + "/project/" + id + "/upload_public_image";
         } else {
-            return Global.HOST + "/api/project/" + id + "/file/upload";
+            return Global.HOST_API + "/project/" + id + "/file/upload";
         }
     }
 

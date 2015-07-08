@@ -37,20 +37,58 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
     String urlMembers = "";
 
     ArrayList<TaskObject.Members> mMembersArray = new ArrayList<TaskObject.Members>();
+    @ViewById
+    ListView listView;
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mMembersArray.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mMembersArray.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.fragment_members_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            TaskObject.Members data = mMembersArray.get(position);
+            holder.name.setText(data.user.name);
+            iconfromNetwork(holder.icon, data.user.avatar);
+
+            if (position == mMembersArray.size() - 1) {
+                loadMore();
+            }
+
+            return convertView;
+        }
+    };
 
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
     }
 
-    @ViewById
-    ListView listView;
-
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final String format = Global.HOST + "/api/project/%d/members?";
+        final String format = Global.HOST_API + "/project/%d/members?";
         urlMembers = String.format(format, mProjectObjectId);
 
         mFootUpdate.init(listView, mInflater, this);
@@ -97,46 +135,6 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
     public void action_add() {
 
     }
-
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mMembersArray.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mMembersArray.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_members_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            TaskObject.Members data = mMembersArray.get(position);
-            holder.name.setText(data.user.name);
-            iconfromNetwork(holder.icon, data.user.avatar);
-
-            if (position == mMembersArray.size() - 1) {
-                loadMore();
-            }
-
-            return convertView;
-        }
-    };
 
     static class ViewHolder {
         ImageView icon;

@@ -139,7 +139,6 @@
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity

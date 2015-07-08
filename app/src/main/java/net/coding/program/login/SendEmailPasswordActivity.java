@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class SendEmailPasswordActivity extends SendEmailBaseActivity {
 
 
-    private final String hostResetPassword = Global.HOST + "/api/resetPassword?email=%s&j_captcha=%s";
+    private final String hostResetPassword = Global.HOST_API + "/resetPassword?email=%s&j_captcha=%s";
 
     @AfterViews
     protected final void initResendEmail() {

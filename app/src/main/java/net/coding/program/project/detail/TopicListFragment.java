@@ -41,32 +41,29 @@ import java.util.List;
 @OptionsMenu(R.menu.project_task)
 public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
+    static final int RESULT_ADD = 1;
+    static final int RESULT_DETAIL = 2;
     private static final int ID_TYPE_ALL = 0;
     private static final int ID_TYPE_MY = 1;
     private static final String TYPE_ALL = "全部讨论";
     private static final String TYPE_MY = "我的讨论";
-
     private static final int ID_LABEL_ALL = -1;
     private static final String LABEL_ALL = "全部标签";
-
     private static final String ORDER_REPLY_TIME = "最后评论排序";
     private static final String ORDER_PUBLISH_TIME = "发布时间排序";
     private static final String ORDER_HOT = "热门排序";
     private static final int ID_ORDER_REPLY_TIME = 51;
     private static final int ID_ORDER_PUBLISH_TIME = 49;
     private static final int ID_ORDER_HOT = 53;
-
-    private static final String URI_TOPICS = Global.HOST + "/api/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
-    private static final String URI_TYPE_COUNTS = Global.HOST + "/api/user/%s/project/%s/topics/count";
-    private static final String URI_ALL_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels?withCount=true";
-    private static final String URI_MY_LABELS = Global.HOST + "/api/user/%s/project/%s/topics/labels/my";
+    private static final String URI_TOPICS = Global.HOST_API + "/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
+    private static final String URI_TYPE_COUNTS = Global.HOST_API + "/user/%s/project/%s/topics/count";
+    private static final String URI_ALL_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels?withCount=true";
+    private static final String URI_MY_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels/my";
     // 刷新页面后如果当前标签不再存在，则自动变回【全部标签】再刷新
     private static final String URI_ALL_LABELS_THEN_RELOAD = "URI_ALL_LABELS_THEN_RELOAD";
     private static final String URI_MY_LABELS_THEN_RELOAD = "URI_MY_LABELS_THEN_RELOAD";
-
     @FragmentArg
     ProjectObject mProjectObject;
-
     @ViewById
     ListView listView;
     @ViewById
@@ -77,12 +74,80 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     DropdownListView dropdownType, dropdownLabel, dropdownOrder;
     @ViewById
     View blankLayout;
-
     @AnimationRes
     Animation dropdown_in, dropdown_out, dropdown_mask_out;
-
+    View.OnClickListener onClickUser = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String globaKey = (String) v.getTag();
+            Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
+            intent.putExtra("globalKey", globaKey);
+            startActivity(intent);
+        }
+    };
     private ArrayList<TopicObject> mData = new ArrayList();
     private String urlGet;
+    View.OnClickListener onClickRetry = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
+    BaseAdapter baseAdapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.fragment_project_topic_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon.setOnClickListener(onClickUser);
+
+                holder.title = (TextView) convertView.findViewById(R.id.title);
+                holder.time = (TextView) convertView.findViewById(R.id.time);
+                holder.time.setFocusable(false);
+
+                holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                convertView.setTag(holder);
+
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            TopicObject data = (TopicObject) getItem(position);
+
+            iconfromNetwork(holder.icon, data.owner.avatar);
+            holder.icon.setTag(data.owner.global_key);
+
+            holder.title.setText(Global.changeHyperlinkColor(data.title));
+
+            holder.name.setText(data.owner.name);
+            holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
+            holder.discuss.setText(String.format("%d", data.child_count));
+
+            if (position == (getCount() - 1)) {
+                loadMore();
+            }
+
+            return convertView;
+        }
+    };
     private DropdownButtonsController dropdownButtonsController = new DropdownButtonsController();
 
     @AfterViews
@@ -116,13 +181,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         initSetting();
         loadMore();
     }
-
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -183,80 +241,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
     }
 
-    View.OnClickListener onClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globaKey = (String) v.getTag();
-            Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-            intent.putExtra("globalKey", globaKey);
-            startActivity(intent);
-        }
-    };
-
-    BaseAdapter baseAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_project_topic_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(onClickUser);
-
-                holder.title = (TextView) convertView.findViewById(R.id.title);
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-                holder.time.setFocusable(false);
-
-                holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                convertView.setTag(holder);
-
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            TopicObject data = (TopicObject) getItem(position);
-
-            iconfromNetwork(holder.icon, data.owner.avatar);
-            holder.icon.setTag(data.owner.global_key);
-
-            holder.title.setText(Global.changeHyperlinkColor(data.title));
-
-            holder.name.setText(data.owner.name);
-            holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
-            holder.discuss.setText(String.format("%d", data.child_count));
-
-            if (position == (getCount() - 1)) {
-                loadMore();
-            }
-
-            return convertView;
-        }
-    };
-
-    public static class ViewHolder {
-        public ImageView icon;
-        public TextView title;
-        public TextView discuss;
-        public TextView time;
-        public TextView name;
-    }
-
     @OptionsItem
     void action_add() {
         Intent intent = new Intent(getActivity(), TopicAddActivity_.class);
@@ -275,9 +259,6 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     public void onPause() {
         super.onPause();
     }
-
-    static final int RESULT_ADD = 1;
-    static final int RESULT_DETAIL = 2;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -350,6 +331,14 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     @Click
     void mask() {
         dropdownButtonsController.hide();
+    }
+
+    public static class ViewHolder {
+        public ImageView icon;
+        public TextView title;
+        public TextView discuss;
+        public TextView time;
+        public TextView name;
     }
 
     private class DropdownButtonsController implements DropdownListView.Container {

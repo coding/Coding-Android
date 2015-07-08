@@ -34,7 +34,7 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BackActivity {
 
-    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/register";
+    private static String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/register";
     @ViewById
     EditText editName;
     @ViewById
@@ -51,7 +51,7 @@ public class RegisterActivity extends BackActivity {
     View loginButton;
     @ViewById
     TextView textClause;
-    String HOST_USER_REGISTER = Global.HOST + "/api/register";
+    String HOST_USER_REGISTER = Global.HOST_API + "/register";
     TextWatcher textWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -197,7 +197,7 @@ public class RegisterActivity extends BackActivity {
     }
 
     private void downloadValifyPhoto() {
-        String host = Global.HOST + "/api/getCaptcha";
+        String host = Global.HOST_API + "/getCaptcha";
         AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
 
         client.get(host, new AsyncHttpResponseHandler() {

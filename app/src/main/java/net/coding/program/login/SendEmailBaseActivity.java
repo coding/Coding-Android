@@ -39,6 +39,18 @@ public class SendEmailBaseActivity extends BackActivity {
     @ViewById
     protected Button loginButton;
 
+    public static boolean isValifyEmail(Context context, String email) {
+        String match = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$";
+        Pattern pattern = Pattern.compile(match);
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.find()) {
+            return true;
+        }
+
+        Toast.makeText(context, "邮箱格式错误", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
     @AfterViews
     protected final void initBaseResend() {
         downloadValifyPhoto();
@@ -51,7 +63,7 @@ public class SendEmailBaseActivity extends BackActivity {
     }
 
     protected void downloadValifyPhoto() {
-        String host = Global.HOST + "/api/getCaptcha";
+        String host = Global.HOST_API + "/getCaptcha";
         AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
 
         client.get(host, new AsyncHttpResponseHandler() {
@@ -88,18 +100,6 @@ public class SendEmailBaseActivity extends BackActivity {
         }
 
         return true;
-    }
-
-    public static boolean isValifyEmail(Context context, String email) {
-        String match = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$";
-        Pattern pattern = Pattern.compile(match);
-        Matcher matcher = pattern.matcher(email);
-        if (matcher.find()) {
-            return true;
-        }
-
-        Toast.makeText(context, "邮箱格式错误", Toast.LENGTH_SHORT).show();
-        return false;
     }
 
 }

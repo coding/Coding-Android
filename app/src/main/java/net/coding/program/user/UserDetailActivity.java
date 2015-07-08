@@ -43,41 +43,70 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_user_detail)
 public class UserDetailActivity extends BaseActivity {
 
-    private UserObject mUserObject;
-
+    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
+    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
+    public final int RESULT_EDIT = 0;
+    final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+    private final int[] items = new int[]{
+            R.id.pos0,
+            R.id.pos1,
+            R.id.pos2
+    };
     @Extra
     String globalKey;
-
     @ViewById
     ImageView icon;
-
     @ViewById
     TextView name;
-
     @ViewById
     View sendMessage;
-
     @ViewById
     View icon_sharow;
-
     @ViewById
     CheckBox followCheckbox;
-
     @ViewById
     ImageView userBackground;
-
     @ViewById
     ImageView sex;
-
     @StringArrayRes
     String[] user_detail_activity_list_first;
-
     @StringArrayRes
     String[] user_detail_list_first;
-
     String[] user_detail_list_second;
-
     boolean isMe = false;
+    int sexs[] = new int[]{
+            R.drawable.ic_sex_boy,
+            R.drawable.ic_sex_girl,
+            android.R.color.transparent
+    };
+    boolean mNeedUpdate = false;
+    private UserObject mUserObject;
+    View.OnClickListener onClickFans = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
+                    UsersListActivity.Friend.Fans);
+
+            UsersListActivity_
+                    .intent(UserDetailActivity.this)
+                    .mUserParam(userParams)
+                    .type(UsersListActivity.Friend.Fans)
+                    .start();
+        }
+    };
+    View.OnClickListener onClickFollow = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
+                    UsersListActivity.Friend.Follow);
+
+            UsersListActivity_
+                    .intent(UserDetailActivity.this)
+                    .mUserParam(userParams)
+                    .type(UsersListActivity.Friend.Follow)
+                    .start();
+        }
+    };
 
     @AfterViews
     void init() {
@@ -171,8 +200,6 @@ public class UserDetailActivity extends BaseActivity {
         showButtomToast("已复制链接 " + link);
     }
 
-    public final int RESULT_EDIT = 0;
-
     @OnActivityResult(RESULT_EDIT)
     void onResult() {
         getNetwork(HOST_USER_INFO + mUserObject.global_key, HOST_USER_INFO);
@@ -185,41 +212,6 @@ public class UserDetailActivity extends BaseActivity {
         followCheckbox.setVisibility(View.GONE);
         findViewById(R.id.sendMessageLayout).setVisibility(View.GONE);
     }
-
-
-    View.OnClickListener onClickFans = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
-                    UsersListActivity.Friend.Fans);
-
-            UsersListActivity_
-                    .intent(UserDetailActivity.this)
-                    .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Fans)
-                    .start();
-        }
-    };
-
-    View.OnClickListener onClickFollow = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
-                    UsersListActivity.Friend.Follow);
-
-            UsersListActivity_
-                    .intent(UserDetailActivity.this)
-                    .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Follow)
-                    .start();
-        }
-    };
-
-    int sexs[] = new int[]{
-            R.drawable.ic_sex_boy,
-            R.drawable.ic_sex_girl,
-            android.R.color.transparent
-    };
 
     void displayUserinfo() {
         String dayToNow = Global.dayToNow(mUserObject.created_at);
@@ -281,12 +273,6 @@ public class UserDetailActivity extends BaseActivity {
         }
     }
 
-    private final int[] items = new int[]{
-            R.id.pos0,
-            R.id.pos1,
-            R.id.pos2
-    };
-
     private void setListData() {
 
         String[] secondContents = new String[]{
@@ -308,7 +294,6 @@ public class UserDetailActivity extends BaseActivity {
         }
     }
 
-
     private SpannableString createSpan(String s) {
         SpannableString itemContent = new SpannableString(s);
         final ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.font_green));
@@ -326,12 +311,6 @@ public class UserDetailActivity extends BaseActivity {
         intent.putExtra("mUserObject", mUserObject);
         startActivity(intent);
     }
-
-    final String HOST_USER_INFO = Global.HOST + "/api/user/key/";
-    public static final String HOST_FOLLOW = Global.HOST + "/api/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST + "/api/user/unfollow?";
-
-    boolean mNeedUpdate = false;
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

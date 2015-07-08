@@ -32,7 +32,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
     boolean downloadFileSuccess = false;
 
-    String urlFiles = Global.HOST + "/api/project/%s/files/%s/view";
+    String urlFiles = Global.HOST_API + "/project/%s/files/%s/view";
 
     AttachmentFileObject mFiles = new AttachmentFileObject();
 

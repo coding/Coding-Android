@@ -51,68 +51,69 @@ import java.util.HashMap;
  */
 @EActivity(R.layout.activity_attachments_image)
 public class AttachmentsPicDetailActivity extends BaseActivity {
+    private static final String STATE_POSITION = "STATE_POSITION";
     private static String TAG = AttachmentsPicDetailActivity.class.getSimpleName();
-
     @Extra
     int mProjectObjectId;
-
     @Extra
     AttachmentFileObject mAttachmentFileObject;
-
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-
     @ViewById
     ViewPager pager;
-
     @ViewById
     Button btnLeft;
-
     @ViewById
     Button btnRight;
-
     @ViewById
     ProgressBar loading;
-
     int mPagerPosition = 0;
-
     ImagePager adapter;
-
-    private static final String STATE_POSITION = "STATE_POSITION";
-
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
-    private String urlDownloadBase = Global.HOST + "/api/project/%d/files/%s/download";
     String urlDownload = "";
-
     File mFile;
-
-    private SharedPreferences share;
-    private String defaultPath;
-
     AsyncHttpClient client;
-
     ArrayList<String> fileIds = new ArrayList<String>();
-
     @Extra
     ArrayList<AttachmentFileObject> fileList = new ArrayList<AttachmentFileObject>();
-
     /**
      * 用来存放图片实际地址的结果
      * 获取地址的方法，由于载入时间太长，现在移到了AttachmentImagePagerFragment中
      */
     HashMap<String, AttachmentFileObject> picCache;
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     String fileInfoFormat =
             "文件类型: %s\n" +
                     "文件大小: %s\n" +
                     "创建时间: %s\n" +
                     "最近更新: %s\n" +
                     "创建人: %s";
+    private String HOST_FILE_DELETE = Global.HOST_API + "/project/%d/file/delete?fileIds=%s";
+    private String urlDownloadBase = Global.HOST_API + "/project/%d/files/%s/download";
+    private SharedPreferences share;
+    private String defaultPath;
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i2) {
+
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+            getSupportActionBar().setTitle(fileList.get(i).name);
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).name);
+            mAttachmentFileObject = fileList.get(i);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    };
+    private boolean isDownloading = false;
+
+    @OptionsItem(android.R.id.home)
+    void close() {
+        onBackPressed();
+    }
 
     @OptionsItem
     void action_info() {
@@ -165,25 +166,6 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
         pager.setOnPageChangeListener(onPageChangeListener);
         pager.setCurrentItem(mPagerPosition, false);
     }
-
-    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int i, float v, int i2) {
-
-        }
-
-        @Override
-        public void onPageSelected(int i) {
-            getSupportActionBar().setTitle(fileList.get(i).name);
-            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).name);
-            mAttachmentFileObject = fileList.get(i);
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int i) {
-
-        }
-    };
 
     @Override
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
@@ -299,42 +281,6 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
         outState.putInt(STATE_POSITION, pager.getCurrentItem());
     }
 
-    class ImagePager extends FragmentPagerAdapter {
-
-        public ImagePager(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            return ImagePagerFragment_.builder()
-                    .fileId(fileIds.get(i))
-                    .mProjectObjectId(mProjectObjectId)
-                    .build();
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImagePagerFragment fragment = (ImagePagerFragment) super.instantiateItem(container, position);
-            fragment.setData(fileIds.get(position), mProjectObjectId);
-            return fragment;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public int getCount() {
-            return fileIds.size();
-        }
-    }
-
-    ;
-
-    private boolean isDownloading = false;
-
     private void download(String url) {
         Log.v(TAG, "download:" + url);
         isDownloading = true;
@@ -382,6 +328,38 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     public void setAttachmentFileObject(AttachmentFileObject attachmentFileObject) {
         if (mAttachmentFileObject.size == 0)
             this.mAttachmentFileObject = attachmentFileObject;
+    }
+
+    class ImagePager extends FragmentPagerAdapter {
+
+        public ImagePager(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return ImagePagerFragment_.builder()
+                    .fileId(fileIds.get(i))
+                    .mProjectObjectId(mProjectObjectId)
+                    .build();
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImagePagerFragment fragment = (ImagePagerFragment) super.instantiateItem(container, position);
+            fragment.setData(fileIds.get(position), mProjectObjectId);
+            return fragment;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
+        public int getCount() {
+            return fileIds.size();
+        }
     }
 
 }

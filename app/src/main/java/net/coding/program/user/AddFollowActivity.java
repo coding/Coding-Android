@@ -39,7 +39,7 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_add_follow)
 public class AddFollowActivity extends BaseActivity {
 
-    String HOST_SEARCH_USER = Global.HOST + "/api/user/search?key=%s";
+    String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
 
     String urlAddUser = "";
 
@@ -82,7 +82,7 @@ public class AddFollowActivity extends BaseActivity {
                 }
             });
         } else {
-            urlAddUser = String.format(Global.HOST + "/api/project/%d/members/add?", mProjectObject.getId());
+            urlAddUser = String.format(Global.HOST_API + "/project/%d/members/add?", mProjectObject.getId());
             getSupportActionBar().setTitle("添加项目成员");
             baseAdapter = new AddProjectAdapter();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -98,7 +98,7 @@ public class AddFollowActivity extends BaseActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     RequestParams params = new RequestParams();
                                     params.put("users", data.id);
-                                    postNetwork(urlAddUser, params, urlAddUser, (int) pos, data);
+                                    postNetwork(urlAddUser, params, urlAddUser, pos, data);
                                 }
                             })
                             .setNegativeButton("取消", null).show();
@@ -183,6 +183,23 @@ public class AddFollowActivity extends BaseActivity {
         int flagHandler = ++flag;
         Message message = Message.obtain(mHandler, flagHandler, s);
         mHandler.sendMessageDelayed(message, 1000);
+    }
+
+    @OptionsItem(android.R.id.home)
+    void close() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(mNeedUpdate ? RESULT_OK : RESULT_CANCELED);
+        finish();
+    }
+
+    static class ViewHolder {
+        ImageView icon;
+        TextView name;
+        CheckBox mutual;
     }
 
     class AddProjectAdapter extends BaseAdapter {
@@ -280,24 +297,5 @@ public class AddFollowActivity extends BaseActivity {
 
             return convertView;
         }
-    }
-
-    ;
-
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        CheckBox mutual;
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(mNeedUpdate ? RESULT_OK : RESULT_CANCELED);
-        finish();
     }
 }

@@ -39,52 +39,8 @@ public class LikeUsersListActivity extends BaseActivity {
 
     @ViewById
     ListView listView;
-
+    String UriLikeUsers = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
     private ArrayList<DynamicObject.User> mData = new ArrayList<DynamicObject.User>();
-
-    String UriLikeUsers = Global.HOST + "/api/tweet/%s/likes?pageSize=500";
-
-    @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        UriLikeUsers = String.format(UriLikeUsers, id);
-
-        listView.setAdapter(baseAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(LikeUsersListActivity.this, UserDetailActivity_.class);
-                intent.putExtra("globalKey", mData.get((int) id).global_key);
-                startActivity(intent);
-            }
-        });
-
-        getNetwork(UriLikeUsers, UriLikeUsers);
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(UriLikeUsers)) {
-            if (code == 0) {
-                JSONObject jsonData = respanse.getJSONObject("data");
-                JSONArray jsonArray = jsonData.getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    DynamicObject.User user = new DynamicObject.User(jsonArray.getJSONObject(i));
-                    mData.add(user);
-                }
-                baseAdapter.notifyDataSetChanged();
-
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -146,6 +102,47 @@ public class LikeUsersListActivity extends BaseActivity {
             return convertView;
         }
     };
+
+    @AfterViews
+    void init() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        UriLikeUsers = String.format(UriLikeUsers, id);
+
+        listView.setAdapter(baseAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(LikeUsersListActivity.this, UserDetailActivity_.class);
+                intent.putExtra("globalKey", mData.get((int) id).global_key);
+                startActivity(intent);
+            }
+        });
+
+        getNetwork(UriLikeUsers, UriLikeUsers);
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(UriLikeUsers)) {
+            if (code == 0) {
+                JSONObject jsonData = respanse.getJSONObject("data");
+                JSONArray jsonArray = jsonData.getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    DynamicObject.User user = new DynamicObject.User(jsonArray.getJSONObject(i));
+                    mData.add(user);
+                }
+                baseAdapter.notifyDataSetChanged();
+
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    @OptionsItem(android.R.id.home)
+    void close() {
+        onBackPressed();
+    }
 
     static class ViewHolder {
         ImageView icon;

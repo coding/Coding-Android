@@ -107,7 +107,7 @@ public class ImagePagerFragment extends BaseFragment {
     int mProjectObjectId;
 
 
-    private String URL_FILES_BASE = Global.HOST + "/api/project/%d/files/%s/view";
+    private String URL_FILES_BASE = Global.HOST_API + "/project/%d/files/%s/view";
     private String URL_FILES = "";
     private AsyncHttpClient client;
 

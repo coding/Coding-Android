@@ -46,8 +46,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EFragment(R.layout.fragment_project_dynamic)
 public class ProjectDynamicFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
-    final String HOST = Global.HOST + "/api/project/%d/activities?last_id=%s&user_id=%s&type=%s";
-    final String HOST_USER = Global.HOST + "/api/project/%d/activities/user/%s?last_id=%s";
+    final String HOST = Global.HOST_API + "/project/%d/activities?last_id=%s&user_id=%s&type=%s";
+    final String HOST_USER = Global.HOST_API + "/project/%d/activities/user/%s?last_id=%s";
     final String TAG_PROJECT_DYNMAIC = "TAG_PROJECT_DYNMAIC";
     @FragmentArg
     protected ProjectObject mProjectObject;

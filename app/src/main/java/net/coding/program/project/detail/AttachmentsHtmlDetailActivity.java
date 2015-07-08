@@ -39,9 +39,9 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     @ViewById
     View blankLayout;
 
-    String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
-    String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
-    String urlMdPreview = Global.HOST + "/api/markdown/preview";
+    String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
+    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
+    String urlMdPreview = Global.HOST_API + "/markdown/preview";
 
     AttachmentFileObject mFiles = new AttachmentFileObject();
 

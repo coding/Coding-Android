@@ -47,9 +47,9 @@ import java.util.ArrayList;
 public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     static final int RESULT_ADD_USER = 111;
-    final String urlDeleteUser = Global.HOST + "/api/project/%d/kickout/%d";
-    String urlMembers = Global.HOST + "/api/project/%d/members?pagesize=1000";
-    String urlQuit = Global.HOST + "/api/project/%d/quit";
+    final String urlDeleteUser = Global.HOST_API + "/project/%d/kickout/%d";
+    String urlMembers = Global.HOST_API + "/project/%d/members?pagesize=1000";
+    String urlQuit = Global.HOST_API + "/project/%d/quit";
     @FragmentArg
     ProjectObject mProjectObject;
     @FragmentArg

@@ -8,7 +8,7 @@ import net.coding.program.common.Global;
 public class UrlCreate {
 
     public static String gitTree(String projectPath, String version, String path) {
-        final String HOST_GIT_TREE = Global.HOST + "/api%s/git/tree/%s%s";
+        final String HOST_GIT_TREE = Global.HOST_API + "%s/git/tree/%s%s";
 
         String filePath = pathEncode2(path);
         return String.format(HOST_GIT_TREE,
@@ -16,14 +16,14 @@ public class UrlCreate {
     }
 
     public static String gitTreeinfo(String projectPath, String version, String path) {
-        final String HOST_GIT_TREEINFO = Global.HOST + "/api%s/git/treeinfo/%s%s";
+        final String HOST_GIT_TREEINFO = Global.HOST_API + "%s/git/treeinfo/%s%s";
         String filePath = pathEncode2(path);
         return String.format(HOST_GIT_TREEINFO,
                 projectPath, version, filePath);
     }
 
     public static String gitTreeCommit(String projectPath, String version, String path) {
-        final String HOST_GIT_TREEINFO = Global.HOST + "/api%s/git/commits/%s%s";
+        final String HOST_GIT_TREEINFO = Global.HOST_API + "%s/git/commits/%s%s";
         String filePath = encode2Pager(path);
         return String.format(HOST_GIT_TREEINFO,
                 projectPath, version, filePath);

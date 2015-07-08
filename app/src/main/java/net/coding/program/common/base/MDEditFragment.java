@@ -35,11 +35,11 @@ import java.io.File;
 public class MDEditFragment extends BaseFragment {
 
     private final String tipFont = "在此输入文字";
-    private final String HOST_UPLOAD_PHOTO_PUBLIC = Global.HOST + "/api/project/%s/upload_public_image";
-    private final String HOST_UPLOAD_PHOTO_PRIVATE = Global.HOST + "/api/project/%s/file/upload";
-    private final String HOST_UPLOAD_PHOTO_PUBLIC_PATH = Global.HOST + "/api%s/upload_public_image";
+    private final String HOST_UPLOAD_PHOTO_PUBLIC = Global.HOST_API + "/project/%s/upload_public_image";
+    private final String HOST_UPLOAD_PHOTO_PRIVATE = Global.HOST_API + "/project/%s/file/upload";
+    private final String HOST_UPLOAD_PHOTO_PUBLIC_PATH = Global.HOST_API + "%s/upload_public_image";
 //    private final String host_upload_photo = "https://coding.net/api/project/%d/file/upload";
-private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST + "/api%s/file/upload";
+private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST_API + "%s/file/upload";
     private final int RESULT_REQUEST_PHOTO = 1005;
     @ViewById
     protected EditText edit;

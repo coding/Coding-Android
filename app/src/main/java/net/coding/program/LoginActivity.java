@@ -58,8 +58,8 @@ import java.io.File;
 public class LoginActivity extends BaseActivity {
 
     public static final String EXTRA_BACKGROUND = "background";
-    public static String HOST_USER = Global.HOST + "/api/user/key/%s";
-    private static String HOST_NEED_CAPTCHA = Global.HOST + "/api/captcha/login";
+    public static String HOST_USER = Global.HOST_API + "/user/key/%s";
+    private static String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
     final String HOST_LOGIN = Global.HOST_API + "/login";
@@ -245,7 +245,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void downloadValifyPhoto() {
-        String host = Global.HOST + "/api/getCaptcha";
+        String host = Global.HOST_API + "/getCaptcha";
         AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
 
         client.get(host, new AsyncHttpResponseHandler() {

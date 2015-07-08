@@ -91,9 +91,9 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     String downloadFormat = "下载中...(%s/%s)";
     @ViewById
     ImageView ivDownloadCancel;
-    String urlFiles = Global.HOST + "/api/project/%d/files/%s/view";
-    String urlPages = Global.HOST + "/api/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
-    String urlDownload = Global.HOST + "/api/project/%d/files/%s/download";
+    String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
+    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
+    String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
     AttachmentFileObject mFileObject = new AttachmentFileObject();
     AsyncHttpClient client;
     File mFile;
@@ -118,7 +118,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         }
     };
     boolean isCanceled = false;
-    private String HOST_FILE_DELETE = Global.HOST + "/api/project/%d/file/delete?fileIds=%s";
+    private String HOST_FILE_DELETE = Global.HOST_API + "/project/%d/file/delete?fileIds=%s";
     private DownloadManager downloadManager;
     private DownloadManagerPro downloadManagerPro;
     private long downloadId = 0L;

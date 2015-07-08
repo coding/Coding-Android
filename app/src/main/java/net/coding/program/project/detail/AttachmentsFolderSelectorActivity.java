@@ -61,8 +61,8 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     //Boolean isTopFolder = true;
     @ViewById
     ListView listView;
-    private String HOST_FOLDER = Global.HOST + "/api/project/%s/all_folders?pageSize=9999";
-    private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%s/mkdir";
+    private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
+    private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
     BaseAdapter adapter = new BaseAdapter() {
         private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {

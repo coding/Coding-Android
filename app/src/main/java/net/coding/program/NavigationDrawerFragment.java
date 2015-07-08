@@ -44,28 +44,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 @EFragment(R.layout.fragment_navigation_drawer)
 public class NavigationDrawerFragment extends BaseFragment implements UnreadNotify.UnreadNotifyObserver {
 
-    private NavigationDrawerCallbacks mCallbacks;
-
-    private ActionBarDrawerToggle mDrawerToggle;
-
-    private DrawerLayout mDrawerLayout;
-
-    private View mFragmentContainerView;
-
-    private boolean mFirstDisplay = true;
-
-    @ViewById
-    TextView name;
-
-    @ViewById
-    TextView sign;
-
-    @ViewById
-    TextView follows;
-
-    @ViewById
-    TextView fans;
-
     final int radioIds[] = {
             R.id.radio0,
             R.id.radio1,
@@ -73,14 +51,39 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
             R.id.radio3,
             R.id.radio4
     };
-
+    final int RESULT_REQUEST_USERINFO = 21;
+    @ViewById
+    TextView name;
+    @ViewById
+    TextView sign;
+    @ViewById
+    TextView follows;
+    @ViewById
+    TextView fans;
     RadioButton radios[] = new RadioButton[radioIds.length];
-
     @ViewById
     CircleImageView circleIcon;
-
     BadgeView badgeProject;
     BadgeView badgeMessage;
+    String HOST = Global.HOST_API + "/user/key/%s";
+    int mSelectMenuPos = 0;
+    private NavigationDrawerCallbacks mCallbacks;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private View mFragmentContainerView;
+    View.OnClickListener clickItem = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            for (int i = 0; i < radios.length; ++i) {
+                if (v.equals(radios[i])) {
+                    selectItem(i);
+                } else {
+                    radios[i].setChecked(false);
+                }
+            }
+        }
+    };
+    private boolean mFirstDisplay = true;
 
     // 4.1系统bug，setHasOptionsMenu(true) 如果放在 onCreate 中会报错
     @Override
@@ -123,19 +126,6 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
         updateUserinfo();
     }
 
-    View.OnClickListener clickItem = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            for (int i = 0; i < radios.length; ++i) {
-                if (v.equals(radios[i])) {
-                    selectItem(i);
-                } else {
-                    radios[i].setChecked(false);
-                }
-            }
-        }
-    };
-
     private void updateNotify() {
         if (!isResumed()) {
             return;
@@ -162,8 +152,6 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
         UserObject oldUser = AccountInfo.loadAccount(getActivity());
         getNetwork(String.format(HOST, oldUser.global_key), HOST);
     }
-
-    String HOST = Global.HOST + "/api/user/key/%s";
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -244,8 +232,6 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    int mSelectMenuPos = 0;
-
     private void selectItem(int position) {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -261,8 +247,6 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
                 .globalKey(MyApp.sUserObject.global_key)
                 .startForResult(RESULT_REQUEST_USERINFO);
     }
-
-    final int RESULT_REQUEST_USERINFO = 21;
 
     @OnActivityResult(RESULT_REQUEST_USERINFO)
     void onResultUserinfo() {
@@ -315,12 +299,12 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
         actionBar.setDisplayShowCustomEnabled(false);
     }
 
-    public static interface NavigationDrawerCallbacks {
-        void onNavigationDrawerItemSelected(int position);
-    }
-
     @Override
     public void update() {
         updateNotify();
+    }
+
+    public interface NavigationDrawerCallbacks {
+        void onNavigationDrawerItemSelected(int position);
     }
 }

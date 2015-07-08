@@ -52,10 +52,16 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EActivity(R.layout.activity_users_list)
 public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMore {
 
-    public enum Friend {
-        Follow, Fans
-    }
-
+    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
+    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
+    public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
+    public static final String TAG_USER_FANS = "TAG_USER_FANS";
+    public static final String RESULT_EXTRA_NAME = "name";
+    public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
+    final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=500";
+    final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=500";
+    final int RESULT_REQUEST_ADD = 1;
+    final int RESULT_REQUEST_DETAIL = 2;
     @Extra
     Friend type;
     @Extra
@@ -66,37 +72,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     String titleName = ""; // 设置title
     @Extra
     UserParams mUserParam;
-
-    public static class UserParams implements Serializable {
-        private Friend mType;
-        public UserObject mUser;
-
-        public UserParams(UserObject user, Friend mType) {
-            this.mUser = user;
-            this.mType = mType;
-        }
-
-        public String getName() {
-            return mUser.name;
-        }
-
-        public boolean isFans() {
-            return mType == Friend.Fans;
-        }
-    }
-
-    final String HOST_FOLLOWS = Global.HOST + "/api/user/friends?pageSize=500";
-    final String HOST_FANS = Global.HOST + "/api/user/followers?pageSize=500";
-
-    public static final String HOST_FOLLOW = Global.HOST + "/api/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST + "/api/user/unfollow?";
-
-    public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
-    public static final String TAG_USER_FANS = "TAG_USER_FANS";
-
-    public static final String RESULT_EXTRA_NAME = "name";
-    public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
-
     ArrayList<UserObject> mData = new ArrayList<>();
     ArrayList<UserObject> mSearchData = new ArrayList<>();
 
@@ -105,6 +80,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
 
     @ViewById
     FloatingActionButton floatButton;
+    UserAdapter adapter = new UserAdapter();
 
     @Override
     protected void initSetting() {
@@ -186,10 +162,10 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         } else {
 
             if (mUserParam.isFans()) {
-                String url = String.format(Global.HOST + "/api/user/followers/%s?pageSize=500", mUserParam.mUser.global_key);
+                String url = String.format(Global.HOST_API + "/user/followers/%s?pageSize=500", mUserParam.mUser.global_key);
                 getNextPageNetwork(url, TAG_USER_FANS);
             } else {
-                String url = String.format(Global.HOST + "/api/user/friends/%s?pageSize=500", mUserParam.mUser.global_key);
+                String url = String.format(Global.HOST_API + "/user/friends/%s?pageSize=500", mUserParam.mUser.global_key);
                 getNextPageNetwork(url, TAG_USER_FOLLOWS);
             }
         }
@@ -273,9 +249,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         adapter.notifyDataSetChanged();
     }
 
-    final int RESULT_REQUEST_ADD = 1;
-    final int RESULT_REQUEST_DETAIL = 2;
-
     @OnActivityResult(RESULT_REQUEST_ADD)
     void result(int result) {
         if (result == RESULT_OK) {
@@ -355,9 +328,40 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
         onBackPressed();
     }
 
-    UserAdapter adapter = new UserAdapter();
+    public enum Friend {
+        Follow, Fans
+    }
+
+    public static class UserParams implements Serializable {
+        public UserObject mUser;
+        private Friend mType;
+
+        public UserParams(UserObject user, Friend mType) {
+            this.mUser = user;
+            this.mType = mType;
+        }
+
+        public String getName() {
+            return mUser.name;
+        }
+
+        public boolean isFans() {
+            return mType == Friend.Fans;
+        }
+    }
+
+    static class ViewHolder {
+        ImageView icon;
+        TextView name;
+        CheckBox mutual;
+        TextView divideTitle;
+    }
 
     class UserAdapter extends BaseAdapter implements SectionIndexer, StickyListHeadersAdapter {
+
+        private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private ArrayList<String> mSectionTitle = new ArrayList<>();
+        private ArrayList<Integer> mSectionId = new ArrayList<>();
 
         public void initSection() {
             mSectionTitle.clear();
@@ -462,8 +466,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             return !currentItem.equals(preItem);
         }
 
-        private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
         @Override
         public int getPositionForSection(int section) {
             // If there is no item for current section, previous section will be selected
@@ -497,7 +499,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             return sections;
         }
 
-
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
             HeaderViewHolder holder;
@@ -514,23 +515,13 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             return convertView;
         }
 
-        class HeaderViewHolder {
-            TextView mHead;
-        }
-
         @Override
         public long getHeaderId(int i) {
             return getSectionForPosition(i);
         }
 
-        private ArrayList<String> mSectionTitle = new ArrayList<>();
-        private ArrayList<Integer> mSectionId = new ArrayList<>();
-    }
-
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        CheckBox mutual;
-        TextView divideTitle;
+        class HeaderViewHolder {
+            TextView mHead;
+        }
     }
 }

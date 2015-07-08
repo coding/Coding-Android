@@ -42,7 +42,7 @@ import java.util.List;
 @EFragment(R.layout.fragment_project_task)
 public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
-    final String HOST_MEMBERS = Global.HOST + "/api/project/%d/members?pageSize=1000";
+    final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
     @FragmentArg
     ProjectObject mProjectObject;
     @ViewById
@@ -56,7 +56,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<>();
     ArrayList<TaskObject.Members> mMembersAll = new ArrayList<>();
     ArrayList<TaskObject.Members> mMembersAllAll = new ArrayList<>();
-    String HOST_TASK_MEMBER = Global.HOST + "/api/project/%d/task/user/count";
+    String HOST_TASK_MEMBER = Global.HOST_API + "/project/%d/task/user/count";
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

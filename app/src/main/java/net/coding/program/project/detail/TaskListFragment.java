@@ -53,11 +53,11 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
 
-    public static final String hostTaskDelete = Global.HOST + "/api/user/%s/project/%s/task/%s";
+    public static final String hostTaskDelete = Global.HOST_API + "/user/%s/project/%s/task/%s";
     final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    final String urlTaskCountProject = Global.HOST + "/api/project/%d/task/user/count";
-    final String urlTaskCountMy = Global.HOST + "/api/tasks/projects/count";
-    final String URL_TASK_SATUS = Global.HOST + "/api/task/%s/status";
+    final String urlTaskCountProject = Global.HOST_API + "/project/%d/task/user/count";
+    final String urlTaskCountMy = Global.HOST_API + "/tasks/projects/count";
+    final String URL_TASK_SATUS = Global.HOST_API + "/task/%s/status";
     @FragmentArg
     boolean mShowAdd = false;
     @FragmentArg
@@ -138,7 +138,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     String createHost(String userId, String type) {
-        String BASE_HOST = Global.HOST + "/api%s/tasks%s?";
+        String BASE_HOST = Global.HOST_API + "%s/tasks%s?";
         String userType;
         if (mProjectObject.isEmpty()) {
             userType = type;

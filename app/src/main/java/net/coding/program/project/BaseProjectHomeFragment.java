@@ -28,7 +28,7 @@ import org.json.JSONObject;
 @EFragment(R.layout.fragment_public_project_home)
 public abstract class BaseProjectHomeFragment extends BaseFragment {
 
-    public static final String HOST_VISTIT = Global.HOST + "/api/project/%d/update_visit";
+    public static final String HOST_VISTIT = Global.HOST_API + "/project/%d/update_visit";
     protected boolean isUpdateDynamic = false;
     @FragmentArg
     ProjectObject mProjectObject;

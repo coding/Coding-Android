@@ -65,11 +65,11 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     public final static int TAG_COMMENT_TEXT = R.id.commentArea;
     static final int RESULT_EDIT_MAOPAO = 100;
     static final int RESULT_AT = 101;
-    final String maopaoUrlFormat = Global.HOST + "/api/tweet/public_tweets?last_id=%s&sort=%s";
-    final String friendUrl = Global.HOST + "/api/activities/user_tweet?last_id=%s";
-    final String myUrl = Global.HOST + "/api/tweet/user_public?user_id=%s&last_id=%s";
-    final String URI_COMMENT = Global.HOST + "/api/tweet/%s/comment";
-    final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
+    final String maopaoUrlFormat = Global.HOST_API + "/tweet/public_tweets?last_id=%s&sort=%s";
+    final String friendUrl = Global.HOST_API + "/activities/user_tweet?last_id=%s";
+    final String myUrl = Global.HOST_API + "/tweet/user_public?user_id=%s&last_id=%s";
+    final String URI_COMMENT = Global.HOST_API + "/tweet/%s/comment";
+    final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
     final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
     ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
@@ -154,7 +154,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%s";
+                        String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
                         deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
                                 -1, maopaoId);
                     }
@@ -169,7 +169,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/%d/comment/%d";
+                            final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%d/comment/%d";
                             deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
                         }
                     });

@@ -69,18 +69,18 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     //https://coding.net/api/project/20945/mkdir?name=%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9
     //https://coding.net/api/project/20945/dir/34365/name/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B92
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
-    //private String HOST_FOLDER = Global.HOST + "/api/project/%s/folders?pageSize=20";
-    private String HOST_FOLDER = Global.HOST + "/api/project/%d/all_folders?pageSize=9999";
+    //private String HOST_FOLDER = Global.HOST_API + "/project/%s/folders?pageSize=20";
+    private String HOST_FOLDER = Global.HOST_API + "/project/%d/all_folders?pageSize=9999";
     //https://coding.net/api/project/20945/all_folders?page=1&pageSize=9999
-    //private String HOST_FILECOUNT = Global.HOST + "/api/project/%s/folders/filecount";
-    private String HOST_FILECOUNT = Global.HOST + "/api/project/%d/folders/all_file_count";
+    //private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/filecount";
+    private String HOST_FILECOUNT = Global.HOST_API + "/project/%d/folders/all_file_count";
     //https://coding.net/api/project/20945/folders/all_file_count
-    private String HOST_FOLDER_NAME = Global.HOST + "/api/project/%d/dir/%s/name/%s";
-    private String HOST_FOLDER_NEW = Global.HOST + "/api/project/%d/mkdir";
+    private String HOST_FOLDER_NAME = Global.HOST_API + "/project/%d/dir/%s/name/%s";
+    private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%d/mkdir";
 
     //@ViewById
     //SwipeRefreshLayout swipeRefreshLayout;
-    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST + "/api/project/%d/rmdir/%s";
+    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%d/rmdir/%s";
     private String HOST_FOLDER_DELETE;
     private HashMap<String, Integer> fileCountMap = new HashMap<String, Integer>();
     private boolean isEditMode = false;

@@ -69,11 +69,11 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     private static final int RESULT_REQUEST_PHOTO = 1005;
-    final String HOST_MESSAGE_SEND = Global.HOST + "/api/message/send?";
-    final String hostDeleteMessage = Global.HOST + "/api/message/%s";
+    final String HOST_MESSAGE_SEND = Global.HOST_API + "/message/send?";
+    final String hostDeleteMessage = Global.HOST_API + "/message/%s";
     final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
-    final String HOST_MESSAGE_LAST = Global.HOST + "/api/message/conversations/%s/last?id=%s";
-    final String HOST_USER_INFO = Global.HOST + "/api/user/key/";
+    final String HOST_MESSAGE_LAST = Global.HOST_API + "/message/conversations/%s/last?id=%s";
+    final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
     private final int REFRUSH_TIME = 3 * 1000;
     @Extra
     UserObject mUserObject;
@@ -96,8 +96,30 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             onRefresh();
         }
     };
-    String HOST_INSERT_IMAGE = Global.HOST + "/api/tweet/insert_image";
+    String HOST_INSERT_IMAGE = Global.HOST_API + "/tweet/insert_image";
     MyImageGetter myImageGetter = new MyImageGetter(this);
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String s = mEnterLayout.getContent();
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
+                return;
+            }
+
+            RequestParams params = new RequestParams();
+            params.put("content", s);
+            params.put("receiver_global_key", mUserObject.global_key);
+
+            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
+            temp.content = s;
+            mData.add(temp);
+            adapter.notifyDataSetChanged();
+
+            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
+
+            mEnterLayout.clearContent();
+        }
+    };
     private PhotoOperate photoOperate = new PhotoOperate(this);
     private Uri fileUri;
     private int mPxImageWidth = 0;
@@ -226,28 +248,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
         }
     };
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = mEnterLayout.getContent();
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
-                return;
-            }
-
-            RequestParams params = new RequestParams();
-            params.put("content", s);
-            params.put("receiver_global_key", mUserObject.global_key);
-
-            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
-            temp.content = s;
-            mData.add(temp);
-            adapter.notifyDataSetChanged();
-
-            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
-
-            mEnterLayout.clearContent();
-        }
-    };
     private int mPxImageDivide = 0;
 
     @Override
@@ -303,7 +303,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
-        url = String.format(Global.HOST + "/api/message/conversations/%s?pageSize=20", mUserObject.global_key);
+        url = String.format(Global.HOST_API + "/message/conversations/%s?pageSize=20", mUserObject.global_key);
 
         getSupportActionBar().setTitle(mUserObject.name);
 

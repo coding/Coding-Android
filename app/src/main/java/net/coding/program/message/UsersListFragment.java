@@ -46,15 +46,15 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    public static final String HOST_MARK_MESSAGE = Global.HOST + "/api/message/conversations/%s/read";
+    public static final String HOST_MARK_MESSAGE = Global.HOST_API + "/message/conversations/%s/read";
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
-    final String HOST_MESSAGE_USERS = Global.HOST + "/api/message/conversations?pageSize=10";
-    final String HOST_UNREAD_AT = Global.HOST + "/api/notification/unread-count?type=0";
-    final String HOST_UNREAD_COMMENT = Global.HOST + "/api/notification/unread-count?type=1&type=2";
-    final String HOST_UNREAD_SYSTEM = Global.HOST + "/api/notification/unread-count?type=4";
-    final String HOST_MARK_AT = Global.HOST + "/api/notification/mark-read?all=1&type=0";
-    final String HOST_MARK_COMMENT = Global.HOST + "/api/notification/mark-read?all=1&type=1&type=2";
-    final String HOST_MARK_SYSTEM = Global.HOST + "/api/notification/mark-read?all=1&type=4";
+    final String HOST_MESSAGE_USERS = Global.HOST_API + "/message/conversations?pageSize=10";
+    final String HOST_UNREAD_AT = Global.HOST_API + "/notification/unread-count?type=0";
+    final String HOST_UNREAD_COMMENT = Global.HOST_API + "/notification/unread-count?type=1&type=2";
+    final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count?type=4";
+    final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
+    final String HOST_MARK_COMMENT = Global.HOST_API + "/notification/mark-read?all=1&type=1&type=2";
+    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4";
     final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
     private final int RESULT_SELECT_USER = 2001;
     @ViewById
@@ -178,7 +178,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 showDialog("私信", title, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        final String hostDeleteAll = Global.HOST + "/api/message/conversations/%s";
+                        final String hostDeleteAll = Global.HOST_API + "/message/conversations/%s";
                         String url = String.format(hostDeleteAll, msg.friend.id);
                         deleteNetwork(url, TAG_DELETE_MESSAGE, msg);
                     }

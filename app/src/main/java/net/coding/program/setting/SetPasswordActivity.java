@@ -27,12 +27,11 @@ import org.json.JSONObject;
 @OptionsMenu(R.menu.set_password)
 public class SetPasswordActivity extends BaseActivity {
 
+    final String Url = Global.HOST_API + "/user/updatePassword";
     @ViewById
     TextView oldPassword;
-
     @ViewById
     TextView newPassword;
-
     @ViewById
     TextView confirmPassword;
 
@@ -45,8 +44,6 @@ public class SetPasswordActivity extends BaseActivity {
     void back() {
         onBackPressed();
     }
-
-    final String Url = Global.HOST + "/api/user/updatePassword";
 
     @OptionsItem
     void submit() {

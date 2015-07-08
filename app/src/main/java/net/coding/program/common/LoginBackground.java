@@ -26,7 +26,7 @@ import java.util.Random;
 public class LoginBackground {
 
     static final String TAG = "LoginBackground";
-    final String URL_DOWNLOAD = Global.HOST + "/api/wallpaper/wallpapers?type=3";
+    final String URL_DOWNLOAD = Global.HOST_API + "/wallpaper/wallpapers?type=3";
     private Context context;
 
     public LoginBackground(Context context) {

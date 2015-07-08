@@ -129,13 +129,13 @@ public class UserProjectListFragment extends RefreshBaseFragment {
         listView.setAdapter(mAdapter);
         switch (mType) {
             case stared:
-                mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=stared";
+                mUrl = Global.HOST_API + "/user/" + mUserObject.global_key + "/public_projects?type=stared";
                 break;
             case all_private:
                 mUrl = Global.HOST_API + "/projects?page=1&pageSize=1000&type=all"; // 没有取私有的api，只好取全部然后本地过滤
                 break;
             default: // 0
-                mUrl = Global.HOST + "/api/user/" + mUserObject.global_key + "/public_projects?type=joined";
+                mUrl = Global.HOST_API + "/user/" + mUserObject.global_key + "/public_projects?type=joined";
                 break;
         }
 

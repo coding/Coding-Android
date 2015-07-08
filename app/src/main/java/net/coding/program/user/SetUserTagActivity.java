@@ -27,23 +27,23 @@ import org.json.JSONObject;
 @OptionsMenu(R.menu.set_password)
 public class SetUserTagActivity extends BaseActivity {
 
+    final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
     @Extra("title")
     String title;
-
     String tags;
-
     UserObject user;
-
     @ViewById
     GridView gridView;
-
     JSONArray tagJSONArray;
-
-    final String HOST_USERINFO = Global.HOST + "/api/user/updateInfo";
-
-    String HOST_USER_TAG_LIST = Global.HOST + "/api/tagging/user_tag_list";
+    String HOST_USER_TAG_LIST = Global.HOST_API + "/tagging/user_tag_list";
 
     UserTagAdapter adapter;
+    private AdapterView.OnItemClickListener onTagClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            adapter.setSelectedTag(position);
+        }
+    };
 
     @AfterViews
     void init() {
@@ -118,12 +118,5 @@ public class SetUserTagActivity extends BaseActivity {
             }
         }
     }
-
-    private AdapterView.OnItemClickListener onTagClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            adapter.setSelectedTag(position);
-        }
-    };
 
 }

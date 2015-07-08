@@ -56,9 +56,9 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.common_more)
 public class MaopaoDetailActivity extends CustomMoreActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
-    final String HOST_GOOD = Global.HOST + "/api/tweet/%s/%s";
+    final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final int RESULT_REQUEST_AT = 1;
-    final String URI_COMMENT_DELETE = Global.HOST + "/api/tweet/%s/comment/%s";
+    final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
     @Extra
@@ -72,8 +72,8 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     String maopaoId = "";
     ArrayList<Maopao.Comment> mData = new ArrayList<Maopao.Comment>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    String URI_COMMENT = Global.HOST + "/api/tweet/%s/comments?pageSize=500";
-    String ADD_COMMENT = Global.HOST + "/api/tweet/%s/comment";
+    String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
+    String ADD_COMMENT = Global.HOST_API + "/tweet/%s/comment";
     String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
     EnterEmojiLayout mEnterLayout;
     String bubble;
@@ -120,7 +120,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    final String HOST_MAOPAO_DELETE = Global.HOST + "/api/tweet/%d";
+                    final String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%d";
                     deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
                 }
             });
@@ -213,7 +213,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             maopaoOwnerGlobal = mClickParam.name;
             maopaoId = mClickParam.maopaoId;
 
-            final String url = Global.HOST + "/api/tweet/%s/%s";
+            final String url = Global.HOST_API + "/tweet/%s/%s";
             maopaoUrl = String.format(url, maopaoOwnerGlobal, maopaoId);
 
             getNetwork(maopaoUrl, maopaoUrl);

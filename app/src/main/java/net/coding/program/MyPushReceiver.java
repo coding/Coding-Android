@@ -20,6 +20,17 @@ public class MyPushReceiver extends BroadcastReceiver {
     public MyPushReceiver() {
     }
 
+    public static void closeNotify(Context context, String url) {
+        String notifys[] = PushReceiver.sNotify;
+        NotificationManager mNotificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        for (int i = 0; i < notifys.length; ++i) {
+            if (url.equals(notifys[i])) {
+                mNotificationManager.cancel(i);
+            }
+        }
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String url = intent.getStringExtra("data");
@@ -39,20 +50,9 @@ public class MyPushReceiver extends BroadcastReceiver {
         String id = intent.getStringExtra("id");
         if (id != null && !id.isEmpty()) {
             AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-            final String host = Global.HOST + "/api/notification/mark-read?id=%s";
+            final String host = Global.HOST_API + "/notification/mark-read?id=%s";
             client.post(String.format(host, id), new JsonHttpResponseHandler() {
             });
-        }
-    }
-
-    public static void closeNotify(Context context, String url) {
-        String notifys[] = PushReceiver.sNotify;
-        NotificationManager mNotificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
-        for (int i = 0; i < notifys.length; ++i) {
-            if (url.equals(notifys[i])) {
-                mNotificationManager.cancel(i);
-            }
         }
     }
 }

@@ -22,12 +22,10 @@ import java.util.regex.Pattern;
 @EActivity(R.layout.activity_file_url)
 public class FileUrlActivity extends BaseActivity {
 
-    public static final String HOST_PROJECT = Global.HOST + "/api/user/%s/project/%s";
-    final String HOST_FILE = Global.HOST + "/api/project/%s/files/%s/view";
-
+    public static final String HOST_PROJECT = Global.HOST_API + "/user/%s/project/%s";
     public static final String PATTERN_DIR = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)$";
     public static final String PATTERN_DIR_FILE = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)$";
-
+    final String HOST_FILE = Global.HOST_API + "/project/%s/files/%s/view";
     @Extra
     String url;
 

@@ -37,7 +37,7 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     String projectPath;
 //    int projectId;
 
-    String HOST_DESCRIPTION = Global.HOST + "/api/task/%s/description";
+    String HOST_DESCRIPTION = Global.HOST_API + "/task/%s/description";
 
     TaskDespEditFragment editFragment;
     Fragment previewFragment;

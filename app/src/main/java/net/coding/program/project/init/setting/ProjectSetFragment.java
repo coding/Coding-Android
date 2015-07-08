@@ -46,7 +46,7 @@ public class ProjectSetFragment extends BaseFragment {
 
     public static final int RESULT_REQUEST_PHOTO = 3003;
     private static final String TAG = "ProjectSetFragment";
-    final String host = Global.HOST + "/api/project";
+    final String host = Global.HOST_API + "/project";
     private final int RESULT_REQUEST_PHOTO_CROP = 3006;
     ProjectObject mProjectObject;
 

@@ -37,21 +37,16 @@ import java.util.List;
 @EFragment(R.layout.fragment_task)
 public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
+    final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
+    final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
     @ViewById
     MyPagerSlidingTabStrip tabs;
-
     @ViewById(R.id.pagerTaskFragment)
     ViewPager pager;
-
-    private PageTaskFragment adapter;
-
-    final String host = Global.HOST + "/api/projects?pageSize=100&type=all";
-    final String urlTaskCount = Global.HOST + "/api/tasks/projects/count";
-
     ArrayList<ProjectObject> mData = new ArrayList<ProjectObject>();
     ArrayList<ProjectObject> mAllData = new ArrayList<ProjectObject>();
-
     int pageMargin;
+    private PageTaskFragment adapter;
 
     @AfterViews
     void init() {
@@ -141,6 +136,18 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
         }
     }
 
+    public static class TaskCount {
+        public int project;
+        public int processing;
+        public int done;
+
+        public TaskCount(JSONObject json) throws JSONException {
+            project = json.optInt("project");
+            processing = json.optInt("processing");
+            done = json.optInt("done");
+        }
+    }
+
     private class PageTaskFragment extends SaveFragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
 
         public PageTaskFragment(android.support.v4.app.FragmentManager fm) {
@@ -190,18 +197,6 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
             saveFragment(fragment);
 
             return fragment;
-        }
-    }
-
-    public static class TaskCount {
-        public int project;
-        public int processing;
-        public int done;
-
-        public TaskCount(JSONObject json) throws JSONException {
-            project = json.optInt("project");
-            processing = json.optInt("processing");
-            done = json.optInt("done");
         }
     }
 }

@@ -10,6 +10,6 @@ public class UserActiveActivity extends ResetPasswordBaseActivity {
 
     @Override
     String getRequestHost() {
-        return Global.HOST + "/api/activate";
+        return Global.HOST_API + "/activate";
     }
 }

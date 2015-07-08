@@ -12,7 +12,7 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_base_send_email)
 public class SendEmailActiveActivity extends SendEmailBaseActivity {
 
-    private final String hostResendEmail = Global.HOST + "/api/activate?email=%s&j_captcha=%s";
+    private final String hostResendEmail = Global.HOST_API + "/activate?email=%s&j_captcha=%s";
 
     @AfterViews
     protected final void initResetPassword() {

@@ -40,11 +40,12 @@ public class UpdateService extends Service {
     public static final int PARAM_INSTALL_APK = 1;
     public static final int PARAM_STOP_SELF = 2;
     public static final int PARAM_START_DOWNLOAD = 3;
-
-
+    UpdateService.UpdateInfo mUpdateInfo;
     private boolean isChecking = false;
-
     private CompleteReceiver completeReceiver;
+    private Dialog noticeDialog;
+    private DownloadManager downloadManager;
+    private long enqueue = 0;
 
     public UpdateService() {
     }
@@ -136,12 +137,9 @@ public class UpdateService extends Service {
             return false;
         }
 
-        if (intent.getBooleanExtra(EXTRA_WIFI, false) &&
-                !Global.isWifiConnected(this)) {
-            return false;
-        }
+        return !(intent.getBooleanExtra(EXTRA_WIFI, false) &&
+                !Global.isWifiConnected(this));
 
-        return true;
     }
 
     private void run(Intent intent) {
@@ -163,7 +161,7 @@ public class UpdateService extends Service {
         }
 
         AsyncHttpClient client = MyAsyncHttpClient.createClient(this);
-        client.get(this, Global.HOST + "/api/update/app", new JsonHttpResponseHandler() {
+        client.get(this, Global.HOST_API + "/update/app", new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -218,32 +216,6 @@ public class UpdateService extends Service {
         return 1;
     }
 
-    class CompleteReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            DownloadManager.Query query = new DownloadManager.Query();
-            query.setFilterById(enqueue);
-            Cursor cursor = downloadManager.query(query);
-            if (cursor.moveToFirst()) {
-                int culumnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-                if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(culumnIndex)) {
-                    installApk();
-                }
-            }
-
-            stopSelf();
-        }
-    }
-
-    UpdateService.UpdateInfo mUpdateInfo;
-
-    private Dialog noticeDialog;
-
-    private DownloadManager downloadManager;
-    private long enqueue = 0;
-
-
     private boolean isDownload() {
         return mUpdateInfo.apkFile().exists();
     }
@@ -288,6 +260,24 @@ public class UpdateService extends Service {
 
         public File apkFile() {
             return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), apkName());
+        }
+    }
+
+    class CompleteReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            DownloadManager.Query query = new DownloadManager.Query();
+            query.setFilterById(enqueue);
+            Cursor cursor = downloadManager.query(query);
+            if (cursor.moveToFirst()) {
+                int culumnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(culumnIndex)) {
+                    installApk();
+                }
+            }
+
+            stopSelf();
         }
     }
 }

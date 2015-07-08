@@ -54,7 +54,7 @@ public class ProjectCreateFragment extends BaseFragment {
     public static final int RESULT_REQUEST_PHOTO = 2003;
     public static final int RESULT_REQUEST_PICK_TYPE = 2004;
     private static final String TAG = "ProjectCreateFragment";
-    final String host = Global.HOST + "/api/project";
+    final String host = Global.HOST_API + "/project";
     private final int RESULT_REQUEST_PHOTO_CROP = 2006;
     String currentType = ProjectTypeActivity.TYPE_PRIVATE;
 

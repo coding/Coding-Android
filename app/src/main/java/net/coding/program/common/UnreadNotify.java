@@ -25,7 +25,7 @@ public class UnreadNotify {
         final MyApp myApp = (MyApp) context.getApplicationContext();
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
 
-        client.get(Global.HOST + "/api/user/unread-count", new JsonHttpResponseHandler() {
+        client.get(Global.HOST_API + "/user/unread-count", new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

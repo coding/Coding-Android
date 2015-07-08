@@ -25,18 +25,14 @@ import org.json.JSONObject;
 @OptionsMenu(R.menu.set_password)
 public class SetUserInfoActivity extends BaseActivity {
 
+    final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
     @Extra("title")
     String title;
-
     @Extra("row")
     int row;
-
     UserObject user;
-
     @ViewById
     TextView value;
-
-    final String HOST_USERINFO = Global.HOST + "/api/user/updateInfo";
 
     @AfterViews
     void init() {
