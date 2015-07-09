@@ -351,9 +351,6 @@ public class LoginActivity extends BaseActivity {
         if (show) {
             layout2fa.setVisibility(View.VISIBLE);
             loginLayout.setVisibility(View.GONE);
-            if (globalKey.isEmpty()) {
-                globalKey = editName.getText().toString();
-            }
             String uri = AccountInfo.loadAuth(this, globalKey);
             if (!uri.isEmpty()) {
                 String code2FA = new AuthInfo(uri, new TotpClock(this)).getCode();
@@ -371,15 +368,9 @@ public class LoginActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LOGIN)) {
             if (code == 0) {
-                if (respanse.optString("data", "").equals("please input two factor auth code")) {
-                    show2FA(true);
-                    showProgressBar(false);
-                } else {
-                    loginSuccess(respanse);
-                }
-
+                loginSuccess(respanse);
             } else if (code == 3205) {
-                globalKey = respanse.optString("data", "");
+                globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
                 show2FA(true);
                 showProgressBar(false);
 

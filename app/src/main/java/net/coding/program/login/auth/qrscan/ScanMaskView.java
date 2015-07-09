@@ -45,9 +45,9 @@ public final class ScanMaskView extends View {
     private static final int CORNER_WIDTH = 5;
     private static final int MIDDLE_LINE_WIDTH = 6;
     private static final int MIDDLE_LINE_PADDING = 5;
-    private static final int SPEEN_DISTANCE = 5;
     private static final int TEXT_SIZE = 16;
     private static final int TEXT_PADDING_TOP = 30;
+    private static int SPEEN_DISTANCE = 5;
     private static float density;
     final int DEFAULTE_WIDTH = 500;
     private final int maskColor;
@@ -70,6 +70,7 @@ public final class ScanMaskView extends View {
         density = context.getResources().getDisplayMetrics().density;
         ScreenRate = (int) (15 * density);
         top = (int) (100 * density);
+        SPEEN_DISTANCE = (int) (5 * density);
 
         paint = new Paint();
         Resources resources = getResources();

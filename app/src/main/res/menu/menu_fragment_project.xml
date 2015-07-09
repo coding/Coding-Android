@@ -23,22 +23,28 @@
         <menu>
             <item
                 android:id="@+id/action_create"
-                android:icon="@drawable/ic_menu_add"
+                android:icon="@drawable/ic_menu_add_project"
                 android:title="创建项目"
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_create_task"
-                android:icon="@drawable/ic_menu_add"
+                android:icon="@drawable/ic_menu_add_task"
                 android:title="创建任务"
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_create_maopao"
-                android:icon="@drawable/ic_menu_add"
+                android:icon="@drawable/ic_menu_add_maopao"
                 android:title="发布冒泡"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/action_create_friend"
+                android:icon="@drawable/ic_menu_add_friend"
+                android:title="添加好友"
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_2fa"
-                android:icon="@drawable/ic_menu_add"
+                android:icon="@drawable/ic_menu_add_task_2fa"
                 android:title="2FA"
                 app:showAsAction="always" />
         </menu>

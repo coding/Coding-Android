@@ -113,6 +113,11 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     }
 
     @OptionsItem
+    void action_create_friend() {
+        
+    }
+
+    @OptionsItem
     final void action_create() {
         ProjectCreateActivity_.intent(this).start();
     }
