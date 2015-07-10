@@ -78,4 +78,6 @@
     <dimen name="guide_item0_h">100dp</dimen>
 
     <dimen name="scanview_width">250dp</dimen>
+
+    <dimen name="task_add_user_icon_width">40dp</dimen>
 </resources>

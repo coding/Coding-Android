@@ -711,7 +711,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
 
     void selectMember() {
         name.setText(mNewParam.owner.name);
-        ImageLoader.getInstance().displayImage(Global.makeSmallUrl(circleIcon, mNewParam.owner.avatar), circleIcon);
+        ImageLoader.getInstance().displayImage(Global.makeSmallUrlSquare(mNewParam.owner.avatar, getResources().getDimensionPixelSize(R.dimen.task_add_user_icon_width)), circleIcon);
     }
 
     private void closeActivity(String msg) {

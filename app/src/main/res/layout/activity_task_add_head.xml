@@ -130,8 +130,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/task_add_user_icon_width"
+            android:layout_height="@dimen/task_add_user_icon_width"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"
