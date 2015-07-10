@@ -72,7 +72,7 @@
                 android:textColor="@color/font_black_content"
                 android:textSize="15sp" />
 
-            <net.coding.program.common.MinSizeImageView
+            <net.coding.program.common.widget.MinSizeImageView
                 android:id="@+id/imageSingle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -11,10 +11,10 @@
         android:layout_height="@dimen/message_time_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/content_pressed_selector"
         android:gravity="center"
         android:text="Small Text"
         android:textColor="@color/font_gray"
-        android:background="@drawable/content_pressed_selector"
         android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -27,22 +27,21 @@
         android:layout_marginLeft="12dp"
         android:src="@drawable/ic_lancher" />
 
-    <LinearLayout
+    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/time"
         android:layout_marginLeft="5dp"
-        android:id="@+id/linearLayout"
-        android:layout_toRightOf="@+id/icon"
-        xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
-        android:orientation="vertical"
-        android:background="@drawable/message_list_item_left"
-        android:visibility="visible"
         android:layout_marginRight="57dp"
+        android:layout_toRightOf="@+id/icon"
+        android:background="@drawable/message_list_item_left"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
         android:paddingLeft="17dp"
-        android:paddingTop="12dp"
         android:paddingRight="12dp"
-        android:paddingBottom="12dp">
+        android:paddingTop="12dp"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/content"
@@ -52,40 +51,40 @@
             android:textColor="@color/font_black_content"
             android:textSize="16sp" />
 
-        <net.coding.program.common.MinSizeImageView
-            custom:microSize="@dimen/image_single_micro_width"
-            custom:minWidth="@dimen/image_single_min_size"
-            custom:minHeight="@dimen/image_single_min_size"
+        <net.coding.program.common.widget.MinSizeImageView
             android:id="@+id/imageSingle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:maxWidth="@dimen/image_single_width"
+            android:longClickable="true"
             android:maxHeight="@dimen/image_single_width"
-            android:minWidth="@dimen/image_single_min_width"
+            android:maxWidth="@dimen/image_single_width"
             android:minHeight="@dimen/image_single_min_width"
-            android:longClickable="true" />
+            android:minWidth="@dimen/image_single_min_width"
+            android:scaleType="centerCrop"
+            custom:microSize="@dimen/image_single_micro_width"
+            custom:minHeight="@dimen/image_single_min_size"
+            custom:minWidth="@dimen/image_single_min_size" />
 
 
         <LinearLayout
             android:id="@+id/imagesLayout0"
             android:layout_width="wrap_content"
-            android:visibility="visible"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image0" />
+                android:id="@+id/image0"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image1" />
+                android:id="@+id/image1"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image2" />
+                android:id="@+id/image2"
+                layout="@layout/maopao_image" />
 
         </LinearLayout>
 
@@ -96,27 +95,27 @@
             android:orientation="horizontal">
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image3" />
+                android:id="@+id/image3"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image4" />
+                android:id="@+id/image4"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image5" />
+                android:id="@+id/image5"
+                layout="@layout/maopao_image" />
         </LinearLayout>
     </LinearLayout>
 
 
     <FrameLayout
-        android:layout_toRightOf="@id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/linearLayout"
+        android:layout_marginLeft="-42dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="-42dp">
+        android:layout_toRightOf="@id/linearLayout">
 
         <View
             android:id="@+id/resend"
@@ -125,10 +124,10 @@
             android:background="@drawable/ic_message_resend" />
 
         <ProgressBar
+            android:id="@+id/sending"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sending" />
+            android:layout_height="wrap_content" />
 
     </FrameLayout>
 

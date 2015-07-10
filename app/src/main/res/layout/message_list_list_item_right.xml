@@ -1,91 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="10dp">
 
     <TextView
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/message_time_height"
-        android:textColor="@color/font_gray"
-        android:textSize="12sp"
-        android:text="Small Text"
-        android:gravity="center"
-        android:id="@+id/time"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Small Text"
+        android:textColor="@color/font_gray"
+        android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:id="@+id/icon"
-        android:src="@drawable/ic_lancher"
-        android:layout_below="@+id/time"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="12dp" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/time"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/ic_lancher" />
 
-    <LinearLayout
+    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
-        android:background="@drawable/message_list_item_right"
-        android:paddingLeft="12dp"
-        android:paddingTop="12dp"
-        android:paddingRight="17dp"
-        android:paddingBottom="12dp"
-        android:layout_marginRight="5dp"
-        android:gravity="right"
-        android:visibility="visible"
-        android:layout_marginLeft="57dp"
         android:layout_below="@+id/time"
+        android:layout_marginLeft="57dp"
+        android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/icon"
-        android:id="@+id/linearLayout">
+        android:background="@drawable/message_list_item_right"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="17dp"
+        android:paddingTop="12dp"
+        android:visibility="visible">
 
         <TextView
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="this is contentasdfasdfasdfasdfasdfasdfasdfasdfasdfas"
-            android:id="@+id/content"
             android:background="@drawable/content_pressed_selector"
+            android:text="this is contentasdfasdfasdfasdfasdfasdfasdfasdfasdfas"
             android:textColor="@color/font_black_content"
             android:textSize="15sp" />
 
-        <net.coding.program.common.MinSizeImageView
-            custom:microSize="@dimen/image_single_micro_width"
-            custom:minWidth="@dimen/image_single_min_size"
-            custom:minHeight="@dimen/image_single_min_size"
+        <net.coding.program.common.widget.MinSizeImageView
             android:id="@+id/imageSingle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:maxWidth="@dimen/image_single_width"
+            android:longClickable="true"
             android:maxHeight="@dimen/image_single_width"
-            android:minWidth="@dimen/image_single_min_width"
+            android:maxWidth="@dimen/image_single_width"
             android:minHeight="@dimen/image_single_min_width"
-            android:longClickable="true" />
+            android:minWidth="@dimen/image_single_min_width"
+            android:scaleType="centerCrop"
+            custom:microSize="@dimen/image_single_micro_width"
+            custom:minHeight="@dimen/image_single_min_size"
+            custom:minWidth="@dimen/image_single_min_size" />
 
         <LinearLayout
             android:id="@+id/imagesLayout0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
+            android:gravity="right"
+            android:orientation="horizontal">
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image0" />
+                android:id="@+id/image0"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image1" />
+                android:id="@+id/image1"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image2" />
+                android:id="@+id/image2"
+                layout="@layout/maopao_image" />
 
         </LinearLayout>
 
@@ -93,31 +92,31 @@
             android:id="@+id/imagesLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image3" />
+                android:id="@+id/image3"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image4" />
+                android:id="@+id/image4"
+                layout="@layout/maopao_image" />
 
             <include
-                layout="@layout/maopao_image"
-                android:id="@+id/image5" />
+                android:id="@+id/image5"
+                layout="@layout/maopao_image" />
 
         </LinearLayout>
     </LinearLayout>
 
     <FrameLayout
-        android:layout_toLeftOf="@id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/linearLayout"
+        android:layout_marginRight="-42dp"
         android:layout_marginTop="3dp"
-        android:layout_marginRight="-42dp">
+        android:layout_toLeftOf="@id/linearLayout">
 
         <View
             android:id="@+id/resend"
@@ -126,10 +125,10 @@
             android:background="@drawable/ic_message_resend" />
 
         <ProgressBar
+            android:id="@+id/sending"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sending" />
+            android:layout_height="wrap_content" />
 
     </FrameLayout>
 

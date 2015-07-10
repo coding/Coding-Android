@@ -2,10 +2,10 @@ package net.coding.program.maopao;
 
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.widget.GifMarkImageView;
 import net.coding.program.maopao.item.ContentAreaImages;
 
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ import java.util.ArrayList;
  */
 public class ContentArea extends ContentAreaImages {
 
-    private ImageView imageSingle;
+    private GifMarkImageView imageSingle;
 
     public ContentArea(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams, int pxImageWidth) {
         super(convertView, onClickContent, onclickImage, imageGetterParamer, loadParams, pxImageWidth);
 
-        imageSingle = (ImageView) convertView.findViewById(R.id.imageSingle);
+        imageSingle = (GifMarkImageView) convertView.findViewById(R.id.imageSingle);
         imageSingle.setOnClickListener(onclickImage);
         imageSingle.setFocusable(false);
         imageSingle.setLongClickable(true);
@@ -51,6 +51,7 @@ public class ContentArea extends ContentAreaImages {
 
         if (uris.size() == 1) {
             imageLoad.loadImage(imageSingle, uris.get(0), imageOptions);
+            imageSingle.showGifFlag(uris.get(0));
             imageSingle.setTag(new MaopaoListFragment.ClickImageParam(uris, 0, false));
         } else {
             super.setImageUrl(uris);

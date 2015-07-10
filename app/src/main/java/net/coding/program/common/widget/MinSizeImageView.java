@@ -1,4 +1,4 @@
-package net.coding.program.common;
+package net.coding.program.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 /**
  * Created by chaochen on 15/2/4.
  */
-public class MinSizeImageView extends ImageView {
+public class MinSizeImageView extends GifMarkImageView {
 
     protected int[] ATTR = new int[]{
             R.attr.minWidth,

@@ -12,6 +12,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.widget.GifMarkImageView;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Maopao;
@@ -137,6 +138,10 @@ public class ContentAreaImages extends ContentAreaBase {
         for (; i < min; ++i) {
             images[i].setVisibility(View.VISIBLE);
             images[i].setTag(new MaopaoListFragment.ClickImageParam(uris, i, false));
+            if (images[i] instanceof GifMarkImageView) {
+                ((GifMarkImageView) images[i]).showGifFlag(uris.get(i));
+            }
+
             imageLoad.loadImage(images[i], uris.get(i), imageOptions);
         }
 
