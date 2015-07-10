@@ -155,7 +155,11 @@ public class UserProjectListFragment extends RefreshBaseFragment {
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     ProjectObject projectObject = new ProjectObject(json);
-                    if (mType == Type.all_private && !projectObject.isPublic()) {
+                    if (mType == Type.all_private) {
+                        if (!projectObject.isPublic()) {
+                            mData.add(projectObject);
+                        }
+                    } else {
                         mData.add(projectObject);
                     }
                 }

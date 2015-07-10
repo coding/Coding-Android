@@ -75,7 +75,6 @@ public class UserProjectActivity extends BackActivity {
                     UserProjectListFragment.Type.stared
             };
 
-
             Fragment fragment = UserProjectListFragment_.builder()
                     .mUserObject(mUserObject)
                     .mType(types[position])
