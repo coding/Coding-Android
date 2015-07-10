@@ -42,6 +42,19 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
         return convertView;
     }
 
+    public void add(AuthInfo item) {
+        setNotifyOnChange(false);
+        for (int i = 0; i < getCount(); ++i) {
+            AuthInfo info = getItem(i);
+            if (item.equals(info)) {
+                remove(info);
+            }
+        }
+        setNotifyOnChange(true);
+
+        super.add(item);
+    }
+
     public void saveData() {
         ArrayList<String> uris = new ArrayList<>();
         for (int i = 0; i < getCount(); ++i) {

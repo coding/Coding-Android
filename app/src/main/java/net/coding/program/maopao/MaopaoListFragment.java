@@ -237,7 +237,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 // 隐藏第一条评论的分割线
                 convertView.findViewById(R.id.comment0).findViewById(R.id.commentTopDivider).setVisibility(View.INVISIBLE);
 
-
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

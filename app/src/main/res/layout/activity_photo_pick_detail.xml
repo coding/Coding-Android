@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
     android:orientation="vertical">
 
     <net.coding.program.PhotoViewPager xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:context="net.coding.program.common.photopick.PhotoPickDetailActivity"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        tools:context="net.coding.program.common.photopick.PhotoPickDetailActivity">
 
     </net.coding.program.PhotoViewPager>
 
@@ -17,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="#bb000000"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingRight="12dp">
 
         <View
@@ -27,12 +28,12 @@
             android:layout_weight="1" />
 
         <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择"
-            android:textColor="#ffdddddd"
             android:checked="false"
-            android:id="@+id/checkbox" />
+            android:text="选择"
+            android:textColor="#ffdddddd" />
 
     </LinearLayout>
 

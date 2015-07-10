@@ -79,8 +79,10 @@ public class ImagePagerActivity extends UmengActivity {
         if (needEdit) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setIcon(android.R.color.transparent);
+            pager.setBackgroundColor(getResources().getColor(R.color.stand_bg));
         } else {
             getSupportActionBar().hide();
+            pager.setBackgroundColor(getResources().getColor(R.color.black));
         }
 
         if (mSingleUri != null) {

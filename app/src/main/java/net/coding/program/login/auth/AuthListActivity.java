@@ -87,6 +87,7 @@ public class AuthListActivity extends BaseActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             mAuthAdapter.remove(info);
+                                            mAuthAdapter.saveData();
                                         }
                                     });
                         }
@@ -137,14 +138,6 @@ public class AuthListActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 String uriString = data.getStringExtra("data");
                 AuthInfo item = new AuthInfo(uriString, mClock);
-                mAuthAdapter.setNotifyOnChange(false);
-                for (int i = 0; i < mAuthAdapter.getCount(); ++i) {
-                    AuthInfo info = mAuthAdapter.getItem(i);
-                    if (item.equals(info)) {
-                        mAuthAdapter.remove(info);
-                    }
-                }
-                mAuthAdapter.setNotifyOnChange(true);
                 mAuthAdapter.add(item);
                 mAuthAdapter.saveData();
             }

@@ -57,6 +57,11 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
         Log.d("", "scan " + s);
+        // 可能调用多次，所以做个检测
+        if (isFinishing()) {
+            return;
+        }
+
         if (!AuthInfo.isAuthUrl(s)) {
             if (mToast == null) {
                 mToast = Toast.makeText(this, "不符合要求的二维码", Toast.LENGTH_SHORT);

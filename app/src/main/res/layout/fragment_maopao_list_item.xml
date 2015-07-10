@@ -55,6 +55,7 @@
 
             </LinearLayout>
 
+            <!--<net.coding.program.maopao.EllipsizingTextView-->
             <TextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
@@ -63,10 +64,9 @@
                 android:layout_below="@+id/name"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/content_pressed_selector"
-                android:ellipsize="end"
                 android:lineSpacingExtra="1dp"
                 android:lineSpacingMultiplier="1.1"
-                android:maxLines="2"
+                android:singleLine="false"
                 android:text="法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/font_black_content"
