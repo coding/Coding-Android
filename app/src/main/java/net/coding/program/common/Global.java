@@ -214,7 +214,7 @@ public class Global {
 
     public static String makeSmallUrlSquare(String url, int widthPix) {
         if (canCrop(url)) {
-            return String.format("%s?imageView2/1/w/%d/h/%d", widthPix, widthPix);
+            return String.format("%s?imageView2/1/w/%d/h/%d", url, widthPix, widthPix);
         } else {
             return url;
         }

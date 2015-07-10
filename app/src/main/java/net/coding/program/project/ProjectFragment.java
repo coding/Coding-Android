@@ -24,6 +24,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
+import net.coding.program.user.AddFollowActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -114,7 +115,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
 
     @OptionsItem
     void action_create_friend() {
-        
+        AddFollowActivity_.intent(this).start();
     }
 
     @OptionsItem

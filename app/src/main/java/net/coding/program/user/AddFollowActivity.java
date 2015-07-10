@@ -67,7 +67,7 @@ public class AddFollowActivity extends BaseActivity {
     BaseAdapter baseAdapter;
 
     @AfterViews
-    void init() {
+    protected final void initAddFollowActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
