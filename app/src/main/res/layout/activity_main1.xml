@@ -12,11 +12,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@drawable/qr_scan" />-->
-
     <net.coding.program.login.auth.qrscan.ScanMaskView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -42,11 +42,35 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
         return convertView;
     }
 
+    public boolean containItem(AuthInfo item) {
+        for (int i = 0; i < getCount(); ++i) {
+            AuthInfo info = getItem(i);
+            if (item.equals(info)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean containItemDiffSecrect(AuthInfo item) {
+        for (int i = 0; i < getCount(); ++i) {
+            AuthInfo info = getItem(i);
+            if (item.equalsAccount(info)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
     public void add(AuthInfo item) {
         setNotifyOnChange(false);
         for (int i = 0; i < getCount(); ++i) {
             AuthInfo info = getItem(i);
-            if (item.equals(info)) {
+            if (item.equalsAccount(info)) {
                 remove(info);
             }
         }

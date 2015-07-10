@@ -92,14 +92,14 @@ public class AuthInfo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AuthInfo authInfo = (AuthInfo) o;
+        AuthInfo info = (AuthInfo) o;
 
-        if (scheme != null ? !scheme.equals(authInfo.scheme) : authInfo.scheme != null)
+        if (scheme != null ? !scheme.equals(info.scheme) : info.scheme != null) return false;
+        if (path != null ? !path.equals(info.path) : info.path != null) return false;
+        if (authority != null ? !authority.equals(info.authority) : info.authority != null)
             return false;
-        if (path != null ? !path.equals(authInfo.path) : authInfo.path != null) return false;
-        if (authority != null ? !authority.equals(authInfo.authority) : authInfo.authority != null)
-            return false;
-        return !(issuer != null ? !issuer.equals(authInfo.issuer) : authInfo.issuer != null);
+        if (issuer != null ? !issuer.equals(info.issuer) : info.issuer != null) return false;
+        return !(secret != null ? !secret.equals(info.secret) : info.secret != null);
 
     }
 
@@ -109,7 +109,23 @@ public class AuthInfo implements Serializable {
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (authority != null ? authority.hashCode() : 0);
         result = 31 * result + (issuer != null ? issuer.hashCode() : 0);
+        result = 31 * result + (secret != null ? secret.hashCode() : 0);
         return result;
+    }
+
+    // 其它的都相同，只有密钥不同
+    public boolean equalsAccount(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AuthInfo info = (AuthInfo) o;
+
+        if (scheme != null ? !scheme.equals(info.scheme) : info.scheme != null) return false;
+        if (path != null ? !path.equals(info.path) : info.path != null) return false;
+        if (authority != null ? !authority.equals(info.authority) : info.authority != null)
+            return false;
+        if (issuer != null ? !issuer.equals(info.issuer) : info.issuer != null) return false;
+        return !(secret != null ? secret.equals(info.secret) : info.secret != null);
     }
 
     public String getCode() {
