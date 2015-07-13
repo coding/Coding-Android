@@ -3,6 +3,7 @@ package net.coding.program.project.init.setting;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,16 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BaseActivity;
 import net.coding.program.LoginActivity_;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoopHander;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.login.auth.AuthInfo;
+import net.coding.program.login.auth.TotpClock;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
@@ -32,38 +37,58 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by jack wang on 2015/3/31.
+ * 删除项目
  */
 @EActivity(R.layout.init_activity_project_advance_set)
-public class ProjectAdvanceSetActivity extends BaseActivity {
+public class ProjectAdvanceSetActivity extends BaseActivity implements LoopHander.LoopAction {
 
     private static final String TAG = "ProjectAdvanceSetActivity";
 
-    final String host = Global.HOST_API + "/project/";
-    String hostDelete;
-
-    ProjectObject mProjectObject;
-
+    private final String host = Global.HOST_API + "/project/";
+    private final String TAG_DELETE_PROJECT_2FA = "TAG_DELETE_PROJECT_2FA";
+    private final String HOST_NEED_2FA = Global.HOST_API + "/user/2fa/method";
     @ViewById
     Button deleteBut;
+    Handler hander2fa;
+    private String hostDelete;
+    private ProjectObject mProjectObject;
+    private EditText edit2fa;
 
     @AfterViews
-    protected final void init() {
+    protected final void initProjectAdvanceSetActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mProjectObject = (ProjectObject) getIntent().getSerializableExtra("projectObject");
+
+        hander2fa = new LoopHander(this, 100);
     }
 
     @Click
     void deleteBut() {
-        showDeleteDialog();
+        showProgressBar(true);
+        getNetwork(HOST_NEED_2FA, HOST_NEED_2FA);
     }
 
-    void showDeleteDialog() {
+    @Override
+    public void loopAction() {
+        if (edit2fa != null) {
+            String secret = AccountInfo.loadAuth(this, MyApp.sUserObject.global_key);
+            if (secret.isEmpty()) {
+                return;
+            }
+
+            String code2FA = new AuthInfo(secret, new TotpClock(this)).getCode();
+            edit2fa.setText(code2FA);
+        }
+    }
+
+    private void showDeleteDialog() {
         LayoutInflater factory = LayoutInflater.from(this);
-        final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry, null);
+        final View textEntryView = factory.inflate(R.layout.dialog_delete_project, null);
         final EditText edit1 = (EditText) textEntryView.findViewById(R.id.edit1);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog dialog = builder
@@ -85,6 +110,71 @@ public class ProjectAdvanceSetActivity extends BaseActivity {
                     }
                 }).show();
         CustomDialog.dialogTitleLineColor(this, dialog);
+    }
+
+    private void showDeleteDialog2fa() {
+        hander2fa.sendEmptyMessage(0);
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
+        edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog = builder
+                .setTitle("需要验证码")
+                .setView(textEntryView)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String editStr1 = edit2fa.getText().toString().trim();
+                        if (TextUtils.isEmpty(editStr1)) {
+                            Toast.makeText(ProjectAdvanceSetActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        actionDelete2FA(editStr1);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).show();
+
+        CustomDialog.dialogTitleLineColor(this, dialog);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                hander2fa.removeMessages(0);
+                edit2fa = null;
+            }
+        });
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_NEED_2FA)) {
+            showProgressBar(false);
+            if (code == 0) {
+                String passwordType = respanse.optString("data", "");
+                if (passwordType.equals("totp")) {
+                    showDeleteDialog2fa();
+                } else { //  password
+                    showDeleteDialog();
+                }
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_DELETE_PROJECT_2FA)) {
+            showProgressBar(false);
+            if (code == 0) {
+                showButtomToast("删除成功");
+                InitProUtils.intentToMain(ProjectAdvanceSetActivity.this);
+                finish();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    private void actionDelete2FA(String code) {
+        showProgressBar(true);
+        deleteNetwork(mProjectObject.getHttpDeleteProject2fa(code), TAG_DELETE_PROJECT_2FA);
     }
 
     void action_delete(String pwd) {
@@ -144,5 +234,6 @@ public class ProjectAdvanceSetActivity extends BaseActivity {
     protected final void back() {
         finish();
     }
+
 
 }

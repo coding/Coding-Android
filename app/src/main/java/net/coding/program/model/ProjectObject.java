@@ -172,4 +172,9 @@ public class ProjectObject implements Serializable {
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
         return Global.HOST_API + backend_project_path + pull + type + "?";
     }
+
+    public String getHttpDeleteProject2fa(String code) {
+        String params = String.format("?name=%s&two_factor_code=%s", name, code);
+        return Global.HOST_API + backend_project_path + params;
+    }
 }
