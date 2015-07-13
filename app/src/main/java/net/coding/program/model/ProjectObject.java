@@ -92,7 +92,7 @@ public class ProjectObject implements Serializable {
     }
 
     public static String getMdPreview(String projectPath) {
-        final String HOST_PREVIEW = Global.HOST_API + "%s/project_preview_anchor";
+        final String HOST_PREVIEW = Global.HOST_API + "%s/markdownNoAt";
         return String.format(HOST_PREVIEW, projectPath);
     }
 
