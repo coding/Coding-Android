@@ -54,13 +54,16 @@ public class NetworkImpl {
 
         JsonHttpResponseHandler jsonHttpResponseHandler = new JsonHttpResponseHandler() {
 
+            private final int HTTP_CODE_RELOGIN = 1000;
+            private final int HTTP_CODE_RELOGIN_2FA = 3207;
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                 try {
                     int code = response.getInt("code");
 
-                    if (code == 1000) {
+                    if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {
                         appContext.startActivity(new Intent(appContext, LoginActivity_.class));
                     }
 

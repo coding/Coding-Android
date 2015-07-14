@@ -305,7 +305,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 holder = (ViewHolder) convertView.getTag();
             }
             AttachmentFileObject data = mFilesArray.get(position);
-            holder.name.setText(data.name);
+            holder.name.setText(data.getName());
 
             if (data.isFolder) {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
@@ -313,7 +313,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 holder.icon.setBackgroundResource(android.R.color.transparent);
                 holder.icon_txt.setVisibility(View.GONE);
                 holder.file_info_layout.setVisibility(View.GONE);
-                holder.folder_name.setText(data.name);
+                holder.folder_name.setText(data.getName());
                 holder.folder_name.setVisibility(View.VISIBLE);
             } else if (data.isImage()) {
                 //Log.d("imagePattern", "data.preview:" + data.preview);
@@ -343,7 +343,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 holder.btn.setText("下载");
             }*/
 
-            holder.content.setText(Global.HumanReadableFilesize(data.size));
+            holder.content.setText(Global.HumanReadableFilesize(data.getSize()));
             holder.desc.setText(String.format("发布于%s", Global.dayToNow(data.created_at)));
             holder.username.setText(data.owner.name);
 
@@ -381,13 +381,12 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             if (data.downloadId != 0L) {
                 holder.cancel.setTag(new Integer(position));
                 int status = data.bytesAndStatus[2];
-                holder.progressBar.setMax(data.size);
+                holder.progressBar.setMax(data.getSize());
                 if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
                     if (data.bytesAndStatus[1] < 0) {
                         holder.progressBar.setProgress(0);
                     } else {
                         holder.progressBar.setProgress(data.bytesAndStatus[0]);
-
                     }
                     data.isDownload = false;
                     holder.desc_layout.setVisibility(View.GONE);
@@ -694,7 +693,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 for (AttachmentFileObject fileObject : mFilesArray) {
                     if (fileObject.isFolder) {
                         fileObject.folderObject.setCount(fileCountMap.get(fileObject.folderObject.file_id));
-                        fileObject.name = fileObject.folderObject.getNameCount();
+                        fileObject.setName(fileObject.folderObject.getNameCount());
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -708,7 +707,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 AttachmentFileObject folderObject = mFilesArray.get(pos);
 
                 folderObject.folderObject.name = (String) data;
-                folderObject.name = folderObject.folderObject.getNameCount();
+                folderObject.setName(folderObject.folderObject.getNameCount());
                 adapter.notifyDataSetChanged();
                 //mData.clear();
                 //AttachmentFolderObject folderObject = (AttachmentFolderObject)data;
@@ -923,7 +922,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         if (resultCode == Activity.RESULT_OK) {
             AttachmentFileObject deletedFileObject = (AttachmentFileObject) data.getSerializableExtra("mAttachmentFileObject");
-            Log.d("onFileResult", resultCode + " " + deletedFileObject.name);
+            Log.d("onFileResult", resultCode + " " + deletedFileObject.getName());
             for (AttachmentFileObject file : mFilesArray) {
                 if (file.file_id.equals(deletedFileObject.file_id)) {
                     mFilesArray.remove(file);
@@ -1009,7 +1008,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         String messageFormat = "确定要删除文件 \"%s\" 么？";
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
-        builder.setTitle("删除文件").setMessage(String.format(messageFormat, selectedFile.name))
+        builder.setTitle("删除文件").setMessage(String.format(messageFormat, selectedFile.getName()))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -1187,7 +1186,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             }
 
             mAttachmentFilePopupWindow.adapter.notifyDataSetChanged();
-            mAttachmentFilePopupWindow.tvTitle.setText(selectedFileObject.name);
+            mAttachmentFilePopupWindow.tvTitle.setText(selectedFileObject.getName());
 
             mAttachmentFilePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         }
@@ -1325,9 +1324,9 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     public void setDownloadStatus(AttachmentFileObject mFileObject) {
-        File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+        File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
 
-        if (mFile.exists() && mFile.isFile() && mFile.length() == mFileObject.size) {
+        if (mFile.exists() && mFile.isFile()) {
 
             Long downloadId = downloadList.getLong(mFileObject.file_id, 0L);
             if (downloadId != 0L) {
@@ -1384,7 +1383,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     public void updateFileDownloadStatus(AttachmentFileObject mFileObject) {
         if (mFileObject.downloadId != 0L) {
             mFileObject.bytesAndStatus = downloadManagerPro.getBytesAndStatus(mFileObject.downloadId);
-            Log.v("updateFileDownloadStat", mFileObject.name + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
+            Log.v("updateFileDownloadStat", mFileObject.getName() + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
 
             //handler.sendMessage(handler.obtainMessage(0, bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2]));
         }
@@ -1395,8 +1394,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             showButtomToast("没有选中文件");
             return;
         }
-        File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), selectedFile.name);
-        if (mFile.exists() && mFile.isFile() && mFile.length() == selectedFile.size) {
+        File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), selectedFile.getSaveName());
+        if (mFile.exists() && mFile.isFile()) {
             return;
         }
         if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
@@ -1426,8 +1425,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         final ArrayList<AttachmentFileObject> downloadFiles = new ArrayList<>();
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (fileObject.isSelected && !fileObject.isFolder) {
-                File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileObject.name);
-                if (mFile.exists() && mFile.isFile() && mFile.length() == fileObject.size) {
+                File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileObject.getSaveName());
+                if (mFile.exists() && mFile.isFile()) {
                     continue;
                 }
                 downloadFiles.add(fileObject);
@@ -1473,9 +1472,9 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                 request.addRequestHeader("Cookie", cookieString);
-                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-                request.setTitle(mFileObject.name);
+                request.setTitle(mFileObject.getName());
                 request.setVisibleInDownloadsUi(false);
 
                 long downloadId = downloadManager.enqueue(request);
@@ -1591,7 +1590,10 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            //long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+//            long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+//            if (completeDownloadId != -1) {
+//
+//            }
         }
     }
 

@@ -212,11 +212,11 @@ public class URLSpanNoUnderline extends URLSpan {
 
             AttachmentFileObject folderFile = new AttachmentFileObject();
             folderFile.file_id = matcher.group(4);
-            folderFile.name = matcher.group(6);
+            folderFile.setName(matcher.group(6));
 
             int projectId = Integer.valueOf(matcher.group(5));
 
-            String extension = folderFile.name.toLowerCase();
+            String extension = folderFile.getName().toLowerCase();
             final String imageType = ".*\\.(gif|png|jpeg|jpg)$";
             final String htmlMdType = ".*\\.(html|htm|markd|markdown|md|mdown)$";
             final String txtType = ".*\\.(txt)$";

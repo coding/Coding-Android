@@ -98,8 +98,8 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
 
         @Override
         public void onPageSelected(int i) {
-            getSupportActionBar().setTitle(fileList.get(i).name);
-            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).name);
+            getSupportActionBar().setTitle(fileList.get(i).getName());
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).getSaveName());
             mAttachmentFileObject = fileList.get(i);
         }
 
@@ -121,7 +121,7 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
         AlertDialog dialog = builder.setTitle("文件信息")
                 .setMessage(String.format(fileInfoFormat,
                         mAttachmentFileObject.fileType,
-                        Global.HumanReadableFilesize(mAttachmentFileObject.size),
+                        Global.HumanReadableFilesize(mAttachmentFileObject.getSize()),
                         Global.dayToNow(mAttachmentFileObject.created_at),
                         Global.dayToNow(mAttachmentFileObject.updated_at),
                         mAttachmentFileObject.owner.name))
@@ -134,7 +134,7 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     void init() {
         loading.setVisibility(View.VISIBLE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setTitle(mAttachmentFileObject.getName());
 
         share = AttachmentsPicDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
@@ -158,7 +158,7 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
         }
 
 
-        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.name);
+        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName());
         loading.setVisibility(View.GONE);
 
         adapter = new ImagePager(getSupportFragmentManager());
@@ -209,7 +209,7 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     protected void action_delete() {
         String messageFormat = "确定要删除图片 \"%s\" 么？";
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsPicDetailActivity.this);
-        builder.setTitle("删除图片").setMessage(String.format(messageFormat, mAttachmentFileObject.name))
+        builder.setTitle("删除图片").setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -233,7 +233,7 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     @OptionsItem
     protected void action_download() {
         //showButtomToast("savePic");
-        if (mFile != null && mFile.exists() && mFile.isFile() && mFile.length() == mAttachmentFileObject.size) {
+        if (mFile != null && mFile.exists() && mFile.isFile()) {
             showButtomToast("图片已经下载");
             return;
         } else if (isDownloading) {
@@ -326,7 +326,7 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
      * @param attachmentFileObject
      */
     public void setAttachmentFileObject(AttachmentFileObject attachmentFileObject) {
-        if (mAttachmentFileObject.size == 0)
+        if (mAttachmentFileObject.getSize() == 0)
             this.mAttachmentFileObject = attachmentFileObject;
     }
 
