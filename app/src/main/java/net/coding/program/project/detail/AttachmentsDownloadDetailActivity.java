@@ -39,6 +39,7 @@ import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
@@ -105,18 +106,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
                     "创建时间: %s\n" +
                     "最近更新: %s\n" +
                     "创建人: %s";
-    View.OnClickListener onOpenListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //File mFile = getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
-            if (mFile.exists() && mFile.isFile())
-                openFile(mFile);
-            else {
-                showButtomToast("无法打开，请重新下载");
-                showState(STATE_NEEDDOWNLOAD);
-            }
-        }
-    };
     boolean isCanceled = false;
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%d/file/delete?fileIds=%s";
     private DownloadManager downloadManager;
@@ -125,50 +114,58 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     private DownloadChangeObserver downloadObserver;
     private CompleteReceiver completeReceiver;
     private MyHandler handler;
-    View.OnClickListener onCancelListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            isCanceled = true;
-            downloadManager.remove(downloadId);
-            updateView();
-
-        }
-    };
     private SharedPreferences share;
     private SharedPreferences downloadList;
     private String defaultPath;
-    View.OnClickListener onDownloadListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
-                String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDownloadDetailActivity.this);
-                builder.setTitle("提示")
-                        .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        download(urlDownload);
-                    }
-                });
-                //builder.create().show();
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                dialogTitleLineColor(dialog);
-
-                SharedPreferences.Editor editor = share.edit();
-                editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
-                editor.commit();
-            } else {
-                download(urlDownload);
-            }
-        }
-    };
 
     public static boolean isDownloading(int downloadManagerStatus) {
         return downloadManagerStatus == DownloadManager.STATUS_RUNNING
                 || downloadManagerStatus == DownloadManager.STATUS_PAUSED
                 || downloadManagerStatus == DownloadManager.STATUS_PENDING;
+    }
+
+    @Click
+    final void ivDownloadCancel() {
+        isCanceled = true;
+        downloadManager.remove(downloadId);
+        updateView();
+    }
+
+    @Click
+    final void btnOpen() {
+        //File mFile = getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
+        if (mFile.exists() && mFile.isFile())
+            openFile(mFile);
+        else {
+            showButtomToast("无法打开，请重新下载");
+            showState(STATE_NEEDDOWNLOAD);
+        }
+    }
+
+    @Click
+    final void btnDownload() {
+        if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
+            String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDownloadDetailActivity.this);
+            builder.setTitle("提示")
+                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    download(urlDownload);
+                }
+            });
+            //builder.create().show();
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            dialogTitleLineColor(dialog);
+
+            SharedPreferences.Editor editor = share.edit();
+            editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
+            editor.commit();
+        } else {
+            download(urlDownload);
+        }
     }
 
     @Override
@@ -196,7 +193,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         AlertDialog dialog = builder.setTitle("文件信息")
                 .setMessage(String.format(fileInfoFormat,
                         mAttachmentFileObject.fileType,
-                        Global.HumanReadableFilesize(mAttachmentFileObject.size),
+                        Global.HumanReadableFilesize(mAttachmentFileObject.getSize()),
                         Global.dayToNow(mAttachmentFileObject.created_at),
                         Global.dayToNow(mAttachmentFileObject.updated_at),
                         mAttachmentFileObject.owner.name))
@@ -209,7 +206,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     protected final void action_delete() {
         String messageFormat = "确定要删除文件 \"%s\" 么？";
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDownloadDetailActivity.this);
-        builder.setTitle("删除文件").setMessage(String.format(messageFormat, mAttachmentFileObject.name))
+        builder.setTitle("删除文件").setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -231,7 +228,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     @AfterViews
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mAttachmentFileObject.name);
+        getSupportActionBar().setTitle(mAttachmentFileObject.getName());
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadManagerPro = new DownloadManagerPro(downloadManager);
@@ -254,11 +251,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         showDialogLoading();
 
         getFileUrlFromNetwork();
-
-        btnDownload.setOnClickListener(onDownloadListener);
-        btnOpen.setOnClickListener(onOpenListener);
-        ivDownloadCancel.setOnClickListener(onCancelListener);
-
     }
 
     private void getFileUrlFromNetwork() {
@@ -284,17 +276,18 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
                 iconTxt.setVisibility(View.GONE);
 
-                name.setText(mFileObject.name);
+                name.setText(mFileObject.getName());
 
-                content.setText(Global.HumanReadableFilesize(mFileObject.size));
+                content.setText(Global.HumanReadableFilesize(mFileObject.getSize()));
 
-                tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.0), Global.HumanReadableFilesize(mFileObject.size)));
-                progressBar.setMax(mFileObject.size);
+                tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.0), Global.HumanReadableFilesize(mFileObject.getSize())));
+                progressBar.setMax(mFileObject.getSize());
                 mainLayout.setVisibility(View.VISIBLE);
 
-                mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+                mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
                 Log.d(TAG, "downloadId:" + downloadId);
-                if (mFile.exists() && mFile.isFile() && mFile.length() == mFileObject.size) {
+
+                if (mFile.exists() && mFile.isFile()) {
                     Log.d(TAG, "mFile exists:");
                     if (downloadId != 0L) {
                         updateView();
@@ -365,7 +358,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
     private void download(String url) {
         try {
-            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
 
             PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);
             String cookieString = "";
@@ -375,8 +368,8 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
 
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
             request.addRequestHeader("Cookie", cookieString);
-            request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.name);
-            request.setTitle(mFileObject.name);
+            request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
+            request.setTitle(mFileObject.getName());
             // request.setDescription(mFileObject.name);
             // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
@@ -489,7 +482,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
                         showState(STATE_STARTDOWNLOAD);
 
                         if (msg.arg2 < 0) {
-                            tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.00), Global.HumanReadableFilesize(mFileObject.size)));
+                            tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.00), Global.HumanReadableFilesize(mFileObject.getSize())));
                             progressBar.setProgress(0);
 
                         } else {

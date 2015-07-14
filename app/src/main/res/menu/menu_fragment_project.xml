@@ -45,7 +45,7 @@
             <item
                 android:id="@+id/action_2fa"
                 android:icon="@drawable/ic_menu_add_task_2fa"
-                android:title="扫一扫"
+                android:title="2FA"
                 app:showAsAction="always" />
         </menu>
     </item>

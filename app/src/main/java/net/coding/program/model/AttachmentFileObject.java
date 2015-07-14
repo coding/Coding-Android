@@ -24,69 +24,53 @@ public class AttachmentFileObject implements Serializable {
     // .file-icon.txt{background-color:#b5bbc4}
     // .file-icon.rar,.file-icon.zip{background-color:#8e6dd2}
     // .file-icon.html,.file-icon.markd,.file-icon.markdown,.file-icon.md,.file-icon.mdown{background-color:#c5f0e9}
-
+    public static final String SAVE_NAME_SPLIT = "_";
     public static String imagePatternStr = "(gif|png|jpeg|jpg|GIF|PNG|JPEG|JPG)"; // /\.(gif|png|jpeg|jpg)$/
     static Pattern imagePattern = Pattern.compile(imagePatternStr);
-
     static String docPatternStr = "(doc|docx)";
     static Pattern docPattern = Pattern.compile(docPatternStr);
     static int docIconBgColor = Color.parseColor("#4a83dc");
-
     static String pptPatternStr = "(ppt|pptx)";
     static Pattern pptPattern = Pattern.compile(pptPatternStr);
     static int pptIconBgColor = Color.parseColor("#fcba17");
-
     static String pdfPatternStr = "(pdf)";
     static Pattern pdfPattern = Pattern.compile(pdfPatternStr);
     static int pdfIconBgColor = Color.parseColor("#ff0034");
-
     static String xlsPatternStr = "(xls|xlsx)";
     static Pattern xlsPattern = Pattern.compile(xlsPatternStr);
     static int xlsIconBgColor = Color.parseColor("#00c075");
-
     static String txtPatternStr = "(txt)";
     static Pattern txtPattern = Pattern.compile(txtPatternStr);
     static int txtIconBgColor = Color.parseColor("#b5bbc4");
-
     static String zipPatternStr = "(rar|zip|7z)";
     static Pattern zipPattern = Pattern.compile(zipPatternStr);
     static int zipIconBgColor = Color.parseColor("#8e6dd2");
-
     static String htmlPatternStr = "(html|htm)";
     static Pattern htmlPattern = Pattern.compile(htmlPatternStr);
     static int htmlIconBgColor = Color.parseColor("#c5f0e9");
-
     static String mdPatternStr = "(markd|markdown|md|mdown)";
     static Pattern mdPattern = Pattern.compile(mdPatternStr);
     static int mdIconBgColor = Color.parseColor("#c5f0e9");
-
     static String aiPatternStr = "(ai)";
     static Pattern aiPattern = Pattern.compile(aiPatternStr);
     static int aiIconBgColor = Color.parseColor("#000000");
-
     static String apkPatternStr = "(apk)";
     static Pattern apkPattern = Pattern.compile(apkPatternStr);
     static int apkIconBgColor = Color.parseColor("#000000");
-
     static String psdPatternStr = "(psd)";
     static Pattern psdPattern = Pattern.compile(psdPatternStr);
     static int psdIconBgColor = Color.parseColor("#000000");
-
     static String soundPatternStr = "(mp3|aac|m4a|wma|flac|ape|wav|ogg)";
     static Pattern soundPattern = Pattern.compile(soundPatternStr);
     static int soundIconBgColor = Color.parseColor("#000000");
-
     static String videoPatternStr = "(3gp|mp4|rmvb|avi|wmv|flv|rm|mkv)";
     static Pattern videoPattern = Pattern.compile(videoPatternStr);
     static int videoIconBgColor = Color.parseColor("#000000");
-
     static int defaultIconBgColor = Color.parseColor("#000000");
-
     public long created_at;
     public int current_user_role_id;
     public String fileType = "";// "xlsx"
     public String file_id = "";
-    public String name = "";
     public UserObject owner = new UserObject();
     public String owner_id = "";
 
@@ -98,23 +82,18 @@ public class AttachmentFileObject implements Serializable {
     public String owner_preview = "";
     public String parent_id = "";
     public String preview = "";
-    public int size = 0;
     public String storage_key = "";
     public String storage_type = "";
     public int type;
     public long updated_at;
-
     public boolean isSelected = false;
-
     public boolean isFolder = false;
-
     public boolean isDownload = false;
-
     public long downloadId = 0L;
-
     public int[] bytesAndStatus;
-
     public AttachmentFolderObject folderObject;
+    private String name = "";
+    private int size = 0;
 
     public AttachmentFileObject() {
     }
@@ -137,6 +116,48 @@ public class AttachmentFileObject implements Serializable {
         storage_type = json.optString("storage_type");
         type = json.optInt("type");
         updated_at = json.optLong("updated_at");
+    }
+
+    public static AttachmentFileObject parseFileObject(AttachmentFolderObject folderObject) {
+        AttachmentFileObject returnFileObject = new AttachmentFileObject();
+
+        returnFileObject.created_at = folderObject.created_at;
+        //current_user_role_id = json.optString("current_user_role_id");
+        returnFileObject.fileType = "dir";
+        returnFileObject.isFolder = true;
+        returnFileObject.file_id = folderObject.file_id;
+        returnFileObject.name = folderObject.getNameCount();
+        /*if (json.has("owner")) {
+            owner = new UserObject(json.getJSONObject("owner"));
+        }*/
+        returnFileObject.owner_id = folderObject.owner_id;
+        //owner_preview = json.optString("owner_preview");
+        returnFileObject.parent_id = folderObject.parent_id;
+        //preview = json.optString("preview");
+        //size = json.optInt("size");
+        //storage_key = json.optString("storage_key");
+        //storage_type = json.optString("storage_type");
+        //type = json.optInt("type");
+        returnFileObject.updated_at = folderObject.updated_at;
+        returnFileObject.folderObject = folderObject;
+        return returnFileObject;
+    }
+
+    // 保存在本地的名字
+    public String getSaveName() {
+        return file_id + SAVE_NAME_SPLIT + name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String s) {
+        name = s;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public boolean isImage() {
@@ -251,31 +272,6 @@ public class AttachmentFileObject implements Serializable {
         } else {
             return R.drawable.ic_file_unknown;
         }
-    }
-
-    public static AttachmentFileObject parseFileObject(AttachmentFolderObject folderObject) {
-        AttachmentFileObject returnFileObject = new AttachmentFileObject();
-
-        returnFileObject.created_at = folderObject.created_at;
-        //current_user_role_id = json.optString("current_user_role_id");
-        returnFileObject.fileType = "dir";
-        returnFileObject.isFolder = true;
-        returnFileObject.file_id = folderObject.file_id;
-        returnFileObject.name = folderObject.getNameCount();
-        /*if (json.has("owner")) {
-            owner = new UserObject(json.getJSONObject("owner"));
-        }*/
-        returnFileObject.owner_id = folderObject.owner_id;
-        //owner_preview = json.optString("owner_preview");
-        returnFileObject.parent_id = folderObject.parent_id;
-        //preview = json.optString("preview");
-        //size = json.optInt("size");
-        //storage_key = json.optString("storage_key");
-        //storage_type = json.optString("storage_type");
-        //type = json.optInt("type");
-        returnFileObject.updated_at = folderObject.updated_at;
-        returnFileObject.folderObject = folderObject;
-        return returnFileObject;
     }
 
     public boolean isOwner() {
