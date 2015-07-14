@@ -95,7 +95,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     };
     BaseAdapter adapter = new BaseAdapter() {
 
-        ArrayList<ViewHolder> holderList = new ArrayList<ViewHolder>();
+        ArrayList<ViewHolder> holderList = new ArrayList<>();
 
         public int getCount() {
             return mData.size() + 1;
@@ -198,7 +198,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
                 } else {
                     Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
-                    ArrayList<String> arrayUri = new ArrayList<String>();
+                    ArrayList<String> arrayUri = new ArrayList<>();
                     for (PhotoData item : mData) {
                         arrayUri.add(item.uri.toString());
                     }
@@ -303,6 +303,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     mData.clear();
+
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                     for (ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);
@@ -459,6 +460,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 intent.putExtra(ListModify.TYPE, ListModify.Add);
                 intent.putExtra(ListModify.DATA, maopaoObject);
                 setResult(Activity.RESULT_OK, intent);
+
+                showMiddleToast("发表成功");
 
                 finishWithoutSave();
             } else {

@@ -64,7 +64,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     ProjectJumpParam.JumpType mJumpType = ProjectJumpParam.JumpType.typeDynamic;
 
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
-    ArrayList<String> project_activity_action_list = new ArrayList(Arrays.asList(
+    ArrayList<String> project_activity_action_list = new ArrayList<>(Arrays.asList(
             "项目动态",
             "项目讨论",
             "项目代码",
@@ -75,7 +75,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
     String urlProject;
 
 //    MySpinnerAdapter mSpinnerAdapter;
-    ArrayList<Integer> spinnerIcons = new ArrayList(Arrays.asList(
+ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
             R.drawable.ic_spinner_dynamic,
             R.drawable.ic_spinner_topic,
             R.drawable.ic_spinner_git,
@@ -83,6 +83,7 @@ public class ProjectActivity extends BaseActivity implements NetworkCallback {
             R.drawable.ic_spinner_user,
             R.drawable.ic_spinner_user
     ));
+
     ArrayList<Class> spinnerFragments = new ArrayList<Class>(Arrays.asList(
             ProjectDynamicParentFragment_.class,
             TopicFragment_.class,

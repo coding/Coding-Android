@@ -191,7 +191,6 @@ public class CommitFileListActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
-
         }
     }
 
