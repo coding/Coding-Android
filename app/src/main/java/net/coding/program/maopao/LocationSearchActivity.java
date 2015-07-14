@@ -42,23 +42,24 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
 
     // 行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,结婚,丽人,金融,运动健身,医疗,教育,培训机构,交通设施,自然地物,政府机构,门址,道路
     private static final String RECOMMEND_KEYS = "美食$休闲娱乐$公司企业$旅游景点$道路$宾馆$生活服务$医疗";
-
+    static public int sSearchPos = 0;
     @ViewById
     ListView listView;
     @Extra
     LocationObject selectedLocation;
-
     private ChooseAdapter chooseAdapter;
     private SearchAdapter searchAdapter;
     private LocationProvider locationProvider;
     private String currentCity = null;
     private String currentArea = null;
     private double latitude, longitude;
-
     private boolean isLoadingLocation = false;
-
     private SearchView searchView;
     private LocationObject emptyLocation = LocationObject.undefined();
+
+    public static int getSearchPos() {
+        return sSearchPos;
+    }
 
     @AfterViews
     void afterViews() {
@@ -171,8 +172,64 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
         onBackPressed();
     }
 
+    private void initActionView(MenuItem searchItem) {
+        if (searchView != null) return;
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        try { // 更改搜索按钮的icon
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView v = (ImageView) searchView.findViewById(searchImgId);
+            v.setImageResource(R.drawable.ic_menu_search);
+        } catch (Exception e) {
+        }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ++sSearchPos;
+                searchAdapter.reload(searchView.getQuery().toString());
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        if (TextUtils.isEmpty(currentCity)) {
+            menuItem.setVisible(false);
+        } else {
+            menuItem.setVisible(true);
+            MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    if (listView != null && searchAdapter != null) {
+                        listView.setAdapter(searchAdapter);
+                        searchAdapter.reload("");
+                        initActionView(item);
+                        searchView.requestFocus();
+                        mFootUpdate.dismiss();
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    if (listView != null && chooseAdapter != null) {
+                        listView.setAdapter(chooseAdapter);
+                    }
+                    return true;
+                }
+            });
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private abstract class LocationAdapter extends BaseAdapter implements FootUpdate.LoadMore {
-        ArrayList<LocationObject> list = new ArrayList<LocationObject>();
+        ArrayList<LocationObject> list = new ArrayList<>();
 
         @Override
         public int getCount() {
@@ -267,10 +324,10 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
     }
 
     private class SearchAdapter extends LocationAdapter implements LocationSearcher.SearchResultListener {
-        private LocationSearcherGroup searcher;
         static final int STATE_DISABLED = 0;
         static final int STATE_SEARCH = 1;
         static final int STATE_COMPLETE = 2;
+        private LocationSearcherGroup searcher;
         private int state = STATE_DISABLED;
         private View footView;
         private TextView customTextView;
@@ -360,67 +417,5 @@ public class LocationSearchActivity extends BaseActivity implements FootUpdate.L
             }
             searchAdapter.notifyDataSetChanged();
         }
-    }
-
-    static public int sSearchPos = 0;
-
-    public static int getSearchPos() {
-        return sSearchPos;
-    }
-
-    private void initActionView(MenuItem searchItem) {
-        if (searchView != null) return;
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-            ImageView v = (ImageView) searchView.findViewById(searchImgId);
-            v.setImageResource(R.drawable.ic_menu_search);
-        } catch (Exception e) {
-        }
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                ++sSearchPos;
-                searchAdapter.reload(searchView.getQuery().toString());
-                return true;
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        if (TextUtils.isEmpty(currentCity)) {
-            menuItem.setVisible(false);
-        } else {
-            menuItem.setVisible(true);
-            MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    if (listView != null && searchAdapter != null) {
-                        listView.setAdapter(searchAdapter);
-                        searchAdapter.reload("");
-                        initActionView(item);
-                        searchView.requestFocus();
-                        mFootUpdate.dismiss();
-                    }
-                    return true;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    if (listView != null && chooseAdapter != null) {
-                        listView.setAdapter(chooseAdapter);
-                    }
-                    return true;
-                }
-            });
-        }
-        return super.onCreateOptionsMenu(menu);
     }
 }

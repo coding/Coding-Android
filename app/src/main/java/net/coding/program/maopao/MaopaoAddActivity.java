@@ -86,7 +86,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     PhotoOperate photoOperate = new PhotoOperate(this);
     EnterEmojiLayout mEnterLayout;
     EditText message;
-    ArrayList<PhotoData> mData = new ArrayList();
+    ArrayList<PhotoData> mData = new ArrayList<>();
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -304,6 +304,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
                 try {
                     mData.clear();
 
+                    @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                     for (ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);
@@ -608,14 +609,14 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
         private LocationObject locationObject = LocationObject.undefined();
 
-        private ArrayList<PhotoDataSerializable> photos = new ArrayList();
+        private ArrayList<PhotoDataSerializable> photos = new ArrayList<>();
 
         public MaopaoDraft() {
         }
 
         public MaopaoDraft(String input, ArrayList<PhotoData> photos, LocationObject locationObject) {
             this.input = input;
-            this.photos = new ArrayList();
+            this.photos = new ArrayList<>();
             for (PhotoData item : photos) {
                 this.photos.add(new PhotoDataSerializable(item));
             }
@@ -635,7 +636,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
 
         public ArrayList<PhotoData> getPhotos() {
-            ArrayList<PhotoData> data = new ArrayList();
+            ArrayList<PhotoData> data = new ArrayList<>();
             for (PhotoDataSerializable item : photos) {
                 data.add(new PhotoData(item));
             }

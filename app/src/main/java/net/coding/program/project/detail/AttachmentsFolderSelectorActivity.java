@@ -63,7 +63,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     ListView listView;
     private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
-    private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
+    private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
     BaseAdapter adapter = new BaseAdapter() {
         private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -126,7 +126,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         }
 
     };
-    private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<AttachmentFolderObject>();
+    private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<>();
 
     @OptionsItem(android.R.id.home)
     void close() {

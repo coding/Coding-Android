@@ -65,7 +65,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
     private ListView mListView;
 
     //    LinkedHashMap<String, ArrayList<ImageInfo>> mFolders = new LinkedHashMap();
-//    ArrayList<String> mFoldersName = new ArrayList();
+//    ArrayList<String> mFoldersName = new ArrayList<>();
     View.OnClickListener mOnClickFoldName = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -138,6 +138,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
     };
     private Uri fileUri;
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +150,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
 
         mMaxPick = getIntent().getIntExtra(EXTRA_MAX, 6);
         Object extraPicked = getIntent().getSerializableExtra(EXTRA_PICKED);
+
         if (extraPicked != null) {
             mPickData = (ArrayList<ImageInfo>) extraPicked;
         }

@@ -46,7 +46,7 @@ public class LoginBackground {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("", "getDataFail1");
                     if (response.optInt("code", -1) == 0) {
-                        ArrayList<PhotoItem> photoItems = new ArrayList();
+                        ArrayList<PhotoItem> photoItems = new ArrayList<>();
                         JSONArray data = response.optJSONArray("data");
                         for (int i = 0; i < data.length(); ++i) {
                             PhotoItem item = new PhotoItem(data.optJSONObject(i));
@@ -74,7 +74,7 @@ public class LoginBackground {
 
     public PhotoItem getPhoto() {
         ArrayList<PhotoItem> list = AccountInfo.loadBackgrounds(context);
-        ArrayList<PhotoItem> cached = new ArrayList();
+        ArrayList<PhotoItem> cached = new ArrayList<>();
         for (PhotoItem item : list) {
             if (item.isCached(context)) {
                 cached.add(item);

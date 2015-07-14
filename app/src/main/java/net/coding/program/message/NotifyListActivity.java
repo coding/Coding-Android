@@ -41,7 +41,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
 
     int defaultIcon = R.drawable.ic_notify_at;
 
-    ArrayList<NotifyObject> mData = new ArrayList<NotifyObject>();
+    ArrayList<NotifyObject> mData = new ArrayList<>();
     String URI_NOTIFY;
     View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override

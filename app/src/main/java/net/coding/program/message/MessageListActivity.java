@@ -80,7 +80,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     // 从push条转过来只会带有这个参数
     @Extra
     String mGlobalKey;
-    ArrayList<Message.MessageObject> mData = new ArrayList<Message.MessageObject>();
+    ArrayList<Message.MessageObject> mData = new ArrayList<>();
     String url = "";
     ClickSmallImage clickImage = new ClickSmallImage(this);
     @ViewById
@@ -426,6 +426,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             if (resultCode == Activity.RESULT_OK) {
 
                 try {
+                    @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                     for (ImageInfo item : pickPhots) {
                         Uri uri = Uri.parse(item.path);

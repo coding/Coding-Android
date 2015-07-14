@@ -43,7 +43,7 @@ public class AddFollowActivity extends BaseActivity {
 
     String urlAddUser = "";
 
-    ArrayList<UserObject> mData = new ArrayList<UserObject>();
+    ArrayList<UserObject> mData = new ArrayList<>();
 
     boolean mNeedUpdate = false;
 

@@ -43,8 +43,8 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
     MyPagerSlidingTabStrip tabs;
     @ViewById(R.id.pagerTaskFragment)
     ViewPager pager;
-    ArrayList<ProjectObject> mData = new ArrayList<ProjectObject>();
-    ArrayList<ProjectObject> mAllData = new ArrayList<ProjectObject>();
+    ArrayList<ProjectObject> mData = new ArrayList<>();
+    ArrayList<ProjectObject> mAllData = new ArrayList<>();
     int pageMargin;
     private PageTaskFragment adapter;
 
@@ -90,7 +90,7 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
         } else if (tag.equals(urlTaskCount)) {
             if (code == 0) {
-                mData = new ArrayList();
+                mData = new ArrayList<>();
                 mData.add(new ProjectObject());
 
                 JSONArray jsonArray = respanse.getJSONArray("data");

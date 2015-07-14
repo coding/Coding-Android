@@ -20,13 +20,11 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_search_project)
 public class SearchProjectActivity extends BaseActivity {
 
-    private ArrayList<ProjectObject> mData = new ArrayList();
-    private ArrayList<ProjectObject> mSearchData = new ArrayList();
-
     @ViewById
     View emptyView, container;
-
     SearchView editText;
+    private ArrayList<ProjectObject> mData = new ArrayList<>();
+    private ArrayList<ProjectObject> mSearchData = new ArrayList<>();
     private ProjectListFragment searchFragment;
 
     @AfterViews

@@ -68,7 +68,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     //https://coding.net/api/project/20945/rmdir/37282
     //https://coding.net/api/project/20945/mkdir?name=%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9
     //https://coding.net/api/project/20945/dir/34365/name/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B92
-    private ArrayList<AttachmentFolderObject> mData = new ArrayList<AttachmentFolderObject>();
+    private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
     //private String HOST_FOLDER = Global.HOST_API + "/project/%s/folders?pageSize=20";
     private String HOST_FOLDER = Global.HOST_API + "/project/%d/all_folders?pageSize=9999";
     //https://coding.net/api/project/20945/all_folders?page=1&pageSize=9999
@@ -482,7 +482,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     }
 
     void action_delete() {
-        selectFolder = new ArrayList<AttachmentFolderObject>();
+        selectFolder = new ArrayList<>();
         for (AttachmentFolderObject folderObject : mData) {
             if (folderObject.isSelected)
                 selectFolder.add(folderObject);
@@ -515,7 +515,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         if (selectedFolderObject == null)
             return;
 
-        selectFolder = new ArrayList<AttachmentFolderObject>();
+        selectFolder = new ArrayList<>();
         selectFolder.add(selectedFolderObject);
         String messageFormat = "确定删除文件夹\"%s\"？";
         showDialog("删除文件夹", String.format(messageFormat, selectedFolderObject.name), new DialogInterface.OnClickListener() {
@@ -552,7 +552,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
 
     public void initBottomPop() {
         if (mAttachmentPopupWindow == null) {
-            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<DialogUtil.BottomPopupItem>();
+            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<>();
             DialogUtil.BottomPopupItem renameItem = new DialogUtil.BottomPopupItem("重命名", R.drawable.ic_popup_attachment_rename);
             popupItemArrayList.add(renameItem);
             DialogUtil.BottomPopupItem deleteItem = new DialogUtil.BottomPopupItem("删除", R.drawable.ic_popup_attachment_delete_selector);

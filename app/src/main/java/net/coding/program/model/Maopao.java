@@ -17,12 +17,12 @@ public class Maopao {
     public static class MaopaoObject implements Serializable {
 
         public String activity_id = "";
-        public ArrayList<Comment> comment_list = new ArrayList<Comment>();
+        public ArrayList<Comment> comment_list = new ArrayList<>();
         public int comments;
         public String content = "";
         public long created_at;
         public int id;
-        public ArrayList<Like_user> like_users = new ArrayList<Like_user>();
+        public ArrayList<Like_user> like_users = new ArrayList<>();
         public boolean liked;
         public int likes;
         public UserObject owner = new UserObject();

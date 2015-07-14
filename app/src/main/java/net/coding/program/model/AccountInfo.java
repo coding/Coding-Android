@@ -122,9 +122,11 @@ public class AccountInfo {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static ArrayList<ProjectObject> loadProjects(Context ctx) {
         ArrayList<ProjectObject> data = null;
         File file = new File(ctx.getFilesDir(), PROJECTS);
+
         if (file.exists()) {
             try {
                 ObjectInputStream ois = new ObjectInputStream(ctx.openFileInput(PROJECTS));
@@ -136,7 +138,7 @@ public class AccountInfo {
         }
 
         if (data == null) {
-            data = new ArrayList<ProjectObject>();
+            data = new ArrayList<>();
         }
 
         return data;
@@ -166,6 +168,7 @@ public class AccountInfo {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static ArrayList<Message.MessageObject> loadMessageUsers(Context ctx) {
         ArrayList<Message.MessageObject> data = null;
         File file = new File(ctx.getFilesDir(), MESSAGE_USERS);
@@ -180,7 +183,7 @@ public class AccountInfo {
         }
 
         if (data == null) {
-            data = new ArrayList<Message.MessageObject>();
+            data = new ArrayList<>();
         }
 
         return data;
@@ -205,6 +208,7 @@ public class AccountInfo {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static ArrayList<Message.MessageObject> loadMessages(Context ctx, String globalKey) {
         ArrayList<Message.MessageObject> data = null;
         File file = new File(ctx.getFilesDir(), globalKey);
@@ -219,7 +223,7 @@ public class AccountInfo {
         }
 
         if (data == null) {
-            data = new ArrayList<Message.MessageObject>();
+            data = new ArrayList<>();
         }
 
         return data;
@@ -414,7 +418,7 @@ public class AccountInfo {
 
     public static ArrayList<MessageListActivity.MyMessage> loadNoSendMessage(Context context, String globalKey) {
         ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
-        ArrayList<MessageListActivity.MyMessage> messages = new ArrayList();
+        ArrayList<MessageListActivity.MyMessage> messages = new ArrayList<>();
         for (MessageListActivity.MyMessage item : allMessages) {
             if (item.friend.global_key.equals(globalKey)) {
                 messages.add(item);
@@ -525,6 +529,7 @@ public class AccountInfo {
             return load(ctx, name, FILDER_GLOBAL);
         }
 
+        @SuppressWarnings("unchecked")
         public T loadGlobalObject(Context ctx, String name) {
             String folder = FILDER_GLOBAL;
             T data = null;
@@ -553,6 +558,7 @@ public class AccountInfo {
             return data;
         }
 
+        @SuppressWarnings("unchecked")
         private ArrayList<T> load(Context ctx, String name, String folder) {
             ArrayList<T> data = null;
 
@@ -578,7 +584,7 @@ public class AccountInfo {
             }
 
             if (data == null) {
-                data = new ArrayList<T>();
+                data = new ArrayList<>();
             }
 
             return data;

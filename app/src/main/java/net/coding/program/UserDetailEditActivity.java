@@ -323,7 +323,7 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
             }
         } else if (tag.equals(HOST_JOB)) {
             if (code == 0) {
-                ArrayList<String> jobs = new ArrayList<String>();
+                ArrayList<String> jobs = new ArrayList<>();
                 jobs.add("");
                 JSONObject jobJSONObject = respanse.getJSONObject("data");
                 Iterator it = jobJSONObject.keys();

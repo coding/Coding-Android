@@ -47,7 +47,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
     private static final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
     private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
     @FragmentArg
-    ArrayList<ProjectObject> mData = new ArrayList<ProjectObject>();
+    ArrayList<ProjectObject> mData = new ArrayList<>();
     boolean mRequestOk;
     @ViewById
     ExpandableStickyListHeadersListView listView;

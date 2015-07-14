@@ -179,7 +179,7 @@ private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new A
 
     private void showRightTopPop() {
         if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList();
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<>();
             DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.copy_link), R.drawable.ic_menu_link);
             popupItemArrayList.add(downloadItem);
 

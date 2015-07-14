@@ -40,7 +40,7 @@ public class LikeUsersListActivity extends BaseActivity {
     @ViewById
     ListView listView;
     String UriLikeUsers = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
-    private ArrayList<DynamicObject.User> mData = new ArrayList<DynamicObject.User>();
+    private ArrayList<DynamicObject.User> mData = new ArrayList<>();
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
