@@ -37,6 +37,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
@@ -58,13 +59,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
 //@OptionsMenu(R.menu.message_list)
-public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore, StartActivity, EnterLayout.CameraAndPhoto {
+public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
+        StartActivity, EnterLayout.CameraAndPhoto, Handler.Callback {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -88,7 +89,9 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     @ViewById
     View blankLayout;
     EnterEmojiLayout mEnterLayout;
-    RefrushHanlder mHandler;
+
+    WeakRefHander mWeakRefHandler;
+
     int mLastId = 0;
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
@@ -253,19 +256,23 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHandler = new RefrushHanlder();
-        mHandler.addActivity(this);
+        mWeakRefHandler = new WeakRefHander(this, REFRUSH_TIME);
     }
 
     @Override
     protected void onDestroy() {
-        if (mHandler != null) {
-            mHandler.removeMessages(0);
-            mHandler = null;
+        if (mWeakRefHandler != null) {
+            mWeakRefHandler.removeMessages(0);
+            mWeakRefHandler = null;
         }
 
-
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mWeakRefHandler.start();
     }
 
     @AfterViews
@@ -293,6 +300,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
         String lastInput = AccountInfo.loadMessageDraft(this, mGlobalKey);
         mEnterLayout.setText(lastInput);
+
     }
 
     void initControl() {
@@ -530,8 +538,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
                     // 标记信息已读
                     String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
                     postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
-
-                    mHandler.sendEmptyMessageDelayed(0, REFRUSH_TIME);
                 }
 
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
@@ -610,9 +616,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
             } else {
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
             }
-
-            mHandler.removeMessages(0);
-            mHandler.sendEmptyMessageDelayed(0, REFRUSH_TIME);
 
         } else if (tag.indexOf(HOST_MESSAGE_SEND) == 0) {
             long sendId = (long) data;
@@ -709,6 +712,12 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         getNetwork(url, HOST_MESSAGE_LAST);
     }
 
+    @Override
+    public boolean handleMessage(android.os.Message msg) {
+        refrushData();
+        return true;
+    }
+
     public static class MyMessage extends Message.MessageObject implements Serializable {
 
         public static final int STYLE_SENDING = 0;
@@ -745,30 +754,5 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
 
         View resend;
         View sending;
-    }
-
-    static class RefrushHanlder extends Handler {
-
-        private WeakReference<MessageListActivity> mRef;
-
-        public void addActivity(Object activity) {
-            if (activity instanceof MessageListActivity) {
-                mRef = new WeakReference<>((MessageListActivity) activity);
-            }
-        }
-
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            if (mRef == null) {
-                return;
-            }
-
-            MessageListActivity activity = mRef.get();
-            if (activity == null) {
-                return;
-            }
-
-            activity.refrushData();
-        }
     }
 }

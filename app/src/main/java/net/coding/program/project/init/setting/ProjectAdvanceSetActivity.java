@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +22,8 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
-import net.coding.program.common.LoopHander;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.login.auth.AuthInfo;
@@ -45,7 +46,7 @@ import org.json.JSONObject;
  * 删除项目
  */
 @EActivity(R.layout.init_activity_project_advance_set)
-public class ProjectAdvanceSetActivity extends BaseActivity implements LoopHander.LoopAction {
+public class ProjectAdvanceSetActivity extends BaseActivity implements Handler.Callback {
 
     private static final String TAG = "ProjectAdvanceSetActivity";
 
@@ -64,7 +65,7 @@ public class ProjectAdvanceSetActivity extends BaseActivity implements LoopHande
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mProjectObject = (ProjectObject) getIntent().getSerializableExtra("projectObject");
 
-        hander2fa = new LoopHander(this, 100);
+        hander2fa = new WeakRefHander(this, 100);
     }
 
     @Click
@@ -74,16 +75,17 @@ public class ProjectAdvanceSetActivity extends BaseActivity implements LoopHande
     }
 
     @Override
-    public void loopAction() {
+    public boolean handleMessage(Message msg) {
         if (edit2fa != null) {
             String secret = AccountInfo.loadAuth(this, MyApp.sUserObject.global_key);
             if (secret.isEmpty()) {
-                return;
+                return true;
             }
 
             String code2FA = new AuthInfo(secret, new TotpClock(this)).getCode();
             edit2fa.setText(code2FA);
         }
+        return true;
     }
 
     private void showDeleteDialog() {

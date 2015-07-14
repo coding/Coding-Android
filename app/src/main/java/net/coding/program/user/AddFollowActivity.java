@@ -22,6 +22,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 
@@ -37,7 +38,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_add_follow)
-public class AddFollowActivity extends BaseActivity {
+public class AddFollowActivity extends BaseActivity implements Handler.Callback {
 
     String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
 
@@ -55,19 +56,14 @@ public class AddFollowActivity extends BaseActivity {
 
     int flag = 0;
 
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == flag) {
-                getNetwork(String.format(HOST_SEARCH_USER, Global.encodeUtf8((String) msg.obj)), HOST_SEARCH_USER);
-            }
-        }
-    };
+    Handler mHandler;
 
     BaseAdapter baseAdapter;
 
     @AfterViews
     protected final void initAddFollowActivity() {
+        mHandler = new WeakRefHander(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
@@ -107,6 +103,15 @@ public class AddFollowActivity extends BaseActivity {
             });
         }
         listView.setAdapter(baseAdapter);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (msg.what == flag) {
+            getNetwork(String.format(HOST_SEARCH_USER, Global.encodeUtf8((String) msg.obj)), HOST_SEARCH_USER);
+        }
+
+        return true;
     }
 
     @Override
@@ -171,7 +176,7 @@ public class AddFollowActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                search(s.toString());
+                search(s);
                 return true;
             }
         });

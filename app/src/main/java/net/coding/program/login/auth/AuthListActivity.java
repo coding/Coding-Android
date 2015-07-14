@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,29 +18,27 @@ import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.model.AccountInfo;
 
 import java.util.ArrayList;
 
-public class AuthListActivity extends BaseActivity {
+public class AuthListActivity extends BaseActivity implements Handler.Callback {
 
     private static final int TIME_UPDATE = 100;
     private final int RESULT_ADD_ACCOUNT = 1000;
+    WeakRefHander mWeakRefHandler;
     private AuthAdapter mAuthAdapter;
     private TotpClock mClock;
     private ListView listView;
-    android.os.Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            if (mHandler != null) {
-                mHandler.sendEmptyMessageDelayed(0, TIME_UPDATE);
 
-                long now = mClock.currentTimeMillis();
-                setTotpCountdownPhaseFromTimeTillNextValue(getTimeTillNextCounterValue(now));
-                mAuthAdapter.notifyDataSetChanged();
-            }
-        }
-    };
+    @Override
+    public boolean handleMessage(Message msg) {
+        long now = mClock.currentTimeMillis();
+        setTotpCountdownPhaseFromTimeTillNextValue(getTimeTillNextCounterValue(now));
+        mAuthAdapter.notifyDataSetChanged();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +96,8 @@ public class AuthListActivity extends BaseActivity {
             }
         });
 
-        mHandler.sendEmptyMessageDelayed(0, TIME_UPDATE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        mHandler.removeMessages(0);
-        mHandler = null;
-        super.onDestroy();
+        mWeakRefHandler = new WeakRefHander(this, TIME_UPDATE);
+        mWeakRefHandler.start();
     }
 
     @Override
