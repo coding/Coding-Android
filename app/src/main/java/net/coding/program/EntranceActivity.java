@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,6 +17,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -33,17 +33,18 @@ import java.io.File;
 
 /**
  * Created by cc191954 on 14-8-14.
+ * 启动页面
  */
 @EActivity(R.layout.entrance_image)
-public class EntranceActivity extends BaseActivity {
+public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
     static final String HOST_CURRENT = Global.HOST_API + "/current_user";
+    private static final int HANDLER_MESSAGE_ANIMATION = 0;
+    private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
     @ViewById
     ImageView image;
     @ViewById
     TextView title;
-    //    @ViewById
-//    View mask;
     @ViewById
     View foreMask;
     @ViewById
@@ -52,21 +53,11 @@ public class EntranceActivity extends BaseActivity {
     Animation entrance;
     Uri background = null;
     boolean mNeedUpdateUser = false;
-
-    Handler mHandler;
+    WeakRefHander mWeakRefHandler;
 
     @AfterViews
     void init() {
-        mHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 0) {
-                    playAnimator1();
-                } else if (msg.what == 1) {
-                    next();
-                }
-            }
-        };
+        mWeakRefHandler = new WeakRefHander(this);
 
         LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
         File file = photoItem.getCacheFile(this);
@@ -92,7 +83,7 @@ public class EntranceActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (!mNeedUpdateUser) {
-                    mHandler.sendEmptyMessageDelayed(1, 500);
+                    mWeakRefHandler.start(HANDLER_MESSAGE_NEXT_ACTIVITY, 500);
                 }
             }
 
@@ -106,7 +97,17 @@ public class EntranceActivity extends BaseActivity {
             mNeedUpdateUser = true;
         }
 
-        mHandler.sendEmptyMessageDelayed(0, 900);
+        mWeakRefHandler.start(HANDLER_MESSAGE_ANIMATION, 900);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (msg.what == HANDLER_MESSAGE_ANIMATION) {
+            playAnimator1();
+        } else if (msg.what == HANDLER_MESSAGE_NEXT_ACTIVITY) {
+            next();
+        }
+        return true;
     }
 
     private void playAnimator1() {
