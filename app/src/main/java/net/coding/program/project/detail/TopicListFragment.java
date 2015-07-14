@@ -85,7 +85,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             startActivity(intent);
         }
     };
-    private ArrayList<TopicObject> mData = new ArrayList();
+    private ArrayList<TopicObject> mData = new ArrayList<>();
     private String urlGet;
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override

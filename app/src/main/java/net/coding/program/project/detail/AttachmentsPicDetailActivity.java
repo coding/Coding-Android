@@ -72,9 +72,9 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     String urlDownload = "";
     File mFile;
     AsyncHttpClient client;
-    ArrayList<String> fileIds = new ArrayList<String>();
+    ArrayList<String> fileIds = new ArrayList<>();
     @Extra
-    ArrayList<AttachmentFileObject> fileList = new ArrayList<AttachmentFileObject>();
+    ArrayList<AttachmentFileObject> fileList = new ArrayList<>();
     /**
      * 用来存放图片实际地址的结果
      * 获取地址的方法，由于载入时间太长，现在移到了AttachmentImagePagerFragment中

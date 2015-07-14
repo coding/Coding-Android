@@ -29,10 +29,10 @@ public class ImageCommentLayout {
     private View mRootLayout;
 
     private ViewGroup mFlowLayout;
-    private ArrayList<ImageView> mImageViews = new ArrayList();
+    private ArrayList<ImageView> mImageViews = new ArrayList<>();
     private Activity mActivity;
     private ImageLoadTool mImageLoader;
-    private ArrayList<ImageInfo> mArrayImages = new ArrayList();
+    private ArrayList<ImageInfo> mArrayImages = new ArrayList<>();
     private View.OnClickListener mClickImage = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -87,12 +87,14 @@ public class ImageCommentLayout {
         }
 
         if (RESULT_TYPE == RESULT_REQUEST_COMMENT_IMAGE) {
+            @SuppressWarnings("unchecked")
             ArrayList<ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
             mArrayImages.clear();
             mArrayImages.addAll(images);
             updateCommentImage();
 
         } else if (RESULT_TYPE == RESULT_REQUEST_COMMENT_IMAGE_DETAIL) {
+            @SuppressWarnings("unchecked")
             ArrayList<ImageInfo> images = (ArrayList) data.getSerializableExtra("data");
             mArrayImages = images;
             updateCommentImage();

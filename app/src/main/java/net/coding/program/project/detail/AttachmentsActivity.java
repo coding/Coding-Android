@@ -99,7 +99,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     ProjectObject mProjectObject;
     String urlFiles = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
     String urlUpload = Global.HOST_API + "/project/%s/file/upload";
-    ArrayList<AttachmentFileObject> mFilesArray = new ArrayList();
+    ArrayList<AttachmentFileObject> mFilesArray = new ArrayList<>();
     boolean mNoMore = false;
     @ViewById
     ListView listView;
@@ -612,7 +612,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
      * @return 当前文档列表中的所有图片文档
      */
     private ArrayList<AttachmentFileObject> getPicFiles() {
-        ArrayList<AttachmentFileObject> picFiles = new ArrayList<AttachmentFileObject>();
+        ArrayList<AttachmentFileObject> picFiles = new ArrayList<>();
         for (AttachmentFileObject file : mFilesArray) {
             if (file.isImage()) {
                 picFiles.add(file);
@@ -965,7 +965,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
      * 删除选中的文件
      */
     void action_delete() {
-        selectFile = new ArrayList<AttachmentFileObject>();
+        selectFile = new ArrayList<>();
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (fileObject.isSelected && !fileObject.isFolder)
                 selectFile.add(fileObject);
@@ -1004,7 +1004,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             showButtomToast("没有选中文件");
             return;
         }
-        selectFile = new ArrayList<AttachmentFileObject>();
+        selectFile = new ArrayList<>();
         selectFile.add(selectedFile);
 
         String messageFormat = "确定要删除文件 \"%s\" 么？";
@@ -1059,7 +1059,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     void action_move() {
-        selectFile = new ArrayList<AttachmentFileObject>();
+        selectFile = new ArrayList<>();
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (fileObject.isSelected && !fileObject.isFolder)
                 selectFile.add(fileObject);
@@ -1078,7 +1078,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             showButtomToast("没有选中文件");
             return;
         }
-        selectFile = new ArrayList<AttachmentFileObject>();
+        selectFile = new ArrayList<>();
         selectFile.add(selectedFile);
 
         showMoveDialog();
@@ -1114,7 +1114,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
     public void initBottomPop() {
         if (mAttachmentPopupWindow == null) {
-            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<DialogUtil.BottomPopupItem>();
+            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<>();
             DialogUtil.BottomPopupItem renameItem = new DialogUtil.BottomPopupItem("重命名", R.drawable.ic_popup_attachment_rename);
             popupItemArrayList.add(renameItem);
             DialogUtil.BottomPopupItem deleteItem = new DialogUtil.BottomPopupItem("删除", R.drawable.ic_popup_attachment_delete_selector);
@@ -1123,7 +1123,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         }
 
         if (mAttachmentFilePopupWindow == null) {
-            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<DialogUtil.BottomPopupItem>();
+            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<>();
             DialogUtil.BottomPopupItem moveItem = new DialogUtil.BottomPopupItem("移动", R.drawable.ic_popup_attachment_move_selector);
             popupItemArrayList.add(moveItem);
 
@@ -1255,7 +1255,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         if (selectedFolderObject == null)
             return;
 
-        selectFolder = new ArrayList<AttachmentFolderObject>();
+        selectFolder = new ArrayList<>();
         selectFolder.add(selectedFolderObject);
         String messageFormat = "确定删除文件夹 \"%s\" ？";
         showDialog("删除文件夹", String.format(messageFormat, selectedFolderObject.name), new DialogInterface.OnClickListener() {
@@ -1423,7 +1423,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     void action_download() {
-        final ArrayList<AttachmentFileObject> downloadFiles = new ArrayList<AttachmentFileObject>();
+        final ArrayList<AttachmentFileObject> downloadFiles = new ArrayList<>();
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (fileObject.isSelected && !fileObject.isFolder) {
                 File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileObject.name);
@@ -1489,7 +1489,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     private void download(AttachmentFileObject mFileObject) {
-        ArrayList<AttachmentFileObject> mFileObjects = new ArrayList<AttachmentFileObject>();
+        ArrayList<AttachmentFileObject> mFileObjects = new ArrayList<>();
         mFileObjects.add(mFileObject);
         download(mFileObjects);
     }
@@ -1507,7 +1507,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
     public void initRightTopPop() {
         if (mRightTopPopupWindow == null) {
-            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<DialogUtil.RightTopPopupItem>();
+            ArrayList<DialogUtil.RightTopPopupItem> popupItemArrayList = new ArrayList<>();
             DialogUtil.RightTopPopupItem moveItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_move), R.drawable.ic_popup_attachment_move);
             popupItemArrayList.add(moveItem);
             DialogUtil.RightTopPopupItem downloadItem = new DialogUtil.RightTopPopupItem(getString(R.string.action_download), R.drawable.ic_popup_attachment_download);

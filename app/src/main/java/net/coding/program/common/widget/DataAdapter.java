@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/5/29.
+ * 其实和 ArrayAdapter 差不多
  */
 public abstract class DataAdapter<T> extends BaseAdapter {
 
@@ -16,7 +17,7 @@ public abstract class DataAdapter<T> extends BaseAdapter {
     }
 
     public DataAdapter() {
-        mData = new ArrayList<T>();
+        mData = new ArrayList<>();
     }
 
     public void insertDataUpdate(ArrayList<T> data) {

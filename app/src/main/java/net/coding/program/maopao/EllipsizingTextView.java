@@ -20,7 +20,7 @@ import java.util.List;
 
 public class EllipsizingTextView extends TextView {
     private static final String ELLIPSIS = "...";
-    private final List<EllipsizeListener> ellipsizeListeners = new ArrayList<EllipsizeListener>();
+    private final List<EllipsizeListener> ellipsizeListeners = new ArrayList<>();
     private boolean isEllipsized;
     private boolean isStale;
     private boolean programmaticChange;

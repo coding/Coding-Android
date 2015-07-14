@@ -70,7 +70,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     String maopaoUrl;
     String maopaoOwnerGlobal = "";
     String maopaoId = "";
-    ArrayList<Maopao.Comment> mData = new ArrayList<Maopao.Comment>();
+    ArrayList<Maopao.Comment> mData = new ArrayList<>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
     String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
     String ADD_COMMENT = Global.HOST_API + "/tweet/%s/comment";

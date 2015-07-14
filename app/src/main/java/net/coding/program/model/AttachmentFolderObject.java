@@ -21,7 +21,7 @@ public class AttachmentFolderObject implements Serializable {
     public int count;
     public boolean isSelected = false;
 
-    public ArrayList<AttachmentFolderObject> sub_folders = new ArrayList<AttachmentFolderObject>();
+    public ArrayList<AttachmentFolderObject> sub_folders = new ArrayList<>();
     public AttachmentFolderObject parent;
 
     public AttachmentFolderObject() {

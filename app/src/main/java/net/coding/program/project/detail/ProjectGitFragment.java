@@ -56,7 +56,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     ListView listView;
     @ViewById
     View blankLayout;
-    private ArrayList<GitFileInfoObject> mData = new ArrayList<GitFileInfoObject>();
+    private ArrayList<GitFileInfoObject> mData = new ArrayList<>();
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
     private String commentFormat = "%s 发布于%s";

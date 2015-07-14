@@ -36,7 +36,7 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
     String getProjectMembers = "getProjectMembers";
     String urlMembers = "";
 
-    ArrayList<TaskObject.Members> mMembersArray = new ArrayList<TaskObject.Members>();
+    ArrayList<TaskObject.Members> mMembersArray = new ArrayList<>();
     @ViewById
     ListView listView;
     BaseAdapter adapter = new BaseAdapter() {
@@ -116,7 +116,7 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(getProjectMembers)) {
             if (code == 0) {
-                ArrayList<TaskObject.Members> usersInfo = new ArrayList<TaskObject.Members>();
+                ArrayList<TaskObject.Members> usersInfo = new ArrayList<>();
 
                 JSONArray members = respanse.getJSONObject("data").getJSONArray("list");
 
