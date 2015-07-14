@@ -26,27 +26,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.CustomDialog;
-import net.coding.program.common.umeng.UmengActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_image_pager)
-public class ImagePagerActivity extends UmengActivity {
+public class ImagePagerActivity extends BackActivity {
 
     private final String SAVE_INSTANCE_INDEX = "SAVE_INSTANCE_INDEX";
     DisplayImageOptions options;
@@ -66,6 +68,8 @@ public class ImagePagerActivity extends UmengActivity {
 
     ArrayList<String> mDelUrls = new ArrayList<>();
 
+    TextView mMenuImagePos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +81,33 @@ public class ImagePagerActivity extends UmengActivity {
     @AfterViews
     void init() {
         if (needEdit) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setIcon(android.R.color.transparent);
+            ActionBar supportActionBar = getSupportActionBar();
+            supportActionBar.setIcon(android.R.color.transparent);
+
+            View v = getLayoutInflater().inflate(R.layout.image_pager_action_custom, null);
+            mMenuImagePos = (TextView) v.findViewById(R.id.imagePos);
+            supportActionBar.setCustomView(v);
+
+            supportActionBar.setDisplayShowCustomEnabled(true);
             pager.setBackgroundColor(getResources().getColor(R.color.stand_bg));
+
+            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    setPosDisplay(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            setPosDisplay(0);
         } else {
             getSupportActionBar().hide();
             pager.setBackgroundColor(getResources().getColor(R.color.black));
@@ -105,6 +133,12 @@ public class ImagePagerActivity extends UmengActivity {
         if (!isPrivate) {
             initPager();
         }
+
+    }
+
+    private void setPosDisplay(int position) {
+        String pos = String.format("%d/%d", position + 1, mArrayUri.size());
+        mMenuImagePos.setText(pos);
     }
 
     private void initPager() {
@@ -148,47 +182,32 @@ public class ImagePagerActivity extends UmengActivity {
         finish();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    @OptionsItem
+    protected final void action_del_maopao() {
+        final int selectPos = pager.getCurrentItem();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("图片")
+                .setMessage("确定删除？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String s = mArrayUri.remove(selectPos);
+                        mDelUrls.add(s);
+                        if (mArrayUri.isEmpty()) {
+                            onBackPressed();
+                        } else {
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-            case R.id.action_del_maopao:
-                final int selectPos = pager.getCurrentItem();
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("图片")
-                        .setMessage("确定删除？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String s = mArrayUri.remove(selectPos);
-                                mDelUrls.add(s);
-                                if (mArrayUri.isEmpty()) {
-                                    onBackPressed();
-                                } else {
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .show();
-                CustomDialog.dialogTitleLineColor(this, dialog);
-
-                break;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
-
+                    }
+                })
+                .show();
+        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     class ImagePager extends FragmentPagerAdapter {
@@ -201,6 +220,7 @@ public class ImagePagerActivity extends UmengActivity {
         public Fragment getItem(int i) {
             return ImagePagerFragment_.builder()
                     .uri(mArrayUri.get(i))
+                    .customMenu(false)
                     .build();
         }
 

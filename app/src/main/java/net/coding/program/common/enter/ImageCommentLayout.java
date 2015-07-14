@@ -33,6 +33,18 @@ public class ImageCommentLayout {
     private Activity mActivity;
     private ImageLoadTool mImageLoader;
     private ArrayList<ImageInfo> mArrayImages = new ArrayList();
+    private View.OnClickListener mClickImage = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int pos = (int) v.getTag(R.id.image);
+            Intent intent = new Intent(mActivity, PhotoPickDetailActivity.class);
+            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, pos);
+            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, MaopaoAddActivity.PHOTO_MAX_COUNT);
+            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mArrayImages);
+            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mArrayImages);
+            mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE_DETAIL);
+        }
+    };
 
     public ImageCommentLayout(Activity activity, View.OnClickListener onClickSend, ImageLoadTool imageLoader) {
         mEnterLayout = new EnterLayout(activity, onClickSend, EnterLayout.Type.TextOnly) {
@@ -60,19 +72,6 @@ public class ImageCommentLayout {
         mFlowLayout = (ViewGroup) v.findViewById(R.id.imageLayout);
         mFlowLayout.setVisibility(View.GONE);
     }
-
-    private View.OnClickListener mClickImage = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int pos = (int) v.getTag(R.id.image);
-            Intent intent = new Intent(mActivity, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, pos);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, MaopaoAddActivity.PHOTO_MAX_COUNT);
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mArrayImages);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mArrayImages);
-            mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE_DETAIL);
-        }
-    };
 
     public EnterLayout getEnterLayout() {
         return mEnterLayout;

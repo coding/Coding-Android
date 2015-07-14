@@ -106,6 +106,9 @@ public class ImagePagerFragment extends BaseFragment {
     @FragmentArg
     int mProjectObjectId;
 
+    @FragmentArg // 是否允许使用自己的菜单
+            boolean customMenu = true;
+
 
     private String URL_FILES_BASE = Global.HOST_API + "/project/%d/files/%s/view";
     private String URL_FILES = "";
@@ -122,7 +125,7 @@ public class ImagePagerFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(customMenu);
 //        getActivity().invalidateOptionsMenu();
 
         circleLoading.setVisibility(View.INVISIBLE);

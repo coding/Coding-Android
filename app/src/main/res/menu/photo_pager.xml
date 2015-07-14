@@ -1,9 +1,10 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.project.detail.TopicAddActivity">
     <item
         android:id="@+id/action_del_maopao"
         android:icon="@android:drawable/ic_menu_delete"
+        android:title="删除"
         app:showAsAction="always" />
 </menu>
