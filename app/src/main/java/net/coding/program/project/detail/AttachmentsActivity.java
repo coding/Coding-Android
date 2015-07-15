@@ -152,7 +152,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
     private String urlDownload = Global.HOST_API + "/project/%s/files/%s/download";
-    private HashMap<String, Integer> fileCountMap = new HashMap();
+    private HashMap<String, Integer> fileCountMap = new HashMap<>();
     private DownloadManager downloadManager;
     private DownloadManagerPro downloadManagerPro;
     private DownloadChangeObserver downloadObserver;
@@ -353,7 +353,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 }
             }
 
-            holder.checkBox.setTag(new Integer(position));
+            holder.checkBox.setTag(position);
             if (isEditMode) {
                 if (!data.isFolder)
                     holder.checkBox.setVisibility(View.VISIBLE);
@@ -375,11 +375,11 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
             holder.more.setOnClickListener(onMoreClickListener);
-            holder.more.setTag(new Integer(position));
+            holder.more.setTag(position);
 
 
             if (data.downloadId != 0L) {
-                holder.cancel.setTag(new Integer(position));
+                holder.cancel.setTag(position);
                 int status = data.bytesAndStatus[2];
                 holder.progressBar.setMax(data.getSize());
                 if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
@@ -1224,7 +1224,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             public void onClick(DialogInterface dialog, int which) {
                 String newName = input.getText().toString();
                 //从网页版扒来的正则
-                String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
+                String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
                 Pattern namePattern = Pattern.compile(namePatternStr);
                 if (newName.equals("")) {
                     showButtomToast("名字不能为空");
@@ -1286,7 +1286,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newName = input.getText().toString();
-                String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
+                String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
                 Pattern namePattern = Pattern.compile(namePatternStr);
                 if (newName.equals("")) {
                     showButtomToast("名字不能为空");
@@ -1365,8 +1365,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(completeReceiver);
+        super.onDestroy();
     }
 
     // 更新文件的下载状态
@@ -1592,7 +1592,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         public void onReceive(Context context, Intent intent) {
 //            long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 //            if (completeDownloadId != -1) {
-//
+//                showMiddleToast(completeDownloadId + " id");
 //            }
         }
     }

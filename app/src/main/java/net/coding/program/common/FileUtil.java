@@ -144,7 +144,7 @@ public class FileUtil {
             return uri.getPath();
         }
 
-        return null;
+        return "";
     }
 
     /**

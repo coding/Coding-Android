@@ -214,7 +214,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="12dp"
                         android:gravity="center"
-                        android:text="2FA"
+                        android:text="@string/title_activity_login2_fatip"
                         android:textColor="@color/font_white_disable"
                         android:textSize="16sp" />
 

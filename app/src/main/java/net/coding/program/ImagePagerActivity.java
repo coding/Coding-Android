@@ -196,6 +196,7 @@ public class ImagePagerActivity extends BackActivity {
                         if (mArrayUri.isEmpty()) {
                             onBackPressed();
                         } else {
+                            setPosDisplay(pager.getCurrentItem());
                             adapter.notifyDataSetChanged();
                         }
                     }
