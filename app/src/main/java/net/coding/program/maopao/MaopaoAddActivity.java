@@ -81,7 +81,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     TextView locationText;
     @InstanceState
     LocationObject currentLocation = LocationObject.undefined();
-    int imageWidthPx;
     ImageSize mSize;
     PhotoOperate photoOperate = new PhotoOperate(this);
     EnterEmojiLayout mEnterLayout;
@@ -176,8 +175,8 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
 
     @AfterViews
     void init() {
-        imageWidthPx = Global.dpToPx(getResources().getDimension(R.dimen.image_add_maopao_width));
-        mSize = new ImageSize(imageWidthPx, imageWidthPx);
+        int px = (int) getResources().getDimension(R.dimen.image_add_maopao_width);
+        mSize = new ImageSize(px, px);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
