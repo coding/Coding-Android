@@ -121,13 +121,19 @@ public class UserDetailActivity extends BaseActivity {
             }
             getNetwork(HOST_USER_INFO + globalKey, HOST_USER_INFO);
         } else {
-            String name = getIntent().getData().getQueryParameter("name");
-            if (name.equals(MyApp.sUserObject.name)) {
-                setTitleMyPage();
-                resizeHead();
-            }
+            try {
+                String name = getIntent().getData().getQueryParameter("name");
+                if (name.equals(MyApp.sUserObject.name)) {
+                    setTitleMyPage();
+                    resizeHead();
+                }
 
-            getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
+                getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
+            } catch (Exception e) {
+                Global.errorLog(e);
+                finish();
+                return;
+            }
         }
 
         userBackground.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

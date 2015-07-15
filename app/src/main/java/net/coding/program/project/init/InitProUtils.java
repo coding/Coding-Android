@@ -3,18 +3,11 @@ package net.coding.program.project.init;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import net.coding.program.MainActivity_;
-import net.coding.program.common.Global;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,55 +50,6 @@ public class InitProUtils {
         }
         Matcher matcher = Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9_-]+$").matcher(text);
         return matcher.find();
-    }
-
-    public static boolean saveBitmap2file(Bitmap bmp, String filename) {
-        Bitmap.CompressFormat format = Bitmap.CompressFormat.PNG;
-        int quality = 100;
-        OutputStream stream = null;
-        try {
-            stream = new FileOutputStream(filename);
-        } catch (FileNotFoundException e) {
-            Global.errorLog(e);
-        }
-
-        return bmp.compress(format, quality, stream);
-    }
-
-    private static String getDefaultIconName(String iconUrl) {
-        String regEx = "[^0-9]";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(iconUrl);
-        return m.replaceAll("").trim();
-    }
-
-    //默认的随机图片上传处理相关，目前的处理方式不是很理想,后期建议接口能够避免上传默认图片文件，改为上传图片url
-    public static String getDefaultIconPath(Context context, Bitmap bitmap, String iconUrl) {
-        String defaultIconName = getDefaultIconName(iconUrl) + ".png";
-        File defaultIcon = new File(getDiskCacheDir(context, "icon"), defaultIconName);
-        if (defaultIcon.exists()) {
-            return defaultIcon.getAbsolutePath();
-        }
-        String pathCacheDiskPath = getDiskCacheDir(context, "icon").getAbsolutePath();
-        if (saveBitmap2file(bitmap, pathCacheDiskPath + File.separator + defaultIconName)) {
-            return defaultIcon.getAbsolutePath();
-        }
-        return null;
-    }
-
-    public static File getDiskCacheDir(Context context, String uniqueName) {
-        String cachePath;
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                || !Environment.isExternalStorageRemovable()) {
-            cachePath = context.getExternalCacheDir().getPath();
-        } else {
-            cachePath = context.getCacheDir().getPath();
-        }
-        File cacheFilePath = new File(cachePath + File.separator + uniqueName);
-        if (!cacheFilePath.exists()) {
-            cacheFilePath.mkdir();
-        }
-        return cacheFilePath;
     }
 
     public static void hideSoftInput(Activity activity) {

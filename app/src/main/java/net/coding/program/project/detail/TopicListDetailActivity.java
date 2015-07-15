@@ -160,7 +160,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
             return convertView;
         }
     };
-    private TextView topicTitleTextView;
     private TopicLabelBar labelBar;
     private int currentLabelId;
     private TextView textViewCommentCount;
@@ -192,16 +191,18 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     }
 
     private void loadData() {
-        if (topicObject == null) {
+        if (mJumpParam != null) {
             urlTopic = String.format(Global.HOST_API + "/topic/%s?", mJumpParam.mTopic);
             getNetwork(urlTopic, urlTopic);
 
-        } else {
+        } else if (topicObject != null) {
             owerGlobar = topicObject.owner.global_key;
             getSupportActionBar().setTitle(topicObject.project.name);
 
             urlTopic = String.format(Global.HOST_API + "/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
+        } else {
+            finish();
         }
     }
 
@@ -331,7 +332,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         icon.setTag(topicObject.owner.global_key);
         icon.setOnClickListener(mOnClickUser);
 
-        topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
+        TextView topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
         topicTitleTextView.setText(topicObject.title);
 
         final String format = "<font color='#3bbd79'>%s</font> 发布于%s";
