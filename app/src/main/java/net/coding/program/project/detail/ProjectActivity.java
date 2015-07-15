@@ -101,7 +101,7 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if (mProjectObject == null) {
+        if (mJumpParam != null) {
             urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
             actionBar.setTitle(mJumpParam.mProject);
 
@@ -110,9 +110,12 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
 
             getNetwork(urlProject, urlProject);
 
-        } else {
+        } else if (mProjectObject != null) {
             actionBar.setTitle(mProjectObject.name);
             initData();
+
+        } else {
+            finish();
         }
     }
 

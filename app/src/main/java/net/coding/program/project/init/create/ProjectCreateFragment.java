@@ -86,8 +86,14 @@ public class ProjectCreateFragment extends BaseFragment {
                     return;
                 }
 
-                super.onLoadingComplete(imageUri, view, loadedImage);
-                defaultIconUrl = InitProUtils.getDefaultIconPath(getActivity(), loadedImage, imageUri);
+                File imageFile = imageLoadTool.imageLoader.getDiskCache().get(imageUri);
+                File newFile = new File(imageFile.getPath() + ".png");
+
+                if (newFile.exists() || imageFile.renameTo(newFile)) {
+                    defaultIconUrl = newFile.getPath();
+                } else {
+                    defaultIconUrl = imageFile.getPath();
+                }
             }
         });
 
@@ -315,7 +321,7 @@ public class ProjectCreateFragment extends BaseFragment {
 
     public static class IconRandom {
 
-        public static String[] iconUrls = {
+        public static final String[] iconUrls = {
                 "https://coding.net/static/project_icon/scenery-1.png",
                 "https://coding.net/static/project_icon/scenery-2.png",
                 "https://coding.net/static/project_icon/scenery-3.png",
