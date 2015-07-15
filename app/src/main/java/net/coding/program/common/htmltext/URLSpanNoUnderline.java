@@ -111,8 +111,9 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 项目
         // https://coding.net/u/8206503/p/AndroidCoding
+        // https://coding.net/u/8206503/p/FireEye/git
         //
-        final String project = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)$";
+        final String project = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)(/git)?$";
         pattern = Pattern.compile(project);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
