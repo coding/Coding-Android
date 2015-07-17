@@ -3,6 +3,7 @@
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/list_item_selector"
     android:paddingBottom="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -77,7 +78,7 @@
                 android:drawablePadding="5dp"
 
                 android:text="3分钟前"
-                android:textColor="@color/font_gray"
+                android:textColor="@color/font_black_9"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

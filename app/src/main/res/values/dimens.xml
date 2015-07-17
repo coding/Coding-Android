@@ -61,7 +61,7 @@
 
     <dimen name="pickimage_gridlist_item_space">4dp</dimen>
 
-    <dimen name="task_list_item_icon">28dp</dimen>
+    <dimen name="my_pager_sliding_tab_strip">10dp</dimen>
 
 
     <item name="parallax_speed_slow" format="float" type="dimen">2.5</item>
@@ -79,5 +79,6 @@
 
     <dimen name="scanview_width">250dp</dimen>
 
-    <dimen name="task_add_user_icon_width">40dp</dimen>
+    <dimen name="task_list_item_icon">28dp</dimen>
+    <dimen name="task_add_user_icon_width">28dp</dimen>
 </resources>

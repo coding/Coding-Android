@@ -50,4 +50,13 @@ public class WeakRefHander extends Handler {
         removeMessages(0);
         sendEmptyMessageDelayed(what, delay);
     }
+
+    public void stop() {
+        removeMessages(0);
+    }
+
+    public void clear() {
+        removeMessages(0);
+        mRef.clear();
+    }
 }

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,7 +33,7 @@ import org.json.JSONObject;
  * 封装了图片下载
  * 封装了网络请求
  */
-public class BaseFragment extends Fragment implements NetworkCallback, FootUpdate.LoadMore, StartActivity {
+public class BaseFragment extends UmengFragment implements NetworkCallback, FootUpdate.LoadMore, StartActivity {
 
     protected NetworkImpl networkImpl;
     protected LayoutInflater mInflater;

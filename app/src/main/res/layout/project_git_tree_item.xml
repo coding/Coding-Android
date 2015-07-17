@@ -52,7 +52,7 @@
                 android:layout_marginTop="3dp"
                 android:singleLine="true"
                 android:text="Medium Text"
-                android:textColor="@color/font_gray"
+                android:textColor="@color/font_black_9"
                 android:textSize="12sp" />
 
         </LinearLayout>

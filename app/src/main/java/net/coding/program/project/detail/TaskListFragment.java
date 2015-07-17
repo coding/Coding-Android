@@ -49,6 +49,7 @@ import java.util.WeakHashMap;
 
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
@@ -74,7 +75,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     @StringArrayRes
     String[] task_titles;
     @ViewById
-    ExpandableStickyListHeadersListView listView;
+    StickyListHeadersListView listView;
     int mTaskCount[] = new int[2];
     boolean mUpdateAll = true;
     String urlAll = "";
@@ -169,7 +170,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         fab.attachToListView(listView.getWrappedList());
         fab.setVisibility(View.GONE);
-        listView.setAnimExecutor(new AnimationExecutor());
+//        listView.setAnimExecutor(new AnimationExecutor());
+        View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
+        listView.addFooterView(footer);
         listView.setAdapter(mAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

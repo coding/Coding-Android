@@ -6,9 +6,9 @@
 
 
     <ImageView
+        android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/icon"
         android:paddingLeft="12dp"
         android:paddingRight="6dp"
         android:paddingTop="15dp"
@@ -18,31 +18,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingRight="12dp"
-        android:paddingLeft="0dp">
+        android:paddingLeft="0dp"
+        android:paddingRight="12dp">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/font_black_content"
-            android:text="A栋飞等到了"
-            android:paddingTop="15dp"
-            android:paddingBottom="12dp"
             android:lineSpacingExtra="3dp"
-            android:id="@+id/title" />
+            android:paddingBottom="12dp"
+            android:paddingTop="15dp"
+            android:text="A栋飞等到了"
+            android:textColor="@color/font_black_content"
+            android:textSize="16sp" />
 
         <TextView
-            android:layout_gravity="right"
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:drawableLeft="@drawable/ic_clock"
             android:drawablePadding="5dp"
-            android:id="@+id/time"
-            android:text="2小时"
-            android:textColor="@color/font_gray"
+            android:paddingBottom="9dp"
             android:paddingTop="0dp"
-            android:paddingBottom="9dp" />
+            android:text="2小时"
+            android:textColor="@color/font_black_9" />
 
     </LinearLayout>
 

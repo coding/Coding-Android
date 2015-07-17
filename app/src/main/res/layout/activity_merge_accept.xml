@@ -12,7 +12,7 @@
         android:gravity="center"
         android:paddingLeft="@dimen/padding_15"
         android:text="Message"
-        android:textColor="@color/font_gray"
+        android:textColor="@color/font_black_9"
         android:textSize="15sp" />
 
     <include layout="@layout/divideline_15" />

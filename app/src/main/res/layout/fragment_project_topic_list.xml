@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/tabs"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@color/stand_bg"
         android:gravity="center">
 
         <net.coding.program.project.detail.DropdownButton_
@@ -18,9 +18,9 @@
             android:layout_weight="1" />
 
         <View
-            android:background="#dddddd"
-            android:layout_width="0.5dp"
-            android:layout_height="18dp" />
+            android:layout_width="1dp"
+            android:layout_height="18dp"
+            android:background="@color/divide_line" />
 
 
         <net.coding.program.project.detail.DropdownButton_
@@ -30,9 +30,9 @@
             android:layout_weight="1" />
 
         <View
-            android:background="#dddddd"
             android:layout_width="0.5dp"
-            android:layout_height="18dp" />
+            android:layout_height="18dp"
+            android:background="#dddddd" />
 
         <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseOrder"
@@ -44,7 +44,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divide" />
+        android:background="@color/divide_line" />
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -258,7 +258,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divide_15_e5" />
+                android:background="@color/divide" />
 
             <RadioButton
                 android:id="@+id/radio4"

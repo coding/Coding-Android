@@ -14,7 +14,7 @@
         android:background="@drawable/content_pressed_selector"
         android:gravity="center"
         android:text="Small Text"
-        android:textColor="@color/font_gray"
+        android:textColor="@color/font_black_9"
         android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView

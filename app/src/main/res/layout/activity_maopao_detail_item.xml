@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/icon"
-        android:orientation="vertical"
-        android:layout_toRightOf="@+id/icon">
+        android:layout_toRightOf="@+id/icon"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/content"
@@ -26,13 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/icon"
             android:layout_below="@+id/name"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/content_pressed_selector"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:background="@drawable/content_pressed_selector"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/font_black_content"
-            android:textSize="15sp"
-            android:layout_marginRight="12dp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -58,7 +58,7 @@
         android:drawablePadding="5dp"
 
         android:text="3分钟前"
-        android:textColor="@color/font_gray"
+        android:textColor="@color/font_black_9"
         android:textSize="12sp" />
 
 </RelativeLayout>

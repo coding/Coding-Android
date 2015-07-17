@@ -64,7 +64,7 @@
             android:layout_marginTop="7dp"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_gray" />
+            android:textColor="@color/font_black_9" />
 
         <View
             android:id="@+id/iconPrivate"
@@ -90,9 +90,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_15"
         android:layout_marginTop="15dp"
-        android:background="@color/divide" />
+        android:background="@color/divide_line" />
 </merge>

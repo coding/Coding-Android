@@ -23,14 +23,16 @@ import net.coding.program.model.AccountInfo;
 
 import java.util.ArrayList;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 public class AuthListActivity extends BaseActivity implements Handler.Callback {
 
-    private static final int TIME_UPDATE = 100;
+    private static final int TIME_UPDATE = 1000;
     private final int RESULT_ADD_ACCOUNT = 1000;
     WeakRefHander mWeakRefHandler;
     private AuthAdapter mAuthAdapter;
     private TotpClock mClock;
-    private ListView listView;
+    private StickyListHeadersListView listView;
 
     @Override
     public boolean handleMessage(Message msg) {
@@ -48,7 +50,9 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
 
         mClock = new TotpClock(this);
         mAuthAdapter = new AuthAdapter(this, 0);
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (StickyListHeadersListView) findViewById(R.id.listView);
+        View footer = getLayoutInflater().inflate(R.layout.divide_15_top, null);
+        listView.addFooterView(footer);
         listView.setAdapter(mAuthAdapter);
 
         ArrayList<String> uris = AccountInfo.loadAuthDatas(this);
@@ -97,7 +101,24 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
         });
 
         mWeakRefHandler = new WeakRefHander(this, TIME_UPDATE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mWeakRefHandler.start();
+    }
+
+    @Override
+    public void onPause() {
+        mWeakRefHandler.stop();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mWeakRefHandler.clear();
+        super.onDestroy();
     }
 
     @Override
@@ -173,16 +194,19 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
     }
 
     private void setTotpCountdownPhase(double phase) {
-        for (int i = 0; i < listView.getChildCount(); ++i) {
-            View listItemView = listView.getChildAt(i);
-            CountdownIndicator indicator = (CountdownIndicator) listItemView.findViewById(R.id.indicator);
-            indicator.setPhase(phase);
+        ListView realList = listView.getWrappedList();
+        for (int i = 0; i < realList.getChildCount(); ++i) {
+            View listItemView = realList.getChildAt(i);
+            View indicatorView = listItemView.findViewById(R.id.indicator);
+            if (indicatorView != null) { // 因为 listview 的 child 不包含indicator
+                ((CountdownIndicator) indicatorView).setPhase(phase);
 
-            TextView tv = (TextView) listItemView.findViewById(R.id.code);
-            if (phase >= 0.1) {
-                tv.setTextColor(0xff3bbd79);
-            } else {
-                tv.setTextColor(0xffe15957);
+                TextView tv = (TextView) listItemView.findViewById(R.id.code);
+                if (phase >= 0.1) {
+                    tv.setTextColor(0xff3bbd79);
+                } else {
+                    tv.setTextColor(0xffe15957);
+                }
             }
         }
     }

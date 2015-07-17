@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-
     <net.coding.program.third.WechatTab
         android:id="@+id/tabs"
         android:layout_width="match_parent"

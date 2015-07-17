@@ -14,11 +14,11 @@
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/task_list_head"
-        android:paddingTop="35dp"
+        android:background="@color/divide"
         android:gravity="center_horizontal"
-        android:visibility="visible"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="35dp"
+        android:visibility="visible">
 
         <View
             android:layout_width="143dp"
@@ -33,7 +33,7 @@
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:text="搜索项目名称或创建人的个性后缀\n都可以进行项目搜索哦！"
-            android:textColor="@color/font_gray" />
+            android:textColor="@color/font_black_9" />
 
     </LinearLayout>
 

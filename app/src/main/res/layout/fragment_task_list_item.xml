@@ -2,17 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp"
+    android:background="@drawable/list_item_selector"
     android:descendantFocusability="blocksDescendants"
-    android:background="@color/stand_bg"
+    android:paddingBottom="10dp"
     tools:context=".project.detail.TaskListFragment">
 
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginLeft="15dp"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
         android:button="@drawable/checkbox_task_0"
         android:checked="false"
         android:focusable="false" />
@@ -20,8 +20,8 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
         android:layout_width="35dp"
-        android:layout_centerVertical="true"
         android:layout_height="35dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/checkbox"
         android:src="@drawable/ic_default_user" />
@@ -37,22 +37,22 @@
         android:layout_marginTop="13dp"
         android:layout_toRightOf="@+id/icon"
         android:ellipsize="end"
-        android:maxLines="2"
-        android:text="      江龙减法看东方看a东皇反抗a双簧反抗a荒废"
         android:lineSpacingExtra="3dp"
+        android:maxLines="2"
+        android:phoneNumber="false"
+        android:text="      江龙减法看东方看a东皇反抗a双簧反抗a荒废"
         android:textColor="#555555"
-        android:textSize="15sp"
-        android:phoneNumber="false" />
+        android:textSize="15sp" />
 
     <View
         android:id="@+id/taskPriority"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:background="@drawable/task_mark_0"
-        android:layout_alignTop="@id/title"
         android:layout_alignLeft="@id/title"
-        android:focusable="false"
-        android:layout_marginTop="1.5dp" />
+        android:layout_alignTop="@id/title"
+        android:layout_marginTop="1.5dp"
+        android:background="@drawable/task_mark_0"
+        android:focusable="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,14 +84,14 @@
 
         <TextView
             android:id="@+id/taskDes"
-            android:text="描述"
-            android:textColor="@color/font_gray"
-            android:drawablePadding="4dp"
-            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:drawableLeft="@drawable/icon_task_des" />
+            android:drawableLeft="@drawable/icon_task_des"
+            android:drawablePadding="4dp"
+            android:text="描述"
+            android:textColor="@color/font_black_9"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

@@ -8,6 +8,6 @@
     android:drawableLeft="@drawable/ic_clock"
     android:drawablePadding="2dp"
     android:text="Small Text"
-    android:textColor="@color/font_gray"
+    android:textColor="@color/font_black_9"
     android:textSize="12sp"
     tools:showIn="@layout/fragment_task_list_item" />
