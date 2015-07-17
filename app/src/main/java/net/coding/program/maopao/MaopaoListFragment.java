@@ -6,8 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +45,15 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.UserObject;
+import net.coding.program.project.SearchProjectActivity_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -393,6 +401,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
 
     };
+
+    @OptionsItem
+    void action_search() {
+        SearchProjectActivity_.intent(this).start();
+        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -817,5 +831,39 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             pos = 0;
             needEdit = false;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_fragment_maopao,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setIcon(R.drawable.ic_menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        try { // 更改搜索按钮的icon
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView v = (ImageView) searchView.findViewById(searchImgId);
+            v.setImageResource(R.drawable.ic_menu_search);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchItem(s);
+                return true;
+            }
+        });
+
+        searchView.
+
+        return true;
     }
 }
