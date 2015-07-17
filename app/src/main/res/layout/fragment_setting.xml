@@ -108,7 +108,7 @@
         </RelativeLayout>
 
 
-        <include layout="@layout/list_divider_small" />
+        <include layout="@layout/divide_1" />
 
         <RelativeLayout
             android:id="@+id/aboutCoding"

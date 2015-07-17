@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="net.coding.program.task.TaskFragment">
 
 
@@ -10,7 +10,8 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="77dip"
-        android:background="@color/stand_bg" />
+        android:background="@color/stand_bg"
+        android:paddingLeft="@dimen/my_pager_sliding_tab_strip" />
     <!--<android.support.v4.view.PagerTabStrip-->
     <!--android:id="@+id/tabs"-->
     <!--android:layout_width="match_parent"-->

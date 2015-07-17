@@ -50,7 +50,7 @@
                     android:drawableLeft="@drawable/ic_clock"
                     android:drawablePadding="2dp"
                     android:text="Small Text"
-                    android:textColor="@color/font_gray"
+                    android:textColor="@color/font_black_9"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -67,7 +67,7 @@
                 android:lineSpacingExtra="1dp"
                 android:lineSpacingMultiplier="1.1"
                 android:singleLine="false"
-                android:text="法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等法等等"
+                android:text="去"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/font_black_content"
                 android:textSize="15sp" />
@@ -175,7 +175,7 @@
                         android:gravity="center_vertical"
                         android:singleLine="true"
                         android:text="来自 iPhone 6"
-                        android:textColor="@color/font_gray"
+                        android:textColor="@color/font_black_9"
                         android:textSize="13sp" />
 
                     <TextView
@@ -184,7 +184,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="删除"
-                        android:textColor="@color/font_gray"
+                        android:textColor="@color/font_black_9"
                         android:textSize="13sp" />
 
                     <CheckBox
@@ -255,8 +255,27 @@
                         android:id="@+id/commentArea"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="10dp">
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/comment0"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment1"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment2"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment3"
+                            layout="@layout/maopao_list_comment_area_item" />
+
+                        <include
+                            android:id="@+id/comment4"
+                            layout="@layout/maopao_list_comment_area_item" />
 
                         <RelativeLayout
                             android:id="@+id/commentMore"
@@ -283,33 +302,13 @@
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_alignLeft="@id/temp1"
-                                android:layout_alignParentBottom="true"
-                                android:background="@drawable/maopao_comment_divide" />
+                            <!--<View-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="1dp"-->
+                            <!--android:layout_alignLeft="@id/temp1"-->
+                            <!--android:layout_alignParentBottom="true"-->
+                            <!--android:background="@drawable/maopao_comment_divide" />-->
                         </RelativeLayout>
-
-                        <include
-                            android:id="@+id/comment0"
-                            layout="@layout/maopao_list_comment_area_item" />
-
-                        <include
-                            android:id="@+id/comment1"
-                            layout="@layout/maopao_list_comment_area_item" />
-
-                        <include
-                            android:id="@+id/comment2"
-                            layout="@layout/maopao_list_comment_area_item" />
-
-                        <include
-                            android:id="@+id/comment3"
-                            layout="@layout/maopao_list_comment_area_item" />
-
-                        <include
-                            android:id="@+id/comment4"
-                            layout="@layout/maopao_list_comment_area_item" />
 
                     </LinearLayout>
                 </LinearLayout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/list_item_selector">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -52,7 +53,7 @@
             android:drawableLeft="@drawable/ic_clock"
             android:drawablePadding="2dp"
             android:text="Small Text"
-            android:textColor="@color/font_gray"
+            android:textColor="@color/font_black_9"
             android:textSize="11sp" />
 
     </LinearLayout>

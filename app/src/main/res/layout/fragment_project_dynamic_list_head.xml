@@ -6,17 +6,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/divide_15_e5">
+        android:background="@color/divide">
 
         <TextView
+            android:id="@+id/head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="Medium Text"
             android:layout_centerVertical="true"
-            android:id="@+id/head"
-            android:textColor="@color/font_gray"
-            android:layout_marginLeft="@dimen/padding_15" />
+            android:layout_marginLeft="@dimen/padding_15"
+            android:text="Medium Text"
+            android:textColor="@color/font_black_9"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

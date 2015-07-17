@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
@@ -20,10 +21,13 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TaskListFragment_;
+import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.third.MyPagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +39,7 @@ import java.util.List;
 
 
 @EFragment(R.layout.fragment_task)
+@OptionsMenu(R.menu.fragment_task)
 public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
@@ -134,6 +139,11 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
                 ((TaskListUpdate) fragment).taskListUpdate();
             }
         }
+    }
+
+    @OptionsItem
+    protected final void action_add() {
+        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
     }
 
     public static class TaskCount {

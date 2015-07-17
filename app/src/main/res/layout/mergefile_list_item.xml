@@ -10,7 +10,7 @@
         android:layout_width="@dimen/mergefile_list_item_icon_width"
         android:layout_height="@dimen/mergefile_list_item_icon_width"
         android:layout_marginLeft="@dimen/padding_15"
-        android:background="@color/font_gray" />
+        android:background="@color/font_black_9" />
 
     <TextView
         android:id="@+id/title"

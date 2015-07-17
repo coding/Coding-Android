@@ -37,6 +37,8 @@
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
+        <item name="android:divider">@drawable/system_divide</item>
+
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
@@ -77,6 +79,8 @@
         <item name="colorPrimary">@drawable/gray_drawable</item>
         <item name="android:textColorPrimary">@drawable/white</item>
         <item name="colorPrimaryDark">@color/black</item>
+
+        <item name="android:divider">@drawable/system_divide</item>
 
 
         <item name="color">@color/white</item>

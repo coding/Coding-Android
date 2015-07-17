@@ -12,12 +12,19 @@ import net.coding.program.model.AccountInfo;
 
 import java.util.ArrayList;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 /**
  * Created by chenchao on 15/7/1.
  */
-public class AuthAdapter extends ArrayAdapter<AuthInfo> {
+public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHeadersAdapter {
+
+    LayoutInflater mLayoutInflater;
+
     public AuthAdapter(Context context, int resource) {
         super(context, resource);
+        mLayoutInflater = LayoutInflater.from(context);
+
     }
 
     @Override
@@ -28,6 +35,7 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
             holder = new HolderAuthinfo();
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.code = (TextView) convertView.findViewById(R.id.code);
+            holder.company = (TextView) convertView.findViewById(R.id.company);
             holder.indicator = (CountdownIndicator) convertView.findViewById(R.id.indicator);
 
             convertView.setTag(holder);
@@ -36,8 +44,15 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
         }
 
         AuthInfo data = getItem(position);
+        holder.company.setText(data.getCompany());
         holder.name.setText(data.getAccountName());
-        holder.code.setText(data.getCode());
+
+        String code = data.getCode();
+        String newCode = code;
+        if (code.length() > 3) {
+            newCode = code.substring(0, 3) + " " + code.substring(3, code.length());
+        }
+        holder.code.setText(newCode);
 
         return convertView;
     }
@@ -65,7 +80,6 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
     }
 
 
-
     public void add(AuthInfo item) {
         setNotifyOnChange(false);
         for (int i = 0; i < getCount(); ++i) {
@@ -89,11 +103,24 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> {
         AccountInfo.saveAuthDatas(getContext(), uris);
     }
 
+    @Override
+    public View getHeaderView(int i, View view, ViewGroup viewGroup) {
+        if (i == 0) {
+            return mLayoutInflater.inflate(R.layout.divide_0, null);
+        } else {
+            return mLayoutInflater.inflate(R.layout.divide_15_top_bottom, null);
+        }
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        return i;
+    }
+
     static final class HolderAuthinfo {
         public TextView name;
         public TextView code;
+        public TextView company;
         public CountdownIndicator indicator;
     }
-
-
 }

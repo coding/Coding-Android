@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="12dp"
-    android:layout_marginRight="10dp"
-    android:layout_width="match_parent"
-    android:paddingBottom="5dp">
-
-    <View
-        android:id="@+id/commentTopDivider"
-        android:background="@drawable/maopao_comment_divide"
-        android:layout_height="1dp"
-        android:layout_width="match_parent" />
+    android:layout_marginRight="10dp">
 
     <TextView
         android:id="@+id/comment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="6dp"
-        android:layout_width="match_parent"
         android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/font_black_content"
@@ -25,24 +18,33 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_below="@id/comment"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment"
         android:text="超级小胖纸"
         android:textColor="@color/font_black_comment"
         android:textSize="12sp" />
 
     <TextView
-        android:drawableLeft="@drawable/ic_clock"
-        android:drawablePadding="5dp"
         android:id="@+id/time"
-        android:layout_below="@+id/comment"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/comment"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/name"
-        android:layout_width="wrap_content"
+        android:drawableLeft="@drawable/ic_clock"
+        android:drawablePadding="5dp"
         android:text="3分钟前"
-        android:textColor="@color/font_gray"
+        android:textColor="@color/font_black_9"
         android:textSize="12sp" />
+
+
+    <View
+        android:id="@+id/commentTopDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/name"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/maopao_comment_divide" />
 
 </RelativeLayout>

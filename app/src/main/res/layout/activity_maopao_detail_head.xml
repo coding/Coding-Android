@@ -41,7 +41,7 @@
                 android:drawableLeft="@drawable/ic_clock"
                 android:drawablePadding="2dp"
                 android:text="Small Text"
-                android:textColor="@color/font_gray"
+                android:textColor="@color/font_black_9"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -101,7 +101,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="来自 iPhone 6"
-                android:textColor="@color/font_gray" />
+                android:textColor="@color/font_black_9" />
 
             <TextView
                 android:id="@+id/maopaoDelete"
@@ -109,7 +109,7 @@
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
                 android:text="删除"
-                android:textColor="@color/font_gray" />
+                android:textColor="@color/font_black_9" />
 
             <CheckBox
                 android:id="@+id/likeBtn"

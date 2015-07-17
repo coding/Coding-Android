@@ -42,14 +42,37 @@
                     android:paddingLeft="22dp"
                     android:paddingRight="22dp">
 
+                    <LinearLayout
+                        android:id="@+id/login_2fa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/ic_login_2fa" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="@string/title_activity_login2_fatip"
+                            android:textColor="@color/font_white"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/userIcon"
                         android:layout_width="83dp"
                         android:layout_height="83dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="30dp"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="25dp"
                         android:src="@drawable/icon_user_monkey"
                         app:border_color="#ffffffff"
                         app:border_width="1.5dp" />
@@ -186,11 +209,11 @@
                         android:id="@+id/loginFail"
                         android:layout_width="100dp"
                         android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="12dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="无法登录？"
-                        android:textColor="@color/font_white_disable"
+                        android:textColor="@color/font_white"
                         android:textSize="16sp" />
 
                     <TextView
@@ -198,25 +221,13 @@
                         android:layout_width="80dp"
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginBottom="21dp"
                         android:gravity="center"
                         android:text="去注册"
-                        android:textColor="@color/font_white_disable"
+                        android:textColor="@color/font_white"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/login_2fa"
-                        android:layout_width="80dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="12dp"
-                        android:gravity="center"
-                        android:text="@string/title_activity_login2_fatip"
-                        android:textColor="@color/font_white_disable"
-                        android:textSize="16sp" />
 
 
                 </RelativeLayout>

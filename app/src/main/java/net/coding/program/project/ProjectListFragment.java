@@ -90,6 +90,9 @@ public class ProjectListFragment extends RefreshBaseFragment {
             }
             ++msectionId;
         }
+
+        View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
+        listView.addFooterView(listViewFooter);
         listView.setAdapter(myAdapter);
 
         if (getParentFragment() == null) { // 搜索

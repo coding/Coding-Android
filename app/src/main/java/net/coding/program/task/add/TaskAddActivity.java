@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +39,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
@@ -269,7 +269,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mSingleTask.project.isEmpty()) {
+            if (noSelectProject()) {
                 showMiddleToast(R.string.pick_project_first);
                 return;
             }
@@ -501,15 +501,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     private void setHeadData() {
-        title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
+        title.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 mNewParam.content = s.toString();
@@ -541,7 +533,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         mHeadView.findViewById(R.id.linearlayout1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mSingleTask.project.isEmpty()) {
+                if (noSelectProject()) {
                     showMiddleToast(R.string.pick_project_first);
                     return;
                 }
@@ -607,6 +599,10 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
                         });
             }
         });
+    }
+
+    private boolean noSelectProject() {
+        return mSingleTask.project.isEmpty();
     }
 
     private void setStatus() {
@@ -710,8 +706,14 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     void selectMember() {
-        name.setText(mNewParam.owner.name);
-        ImageLoader.getInstance().displayImage(Global.makeSmallUrlSquare(mNewParam.owner.avatar, getResources().getDimensionPixelSize(R.dimen.task_add_user_icon_width)), circleIcon);
+        if (noSelectProject()) {
+            name.setText(R.string.no_pick);
+            circleIcon.setImageResource(R.drawable.ic_task_user);
+
+        } else {
+            name.setText(mNewParam.owner.name);
+            ImageLoader.getInstance().displayImage(Global.makeSmallUrlSquare(mNewParam.owner.avatar, getResources().getDimensionPixelSize(R.dimen.task_add_user_icon_width)), circleIcon);
+        }
     }
 
     private void closeActivity(String msg) {

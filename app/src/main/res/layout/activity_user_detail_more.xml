@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide_15_e5"
+    android:background="@color/divide"
     tools:context="net.coding.program.user.UserDetailMoreActivity">
 
     <LinearLayout
@@ -145,7 +145,7 @@
                     android:ellipsize="end"
                     android:gravity="right"
                     android:text=""
-                    android:textColor="@color/font_gray"
+                    android:textColor="@color/font_black_9"
                     android:textSize="16sp" />
 
             </RelativeLayout>

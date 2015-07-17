@@ -127,6 +127,13 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     private MyImageGetter myImageGetter;
     private int mPxImageWidth;
     BaseAdapter mAdapter = new BaseAdapter() {
+        final int[] commentsId = new int[]{
+                R.id.comment0,
+                R.id.comment1,
+                R.id.comment2,
+                R.id.comment3,
+                R.id.comment4,
+        };
         protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,8 +241,13 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
 
                 holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
-                // 隐藏第一条评论的分割线
-                convertView.findViewById(R.id.comment0).findViewById(R.id.commentTopDivider).setVisibility(View.INVISIBLE);
+
+
+                View[] divides = new View[commentsId.length];
+                for (int i = 0; i < commentsId.length; ++i) {
+                    divides[i] = convertView.findViewById(commentsId[i]).findViewById(R.id.commentTopDivider);
+                }
+                holder.divides = divides;
 
                 convertView.setTag(holder);
             } else {
@@ -306,6 +318,18 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
             holder.commentArea.displayContentData(data);
 
+            int commentCount = data.comment_list.size();
+            int needShow = commentCount - 1;
+            for (int i = 0; i < commentsId.length; ++i) {
+                if (i < needShow) {
+                    holder.divides[i].setVisibility(View.VISIBLE);
+                } else {
+                    holder.divides[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            if (commentsId.length < data.comments) { // 评论数超过5时
+                holder.divides[commentsId.length - 1].setVisibility(View.VISIBLE);
+            }
 
             if (mData.size() - position <= 1) {
                 if (!mNoMore) {
@@ -759,6 +783,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         View commentLikeArea;
 
         CommentArea commentArea;
+
+        View[] divides;
 
         View likeAreaDivide;
         TextView location;

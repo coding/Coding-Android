@@ -142,6 +142,10 @@ public class AuthInfo implements Serializable {
         return code;
     }
 
+    public String getCompany() {
+        return issuer;
+    }
+
     public String getAccountName() {
         String name = path;
         if (path.startsWith("/")) {

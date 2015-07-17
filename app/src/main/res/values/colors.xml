@@ -24,10 +24,6 @@
     <drawable name="black">#ff000000</drawable>
     <color name="black">#ff000000</color>
 
-    <!--<color name="window_background">#fff3f3f3</color>-->
-
-    <color name="divide_line_color">#dddddd</color>
-
     <color name="font_green_1">#ff09b058</color>
     <color name="font_green">#ff3bbd79</color>
     <color name="font_black_0">#000000</color>
@@ -36,15 +32,17 @@
     <color name="font_black_content_disabled">#cacaca</color>
     <color name="font_black_comment">#ff666666</color>
     <color name="font_black_6">#ff666666</color>
-    <color name="font_gray">#999999</color>
+    <color name="font_black_9">#999999</color>
     <color name="font_white">#ffffffff</color>
     <color name="font_white_disable">#7fffffff</color>
 
-    <color name="bg_maopao_comment">#ffe4e4e4</color>
+    <color name="bg_maopao_comment">#ffeeeeee</color>
     <color name="task_list_head">#ffe4e4e4</color>
-    <color name="divide_15_e5">#ffe4e4e4</color>
+    <color name="divide">#ffeeeeee</color>
+    <color name="divide_line">#ffdddddd</color>
 
-    <color name="divide">#ffe4e4e4</color>
+    <drawable name="system_divide">#ffdddddd</drawable>
+
     <color name="stand_bg">#fff6f6f6</color>
     <color name="stand_tab_bg">#ffffff</color>
 

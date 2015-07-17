@@ -280,7 +280,6 @@ public class UserDetailActivity extends BaseActivity {
     }
 
     private void setListData() {
-
         String[] secondContents = new String[]{
                 mUserObject.location,
                 mUserObject.slogan,
@@ -293,7 +292,7 @@ public class UserDetailActivity extends BaseActivity {
             String contentString = secondContents[i];
             if (contentString.isEmpty()) {
                 contentString = "未填写";
-                second.setTextColor(getResources().getColor(R.color.font_gray));
+                second.setTextColor(getResources().getColor(R.color.font_black_9));
             }
 
             second.setText(contentString);
@@ -349,9 +348,16 @@ public class UserDetailActivity extends BaseActivity {
         }
     }
 
+
     @Override
     public void onBackPressed() {
-        setResult(mNeedUpdate ? RESULT_OK : RESULT_CANCELED);
+        if (mNeedUpdate) {
+            Intent intent = new Intent();
+            intent.putExtra("data", mUserObject);
+            setResult(RESULT_OK, intent);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
         super.onBackPressed();
     }
 

@@ -2,6 +2,7 @@ package net.coding.program.user;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.SearchView;
@@ -29,6 +30,7 @@ import net.coding.program.model.UserObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_add_follow)
 public class AddFollowActivity extends BaseActivity implements Handler.Callback {
+
+    public static final int RESULT_USER_DETAIL = 1000;
 
     String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
 
@@ -74,7 +78,7 @@ public class AddFollowActivity extends BaseActivity implements Handler.Callback 
                     UserDetailActivity_
                             .intent(AddFollowActivity.this)
                             .globalKey(userObject.global_key)
-                            .start();
+                            .startForResult(RESULT_USER_DETAIL);
                 }
             });
         } else {
@@ -199,6 +203,25 @@ public class AddFollowActivity extends BaseActivity implements Handler.Callback 
     public void onBackPressed() {
         setResult(mNeedUpdate ? RESULT_OK : RESULT_CANCELED);
         finish();
+    }
+
+    @OnActivityResult(RESULT_USER_DETAIL)
+    protected final void resultUserDetail(int result, Intent data) {
+        if (result == RESULT_OK) {
+            Object object = data.getSerializableExtra("data");
+            if (object instanceof UserObject) {
+                UserObject user = (UserObject) object;
+
+                for (int i = 0; i < mData.size(); ++i) {
+                    if (user.global_key.equals(mData.get(i).global_key)) {
+                        mData.add(i, user);
+                        mData.remove(i + 1);
+                        baseAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     static class ViewHolder {

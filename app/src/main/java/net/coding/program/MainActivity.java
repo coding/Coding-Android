@@ -400,7 +400,7 @@ public class MainActivity extends BaseActivity
             icon.setImageResource(spinnerIcons[position]);
 
             if (checkPos == position) {
-                convertView.setBackgroundColor(getResources().getColor(R.color.divide_15_e5));
+                convertView.setBackgroundColor(getResources().getColor(R.color.divide));
             } else {
                 convertView.setBackgroundColor(getResources().getColor(R.color.transparent));
             }

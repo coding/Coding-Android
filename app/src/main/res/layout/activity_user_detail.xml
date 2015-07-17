@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide_15_e5">
+    android:background="@color/divide">
 
     <LinearLayout
         android:id="@+id/rootLayout"
@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:paddingBottom="17dp"
-            android:background="@color/stand_bg">
+            android:background="@color/stand_bg"
+            android:paddingBottom="17dp">
 
             <FrameLayout
                 android:id="@+id/userBackgroundLayout"
@@ -44,14 +44,14 @@
                 android:layout_marginBottom="-27dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                android:visibility="gone"
-                android:background="@drawable/user_detail_sharow">
+                android:background="@drawable/user_detail_sharow"
+                android:visibility="gone">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_centerInParent="true"
                     android:id="@+id/icon"
                     android:layout_width="83dp"
-                    android:layout_height="83dp" />
+                    android:layout_height="83dp"
+                    android:layout_centerInParent="true" />
             </RelativeLayout>
 
             <TextView
@@ -102,7 +102,7 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/divide_line_color" />
+                    android:background="@color/divide" />
 
                 <TextView
                     android:id="@+id/follows"
@@ -133,8 +133,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/stand_bg">
+            android:background="@color/stand_bg"
+            android:orientation="vertical">
 
             <include
                 android:id="@+id/pos0"
@@ -162,8 +162,8 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/stand_bg">
+            android:background="@color/stand_bg"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/clickProject"
@@ -234,7 +234,7 @@
             android:id="@+id/sendMessageLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/divide_15_e5"
+            android:background="@color/divide"
             android:paddingBottom="15dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">

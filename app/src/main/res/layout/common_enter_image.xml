@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commonEnterRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/message_edit_layout"
-    android:id="@+id/commonEnterRoot"
     android:orientation="vertical">
 
     <LinearLayout
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="发送"
-                android:textColor="@color/font_gray"
+                android:textColor="@color/font_black_9"
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
@@ -65,9 +65,9 @@
     <org.apmem.tools.layouts.FlowLayout
         android:id="@+id/imageLayout"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/padding_15"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_height="wrap_content" />
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_15" />
 </LinearLayout>
 

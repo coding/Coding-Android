@@ -6,20 +6,20 @@
     tools:context="net.coding.program.setting.NotifySetting">
 
     <LinearLayout
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="通知提醒" />
+            android:layout_weight="1"
+            android:text="通知提醒"
+            android:textSize="18sp" />
 
         <CheckBox
             android:id="@+id/allNotify"
@@ -30,7 +30,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/divide_line_color"
-        android:layout_marginTop="9dp" />
+        android:layout_marginTop="9dp"
+        android:background="@color/divide" />
 
 </LinearLayout>
