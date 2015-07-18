@@ -834,8 +834,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_fragment_maopao,menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_maopao, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setIcon(R.drawable.ic_menu_search);
@@ -849,6 +849,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             Global.errorLog(e);
         }
 
+        // TODO 完成热门话题的搜索
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -857,13 +858,10 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
             @Override
             public boolean onQueryTextChange(String s) {
-                searchItem(s);
+
                 return true;
             }
         });
 
-        searchView.
-
-        return true;
     }
 }

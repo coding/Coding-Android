@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MyAWpp.setMainActivityState(true);
+        MyApp.setMainActivityState(true);
 
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
