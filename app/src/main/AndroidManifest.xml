@@ -328,6 +328,11 @@
             android:label="@string/title_activity_users"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".user.UserTopicActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_users"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".user.AddFollowActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_add_follow"
