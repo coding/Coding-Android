@@ -24,7 +24,7 @@
 
 
                 <TextView
-                    android:id="@+id/topic_list_item_name"
+                    android:id="@+id/subject_list_item_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -35,10 +35,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/topic_list_item_content"
+                    android:id="@+id/subject_list_item_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/topic_list_item_name"
+                    android:layout_below="@id/subject_list_item_name"
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="#我最爱的变成语言#"
                     android:textColor="@color/font_black_2"
@@ -46,10 +46,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/topic_list_item_pepole_count"
+                    android:id="@+id/subject_list_item_pepole_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/topic_list_item_content"
+                    android:layout_below="@id/subject_list_item_content"
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="213人参与"
                     android:textColor="@color/font_black_9"
