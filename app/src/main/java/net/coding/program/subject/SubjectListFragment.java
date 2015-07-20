@@ -16,7 +16,7 @@ import org.androidannotations.annotations.ViewById;
  * Created by david on 15-7-18.
  */
 @EFragment(R.layout.fragment_topic_list)
-public class TopicListFragment extends RefreshBaseFragment {
+public class SubjectListFragment extends RefreshBaseFragment {
 
     final String subjectFollowUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/watched";
     final String subjectJoinUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/joine";

@@ -6,13 +6,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
+import net.coding.program.BackActivity;
 import net.coding.program.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.model.UserObject;
-import net.coding.program.subject.TopicListFragment;
+import net.coding.program.subject.SubjectListFragment;
 import net.coding.program.third.WechatTab;
-import net.coding.program.subject.TopicListFragment_;
+import net.coding.program.subject.SubjectListFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -20,7 +21,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_user_topic)
-public class UserTopicActivity extends BaseActivity {
+public class UserTopicActivity extends BackActivity {
 
     @Extra
     UserObject mUserObject;
@@ -43,7 +44,6 @@ public class UserTopicActivity extends BaseActivity {
             fragmentTitles = getResources().getStringArray(R.array.user_other_topic_title);
             actionBar.setTitle("TA的话题");
         }
-
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
@@ -70,13 +70,13 @@ public class UserTopicActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            final TopicListFragment.Type types[] = new TopicListFragment.Type[]{
-                    TopicListFragment.Type.follow,
-                    TopicListFragment.Type.join
+            final SubjectListFragment.Type types[] = new SubjectListFragment.Type[]{
+                    SubjectListFragment.Type.follow,
+                    SubjectListFragment.Type.join
             };
 
-            Fragment fragment = TopicListFragment_.builder()
-                    .userId(mUserObject.id)
+            Fragment fragment = SubjectListFragment_.builder()
+                    .userKey(mUserObject.global_key)
                     .mType(types[position])
                     .build();
 
