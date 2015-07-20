@@ -26,8 +26,8 @@ import java.util.List;
 @EFragment(R.layout.fragment_subject_list)
 public class SubjectListFragment extends RefreshBaseFragment {
 
-    final String subjectFollowUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/watched";
-    final String subjectJoinUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/joined";
+    final String subjectFollowUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/watched?extraInfo=1";
+    final String subjectJoinUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/joined?extraInfo=1";
     final String subjectFollowTag = "subject_follow";
     final String subjectJoinTag = "subject_join";
 
@@ -102,7 +102,7 @@ public class SubjectListFragment extends RefreshBaseFragment {
 
     @Override
     public void loadMore() {
-        getNetwork(getUrl(), getCurTag());
+        getNextPageNetwork(getUrl(), getCurTag());
     }
 
     private String getUrl() {

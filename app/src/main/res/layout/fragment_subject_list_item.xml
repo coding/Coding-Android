@@ -17,7 +17,8 @@
             android:layout_marginRight="@dimen/padding_12">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:padding="@dimen/padding_12">
@@ -42,8 +43,7 @@
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="#我最爱的变成语言#"
                     android:textColor="@color/font_black_2"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/subject_list_item_pepole_count"

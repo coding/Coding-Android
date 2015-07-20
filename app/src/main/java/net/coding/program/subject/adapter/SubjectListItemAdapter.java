@@ -1,6 +1,7 @@
 package net.coding.program.subject.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class SubjectListItemAdapter extends BaseAdapter {
             Subject.SubjectDescObject subjectDescObject = subjectItems.get(position);
             if (subjectDescObject != null) {
                 viewHolder.title.setText(String.valueOf(subjectDescObject.name));
-                viewHolder.desc.setText(String.valueOf(subjectDescObject.description));
+                viewHolder.desc.setText(Html.fromHtml(subjectDescObject.hot_tweet.content));
                 viewHolder.peopleCount.setText(subjectDescObject.speackers + "人参与");
             }
         }
