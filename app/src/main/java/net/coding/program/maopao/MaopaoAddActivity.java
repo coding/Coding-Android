@@ -573,6 +573,11 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         TextWatcherAt.startActivityAt(this, this, RESULT_REQUEST_FOLLOW);
     }
 
+    @Click
+    protected final void popTopic() {
+        TextWatcherAt.startActivityAt(this, this, RESULT_REQUEST_FOLLOW);
+    }
+
     public static class PhotoData {
         ImageInfo mImageinfo;
         Uri uri = Uri.parse("");

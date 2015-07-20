@@ -241,7 +241,7 @@
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     android:layout_marginRight="15dp"
-                    android:background="@drawable/user_home_maopao" />
+                    android:background="@drawable/user_home_topic" />
 
                 <TextView
                     android:id="@+id/titleTopic"

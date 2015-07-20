@@ -63,7 +63,7 @@ public class SubjectListItemAdapter extends BaseAdapter {
         if (subjectItems != null && position >= 0 && position < subjectItems.size()) {
             Subject.SubjectDescObject subjectDescObject = subjectItems.get(position);
             if (subjectDescObject != null) {
-                viewHolder.title.setText(String.valueOf(subjectDescObject.name));
+                viewHolder.title.setText("#" + subjectDescObject.name + "#");
                 viewHolder.desc.setText(Html.fromHtml(subjectDescObject.hot_tweet.content));
                 viewHolder.peopleCount.setText(subjectDescObject.speackers + "人参与");
             }
