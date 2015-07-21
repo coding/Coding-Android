@@ -51,43 +51,22 @@ public class WebActivity extends UmengActivity {
     private View actionbarClose;
     private DialogUtil.RightTopPopupWindow mRightTopPopupWindow = null;
 
-//    @OptionsItem
-//    void action_copy() {
-//        String urlString = webView.getUrl();
-//        Global.copy(this, urlString);
-//        Toast.makeText(this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
-//    }
+    private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    break;
 
-//    @OptionsItem
-//    void action_browser() {
-//        try {
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
-//            startActivity(intent);
-//        } catch (Exception e) {
-//            Toast.makeText(this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
-//        }
-//    }
-private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        switch (position) {
-            case 0:
-                break;
-
-            case 1:
-                break;
+                case 1:
+                    break;
+            }
+            mRightTopPopupWindow.dismiss();
         }
-        mRightTopPopupWindow.dismiss();
-    }
-};
+    };
 
     @AfterViews
-    void init() {
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowHomeEnabled(false);
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setCustomView(R.layout.actionbar_close_icon);
-//        actionBar.setDisplayShowCustomEnabled(true);
+    protected final void initWebActivity() {
         Log.d("", "WebActivity " + url);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.custom_action_bar);
@@ -163,11 +142,6 @@ private AdapterView.OnItemClickListener onRightTopPopupItemClickListener = new A
             finish();
         }
     }
-
-//    @OptionsItem
-//    protected void action_more() {
-//        showRightTopPop();
-//    }
 
     @Override
     protected void onDestroy() {

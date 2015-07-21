@@ -14,7 +14,7 @@ import android.view.Menu;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
@@ -37,7 +37,7 @@ import java.io.File;
  * Created by yangzhen
  */
 @EActivity
-public class AttachmentsDetailBaseActivity extends BaseActivity {
+public class AttachmentsDetailBaseActivity extends BackActivity {
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
 
     @Extra
@@ -63,11 +63,6 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
     private String defaultPath;
     private boolean isDownloading = false;
 
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     @OptionsItem
     void action_info() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -84,8 +79,7 @@ public class AttachmentsDetailBaseActivity extends BaseActivity {
     }
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initAttachmentsDetailBaseActivity() {
         getSupportActionBar().setTitle(mAttachmentFileObject.getName());
 
         share = AttachmentsDetailBaseActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);

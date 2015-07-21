@@ -6,28 +6,25 @@ import android.net.Uri;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.UpdateService;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
-import net.coding.program.common.umeng.UmengActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_about)
-public class AboutActivity extends UmengActivity {
+public class AboutActivity extends BackActivity {
 
     @ViewById
     TextView version;
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    final void initAboutActivity() {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String versionName = pInfo.versionName;
@@ -38,11 +35,6 @@ public class AboutActivity extends UmengActivity {
         } catch (Exception e) {
             Global.errorLog(e);
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
     }
 
     @Click

@@ -181,7 +181,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     };
 
     @AfterViews
-    void init() {
+    protected final void initMaopaoDetailActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mEnterLayout = new EnterEmojiLayout(this, onClickSend, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
@@ -247,6 +247,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
             inputStream.close();
 
         } catch (IOException e) {
+            Global.errorLog(e);
         }
         return outputStream.toString();
     }

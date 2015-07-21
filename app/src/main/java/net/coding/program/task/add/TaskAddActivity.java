@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -70,7 +70,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @EActivity(R.layout.activity_task_add)
-public class TaskAddActivity extends BaseActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
+public class TaskAddActivity extends BackActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
 
     public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
 
@@ -289,8 +289,7 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
     }
 
     @AfterViews
-    void initTaskAddActivity() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initTaskAddActivity() {
         initControl();
 
         if (mSingleTask != null) {
@@ -958,11 +957,6 @@ public class TaskAddActivity extends BaseActivity implements StartActivity, Date
         mNewParam.owner = member.user;
         selectMember();
         updateSendButton();
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @Override

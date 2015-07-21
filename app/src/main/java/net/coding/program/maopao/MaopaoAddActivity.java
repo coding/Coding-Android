@@ -28,7 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
@@ -64,7 +64,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_add)
-public class MaopaoAddActivity extends BaseActivity implements StartActivity {
+public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
     public static final int PHOTO_MAX_COUNT = 6;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
@@ -174,7 +174,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     }
 
     @AfterViews
-    void init() {
+    protected final void initMaopaoAddActivity() {
         int px = (int) getResources().getDimension(R.dimen.image_add_maopao_width);
         mSize = new ImageSize(px, px);
 
@@ -377,11 +377,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
         }
     }
 
-    @OptionsItem(android.R.id.home)
-    void home() {
-        onBackPressed();
-    }
-
     @OptionsItem
     void action_add() {
         showProgressBar(true, "正在发表冒泡...");
@@ -402,7 +397,6 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
     void uploadImage(Uri uri) {
         RequestParams requestParams = new RequestParams();
         try {
-
             File file = new File(Global.getPath(this, uri));
             requestParams.put("tweetImg", file);
             postNetwork(HOST_IMAGE, requestParams, HOST_IMAGE, -1, uri.toString());
@@ -503,7 +497,7 @@ public class MaopaoAddActivity extends BaseActivity implements StartActivity {
             if (type.startsWith("image/")) {
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
-                    File outputFile = null;
+                    File outputFile;
                     try {
                         outputFile = photoOperate.scal(imageUri);
                         mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));

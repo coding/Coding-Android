@@ -7,7 +7,6 @@ import android.support.v4.app.DialogFragment;
 
 import net.coding.program.R;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 
 /**
@@ -39,11 +38,6 @@ public class UserProvincesDialogFragment extends DialogFragment implements Provi
     public void setCallBack(ProvincesPickerDialog.OnDateSetListener mCallBack) {
         this.mCallBack = mCallBack;
     }
-
-    @AfterViews
-    void init() {
-    }
-
 
     @Override
     public void onDateSet(String provinceStr) {

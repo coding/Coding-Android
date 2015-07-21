@@ -16,7 +16,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -35,7 +35,6 @@ import net.coding.program.project.init.InitProUtils;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -46,7 +45,7 @@ import org.json.JSONObject;
  * 删除项目
  */
 @EActivity(R.layout.init_activity_project_advance_set)
-public class ProjectAdvanceSetActivity extends BaseActivity implements Handler.Callback {
+public class ProjectAdvanceSetActivity extends BackActivity implements Handler.Callback {
 
     private static final String TAG = "ProjectAdvanceSetActivity";
 
@@ -62,9 +61,7 @@ public class ProjectAdvanceSetActivity extends BaseActivity implements Handler.C
 
     @AfterViews
     protected final void initProjectAdvanceSetActivity() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mProjectObject = (ProjectObject) getIntent().getSerializableExtra("projectObject");
-
         hander2fa = new WeakRefHander(this, 100);
     }
 
@@ -230,12 +227,4 @@ public class ProjectAdvanceSetActivity extends BaseActivity implements Handler.C
             }
         });
     }
-
-
-    @OptionsItem(android.R.id.home)
-    protected final void back() {
-        finish();
-    }
-
-
 }

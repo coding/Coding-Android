@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
@@ -50,7 +50,7 @@ import java.util.HashMap;
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_image)
-public class AttachmentsPicDetailActivity extends BaseActivity {
+public class AttachmentsPicDetailActivity extends BackActivity {
     private static final String STATE_POSITION = "STATE_POSITION";
     private static String TAG = AttachmentsPicDetailActivity.class.getSimpleName();
     @Extra
@@ -110,11 +110,6 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     };
     private boolean isDownloading = false;
 
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     @OptionsItem
     void action_info() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -131,16 +126,15 @@ public class AttachmentsPicDetailActivity extends BaseActivity {
     }
 
     @AfterViews
-    void init() {
+    protected final void initAttachmentsPicDetailActivity() {
         loading.setVisibility(View.VISIBLE);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(mAttachmentFileObject.getName());
 
         share = AttachmentsPicDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
         client = MyAsyncHttpClient.createClient(this);
 
-        picCache = new HashMap<String, AttachmentFileObject>();
+        picCache = new HashMap<>();
 
         int i = 0;
         if (fileList.size() == 0) {

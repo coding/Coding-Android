@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.TaskObject;
@@ -16,13 +16,12 @@ import net.coding.program.project.detail.TopicEditFragment;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip, TopicEditFragment.SaveData {
+public class TaskDescriptionActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
 
     @Extra
     TaskObject.TaskDescription descriptionData;
@@ -44,9 +43,7 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
     private TopicData modifyData = new TopicData();
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initTaskDescriptionActivity() {
         editFragment = TaskDespEditFragment_.builder().build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
 
@@ -57,11 +54,6 @@ public class TaskDescriptionActivity extends BaseActivity implements TaskDescrip
             modifyData.content = markdown;
             getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @Override

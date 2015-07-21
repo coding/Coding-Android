@@ -633,7 +633,7 @@ public class Global {
             return uri.getPath();
         }
 
-        return null;
+        return "";
     }
 
     /**

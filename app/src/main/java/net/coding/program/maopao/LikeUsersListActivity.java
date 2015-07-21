@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -23,7 +23,6 @@ import net.coding.program.user.UserDetailActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_like_users_list)
-public class LikeUsersListActivity extends BaseActivity {
+public class LikeUsersListActivity extends BackActivity {
 
     @Extra
     int id;
@@ -104,8 +103,7 @@ public class LikeUsersListActivity extends BaseActivity {
     };
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initLikeUsersListActivity() {
         UriLikeUsers = String.format(UriLikeUsers, id);
 
         listView.setAdapter(baseAdapter);
@@ -137,11 +135,6 @@ public class LikeUsersListActivity extends BaseActivity {
                 showErrorMsg(code, respanse);
             }
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     static class ViewHolder {

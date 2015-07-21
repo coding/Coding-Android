@@ -3,20 +3,19 @@ package net.coding.program.maopao;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Neutra on 2015/3/14.
  */
 @EActivity(R.layout.activity_location_detail)
-public class LocationDetailActivity extends BaseActivity {
+public class LocationDetailActivity extends BackActivity {
 
     @ViewById
     TextView nameText, addressText;
@@ -34,8 +33,7 @@ public class LocationDetailActivity extends BaseActivity {
     boolean isCustom;
 
     @AfterViews
-    void afterViews() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initLocationDetailActivity() {
         if (name == null) name = "";
         name = name.replaceFirst(".*" + MaopaoLocationArea.MAOPAO_LOCATION_DIVIDE, "");
         nameText.setText(name);
@@ -55,10 +53,5 @@ public class LocationDetailActivity extends BaseActivity {
                 }
             });
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 }

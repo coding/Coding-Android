@@ -8,14 +8,13 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
@@ -25,7 +24,7 @@ import org.json.JSONObject;
 
 @EActivity(R.layout.activity_set_password)
 @OptionsMenu(R.menu.set_password)
-public class SetPasswordActivity extends BaseActivity {
+public class SetPasswordActivity extends BackActivity {
 
     final String Url = Global.HOST_API + "/user/updatePassword";
     @ViewById
@@ -34,16 +33,6 @@ public class SetPasswordActivity extends BaseActivity {
     TextView newPassword;
     @ViewById
     TextView confirmPassword;
-
-    @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
-    }
 
     @OptionsItem
     void submit() {

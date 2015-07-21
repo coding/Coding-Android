@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -20,7 +20,6 @@ import net.coding.program.model.NotifyObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EActivity(R.layout.fragment_notify_list)
-public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadMore {
+public class NotifyListActivity extends BackActivity implements FootUpdate.LoadMore {
 
     private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
 
@@ -169,7 +168,7 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
     };
 
     @AfterViews
-    void init() {
+    protected final void initNotifyListActivity() {
         showDialogLoading();
         URI_NOTIFY = Global.HOST_API + "/notification?type=" + type;
         if (type == 1) {
@@ -178,7 +177,6 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
 
         setDefaultByType();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);
         loadMore();
@@ -200,11 +198,6 @@ public class NotifyListActivity extends BaseActivity implements FootUpdate.LoadM
             getSupportActionBar().setTitle("系统通知");
             defaultIcon = R.drawable.ic_notify_comment;
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @Override

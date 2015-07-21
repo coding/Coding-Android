@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_members)
-public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore {
+public class MembersActivity extends BackActivity implements FootUpdate.LoadMore {
 
     @Extra
     int mProjectObjectId;
@@ -79,15 +79,8 @@ public class MembersActivity extends BaseActivity implements FootUpdate.LoadMore
         }
     };
 
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initMembersActivity() {
         final String format = Global.HOST_API + "/project/%d/members?";
         urlMembers = String.format(format, mProjectObjectId);
 

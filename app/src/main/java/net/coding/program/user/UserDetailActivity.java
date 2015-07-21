@@ -19,7 +19,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
@@ -41,7 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_user_detail)
-public class UserDetailActivity extends BaseActivity {
+public class UserDetailActivity extends BackActivity {
 
     public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
@@ -109,9 +109,7 @@ public class UserDetailActivity extends BaseActivity {
     };
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initUserDetailActivity() {
         initListFirst();
 
         if (globalKey != null) {
@@ -359,11 +357,6 @@ public class UserDetailActivity extends BaseActivity {
             setResult(RESULT_CANCELED);
         }
         super.onBackPressed();
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @Click

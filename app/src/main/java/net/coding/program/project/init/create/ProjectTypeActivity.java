@@ -1,11 +1,11 @@
 package net.coding.program.project.init.create;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 
 import org.androidannotations.annotations.AfterViews;
@@ -20,7 +20,7 @@ import org.androidannotations.annotations.ViewById;
  */
 @EActivity(R.layout.init_activity_project_type)
 @OptionsMenu(R.menu.menu_project_type_info)
-public class ProjectTypeActivity extends ActionBarActivity {
+public class ProjectTypeActivity extends BackActivity {
 
     public static final String TYPE_PUBLIC = "公开";
 
@@ -42,8 +42,7 @@ public class ProjectTypeActivity extends ActionBarActivity {
     TextView maskInfo;
 
     @AfterViews
-    protected final void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initProjectTypeActivity() {
         String type = getIntent().getStringExtra("type");
         if (type.equals(TYPE_PRIVATE)) {
             iconPrivateRight.setVisibility(View.VISIBLE);
@@ -77,11 +76,6 @@ public class ProjectTypeActivity extends ActionBarActivity {
     @Click
     void maskInfo() {
         maskInfo.setVisibility(View.GONE);
-    }
-
-    @OptionsItem(android.R.id.home)
-    protected final void back() {
-        finish();
     }
 
     @OptionsItem(R.id.action_info)
