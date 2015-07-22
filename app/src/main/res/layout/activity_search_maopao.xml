@@ -4,20 +4,23 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.project.SearchProjectActivity">
 
+    <ListView
+        android:id="@+id/emptyListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true"
+        android:overScrollMode="never"
+        android:visibility="invisible"
+        android:scrollbarStyle="outsideOverlay" />
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible" />
-
-    <ListView
-        android:id="@+id/emptyListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/divide"
-        android:clipToPadding="false"
-        android:drawSelectorOnTop="true"
-        android:overScrollMode="never"
-        android:scrollbarStyle="outsideOverlay" />
 
 </FrameLayout>

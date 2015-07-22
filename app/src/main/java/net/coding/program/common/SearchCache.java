@@ -17,6 +17,7 @@ public class SearchCache {
 
     private static final String SEARCH_CACHE = SearchCache.class.getName() + "_search_cache";
     private static final String SEARCH_CACHE_KEY = SearchCache.class.getName() + "_search_cache_key";
+    private static final String SEARCH_CACHE_SIZE = SearchCache.class.getName() + "_search_cache_size";
     public static final int SERACH_CACHE_COUNT = 3;
 
     private List<String> searchCacheList = null;
@@ -28,12 +29,7 @@ public class SearchCache {
     private SearchCache(Context context) {
         mContext = context;
         if (searchCacheList == null) {
-            SharedPreferences preferences = mContext.getSharedPreferences(SEARCH_CACHE, Context.MODE_PRIVATE);
-            LinkedHashSet<String> keySet = (LinkedHashSet<String>) preferences.getStringSet(SEARCH_CACHE_KEY, new LinkedHashSet<String>());
-            searchCacheList = new ArrayList<String>();
-            for (String key : keySet) {
-                searchCacheList.add(key);
-            }
+           loadCache();
         }
     }
 
@@ -48,14 +44,14 @@ public class SearchCache {
             if (searchCacheList.size() > SERACH_CACHE_COUNT) {
                 searchCacheList.remove(SERACH_CACHE_COUNT);
             }
-            saveDataToCache();
+            saveCache();
         }
     }
 
     public void remove(String searchKey) {
         if (searchCacheList != null && !TextUtils.isEmpty(searchKey)) {
             searchCacheList.remove(searchKey);
-            saveDataToCache();
+            saveCache();
         }
     }
 
@@ -65,16 +61,15 @@ public class SearchCache {
 
     public void clearCache() {
         searchCacheList.clear();
-        saveDataToCache();
+        saveCache();
     }
 
-    private void saveDataToCache() {
-        LinkedHashSet<String> hashSet = new LinkedHashSet<String>();
-        for (String key : searchCacheList) {
-            hashSet.add(key);
-        }
+    private void saveCache() {
         SharedPreferences.Editor edit = mContext.getSharedPreferences(SEARCH_CACHE, Context.MODE_PRIVATE).edit();
-        edit.putStringSet(SEARCH_CACHE_KEY, hashSet);
+        edit.putInt(SEARCH_CACHE_SIZE, searchCacheList.size());
+        for (int i = 0; i < searchCacheList.size(); i++) {
+            edit.putString(SEARCH_CACHE_KEY + "_" + i, searchCacheList.get(i));
+        }
         edit.commit();
     }
 
@@ -90,6 +85,17 @@ public class SearchCache {
             }
         }
         return mInstance;
+    }
+
+    private void loadCache() {
+        if (searchCacheList == null)
+            searchCacheList = new ArrayList<String>();
+        searchCacheList.clear();
+        SharedPreferences preferences = mContext.getSharedPreferences(SEARCH_CACHE, Context.MODE_PRIVATE);
+        int size = preferences.getInt(SEARCH_CACHE_SIZE, 0);
+        for (int i = 0; i < size; i++) {
+            searchCacheList.add(preferences.getString(SEARCH_CACHE_KEY + "_" + i, ""));
+        }
     }
 
 }

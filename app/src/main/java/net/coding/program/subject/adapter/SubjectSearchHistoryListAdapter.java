@@ -1,13 +1,16 @@
 package net.coding.program.subject.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.SearchCache;
 
 import java.util.List;
 
@@ -51,11 +54,14 @@ public class SubjectSearchHistoryListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.subject_search_history_list_item, null);
             viewHolder = new ViewHolder();
             viewHolder.desc = (TextView) convertView.findViewById(R.id.subject_search_list_item_name);
+            viewHolder.delImage = (ImageView) convertView.findViewById(R.id.subject_search_list_item_del);
             convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.delImage.setTag(position);
+        viewHolder.delImage.setOnClickListener(mDelHistoryItemClickListener);
         if (historyItems != null && position >= 0 && position < historyItems.size()) {
             String history = historyItems.get(position);
             if (history != null) {
@@ -67,7 +73,21 @@ public class SubjectSearchHistoryListAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         public TextView desc;
+        public ImageView delImage;
     }
+
+    private View.OnClickListener mDelHistoryItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = Integer.valueOf(v.getTag().toString());
+            if (historyItems != null && position >= 0 && position < historyItems.size()) {
+                String history = historyItems.get(position);
+                historyItems.remove(history);
+                SearchCache.getInstance(mContext).remove(history);
+                notifyDataSetChanged();
+            }
+        }
+    };
 
 
 }

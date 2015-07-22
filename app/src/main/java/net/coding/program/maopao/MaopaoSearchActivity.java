@@ -2,10 +2,14 @@ package net.coding.program.maopao;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.text.Html;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +47,10 @@ public class MaopaoSearchActivity extends BackActivity {
     FlowLayout mSearchHotLayout;
     SubjectSearchHistoryListAdapter mSearchHistoryListAdapter;
 
+    // footer
+    private TextView mSearchFooterClearAllView;
+    private View mSearchFooterDivider;
+
     private String mHotTweetUrl = "/tweet_topic/hot?page=1&pageSize=6";
     SearchView editText;
     private SubjectSearchFragment searchFragment;
@@ -60,9 +68,10 @@ public class MaopaoSearchActivity extends BackActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
 
-        actionBar.setCustomView(R.layout.activity_search_project_actionbar);
+        actionBar.setCustomView(R.layout.activity_search_maopao_actionbar);
 
         editText = (SearchView) findViewById(R.id.editText);
+        editText.setQueryHint(Html.fromHtml("<font color = #80ffffff>搜索冒泡、用户名、话题</font>"));
         editText.onActionViewExpanded();
         editText.setIconified(false);
 
@@ -79,7 +88,6 @@ public class MaopaoSearchActivity extends BackActivity {
                     container.setVisibility(View.VISIBLE);
                     updateSearchResult();
                     SearchCache.getInstance(MaopaoSearchActivity.this).add(mSearchData);
-                    loadSearchCache();
                 }
 
                 getSupportActionBar().setTitle(R.string.title_activity_search_project);
@@ -88,44 +96,18 @@ public class MaopaoSearchActivity extends BackActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-//                mSearchData.clear();
-//                if (s.length() > 0) {
-//                    String enter = s.toString().toLowerCase();
-//                    for (ProjectObject item : mData) {
-//                        if (item.name.toLowerCase().contains(enter) ||
-//                                item.owner_user_name.toLowerCase().contains(enter) ||
-//                                Html.fromHtml(item.owner_user_home).toString().toLowerCase().contains(enter)) {
-//                            mSearchData.add(item);
-//                        }
-//                    }
-//                }
-//
-//                if (mSearchData.isEmpty()) {
-//                    emptyView.setVisibility(View.VISIBLE);
-//                    container.setVisibility(View.INVISIBLE);
-//                } else {
-//                    emptyView.setVisibility(View.INVISIBLE);
-//                    container.setVisibility(View.VISIBLE);
-//                    updateSearchResult();
-//                }
                 if (s == null || TextUtils.isEmpty(s)) {
                     emptyListView.setVisibility(View.VISIBLE);
                     container.setVisibility(View.INVISIBLE);
                     mSearchData = "";
+                    loadSearchCache();
                 }
-//                else {
-//                    mSearchData = s;
-//                    emptyListView.setVisibility(View.INVISIBLE);
-//                    container.setVisibility(View.VISIBLE);
-//                    updateSearchResult();
-//                }
-//
-//                getSupportActionBar().setTitle(R.string.title_activity_search_project);
                 return true;
             }
         });
 
         initSearchHeaderView();
+        initSearchFooterView();
         mSearchHistoryListAdapter = new SubjectSearchHistoryListAdapter(this, mSearchHistoryList);
         emptyListView.setAdapter(mSearchHistoryListAdapter);
 
@@ -133,8 +115,8 @@ public class MaopaoSearchActivity extends BackActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, searchFragment)
                 .commit();
-        loadHotSubject();
         loadSearchCache();
+        loadHotSubject();
     }
 
     @OptionsItem(android.R.id.home)
@@ -161,9 +143,35 @@ public class MaopaoSearchActivity extends BackActivity {
 
     }
 
+    private void initSearchFooterView() {
+        View footerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_footer, null);
+        mSearchFooterClearAllView = (TextView) footerView.findViewById(R.id.subject_search_hot_footer_clear);
+        mSearchFooterClearAllView.setOnClickListener(mOnClickListener);
+        mSearchFooterDivider = footerView.findViewById(R.id.subject_search_hot_footer_divider);
+        emptyListView.addFooterView(footerView);
+    }
+
+    private void showSearchClearView() {
+        mSearchFooterDivider.setVisibility(View.VISIBLE);
+        mSearchFooterClearAllView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSearchClearView() {
+        mSearchFooterDivider.setVisibility(View.GONE);
+        mSearchFooterClearAllView.setVisibility(View.GONE);
+    }
+
     private void loadSearchCache() {
         mSearchHistoryList.clear();
         mSearchHistoryList.addAll(SearchCache.getInstance(this).getSearchCacheList());
+        notifySearchHistoryDataChanged();
+    }
+
+    private void notifySearchHistoryDataChanged() {
+        if (mSearchHistoryList.size() > 0)
+            showSearchClearView();
+        else
+            hideSearchClearView();
         mSearchHistoryListAdapter.notifyDataSetChanged();
     }
 
@@ -187,21 +195,29 @@ public class MaopaoSearchActivity extends BackActivity {
             if (mSubjectList != null) {
                 fillHotTweetToLayout();
             }
+            emptyListView.setVisibility(View.VISIBLE);
         }
     }
 
     private void fillHotTweetToLayout() {
         if (mSubjectList != null) {
             Subject.SubjectDescObject descObject = null;
+            View itemView = null;
+            TextView textView = null;
             for (int i = 0; i < mSubjectList.size(); i++) {
                 descObject = mSubjectList.get(i);
-                TextView textView = new TextView(this);
+                itemView = LayoutInflater.from(this).inflate(R.layout.subject_search_hot_topic_item, null);
+                textView = (TextView) itemView.findViewById(R.id.hot_tweet_item);
                 textView.setText("#" + descObject.name + "#");
-                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.bottomMargin = 54;
-                textView.setLayoutParams(params);
-                mSearchHotLayout.addView(textView);
-                if (i > 5)
+                if (i == 0) {
+                    textView.setBackground(getResources().getDrawable(R.drawable.round_green_corner));
+                    textView.setTextColor(getResources().getColor(R.color.merge_green));
+                } else {
+                    textView.setBackground(getResources().getDrawable(R.drawable.round_gray_corner));
+                    textView.setTextColor(getResources().getColor(R.color.font_black_2));
+                }
+                mSearchHotLayout.addView(itemView);
+                if (i > 4)
                     break;
             }
         }
@@ -215,7 +231,15 @@ public class MaopaoSearchActivity extends BackActivity {
                 case R.id.subject_search_hot_header_title:
                     // TODO：跳转到热门搜索
                     break;
+                case R.id.subject_search_hot_footer_clear:
+                    SearchCache.getInstance(MaopaoSearchActivity.this).clearCache();
+                    loadSearchCache();
+                    break;
             }
         }
     };
+
+    private int getPxValue(float dipValue) {
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, getResources().getDisplayMetrics()) + 0.5f);
+    }
 }
