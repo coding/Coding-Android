@@ -4,14 +4,13 @@
     android:layout_height="48dp"
     android:background="@color/white">
 
-    <TextView
+    <net.coding.program.common.widget.LabalTextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:gravity="center_vertical|left"
         android:text="bug"
-        android:textColor="@color/font_black_content"
         android:textSize="16sp" />
 
     <ImageView
@@ -23,4 +22,5 @@
         android:layout_marginRight="20dp"
         android:padding="10dp"
         android:src="@drawable/ic_topic_label_unchecked" />
+
 </RelativeLayout>

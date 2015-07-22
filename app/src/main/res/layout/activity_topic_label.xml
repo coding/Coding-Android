@@ -1,15 +1,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/init_common_bg"
-        android:paddingTop="5dp"
+        android:background="@color/divide"
+        android:orientation="vertical"
         android:paddingBottom="5dp"
-        android:orientation="vertical">
+        android:paddingTop="5dp">
 
         <include layout="@layout/divide_15_bottom" />
 
@@ -41,10 +41,10 @@
                 android:id="@+id/action_add"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:background="@drawable/topic_label_add_btn_bg"
                 android:gravity="center"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:background="@drawable/topic_label_add_btn_bg"
                 android:text="添加"
                 android:textColor="@color/green"
                 android:textSize="12sp" />
@@ -55,10 +55,10 @@
 
         <LinearLayout
             android:id="@+id/container"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <include layout="@layout/divide_15_bottom" />
 
