@@ -6,13 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @EFragment(R.layout.fragment_maopao_list)
+@OptionsMenu(R.menu.menu_fragment_maopao)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
@@ -404,7 +400,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     @OptionsItem
     void action_search() {
-        SearchProjectActivity_.intent(this).start();
+        MaopaoSearchActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
 
@@ -833,35 +829,4 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment_maopao, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setIcon(R.drawable.ic_menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-            ImageView v = (ImageView) searchView.findViewById(searchImgId);
-            v.setImageResource(R.drawable.ic_menu_search);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
-        // TODO 完成热门话题的搜索
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-
-                return true;
-            }
-        });
-
-    }
 }
