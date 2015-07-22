@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
@@ -31,7 +31,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +39,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_add_follow)
-public class AddFollowActivity extends BaseActivity implements Handler.Callback {
+public class AddFollowActivity extends BackActivity implements Handler.Callback {
 
     public static final int RESULT_USER_DETAIL = 1000;
 
@@ -68,7 +67,6 @@ public class AddFollowActivity extends BaseActivity implements Handler.Callback 
     protected final void initAddFollowActivity() {
         mHandler = new WeakRefHander(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter();
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -192,11 +190,6 @@ public class AddFollowActivity extends BaseActivity implements Handler.Callback 
         int flagHandler = ++flag;
         Message message = Message.obtain(mHandler, flagHandler, s);
         mHandler.sendMessageDelayed(message, 1000);
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @Override

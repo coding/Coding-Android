@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.LocationObject;
 
@@ -21,7 +21,7 @@ import org.androidannotations.annotations.ViewById;
  */
 @EActivity(R.layout.activity_location_edit)
 @OptionsMenu(R.menu.location_edit)
-public class LocationEditActivity extends BaseActivity {
+public class LocationEditActivity extends BackActivity {
     @ViewById
     EditText nameText, areaText, addressText;
     @Extra
@@ -30,17 +30,10 @@ public class LocationEditActivity extends BaseActivity {
     double latitude, longitude;
 
     @AfterViews
-    void afterViews() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initLocationEditActivity() {
         nameText.setText(name);
         areaText.setText(area);
         addressText.requestFocus();
-    }
-
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @OptionsItem

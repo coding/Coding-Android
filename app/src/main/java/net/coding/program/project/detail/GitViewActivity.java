@@ -26,7 +26,6 @@ import net.coding.program.model.ProjectObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
@@ -71,14 +70,8 @@ public class GitViewActivity extends CustomMoreActivity {
 
     GitFileObject mFile;
 
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initGitViewActivity() {
         getSupportActionBar().setTitle(mGitFileInfoObject.name);
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);

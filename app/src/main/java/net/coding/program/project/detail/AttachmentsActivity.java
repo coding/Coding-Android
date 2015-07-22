@@ -534,7 +534,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     @AfterViews
-    void init() {
+    final void initAttachmentsActivity() {
         uploadLayout.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(mAttachmentFolderObject.name);

@@ -35,8 +35,7 @@ public class SetUserInfoActivity extends BaseActivity {
     TextView value;
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initSetUserInfoActivity() {
         getSupportActionBar().setTitle(title);
         user = AccountInfo.loadAccount(this);
         final String hintFormat = "请输入%s";
@@ -45,18 +44,12 @@ public class SetUserInfoActivity extends BaseActivity {
         value.requestFocus();
     }
 
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
-    }
-
     @OptionsItem
     void submit() {
         RequestParams params = new RequestParams();
 
-        if (!setRowValue(value.getText().toString())) {
-            return;
-        }
+        setRowValue(value.getText().toString());
+
         try {
             params.put("email", user.email);
             params.put("lavatar", user.lavatar);
@@ -131,10 +124,8 @@ public class SetUserInfoActivity extends BaseActivity {
         return returnValue;
     }
 
-    private boolean setRowValue(String rowValue) {
-        boolean result = true;
+    private void setRowValue(String rowValue) {
         switch (row) {
-
             case UserDetailEditActivity.USERINFO_NAME:
                 //昵称
                 user.name = rowValue;
@@ -176,6 +167,5 @@ public class SetUserInfoActivity extends BaseActivity {
                 //个性标签
                 break;
         }
-        return result;
     }
 }

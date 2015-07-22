@@ -36,13 +36,8 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
     AttachmentFileObject mFiles = new AttachmentFileObject();
 
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     @AfterViews
-    void init1() {
+    protected final void initAttachmentsTextDetailActivity() {
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
 
         showDialogLoading();
@@ -55,11 +50,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (downloadFileSuccess) {
-            return super.onCreateOptionsMenu(menu);
-        } else {
-            return true;
-        }
+        return !downloadFileSuccess || super.onCreateOptionsMenu(menu);
     }
 
     @Override

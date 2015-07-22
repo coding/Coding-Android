@@ -7,7 +7,7 @@ import android.widget.GridView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 @EActivity(R.layout.activity_user_edit_tags)
 @OptionsMenu(R.menu.set_password)
-public class SetUserTagActivity extends BaseActivity {
+public class SetUserTagActivity extends BackActivity {
 
     final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
     @Extra("title")
@@ -46,9 +46,8 @@ public class SetUserTagActivity extends BaseActivity {
     };
 
     @AfterViews
-    void init() {
+    protected final void initSetUserTagActivity() {
         showDialogLoading();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
         user = AccountInfo.loadAccount(this);
         tags = user.tags;
@@ -58,11 +57,6 @@ public class SetUserTagActivity extends BaseActivity {
         adapter = new UserTagAdapter(SetUserTagActivity.this, tags, tagJSONArray);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(onTagClickListener);
-    }
-
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
     }
 
     @OptionsItem

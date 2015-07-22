@@ -36,7 +36,6 @@ import net.coding.program.user.UserProvincesDialogFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
@@ -49,7 +48,7 @@ import java.util.Iterator;
 
 @EActivity(R.layout.activity_user_detail_edit)
 @OptionsMenu(R.menu.user_detail_edit)
-public class UserDetailEditActivity extends BaseActivity implements DatePickerFragment.DateSet {
+public class UserDetailEditActivity extends BackActivity implements DatePickerFragment.DateSet {
 
     public final static int USERINFO_NAME = 0;
     public final static int USERINFO_SEX = 1;
@@ -223,7 +222,7 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
     }
 
     @AfterViews
-    void init() {
+    protected final void initUserDetailEditActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         user = AccountInfo.loadAccount(this);
 
@@ -277,11 +276,6 @@ public class UserDetailEditActivity extends BaseActivity implements DatePickerFr
         params.put("tags", user.tags);
 
         postNetwork(HOST_USERINFO, params, HOST_USERINFO);
-    }
-
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
     }
 
     @Override

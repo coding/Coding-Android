@@ -7,17 +7,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 
 @EActivity(R.layout.activity_members_select)
-public class MembersSelectActivity extends BaseActivity {
+public class MembersSelectActivity extends BackActivity {
 
     @Extra
     ProjectObject mProjectObject;
@@ -29,8 +29,6 @@ public class MembersSelectActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (mProjectObject != null) {
             fragment = new MembersListFragment_
                     .FragmentBuilder_()
@@ -52,11 +50,6 @@ public class MembersSelectActivity extends BaseActivity {
                 .commit();
     }
 
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -71,6 +64,7 @@ public class MembersSelectActivity extends BaseActivity {
             ImageView v = (ImageView) searchView.findViewById(searchImgId);
             v.setImageResource(R.drawable.ic_menu_search);
         } catch (Exception e) {
+            Global.errorLog(e);
         }
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

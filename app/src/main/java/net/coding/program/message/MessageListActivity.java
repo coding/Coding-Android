@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.MyPushReceiver;
@@ -64,7 +64,7 @@ import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
 //@OptionsMenu(R.menu.message_list)
-public class MessageListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
+public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
         StartActivity, EnterLayout.CameraAndPhoto, Handler.Callback {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
@@ -276,9 +276,7 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initMessageListActivity() {
         mEnterLayout = new EnterEmojiLayout(this, mOnClickSendText);
 
         // 图片显示，单位为 dp
@@ -477,11 +475,6 @@ public class MessageListActivity extends BaseActivity implements SwipeRefreshLay
         mData.add(myMessage);
 
         postNetwork(HOST_INSERT_IMAGE, params, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
-    }
-
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
     }
 
     @Override

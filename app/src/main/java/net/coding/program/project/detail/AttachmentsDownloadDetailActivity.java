@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -51,7 +51,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 @EActivity(R.layout.activity_attachments_download)
-public class AttachmentsDownloadDetailActivity extends BaseActivity {
+public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     private static final int STATE_NEEDDOWNLOAD = 0;
     private static final int STATE_STARTDOWNLOAD = 1;
@@ -182,11 +182,6 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
-    }
-
     @OptionsItem
     void action_info() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -226,8 +221,7 @@ public class AttachmentsDownloadDetailActivity extends BaseActivity {
     }
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected final void initAttachmentsDownloadDetailActivity() {
         getSupportActionBar().setTitle(mAttachmentFileObject.getName());
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);

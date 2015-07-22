@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -50,7 +50,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * 粉丝，关注的人列表
  */
 @EActivity(R.layout.activity_users_list)
-public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMore {
+public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
 
     public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
@@ -91,7 +91,7 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
     }
 
     @AfterViews
-    protected final void init() {
+    protected final void initUsersListActivity() {
         if (mUserParam != null && mUserParam.mUser.global_key.equals("coding")) {
             showButtomToast("这个不能看：）");
             finish();
@@ -321,11 +321,6 @@ public class UsersListActivity extends BaseActivity implements FootUpdate.LoadMo
             }
             adapter.notifyDataSetChanged();
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     public enum Friend {

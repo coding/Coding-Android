@@ -5,20 +5,19 @@ import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.view.View;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_search_project)
-public class SearchProjectActivity extends BaseActivity {
+public class SearchProjectActivity extends BackActivity {
 
     @ViewById
     View emptyView, container;
@@ -30,7 +29,6 @@ public class SearchProjectActivity extends BaseActivity {
     @AfterViews
     void init() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
 
         actionBar.setCustomView(R.layout.activity_search_project_actionbar);
@@ -49,7 +47,7 @@ public class SearchProjectActivity extends BaseActivity {
             public boolean onQueryTextChange(String s) {
                 mSearchData.clear();
                 if (s.length() > 0) {
-                    String enter = s.toString().toLowerCase();
+                    String enter = s.toLowerCase();
                     for (ProjectObject item : mData) {
                         if (item.name.toLowerCase().contains(enter) ||
                                 item.owner_user_name.toLowerCase().contains(enter) ||
@@ -78,11 +76,6 @@ public class SearchProjectActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, searchFragment)
                 .commit();
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @Override

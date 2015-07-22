@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
@@ -56,7 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_list_detail)
-public class TopicListDetailActivity extends BaseActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
+public class TopicListDetailActivity extends BackActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
 
     final int RESULT_AT = 1;
     final int RESULT_EDIT = 2;
@@ -165,9 +165,7 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
     private TextView textViewCommentCount;
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initTopicListDetailActivity() {
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.green);
 
@@ -457,11 +455,6 @@ public class TopicListDetailActivity extends BaseActivity implements StartActivi
         postNetwork(urlCommentSend, params, urlCommentSend, 0, comment);
 
         showProgressBar(R.string.sending_comment);
-    }
-
-    @OptionsItem(android.R.id.home)
-    void back() {
-        onBackPressed();
     }
 
     @Override

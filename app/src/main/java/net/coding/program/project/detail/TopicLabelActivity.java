@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
@@ -42,8 +42,14 @@ import java.util.List;
  */
 @EActivity(R.layout.activity_topic_label)
 @OptionsMenu(R.menu.topic_label)
-public class TopicLabelActivity extends BaseActivity {
+public class TopicLabelActivity extends BackActivity {
 
+    private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
+    private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
+    private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
+    private static final String URI_RENAME_LABEL = URI_REMOVE_LABEL;
+    private static final String URI_SAVE_TOPIC_LABELS = "/api/user/%s/project/%s/topics/%s/labels";
+    private static final String COLOR = "#701035";
     @Extra
     String ownerUser;
     @Extra
@@ -52,33 +58,30 @@ public class TopicLabelActivity extends BaseActivity {
     Integer topicId;
     @Extra
     List<TopicLabelObject> checkedLabels;
-
     @ViewById
     LinearLayout labelsList;
     @ViewById
     EditText editText;
     @ViewById
     View action_add, container;
-
-    private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
-    private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
-    private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
-    private static final String URI_RENAME_LABEL = URI_REMOVE_LABEL;
-    private static final String URI_SAVE_TOPIC_LABELS = "/api/user/%s/project/%s/topics/%s/labels";
-    private static final String COLOR = "#701035";
-
-    private LinkedHashMap<Integer, TopicLabelObject> allLabels = new LinkedHashMap<>();
-    private LinkedHashSet<Integer> checkedIds = new LinkedHashSet<>();
     @InstanceState
     String currentLabelName;
     @InstanceState
     int currentLabelId;
+    private LinkedHashMap<Integer, TopicLabelObject> allLabels = new LinkedHashMap<>();
+    private LinkedHashSet<Integer> checkedIds = new LinkedHashSet<>();
     private boolean saveTopicLabels = false;
+    private boolean isBuzy;
+
+    private static String getIds(Collection<Integer> list) {
+        StringBuilder ids = new StringBuilder();
+        for (int id : list) ids.append(id + ",");
+        if (ids.length() > 0) ids.deleteCharAt(ids.length() - 1);
+        return ids.toString();
+    }
 
     @AfterViews
-    void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initTopicLabelActivity() {
         checkedIds.clear();
         if (checkedLabels == null) checkedLabels = new ArrayList<>();
         for (TopicLabelObject item : checkedLabels) {
@@ -86,11 +89,6 @@ public class TopicLabelActivity extends BaseActivity {
         }
 
         beginLoadLabels();
-    }
-
-    @OptionsItem(android.R.id.home)
-    void home() {
-        onBackPressed();
     }
 
     @Click
@@ -117,9 +115,6 @@ public class TopicLabelActivity extends BaseActivity {
             finish();
         }
     }
-
-
-    private boolean isBuzy;
 
     private boolean lockViews() {
         if (!isBuzy) {
@@ -312,13 +307,6 @@ public class TopicLabelActivity extends BaseActivity {
     private void endRemoveTopicLabel() {
         checkedIds.remove(currentLabelId);
         onTopicLabelsChange();
-    }
-
-    private static String getIds(Collection<Integer> list) {
-        StringBuilder ids = new StringBuilder();
-        for (int id : list) ids.append(id + ",");
-        if (ids.length() > 0) ids.deleteCharAt(ids.length() - 1);
-        return ids.toString();
     }
 
     public void showPop(View view) {

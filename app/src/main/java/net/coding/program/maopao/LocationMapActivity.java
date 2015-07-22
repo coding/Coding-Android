@@ -15,20 +15,19 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Neutra on 2015/3/14.
  */
 @EActivity(R.layout.location_map)
-public class LocationMapActivity extends BaseActivity {
+public class LocationMapActivity extends BackActivity {
     @ViewById
     MapView mapView;
 
@@ -40,9 +39,7 @@ public class LocationMapActivity extends BaseActivity {
     private boolean isInfoWindowShown;
 
     @AfterViews
-    void afterViews() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initLocationMapActivity() {
         LatLng position = new LatLng(latitude, longitude);
         BaiduMap map = mapView.getMap();
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -82,10 +79,5 @@ public class LocationMapActivity extends BaseActivity {
                     new LatLng(latitude, longitude), -yOffset, null));
             isInfoWindowShown = true;
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 }

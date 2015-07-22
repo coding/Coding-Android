@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -20,7 +20,6 @@ import net.coding.program.project.detail.readme.ReadmeFragment_;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_project)
-public class ProjectActivity extends BaseActivity implements NetworkCallback {
+public class ProjectActivity extends BackActivity implements NetworkCallback {
 
     public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
             ProjectJumpParam.JumpType.typeDynamic,
@@ -99,7 +98,6 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (mJumpParam != null) {
             urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
@@ -218,11 +216,6 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
         } catch (Exception e) {
             Global.errorLog(e);
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    void close() {
-        onBackPressed();
     }
 
     @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)

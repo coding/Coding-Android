@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.ProjectObject;
@@ -19,7 +19,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_add)
-public class TopicAddActivity extends BaseActivity implements TopicEditFragment.SaveData, TopicLabelBar.Controller {
+public class TopicAddActivity extends BackActivity implements TopicEditFragment.SaveData, TopicLabelBar.Controller {
 
     final String HOST_TOPIC_NEW = Global.HOST_API + "/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST_API + "/topic/%d";
@@ -46,9 +45,8 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
     private TopicData modifyData = new TopicData();
 
     @AfterViews
-    protected void init() {
+    protected void initTopicAddActivity() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         editFragment = TopicEditFragment_.builder().build();
         previewFragment = TopicPreviewFragment_.builder().build();
@@ -64,8 +62,8 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
         }
     }
 
-    @OptionsItem(android.R.id.home)
-    protected void back() {
+    @Override
+    public void onBackPressed() {
         if (labelsHasChanged || editFragment.isContentModify()) {
             showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
                 @Override
@@ -76,11 +74,6 @@ public class TopicAddActivity extends BaseActivity implements TopicEditFragment.
         } else {
             finish();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        back();
     }
 
     private boolean isNewTopic() {

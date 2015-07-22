@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.UserObject;
@@ -12,14 +12,13 @@ import net.coding.program.model.UserObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
 @EActivity(R.layout.activity_user_detail_more)
 @OptionsMenu(R.menu.menu_user_detail_more)
-public class UserDetailMoreActivity extends BaseActivity {
+public class UserDetailMoreActivity extends BackActivity {
 
     @Extra
     UserObject mUserObject;
@@ -60,9 +59,7 @@ public class UserDetailMoreActivity extends BaseActivity {
     TextView nameTextView;
 
     @AfterViews
-    protected final void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    protected final void initUserDetailMoreActivity() {
         iconfromNetwork(icon, mUserObject.avatar);
         nameTextView.setText(mUserObject.name);
 
@@ -105,11 +102,6 @@ public class UserDetailMoreActivity extends BaseActivity {
         companyTextView.setText(notEmpty(mUserObject.company));
         jobTextView.setText(notEmpty(mUserObject.job_str));
         tagsTextView.setText(notEmpty(mUserObject.tags_str));
-    }
-
-    @OptionsItem(android.R.id.home)
-    protected final void back() {
-        finish();
     }
 
     private String notEmpty(String s) {

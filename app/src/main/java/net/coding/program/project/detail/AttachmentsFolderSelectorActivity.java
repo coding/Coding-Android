@@ -159,7 +159,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     }
 
     @AfterViews
-    void init() {
+    protected final void initAttachmentsFolderSelectorActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
 
