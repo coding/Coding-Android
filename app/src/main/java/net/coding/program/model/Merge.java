@@ -263,17 +263,4 @@ public class Merge implements Serializable {
         }
     }
 
-    public static class PostRequest {
-        public String url;
-        public RequestParams params;
-
-        public PostRequest(String url, RequestParams params) {
-            this.url = url;
-            this.params = params;
-        }
-
-        public void setContent(String input) {
-            params.put("content", input);
-        }
-    }
 }

@@ -14,13 +14,13 @@ import java.io.Serializable;
  */
 
 public class ProjectObject implements Serializable {
-    public String backend_project_path = "";
+    public String backend_project_path = ""; // "/user/cc/project/hell"
     public String name = "";
     public int owner_id;
     public String owner_user_home = "";
     public String owner_user_name = "";
     public String owner_user_picture = "";
-    public String project_path = "";
+    public String project_path = ""; // "/u/cc/p/hell"
     public String ssh_url = "";
     public String current_user_role = "";
     public String current_user_role_id = "";
@@ -138,6 +138,10 @@ public class ProjectObject implements Serializable {
 
     private String getHttpUrl(String param) {
         return Global.HOST_API + backend_project_path + param;
+    }
+
+    public String getHttpProjectApi() {
+        return Global.HOST_API + backend_project_path;
     }
 
     public String getHttpWatch(boolean watch) {

@@ -2,10 +2,12 @@ package net.coding.program.model;
 
 import android.text.Html;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by cc191954 on 14-8-12.
@@ -93,24 +95,11 @@ public class TaskObject {
     }
 
     public static class SingleTask implements Serializable {
-        public boolean isDone() {
-            return status == 2;
-        }
-
-        public boolean isEmpty() {
-            return id == 0;
-        }
-
-        public int getId() {
-            return id;
-        }
-
         public String content = "";
         public long created_at;
         public UserObject creator = new UserObject();
         public String creator_id = "";
         public String current_user_role_id = "";
-        private int id;
         public UserObject owner = new UserObject();
         public int owner_id;
         public ProjectObject project = new ProjectObject();
@@ -121,7 +110,8 @@ public class TaskObject {
         public long updated_at;
         public int comments;
         public boolean has_description;
-
+        public ArrayList<TopicLabelObject> labels = new ArrayList<>();
+        private int id;
         public SingleTask(JSONObject json) throws JSONException {
             comments = json.optInt("comments");
             content = Html.fromHtml(json.optString("content")).toString();
@@ -151,9 +141,40 @@ public class TaskObject {
             updated_at = json.optLong("updated_at");
             deadline = json.optString("deadline");
             has_description = json.optBoolean("has_description", false);
+
+            if (json.has("labels")) {
+                JSONArray jsonLabals = json.optJSONArray("labels");
+                for (int i = 0; i < jsonLabals.length(); ++i) {
+                    labels.add(new TopicLabelObject(jsonLabals.getJSONObject(i)));
+                }
+            }
+        }
+        public SingleTask() {
         }
 
-        public SingleTask() {
+        public boolean isDone() {
+            return status == 2;
+        }
+
+        public boolean isEmpty() {
+            return id == 0;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void removeLabel(int labelId) {
+            for (int i = 0; i < labels.size(); ++i) {
+                if (labels.get(i).id == labelId) {
+                    labels.remove(i);
+                    return;
+                }
+            }
+        }
+
+        public String getHttpRemoveLabal(int labelId) {
+            return String.format("%s/task/%d/label/%d", project.getHttpProjectApi(), id, labelId);
         }
     }
 

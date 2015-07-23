@@ -357,7 +357,10 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     }
 
     private void updateLabels(List<TopicLabelObject> labels) {
-        if (labelBar == null) labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        if (labelBar == null) {
+            labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        }
+
         labelBar.bind(labels, new TopicLabelBar.Controller() {
             @Override
             public boolean canShowLabels() {
@@ -372,9 +375,9 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             @Override
             public void onEditLabels(TopicLabelBar view) {
                 TopicLabelActivity_.intent(TopicListDetailActivity.this)
-                        .ownerUser(topicObject.project.owner_user_name)
-                        .projectName(topicObject.project.name)
-                        .topicId(topicObject.id)
+                        .labelType(TopicLabelActivity.LabelType.Topic)
+                        .projectPath(topicObject.project.getProjectPath())
+                        .id(topicObject.id)
                         .checkedLabels(topicObject.labels)
                         .startForResult(RESULT_LABEL);
             }

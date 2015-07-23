@@ -35,7 +35,6 @@
         android:text="Small Text"
         android:textColor="@color/font_black_9" />
 
-
     <net.coding.program.project.detail.TopicLabelBar_
         android:id="@+id/labelBar"
         android:layout_width="match_parent"

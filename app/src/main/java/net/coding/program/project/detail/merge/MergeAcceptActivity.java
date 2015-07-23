@@ -5,8 +5,8 @@ import android.widget.EditText;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
-import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
+import net.coding.program.model.PostRequest;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -48,7 +48,7 @@ public class MergeAcceptActivity extends BackActivity {
             return;
         }
 
-        Merge.PostRequest request = mMergeDetail.getHttpMerge(text, delSrc.getVisibility() == View.VISIBLE);
+        PostRequest request = mMergeDetail.getHttpMerge(text, delSrc.getVisibility() == View.VISIBLE);
         postNetwork(request, HOST_ACCEPT_MEREGE);
     }
 

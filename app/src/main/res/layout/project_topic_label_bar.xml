@@ -6,9 +6,9 @@
     <!-- 用户反馈不显示labels 但要留点空白在webview的横线上-->
     <View
         android:id="@+id/reservedView"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="6dp" />
+        android:layout_height="6dp"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/barView"
@@ -20,32 +20,47 @@
             android:layout_width="wrap_content"
             android:layout_height="46dp"
             android:layout_marginLeft="11dp"
-            android:drawableLeft="@drawable/ic_project_topic_label"
+            android:drawableLeft="@drawable/ic_project_topic_label_light"
             android:drawablePadding="2dp"
             android:gravity="center_vertical"
             android:paddingRight="12dp"
-            android:text="标签"
+            android:text="添加标签"
             android:textColor="@color/green"
             android:textSize="12sp" />
 
-        <ImageView
-            android:id="@+id/action_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:scaleType="center"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_project_topic_label_add" />
+
+        <TextView
+            android:id="@+id/labelView"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_marginLeft="11dp"
+            android:drawableLeft="@drawable/ic_project_topic_label_dark"
+            android:drawablePadding="2dp"
+            android:gravity="center_vertical"
+            android:paddingRight="5dp"
+            android:text=""
+            android:textColor="@color/green"
+            android:textSize="12sp" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/action_edit"-->
+        <!--android:layout_width="36dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:scaleType="center"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:src="@drawable/ic_project_topic_label_add" />-->
 
         <org.apmem.tools.layouts.FlowLayout
             android:id="@+id/flowLayout"
-            android:paddingTop="13dp"
-            android:paddingBottom="8dp"
-            android:layout_marginLeft="15dp"
-            android:layout_toLeftOf="@+id/action_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_toRightOf="@id/labelView"
+            android:paddingBottom="8dp"
+            android:paddingTop="13dp">
 
             <!--<include layout="@layout/project_topic_label_bar_item"/>-->
             <!--<include layout="@layout/project_topic_label_bar_item"/>-->

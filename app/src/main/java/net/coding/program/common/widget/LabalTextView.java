@@ -15,13 +15,13 @@ public class LabalTextView extends TextView {
     public LabalTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTextColor(0xffffffff);
-        setBackgroundResource(R.drawable.round_rect_shape_green);
         int paddingHeight = getResources().getDimensionPixelSize(R.dimen.labal_padding_height);
         int paddingWidth = getResources().getDimensionPixelSize(R.dimen.labal_padding_width);
         setPadding(paddingWidth, paddingHeight, paddingWidth, paddingHeight);
     }
 
     public void setText(String text, int color) {
+        setBackgroundResource(R.drawable.round_rect_shape_green);
         ((GradientDrawable) getBackground()).setColor(color);
         setText(text);
     }

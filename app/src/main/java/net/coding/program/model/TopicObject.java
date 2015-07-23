@@ -1,11 +1,18 @@
 package net.coding.program.model;
 
+import android.text.TextUtils;
+
+import com.loopj.android.http.RequestParams;
+
+import net.coding.program.common.Global;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,6 +46,109 @@ public class TopicObject extends BaseComment implements Serializable {
             for (int i = 0, n = array.length(); i < n; i++) {
                 labels.add(new TopicLabelObject(array.getJSONObject(i)));
             }
+        }
+    }
+
+    public interface LabelUrl {
+        String getLabels();
+
+        PostRequest addLabel(String name, String color);
+
+        String removeLabel(int labelId);
+
+        PostRequest renameLabel(int labelId, String name, String color);
+
+        PostRequest saveTopic(Collection<Integer> ids);
+    }
+
+    public static class TopicLabelUrl implements LabelUrl {
+//        private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
+//        private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
+//        private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
+//        private static final String URI_RENAME_LABEL = URI_REMOVE_LABEL;
+//        private static final String URI_SAVE_TOPIC_LABELS = "/api/user/%s/project/%s/topics/%s/labels";
+//        private static final String COLOR = "#701035";
+
+        private String projectPath;
+        private int id;
+
+        public TopicLabelUrl(String projectPath, int id) {
+            this.projectPath = projectPath;
+            this.id = id;
+        }
+
+        @Override
+        public String getLabels() {
+            return String.format("%s%s/topics/labels", Global.HOST_API, projectPath);
+        }
+
+        @Override
+        public PostRequest addLabel(String name, String color) {
+            String url = String.format("%s%s/topics/label", Global.HOST_API, projectPath);
+            RequestParams body = new RequestParams();
+            body.put("name", name);
+            body.put("color", color);
+            return new PostRequest(url, body);
+        }
+
+        @Override
+        public String removeLabel(int labelId) {
+            return String.format("%s%s/topics/label/%d", Global.HOST_API, projectPath, labelId);
+        }
+
+        @Override
+        public PostRequest renameLabel(int labelId, String name, String color) {
+            String url = removeLabel(labelId);
+            RequestParams body = new RequestParams();
+            body.put("name", name);
+            body.put("color", color);
+            return new PostRequest(url, body);
+        }
+
+        @Override
+        public PostRequest saveTopic(Collection<Integer> ids) {
+            String url = String.format("%s%s/topics/%d/labels", Global.HOST_API, projectPath, id);
+            RequestParams body = new RequestParams();
+            body.put("label_id", TextUtils.join(",", ids));
+            return new PostRequest(url, body);
+        }
+    }
+
+    public static class TaskLabelUrl implements LabelUrl {
+        TopicLabelUrl topicLabelUrl;
+        private String projectPath;
+        private int id;
+
+        public TaskLabelUrl(String projectPath, int id) {
+            topicLabelUrl = new TopicLabelUrl(projectPath, id);
+            this.projectPath = projectPath;
+            this.id = id;
+        }
+
+        @Override
+        public String getLabels() {
+            return topicLabelUrl.getLabels();
+        }
+
+        @Override
+        public PostRequest addLabel(String name, String color) {
+            return topicLabelUrl.addLabel(name, color);
+        }
+
+        @Override
+        public String removeLabel(int labelId) {
+            return topicLabelUrl.removeLabel(labelId);
+        }
+
+        @Override
+        public PostRequest renameLabel(int labelId, String name, String color) {
+            return topicLabelUrl.renameLabel(labelId, name, color);
+        }
+
+        // TODO 等待彭博添加批量接口
+        @Override
+        public PostRequest saveTopic(Collection<Integer> ids) {
+            return topicLabelUrl.saveTopic(ids);
         }
     }
 }

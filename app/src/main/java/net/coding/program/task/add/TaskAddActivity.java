@@ -46,9 +46,13 @@ import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
+import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
+import net.coding.program.project.detail.TopicLabelActivity;
+import net.coding.program.project.detail.TopicLabelActivity_;
+import net.coding.program.project.detail.TopicLabelBar;
 import net.coding.program.task.TaskDescriptionActivity_;
 import net.coding.program.third.EmojiFilter;
 
@@ -68,18 +72,20 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @EActivity(R.layout.activity_task_add)
 public class TaskAddActivity extends BackActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
 
     public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
 
-    public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
+    public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_DESCRIPTION = 4;
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
     public static final int RESULT_REQUEST_PICK_PROJECT = 6;
-
+    public static final int RESULT_LABEL = 7;
+    private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
     final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
     final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
@@ -88,7 +94,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             R.drawable.ic_task_priority_3
     };
     final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
-
     final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=9999999";
     final String HOST_TASK_UPDATE = Global.HOST_API + "/task/%s/update";
     final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
@@ -109,6 +114,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     ListView listView;
     View mHeadView;
     EditText title;
+    TopicLabelBar labelBar;
     ImageView circleIcon;
     TextView name;
     TextView status;
@@ -119,10 +125,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     TextView description;
     ViewGroup descriptionLayout;
     TextView descriptionButton;
-
     TextView projectName;
     ImageView projectIcon;
-
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
     @StringArrayRes
@@ -139,13 +143,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             requestTaskFromNetwork();
         }
     };
-
     @Bean
     PriorityAdapter mPriorityAdapter;
-
     @Bean
     StatusAdapter mStatusAdapter;
-
     ArrayList<DynamicObject.DynamicTask> mData = new ArrayList<>();
     HashMap<String, String> mSendedImages = new HashMap<>();
     String tagUrlCommentPhoto = "";
@@ -315,6 +316,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         // 单独提出来是因为弹出软键盘时，由于head太长，导致 title 会被顶到消失，现在的解决方法是 edit作为一个单独的head加载
         View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, null);
         title = (EditText) headEdit.findViewById(R.id.title);
+        labelBar = (TopicLabelBar) headEdit.findViewById(R.id.labelBar);
+
         listView.addHeaderView(headEdit);
 
         mHeadView = mInflater.inflate(R.layout.activity_task_add_head, null);
@@ -329,6 +332,36 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         description = (TextView) mHeadView.findViewById(R.id.description);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView);
+    }
+
+    private void updateLabels(List<TopicLabelObject> labels) {
+        labelBar.bind(labels, new TopicLabelBar.Controller() {
+            @Override
+            public boolean canShowLabels() {
+                return true;
+            }
+
+            @Override
+            public boolean canEditLabels() {
+                return true;
+            }
+
+            @Override
+            public void onEditLabels(TopicLabelBar view) {
+                TopicLabelActivity_.intent(TaskAddActivity.this)
+                        .labelType(TopicLabelActivity.LabelType.Task)
+                        .projectPath(mSingleTask.project.getProjectPath())
+                        .id(mSingleTask.getId())
+                        .checkedLabels(mSingleTask.labels)
+                        .startForResult(RESULT_LABEL);
+            }
+
+            @Override
+            public void onRemoveLabel(TopicLabelBar view, int labelId) {
+                String url = mSingleTask.getHttpRemoveLabal(labelId);
+                deleteNetwork(url, TAG_HTTP_REMOVE_LABEL, labelId);
+            }
+        });
     }
 
     private void updateSendButton() {
@@ -374,6 +407,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             mSingleTask.owner_id = mSingleTask.owner.id;
             mSingleTask.priority = 1; // 默认优先级是 1：正常处理
         }
+
+        updateLabels(mSingleTask.labels);
 
         invalidateOptionsMenu();
 
@@ -862,6 +897,14 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 showErrorMsg(code, respanse);
                 showProgressBar(false);
             }
+        } else if (tag.equals(TAG_HTTP_REMOVE_LABEL)) {
+            if (code == 0) {
+                int labelId = (int) data;
+                labelBar.removeLabel(labelId);
+                mSingleTask.removeLabel(labelId);
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 
@@ -921,6 +964,14 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         if (result == RESULT_OK) {
             updateDescriptionFromResult(data);
             updateSendButton();
+        }
+    }
+
+    @OnActivityResult(RESULT_LABEL)
+    void resultLabels(int result, @OnActivityResult.Extra ArrayList<TopicLabelObject> labels) {
+        if (result == RESULT_OK) {
+            mSingleTask.labels = labels;
+            updateLabels(labels);
         }
     }
 

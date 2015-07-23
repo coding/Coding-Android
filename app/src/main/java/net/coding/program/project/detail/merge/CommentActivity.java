@@ -12,6 +12,7 @@ import net.coding.program.common.Global;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.Merge;
+import net.coding.program.model.PostRequest;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.task.TaskDespPreviewFragment_;
@@ -101,7 +102,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
         }
 
         if (mMerge != null) {
-            Merge.PostRequest postRequest = mMerge.getHttpSendComment();
+            PostRequest postRequest = mMerge.getHttpSendComment();
             postRequest.setContent(contentString);
             postNetwork(postRequest.url, postRequest.params, HOST_SEND_COMMENT);
             showProgressBar(true, "发送中");
