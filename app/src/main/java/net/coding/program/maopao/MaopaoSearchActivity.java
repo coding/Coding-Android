@@ -20,6 +20,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.SearchCache;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.SubjectSearchFragment;
+import net.coding.program.subject.SubjectWallActivity;
+import net.coding.program.subject.SubjectWallActivity_;
 import net.coding.program.subject.adapter.SubjectSearchHistoryListAdapter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -137,8 +139,8 @@ public class MaopaoSearchActivity extends BackActivity {
     void initSearchHeaderView() {
         View headerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_header, null);
         mSearchHotTitle = (RelativeLayout) headerView.findViewById(R.id.subject_search_hot_header_title);
+        mSearchHotTitle.setOnClickListener(mOnClickListener);
         mSearchHotLayout = (FlowLayout) headerView.findViewById(R.id.subject_search_hot_layout);
-        mSearchHotLayout.setOnClickListener(mOnClickListener);
         emptyListView.addHeaderView(headerView);
 
     }
@@ -229,7 +231,7 @@ public class MaopaoSearchActivity extends BackActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.subject_search_hot_header_title:
-                    // TODO：跳转到热门搜索
+                    SubjectWallActivity_.intent(MaopaoSearchActivity.this).start();
                     break;
                 case R.id.subject_search_hot_footer_clear:
                     SearchCache.getInstance(MaopaoSearchActivity.this).clearCache();
