@@ -35,6 +35,7 @@ import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +49,7 @@ import java.util.List;
  * 话题墙
  */
 @EActivity(R.layout.activity_subject_wall)
-public class SubjectWallActivity extends BackActivity {
+public class SubjectWallActivity extends BaseActivity {
 
     private String mTweetAdUrl = Global.HOST_API + "/tweet_topic/marketing_ad";
     private String mTweetAdTag = "marketing_ad";
@@ -79,11 +80,21 @@ public class SubjectWallActivity extends BackActivity {
         getTweetTopicAdFromServer();
     }
 
+    @OptionsItem(android.R.id.home)
+    protected final void annotaionClose() {
+        onBackPressed();
+    }
+
     private void initTitleBar() {
         mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         ActionBar supportActionBar = getSupportActionBar();
         supportActionBar.setDisplayHomeAsUpEnabled(true);
+        supportActionBar.setDisplayShowHomeEnabled(true);
+        supportActionBar.setHomeButtonEnabled(true);
         supportActionBar.setTitle("");
         supportActionBar.setDisplayShowCustomEnabled(true);
 

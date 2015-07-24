@@ -333,7 +333,7 @@
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_subject_wall"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionbarSpannerTheme"
+            android:theme="@style/ActionbarSpannerTheme1"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".user.UsersListActivity_"

@@ -60,33 +60,8 @@
         <item name="icon">@android:color/transparent</item>
     </style>
 
-    <style name="ActionbarSpannerTheme" parent="AppTheme">
-        <item name="popupMenuStyle">@style/MyApp.PopupMenu</item>
-        <item name="android:windowBackground">@color/stand_bg</item>
-        <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
-        <item name="android:textColorPrimary">@drawable/white</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="android:divider">@drawable/system_divide</item>
-        <item name="color">@color/white</item>
-
-        <item name="colorPrimary">@drawable/gray_drawable</item>
-
-
-        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
-        <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
-        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/gray_drawable</item>
-        <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
-        <item name="android:windowActionModeOverlay">true</item>
-
-        <!--<item name="android:background">@drawable/gray_drawable</item>-->
-
-        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-        <item name="android:actionMenuTextColor">@color/white</item>
-
-
-        <!--抽屉导航的旋转箭头-->
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <!--主窗口的theme-->
@@ -189,6 +164,7 @@
     <style name="SpinnerDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
         <item name="android:divider">@color/white</item>
         <item name="android:dividerHeight">0dp</item>
+
     </style>
 
     <style name="ActionbarNoIcon" parent="AppTheme">
