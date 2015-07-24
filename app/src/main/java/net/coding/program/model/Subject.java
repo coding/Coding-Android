@@ -1,6 +1,7 @@
 package net.coding.program.model;
 
 import net.coding.program.common.SearchCache;
+import net.coding.program.subject.service.ISubjectRecommendObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class Subject {
 
-    public static class SubjectDescObject implements Serializable {
+    public static class SubjectDescObject implements Serializable, ISubjectRecommendObject {
 
         public int id;
         public String name;
@@ -48,6 +49,17 @@ public class Subject {
                 }
             }
         }
+
+        @Override
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public int getType() {
+            return 1;
+        }
+
     }
 
     public static class HotTweetDescObject implements Serializable {
@@ -116,6 +128,25 @@ public class Subject {
             image_url = json.optString("image_url");
             description = json.optString("description");
             name = json.optString("name");
+        }
+    }
+
+    public static class SubjectLastUsedObject implements Serializable, ISubjectRecommendObject {
+
+        public String name;
+
+        public SubjectLastUsedObject(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public int getType() {
+            return 0;
         }
     }
 

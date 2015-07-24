@@ -1,0 +1,82 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"></se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView>
+
+    <LinearLayout
+        android:id="@+id/topic_create_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/topic_create_name"
+                android:layout_width="0dp"
+                android:layout_height="53.3dp"
+                android:layout_weight="1"
+                android:textColor="@color/font_black_2"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_12"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/topic_create_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="@dimen/padding_12"
+                android:text="创建"
+                android:textColor="@color/green"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="12dp"
+            android:background="@color/search_divide_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="35dp"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="143dp"
+            android:layout_height="143dp"
+            android:background="@drawable/ic_search_project" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.1"
+            android:text="搜索项目名称或创建人的个性后缀\n都可以进行项目搜索哦！"
+            android:textColor="@color/font_black_9" />
+
+    </LinearLayout>
+
+</FrameLayout>
