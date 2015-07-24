@@ -12,15 +12,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginRight="@dimen/padding_12"
             android:gravity="center_vertical"
-            android:layout_marginRight="@dimen/padding_12">
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
+                android:layout_weight="1"
                 android:padding="@dimen/padding_12">
 
 
@@ -42,8 +41,11 @@
                     android:layout_below="@id/subject_list_item_name"
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="#我最爱的变成语言#"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:textColor="@color/font_black_2"
-                    android:textSize="15sp"/>
+                    android:textColorLink="@color/font_green"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/subject_list_item_pepole_count"
@@ -53,13 +55,11 @@
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="213人参与"
                     android:textColor="@color/font_black_9"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
-            <include
-                layout="@layout/list_item_common_arrow" />
+            <include layout="@layout/list_item_common_arrow" />
 
         </LinearLayout>
 

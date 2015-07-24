@@ -28,8 +28,10 @@ public class SubjectListFragment extends RefreshBaseFragment {
 
     final String subjectFollowUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/watched?extraInfo=1";
     final String subjectJoinUrlFormat = Global.HOST_API + "/user/%s/tweet_topic/joined?extraInfo=1";
+    final String subjectHotTweetUrl = Global.HOST_API + "/tweet_topic/hot?page=1&pageSize=20";
     final String subjectFollowTag = "subject_follow";
     final String subjectJoinTag = "subject_join";
+    final String subjectHotTweetTag = "subject_hot";
 
 
     @FragmentArg
@@ -51,7 +53,8 @@ public class SubjectListFragment extends RefreshBaseFragment {
 
         setRefreshing(true);
 
-        mFootUpdate.init(listView, mInflater, this);
+        if (mType != Type.hot)
+            mFootUpdate.init(listView, mInflater, this);
 
         mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList);
         listView.setAdapter(mAdapter);
@@ -60,7 +63,7 @@ public class SubjectListFragment extends RefreshBaseFragment {
 
 
     public enum Type {
-        follow, join
+        follow, join, hot
     }
 
     @Override
@@ -77,15 +80,19 @@ public class SubjectListFragment extends RefreshBaseFragment {
                 if (isLoadingFirstPage(tag)) {
                     mSubjectList.clear();
                 }
-
-                JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
+                JSONArray jsonArray = null;
+                if (mType == Type.hot) {
+                    jsonArray = respanse.optJSONArray("data");
+                } else {
+                    jsonArray = respanse.optJSONObject("data").optJSONArray("list");
+                }
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     Subject.SubjectDescObject projectObject = new Subject.SubjectDescObject(json);
                     mSubjectList.add(projectObject);
                 }
-
-                mFootUpdate.updateState(code, isLoadingLastPage(tag), mSubjectList.size());
+                if (mType != Type.hot)
+                    mFootUpdate.updateState(code, isLoadingLastPage(tag), mSubjectList.size());
 
 //                String tip = BlankViewDisplay.OTHER_PROJECT_BLANK;
 //                if (mUserObject.isMe()) {
@@ -102,7 +109,10 @@ public class SubjectListFragment extends RefreshBaseFragment {
 
     @Override
     public void loadMore() {
-        getNextPageNetwork(getUrl(), getCurTag());
+        if (mType == Type.hot) {
+            getNetwork(getUrl(), getCurTag());
+        } else
+            getNextPageNetwork(getUrl(), getCurTag());
     }
 
     private String getUrl() {
@@ -111,6 +121,8 @@ public class SubjectListFragment extends RefreshBaseFragment {
             url = String.format(subjectFollowUrlFormat, userKey);
         } else if (mType == Type.join) {
             url = String.format(subjectJoinUrlFormat, userKey);
+        } else if (mType == Type.hot) {
+            url = subjectHotTweetUrl;
         }
         return url;
     }
@@ -122,6 +134,8 @@ public class SubjectListFragment extends RefreshBaseFragment {
             tag = subjectFollowTag;
         } else if (mType == Type.join) {
             tag = subjectJoinTag;
+        } else if (mType == Type.hot) {
+            tag = subjectHotTweetTag;
         }
         return tag;
     }

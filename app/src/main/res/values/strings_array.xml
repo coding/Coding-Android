@@ -34,6 +34,11 @@
         <item>我收藏的</item>
     </string-array>
 
+    <string-array name="topic_action_types">
+        <item>热门话题</item>
+        <item>我的话题</item>
+    </string-array>
+
     <string-array name="maopao_action_types">
         <item>冒泡广场</item>
         <item>好友圈</item>

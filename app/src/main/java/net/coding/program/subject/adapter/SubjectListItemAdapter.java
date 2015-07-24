@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
 import net.coding.program.model.Subject;
 
 import java.util.List;
@@ -64,7 +66,7 @@ public class SubjectListItemAdapter extends BaseAdapter {
             Subject.SubjectDescObject subjectDescObject = subjectItems.get(position);
             if (subjectDescObject != null) {
                 viewHolder.title.setText("#" + subjectDescObject.name + "#");
-                viewHolder.desc.setText(Html.fromHtml(subjectDescObject.hot_tweet.content));
+                viewHolder.desc.setText(Html.fromHtml(HtmlContent.parseReplacePhotoEmoji(subjectDescObject.hot_tweet.content)));
                 viewHolder.peopleCount.setText(subjectDescObject.speackers + "人参与");
             }
         }
