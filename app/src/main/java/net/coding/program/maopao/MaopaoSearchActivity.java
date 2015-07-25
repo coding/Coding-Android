@@ -5,11 +5,8 @@ import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,7 +17,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.SearchCache;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.SubjectSearchFragment;
-import net.coding.program.subject.SubjectWallActivity;
+import net.coding.program.subject.SubjectSearchFragment_;
 import net.coding.program.subject.SubjectWallActivity_;
 import net.coding.program.subject.adapter.SubjectSearchHistoryListAdapter;
 
@@ -55,7 +52,7 @@ public class MaopaoSearchActivity extends BackActivity {
 
     private String mHotTweetUrl = "/tweet_topic/hot?page=1&pageSize=6";
     SearchView editText;
-    private SubjectSearchFragment searchFragment;
+    private SubjectSearchFragment_ searchFragment;
     // 热门话题列表的数据
     private List<Subject.SubjectDescObject> mSubjectList = new ArrayList<Subject.SubjectDescObject>();
     // 历史搜索的记录
@@ -76,6 +73,17 @@ public class MaopaoSearchActivity extends BackActivity {
         editText.setQueryHint(Html.fromHtml("<font color = #80ffffff>搜索冒泡、用户名、话题</font>"));
         editText.onActionViewExpanded();
         editText.setIconified(false);
+
+        initSearchHeaderView();
+        initSearchFooterView();
+
+        mSearchHistoryListAdapter = new SubjectSearchHistoryListAdapter(this, mSearchHistoryList);
+        emptyListView.setAdapter(mSearchHistoryListAdapter);
+
+        searchFragment = new SubjectSearchFragment_();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, searchFragment)
+                .commit();
 
         editText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -108,15 +116,6 @@ public class MaopaoSearchActivity extends BackActivity {
             }
         });
 
-        initSearchHeaderView();
-        initSearchFooterView();
-        mSearchHistoryListAdapter = new SubjectSearchHistoryListAdapter(this, mSearchHistoryList);
-        emptyListView.setAdapter(mSearchHistoryListAdapter);
-
-        searchFragment = new SubjectSearchFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, searchFragment)
-                .commit();
         loadSearchCache();
         loadHotSubject();
     }

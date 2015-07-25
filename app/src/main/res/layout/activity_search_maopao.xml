@@ -14,13 +14,14 @@
         android:dividerHeight="0dp"
         android:drawSelectorOnTop="true"
         android:overScrollMode="never"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:scrollbarStyle="outsideOverlay" />
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/stand_bg"
         android:visibility="invisible" />
 
 </FrameLayout>
