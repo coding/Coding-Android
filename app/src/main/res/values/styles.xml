@@ -60,6 +60,10 @@
         <item name="icon">@android:color/transparent</item>
     </style>
 
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
     <!--主窗口的theme-->
     <style name="ActionbarSpannerTheme1" parent="Theme.AppCompat.Light.NoActionBar">
         <!--<item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>-->
@@ -160,6 +164,7 @@
     <style name="SpinnerDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
         <item name="android:divider">@color/white</item>
         <item name="android:dividerHeight">0dp</item>
+
     </style>
 
     <style name="ActionbarNoIcon" parent="AppTheme">

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/maopao_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="53.3dp"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="热门话题搜索"
+        android:textColor="@color/font_black_9"
+        android:textSize="14sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/search_divide_color"></View>
+</LinearLayout>

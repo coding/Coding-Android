@@ -196,6 +196,13 @@
                 android:background="@drawable/pop_photo" />
 
             <ImageView
+                android:id="@+id/popTopic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="36dp"
+                android:background="@drawable/pop_topic" />
+
+            <ImageView
                 android:id="@+id/popAt"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

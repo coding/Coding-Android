@@ -323,7 +323,35 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".maopao.MaopaoSearchActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_maopao_search"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".subject.SubjectWallActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/title_activity_subject_wall"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarSpannerTheme1"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".subject.SubjectNewActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".subject.SubjectDetailActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".user.UsersListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_users"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.UserTopicActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_users"
             android:screenOrientation="portrait" />

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:theme="@style/ToolbarColoredBackArrow"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
+    <net.coding.program.subject.loop.AutoScrollLoopViewPager
+        android:id="@+id/loop_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"></net.coding.program.subject.loop.AutoScrollLoopViewPager>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/topic_my_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/stand_bg">
+
+            <net.coding.program.third.WechatTab
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="48dip"
+                android:background="@android:color/transparent" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pagerFragmentProgram"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/topic_hot_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/stand_bg"></FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

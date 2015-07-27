@@ -47,6 +47,9 @@ import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
+import net.coding.program.subject.SubjectCreateActivity;
+import net.coding.program.subject.SubjectNewActivity;
+import net.coding.program.subject.SubjectNewActivity_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -68,6 +71,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
     public static final int PHOTO_MAX_COUNT = 6;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
+    public static final int RESULT_REQUEST_TOPIC = 1008;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final int RESULT_REQUEST_PHOTO = 1005;
     public static final int RESULT_REQUEST_LOCATION = 1006;
@@ -346,6 +350,13 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
                 String name = data.getStringExtra("name");
                 mEnterLayout.insertText("@" + name);
             }
+        } else if (requestCode == RESULT_REQUEST_TOPIC) {
+            if (resultCode == RESULT_OK) {
+                String topicName = data.getStringExtra("topic_name");
+                if (!TextUtils.isEmpty(topicName) && message != null) {
+                    message.setText(topicName);
+                }
+            }
 
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -565,6 +576,12 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
     @Click
     protected final void popAt() {
         TextWatcherAt.startActivityAt(this, this, RESULT_REQUEST_FOLLOW);
+    }
+
+    @Click
+    protected final void popTopic() {
+        Intent intent = new Intent(this, SubjectNewActivity_.class);
+        startActivityForResult(intent, RESULT_REQUEST_TOPIC);
     }
 
     public static class PhotoData {

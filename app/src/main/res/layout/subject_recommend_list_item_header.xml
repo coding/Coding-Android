@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/subject_recommend_list_item_header_name"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/divide"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_12"
+        android:singleLine="true"
+        android:text="一台一台"
+        android:textColor="@color/font_black_9"
+        android:textSize="14sp" />
+
+</LinearLayout>

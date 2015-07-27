@@ -169,6 +169,7 @@ public class UserDetailActivity extends BackActivity {
         getSupportActionBar().setTitle("个人主页");
         ((TextView) findViewById(R.id.titleProject)).setText("我的项目");
         ((TextView) findViewById(R.id.titleMaopao)).setText("我的冒泡");
+        ((TextView) findViewById(R.id.titleTopic)).setText("我的话题");
     }
 
     @Override
@@ -378,6 +379,16 @@ public class UserDetailActivity extends BackActivity {
         intent.putExtra(UserMaopaoActivity.PARAM_ID, mUserObject.id);
         startActivity(intent);
     }
+
+    @Click
+    public void clickTopic() {
+        if (!dataIsLoaded()) {
+            return;
+        }
+       UserTopicActivity_.intent(this).mUserObject(mUserObject).start();
+
+    }
+
 
     private boolean dataIsLoaded() {
         return mUserObject != null;

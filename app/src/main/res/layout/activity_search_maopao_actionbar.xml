@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+    <android.support.v7.widget.SearchView
+        android:layout_marginRight="12dp"
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="搜索冒泡、用户名、话题"
+        android:layout_weight="1"
+        android:singleLine="true" />
+
+</LinearLayout>
