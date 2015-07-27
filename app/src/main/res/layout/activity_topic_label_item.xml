@@ -4,7 +4,7 @@
     android:layout_height="48dp"
     android:background="@color/white">
 
-    <net.coding.program.common.widget.LabalTextView
+    <net.coding.program.common.widget.LabelTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

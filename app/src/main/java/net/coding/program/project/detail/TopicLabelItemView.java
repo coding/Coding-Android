@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import net.coding.program.R;
-import net.coding.program.common.widget.LabalTextView;
+import net.coding.program.common.widget.LabelTextView;
 import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.EViewGroup;
@@ -21,7 +21,7 @@ import org.androidannotations.annotations.ViewById;
 @EViewGroup(R.layout.activity_topic_label_item)
 public class TopicLabelItemView extends RelativeLayout implements Checkable {
     @ViewById
-    LabalTextView textView;
+    LabelTextView textView;
     @ViewById
     ImageView icon;
 

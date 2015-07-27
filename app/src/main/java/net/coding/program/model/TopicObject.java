@@ -19,6 +19,8 @@ import java.util.List;
  * Created by cc191954 on 14-8-18.
  */
 public class TopicObject extends BaseComment implements Serializable {
+    public static final int SORT_OLD = 0;
+    public static final int SORT_NEW = 1;
     public int child_count;
     public String current_user_role_id = "";
     public int parent_id;
@@ -27,7 +29,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public String title = "";
     public long updated_at;
     public List<TopicLabelObject> labels = new ArrayList<>();
-
+    private int commentSort = SORT_OLD;
     public TopicObject(JSONObject json) throws JSONException {
         super(json);
 
@@ -47,6 +49,15 @@ public class TopicObject extends BaseComment implements Serializable {
                 labels.add(new TopicLabelObject(array.getJSONObject(i)));
             }
         }
+    }
+
+    public String getHttpComments() {
+        String urlCommentList = Global.HOST_API + "/topic/%d/comments?pageSize=20&type=%d";
+        return String.format(urlCommentList, id, commentSort);
+    }
+
+    public void setSortOld(int sort) {
+        commentSort = sort;
     }
 
     public interface LabelUrl {

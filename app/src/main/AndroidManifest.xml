@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="70"
-    android:versionName="3.1">
+    android:versionCode="71"
+    android:versionName="3.1.1">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -242,7 +242,7 @@
             android:label="@string/title_activity_about"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.detail.TopicListDetailActivity_"
+            android:name=".project.detail.topic.TopicListDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_topic_comment"
             android:screenOrientation="portrait"

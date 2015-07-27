@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.coding.program.R;
-import net.coding.program.common.widget.LabalTextView;
+import net.coding.program.common.widget.LabelTextView;
 import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.Click;
@@ -92,11 +92,11 @@ public class TopicLabelBar extends RelativeLayout {
 
         mData.clear();
 
-        LinkedList<LabalTextView> cachedViews = new LinkedList<>();
+        LinkedList<LabelTextView> cachedViews = new LinkedList<>();
         for (int i = 0, n = flowLayout.getChildCount(); i < n; i++) {
             View view = flowLayout.getChildAt(i);
-            if (view instanceof LabalTextView)
-                cachedViews.add((LabalTextView) view);
+            if (view instanceof LabelTextView)
+                cachedViews.add((LabelTextView) view);
         }
 
         flowLayout.removeAllViews();
@@ -113,9 +113,9 @@ public class TopicLabelBar extends RelativeLayout {
 
         for (TopicLabelObject item : labels) {
             mData.add(item);
-            LabalTextView view = cachedViews.poll();
+            LabelTextView view = cachedViews.poll();
             if (view == null) {
-                view = (LabalTextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
+                view = (LabelTextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
             }
             view.setText(item.name, item.getColor());
             view.setTag(item);

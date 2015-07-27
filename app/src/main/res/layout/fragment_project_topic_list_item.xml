@@ -8,30 +8,44 @@
         android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_margin="12.5dp"
         android:src="@drawable/ic_default_user" />
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="12dp"
         android:layout_toEndOf="@+id/icon"
         android:layout_toRightOf="@+id/icon"
-        android:singleLine="true"
-        android:text="Medium Text"
-        android:textColor="@color/font_black_content"
-        android:textSize="16sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="15.3dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:singleLine="true"
+            android:text="Medium Text"
+            android:textColor="@color/font_black_content"
+            android:textSize="16sp" />
+
+        <net.coding.program.common.widget.FlowLabelLayout
+            android:id="@+id/flowLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/title"
-        android:layout_below="@id/title"
+        android:layout_alignLeft="@id/layout1"
+        android:layout_below="@id/layout1"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="13dp"
         android:orientation="horizontal">
 
         <include layout="@layout/common_name" />

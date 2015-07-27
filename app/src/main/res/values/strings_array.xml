@@ -185,6 +185,11 @@
         <item>复制</item>
         <item>删除</item>
     </string-array>
+    
+    <string-array name="comment_sort">
+        <item>最旧评论</item>
+        <item>最新评论</item>
+    </string-array>
 
     <!--<string-array name="commnet_my">-->
     <!--<item>复制</item>-->
