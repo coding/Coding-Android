@@ -156,10 +156,12 @@ public class TopicObject extends BaseComment implements Serializable {
             return topicLabelUrl.renameLabel(labelId, name, color);
         }
 
-        // TODO 等待彭博添加批量接口
         @Override
         public PostRequest saveTopic(Collection<Integer> ids) {
-            return topicLabelUrl.saveTopic(ids);
+            String url = String.format("%s%s/task/%d/labels", Global.HOST_API, projectPath, id);
+            RequestParams body = new RequestParams();
+            body.put("label_id", TextUtils.join(",", ids));
+            return new PostRequest(url, body);
         }
     }
 }
