@@ -4,12 +4,10 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
 
     <include
         android:id="@+id/blankLayout"
