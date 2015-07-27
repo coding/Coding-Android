@@ -23,7 +23,7 @@ public class SubjectDetailActivity extends BackActivity {
     View mListHeaderView;
 
     @AfterViews
-    private void init(){
+    protected final void initSubjectDetailActivity(){
 
     }
 

@@ -183,30 +183,30 @@
 
             <CheckBox
                 android:id="@+id/popEmoji"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:background="@null"
                 android:button="@drawable/checkbox_pop_emoji" />
 
             <ImageView
                 android:id="@+id/popPhoto"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="24dp"
                 android:background="@drawable/pop_photo" />
 
             <ImageView
                 android:id="@+id/popTopic"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="24dp"
                 android:background="@drawable/pop_topic" />
 
             <ImageView
                 android:id="@+id/popAt"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="24dp"
                 android:background="@drawable/pop_at" />
 
         </LinearLayout>
