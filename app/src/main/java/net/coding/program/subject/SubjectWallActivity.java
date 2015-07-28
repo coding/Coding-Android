@@ -1,14 +1,11 @@
 package net.coding.program.subject;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.BackActivity;
 import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 import net.coding.program.third.WechatTab;

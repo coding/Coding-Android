@@ -1,6 +1,7 @@
 package net.coding.program.subject;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import net.coding.program.R;
@@ -58,6 +59,7 @@ public class SubjectListFragment extends RefreshBaseFragment {
 
         mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(onItemClickListener);
         loadMore();
     }
 
@@ -139,6 +141,16 @@ public class SubjectListFragment extends RefreshBaseFragment {
         }
         return tag;
     }
+
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int pos = position;
+            if (pos >= 0 && pos < mSubjectList.size()) {
+                SubjectDetailActivity_.intent(getActivity()).subjectDescObject(mSubjectList.get(pos)).start();
+            }
+        }
+    };
 
 }
 
