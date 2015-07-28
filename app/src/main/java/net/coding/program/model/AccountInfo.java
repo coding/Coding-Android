@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 /**
  * Created by cc191954 on 14-8-7.
+ * 保存数据到本地，包括用户数据和全局数据
  */
 public class AccountInfo {
 
@@ -45,6 +46,8 @@ public class AccountInfo {
     private static final String BACKGROUNDS = "BACKGROUNDS";
     private static String FILE_PUSH = "FILE_PUSH";
     private static String KEY_NEED_PUSH = "KEY_NEED_PUSH";
+
+    private static String KEY_HOST = "KEY_HOST";
 
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
@@ -403,6 +406,22 @@ public class AccountInfo {
         new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
     }
 
+    public static void saveHost(Context context, String host) {
+        new DataCache<String>().saveGlobal(context, host, KEY_HOST);
+    }
+
+    public static String getHost(Context context) {
+        String host = new DataCache<String>().loadGlobalObject(context, KEY_HOST);
+        if (host == null) {
+            host = "";
+        }
+        return host;
+    }
+
+    public static void removeHost(Context context) {
+        new DataCache<String>().deleteGlobal(context, KEY_HOST);
+    }
+
     public static void removeNoSendMessage(Context context, long createTime) {
         ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
         for (int i = 0; i < allMessages.size(); ++i) {
@@ -484,11 +503,24 @@ public class AccountInfo {
             save(ctx, data, name, FILDER_GLOBAL);
         }
 
-        public void delete(Context ctx, String name) {
-            File file = new File(ctx.getFilesDir(), name);
+        private void deleteFile(File folder, String name) {
+            File file = new File(folder, name);
             if (file.exists()) {
                 file.delete();
             }
+        }
+
+        public void delete(Context ctx, String name) {
+            deleteFile(ctx.getFilesDir(), name);
+        }
+
+        public void deleteGlobal(Context ctx, String name) {
+            File globalFolder = new File(ctx.getFilesDir(), FILDER_GLOBAL);
+            if (!globalFolder.exists()) {
+                return;
+            }
+
+            deleteFile(globalFolder, name);
         }
 
         private void save(Context ctx, Object data, String name, String folder) {

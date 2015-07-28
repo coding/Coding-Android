@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
@@ -25,6 +26,8 @@ import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-9.
+ * 用来做一些初始化工作，比如设置 host，
+ * 初始化图片库配置
  */
 public class MyApp extends Application {
 
@@ -102,6 +105,14 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        String host = AccountInfo.getHost(this);
+        if (host.isEmpty()) {
+            host = Global.DEFAULT_HOST;
+        }
+
+        Global.HOST = host;
+        Global.HOST_API = Global.HOST + "/api";
 
         initImageLoader(this);
 
