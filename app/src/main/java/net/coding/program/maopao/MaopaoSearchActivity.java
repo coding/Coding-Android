@@ -116,7 +116,6 @@ public class MaopaoSearchActivity extends BackActivity {
             }
         });
 
-        loadSearchCache();
         loadHotSubject();
     }
 
@@ -184,7 +183,7 @@ public class MaopaoSearchActivity extends BackActivity {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if ("".equals(tag)) {
-            hideProgressDialog();
+
             JSONArray jsonArray = respanse.optJSONArray("data");
             if (jsonArray != null) {
                 for (int i = 0; i < jsonArray.length(); ++i) {
@@ -198,6 +197,8 @@ public class MaopaoSearchActivity extends BackActivity {
             }
             emptyListView.setVisibility(View.VISIBLE);
         }
+        loadSearchCache();
+        hideProgressDialog();
     }
 
     private void fillHotTweetToLayout() {

@@ -63,7 +63,8 @@ public class RedPointTip {
         Readme,
         Merge,
         Pull,
-        CodeHistory
+        CodeHistory,
+        Topic
     }
 
 }

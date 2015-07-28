@@ -73,7 +73,7 @@ public class SubjectWallActivity extends BaseActivity {
     private MySpinnerAdapter mSpinnerAdapter;
 
     @AfterViews
-    protected final void init() {
+    protected final void initSubjectWallActivity() {
         initTitleBar();
         showMyTopic();
         showHotTopic();
@@ -82,7 +82,7 @@ public class SubjectWallActivity extends BaseActivity {
 
     @OptionsItem(android.R.id.home)
     protected final void annotaionClose() {
-        onBackPressed();
+        finish();
     }
 
     private void initTitleBar() {

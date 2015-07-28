@@ -18,7 +18,7 @@ public class SearchCache {
     private static final String SEARCH_CACHE = SearchCache.class.getName() + "_search_cache";
     private static final String SEARCH_CACHE_KEY = SearchCache.class.getName() + "_search_cache_key";
     private static final String SEARCH_CACHE_SIZE = SearchCache.class.getName() + "_search_cache_size";
-    public static final int SERACH_CACHE_COUNT = 3;
+    public static final int SERACH_CACHE_COUNT = 8;
 
     private List<String> searchCacheList = null;
     private Context mContext;
