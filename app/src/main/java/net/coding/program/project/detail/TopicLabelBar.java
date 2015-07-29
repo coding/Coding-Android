@@ -28,6 +28,7 @@ public class TopicLabelBar extends RelativeLayout {
     View emptyView, labelView, barView, reservedView;
     @ViewById
     FlowLayout flowLayout;
+
     private List<TopicLabelObject> mData = new ArrayList<>();
     private Controller controller;
     private OnClickListener onClickLabel = new OnClickListener() {

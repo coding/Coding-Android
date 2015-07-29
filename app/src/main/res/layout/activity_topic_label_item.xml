@@ -10,8 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="2dp"
         android:text="bug"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/icon"

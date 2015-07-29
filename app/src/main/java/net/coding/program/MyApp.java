@@ -106,11 +106,11 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        String host = AccountInfo.getHost(this);
+        AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
+        String host = customHost.getHost();
         if (host.isEmpty()) {
             host = Global.DEFAULT_HOST;
         }
-
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
 

@@ -87,15 +87,20 @@ public class AboutActivity extends BackActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View content = getLayoutInflater().inflate(R.layout.host_setting, null);
             final EditText editText = (EditText) content.findViewById(R.id.edit);
-            editText.setText(AccountInfo.getHost(this));
+            final EditText editCode = (EditText) content.findViewById(R.id.editCode);
+            AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
+            editText.setText(customHost.getHost());
+            editCode.setText(customHost.getCode());
             editText.setHint(Global.DEFAULT_HOST);
             builder.setView(content)
                     .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String hostString = editText.getText().toString();
+                            String hostCode = editCode.getText().toString();
+                            AccountInfo.CustomHost customHost = new AccountInfo.CustomHost(hostString, hostCode);
                             if (!hostString.isEmpty()) {
-                                AccountInfo.saveHost(AboutActivity.this, hostString);
+                                AccountInfo.saveHost(AboutActivity.this, customHost);
                             } else {
                                 AccountInfo.removeHost(AboutActivity.this);
                             }

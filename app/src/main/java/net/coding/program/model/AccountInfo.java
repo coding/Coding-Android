@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 /**
  * Created by cc191954 on 14-8-7.
- * 保存数据到本地，包括用户数据和全局数据
+ * 保存数据到本地，包括用户数据和全局数据.
  */
 public class AccountInfo {
 
@@ -44,10 +44,10 @@ public class AccountInfo {
     private static final String USER_TASKS = "USER_TASKS_%d_%d";
     private static final String USER_NO_SEND_MESSAGE = "USER_NO_SEND_MESSAGE";
     private static final String BACKGROUNDS = "BACKGROUNDS";
-    private static String FILE_PUSH = "FILE_PUSH";
-    private static String KEY_NEED_PUSH = "KEY_NEED_PUSH";
+    private static final String FILE_PUSH = "FILE_PUSH";
+    private static final String KEY_NEED_PUSH = "KEY_NEED_PUSH";
 
-    private static String KEY_HOST = "KEY_HOST";
+    private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
 
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
@@ -406,20 +406,21 @@ public class AccountInfo {
         new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
     }
 
-    public static void saveHost(Context context, String host) {
-        new DataCache<String>().saveGlobal(context, host, KEY_HOST);
+    public static void saveHost(Context context, CustomHost data) {
+        new DataCache<CustomHost>().saveGlobal(context, data, KEY_CUSTOM_HOST);
     }
 
-    public static String getHost(Context context) {
-        String host = new DataCache<String>().loadGlobalObject(context, KEY_HOST);
+    public static CustomHost getCustomHost(Context context) {
+        CustomHost host = new DataCache<CustomHost>().loadGlobalObject(context, KEY_CUSTOM_HOST);
         if (host == null) {
-            host = "";
+            host = new CustomHost();
         }
+
         return host;
     }
 
     public static void removeHost(Context context) {
-        new DataCache<String>().deleteGlobal(context, KEY_HOST);
+        new DataCache<String>().deleteGlobal(context, KEY_CUSTOM_HOST);
     }
 
     public static void removeNoSendMessage(Context context, long createTime) {
@@ -620,6 +621,27 @@ public class AccountInfo {
             }
 
             return data;
+        }
+    }
+
+    public static class CustomHost {
+        private String host = "";
+        private String code = "";
+
+        public CustomHost() {
+        }
+
+        public CustomHost(String host, String code) {
+            this.host = host;
+            this.code = code;
+        }
+
+        public String getHost() {
+            return host;
+        }
+
+        public String getCode() {
+            return code;
         }
     }
 

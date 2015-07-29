@@ -10,6 +10,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.apache.CustomSSLSocketFactory;
 import net.coding.program.common.network.apache.CustomX509TrustManager;
+import net.coding.program.model.AccountInfo;
 
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -43,6 +44,10 @@ public class MyAsyncHttpClient {
             } catch (Exception e) {
                 Global.errorLog(e);
             }
+
+
+            AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(context);
+            client.addHeader("Authorization", customHost.getCode());
         }
 
         String versionName = "";
@@ -58,5 +63,4 @@ public class MyAsyncHttpClient {
         client.addHeader("Referer", "https://coding.net");
         return client;
     }
-
 }
