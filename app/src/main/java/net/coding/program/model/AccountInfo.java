@@ -406,7 +406,7 @@ public class AccountInfo {
         new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
     }
 
-    public static void saveHost(Context context, CustomHost data) {
+    public static void saveCustomHost(Context context, CustomHost data) {
         new DataCache<CustomHost>().saveGlobal(context, data, KEY_CUSTOM_HOST);
     }
 
@@ -419,7 +419,7 @@ public class AccountInfo {
         return host;
     }
 
-    public static void removeHost(Context context) {
+    public static void removeCustomHost(Context context) {
         new DataCache<String>().deleteGlobal(context, KEY_CUSTOM_HOST);
     }
 
@@ -624,7 +624,7 @@ public class AccountInfo {
         }
     }
 
-    public static class CustomHost {
+    public static class CustomHost implements Serializable {
         private String host = "";
         private String code = "";
 

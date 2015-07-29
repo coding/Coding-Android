@@ -549,6 +549,16 @@
                     android:host="coding.net"
                     android:path="/activate"
                     android:scheme="https" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:host="m.coding.net"
+                    android:path="/activate"
+                    android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />
 
@@ -566,11 +576,13 @@
                     android:path="/user/resetPassword"
                     android:scheme="https" />
 
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
+
         </activity>
 
         <receiver android:name=".message.MessageReceiver" >

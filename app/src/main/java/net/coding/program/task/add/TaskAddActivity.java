@@ -754,7 +754,11 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         Intent intent = new Intent();
         intent.putExtra(RESULT_GLOBARKEY, mNewParam.owner.global_key);
         setResult(Activity.RESULT_OK, intent);
-        showButtomToast(msg);
+
+        if (!msg.isEmpty()) {
+            showButtomToast(msg);
+        }
+
         finish();
     }
 
@@ -1016,11 +1020,11 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             showDialog("任务", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    closeActivity("");
                 }
             });
         } else {
-            finish();
+            closeActivity("");
         }
     }
 

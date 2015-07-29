@@ -100,9 +100,9 @@ public class AboutActivity extends BackActivity {
                             String hostCode = editCode.getText().toString();
                             AccountInfo.CustomHost customHost = new AccountInfo.CustomHost(hostString, hostCode);
                             if (!hostString.isEmpty()) {
-                                AccountInfo.saveHost(AboutActivity.this, customHost);
+                                AccountInfo.saveCustomHost(AboutActivity.this, customHost);
                             } else {
-                                AccountInfo.removeHost(AboutActivity.this);
+                                AccountInfo.removeCustomHost(AboutActivity.this);
                             }
 
                             setResult(RESULT_OK);
