@@ -84,4 +84,9 @@
 
     <dimen name="labal_padding_height">3dp</dimen>
     <dimen name="labal_padding_width">5dp</dimen>
+
+    <dimen name="labal_padding_left_right">4dp</dimen>
+    <dimen name="labal_detail_height">22dp</dimen>
+    <dimen name="labal_detail_font">12sp</dimen>
+
 </resources>

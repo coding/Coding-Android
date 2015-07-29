@@ -13,6 +13,8 @@
         android:layout_below="@+id/icon"
         android:layout_marginTop="5dp" />
 
+    <include layout="@layout/divide_1_12" />
+
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"

@@ -7,13 +7,12 @@
     <net.coding.program.common.widget.LabelTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/labal_detail_height"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:paddingBottom="2dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:paddingTop="2dp"
+        android:gravity="center"
+        android:paddingLeft="@dimen/labal_padding_left_right"
+        android:paddingRight="@dimen/labal_padding_left_right"
         android:text="bug"
         android:textSize="12sp" />
 
@@ -23,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="13dp"
         android:padding="10dp"
         android:src="@drawable/ic_topic_label_unchecked" />
 

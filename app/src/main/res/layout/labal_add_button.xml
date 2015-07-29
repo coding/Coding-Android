@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/labal_detail_height"
     android:background="@drawable/round_rect_edge"
-    android:padding="2dp"
+    android:gravity="center"
     android:text="添加标签"
-    android:textColor="#d8d8d8"
-    android:textSize="12sp" />
+    android:textColor="@color/font_black_6"
+    android:textSize="@dimen/labal_detail_font" />

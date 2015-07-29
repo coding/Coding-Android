@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/list_item_selector"
     android:descendantFocusability="blocksDescendants"
-    android:paddingBottom="10dp"
+    android:paddingBottom="12dp"
     tools:context=".project.detail.TaskListFragment">
 
     <CheckBox
@@ -34,7 +34,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="12dp"
         android:layout_toRightOf="@+id/icon"
         android:ellipsize="end"
         android:lineSpacingExtra="3dp"
@@ -60,14 +60,14 @@
         android:layout_alignLeft="@+id/title"
         android:layout_alignStart="@+id/title"
         android:layout_below="@+id/title"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <net.coding.program.common.widget.FlowLabelLayout
             android:id="@+id/flowLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="6dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

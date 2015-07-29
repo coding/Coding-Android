@@ -18,8 +18,8 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15">
 
             <EditText
                 android:id="@+id/editText"

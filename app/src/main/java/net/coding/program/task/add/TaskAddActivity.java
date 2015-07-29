@@ -50,6 +50,7 @@ import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
+import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicLabelActivity;
 import net.coding.program.project.detail.TopicLabelActivity_;
 import net.coding.program.project.detail.TopicLabelBar;
@@ -348,12 +349,16 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
             @Override
             public void onEditLabels(TopicLabelBar view) {
-                TopicLabelActivity_.intent(TaskAddActivity.this)
-                        .labelType(TopicLabelActivity.LabelType.Task)
-                        .projectPath(mSingleTask.project.getProjectPath())
-                        .id(mSingleTask.getId())
-                        .checkedLabels(mSingleTask.labels)
-                        .startForResult(RESULT_LABEL);
+                if (!mSingleTask.project.isEmpty()) {
+                    TopicLabelActivity_.intent(TaskAddActivity.this)
+                            .labelType(TopicLabelActivity.LabelType.Task)
+                            .projectPath(mSingleTask.project.getProjectPath())
+                            .id(mSingleTask.getId())
+                            .checkedLabels(mSingleTask.labels)
+                            .startForResult(RESULT_LABEL);
+                } else {
+                    showMiddleToast("请先选择项目");
+                }
             }
 
             @Override
@@ -694,6 +699,12 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             if (!descriptionDataNew.markdown.isEmpty()) {
                 params.put("description", descriptionDataNew.markdown);
             }
+
+            StringBuilder labels = TopicAddActivity.getLabelsParam(mSingleTask.labels);
+            if (labels.length() > 0) {
+                params.put("labels", labels);
+            }
+
             postNetwork(url, params, HOST_TASK_ADD);
             showProgressBar(R.string.create_task_ing);
 
@@ -934,6 +945,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
             TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
             setPickUser(member);
+
+            mSingleTask.labels.clear();
+            updateLabels(mSingleTask.labels);
         }
     }
 

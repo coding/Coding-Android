@@ -2,6 +2,7 @@ package net.coding.program.project.detail;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
@@ -43,6 +44,19 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
+
+    @NonNull
+    public static StringBuilder getLabelsParam(List<TopicLabelObject> labels) {
+        StringBuilder pickLabels = new StringBuilder();
+        if (labels != null && labels.size() > 0) {
+            pickLabels.append(labels.get(0).id);
+            for (int i = 1; i < labels.size(); ++i) {
+                pickLabels.append(",");
+                pickLabels.append(labels.get(i).id);
+            }
+        }
+        return pickLabels;
+    }
 
     @AfterViews
     protected void initTopicAddActivity() {
@@ -190,15 +204,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
             return;
         }
 
-        StringBuilder pickLabels = new StringBuilder();
-        if (modifyData.labels != null && modifyData.labels.size() > 0) {
-            pickLabels.append(modifyData.labels.get(0).id);
-            for (int i = 1; i < modifyData.labels.size(); ++i) {
-                pickLabels.append(",");
-                pickLabels.append(modifyData.labels.get(i).id);
-            }
-        }
-
+        StringBuilder pickLabels = getLabelsParam(modifyData.labels);
         RequestParams params = new RequestParams();
         params.put("title", titleString);
         params.put("content", contentString);
