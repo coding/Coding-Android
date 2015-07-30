@@ -141,28 +141,9 @@
         android:stretchMode="none"
         android:verticalSpacing="8dp" />
 
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_below="@id/gridView"
-        android:layout_marginTop="11dp"
-        android:clickable="true"
-        android:drawableLeft="@drawable/ic_location_inactive"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:hint="@string/location_undefined"
-        android:maxLines="1"
-        android:paddingLeft="9dp"
-        android:paddingRight="12dp"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="@color/font_black_content"
-        android:textColorHint="@color/font_black_9"
-        android:textSize="15sp" />
 
     <LinearLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -298,6 +279,27 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_above="@id/bottom_layout"
+        android:layout_marginTop="11dp"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_location_inactive"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:hint="@string/location_undefined"
+        android:maxLines="1"
+        android:paddingLeft="9dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/font_black_content"
+        android:textColorHint="@color/font_black_9"
+        android:textSize="15sp" />
 
     <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--android:layout_width="match_parent"-->
