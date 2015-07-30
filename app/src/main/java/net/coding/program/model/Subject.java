@@ -1,6 +1,5 @@
 package net.coding.program.model;
 
-import net.coding.program.common.SearchCache;
 import net.coding.program.subject.service.ISubjectRecommendObject;
 
 import org.json.JSONArray;
@@ -20,9 +19,9 @@ public class Subject {
 
         public int id;
         public String name;
-        public int speackers;
+        public Integer speackers;
         public int watchers;
-        public int count;
+        public Integer count;
         public String image_url;
         public String description;
         public boolean watched;
@@ -109,9 +108,9 @@ public class Subject {
 
     public static class TweetTopicAdObject implements Serializable {
         public String name;
-        public int speackers;
-        public int watchers;
-        public int count;
+        public Integer speackers;
+        public Integer watchers;
+        public Integer count;
         public String image_url;
         public String description;
         public boolean watched;

@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.adapter.SubjectListItemAdapter;
@@ -48,6 +49,8 @@ public class SubjectListFragment extends RefreshBaseFragment {
     SubjectListItemAdapter mAdapter = null;
     private List<Subject.SubjectDescObject> mSubjectList = new ArrayList<Subject.SubjectDescObject>();
 
+    private MyImageGetter mMyImageGetter;
+
     @AfterViews
     protected void init() {
         initRefreshLayout();
@@ -57,7 +60,9 @@ public class SubjectListFragment extends RefreshBaseFragment {
         if (mType != Type.hot)
             mFootUpdate.init(listView, mInflater, this);
 
-        mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList);
+        mMyImageGetter = new MyImageGetter(getActivity());
+
+        mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList, mMyImageGetter);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(onItemClickListener);
         loadMore();

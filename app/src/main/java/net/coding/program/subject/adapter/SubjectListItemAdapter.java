@@ -22,10 +22,12 @@ public class SubjectListItemAdapter extends BaseAdapter {
 
     private List<Subject.SubjectDescObject> subjectItems;
     private Context mContext;
+    private Html.ImageGetter mImageGetter;
 
-    public SubjectListItemAdapter(Context context, List<Subject.SubjectDescObject> items) {
+    public SubjectListItemAdapter(Context context, List<Subject.SubjectDescObject> items, Html.ImageGetter imageGetter) {
         this.mContext = context;
         this.subjectItems = items;
+        this.mImageGetter = imageGetter;
     }
 
 
@@ -66,7 +68,8 @@ public class SubjectListItemAdapter extends BaseAdapter {
             Subject.SubjectDescObject subjectDescObject = subjectItems.get(position);
             if (subjectDescObject != null) {
                 viewHolder.title.setText("#" + subjectDescObject.name + "#");
-                viewHolder.desc.setText(Html.fromHtml(HtmlContent.parseReplacePhotoEmoji(subjectDescObject.hot_tweet.content)));
+                Global.MessageParse parse = HtmlContent.parseMessage(subjectDescObject.hot_tweet.content);
+                viewHolder.desc.setText(Global.changeHyperlinkColor(parse.text, mImageGetter, Global.tagHandler));
                 viewHolder.peopleCount.setText(subjectDescObject.speackers + "人参与");
             }
         }

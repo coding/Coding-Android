@@ -17,7 +17,7 @@ public class AutoScrollLoopViewPager extends LoopViewPager {
         super(context, attrs);
     }
 
-    private static final int INTERVAL = 3000;
+    private static final int INTERVAL = 5000;
     private boolean isPagingEnabled = true;
 
     @Override
