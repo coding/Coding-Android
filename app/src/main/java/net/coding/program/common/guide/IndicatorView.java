@@ -11,8 +11,11 @@ import net.coding.program.R;
 
 /**
  * Created by chenchao on 15/6/26.
+ * 用点表示当前 ViewPager 是第几页
  */
 public class IndicatorView extends FrameLayout {
+
+    private int pointResourceId;
 
     private LinearLayout layout;
     private int mSelect = 0;
@@ -29,14 +32,29 @@ public class IndicatorView extends FrameLayout {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.IndicatorView);
         int count = typedArray.getInt(R.styleable.IndicatorView_pointCount, 0);
+        pointResourceId = typedArray.getResourceId(R.styleable.IndicatorView_pointView, R.layout.guide_point);
 
         for (int i = 0; i < count; ++i) {
-            View.inflate(context, R.layout.guide_point, layout);
+            View.inflate(context, pointResourceId, layout);
         }
 
         if (count > 0) {
-            layout.getChildAt(0).setBackgroundResource(R.drawable.guide_point_black);
+            layout.getChildAt(0).setSelected(true);
         }
+    }
+
+    public void setCount(int count, int pickPos) {
+        if (count < 0 || count <= pickPos) {
+            return;
+        }
+
+        if (layout.getChildCount() != count) {
+            layout.removeAllViews();
+            for (int i = 0; i < count; ++i) {
+                View.inflate(getContext(), pointResourceId, layout);
+            }
+        }
+        setSelect(pickPos);
     }
 
     public void setSelect(int pos) {
@@ -50,9 +68,10 @@ public class IndicatorView extends FrameLayout {
         }
 
         if (mSelect < count) {
-            layout.getChildAt(mSelect).setBackgroundResource(R.drawable.guide_point_white);
+            layout.getChildAt(mSelect).setSelected(false);
         }
-        layout.getChildAt(pos).setBackgroundResource(R.drawable.guide_point_black);
+
+        layout.getChildAt(pos).setSelected(true);
 
         mSelect = pos;
     }

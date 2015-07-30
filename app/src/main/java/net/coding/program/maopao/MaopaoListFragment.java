@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
@@ -34,9 +35,12 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.maopao.banner.BannerAdapter;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.BannerObject;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.UserObject;
@@ -72,6 +76,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
     final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
+    final String TAG_BANNER = "TAG_BANNER";
     ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
     int id = UPDATE_ALL_INT;
     boolean mNoMore = false;
@@ -315,7 +320,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.maopaoDelete.setVisibility(View.INVISIBLE);
             }
 
-
             holder.commentArea.displayContentData(data);
 
             int commentCount = data.comment_list.size();
@@ -443,6 +447,42 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
 
         addDoubleClickActionbar();
+
+        if (mType == Type.time) {
+            final ArrayList<BannerObject> banners = AccountInfo.getMaopaoBanners(getActivity());
+            if (!banners.isEmpty()) {
+                View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
+                ViewPager banner = (ViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
+                ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
+                layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
+                banner.setLayoutParams(layoutParams);
+                BannerAdapter bannerAdapter = new BannerAdapter(getChildFragmentManager(), banners);
+                banner.setAdapter(bannerAdapter);
+
+                final IndicatorView bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);
+                bannerIndicator.setCount(banners.size(), 0);
+                final TextView bannerTitle = (TextView) bannerLayout.findViewById(R.id.title);
+
+                listView.addHeaderView(bannerLayout);
+                banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        bannerTitle.setText(banners.get(position).getTitle());
+                        bannerIndicator.setSelect(position);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                        enableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+                    }
+                });
+            }
+            getNetwork(BannerObject.getHttpBanners(), TAG_BANNER);
+        }
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
@@ -758,9 +798,19 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             } else {
                 showButtomToast("删除失败");
             }
+        } else if (tag.equals(TAG_BANNER)) {
+            if (code == 0) {
+                ArrayList<BannerObject> banners = new ArrayList<>();
+                JSONArray jsonArray = respanse.getJSONArray("data");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    banners.add(new BannerObject(jsonArray.getJSONObject(i)));
+                }
+                AccountInfo.saveMaopaoBanners(getActivity(), banners);
+            }
         }
     }
 
+    // user 某个用户，friend 好友圈，time 冒泡广场
     public enum Type {
         user, friends, hot, my, time
     }
