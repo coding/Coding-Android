@@ -341,6 +341,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".subject.SubjectUsersActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".subject.SubjectDetailActivity_"
             android:icon="@drawable/ic_launcher"
             android:screenOrientation="portrait"

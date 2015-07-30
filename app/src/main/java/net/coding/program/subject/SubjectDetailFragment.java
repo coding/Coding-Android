@@ -576,7 +576,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                     }
                     break;
                 case R.id.subject_detail_view_all:
-
+                    if (subjectDescObject != null)
+                        SubjectUsersActivity_.intent(getActivity()).topicId(subjectDescObject.id).start();
                     break;
             }
         }

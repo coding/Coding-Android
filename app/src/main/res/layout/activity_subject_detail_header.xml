@@ -101,11 +101,6 @@
             f:weightDefault="1.0"></org.apmem.tools.layouts.FlowLayout>
     </LinearLayout>
 
-    <include layout="@layout/divide_1"></include>
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divide_line"
-        android:layout_height="14dp"></View>
+    <include layout="@layout/divide_15_top_bottom" />
 
 </LinearLayout>
