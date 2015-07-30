@@ -1,5 +1,6 @@
 package net.coding.program.subject;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.Subject;
@@ -44,6 +46,9 @@ public class SubjectSearchFragment extends BaseFragment {
 
     private TextView mSearchResultView;
 
+    private MyImageGetter myImageGetter;
+
+
     // 当前的搜索条件
     private String mCondition = "";
     // 热门话题列表的数据
@@ -58,7 +63,8 @@ public class SubjectSearchFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        mSubjectSearchListAdapter = new SubjectSearchListAdapter(getActivity(), maopaoObjectList);
+        myImageGetter = new MyImageGetter(getActivity());
+        mSubjectSearchListAdapter = new SubjectSearchListAdapter(getActivity(), maopaoObjectList, myImageGetter);
         initSearchHeaderView();
         listView.setAdapter(mSubjectSearchListAdapter);
         notifyDataSetChange();
