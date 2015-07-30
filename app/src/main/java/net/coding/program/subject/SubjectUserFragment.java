@@ -1,11 +1,13 @@
 package net.coding.program.subject;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -27,12 +29,11 @@ import java.util.List;
  * Created by david on 15-7-28.
  */
 @EFragment(R.layout.fragment_subject_list)
-public class SubjectUserFragment extends RefreshBaseFragment {
+public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore{
     public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
     final String subjectUserListUrlFormat = Global.HOST_API + "/tweet_topic/%s/joined?pageSize=10";
     final String subjectUserListTag = "subject_user_list_tag";
-
 
     @FragmentArg
     int topicId;
@@ -56,9 +57,24 @@ public class SubjectUserFragment extends RefreshBaseFragment {
         mAdapter = new SubjectUserListAdapter(getActivity(), mUserList);
         mAdapter.setFollowClickListener(mFollowClickListener);
         listView.setAdapter(mAdapter);
+        listView.setOnScrollListener(mOnScrollListener);
         loadMore();
     }
 
+
+    private AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if(firstVisibleItem + visibleItemCount >= totalItemCount){
+                loadMore();
+            }
+        }
+    };
 
     @Override
     public void onRefresh() {

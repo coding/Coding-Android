@@ -48,7 +48,7 @@ public class SubjectWallActivity extends BaseActivity {
     private String mTweetAdUrl = Global.HOST_API + "/tweet_topic/marketing_ad";
     private String mTweetAdTag = "marketing_ad";
 
-    private List<Subject.TweetTopicAdObject> mHotTweetDescObjects = new ArrayList<>();
+    private List<Subject.SubjectDescObject> mHotTweetDescObjects = new ArrayList<>();
 
     @ViewById(R.id.loop_view_pager)
     AutoScrollLoopViewPager loopViewPager;
@@ -219,6 +219,7 @@ public class SubjectWallActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start();
                 }
             });
             getImageLoad().loadImage(imageView, mHotTweetDescObjects.get(position).image_url);
@@ -279,10 +280,10 @@ public class SubjectWallActivity extends BaseActivity {
         if (mTweetAdTag.equals(tag)) {
             JSONArray dataArr = respanse.optJSONArray("data");
             if (dataArr != null) {
-                Subject.TweetTopicAdObject tweetDescObject = null;
+                Subject.SubjectDescObject tweetDescObject = null;
                 mHotTweetDescObjects.clear();
                 for (int i = 0; i < dataArr.length(); i++) {
-                    tweetDescObject = new Subject.TweetTopicAdObject(dataArr.optJSONObject(i));
+                    tweetDescObject = new Subject.SubjectDescObject(dataArr.optJSONObject(i));
                     mHotTweetDescObjects.add(tweetDescObject);
                 }
                 initLooperViewPager();

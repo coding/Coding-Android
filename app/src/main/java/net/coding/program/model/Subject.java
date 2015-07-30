@@ -106,30 +106,6 @@ public class Subject {
 
     }
 
-    public static class TweetTopicAdObject implements Serializable {
-        public String name;
-        public Integer speackers;
-        public Integer watchers;
-        public Integer count;
-        public String image_url;
-        public String description;
-        public boolean watched;
-        public long created_at;
-        public int id;
-
-        public TweetTopicAdObject(JSONObject json) throws JSONException {
-            created_at = json.optLong("created_at");
-            id = json.optInt("id");
-            watched = json.optBoolean("watched");
-            speackers = json.optInt("speackers");
-            watchers = json.optInt("watchers");
-            count = json.optInt("count");
-            image_url = json.optString("image_url");
-            description = json.optString("description");
-            name = json.optString("name");
-        }
-    }
-
     public static class SubjectLastUsedObject implements Serializable, ISubjectRecommendObject {
 
         public String name;

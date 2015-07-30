@@ -546,6 +546,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             for (int i = 0; i < size; i++) {
                 userObject = subjectDescObject.user_list.get(i);
                 circleImageView = new CircleImageView(getActivity());
+                circleImageView.setTag(userObject.global_key);
+                circleImageView.setOnClickListener(mOnClickUser);
                 layoutParams = new FlowLayout.LayoutParams(getPxValue(40f), getPxValue(40f));
                 layoutParams.weight = 1;
                 layoutParams.newLine = false;
