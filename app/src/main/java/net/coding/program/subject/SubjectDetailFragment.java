@@ -77,6 +77,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
     static final int RESULT_AT = 101;
     final String maopaoUrlFormat = Global.HOST_API + "/public_tweets/topic/%s?last_id=%s&sort=new";
     final String maopaoUrlFirstFormat = Global.HOST_API + "/public_tweets/topic/%s?&sort=new";
+    final String maopaoUrlTopFormat = Global.HOST_API + "/public_tweets/topic/%s/top";
 
     final String topicWatchUrl = Global.HOST_API + "/tweet_topic/%s/watch";
     final String topicUnWatchUrl = Global.HOST_API + "/tweet_topic/%s/unwatch";
@@ -233,6 +234,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
                 holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
 
+                holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
+
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.icon.setOnClickListener(mOnClickUser);
 
@@ -276,6 +279,12 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             }
 
             final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
+
+            if (data.isTop) {
+                holder.maopaoItemTop.setVisibility(View.VISIBLE);
+            } else {
+                holder.maopaoItemTop.setVisibility(View.GONE);
+            }
 
             holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
             holder.likeUsersArea.displayLikeUser();
@@ -453,6 +462,9 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
+        if (subjectDescObject != null) {
+            getNetwork(String.format(maopaoUrlTopFormat, subjectDescObject.id), maopaoUrlTopFormat);
+        }
         getNetwork(createUrl(), maopaoUrlFormat);
 
         ViewTreeObserver vto = listView.getViewTreeObserver();
@@ -719,8 +731,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 for (int i = 0; i < minSize; ++i) {
                     mSaveData.add(mData.get(i));
                 }
-//                AccountInfo.saveMaopao(getActivity(), mSaveData, mType.toString(), userId);
-
 
                 if (jsonArray.length() == 0) {
                     mNoMore = true;
@@ -752,6 +762,19 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
+            }
+        } else if (tag.equals(maopaoUrlTopFormat)) {
+            if (code == 0) {
+                if (id == UPDATE_ALL_INT) {
+                    mData.clear();
+                }
+
+                JSONObject json = respanse.optJSONObject("data");
+                if (json != null) {
+                    Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
+                    mData.add(item);
+                    id = item.id;
+                }
             }
         } else if (tag.equals(URI_COMMENT)) {
             showProgressBar(false);
@@ -869,6 +892,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
     static class ViewHolder {
         View maopaoItem;
+
+        View maopaoItemTop;
 
         ImageView icon;
         TextView name;
