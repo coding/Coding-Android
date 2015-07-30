@@ -7,9 +7,9 @@ import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.widget.LabelTextView;
 import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.EViewGroup;
@@ -17,11 +17,12 @@ import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Neutra on 2015/4/25.
+ *
  */
 @EViewGroup(R.layout.activity_topic_label_item)
 public class TopicLabelItemView extends RelativeLayout implements Checkable {
     @ViewById
-    TextView textView;
+    LabelTextView textView;
     @ViewById
     ImageView icon;
 
@@ -46,14 +47,14 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
     }
 
     @Override
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-        icon.setImageResource(checked ? R.drawable.ic_topic_label_checked : R.drawable.ic_topic_label_unchecked);
+    public boolean isChecked() {
+        return checked;
     }
 
     @Override
-    public boolean isChecked() {
-        return isChecked();
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+        icon.setImageResource(checked ? R.drawable.ic_topic_label_checked : R.drawable.ic_topic_label_unchecked);
     }
 
     @Override
@@ -63,6 +64,6 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
 
     public void bind(TopicLabelObject data) {
         this.data = data;
-        textView.setText(data.name);
+        textView.setText(data.name, data.getColor());
     }
 }

@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +11,12 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.loopj.android.http.RequestParams;
-
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
-import net.coding.program.common.Global;
+import net.coding.program.model.PostRequest;
 import net.coding.program.model.TopicLabelObject;
+import net.coding.program.model.TopicObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,33 +31,38 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Neutra on 2015/4/25.
+ * 标签编辑
  */
 @EActivity(R.layout.activity_topic_label)
 @OptionsMenu(R.menu.topic_label)
 public class TopicLabelActivity extends BackActivity {
 
-    private static final String URI_GET_LABEL = "/api/user/%s/project/%s/topics/labels";
-    private static final String URI_ADD_LABEL = "/api/user/%s/project/%s/topics/label";
-    private static final String URI_REMOVE_LABEL = URI_ADD_LABEL + "/%s";
-    private static final String URI_RENAME_LABEL = URI_REMOVE_LABEL;
-    private static final String URI_SAVE_TOPIC_LABELS = "/api/user/%s/project/%s/topics/%s/labels";
-    private static final String COLOR = "#701035";
+    private static String COLOR = "#701035";
+//    @Extra
+//    String ownerUser;
+//    @Extra
+//    String projectName;
+//    @Extra
+//    Integer topicId;
+
     @Extra
-    String ownerUser;
+    LabelType labelType = LabelType.Topic;
     @Extra
-    String projectName;
+    String projectPath; // 必填
     @Extra
-    Integer topicId;
+    int id = 0; // 必填
     @Extra
-    List<TopicLabelObject> checkedLabels;
+    List<TopicLabelObject> checkedLabels; // 必填
+
+    TopicObject.LabelUrl labelUrl;
     @ViewById
     LinearLayout labelsList;
     @ViewById
@@ -73,15 +78,14 @@ public class TopicLabelActivity extends BackActivity {
     private boolean saveTopicLabels = false;
     private boolean isBuzy;
 
-    private static String getIds(Collection<Integer> list) {
-        StringBuilder ids = new StringBuilder();
-        for (int id : list) ids.append(id + ",");
-        if (ids.length() > 0) ids.deleteCharAt(ids.length() - 1);
-        return ids.toString();
-    }
-
     @AfterViews
     protected final void initTopicLabelActivity() {
+        if (labelType == LabelType.Topic) {
+            labelUrl = new TopicObject.TopicLabelUrl(projectPath, id);
+        } else {
+            labelUrl = new TopicObject.TaskLabelUrl(projectPath, id);
+        }
+
         checkedIds.clear();
         if (checkedLabels == null) checkedLabels = new ArrayList<>();
         for (TopicLabelObject item : checkedLabels) {
@@ -108,7 +112,7 @@ public class TopicLabelActivity extends BackActivity {
 
     @OptionsItem
     void action_save() {
-        if (topicId != null) {
+        if (id != 0) {
             beginSaveTopicLabels();
         } else {
             saveTopicLabels = true;
@@ -152,15 +156,12 @@ public class TopicLabelActivity extends BackActivity {
 
     private void beginLoadLabels() {
         if (lockViews()) {
-            String url = Global.HOST + String.format(URI_GET_LABEL, ownerUser, projectName);
-            getNetwork(url, "URI_GET_LABEL");
+            getNetwork(labelUrl.getLabels(), "URI_GET_LABEL");
         }
     }
 
     private void endLoadLabels(int code, JSONObject json) throws JSONException {
-        if (code != 0) {
-            showErrorMsg(code, json);
-        } else {
+        if (code == 0) {
             allLabels.clear();
             JSONArray array = json.getJSONArray("data");
             for (int i = 0, n = array.length(); i < n; i++) {
@@ -168,35 +169,34 @@ public class TopicLabelActivity extends BackActivity {
                 allLabels.put(data.id, data);
             }
             updateList();
+        } else {
+            showErrorMsg(code, json);
         }
         unlockViews();
     }
 
     private void beginAddLebel(String name) {
         currentLabelName = name.trim();
-        String url = Global.HOST + String.format(URI_ADD_LABEL, ownerUser, projectName);
-        RequestParams body = new RequestParams();
-        body.put("name", currentLabelName);
-        body.put("color", COLOR);
-        postNetwork(url, body, "URI_ADD_LABEL");
+        COLOR = String.format("#%06X", new Random().nextInt(0xffffff));
+        PostRequest post = labelUrl.addLabel(currentLabelName, COLOR);
+        postNetwork(post.url, post.params, "URI_ADD_LABEL");
     }
 
     private void endAddLabel(int code, JSONObject json) throws JSONException {
-        if (code != 0) {
-            showErrorMsg(code, json);
-        } else {
+        if (code == 0) {
             currentLabelId = json.getInt("data");
             editText.setText("");
-            allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName));
+            allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName, Color.parseColor(COLOR)));
             updateList();
             showButtomToast("添加标签成功^^");
+        } else {
+            showErrorMsg(code, json);
         }
         unlockViews();
     }
 
     private void beginRemoveLabel() {
-        String url = Global.HOST + String.format(URI_REMOVE_LABEL, ownerUser, projectName, currentLabelId);
-        deleteNetwork(url, "URI_REMOVE_LABEL");
+        deleteNetwork(labelUrl.removeLabel(currentLabelId), "URI_REMOVE_LABEL");
     }
 
     private void endRemoveLabel(int code, JSONObject json) {
@@ -211,11 +211,8 @@ public class TopicLabelActivity extends BackActivity {
 
     private void beginRenameLabel(String newName) {
         currentLabelName = newName;
-        String url = Global.HOST + String.format(URI_RENAME_LABEL, ownerUser, projectName, currentLabelId);
-        RequestParams body = new RequestParams();
-        body.put("name", newName);
-        body.put("color", COLOR);
-        putNetwork(url, body, "URI_RENAME_LABEL");
+        PostRequest postRename = labelUrl.renameLabel(currentLabelId, newName, COLOR);
+        putNetwork(postRename.url, postRename.params, "URI_RENAME_LABEL");
     }
 
     private void endRenameLabel(int code, JSONObject json) {
@@ -235,10 +232,8 @@ public class TopicLabelActivity extends BackActivity {
             endSaveTopicLabels();
         } else {
             if (lockViews()) {
-                String url = Global.HOST + String.format(URI_SAVE_TOPIC_LABELS, ownerUser, projectName, topicId);
-                RequestParams body = new RequestParams();
-                body.put("label_id", getIds(checkedIds));
-                postNetwork(url, body, "URI_SAVE_TOPIC_LABELS");
+                PostRequest postSave = labelUrl.saveTopic(checkedIds);
+                postNetwork(postSave.url, postSave.params, "URI_SAVE_TOPIC_LABELS");
             }
         }
     }
@@ -441,5 +436,9 @@ public class TopicLabelActivity extends BackActivity {
 
     private void onTopicLabelsChange() {
         updateCheckState();
+    }
+
+    public enum LabelType {
+        Topic, Task
     }
 }

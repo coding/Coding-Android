@@ -25,6 +25,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -459,6 +460,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mTaskPriority = convertView.findViewById(R.id.taskPriority);
                 holder.mTaskDes = convertView.findViewById(R.id.taskDes);
+                holder.flowLabelLayout = (FlowLabelLayout) convertView.findViewById(R.id.flowLayout);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -471,6 +473,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             holder.mTime.setText(Global.dayToNow(data.created_at));
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
+
+            holder.flowLabelLayout.setLabels(data.labels);
 
             final int pos = position;
 
@@ -593,6 +597,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             View mTaskPriority;
 
             View mTaskDes;
+
+            FlowLabelLayout flowLabelLayout;
         }
     }
 

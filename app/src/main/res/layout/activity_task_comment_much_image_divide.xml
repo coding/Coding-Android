@@ -3,50 +3,22 @@
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/stand_bg"
-    android:clickable="true">
-
+    android:background="@drawable/list_item_selector">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/task_list_item_icon"
-        android:layout_height="@dimen/task_list_item_icon"
-        android:layout_marginLeft="@dimen/padding_12"
-        android:layout_marginRight="@dimen/padding_12"
-        android:layout_marginTop="@dimen/padding_12"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_margin="12dp"
+        android:focusable="false"
         android:src="@drawable/ic_default_user" />
-
-    <View
-        android:id="@+id/timeLineUp"
-        android:layout_width="2dp"
-        android:layout_height="@dimen/padding_12"
-        android:layout_alignLeft="@id/icon"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="13dp"
-        android:background="@color/divide" />
-
-    <View
-        android:id="@+id/timeLineDown"
-        android:layout_width="2dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/include"
-        android:layout_alignEnd="@+id/timeLineUp"
-        android:layout_alignLeft="@id/icon"
-        android:layout_alignRight="@+id/timeLineUp"
-        android:layout_below="@id/icon"
-        android:layout_marginLeft="13dp"
-        android:background="@color/divide" />
-
 
     <LinearLayout
         android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/padding_12"
-        android:layout_marginTop="7dp"
+        android:layout_alignTop="@id/icon"
         android:layout_toRightOf="@+id/icon"
-        android:background="@drawable/ic_task_dynamic_comment_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -79,8 +51,10 @@
             android:visibility="visible" />
 
         <LinearLayout
+            android:id="@+id/layout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
@@ -108,13 +82,17 @@
                 android:textColor="@color/font_black_9"
                 android:textSize="12sp" />
         </LinearLayout>
+
+        <include
+            android:id="@+id/customDivide"
+            layout="@layout/divide_1" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/include"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/layout_1"
-        android:layout_marginTop="10dp" />
+    <!--<include-->
+    <!--layout="@layout/divide_1"-->
+    <!--android:layout_below="@id/layout_1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginTop="10dp" />-->
 
 </RelativeLayout>

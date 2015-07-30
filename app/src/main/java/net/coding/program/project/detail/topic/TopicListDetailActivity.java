@@ -1,4 +1,4 @@
-package net.coding.program.project.detail;
+package net.coding.program.project.detail.topic;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,10 +11,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -36,6 +38,10 @@ import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
+import net.coding.program.project.detail.TopicAddActivity_;
+import net.coding.program.project.detail.TopicLabelActivity;
+import net.coding.program.project.detail.TopicLabelActivity_;
+import net.coding.program.project.detail.TopicLabelBar;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -58,6 +64,7 @@ import java.util.List;
 @EActivity(R.layout.activity_topic_list_detail)
 public class TopicListDetailActivity extends BackActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
 
+    private static final String TAG_TOPIC_COMMENTS = "TAG_TOPIC_COMMENTS";
     final int RESULT_AT = 1;
     final int RESULT_EDIT = 2;
     final int RESULT_LABEL = 3;
@@ -79,7 +86,6 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     //    EnterLayout mEnterLayout;
     ImageCommentLayout mEnterComment;
     String owerGlobar = "";
-    String urlCommentList = Global.HOST_API + "/topic/%s/comments?pageSize=20";
     String urlCommentSend = HOST_COMMENT_SEND;
     String URI_DELETE_TOPIC_LABEL = Global.HOST_API + "/topic/%s/label/%s";
     String urlTopic = "";
@@ -126,6 +132,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     };
     MyImageGetter myImageGetter = new MyImageGetter(this);
     BaseAdapter baseAdapter = new BaseAdapter() {
+
         @Override
         public int getCount() {
             return mData.size();
@@ -145,7 +152,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         public View getView(int position, View convertView, ViewGroup parent) {
             ImageCommentHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image, parent, false);
+                convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_divide, parent, false);
                 holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
             } else {
@@ -154,6 +161,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
             TopicObject data = (TopicObject) getItem(position);
             holder.setContent(data);
+
+//            convertView.findViewById(R.id.customDivide)
 
             loadMore();
 
@@ -185,7 +194,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
     @Override
     public void loadMore() {
-        getNextPageNetwork(urlCommentList, urlCommentList);
+        getNextPageNetwork(topicObject.getHttpComments(), TAG_TOPIC_COMMENTS);
     }
 
     private void loadData() {
@@ -212,7 +221,6 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             mResultData.putExtra("topic", topicObject);
         }
         urlCommentSend = String.format(urlCommentSend, topicObject.project_id, topicObject.id);
-        urlCommentList = String.format(urlCommentList, topicObject.id);
 
         loadMore();
     }
@@ -313,7 +321,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     }
 
     void updateDisplayCommentCount() {
-        String commentCount = String.format("%d条评论", topicObject.child_count);
+        String commentCount = String.format("评论(%d)", topicObject.child_count);
         textViewCommentCount.setText(commentCount);
     }
 
@@ -345,6 +353,26 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();
 
+        Spinner spinner = (Spinner) mListHead.findViewById(R.id.spinner);
+        spinner.setAdapter(new TopicSortAdapter(this));
+        spinner.setSelection(0, true); // 一定要写，否则会自动调用一次 onItemSelected
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    topicObject.setSortOld(TopicObject.SORT_OLD);
+                } else {
+                    topicObject.setSortOld(TopicObject.SORT_NEW);
+                }
+                initSetting();
+                loadMore();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         mListHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -357,7 +385,10 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     }
 
     private void updateLabels(List<TopicLabelObject> labels) {
-        if (labelBar == null) labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        if (labelBar == null) {
+            labelBar = (TopicLabelBar) mListHead.findViewById(R.id.labelBar);
+        }
+
         labelBar.bind(labels, new TopicLabelBar.Controller() {
             @Override
             public boolean canShowLabels() {
@@ -372,9 +403,9 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             @Override
             public void onEditLabels(TopicLabelBar view) {
                 TopicLabelActivity_.intent(TopicListDetailActivity.this)
-                        .ownerUser(topicObject.project.owner_user_name)
-                        .projectName(topicObject.project.name)
-                        .topicId(topicObject.id)
+                        .labelType(TopicLabelActivity.LabelType.Topic)
+                        .projectPath(topicObject.project.getProjectPath())
+                        .id(topicObject.id)
                         .checkedLabels(topicObject.labels)
                         .startForResult(RESULT_LABEL);
             }
@@ -459,7 +490,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(urlCommentList)) {
+        if (tag.equals(TAG_TOPIC_COMMENTS)) {
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();

@@ -66,10 +66,11 @@ import java.util.List;
  */
 public class Global {
 
-    public static final String HOST = "https://coding.net";
-    public static final String HOST_API = HOST + "/api";
+    public static final String DEFAULT_HOST = "https://coding.net";
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
+    public static String HOST = DEFAULT_HOST;
+    public static String HOST_API = HOST + "/api";
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat MonthDayFormatTime = new SimpleDateFormat("MMMdd日");
     public static SimpleDateFormat WeekFormatTime = new SimpleDateFormat("EEE");

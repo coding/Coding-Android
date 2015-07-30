@@ -18,8 +18,10 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicObject;
+import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -124,6 +126,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
 
                 holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.flowLayout = (FlowLabelLayout) convertView.findViewById(R.id.flowLayout);
                 convertView.setTag(holder);
 
             } else {
@@ -141,6 +144,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
             holder.discuss.setText(String.format("%d", data.child_count));
 
+            holder.flowLayout.setLabels(data.labels);
+
             if (position == (getCount() - 1)) {
                 loadMore();
             }
@@ -148,6 +153,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             return convertView;
         }
     };
+
     private DropdownButtonsController dropdownButtonsController = new DropdownButtonsController();
 
     @AfterViews
@@ -339,6 +345,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         public TextView discuss;
         public TextView time;
         public TextView name;
+        public FlowLabelLayout flowLayout;
     }
 
     private class DropdownButtonsController implements DropdownListView.Container {

@@ -51,7 +51,7 @@ public class MergeDetail implements Serializable {
         return HtmlContent.parseReplacePhoto(content).text;
     }
 
-    public Merge.PostRequest getHttpMerge(String message, boolean delSrc) {
+    public PostRequest getHttpMerge(String message, boolean delSrc) {
         return merge_request.getHttpMerge(message, delSrc);
     }
 

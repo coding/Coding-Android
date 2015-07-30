@@ -2,6 +2,7 @@ package net.coding.program.project.detail;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
@@ -43,6 +44,19 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
+
+    @NonNull
+    public static StringBuilder getLabelsParam(List<TopicLabelObject> labels) {
+        StringBuilder pickLabels = new StringBuilder();
+        if (labels != null && labels.size() > 0) {
+            pickLabels.append(labels.get(0).id);
+            for (int i = 1; i < labels.size(); ++i) {
+                pickLabels.append(",");
+                pickLabels.append(labels.get(i).id);
+            }
+        }
+        return pickLabels;
+    }
 
     @AfterViews
     protected void initTopicAddActivity() {
@@ -132,9 +146,9 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     @Override
     public void onEditLabels(TopicLabelBar view) {
         TopicLabelActivity_.intent(this)
-                .ownerUser(projectObject.owner_user_name)
-                .projectName(projectObject.name)
-                .topicId(isNewTopic() ? null : topicObject.id)
+                .labelType(TopicLabelActivity.LabelType.Topic)
+                .projectPath(projectObject.getProjectPath())
+                .id(isNewTopic() ? 0 : topicObject.id)
                 .checkedLabels(modifyData != null ? modifyData.labels : isNewTopic() ? null : topicObject.labels)
                 .startForResult(RESULT_LABEL);
     }
@@ -190,18 +204,11 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
             return;
         }
 
-        StringBuilder labels = new StringBuilder();
-        if (modifyData.labels != null && modifyData.labels.size() > 0) {
-            for (TopicLabelObject item : modifyData.labels) {
-                labels.append(item.id + ",");
-            }
-            labels.deleteCharAt(labels.length() - 1);
-        }
-
+        StringBuilder pickLabels = getLabelsParam(modifyData.labels);
         RequestParams params = new RequestParams();
         params.put("title", titleString);
         params.put("content", contentString);
-        params.put("label", labels);
+        params.put("label", pickLabels);
 
         if (isNewTopic()) {
             postNetwork(url, params, HOST_TOPIC_NEW);
@@ -234,7 +241,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     }
 
     public static class TopicData implements Serializable {
-        public List<TopicLabelObject> labels;
+        public List<TopicLabelObject> labels = new ArrayList<>();
         public String title = "";
         public String content = "";
 

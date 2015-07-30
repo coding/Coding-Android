@@ -4,15 +4,17 @@
     android:layout_height="48dp"
     android:background="@color/white">
 
-    <TextView
+    <net.coding.program.common.widget.LabelTextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/labal_detail_height"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:gravity="center_vertical|left"
+        android:gravity="center"
+        android:paddingLeft="@dimen/labal_padding_left_right"
+        android:paddingRight="@dimen/labal_padding_left_right"
         android:text="bug"
-        android:textColor="@color/font_black_content"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/icon"
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:padding="10dp"
+        android:layout_marginRight="@dimen/padding_15"
         android:src="@drawable/ic_topic_label_unchecked" />
+
 </RelativeLayout>
