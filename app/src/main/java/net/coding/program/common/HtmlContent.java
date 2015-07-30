@@ -66,6 +66,10 @@ public class HtmlContent {
                 .replaceAll(REGX_EMOJI, ":$1:");
     }
 
+    public static String parseReplacePhotoMonkey(String s) {
+        return s.replaceAll(HtmlContent.REGX_MONKEY, REPLACE_PHOTO);
+    }
+
     public static String parseToText(String s) {
         return s.replaceAll(REGX_MONKEY, "[$1]")
                 .replaceAll(REGX_PHOTO, REPLACE_PHOTO)

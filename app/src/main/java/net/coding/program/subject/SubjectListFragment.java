@@ -1,6 +1,7 @@
 package net.coding.program.subject;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -65,8 +66,24 @@ public class SubjectListFragment extends RefreshBaseFragment {
         mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList, mMyImageGetter);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(onItemClickListener);
+        listView.setOnScrollListener(mOnScrollListener);
         loadMore();
     }
+
+    AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                loadMore();
+            }
+        }
+    };
 
 
     public enum Type {

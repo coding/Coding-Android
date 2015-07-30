@@ -32,7 +32,7 @@ public class SubjectSearchListAdapter extends BaseAdapter {
 
     private Html.ImageGetter mImageGetter;
 
-    public SubjectSearchListAdapter(Context context, List<Maopao.MaopaoObject> items,Html.ImageGetter imageGetter) {
+    public SubjectSearchListAdapter(Context context, List<Maopao.MaopaoObject> items, Html.ImageGetter imageGetter) {
         this.mContext = context;
         this.maopaoObjectItems = items;
         this.mImageGetter = imageGetter;
@@ -78,7 +78,7 @@ public class SubjectSearchListAdapter extends BaseAdapter {
         if (maopaoObjectItems != null && position >= 0 && position < maopaoObjectItems.size()) {
             Maopao.MaopaoObject maopaoObject = maopaoObjectItems.get(position);
             if (maopaoObject != null) {
-                Global.MessageParse parse = HtmlContent.parseMessage(maopaoObject.content);
+                Global.MessageParse parse = HtmlContent.parseMessage(HtmlContent.parseReplacePhotoMonkey(maopaoObject.content));
                 viewHolder.content.setText(Global.changeHyperlinkColor(parse.text, mImageGetter, Global.tagHandler));
                 viewHolder.likeCountView.setText(String.valueOf(maopaoObject.likes));
                 if (maopaoObject.owner != null && !TextUtils.isEmpty(maopaoObject.owner.avatar))
