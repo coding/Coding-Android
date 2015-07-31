@@ -17,7 +17,7 @@ public class HtmlContent {
     private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";
     private static final String REGX_EMOJI = "<img class=\"emotion emoji\" src=\".*?\" title=\"(.*?)\">";
 
-    private static final String REGX_NET_PHOTO = "<img.*?>";
+    private static final String REGX_NET_PHOTO = "<img.*?alt=\"‘图片’\">";
 
     private static final String REGX_CODE = "(<pre>)?<code(.*\\n)*</code>(</pre>)?";
 
@@ -70,13 +70,10 @@ public class HtmlContent {
     }
 
     public static String parseReplacePhotoMonkey(String s) {
-        Log.d("replace_before", s);
         String replaceImage = s.replaceAll(REGX_MONKEY, REPLACE_PHOTO);
-        Log.d("replace_monkey", replaceImage);
         replaceImage = replaceImage.replaceAll(REGX_PHOTO, REPLACE_PHOTO);
         replaceImage = replaceImage.replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
         replaceImage = replaceImage.replaceAll(REGX_NET_PHOTO, REPLACE_PHOTO);
-        Log.d("replace_photo", replaceImage);
         return replaceImage;
         //return s.replaceAll(HtmlContent.REGX_MONKEY, REPLACE_PHOTO).replaceAll(REGX_PHOTO, REPLACE_PHOTO)
         //      .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
