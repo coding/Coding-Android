@@ -16,7 +16,7 @@
     <net.coding.program.subject.loop.AutoScrollLoopViewPager
         android:id="@+id/loop_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="86dp"></net.coding.program.subject.loop.AutoScrollLoopViewPager>
+        android:layout_height="120dp"></net.coding.program.subject.loop.AutoScrollLoopViewPager>
 
     <FrameLayout
         android:layout_width="match_parent"

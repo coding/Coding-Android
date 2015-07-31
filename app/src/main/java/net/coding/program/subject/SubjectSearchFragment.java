@@ -1,16 +1,20 @@
 package net.coding.program.subject;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.adapter.SubjectSearchListAdapter;
@@ -44,6 +48,9 @@ public class SubjectSearchFragment extends BaseFragment {
 
     private TextView mSearchResultView;
 
+    private MyImageGetter myImageGetter;
+
+
     // 当前的搜索条件
     private String mCondition = "";
     // 热门话题列表的数据
@@ -58,9 +65,11 @@ public class SubjectSearchFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        mSubjectSearchListAdapter = new SubjectSearchListAdapter(getActivity(), maopaoObjectList);
+        myImageGetter = new MyImageGetter(getActivity());
+        mSubjectSearchListAdapter = new SubjectSearchListAdapter(getActivity(), maopaoObjectList, myImageGetter);
         initSearchHeaderView();
         listView.setAdapter(mSubjectSearchListAdapter);
+        listView.setOnItemClickListener(mSubjectItemClickListener);
         notifyDataSetChange();
 
     }
@@ -104,5 +113,15 @@ public class SubjectSearchFragment extends BaseFragment {
             showResultView();
         }
     }
+
+    private AdapterView.OnItemClickListener mSubjectItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int pos = position - listView.getHeaderViewsCount();
+            if (pos >= 0 && pos < maopaoObjectList.size()) {
+                MaopaoDetailActivity_.intent(getActivity()).mMaopaoObject(maopaoObjectList.get(pos)).start();
+            }
+        }
+    };
 
 }

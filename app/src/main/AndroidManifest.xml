@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="70"
-    android:versionName="3.1">
+    android:versionCode="71"
+    android:versionName="3.1.1">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -163,6 +163,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" >
             <intent-filter>
+                <data
+                    android:host="coding.net"
+                    android:pathPattern="/.*"
+
+                    android:scheme="https" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -242,7 +253,7 @@
             android:label="@string/title_activity_about"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.detail.TopicListDetailActivity_"
+            android:name=".project.detail.topic.TopicListDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_topic_comment"
             android:screenOrientation="portrait"
@@ -337,6 +348,11 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".subject.SubjectNewActivity_"
+            android:icon="@drawable/ic_launcher"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".subject.SubjectUsersActivity_"
             android:icon="@drawable/ic_launcher"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -566,6 +582,16 @@
                     android:host="coding.net"
                     android:path="/activate"
                     android:scheme="https" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:host="m.coding.net"
+                    android:path="/activate"
+                    android:scheme="https" />
 
                 <action android:name="android.intent.action.VIEW" />
 
@@ -583,11 +609,13 @@
                     android:path="/user/resetPassword"
                     android:scheme="https" />
 
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
+
         </activity>
 
         <receiver android:name=".message.MessageReceiver" >

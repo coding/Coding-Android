@@ -1,10 +1,13 @@
 package net.coding.program.subject;
 
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.adapter.SubjectListItemAdapter;
@@ -47,6 +50,8 @@ public class SubjectListFragment extends RefreshBaseFragment {
     SubjectListItemAdapter mAdapter = null;
     private List<Subject.SubjectDescObject> mSubjectList = new ArrayList<Subject.SubjectDescObject>();
 
+    private MyImageGetter mMyImageGetter;
+
     @AfterViews
     protected void init() {
         initRefreshLayout();
@@ -56,10 +61,29 @@ public class SubjectListFragment extends RefreshBaseFragment {
         if (mType != Type.hot)
             mFootUpdate.init(listView, mInflater, this);
 
-        mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList);
+        mMyImageGetter = new MyImageGetter(getActivity());
+
+        mAdapter = new SubjectListItemAdapter(getActivity(), mSubjectList, mMyImageGetter);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(onItemClickListener);
+        listView.setOnScrollListener(mOnScrollListener);
         loadMore();
     }
+
+    AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                loadMore();
+            }
+        }
+    };
 
 
     public enum Type {
@@ -139,6 +163,16 @@ public class SubjectListFragment extends RefreshBaseFragment {
         }
         return tag;
     }
+
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int pos = position;
+            if (pos >= 0 && pos < mSubjectList.size()) {
+                SubjectDetailActivity_.intent(getActivity()).subjectDescObject(mSubjectList.get(pos)).start();
+            }
+        }
+    };
 
 }
 

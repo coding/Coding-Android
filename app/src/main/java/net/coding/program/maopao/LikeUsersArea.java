@@ -24,7 +24,7 @@ public class LikeUsersArea {
     Fragment fragment;
     Activity activity;
     View likeUsersAllLayout;
-    LinearLayout likeUsersLayout;
+    public LinearLayout likeUsersLayout;
 
     ImageLoadTool imageLoadTool;
     View.OnClickListener mOnClickUser;
@@ -133,7 +133,7 @@ public class LikeUsersArea {
         }
     }
 
-    void displayLikeUser() {
+    public void displayLikeUser() {
         Maopao.MaopaoObject data = (Maopao.MaopaoObject) likeUsersLayout.getTag(MaopaoListFragment.TAG_MAOPAO);
 
         if (data.likes == 0) {

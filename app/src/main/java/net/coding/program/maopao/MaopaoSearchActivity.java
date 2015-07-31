@@ -4,9 +4,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,7 +16,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SearchCache;
 import net.coding.program.model.Subject;
-import net.coding.program.subject.SubjectSearchFragment;
+import net.coding.program.subject.SubjectDetailActivity_;
 import net.coding.program.subject.SubjectSearchFragment_;
 import net.coding.program.subject.SubjectWallActivity_;
 import net.coding.program.subject.adapter.SubjectSearchHistoryListAdapter;
@@ -79,6 +79,7 @@ public class MaopaoSearchActivity extends BackActivity {
 
         mSearchHistoryListAdapter = new SubjectSearchHistoryListAdapter(this, mSearchHistoryList);
         emptyListView.setAdapter(mSearchHistoryListAdapter);
+        emptyListView.setOnItemClickListener(mHistoryItemClickListener);
 
         searchFragment = new SubjectSearchFragment_();
         getSupportFragmentManager().beginTransaction()
@@ -93,11 +94,7 @@ public class MaopaoSearchActivity extends BackActivity {
                     container.setVisibility(View.INVISIBLE);
                     mSearchData = "";
                 } else {
-                    mSearchData = s;
-                    emptyListView.setVisibility(View.INVISIBLE);
-                    container.setVisibility(View.VISIBLE);
-                    updateSearchResult();
-                    SearchCache.getInstance(MaopaoSearchActivity.this).add(mSearchData);
+                    search(s);
                 }
 
                 getSupportActionBar().setTitle(R.string.title_activity_search_project);
@@ -117,6 +114,14 @@ public class MaopaoSearchActivity extends BackActivity {
         });
 
         loadHotSubject();
+    }
+
+    private void search(String condition) {
+        mSearchData = condition;
+        emptyListView.setVisibility(View.INVISIBLE);
+        container.setVisibility(View.VISIBLE);
+        updateSearchResult();
+        SearchCache.getInstance(MaopaoSearchActivity.this).add(mSearchData);
     }
 
     @OptionsItem(android.R.id.home)
@@ -211,6 +216,8 @@ public class MaopaoSearchActivity extends BackActivity {
                 itemView = LayoutInflater.from(this).inflate(R.layout.subject_search_hot_topic_item, null);
                 textView = (TextView) itemView.findViewById(R.id.hot_tweet_item);
                 textView.setText("#" + descObject.name + "#");
+                textView.setTag(i);
+                textView.setOnClickListener(mHotTweetClickListener);
                 if (i == 0) {
                     textView.setBackground(getResources().getDrawable(R.drawable.round_green_corner));
                     textView.setTextColor(getResources().getColor(R.color.merge_green));
@@ -224,6 +231,27 @@ public class MaopaoSearchActivity extends BackActivity {
             }
         }
     }
+
+    private View.OnClickListener mHotTweetClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = Integer.valueOf(v.getTag().toString());
+            if (position >= 0 && position < mSubjectList.size()) {
+                SubjectDetailActivity_.intent(MaopaoSearchActivity.this).subjectDescObject(mSubjectList.get(position)).start();
+            }
+        }
+    };
+
+    private AdapterView.OnItemClickListener mHistoryItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int pos = position - emptyListView.getHeaderViewsCount();
+            if (pos >= 0 && pos < mSearchHistoryList.size()) {
+                String searchKey = mSearchHistoryList.get(pos);
+                editText.setQuery(searchKey, true);
+            }
+        }
+    };
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
@@ -241,7 +269,4 @@ public class MaopaoSearchActivity extends BackActivity {
         }
     };
 
-    private int getPxValue(float dipValue) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, getResources().getDisplayMetrics()) + 0.5f);
-    }
 }

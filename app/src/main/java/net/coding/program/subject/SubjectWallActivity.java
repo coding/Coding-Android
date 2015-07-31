@@ -1,14 +1,11 @@
 package net.coding.program.subject;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.BackActivity;
 import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 import net.coding.program.third.WechatTab;
@@ -54,7 +48,7 @@ public class SubjectWallActivity extends BaseActivity {
     private String mTweetAdUrl = Global.HOST_API + "/tweet_topic/marketing_ad";
     private String mTweetAdTag = "marketing_ad";
 
-    private List<Subject.TweetTopicAdObject> mHotTweetDescObjects = new ArrayList<>();
+    private List<Subject.SubjectDescObject> mHotTweetDescObjects = new ArrayList<>();
 
     @ViewById(R.id.loop_view_pager)
     AutoScrollLoopViewPager loopViewPager;
@@ -225,6 +219,7 @@ public class SubjectWallActivity extends BaseActivity {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start();
                 }
             });
             getImageLoad().loadImage(imageView, mHotTweetDescObjects.get(position).image_url);
@@ -285,10 +280,10 @@ public class SubjectWallActivity extends BaseActivity {
         if (mTweetAdTag.equals(tag)) {
             JSONArray dataArr = respanse.optJSONArray("data");
             if (dataArr != null) {
-                Subject.TweetTopicAdObject tweetDescObject = null;
+                Subject.SubjectDescObject tweetDescObject = null;
                 mHotTweetDescObjects.clear();
                 for (int i = 0; i < dataArr.length(); i++) {
-                    tweetDescObject = new Subject.TweetTopicAdObject(dataArr.optJSONObject(i));
+                    tweetDescObject = new Subject.SubjectDescObject(dataArr.optJSONObject(i));
                     mHotTweetDescObjects.add(tweetDescObject);
                 }
                 initLooperViewPager();

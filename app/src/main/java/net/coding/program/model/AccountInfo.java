@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 /**
  * Created by cc191954 on 14-8-7.
+ * 保存数据到本地，包括用户数据和全局数据.
  */
 public class AccountInfo {
 
@@ -43,8 +44,10 @@ public class AccountInfo {
     private static final String USER_TASKS = "USER_TASKS_%d_%d";
     private static final String USER_NO_SEND_MESSAGE = "USER_NO_SEND_MESSAGE";
     private static final String BACKGROUNDS = "BACKGROUNDS";
-    private static String FILE_PUSH = "FILE_PUSH";
-    private static String KEY_NEED_PUSH = "KEY_NEED_PUSH";
+    private static final String FILE_PUSH = "FILE_PUSH";
+    private static final String KEY_NEED_PUSH = "KEY_NEED_PUSH";
+
+    private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
 
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
@@ -403,6 +406,23 @@ public class AccountInfo {
         new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
     }
 
+    public static void saveCustomHost(Context context, CustomHost data) {
+        new DataCache<CustomHost>().saveGlobal(context, data, KEY_CUSTOM_HOST);
+    }
+
+    public static CustomHost getCustomHost(Context context) {
+        CustomHost host = new DataCache<CustomHost>().loadGlobalObject(context, KEY_CUSTOM_HOST);
+        if (host == null) {
+            host = new CustomHost();
+        }
+
+        return host;
+    }
+
+    public static void removeCustomHost(Context context) {
+        new DataCache<String>().deleteGlobal(context, KEY_CUSTOM_HOST);
+    }
+
     public static void removeNoSendMessage(Context context, long createTime) {
         ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
         for (int i = 0; i < allMessages.size(); ++i) {
@@ -484,11 +504,24 @@ public class AccountInfo {
             save(ctx, data, name, FILDER_GLOBAL);
         }
 
-        public void delete(Context ctx, String name) {
-            File file = new File(ctx.getFilesDir(), name);
+        private void deleteFile(File folder, String name) {
+            File file = new File(folder, name);
             if (file.exists()) {
                 file.delete();
             }
+        }
+
+        public void delete(Context ctx, String name) {
+            deleteFile(ctx.getFilesDir(), name);
+        }
+
+        public void deleteGlobal(Context ctx, String name) {
+            File globalFolder = new File(ctx.getFilesDir(), FILDER_GLOBAL);
+            if (!globalFolder.exists()) {
+                return;
+            }
+
+            deleteFile(globalFolder, name);
         }
 
         private void save(Context ctx, Object data, String name, String folder) {
@@ -588,6 +621,27 @@ public class AccountInfo {
             }
 
             return data;
+        }
+    }
+
+    public static class CustomHost implements Serializable {
+        private String host = "";
+        private String code = "";
+
+        public CustomHost() {
+        }
+
+        public CustomHost(String host, String code) {
+            this.host = host;
+            this.code = code;
+        }
+
+        public String getHost() {
+            return host;
+        }
+
+        public String getCode() {
+            return code;
         }
     }
 
