@@ -247,16 +247,15 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
                 holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
 
-
                 View[] divides = new View[commentsId.length];
                 for (int i = 0; i < commentsId.length; ++i) {
                     divides[i] = convertView.findViewById(commentsId[i]).findViewById(R.id.commentTopDivider);
                 }
                 holder.divides = divides;
 
-                convertView.setTag(holder);
+                convertView.setTag(R.id.MaopaoItem, holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag(R.id.MaopaoItem);
             }
 
             final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
@@ -407,11 +406,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     @AfterViews
     protected void init() {
         initRefreshLayout();
+        initImageWidth();
 
-        // 图片显示，单位为 dp
-        // 62 photo 3 photo 3 photo 34
-        final int divide = 3;
-        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
 
         mData = AccountInfo.loadMaopao(getActivity(), mType.toString(), userId);
 
@@ -525,6 +521,15 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(getActivity(), this, RESULT_AT));
         mEnterLayout.hide();
+    }
+
+    private void initImageWidth() {
+        // 图片显示，单位为 dp
+        // 62 photo 3 photo 3 photo 34
+        final int divide = 3;
+        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
+        int pxPadding = getResources().getDimensionPixelSize(R.dimen.padding_12);
+        mPxImageWidth = (MyApp.sWidthPix - pxPadding * 2 - Global.dpToPx(divide) * 2) / 3;
     }
 
     private void addDoubleClickActionbar() {
