@@ -48,9 +48,11 @@ public class ProjectHomeActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mProjectObject != null) {
             initFragment();
-        } else {
+        } else if (mJumpParam != null) {
             mProjectUrl = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
             getNetwork(mProjectUrl, mProjectUrl);
+        } else {
+            finish();
         }
     }
 

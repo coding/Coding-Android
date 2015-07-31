@@ -102,6 +102,7 @@
     <string name="title_activity_user_active">用户激活</string>
     <string name="maopao_load_fail">冒泡载入失败</string>
     <string name="maopao_load_fail_comment">冒泡载入失败，不能发送评论</string>
+    <string name="maopao_load_fail_like">冒泡载入失败，不能点赞</string>
     <string name="title_activity_project_create">创建项目</string>
     <string name="title_activity_project_type">项目类型</string>
     <string name="title_activity_project_set">项目设置</string>
