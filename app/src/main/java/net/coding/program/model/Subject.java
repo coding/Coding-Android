@@ -34,6 +34,8 @@ public class Subject {
             id = json.optInt("id");
             watched = json.optBoolean("watched");
             speackers = json.optInt("speackers");
+            if(speackers == 0)
+                speackers = json.optInt("speakers");
             watchers = json.optInt("watchers");
             count = json.optInt("count");
             image_url = json.optString("image_url");
