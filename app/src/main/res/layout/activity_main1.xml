@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+    <net.coding.program.third.MyQRCodeReaderView
         android:id="@+id/qrdecoderview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
