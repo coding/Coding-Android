@@ -78,8 +78,8 @@ public class SubjectSearchListAdapter extends BaseAdapter {
         if (maopaoObjectItems != null && position >= 0 && position < maopaoObjectItems.size()) {
             Maopao.MaopaoObject maopaoObject = maopaoObjectItems.get(position);
             if (maopaoObject != null) {
-                Global.MessageParse parse = HtmlContent.parseMessage(HtmlContent.parseReplacePhotoMonkey(maopaoObject.content));
-                viewHolder.content.setText(Global.changeHyperlinkColor(parse.text, mImageGetter, Global.tagHandler));
+                Global.MessageParse parse = HtmlContent.parseMessage(maopaoObject.content);
+                viewHolder.content.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(parse.text), mImageGetter, Global.tagHandler));
                 viewHolder.likeCountView.setText(String.valueOf(maopaoObject.likes));
                 if (maopaoObject.owner != null && !TextUtils.isEmpty(maopaoObject.owner.avatar))
                     mImageLoadTool.loadImage(viewHolder.userIconView, maopaoObject.owner.avatar);

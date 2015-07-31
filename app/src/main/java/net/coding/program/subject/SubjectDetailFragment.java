@@ -582,7 +582,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 case R.id.subject_detail_follow_btn:
                     if (subjectDescObject != null) {
                         if (subjectDescObject.watched) {
-                            postNetwork(String.format(topicUnWatchUrl, subjectDescObject.id), null, topicUnWatchUrl);
+                            deleteNetwork(String.format(topicUnWatchUrl, subjectDescObject.id), topicUnWatchUrl);
                         } else {
                             postNetwork(String.format(topicWatchUrl, subjectDescObject.id), null, topicWatchUrl);
                         }

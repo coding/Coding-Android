@@ -68,8 +68,8 @@ public class SubjectListItemAdapter extends BaseAdapter {
             Subject.SubjectDescObject subjectDescObject = subjectItems.get(position);
             if (subjectDescObject != null) {
                 viewHolder.title.setText("#" + subjectDescObject.name + "#");
-                Global.MessageParse parse = HtmlContent.parseMessage(HtmlContent.parseReplacePhotoMonkey(subjectDescObject.hot_tweet.content));
-                viewHolder.desc.setText(Global.changeHyperlinkColor(parse.text, mImageGetter, Global.tagHandler));
+                Global.MessageParse parse = HtmlContent.parseMessage(subjectDescObject.hot_tweet.content);
+                viewHolder.desc.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(parse.text), mImageGetter, Global.tagHandler));
                 viewHolder.peopleCount.setText(subjectDescObject.speackers + "人参与");
             }
         }
