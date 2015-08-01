@@ -22,9 +22,24 @@
         <item>TA收藏的</item>
     </string-array>
 
+    <string-array name="user_my_topic_title">
+        <item>我关注的</item>
+        <item>我参与的</item>
+    </string-array>
+
+    <string-array name="user_other_topic_title">
+        <item>他关注的</item>
+        <item>他参与的</item>
+    </string-array>
+
     <string-array name="user_me_program_title">
         <item>我参与的</item>
         <item>我收藏的</item>
+    </string-array>
+
+    <string-array name="topic_action_types">
+        <item>热门话题</item>
+        <item>我的话题</item>
     </string-array>
 
     <string-array name="maopao_action_types">

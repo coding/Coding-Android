@@ -24,6 +24,8 @@
     <string name="title_activity_location_edit">创建位置</string>
     <string name="title_activity_location_detail">详情</string>
     <string name="title_activity_location_map">位置信息</string>
+    <string name="title_activity_maopao_search">搜索</string>
+    <string name="title_activity_subject_wall">话题墙</string>
     <string name="title_activity_users">用户列表</string>
     <string name="title_activity_add_follow">添加关注</string>
     <string name="title_activity_user_detail">好友详情</string>

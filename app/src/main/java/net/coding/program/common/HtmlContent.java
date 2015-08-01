@@ -1,11 +1,12 @@
 package net.coding.program.common;
 
+import android.util.Log;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by chaochen on 14-10-25.
- *
  */
 public class HtmlContent {
 
@@ -15,6 +16,8 @@ public class HtmlContent {
 
     private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";
     private static final String REGX_EMOJI = "<img class=\"emotion emoji\" src=\".*?\" title=\"(.*?)\">";
+
+    private static final String REGX_NET_PHOTO = "<img.*?alt=\"‘图片’\">";
 
     private static final String REGX_CODE = "(<pre>)?<code(.*\\n)*</code>(</pre>)?";
 
@@ -64,6 +67,16 @@ public class HtmlContent {
 
         return replaceImage.replaceAll(REGX_MONKEY, ":$1:")
                 .replaceAll(REGX_EMOJI, ":$1:");
+    }
+
+    public static String parseReplacePhotoMonkey(String s) {
+        String replaceImage = s.replaceAll(REGX_MONKEY, REPLACE_PHOTO);
+        replaceImage = replaceImage.replaceAll(REGX_PHOTO, REPLACE_PHOTO);
+        replaceImage = replaceImage.replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
+        replaceImage = replaceImage.replaceAll(REGX_NET_PHOTO, REPLACE_PHOTO);
+        return replaceImage;
+        //return s.replaceAll(HtmlContent.REGX_MONKEY, REPLACE_PHOTO).replaceAll(REGX_PHOTO, REPLACE_PHOTO)
+        //      .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
     }
 
     public static String parseToText(String s) {

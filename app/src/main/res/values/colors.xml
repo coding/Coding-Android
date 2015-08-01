@@ -24,6 +24,8 @@
     <drawable name="black">#ff000000</drawable>
     <color name="black">#ff000000</color>
 
+    <color name="gray_dark">#f0f0f0</color>
+
     <color name="font_green_1">#ff09b058</color>
     <color name="font_green">#ff3bbd79</color>
     <color name="font_black_0">#000000</color>
@@ -40,6 +42,8 @@
     <color name="task_list_head">#ffe4e4e4</color>
     <color name="divide">#ffeeeeee</color>
     <color name="divide_line">#ffdddddd</color>
+
+    <color name="search_divide_color">#e3e3e3</color>
 
     <drawable name="system_divide">#ffdddddd</drawable>
 

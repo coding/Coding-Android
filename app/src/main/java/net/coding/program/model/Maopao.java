@@ -32,6 +32,7 @@ public class Maopao {
         public String location = "";
         public String coord = "";
         public String address = "";
+        public boolean isTop = false;
 
         public MaopaoObject(JSONObject json) throws JSONException {
             activity_id = json.optString("activity_id");
@@ -68,6 +69,16 @@ public class Maopao {
             location = json.optString("location");
             coord = json.optString("coord");
             address = json.optString("address");
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if( o instanceof MaopaoObject){
+                if(this.id == ((MaopaoObject) o).id){
+                    return true;
+                }
+            }
+            return super.equals(o);
         }
     }
 

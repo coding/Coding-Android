@@ -37,6 +37,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.PhotoOperate;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
@@ -47,6 +48,9 @@ import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
+import net.coding.program.subject.SubjectCreateActivity;
+import net.coding.program.subject.SubjectNewActivity;
+import net.coding.program.subject.SubjectNewActivity_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -68,6 +72,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
     public static final int PHOTO_MAX_COUNT = 6;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
+    public static final int RESULT_REQUEST_TOPIC = 1008;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final int RESULT_REQUEST_PHOTO = 1005;
     public static final int RESULT_REQUEST_LOCATION = 1006;
@@ -235,7 +240,15 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
         locationText.setText(currentLocation.name);
 
+        setPopTopicIconShow();
+
         Global.popSoftkeyboard(this, message, false);
+    }
+
+    private void setPopTopicIconShow() {
+        int icon = RedPointTip.show(this, RedPointTip.Type.Topic) ?
+                R.drawable.pop_topic_red_point : R.drawable.pop_topic;
+        ((ImageView) findViewById(R.id.popTopic)).setImageResource(icon);
     }
 
     private void startPhotoPickActivity() {
@@ -345,6 +358,14 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
                 mEnterLayout.insertText("@" + name);
+            }
+        } else if (requestCode == RESULT_REQUEST_TOPIC) {
+            if (resultCode == RESULT_OK) {
+                String topicName = data.getStringExtra("topic_name");
+                if (!TextUtils.isEmpty(topicName) && message != null) {
+                    message.setText(topicName);
+                    message.setSelection(topicName.length());
+                }
             }
 
         } else {
@@ -565,6 +586,16 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
     @Click
     protected final void popAt() {
         TextWatcherAt.startActivityAt(this, this, RESULT_REQUEST_FOLLOW);
+    }
+
+    @Click
+    protected final void popTopic() {
+        if (RedPointTip.show(this, RedPointTip.Type.Topic)) {
+            RedPointTip.markUsed(this, RedPointTip.Type.Topic);
+            setPopTopicIconShow();
+        }
+        Intent intent = new Intent(this, SubjectNewActivity_.class);
+        startActivityForResult(intent, RESULT_REQUEST_TOPIC);
     }
 
     public static class PhotoData {

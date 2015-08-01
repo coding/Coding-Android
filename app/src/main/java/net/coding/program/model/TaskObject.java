@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class TaskObject {
 
     public static class Members implements Serializable {
-        public static final int MEMBER_TYPE_OWNER = 100;
+        public static final int MEMBER_TYPE_OWNER = 100;public long created_at;
         public static final int MEMBER_TYPE_MEMBER = 80;
-        public long created_at;
+
         public int id;
         public long last_visit_at;
         public int project_id;

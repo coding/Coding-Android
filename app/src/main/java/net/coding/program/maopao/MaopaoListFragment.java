@@ -50,6 +50,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -62,6 +64,7 @@ import java.util.Calendar;
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
 @EFragment(R.layout.fragment_maopao_list)
+@OptionsMenu(R.menu.menu_fragment_maopao)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
@@ -399,6 +402,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
 
     };
+
+    @OptionsItem
+    void action_search() {
+        MaopaoSearchActivity_.intent(this).start();
+        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -905,4 +914,5 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             needEdit = false;
         }
     }
+
 }
