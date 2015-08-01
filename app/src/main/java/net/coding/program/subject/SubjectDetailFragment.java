@@ -231,10 +231,10 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.fragment_maopao_list_item, parent, false);
 
+                holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
+
                 holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
                 holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
-
-                holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
 
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.icon.setOnClickListener(mOnClickUser);
@@ -266,16 +266,15 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
                 holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
 
-
                 View[] divides = new View[commentsId.length];
                 for (int i = 0; i < commentsId.length; ++i) {
                     divides[i] = convertView.findViewById(commentsId[i]).findViewById(R.id.commentTopDivider);
                 }
                 holder.divides = divides;
 
-                convertView.setTag(holder);
+                convertView.setTag(R.id.MaopaoItem, holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag(R.id.MaopaoItem);
             }
 
             final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
@@ -344,7 +343,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             } else {
                 holder.maopaoDelete.setVisibility(View.INVISIBLE);
             }
-
 
             holder.commentArea.displayContentData(data);
 
@@ -520,7 +518,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
     private void fillHeaderViewData() {
         if (subjectDescObject != null) {
-            mSubjectNameTv.setText(subjectDescObject.name);
+            mSubjectNameTv.setText("#" + subjectDescObject.name + "#");
             mSubjectDescTv.setText(String.format("%s人参与/%s人关注", subjectDescObject.speackers, subjectDescObject.watchers));
             // 更新topic的关注状态
             updateTopicFollowState();
@@ -725,7 +723,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 JSONArray jsonArray = respanse.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(jsonArray.getJSONObject(i));
-                    mData.add(item);
+                    if (item.id != id)
+                        mData.add(item);
                 }
 
                 ArrayList<Maopao.MaopaoObject> mSaveData = new ArrayList<>();
@@ -767,16 +766,27 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             }
         } else if (tag.equals(maopaoUrlTopFormat)) {
             if (code == 0) {
-                if (id == UPDATE_ALL_INT) {
-                    mData.clear();
-                }
-
                 JSONObject json = respanse.optJSONObject("data");
                 if (json != null) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
-                    mData.add(item);
-                    id = item.id;
+                    item.isTop = true;
+                    if (id == UPDATE_ALL_INT) {
+                        mData.clear();
+                        mData.add(0, item);
+                        id = item.id;
+                    } else {
+                        if (!mData.contains(item))
+                            mData.add(0, item);
+                        else {
+                            int index = mData.indexOf(item);
+                            item = mData.remove(index);
+                            item.isTop = true;
+                            mData.add(0, item);
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
+
             }
         } else if (tag.equals(URI_COMMENT)) {
             showProgressBar(false);
