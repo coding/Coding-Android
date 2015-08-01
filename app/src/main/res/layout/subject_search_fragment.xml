@@ -10,6 +10,8 @@
         android:background="@color/divide"
         android:clipToPadding="false"
         android:drawSelectorOnTop="true"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:overScrollMode="never"
         android:scrollbarStyle="outsideOverlay"
         android:visibility="visible" />
