@@ -70,6 +70,16 @@ public class Maopao {
             coord = json.optString("coord");
             address = json.optString("address");
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if( o instanceof MaopaoObject){
+                if(this.id == ((MaopaoObject) o).id){
+                    return true;
+                }
+            }
+            return super.equals(o);
+        }
     }
 
     public static class Comment extends BaseComment implements Serializable {

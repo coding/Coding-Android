@@ -6,6 +6,7 @@ import net.coding.program.R;
 
 /**
  * Created by chaochen on 14-10-7.
+ * 封装了下拉刷新
  */
 public abstract class RefreshBaseFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -14,12 +15,12 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    protected final void setRefreshing(boolean refreshing) {
-        swipeRefreshLayout.setRefreshing(refreshing);
-    }
-
     protected final boolean isRefreshing() {
         return swipeRefreshLayout.isRefreshing();
+    }
+
+    protected final void setRefreshing(boolean refreshing) {
+        swipeRefreshLayout.setRefreshing(refreshing);
     }
 
     protected final void initRefreshLayout() {
@@ -30,5 +31,9 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
 
     protected final void disableRefreshing() {
         swipeRefreshLayout.setEnabled(false);
+    }
+
+    protected final void enableSwipeRefresh(boolean enable) {
+        swipeRefreshLayout.setEnabled(enable);
     }
 }

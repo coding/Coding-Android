@@ -48,6 +48,7 @@ public class AccountInfo {
     private static final String KEY_NEED_PUSH = "KEY_NEED_PUSH";
 
     private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
+    private static final String KEY_MAOPAO_BANNER = "KEY_MAOPAO_BANNER";
 
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
@@ -421,6 +422,14 @@ public class AccountInfo {
 
     public static void removeCustomHost(Context context) {
         new DataCache<String>().deleteGlobal(context, KEY_CUSTOM_HOST);
+    }
+
+    public static void saveMaopaoBanners(Context context, ArrayList<BannerObject> data) {
+        new DataCache<BannerObject>().saveGlobal(context, data, KEY_MAOPAO_BANNER);
+    }
+
+    public static ArrayList<BannerObject> getMaopaoBanners(Context context) {
+        return new DataCache<BannerObject>().loadGlobal(context, KEY_MAOPAO_BANNER);
     }
 
     public static void removeNoSendMessage(Context context, long createTime) {

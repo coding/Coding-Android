@@ -61,6 +61,8 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
+    Maopao.MaopaoObject mMaopaoObjectOld;
+
     @Extra
     ClickParam mClickParam;
     @ViewById
@@ -198,10 +200,12 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         loadData();
     }
 
+
     @Override
     public void onRefresh() {
         if (mMaopaoObject != null) {
             mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+            mMaopaoObjectOld = mMaopaoObject;
             mMaopaoObject = null;
         }
 
@@ -308,6 +312,11 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mMaopaoObject == null) {
+                    showMiddleToast(R.string.maopao_load_fail_like);
+                    return;
+                }
+
                 String type = ((CheckBox) v).isChecked() ? "like" : "unlike";
                 String uri = String.format(HOST_GOOD, mMaopaoObject.id, type);
 
@@ -444,6 +453,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
                 mMaopaoObject = new Maopao.MaopaoObject(respanse.getJSONObject("data"));
                 initData();
             } else {
+                mMaopaoObject = mMaopaoObjectOld;
                 swipeRefreshLayout.setRefreshing(false);
                 showErrorMsg(code, respanse);
             }
