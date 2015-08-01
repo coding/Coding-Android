@@ -41,7 +41,6 @@ dependencies {
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
-    compile 'org.apmem.tools:layouts:1.8@aar'
     compile 'com.prolificinteractive:parallaxpager:2.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.0.1'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
