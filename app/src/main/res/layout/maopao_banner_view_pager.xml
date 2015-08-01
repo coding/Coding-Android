@@ -16,14 +16,19 @@
         android:paddingRight="@dimen/padding_12">
 
         <TextView
+            android:id="@+id/bannerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="活动" />
+            android:background="@drawable/round_rect_edge"
+            android:text="活动"
+            android:textColor="@color/font_black_6"
+            android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/bannerTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"

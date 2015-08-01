@@ -4,7 +4,7 @@
         android:left="@dimen/labal_padding_left_right"
         android:right="@dimen/labal_padding_left_right" />
     <stroke
-        android:width="0.3dp"
+        android:width="1dp"
         android:color="#b5b5b5" />
     <corners
         android:bottomLeftRadius="2dp"
