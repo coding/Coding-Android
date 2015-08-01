@@ -5,12 +5,12 @@
               android:orientation="vertical">
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/maopao_item_top"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:paddingLeft="@dimen/padding_12"
-        android:paddingRight="@dimen/padding_12">
+        android:paddingRight="@dimen/padding_12"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +22,11 @@
             android:textColor="@color/font_black_2"
             android:textSize="14sp"/>
 
-        <include layout="@layout/divide_1"></include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divide_line"></View>
     </RelativeLayout>
 
     <LinearLayout
@@ -337,4 +341,6 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <include layout="@layout/divide_1"></include>
 </LinearLayout>
