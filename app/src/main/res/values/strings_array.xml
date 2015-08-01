@@ -13,6 +13,9 @@
         <item>我参与的</item>
         <item>我创建的</item>
     </string-array>
+    <string-array name="program_title_pick">
+        <item>全部项目</item>
+    </string-array>
 
     <string-array name="user_program_title">
         <item>TA参与的</item>
