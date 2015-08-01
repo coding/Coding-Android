@@ -725,8 +725,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 JSONArray jsonArray = respanse.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(jsonArray.getJSONObject(i));
-                    if (item.id != id)
-                        mData.add(item);
+                    mData.add(item);
                 }
 
                 ArrayList<Maopao.MaopaoObject> mSaveData = new ArrayList<>();
@@ -768,20 +767,16 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             }
         } else if (tag.equals(maopaoUrlTopFormat)) {
             if (code == 0) {
+                if (id == UPDATE_ALL_INT) {
+                    mData.clear();
+                }
+
                 JSONObject json = respanse.optJSONObject("data");
                 if (json != null) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
-                    item.isTop = true;
-                    if (id == UPDATE_ALL_INT) {
-                        mData.clear();
-                        mData.add(0, item);
-                        id = item.id;
-                    } else {
-                        mData.add(0, item);
-                        mAdapter.notifyDataSetChanged();
-                    }
+                    mData.add(item);
+                    id = item.id;
                 }
-
             }
         } else if (tag.equals(URI_COMMENT)) {
             showProgressBar(false);
