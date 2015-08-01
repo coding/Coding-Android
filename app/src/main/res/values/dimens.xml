@@ -88,5 +88,7 @@
     <dimen name="labal_padding_left_right">4dp</dimen>
     <dimen name="labal_detail_height">22dp</dimen>
     <dimen name="labal_detail_font">12sp</dimen>
+    <dimen name="label_list_item_merge_right">6dp</dimen>
+    <dimen name="label_list_item_padding_left">3dp</dimen>
 
 </resources>

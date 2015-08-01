@@ -59,6 +59,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
@@ -448,12 +450,16 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             final ArrayList<BannerObject> banners = AccountInfo.getMaopaoBanners(getActivity());
             if (!banners.isEmpty()) {
                 View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
-                ViewPager banner = (ViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
+                AutoScrollViewPager banner = (AutoScrollViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
                 ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
                 layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
                 banner.setLayoutParams(layoutParams);
                 BannerAdapter bannerAdapter = new BannerAdapter(getChildFragmentManager(), banners);
                 banner.setAdapter(bannerAdapter);
+                banner.startAutoScroll(10 * 1000);
+                banner.setScrollDurationFactor(2);
+
+                banner.setSlideBorderMode(AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE);
 
                 final IndicatorView bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);
                 bannerIndicator.setCount(banners.size(), 0);

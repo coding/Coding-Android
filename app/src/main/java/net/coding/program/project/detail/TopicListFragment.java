@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.FootUpdate;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -144,7 +145,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
             holder.discuss.setText(String.format("%d", data.child_count));
 
-            holder.flowLayout.setLabels(data.labels);
+            int flowWidth = MyApp.sWidthPix - Global.dpToPx(66 + 12);
+            holder.flowLayout.setLabels(data.labels, flowWidth);
 
             if (position == (getCount() - 1)) {
                 loadMore();
@@ -331,7 +333,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         if (dropdownLabel.current != null && !TextUtils.isEmpty(dropdownLabel.current.value)) {
             url += "&labelId=" + dropdownLabel.current.value;
         }
-        return url.toString();
+        return url;
     }
 
     @Click
