@@ -364,6 +364,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
                 String topicName = data.getStringExtra("topic_name");
                 if (!TextUtils.isEmpty(topicName) && message != null) {
                     message.setText(topicName);
+                    message.setSelection(topicName.length());
                 }
             }
 

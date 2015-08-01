@@ -78,6 +78,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
     final String maopaoUrlFormat = Global.HOST_API + "/public_tweets/topic/%s?last_id=%s&sort=new";
     final String maopaoUrlFirstFormat = Global.HOST_API + "/public_tweets/topic/%s?&sort=new";
     final String maopaoUrlTopFormat = Global.HOST_API + "/public_tweets/topic/%s/top";
+    final String maopaoUrlHotJoinedFormat = Global.HOST_API + "/tweet_topic/%s/hot_joined";
 
     final String topicWatchUrl = Global.HOST_API + "/tweet_topic/%s/watch";
     final String topicUnWatchUrl = Global.HOST_API + "/tweet_topic/%s/unwatch";
@@ -438,7 +439,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
         initHeaderView();
         fillHeaderViewData();
-        fillUserAvatarData();
         listView.addHeaderView(mListHeaderView);
 
         // 图片显示，单位为 dp
@@ -462,6 +462,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         listView.setAdapter(mAdapter);
         if (subjectDescObject != null) {
             getNetwork(String.format(maopaoUrlTopFormat, subjectDescObject.id), maopaoUrlTopFormat);
+            getNetwork(String.format(maopaoUrlHotJoinedFormat, subjectDescObject.id), maopaoUrlHotJoinedFormat);
         }
         getNetwork(createUrl(), maopaoUrlFormat);
 
@@ -531,29 +532,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 mFollowTv.setBackgroundResource(R.drawable.topic_unfollow);
             else
                 mFollowTv.setBackgroundResource(R.drawable.topic_follow);
-        }
-    }
-
-    private void fillUserAvatarData() {
-        if (subjectDescObject != null && subjectDescObject.user_list != null && subjectDescObject.user_list.size() > 0) {
-            CircleImageView circleImageView = null;
-            UserObject userObject = null;
-            FlowLayout.LayoutParams layoutParams = null;
-            int countLimit = getUserAvatarCount();
-            int size = countLimit > subjectDescObject.user_list.size() ? subjectDescObject.user_list.size() : countLimit;
-            for (int i = 0; i < size; i++) {
-                userObject = subjectDescObject.user_list.get(i);
-                circleImageView = new CircleImageView(getActivity());
-                circleImageView.setTag(userObject.global_key);
-                circleImageView.setOnClickListener(mOnClickUser);
-                layoutParams = new FlowLayout.LayoutParams(getPxValue(40f), getPxValue(40f));
-                layoutParams.weight = 1;
-                layoutParams.newLine = false;
-                layoutParams.setMargins(10, 0, 10, 0);
-                circleImageView.setLayoutParams(layoutParams);
-                iconfromNetwork(circleImageView, userObject.avatar);
-                mAllJoinedPeopleLayout.addView(circleImageView);
-            }
         }
     }
 
@@ -784,6 +762,31 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                             mData.add(0, item);
                         }
                         mAdapter.notifyDataSetChanged();
+                    }
+                }
+
+            }
+        } else if (tag.equals(maopaoUrlHotJoinedFormat)) {
+            if (code == 0) {
+                JSONArray json = respanse.optJSONArray("data");
+                if (json != null) {
+                    CircleImageView circleImageView = null;
+                    UserObject userObject = null;
+                    FlowLayout.LayoutParams layoutParams = null;
+                    int countLimit = getUserAvatarCount();
+                    int size = countLimit > json.length() ? json.length() : countLimit;
+                    for (int i = 0; i < size; i++) {
+                        userObject = new UserObject(json.optJSONObject(i));
+                        circleImageView = new CircleImageView(getActivity());
+                        circleImageView.setTag(userObject.global_key);
+                        circleImageView.setOnClickListener(mOnClickUser);
+                        layoutParams = new FlowLayout.LayoutParams(getPxValue(40f), getPxValue(40f));
+                        layoutParams.weight = 1;
+                        layoutParams.newLine = false;
+                        layoutParams.setMargins(10, 0, 10, 0);
+                        circleImageView.setLayoutParams(layoutParams);
+                        iconfromNetwork(circleImageView, userObject.avatar);
+                        mAllJoinedPeopleLayout.addView(circleImageView);
                     }
                 }
 

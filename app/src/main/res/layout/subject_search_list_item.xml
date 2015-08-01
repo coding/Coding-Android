@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
+              android:background="@color/stand_bg"
               android:orientation="vertical">
 
     <RelativeLayout
@@ -28,7 +29,7 @@
             android:layout_marginTop="@dimen/padding_12"
             android:layout_toRightOf="@+id/maopao_user_icon"
             android:ellipsize="end"
-            android:lines="2"
+            android:maxLines="2"
             android:singleLine="false"
             android:text="一台一台"
             android:textColor="@color/font_black_2"
@@ -38,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/maopao_content"
-            android:layout_below="@+id/maopao_user_icon"
+            android:layout_below="@+id/maopao_content"
             android:layout_marginBottom="@dimen/padding_12"
             android:layout_marginTop="24dp"
             android:orientation="horizontal">
