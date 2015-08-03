@@ -64,6 +64,7 @@ public class SubjectUserListAdapter extends BaseAdapter {
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
             holder.divideTitle = (TextView) convertView.findViewById(R.id.divideTitle);
+            holder.divideLine = convertView.findViewById(R.id.divide_line);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -71,6 +72,7 @@ public class SubjectUserListAdapter extends BaseAdapter {
         final UserObject data = userItems.get(position);
 
         holder.divideTitle.setVisibility(View.GONE);
+        holder.divideLine.setVisibility(View.VISIBLE);
 
         holder.name.setText(data.name);
         new ImageLoadTool().loadImage(holder.icon, data.avatar);
@@ -91,6 +93,7 @@ public class SubjectUserListAdapter extends BaseAdapter {
         TextView name;
         CheckBox mutual;
         TextView divideTitle;
+        View divideLine;
     }
 
     public void setFollowClickListener(View.OnClickListener onClickListener) {
