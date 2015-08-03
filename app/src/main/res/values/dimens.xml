@@ -59,6 +59,7 @@
     <dimen name="list_section_commit">30dp</dimen>
 
     <dimen name="divide_section_15">15dp</dimen>
+    <dimen name="divide_section_10">10dp</dimen>
 
     <dimen name="pickimage_gridlist_item_space">4dp</dimen>
 
