@@ -31,6 +31,7 @@ import net.coding.program.project.detail.merge.MergeDetailActivity_;
 import net.coding.program.project.detail.topic.TopicListDetailActivity;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 import net.coding.program.project.git.BranchMainActivity_;
+import net.coding.program.subject.SubjectDetailActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.task.add.TaskJumpParams;
 import net.coding.program.user.UserDetailActivity_;
@@ -135,6 +136,21 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setClass(context, MaopaoDetailActivity_.class);
             MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
                     matcher.group(1), matcher.group(2));
+            intent.putExtra("mClickParam", param);
+            context.startActivity(intent);
+            return true;
+        }
+
+
+        // 冒泡话题
+        // https://coding.net/u/8206503/pp/9275
+        final String maopaoTopic = "^(?:(?:https://[\\w.]*)?/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";
+        pattern = Pattern.compile(maopaoTopic);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, SubjectDetailActivity_.class);
+            MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
+                    "", matcher.group(1));
             intent.putExtra("mClickParam", param);
             context.startActivity(intent);
             return true;
