@@ -20,6 +20,8 @@ import net.coding.program.model.NotifyObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,11 +29,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.fragment_notify_list)
+@EActivity(R.layout.activity_notify_list)
+@OptionsMenu(R.menu.notify_list_activity)
 public class NotifyListActivity extends BackActivity implements FootUpdate.LoadMore {
 
+    final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
+    final String HOST_MARK_COMMENT = Global.HOST_API + "/notification/mark-read?all=1&type=1&type=2";
+    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4";
     private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
-
     @Extra
     int type;
 
@@ -182,6 +187,17 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         loadMore();
     }
 
+    @OptionsItem
+    protected void markRead() {
+        if (type == 0) {
+            postNetwork(HOST_MARK_AT, HOST_MARK_AT);
+        } else if (type == 1) {
+            postNetwork(HOST_MARK_COMMENT, HOST_MARK_COMMENT);
+        } else {
+            postNetwork(HOST_MARK_SYSTEM, HOST_MARK_SYSTEM);
+        }
+    }
+
     @Override
     public void loadMore() {
         getNextPageNetwork(URI_NOTIFY, URI_NOTIFY);
@@ -224,7 +240,23 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                     break;
                 }
             }
+        } else if (tag.equals(HOST_MARK_AT)
+                || tag.equals(HOST_MARK_COMMENT)
+                || tag.equals(HOST_MARK_SYSTEM)) {
+            if (code == 0) {
+                markAllRead();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+
         }
+    }
+
+    private void markAllRead() {
+        for (NotifyObject item : mData) {
+            item.setRead();
+        }
+        baseAdapter.notifyDataSetChanged();
     }
 
     private static class ViewHolder {
