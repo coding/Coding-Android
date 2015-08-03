@@ -148,9 +148,7 @@ public class URLSpanNoUnderline extends URLSpan {
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             intent.setClass(context, SubjectDetailActivity_.class);
-            MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
-                    "", matcher.group(1));
-            intent.putExtra("mClickParam", param);
+            intent.putExtra("topicId", Integer.valueOf(matcher.group(1)));
             context.startActivity(intent);
             return true;
         }
