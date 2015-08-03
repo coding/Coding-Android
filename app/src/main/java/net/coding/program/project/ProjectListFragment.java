@@ -48,6 +48,9 @@ public class ProjectListFragment extends RefreshBaseFragment {
     private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
+    @FragmentArg
+    ProjectFragment.Type type = ProjectFragment.Type.Main;
+
     boolean mRequestOk;
     @ViewById
     ExpandableStickyListHeadersListView listView;
@@ -203,7 +206,14 @@ public class ProjectListFragment extends RefreshBaseFragment {
             fragment = this;
         }
 
-        ProjectHomeActivity_.intent(fragment).mProjectObject(item).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+        if (type == ProjectFragment.Type.Main) {
+            ProjectHomeActivity_.intent(fragment).mProjectObject(item).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+        } else {
+            Intent intent = new Intent();
+            intent.putExtra("data", item);
+            getActivity().setResult(Activity.RESULT_OK, intent);
+            getActivity().finish();
+        }
     }
 
     @Override

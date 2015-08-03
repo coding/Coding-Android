@@ -46,7 +46,9 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.0.1'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile 'org.apmem.tools:layouts:1.9@aar'//flow_layout
-
+    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
+        exclude module: 'support-v4'
+    }
 }
 
 //################

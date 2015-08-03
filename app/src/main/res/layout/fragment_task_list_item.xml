@@ -63,29 +63,38 @@
         android:layout_marginTop="12dp"
         android:orientation="vertical">
 
-        <net.coding.program.common.widget.FlowLabelLayout
-            android:id="@+id/flowLayout"
+        <LinearLayout
+            android:id="@+id/layoutDeadline"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp" />
+            android:layout_height="20dp"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/label_list_item_merge_right"
+                android:background="@drawable/round_rect_shape_green"
+                android:gravity="center"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="aaa"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <net.coding.program.common.widget.FlowLabelLayout
+                android:id="@+id/flowLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/deadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_rect_shape_green"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:text="aaa"
-                android:textColor="@color/white"
-                android:textSize="12dp" />
 
             <include layout="@layout/common_name" />
 

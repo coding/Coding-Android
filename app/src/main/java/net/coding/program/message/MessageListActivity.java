@@ -701,8 +701,10 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             }
         }
 
-        String url = String.format(HOST_MESSAGE_LAST, mGlobalKey, lastId);
-        getNetwork(url, HOST_MESSAGE_LAST);
+        if (lastId != 0) {
+            String url = String.format(HOST_MESSAGE_LAST, mGlobalKey, lastId);
+            getNetwork(url, HOST_MESSAGE_LAST);
+        }
     }
 
     @Override

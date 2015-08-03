@@ -18,7 +18,7 @@ public class IndicatorView extends FrameLayout {
     private int pointResourceId;
 
     private LinearLayout layout;
-    private int mSelect = 0;
+    private int mSelect = -1;
 
     public IndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,7 +67,7 @@ public class IndicatorView extends FrameLayout {
             return;
         }
 
-        if (mSelect < count) {
+        if (0 <= mSelect && mSelect < count) {
             layout.getChildAt(mSelect).setSelected(false);
         }
 

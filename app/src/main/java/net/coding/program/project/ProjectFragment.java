@@ -6,18 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
@@ -28,10 +26,9 @@ import net.coding.program.user.AddFollowActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringArrayRes;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,21 +38,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.fragment_project)
-@OptionsMenu(R.menu.menu_fragment_project)
 public class ProjectFragment extends BaseFragment implements ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
-    @StringArrayRes
+
     String[] program_title;
     @ViewById
     net.coding.program.third.WechatTab tabs;
     @ViewById(R.id.pagerFragmentProgram)
     ViewPager pager;
+
+    @FragmentArg
+    Type type = Type.Main;
     boolean requestOk = true;
     boolean needRefresh = true;
-    private ArrayList<ProjectObject> mData = new ArrayList<>();
-    private MyPagerAdapter adapter;
+    ArrayList<ProjectObject> mData = new ArrayList<>();
+    private MyProjectPagerAdapter adapter;
     private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -69,7 +68,16 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     protected void init() {
         hideProgressDialog();
         mData = AccountInfo.loadProjects(getActivity());
-        adapter = new MyPagerAdapter(getChildFragmentManager());
+
+        if (type == Type.Main) {
+            setHasOptionsMenu(true);
+            program_title = getResources().getStringArray(R.array.program_title);
+        } else {
+            setHasOptionsMenu(false);
+            program_title = getResources().getStringArray(R.array.program_title_pick);
+        }
+
+        adapter = new MyProjectPagerAdapter(this, getChildFragmentManager());
 
         pager.setAdapter(adapter);
 
@@ -78,11 +86,21 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         pager.setPageMargin(pageMargin);
 
         tabs.setViewPager(pager);
+
+        if (type == Type.Pick) {
+            tabs.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onRefresh() {
         getNetwork(host, host);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(net.coding.program.R.menu.menu_fragment_project, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -216,74 +234,7 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         super.onDestroy();
     }
 
-    private class MyPagerAdapter extends SaveFragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return program_title[position];
-        }
-
-        @Override
-        public int getCount() {
-            return program_title.length;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return PagerAdapter.POSITION_NONE;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ProjectListFragment fragment = (ProjectListFragment) super.instantiateItem(container, position);
-            fragment.setData(getChildData(position), requestOk);
-
-            return fragment;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Log.d("", "all p " + position);
-            ProjectListFragment fragment = new ProjectListFragment_();
-            Bundle bundle = new Bundle();
-
-            bundle.putSerializable("mData", getChildData(position));
-            fragment.setArguments(bundle);
-
-            saveFragment(fragment);
-
-            return fragment;
-        }
-
-        private ArrayList<ProjectObject> getChildData(int position) {
-            ArrayList<ProjectObject> childData = new ArrayList<>();
-
-            switch (position) {
-                case 1:
-                    stuffChildData(childData, "member");
-                    break;
-                case 2:
-                    stuffChildData(childData, "owner");
-                    break;
-                default:
-                    childData.addAll(mData);
-                    break;
-            }
-
-            return childData;
-        }
-
-        void stuffChildData(ArrayList<ProjectObject> child, String type) {
-            for (int i = 0; i < mData.size(); ++i) {
-                ProjectObject item = mData.get(i);
-                if (item.current_user_role.equals(type)) {
-                    child.add(item);
-                }
-            }
-        }
+    public enum Type {
+        Main, Pick
     }
 }
