@@ -160,19 +160,19 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-//                Fragment parent = getParentFragment();
-//                if (parent == null) {
-//                    MaopaoDetailActivity_
-//                            .intent(SubjectDetailFragment.this)
-//                            .mMaopaoObject(data)
-//                            .startForResult(RESULT_EDIT_MAOPAO);
-//                } else {
-//                    MaopaoDetailActivity_
-//                            .intent(parent)
-//                            .mMaopaoObject(data)
-//                            .startForResult(RESULT_EDIT_MAOPAO);
-//                }
+                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
+                Fragment parent = getParentFragment();
+                if (parent == null) {
+                    MaopaoDetailActivity_
+                            .intent(SubjectDetailFragment.this)
+                            .mMaopaoObject(data)
+                            .startForResult(RESULT_EDIT_MAOPAO);
+                } else {
+                    MaopaoDetailActivity_
+                            .intent(parent)
+                            .mMaopaoObject(data)
+                            .startForResult(RESULT_EDIT_MAOPAO);
+                }
 
             }
         };
