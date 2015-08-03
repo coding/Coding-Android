@@ -474,10 +474,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 banner.setCurrentItem(bannerAdapter.getStartPos());
 
                 final IndicatorView bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);
-                bannerIndicator.setCount(banners.size(), 0);
                 final TextView bannerName = (TextView) bannerLayout.findViewById(R.id.bannerName);
                 final TextView bannerTitle = (TextView) bannerLayout.findViewById(R.id.bannerTitle);
-
+                int bannerStartPos = 0;
+                bannerIndicator.setCount(banners.size(), bannerStartPos);
+                bannerName.setText(banners.get(bannerStartPos).getName());
+                bannerTitle.setText(banners.get(bannerStartPos).getTitle());
 
                 listView.addHeaderView(bannerLayout);
                 banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

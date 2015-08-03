@@ -502,6 +502,34 @@ public class DynamicObject {
         }
     }
 
+    public static class DynamicProjectFileComment extends DynamicBaseObject implements Serializable {
+
+        private Project project;
+        private ProjectFileComment projectFileComment;
+        private ProjectFile projectFile;
+        private OriginProjectFileComment origin_projectFileComment;
+
+        public DynamicProjectFileComment(JSONObject json) throws JSONException {
+            super(json);
+
+            project = new Project(json.optJSONObject("project"));
+            projectFileComment = new ProjectFileComment(json.optJSONObject("projectFileComment"));
+            projectFile = new ProjectFile(json.optJSONObject("projectFile"));
+            origin_projectFileComment = new OriginProjectFileComment(json.optJSONObject("origin_projectFileComment"));
+        }
+
+        @Override
+        public Spanned title() {
+            String title = String.format("%s %s 文件 %s 的评论", user.getHtml(), action_msg, projectFile.getHtml());
+            return Global.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return Global.changeHyperlinkColor(projectFileComment.getHtml(), BLACK_COLOR, imageGetter);
+        }
+    }
+
     public static class DynamicProjectFile extends DynamicBaseObject implements Serializable {
         String content = "";
         File file;
@@ -885,7 +913,6 @@ public class DynamicObject {
                 owner = new Owner(json.optJSONObject("owner"));
             }
         }
-
     }
 
     public static class Owner implements Serializable {
@@ -894,7 +921,7 @@ public class DynamicObject {
         public String name = "";
         public String path = "";
 
-        public Owner(JSONObject json) throws JSONException {
+        public Owner(JSONObject json) {
             if (json.has("avatar")) {
                 avatar = Global.replaceAvatar(json);
             }
@@ -1063,6 +1090,64 @@ public class DynamicObject {
         }
     }
 
+    public static class ProjectFile implements Serializable {
+        /**
+         * id : 260700
+         * title : 私信语音标注-Android.png
+         * file_id : 260708
+         * project_id : 136139
+         * path : /u/suangsuang/p/No72_Andriod_voice/attachment/260707/preview/260708
+         * owner : {"global_key":"8206503","name":"陈超","path":"/u/8206503","avatar":"/static/fruit_avatar/Fruit-1.png"}
+         */
+        private int id;
+        private String title;
+        private int file_id;
+        private int project_id;
+        private String path;
+        private Owner owner;
+
+        public ProjectFile(JSONObject json) {
+            id = json.optInt("id");
+            title = json.optString("title");
+            file_id = json.optInt("file_id");
+            project_id = json.optInt("project_id");
+            path = json.optString("path");
+            owner = new Owner(json.optJSONObject("owner"));
+        }
+
+        String getHtml() {
+            return createLink(title, path);
+        }
+    }
+
+    public static class ProjectFileComment implements Serializable {
+        private String content;
+        private int id;
+        private Owner owner;
+
+        public ProjectFileComment(JSONObject json) {
+            content = json.optString("content");
+            id = json.optInt("id");
+            owner = new Owner(json.optJSONObject("owner"));
+        }
+
+        String getHtml() {
+            return content;
+        }
+    }
+
+    public static class OriginProjectFileComment implements Serializable {
+
+        private String title;
+
+        public OriginProjectFileComment(JSONObject json) {
+            title = json.optString("title");
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
 }
 
 

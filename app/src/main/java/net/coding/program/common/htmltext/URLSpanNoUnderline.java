@@ -141,7 +141,6 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
-
         // 冒泡话题
         // https://coding.net/u/8206503/pp/9275
         final String maopaoTopic = "^(?:(?:https://[\\w.]*)?/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";

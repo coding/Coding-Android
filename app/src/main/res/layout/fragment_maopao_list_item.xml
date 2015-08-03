@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/MaopaoItem"
-              xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/MaopaoItem"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
+
+    <include layout="@layout/divide_15_top_bottom" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/divide_line"></View>
+                android:background="@color/divide_line" />
         </RelativeLayout>
 
         <LinearLayout
@@ -321,8 +323,5 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divide_line"></View>
+
 </LinearLayout>

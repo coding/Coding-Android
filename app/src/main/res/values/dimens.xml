@@ -31,6 +31,7 @@
     <dimen name="padding_15">15dp</dimen>
     <dimen name="padding_12">12dp</dimen>
     <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_14">14dp</dimen>
 
     <dimen name="edit_height">50dp</dimen>
 
