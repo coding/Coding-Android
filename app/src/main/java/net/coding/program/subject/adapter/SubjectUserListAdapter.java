@@ -1,7 +1,6 @@
 package net.coding.program.subject.adapter;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.RequestParams;
-
-import net.coding.program.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.UserObject;
 
@@ -64,6 +59,7 @@ public class SubjectUserListAdapter extends BaseAdapter {
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
             holder.divideTitle = (TextView) convertView.findViewById(R.id.divideTitle);
+            holder.divideLine = convertView.findViewById(R.id.divide_line);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -71,6 +67,7 @@ public class SubjectUserListAdapter extends BaseAdapter {
         final UserObject data = userItems.get(position);
 
         holder.divideTitle.setVisibility(View.GONE);
+        holder.divideLine.setVisibility(View.VISIBLE);
 
         holder.name.setText(data.name);
         new ImageLoadTool().loadImage(holder.icon, data.avatar);
@@ -86,15 +83,16 @@ public class SubjectUserListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setFollowClickListener(View.OnClickListener onClickListener) {
+        this.mFollowClickListener = onClickListener;
+    }
+
     public static class ViewHolder {
         ImageView icon;
         TextView name;
         CheckBox mutual;
         TextView divideTitle;
-    }
-
-    public void setFollowClickListener(View.OnClickListener onClickListener) {
-        this.mFollowClickListener = onClickListener;
+        View divideLine;
     }
 
 }

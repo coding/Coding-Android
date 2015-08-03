@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -39,7 +38,6 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.LikeUsersArea;
 import net.coding.program.maopao.MaopaoAddActivity_;
-import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.maopao.MaopaoLocationArea;
 import net.coding.program.maopao.MaopaoSearchActivity_;
 import net.coding.program.maopao.item.CommentArea;
@@ -79,6 +77,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
     final String maopaoUrlFirstFormat = Global.HOST_API + "/public_tweets/topic/%s?&sort=new";
     final String maopaoUrlTopFormat = Global.HOST_API + "/public_tweets/topic/%s/top";
     final String maopaoUrlHotJoinedFormat = Global.HOST_API + "/tweet_topic/%s/hot_joined";
+    final String maopaoUrlDetailFormat = Global.HOST_API + "/tweet_topic/%s";
 
     final String topicWatchUrl = Global.HOST_API + "/tweet_topic/%s/watch";
     final String topicUnWatchUrl = Global.HOST_API + "/tweet_topic/%s/unwatch";
@@ -104,13 +103,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
 
     View mListHeaderView;
-    private TextView mSubjectNameTv;
-    private TextView mSubjectDescTv;
-    private TextView mFollowTv;
-
-    private TextView mJoinedPeopleTv;
-    private FlowLayout mAllJoinedPeopleLayout;
-
     int needScrollY = 0;
     int oldListHigh = 0;
     int cal1 = 0;
@@ -147,6 +139,11 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             onRefresh();
         }
     };
+    private TextView mSubjectNameTv;
+    private TextView mSubjectDescTv;
+    private TextView mFollowTv;
+    private TextView mJoinedPeopleTv;
+    private FlowLayout mAllJoinedPeopleLayout;
     private MyImageGetter myImageGetter;
     private int mPxImageWidth;
     BaseAdapter mAdapter = new BaseAdapter() {
@@ -160,19 +157,19 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-                Fragment parent = getParentFragment();
-                if (parent == null) {
-                    MaopaoDetailActivity_
-                            .intent(SubjectDetailFragment.this)
-                            .mMaopaoObject(data)
-                            .startForResult(RESULT_EDIT_MAOPAO);
-                } else {
-                    MaopaoDetailActivity_
-                            .intent(parent)
-                            .mMaopaoObject(data)
-                            .startForResult(RESULT_EDIT_MAOPAO);
-                }
+//                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
+//                Fragment parent = getParentFragment();
+//                if (parent == null) {
+//                    MaopaoDetailActivity_
+//                            .intent(SubjectDetailFragment.this)
+//                            .mMaopaoObject(data)
+//                            .startForResult(RESULT_EDIT_MAOPAO);
+//                } else {
+//                    MaopaoDetailActivity_
+//                            .intent(parent)
+//                            .mMaopaoObject(data)
+//                            .startForResult(RESULT_EDIT_MAOPAO);
+//                }
 
             }
         };
@@ -420,6 +417,26 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         }
 
     };
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.subject_detail_follow_btn:
+                    if (subjectDescObject != null) {
+                        if (subjectDescObject.watched) {
+                            deleteNetwork(String.format(topicUnWatchUrl, subjectDescObject.id), topicUnWatchUrl);
+                        } else {
+                            postNetwork(String.format(topicWatchUrl, subjectDescObject.id), null, topicWatchUrl);
+                        }
+                    }
+                    break;
+                case R.id.subject_detail_view_all:
+                    if (subjectDescObject != null)
+                        SubjectUsersActivity_.intent(getActivity()).topicId(subjectDescObject.id).start();
+                    break;
+            }
+        }
+    };
 
     @OptionsItem
     void action_search() {
@@ -438,7 +455,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         initRefreshLayout();
 
         initHeaderView();
-        fillHeaderViewData();
         listView.addHeaderView(mListHeaderView);
 
         // 图片显示，单位为 dp
@@ -460,11 +476,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
-        if (subjectDescObject != null) {
-            getNetwork(String.format(maopaoUrlTopFormat, subjectDescObject.id), maopaoUrlTopFormat);
-            getNetwork(String.format(maopaoUrlHotJoinedFormat, subjectDescObject.id), maopaoUrlHotJoinedFormat);
-        }
-        getNetwork(createUrl(), maopaoUrlFormat);
 
         ViewTreeObserver vto = listView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -503,6 +514,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(getActivity(), this, RESULT_AT));
         mEnterLayout.hide();
+
+        initData();
     }
 
     private void initHeaderView() {
@@ -515,6 +528,19 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         mJoinedPeopleTv.setOnClickListener(mOnClickListener);
 
         mAllJoinedPeopleLayout = (FlowLayout) mListHeaderView.findViewById(R.id.subject_detail_all_join);
+    }
+
+    private void initData() {
+        if (subjectDescObject != null) {
+            fillHeaderViewData();
+            getNetwork(String.format(maopaoUrlTopFormat, subjectDescObject.id), maopaoUrlTopFormat);
+            getNetwork(String.format(maopaoUrlHotJoinedFormat, subjectDescObject.id), maopaoUrlHotJoinedFormat);
+            getNetwork(createUrl(), maopaoUrlFormat);
+        } else {
+            if (topicId > 0) {
+                getNetwork(String.format(maopaoUrlDetailFormat, topicId), maopaoUrlDetailFormat);
+            }
+        }
     }
 
     private void fillHeaderViewData() {
@@ -550,27 +576,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
     private int getPxValue(float dipValue) {
         return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, getResources().getDisplayMetrics()) + 0.5f);
     }
-
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.subject_detail_follow_btn:
-                    if (subjectDescObject != null) {
-                        if (subjectDescObject.watched) {
-                            deleteNetwork(String.format(topicUnWatchUrl, subjectDescObject.id), topicUnWatchUrl);
-                        } else {
-                            postNetwork(String.format(topicWatchUrl, subjectDescObject.id), null, topicWatchUrl);
-                        }
-                    }
-                    break;
-                case R.id.subject_detail_view_all:
-                    if (subjectDescObject != null)
-                        SubjectUsersActivity_.intent(getActivity()).topicId(subjectDescObject.id).start();
-                    break;
-            }
-        }
-    };
 
     private void addDoubleClickActionbar() {
         ActionBar actionBar = getActionBarActivity().getSupportActionBar();
@@ -762,6 +767,18 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                             mData.add(0, item);
                         }
                         mAdapter.notifyDataSetChanged();
+                    }
+                }
+
+            }
+        } else if (tag.equals(maopaoUrlDetailFormat)) {
+            if (code == 0) {
+                JSONObject json = respanse.optJSONObject("data");
+                if (json != null) {
+                    Subject.SubjectDescObject item = new Subject.SubjectDescObject(json);
+                    if (item != null) {
+                        subjectDescObject = item;
+                        initData();
                     }
                 }
 

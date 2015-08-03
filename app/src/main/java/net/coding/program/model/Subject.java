@@ -34,14 +34,15 @@ public class Subject {
             id = json.optInt("id");
             watched = json.optBoolean("watched");
             speackers = json.optInt("speackers");
-            if(speackers == 0)
+            if (speackers == 0)
                 speackers = json.optInt("speakers");
             watchers = json.optInt("watchers");
             count = json.optInt("count");
             image_url = json.optString("image_url");
             description = json.optString("description");
             name = json.optString("name");
-            hot_tweet = new HotTweetDescObject(json.optJSONObject("hot_tweet"));
+            if (json.has("hot_tweet"))
+                hot_tweet = new HotTweetDescObject(json.optJSONObject("hot_tweet"));
             JSONArray arr = json.optJSONArray("user_list");
             if (arr != null && arr.length() > 0) {
                 user_list = new ArrayList<UserObject>();
