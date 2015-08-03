@@ -22,6 +22,7 @@ import net.coding.program.user.UserProjectListFragment;
 
 /**
  * Created by chaochen on 14-10-24.
+ * 内容为空白时显示的提示语
  */
 public class BlankViewDisplay {
 
@@ -42,7 +43,7 @@ public class BlankViewDisplay {
 
         View btn = v.findViewById(R.id.btnRetry);
         if (request) {
-            btn.setVisibility(View.INVISIBLE);
+            btn.setVisibility(View.GONE);
         } else {
             btn.setVisibility(View.VISIBLE);
             btn.setOnClickListener(onClick);

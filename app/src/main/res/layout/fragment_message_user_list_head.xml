@@ -5,37 +5,38 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/atLayout"
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:id="@+id/atLayout"
-        android:gravity="center_vertical">
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_centerVertical="true"
             android:id="@+id/at"
             android:layout_width="47dp"
             android:layout_height="47dp"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:src="@drawable/ic_message_at_me" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="\@我的"
-            android:textColor="@color/font_black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/font_black" />
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badgeAt"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="12dp"
             android:background="@drawable/ic_notify_txt"
             android:gravity="center"
-            android:layout_marginRight="12dp"
-            android:visibility="invisible"
-            android:layout_gravity="center_vertical|right" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -46,39 +47,40 @@
 
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/commentLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/commentLayout"
-        android:gravity="center_vertical">
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_centerVertical="true"
+            android:id="@+id/comment"
             android:layout_width="47dp"
             android:layout_height="47dp"
-            android:id="@+id/comment"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:src="@drawable/ic_message_comment" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="评论"
-            android:textColor="@color/font_black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/font_black" />
 
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badgeComment"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="12dp"
             android:background="@drawable/ic_notify_txt"
             android:gravity="center"
-            android:layout_marginRight="12dp"
-            android:visibility="invisible"
 
-            android:layout_gravity="center_vertical|right" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -89,17 +91,18 @@
         android:background="@android:drawable/divider_horizontal_textfield" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/systemLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/systemLayout"
-        android:gravity="center_vertical">
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_centerVertical="true"
+            android:id="@+id/system"
             android:layout_width="47dp"
             android:layout_height="47dp"
-            android:id="@+id/system"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:src="@drawable/ic_message_notification" />
 
@@ -108,18 +111,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="系统通知"
-            android:textColor="@color/font_black"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/font_black" />
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badgeSystem"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="12dp"
             android:background="@drawable/ic_notify_txt"
             android:gravity="center"
-            android:visibility="invisible"
-            android:layout_marginRight="12dp"
-            android:layout_gravity="center_vertical|right" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 </LinearLayout>

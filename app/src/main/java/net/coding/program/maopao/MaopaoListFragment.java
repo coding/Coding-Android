@@ -61,6 +61,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
 @EFragment(R.layout.fragment_maopao_list)
 @OptionsMenu(R.menu.menu_fragment_maopao)
 public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
@@ -132,6 +134,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             onRefresh();
         }
     };
+    AutoScrollViewPager banner;
     private MyImageGetter myImageGetter;
     private int mPxImageWidth;
     BaseAdapter mAdapter = new BaseAdapter() {
@@ -457,16 +460,24 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             final ArrayList<BannerObject> banners = AccountInfo.getMaopaoBanners(getActivity());
             if (!banners.isEmpty()) {
                 View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
-                ViewPager banner = (ViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
+                banner = (AutoScrollViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
                 ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
                 layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
                 banner.setLayoutParams(layoutParams);
-                BannerAdapter bannerAdapter = new BannerAdapter(getChildFragmentManager(), banners);
+
+                final BannerAdapter bannerAdapter = new BannerAdapter(getActivity(), banners, getImageLoad());
                 banner.setAdapter(bannerAdapter);
+                banner.setInterval(10 * 1000);
+                banner.setScrollDurationFactor(2);
+                banner.startAutoScroll();
+                banner.setSlideBorderMode(AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE);
+                banner.setCurrentItem(bannerAdapter.getStartPos());
 
                 final IndicatorView bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);
                 bannerIndicator.setCount(banners.size(), 0);
-                final TextView bannerTitle = (TextView) bannerLayout.findViewById(R.id.title);
+                final TextView bannerName = (TextView) bannerLayout.findViewById(R.id.bannerName);
+                final TextView bannerTitle = (TextView) bannerLayout.findViewById(R.id.bannerTitle);
+
 
                 listView.addHeaderView(bannerLayout);
                 banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -475,8 +486,11 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     }
 
                     @Override
-                    public void onPageSelected(int position) {
-                        bannerTitle.setText(banners.get(position).getTitle());
+                    public void onPageSelected(int pos) {
+                        int position = bannerAdapter.translatePosition(pos);
+                        BannerObject bannerData = banners.get(position);
+                        bannerName.setText(bannerData.getName());
+                        bannerTitle.setText(bannerData.getTitle());
                         bannerIndicator.setSelect(position);
                     }
 
@@ -530,6 +544,24 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(getActivity(), this, RESULT_AT));
         mEnterLayout.hide();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (banner != null) {
+            banner.stopAutoScroll();
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (banner != null) {
+            banner.startAutoScroll();
+        }
+
     }
 
     private void initImageWidth() {

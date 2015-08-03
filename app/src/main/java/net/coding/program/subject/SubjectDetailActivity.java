@@ -46,13 +46,15 @@ public class SubjectDetailActivity extends BackActivity {
 
     @Extra
     Subject.SubjectDescObject subjectDescObject;
+    @Extra
+    int topicId;
 
 
     @AfterViews
     protected final void initSubjectDetailActivity() {
 
         setTitle("话题详情");
-        if (subjectDescObject != null) {
+        if (subjectDescObject != null || topicId > 0) {
             showSubjectDetailFragment();
         }
     }
@@ -61,6 +63,7 @@ public class SubjectDetailActivity extends BackActivity {
     private void showSubjectDetailFragment() {
         Fragment fragment = SubjectDetailFragment_.builder()
                 .subjectDescObject(subjectDescObject)
+                .topicId(topicId)
                 .build();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }

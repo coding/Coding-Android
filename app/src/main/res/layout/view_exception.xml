@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     android:visibility="invisible">
+
+    <View
+        android:id="@+id/icon"
+        android:layout_width="143dp"
+        android:layout_height="143dp"
+        android:layout_above="@id/message"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_exception_no_network" />
 
     <TextView
         android:id="@+id/message"
@@ -13,14 +23,6 @@
         android:text="加载失败，请检查下网络"
         android:textColor="@color/font_black_9"
         android:textSize="15sp" />
-
-    <View
-        android:id="@+id/icon"
-        android:layout_width="143dp"
-        android:layout_height="143dp"
-        android:layout_above="@id/message"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_exception_no_network" />
 
     <Button
         android:id="@+id/btnRetry"
@@ -34,4 +36,4 @@
         android:textColor="@color/font_black_9"
         android:textSize="18sp" />
 
-</RelativeLayout>
+</LinearLayout>

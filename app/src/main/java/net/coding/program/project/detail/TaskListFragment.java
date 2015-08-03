@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -173,7 +175,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         fab.setVisibility(View.GONE);
 //        listView.setAnimExecutor(new AnimationExecutor());
         View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
-        listView.addFooterView(footer);
+        listView.addFooterView(footer, null, false);
         listView.setAdapter(mAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -454,12 +456,14 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mCheckBox = (CheckBox) convertView.findViewById(R.id.checkbox);
                 holder.mTitle = (TextView) convertView.findViewById(R.id.title);
                 holder.mDeadline = (TextView) convertView.findViewById(R.id.deadline);
+                holder.mDeadline.setBackgroundResource(R.drawable.task_list_item_deadline_background);
                 holder.mName = (TextView) convertView.findViewById(R.id.name);
                 holder.mTime = (TextView) convertView.findViewById(R.id.time);
                 holder.mDiscuss = (TextView) convertView.findViewById(R.id.discuss);
                 holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mTaskPriority = convertView.findViewById(R.id.taskPriority);
                 holder.mTaskDes = convertView.findViewById(R.id.taskDes);
+                holder.mLayoutDeadline = convertView.findViewById(R.id.layoutDeadline);
                 holder.flowLabelLayout = (FlowLabelLayout) convertView.findViewById(R.id.flowLayout);
                 convertView.setTag(holder);
             } else {
@@ -474,7 +478,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
-            holder.flowLabelLayout.setLabels(data.labels);
+
+            int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 12); // item 左边空 100 dp，右边空12dp
+            if (!data.deadline.isEmpty()) {
+                flowWidth -= Global.dpToPx(55);
+            }
+            holder.flowLabelLayout.setLabels(data.labels, flowWidth);
 
             final int pos = position;
 
@@ -496,6 +505,20 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
             holder.mTaskPriority.setBackgroundResource(priorityIcons[data.priority]);
 
+            if (data.deadline.isEmpty() && data.labels.isEmpty()) {
+                holder.mLayoutDeadline.setVisibility(View.GONE);
+            } else {
+                holder.mLayoutDeadline.setVisibility(View.VISIBLE);
+            }
+
+            int[] taskColors = new int[]{
+                    0xfff49f31,
+                    0xff97ba66,
+                    0xfff24b4b,
+                    0xffb2c6d0,
+                    0xffc7c8c7
+            };
+
             if (data.deadline.isEmpty()) {
                 holder.mDeadline.setVisibility(View.GONE);
             } else {
@@ -503,22 +526,22 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
                 if (data.deadline.equals(mToday)) {
                     holder.mDeadline.setText("今天");
-                    holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_yellow);
+                    holder.setDeadlineColor(taskColors[0]);
                 } else if (data.deadline.equals(mTomorrow)) {
                     holder.mDeadline.setText("明天");
-                    holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_green);
+                    holder.setDeadlineColor(taskColors[1]);
                 } else {
                     if (data.deadline.compareTo(mToday) < 0) {
-                        holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_red);
+                        holder.setDeadlineColor(taskColors[2]);
                     } else {
-                        holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_gray_light);
+                        holder.setDeadlineColor(taskColors[3]);
                     }
                     String num[] = data.deadline.split("-");
                     holder.mDeadline.setText(String.format("%s/%s", num[1], num[2]));
                 }
 
                 if (data.isDone()) {
-                    holder.mDeadline.setBackgroundResource(R.drawable.round_rect_shape_gray);
+                    holder.setDeadlineColor(taskColors[4]);
                 }
             }
 
@@ -589,16 +612,18 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             TextView mTitle;
 
             TextView mDeadline;
-
             TextView mName;
             TextView mTime;
             TextView mDiscuss;
-
             View mTaskPriority;
-
             View mTaskDes;
-
+            View mLayoutDeadline;
             FlowLabelLayout flowLabelLayout;
+
+            public void setDeadlineColor(int color) {
+                mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                mDeadline.setTextColor(color);
+            }
         }
     }
 
