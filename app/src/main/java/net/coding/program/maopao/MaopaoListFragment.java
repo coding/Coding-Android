@@ -12,16 +12,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
+import com.twotoasters.jazzylistview.JazzyListView;
+import com.twotoasters.jazzylistview.effects.SlideInEffect;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
@@ -90,7 +92,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     @FragmentArg
     int userId;
     @ViewById
-    ListView listView;
+    JazzyListView listView;
     @ViewById
     View blankLayout;
     @ViewById
@@ -420,6 +422,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         initRefreshLayout();
         initImageWidth();
 
+        listView.setTransitionEffect(new UpSlideInEffect());
 
         mData = AccountInfo.loadMaopao(getActivity(), mType.toString(), userId);
 
@@ -914,6 +917,23 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             urls.add(url);
             pos = 0;
             needEdit = false;
+        }
+    }
+
+    // listview 向上滑才有动画
+    class UpSlideInEffect extends SlideInEffect {
+        @Override
+        public void initView(View item, int position, int scrollDirection) {
+            if (scrollDirection > 0) {
+                super.initView(item, position, scrollDirection);
+            }
+        }
+
+        @Override
+        public void setupAnimation(View item, int position, int scrollDirection, ViewPropertyAnimator animator) {
+            if (scrollDirection > 0) {
+                super.setupAnimation(item, position, scrollDirection, animator);
+            }
         }
     }
 

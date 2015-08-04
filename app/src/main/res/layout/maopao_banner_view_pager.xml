@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/stand_bg"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_14"
     android:paddingTop="@dimen/padding_14">
 
     <LinearLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
@@ -48,8 +48,11 @@
         android:id="@+id/bannerViewPager"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginBottom="@dimen/padding_14"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12" />
+
+    <include layout="@layout/divide_shade_up" />
 
 </LinearLayout>
 

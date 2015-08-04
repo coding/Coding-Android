@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/MaopaoItem"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/stand_bg"
+    android:orientation="vertical">
 
-    <include layout="@layout/divide_10_top_bottom" />
+    <include layout="@layout/divide_shade_down" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:padding="7dp"
                 android:text="置顶话题"
                 android:textColor="@color/font_black_2"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -48,7 +49,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/icon"
                 android:layout_width="34dp"
-                android:layout_height="34dp"/>
+                android:layout_height="34dp" />
 
             <TextView
                 android:id="@+id/name"
@@ -58,7 +59,7 @@
                 android:layout_weight="1"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"/>
+                android:textColor="@color/font_black_2" />
 
             <TextView
                 android:id="@+id/time"
@@ -68,7 +69,7 @@
                 android:drawablePadding="2dp"
                 android:text="Small Text"
                 android:textColor="@color/font_black_9"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -84,7 +85,7 @@
             android:text="去"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/font_black_content"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <net.coding.program.common.widget.MinSizeImageView
             android:id="@+id/imageSingle"
@@ -100,7 +101,7 @@
             android:scaleType="centerCrop"
             custom:microSize="@dimen/image_single_micro_width"
             custom:minHeight="@dimen/image_single_min_size"
-            custom:minWidth="@dimen/image_single_min_size"/>
+            custom:minWidth="@dimen/image_single_min_size" />
 
         <LinearLayout
             android:id="@+id/imageLayout"
@@ -120,15 +121,15 @@
 
                 <include
                     android:id="@+id/image0"
-                    layout="@layout/maopao_image"/>
+                    layout="@layout/maopao_image" />
 
                 <include
                     android:id="@+id/image1"
-                    layout="@layout/maopao_image"/>
+                    layout="@layout/maopao_image" />
 
                 <include
                     android:id="@+id/image2"
-                    layout="@layout/maopao_image"/>
+                    layout="@layout/maopao_image" />
             </LinearLayout>
 
             <LinearLayout
@@ -140,15 +141,15 @@
 
                 <include
                     android:id="@+id/image3"
-                    layout="@layout/maopao_image"/>
+                    layout="@layout/maopao_image" />
 
                 <include
                     android:id="@+id/image4"
-                    layout="@layout/maopao_image"/>
+                    layout="@layout/maopao_image" />
 
                 <include
                     android:id="@+id/image5"
-                    layout="@layout/maopao_image"/>
+                    layout="@layout/maopao_image" />
             </LinearLayout>
         </LinearLayout>
 
@@ -169,7 +170,7 @@
                 android:singleLine="true"
                 android:text="北京"
                 android:textColor="@color/font_green"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,7 +189,7 @@
                     android:singleLine="true"
                     android:text="来自 iPhone 6"
                     android:textColor="@color/font_black_9"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/maopaoDelete"
@@ -197,19 +198,19 @@
                     android:gravity="center_vertical"
                     android:text="删除"
                     android:textColor="@color/font_black_9"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
                 <CheckBox
                     android:id="@+id/likeBtn"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
-                    android:button="@drawable/checkbox_good"/>
+                    android:button="@drawable/checkbox_good" />
 
                 <CheckBox
                     android:id="@+id/commentBtn"
                     android:layout_width="60dp"
                     android:layout_height="30dp"
-                    android:button="@drawable/checkbox_comment"/>
+                    android:button="@drawable/checkbox_comment" />
             </LinearLayout>
         </LinearLayout>
 
@@ -227,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/maopao_item_1"/>
+                android:background="@drawable/maopao_item_1" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -252,14 +253,14 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
-                        android:paddingRight="8dp"/>
+                        android:paddingRight="8dp" />
 
                     <View
                         android:id="@+id/likeAreaDivide"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="bottom"
-                        android:background="@drawable/maopao_comment_divide"/>
+                        android:background="@drawable/maopao_comment_divide" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -270,23 +271,23 @@
 
                     <include
                         android:id="@+id/comment0"
-                        layout="@layout/maopao_list_comment_area_item"/>
+                        layout="@layout/maopao_list_comment_area_item" />
 
                     <include
                         android:id="@+id/comment1"
-                        layout="@layout/maopao_list_comment_area_item"/>
+                        layout="@layout/maopao_list_comment_area_item" />
 
                     <include
                         android:id="@+id/comment2"
-                        layout="@layout/maopao_list_comment_area_item"/>
+                        layout="@layout/maopao_list_comment_area_item" />
 
                     <include
                         android:id="@+id/comment3"
-                        layout="@layout/maopao_list_comment_area_item"/>
+                        layout="@layout/maopao_list_comment_area_item" />
 
                     <include
                         android:id="@+id/comment4"
-                        layout="@layout/maopao_list_comment_area_item"/>
+                        layout="@layout/maopao_list_comment_area_item" />
 
                     <RelativeLayout
                         android:id="@+id/commentMore"
@@ -300,7 +301,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="12dp"
-                            android:src="@drawable/ic_maopao_all_comment"/>
+                            android:src="@drawable/ic_maopao_all_comment" />
 
                         <TextView
                             android:id="@+id/commentMoreCount"
@@ -310,7 +311,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@id/temp1"
                             android:text="查看全部24条评论"
-                            android:textAppearance="?android:attr/textAppearanceSmall"/>
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
                         <!--<View-->
                         <!--android:layout_width="match_parent"-->
                         <!--android:layout_height="1dp"-->
@@ -321,7 +322,8 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
     </LinearLayout>
+
+    <include layout="@layout/divide_shade_up" />
 
 </LinearLayout>
