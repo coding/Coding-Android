@@ -300,7 +300,6 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
         public ProjectJumpParam(String mUser, String mProject) {
             this.mUser = mUser;
             this.mProject = mProject;
-//            this.mJumpType = mJumpType;
         }
 
         public ProjectJumpParam(String path) {

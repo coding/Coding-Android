@@ -87,6 +87,11 @@ public class ProjectCreateFragment extends BaseFragment {
                 }
 
                 File imageFile = imageLoadTool.imageLoader.getDiskCache().get(imageUri);
+                if (imageFile == null) { // 不可能为空，但看umeng日志又有可能
+                    showMiddleToast("载入默认项目图标失败");
+                    return;
+                }
+
                 File newFile = new File(imageFile.getPath() + ".png");
 
                 if (newFile.exists() || imageFile.renameTo(newFile)) {
@@ -166,6 +171,7 @@ public class ProjectCreateFragment extends BaseFragment {
                     projectInfo.icon = filePath;
 
                 } catch (Exception e) {
+                    Global.errorLog(e);
                 }
             }
         } else if (requestCode == RESULT_REQUEST_PICK_TYPE) {
