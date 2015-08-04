@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -73,10 +72,10 @@
                 android:layout_alignBottom="@id/subject_detail_join"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@id/subject_detail_join"
+                android:drawableRight="@drawable/user_home_arrow"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:text="查看全部"
-                android:drawableRight="@drawable/user_home_arrow"
                 android:textColor="@color/font_black_9"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -99,9 +98,7 @@
             android:paddingRight="5.33dp"
             android:paddingTop="16dp"
             f:layout_newLine="false"
-            f:weightDefault="1.0"></org.apmem.tools.layouts.FlowLayout>
+            f:weightDefault="1.0" />
     </LinearLayout>
-
-    <include layout="@layout/divide_15_top_bottom" />
 
 </LinearLayout>

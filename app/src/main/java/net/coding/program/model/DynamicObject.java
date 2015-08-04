@@ -526,7 +526,9 @@ public class DynamicObject {
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(projectFileComment.getHtml(), BLACK_COLOR, imageGetter);
+            String content = projectFileComment.getHtml();
+            return Global.changeHyperlinkColor(HtmlContent.parseDynamic(content), BLACK_COLOR, imageGetter);
+
         }
     }
 
