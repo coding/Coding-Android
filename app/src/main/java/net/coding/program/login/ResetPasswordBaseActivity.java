@@ -10,11 +10,13 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BaseActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,27 +24,23 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_reset_password_base)
 public abstract class ResetPasswordBaseActivity extends BaseActivity {
 
+    private final String HOST_REQUEST_TAG = "HOST_REQUEST_TAG";
+    @Extra
+    protected String link = "";
     @ViewById
     protected EditText editName;
-
     @ViewById
     protected EditText editPassword;
-
     @ViewById
     protected EditText editPasswordConfirm;
-
     @ViewById
     protected Button loginButton;
-
-    private final String HOST_REQUEST_TAG = "HOST_REQUEST_TAG";
 
     @AfterViews
     protected final void testInit() {
         String key = getDataFromIntent("key");
         if (key.isEmpty()) {
             showMiddleToast("链接没有带key");
-        } else {
-//            showMiddleToast(key);
         }
 
         String email = getDataFromIntent("email");
@@ -76,12 +74,8 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
     }
 
     private String getDataFromIntent(String key1) {
-        String key = "";
-        Uri uri = getIntent().getData();
-        if (uri != null) {
-            key = uri.getQueryParameter(key1);
-        }
-
+        Uri uri = Uri.parse(link);
+        String key = uri.getQueryParameter(key1);
         if (key == null) {
             key = "";
         }
@@ -151,6 +145,7 @@ public abstract class ResetPasswordBaseActivity extends BaseActivity {
         try {
             sha1 = SimpleSHA1.sha1(editPassword.getText().toString());
         } catch (Exception e) {
+            Global.errorLog(e);
         }
         return sha1;
     }

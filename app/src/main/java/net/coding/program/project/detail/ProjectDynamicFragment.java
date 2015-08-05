@@ -330,7 +330,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
             return false;
         }
 
-
         public void initSection() {
             mSectionTitle.clear();
             mSectionId.clear();

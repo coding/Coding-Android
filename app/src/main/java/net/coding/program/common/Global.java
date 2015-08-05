@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -126,6 +127,14 @@ public class Global {
     public static String encodeUtf8(String s) {
         try {
             return URLEncoder.encode(s, "utf-8");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static String decodeUtf8(String s) {
+        try {
+            return URLDecoder.decode(s, "utf-8");
         } catch (Exception e) {
             return "";
         }

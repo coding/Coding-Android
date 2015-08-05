@@ -18,27 +18,161 @@ import net.coding.program.message.EmojiFragment;
 
 /**
  * Created by chaochen on 14-10-31.
+ * 输入框
  */
 public class EnterEmojiLayout extends EnterLayout {
 
+    static String emojiIcons[][] = {{
+            "smiley",
+            "heart_eyes",
+            "pensive",
+            "flushed",
+            "grin",
+            "kissing_heart",
+            "wink",
+            "angry",
+            "disappointed",
+            "disappointed_relieved",
+            "sob",
+            "stuck_out_tongue_closed_eyes",
+            "rage",
+            "persevere",
+            "unamused",
+            "smile",
+            "mask",
+            "kissing_face",
+            "sweat",
+            "joy",
+            "ic_keyboard_delete"
+    }, {
+            "blush",
+            "cry",
+            "stuck_out_tongue_winking_eye",
+            "fearful",
+            "cold_sweat",
+            "dizzy_face",
+            "smirk",
+            "scream",
+            "sleepy",
+            "confounded",
+            "relieved",
+            "smiling_imp",
+            "ghost",
+            "santa",
+            "dog",
+            "pig",
+            "cat",
+            "a00001",
+            "a00002",
+            "facepunch",
+            "ic_keyboard_delete"
+    }, {
+            "fist",
+            "v",
+            "muscle",
+            "clap",
+            "point_left",
+            "point_up_2",
+            "point_right",
+            "point_down",
+            "ok_hand",
+            "heart",
+            "broken_heart",
+            "sunny",
+            "moon",
+            "star2",
+            "zap",
+            "cloud",
+            "lips",
+            "rose",
+            "coffee",
+            "birthday",
+
+            "ic_keyboard_delete"
+    }, {
+            "clock10",
+            "beer",
+            "mag",
+            "iphone",
+            "house",
+            "car",
+            "gift",
+            "soccer",
+            "bomb",
+            "gem",
+            "alien",
+            "my100",
+            "money_with_wings",
+            "video_game",
+            "hankey",
+            "sos",
+            "zzz",
+            "microphone",
+            "umbrella",
+            "book",
+            "ic_keyboard_delete"}
+    };
+    static String monkeyIcons[][] = new String[][]{{
+            "coding_emoji_01",
+            "coding_emoji_02",
+            "coding_emoji_03",
+            "coding_emoji_04",
+            "coding_emoji_05",
+            "coding_emoji_06",
+            "coding_emoji_07",
+            "coding_emoji_08"
+    }, {
+            "coding_emoji_09",
+            "coding_emoji_10",
+            "coding_emoji_11",
+            "coding_emoji_12",
+            "coding_emoji_13",
+            "coding_emoji_14",
+            "coding_emoji_15",
+            "coding_emoji_16"
+    }, {
+            "coding_emoji_17",
+            "coding_emoji_18",
+            "coding_emoji_19",
+            "coding_emoji_20",
+            "coding_emoji_21",
+            "coding_emoji_22",
+            "coding_emoji_23",
+            "coding_emoji_24"
+    }, {
+            "coding_emoji_25",
+            "coding_emoji_26",
+            "coding_emoji_27",
+            "coding_emoji_28",
+            "coding_emoji_29",
+            "coding_emoji_30",
+            "coding_emoji_31",
+            "coding_emoji_32",
+    }, {
+            "coding_emoji_33",
+            "coding_emoji_34",
+            "coding_emoji_35",
+            "coding_emoji_36",
+            "coding_emoji_38",
+            "coding_emoji_39",
+            "coding_emoji_40",
+            "coding_emoji_41",
+    }, {
+            "coding_emoji_42",
+            "coding_emoji_43",
+    }};
+    private final View rootView;
+    PageChangeListener pageChange = new PageChangeListener();
     private CheckBox checkBoxEmoji;
     private View emojiKeyboardLayout;
     private LinearLayout emojiKeyboardIndicator;
-
     private EmojiPagerAdapter mEmojiPagerAdapter;
     private MonkeyPagerAdapter mMonkeyPagerAdapter;
     private View selectEmoji;
     private View selectMonkey;
     private MyImageGetter myImageGetter;
-
     private Activity mActivity;
-
     private int rootViewHigh = 0;
-    private final View rootView;
-
-    public static enum EmojiType {
-        Default, SmallOnly
-    }
 
     public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type);
@@ -161,26 +295,6 @@ public class EnterEmojiLayout extends EnterLayout {
         });
     }
 
-    class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
-        int oldPos = 0;
-
-        public void resetPos() {
-            oldPos = 0;
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            View oldPoint = emojiKeyboardIndicator.getChildAt(oldPos);
-            View newPoint = emojiKeyboardIndicator.getChildAt(position);
-            oldPoint.setBackgroundResource(R.drawable.ic_point_normal);
-            newPoint.setBackgroundResource(R.drawable.ic_point_select);
-
-            oldPos = position;
-        }
-    }
-
-    PageChangeListener pageChange = new PageChangeListener();
-
 
     public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick) {
         this(activity, sendTextOnClick, Type.Default, EmojiType.Default);
@@ -204,8 +318,9 @@ public class EnterEmojiLayout extends EnterLayout {
     private void setIndicatorCount(int count) {
         emojiKeyboardIndicator.removeAllViews();
         int pointWidth = mActivity.getResources().getDimensionPixelSize(R.dimen.point_width);
+        int pointHeight = pointWidth;
         int pointMargin = mActivity.getResources().getDimensionPixelSize(R.dimen.point_margin);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(pointWidth, pointWidth);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(pointWidth, pointHeight);
         lp.leftMargin = pointWidth;
         lp.rightMargin = pointMargin;
         for (int i = 0; i < count; ++i) {
@@ -229,146 +344,27 @@ public class EnterEmojiLayout extends EnterLayout {
     }
 
 
-    static String emojiIcons[][] = {{
-            "smiley",
-            "heart_eyes",
-            "pensive",
-            "flushed",
-            "grin",
-            "kissing_heart",
-            "wink",
-            "angry",
-            "disappointed",
-            "disappointed_relieved",
-            "sob",
-            "stuck_out_tongue_closed_eyes",
-            "rage",
-            "persevere",
-            "unamused",
-            "smile",
-            "mask",
-            "kissing_face",
-            "sweat",
-            "joy",
-            "ic_keyboard_delete"
-    }, {
-            "blush",
-            "cry",
-            "stuck_out_tongue_winking_eye",
-            "fearful",
-            "cold_sweat",
-            "dizzy_face",
-            "smirk",
-            "scream",
-            "sleepy",
-            "confounded",
-            "relieved",
-            "smiling_imp",
-            "ghost",
-            "santa",
-            "dog",
-            "pig",
-            "cat",
-            "a00001",
-            "a00002",
-            "facepunch",
-            "ic_keyboard_delete"
-    }, {
-            "fist",
-            "v",
-            "muscle",
-            "clap",
-            "point_left",
-            "point_up_2",
-            "point_right",
-            "point_down",
-            "ok_hand",
-            "heart",
-            "broken_heart",
-            "sunny",
-            "moon",
-            "star2",
-            "zap",
-            "cloud",
-            "lips",
-            "rose",
-            "coffee",
-            "birthday",
+    public enum EmojiType {
+        Default, SmallOnly
+    }
 
-            "ic_keyboard_delete"
-    }, {
-            "clock10",
-            "beer",
-            "mag",
-            "iphone",
-            "house",
-            "car",
-            "gift",
-            "soccer",
-            "bomb",
-            "gem",
-            "alien",
-            "my100",
-            "money_with_wings",
-            "video_game",
-            "hankey",
-            "sos",
-            "zzz",
-            "microphone",
-            "umbrella",
-            "book",
-            "ic_keyboard_delete"}
-    };
+    class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+        int oldPos = 0;
 
-    static String monkeyIcons[][] = new String[][]{{
-            "coding_emoji_01",
-            "coding_emoji_02",
-            "coding_emoji_03",
-            "coding_emoji_04",
-            "coding_emoji_05",
-            "coding_emoji_06",
-            "coding_emoji_07",
-            "coding_emoji_08"
-    }, {
-            "coding_emoji_09",
-            "coding_emoji_10",
-            "coding_emoji_11",
-            "coding_emoji_12",
-            "coding_emoji_13",
-            "coding_emoji_14",
-            "coding_emoji_15",
-            "coding_emoji_16"
-    }, {
-            "coding_emoji_17",
-            "coding_emoji_18",
-            "coding_emoji_19",
-            "coding_emoji_20",
-            "coding_emoji_21",
-            "coding_emoji_22",
-            "coding_emoji_23",
-            "coding_emoji_24"
-    }, {
-            "coding_emoji_25",
-            "coding_emoji_26",
-            "coding_emoji_27",
-            "coding_emoji_28",
-            "coding_emoji_29",
-            "coding_emoji_30",
-            "coding_emoji_31",
-            "coding_emoji_32",
-    }, {
-            "coding_emoji_33",
-            "coding_emoji_34",
-            "coding_emoji_35",
-            "coding_emoji_36",
-            "coding_emoji_38",
-            "coding_emoji_39",
-            "coding_emoji_40",
-            "coding_emoji_41",
-    }, {
-            "coding_emoji_42",
-            "coding_emoji_43",
-    }};
+        public void resetPos() {
+            oldPos = 0;
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            View oldPoint = emojiKeyboardIndicator.getChildAt(oldPos);
+            View newPoint = emojiKeyboardIndicator.getChildAt(position);
+            oldPoint.setBackgroundResource(R.drawable.ic_point_normal);
+            newPoint.setBackgroundResource(R.drawable.ic_point_select);
+
+            oldPos = position;
+        }
+    }
 
     class EmojiPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -389,8 +385,6 @@ public class EnterEmojiLayout extends EnterLayout {
         }
     }
 
-    ;
-
     class MonkeyPagerAdapter extends FragmentStatePagerAdapter {
 
         MonkeyPagerAdapter(FragmentManager fm) {
@@ -409,7 +403,5 @@ public class EnterEmojiLayout extends EnterLayout {
             return monkeyIcons.length;
         }
     }
-
-    ;
 
 }

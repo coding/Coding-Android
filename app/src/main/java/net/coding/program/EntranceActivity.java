@@ -19,6 +19,8 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.login.ResetPasswordActivity_;
+import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -57,6 +59,48 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
     @AfterViews
     void init() {
+        Uri uriData = getIntent().getData();
+        if (uriData != null) {
+
+            String path = uriData.getPath();
+            switch (path) {
+                case "/app/detect": {
+                    String link = Global.decodeUtf8(uriData.getQueryParameter("link"));
+                    Uri uriLink = Uri.parse(link);
+                    String linkPath = uriLink.getPath();
+
+                    switch (linkPath) {
+                        case "/activate":
+                            UserActiveActivity_.intent(this)
+                                    .link(link)
+                                    .start();
+                            break;
+                        case "/user/resetPassword":
+                            ResetPasswordActivity_.intent(this)
+                                    .link(link)
+                                    .start();
+                            break;
+                        default:
+                            WebActivity_.intent(this)
+                                    .url(link)
+                                    .start();
+                            break;
+                    }
+                    break;
+                }
+
+                default: {
+                    Intent mainIntent = new Intent(this, MainActivity_.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mainIntent.putExtra("mPushUrl", uriData);
+                    startActivity(mainIntent);
+                }
+            }
+
+            finish();
+            return;
+        }
+
         mWeakRefHandler = new WeakRefHander(this);
 
         LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();

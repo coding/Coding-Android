@@ -73,8 +73,8 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     ));
     String urlProject;
 
-//    MySpinnerAdapter mSpinnerAdapter;
-ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
+    //    MySpinnerAdapter mSpinnerAdapter;
+    ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
             R.drawable.ic_spinner_dynamic,
             R.drawable.ic_spinner_topic,
             R.drawable.ic_spinner_git,
@@ -149,31 +149,6 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
             project_activity_action_list.add(insertAttPos, "项目文档");
         }
         selectFragment(getJumpPos());
-
-//        mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater());
-
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setDisplayShowCustomEnabled(true);
-//        actionBar.setCustomView(R.layout.actionbar_custom_spinner);
-//        Spinner spinner = (Spinner) actionBar.getCustomView().findViewById(R.id.spinner);
-//        spinner.setAdapter(mSpinnerAdapter);
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                selectFragment(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//        if (mJumpParam != null && !mJumpParam.mDefault.isEmpty()) {
-//            spinner.setSelection(1);
-//        }
     }
 
     private int getJumpPos() {
@@ -195,8 +170,6 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
     }
 
     private void selectFragment(int position) {
-//        mSpinnerAdapter.setCheckPos(position);
-
         Fragment fragment;
         Bundle bundle = new Bundle();
 
@@ -228,70 +201,6 @@ ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
             }
         }
     }
-
-//    class MySpinnerAdapter extends BaseAdapter {
-//
-//        private LayoutInflater inflater;
-//
-//        public MySpinnerAdapter(LayoutInflater inflater) {
-//            this.inflater = inflater;
-//        }
-//
-//        int checkPos = 0;
-//
-//        public void setCheckPos(int pos) {
-//            checkPos = pos;
-//        }
-//
-//
-//        @Override
-//        public int getCount() {
-//            return spinnerIcons.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            if (convertView == null) {
-//                convertView = inflater.inflate(R.layout.spinner_layout_head, parent, false);
-//            }
-//
-//            ((TextView) convertView).setText(project_activity_action_list.get(position));
-//
-//            return convertView;
-//        }
-//
-//        @Override
-//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-//            if (convertView == null) {
-//                convertView = inflater.inflate(R.layout.spinner_layout_item, parent, false);
-//            }
-//
-//            TextView title = (TextView) convertView.findViewById(R.id.title);
-//            title.setText(project_activity_action_list.get(position));
-//
-//            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-//            icon.setImageResource(spinnerIcons.get(position));
-//
-//            if (checkPos == position) {
-//                convertView.setBackgroundColor(getResources().getColor(R.color.green));
-//            } else {
-//                convertView.setBackgroundColor(getResources().getColor(R.color.spinner_black));
-//            }
-//
-//
-//            return convertView;
-//        }
-//    }
 
     public static class ProjectJumpParam implements Serializable {
         public String mProject = "";
