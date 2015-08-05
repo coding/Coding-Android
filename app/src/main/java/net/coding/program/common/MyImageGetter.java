@@ -20,6 +20,36 @@ public class MyImageGetter implements Html.ImageGetter {
         mActivity = activity;
     }
 
+    static public int getResourceId(String s) {
+        String name = s.replace('-', '_');
+
+        if (name.equals("e_mail")) {
+            name = "e_mail";
+        } else if (name.equals("non_potable_water")) {
+            name = "non_potable_water";
+        } else if (name.equals("+1")) {
+            name = "a00001";
+        } else if (name.equals("_1")) {
+            name = "a00002";
+        } else if (name.equals("new")) {
+            name = "my_new_1";
+        } else if (name.equals("8ball")) {
+            name = "my8ball";
+        } else if (name.equals("100")) {
+            name = "my100";
+        } else if (name.equals("1234")) {
+            name = "my1234";
+        }
+
+        try {
+            Field field = R.drawable.class.getField(name);
+            return Integer.parseInt(field.get(null).toString());
+        } catch (Exception e) {
+        }
+
+        return R.drawable.app_icon;
+    }
+
     @Override
     public Drawable getDrawable(String source) {
         String name = getPhotoName(source);
@@ -55,34 +85,4 @@ public class MyImageGetter implements Html.ImageGetter {
         return name.indexOf("coding") == 0;
     }
 
-    static public int getResourceId(String s) {
-        String name = s.replace('-', '_');
-
-        if (name.equals("e_mail")) {
-            name = "e_mail";
-        } else if (name.equals("non_potable_water")) {
-            name = "non_potable_water";
-        } else if (name.equals("+1")) {
-            name = "a00001";
-        } else if (name.equals("_1")) {
-            name = "a00002";
-        } else if (name.equals("new")) {
-            name = "my_new_1";
-        } else if (name.equals("8ball")) {
-            name = "my8ball";
-        } else if (name.equals("100")) {
-            name = "my100";
-        } else if (name.equals("1234")) {
-            name = "my1234";
-        }
-
-        try {
-            Field field = R.drawable.class.getField(name);
-            return Integer.parseInt(field.get(null).toString());
-        } catch (Exception e) {
-        }
-
-        return R.drawable.ic_launcher;
-    }
-
-};
+}

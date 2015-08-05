@@ -16,6 +16,7 @@ import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -25,6 +26,24 @@ import javax.net.ssl.TrustManager;
  * 对 AsyncHttpClient 做了一些公共操作
  */
 public class MyAsyncHttpClient {
+
+    private static HashMap<String, String> mapHeaders = new HashMap<>();
+
+    public static void init(Context context) {
+        mapHeaders.clear();
+        mapHeaders.put("Referer", "https://coding.net");
+
+        String userAgentValue = "";
+        String versionName = "";
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            versionName = pInfo.versionName;
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+        userAgentValue = String.format("android %d %s", Build.VERSION.SDK_INT, versionName);
+        mapHeaders.put("User-Agent", userAgentValue);
+    }
 
     public static AsyncHttpClient createClient(Context context) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -50,17 +69,14 @@ public class MyAsyncHttpClient {
             client.addHeader("Authorization", customHost.getCode());
         }
 
-        String versionName = "";
-        try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            versionName = pInfo.versionName;
-        } catch (Exception e) {
-            Global.errorLog(e);
+        for (String item : mapHeaders.keySet()) {
+            client.addHeader(item, mapHeaders.get(item));
         }
 
-        final String userAgent = String.format("android %d %s", Build.VERSION.SDK_INT, versionName);
-        client.addHeader("User-Agent", userAgent);
-        client.addHeader("Referer", "https://coding.net");
         return client;
+    }
+
+    public static HashMap<String, String> getMapHeaders() {
+        return mapHeaders;
     }
 }

@@ -128,7 +128,7 @@ public class PushReceiver extends XGPushBaseReceiver {
 
     private void showNotify(Context context, String title, String msg, String id, String url) {
         builder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.app_icon)
                 .setContentTitle(title)
                 .setContentText(msg);
 

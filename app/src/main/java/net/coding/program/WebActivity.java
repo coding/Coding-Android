@@ -23,6 +23,7 @@ import android.widget.Toast;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -131,7 +132,7 @@ public class WebActivity extends UmengActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         webView.setWebViewClient(new CustomWebViewClient(this));
-        webView.loadUrl(url);
+        webView.loadUrl(url, MyAsyncHttpClient.getMapHeaders());
     }
 
     @Override

@@ -15,6 +15,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.MyImageDownloader;
@@ -113,6 +114,8 @@ public class MyApp extends Application {
         }
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
+
+        MyAsyncHttpClient.init(this);
 
         initImageLoader(this);
 

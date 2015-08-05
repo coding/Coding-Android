@@ -381,6 +381,15 @@ public class UserDetailActivity extends BackActivity {
     }
 
     @Click
+    public void clickPointRecord() {
+        if (!dataIsLoaded()) {
+            return;
+        }
+
+        UserPointActivity_.intent(this).start();
+    }
+
+    @Click
     public void clickTopic() {
         if (!dataIsLoaded()) {
             return;
