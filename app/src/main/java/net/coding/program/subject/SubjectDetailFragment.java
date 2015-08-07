@@ -38,6 +38,7 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.LikeUsersArea;
 import net.coding.program.maopao.MaopaoAddActivity_;
+import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.maopao.MaopaoLocationArea;
 import net.coding.program.maopao.MaopaoSearchActivity_;
 import net.coding.program.maopao.item.CommentArea;
@@ -157,21 +158,13 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-//                Fragment parent = getParentFragment();
-//                if (parent == null) {
-//                    MaopaoDetailActivity_
-//                            .intent(SubjectDetailFragment.this)
-//                            .mMaopaoObject(data)
-//                            .startForResult(RESULT_EDIT_MAOPAO);
-//                } else {
-//                    MaopaoDetailActivity_
-//                            .intent(parent)
-//                            .mMaopaoObject(data)
-//                            .startForResult(RESULT_EDIT_MAOPAO);
-//                }
-
+                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
+                MaopaoDetailActivity_
+                        .intent(SubjectDetailFragment.this)
+                        .mMaopaoObject(data)
+                        .startForResult(RESULT_EDIT_MAOPAO);
             }
+
         };
         ClickSmallImage onClickImage = new ClickSmallImage(SubjectDetailFragment.this);
         View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
@@ -775,11 +768,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             if (code == 0) {
                 JSONObject json = respanse.optJSONObject("data");
                 if (json != null) {
-                    Subject.SubjectDescObject item = new Subject.SubjectDescObject(json);
-                    if (item != null) {
-                        subjectDescObject = item;
-                        initData();
-                    }
+                    subjectDescObject = new Subject.SubjectDescObject(json);
+                    initData();
                 }
 
             }
@@ -787,9 +777,9 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             if (code == 0) {
                 JSONArray json = respanse.optJSONArray("data");
                 if (json != null) {
-                    CircleImageView circleImageView = null;
-                    UserObject userObject = null;
-                    FlowLayout.LayoutParams layoutParams = null;
+                    CircleImageView circleImageView;
+                    UserObject userObject;
+                    FlowLayout.LayoutParams layoutParams;
                     int countLimit = getUserAvatarCount();
                     int size = countLimit > json.length() ? json.length() : countLimit;
                     for (int i = 0; i < size; i++) {
