@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -24,7 +27,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +44,6 @@ import java.util.Random;
  * 标签编辑
  */
 @EActivity(R.layout.activity_topic_label)
-@OptionsMenu(R.menu.topic_label)
 public class TopicLabelActivity extends BackActivity {
 
     private static String COLOR = "#701035";
@@ -77,6 +78,16 @@ public class TopicLabelActivity extends BackActivity {
     private LinkedHashSet<Integer> checkedIds = new LinkedHashSet<>();
     private boolean saveTopicLabels = false;
     private boolean isBuzy;
+    private MenuItem menuActionSave;
+
+    public static void removeEmptyLabel(ArrayList<TopicLabelObject> list) {
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i).isEmpty()) {
+                list.remove(i);
+                --i;
+            }
+        }
+    }
 
     @AfterViews
     protected final void initTopicLabelActivity() {
@@ -117,6 +128,26 @@ public class TopicLabelActivity extends BackActivity {
         } else {
             saveTopicLabels = true;
             finish();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(net.coding.program.R.menu.topic_label, menu);
+        menuActionSave = menu.findItem(R.id.action_save);
+        menuActionSave.setEnabled(false);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void updateMenuActionSave() {
+        if (isLabelsChanged(false)) {
+            menuActionSave.setEnabled(true);
+            menuActionSave.setIcon(R.drawable.ic_menu_ok);
+        } else {
+            menuActionSave.setEnabled(false);
+            menuActionSave.setIcon(R.drawable.ic_menu_ok_unable);
         }
     }
 
@@ -166,7 +197,9 @@ public class TopicLabelActivity extends BackActivity {
             JSONArray array = json.getJSONArray("data");
             for (int i = 0, n = array.length(); i < n; i++) {
                 TopicLabelObject data = new TopicLabelObject(array.optJSONObject(i));
-                allLabels.put(data.id, data);
+                if (!data.isEmpty()) {
+                    allLabels.put(data.id, data);
+                }
             }
             updateList();
         } else {
@@ -315,6 +348,7 @@ public class TopicLabelActivity extends BackActivity {
                                 break;
                             case 1:
                                 doDelete();
+                                updateMenuActionSave();
                                 break;
                         }
                     }
@@ -420,6 +454,7 @@ public class TopicLabelActivity extends BackActivity {
                     } else {
                         endAddTopicLabel();
                     }
+                    updateMenuActionSave();
                 }
             });
         }

@@ -18,6 +18,7 @@ import java.util.Calendar;
 
 /**
  * Created by chaochen on 14/12/23.
+ * 日期选择
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
@@ -29,7 +30,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 //        Cancel, Set, Clear;
 //    };
     private DateSet mDateSet;
-
 
     @Override
     public void onAttach(Activity activity) {

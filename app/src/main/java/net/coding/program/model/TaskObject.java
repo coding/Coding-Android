@@ -11,13 +11,14 @@ import java.util.ArrayList;
 
 /**
  * Created by cc191954 on 14-8-12.
+ * 任务的数据结构
  */
 public class TaskObject {
 
     public static class Members implements Serializable {
-        public static final int MEMBER_TYPE_OWNER = 100;public long created_at;
+        public static final int MEMBER_TYPE_OWNER = 100;
         public static final int MEMBER_TYPE_MEMBER = 80;
-
+        public long created_at;
         public int id;
         public long last_visit_at;
         public int project_id;
@@ -145,7 +146,10 @@ public class TaskObject {
             if (json.has("labels")) {
                 JSONArray jsonLabals = json.optJSONArray("labels");
                 for (int i = 0; i < jsonLabals.length(); ++i) {
-                    labels.add(new TopicLabelObject(jsonLabals.getJSONObject(i)));
+                    TopicLabelObject label = new TopicLabelObject(jsonLabals.getJSONObject(i));
+                    if (!label.isEmpty()) {
+                        labels.add(label);
+                    }
                 }
             }
         }

@@ -33,7 +33,6 @@ public class MyAsyncHttpClient {
         mapHeaders.clear();
         mapHeaders.put("Referer", "https://coding.net");
 
-        String userAgentValue = "";
         String versionName = "";
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -41,7 +40,7 @@ public class MyAsyncHttpClient {
         } catch (Exception e) {
             Global.errorLog(e);
         }
-        userAgentValue = String.format("android %d %s", Build.VERSION.SDK_INT, versionName);
+        String userAgentValue = String.format("android %d %s coding_android", Build.VERSION.SDK_INT, versionName);
         mapHeaders.put("User-Agent", userAgentValue);
     }
 

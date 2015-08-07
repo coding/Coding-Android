@@ -10,7 +10,6 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,9 +111,7 @@
                     android:textColor="@color/font_black_comment"
                     android:textSize="16sp" />
 
-
             </LinearLayout>
-
 
             <CheckBox
                 android:id="@+id/followCheckbox"
@@ -158,137 +155,53 @@
         <include layout="@layout/divide_15_top_bottom" />
 
 
-        <LinearLayout
+        <LinearLayout xmlns:listItem1="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:background="@color/stand_bg"
             android:orientation="vertical">
 
-            <LinearLayout
+            <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickProject"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15sp"
-                android:paddingRight="15sp">
-
-                <View
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/user_home_project" />
-
-
-                <TextView
-                    android:id="@+id/titleProject"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="TA的项目"
-                    android:textColor="#222222"
-                    android:textSize="16sp" />
-
-                <include layout="@layout/list_item_common_arrow" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                listItem1:itemIcon="@drawable/user_home_project"
+                listItem1:itemTitle="TA的项目" />
 
             <include layout="@layout/divide_1_12" />
 
-
-            <LinearLayout
+            <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickMaopao"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15sp"
-                android:paddingRight="15sp">
-
-                <View
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/user_home_maopao" />
-
-                <TextView
-                    android:id="@+id/titleMaopao"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="TA的冒泡"
-                    android:textColor="#222222"
-                    android:textSize="16sp" />
-
-                <include layout="@layout/list_item_common_arrow" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                listItem1:itemIcon="@drawable/user_home_maopao"
+                listItem1:itemTitle="TA的冒泡" />
 
             <include layout="@layout/divide_1_12" />
 
-            <LinearLayout
+            <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickTopic"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15sp"
-                android:paddingRight="15sp">
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                listItem1:itemIcon="@drawable/user_home_topic"
+                listItem1:itemTitle="TA的话题" />
 
-                <View
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/user_home_topic" />
+            <include
+                android:id="@+id/pointDivide"
+                layout="@layout/divide_15_top"
+                android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/titleTopic"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="TA的话题"
-                    android:textColor="#222222"
-                    android:textSize="16sp" />
-
-                <include layout="@layout/list_item_common_arrow" />
-
-            </LinearLayout>
-
-            <include layout="@layout/divide_15_top" />
-
-            <LinearLayout
+            <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickPointRecord"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="15sp"
-                android:paddingRight="15sp">
-
-                <View
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/user_home_topic" />
-
-                <TextView
-                    android:id="@+id/pointRecord"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="我的码币"
-                    android:textColor="#222222"
-                    android:textSize="16sp" />
-
-                <include layout="@layout/list_item_common_arrow" />
-
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:visibility="gone"
+                listItem1:itemIcon="@drawable/user_home_points"
+                listItem1:itemTitle="我的码币" />
 
         </LinearLayout>
 

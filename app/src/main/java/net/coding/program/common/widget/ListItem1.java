@@ -14,6 +14,7 @@ import net.coding.program.R;
 
 /**
  * Created by chenchao on 15/5/28.
+ * listview item，带一个 icon 和一行文字
  */
 public class ListItem1 extends FrameLayout {
 
@@ -38,7 +39,7 @@ public class ListItem1 extends FrameLayout {
         boolean center = array.getBoolean(R.styleable.ListItem1_itemCenter, false);
         array.recycle();
 
-        if (title == null) title = "qq";
+        if (title == null) title = "";
         mText.setText(title);
         mIcon.setBackgroundResource(icon);
 
@@ -51,5 +52,13 @@ public class ListItem1 extends FrameLayout {
             layoutParams.weight = 0;
             ((LinearLayout) findViewById(R.id.clickProject)).setGravity(Gravity.CENTER);
         }
+    }
+
+    public void setText(String s) {
+        if (s == null) {
+            return;
+        }
+
+        mText.setText(s);
     }
 }

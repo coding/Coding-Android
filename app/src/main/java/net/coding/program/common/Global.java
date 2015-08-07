@@ -69,6 +69,8 @@ public class Global {
 
     public static final String DEFAULT_HOST = "https://coding.net";
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
+    public static final SimpleDateFormat mDateYMDHH = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
     public static String HOST = DEFAULT_HOST;
     public static String HOST_API = HOST + "/api";

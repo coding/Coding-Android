@@ -5,7 +5,7 @@
     tools:context="net.coding.program.project.detail.TopicLabelActivity">
     <item
         android:id="@+id/action_save"
-        android:icon="@drawable/ic_menu_ok"
+        android:icon="@drawable/ic_menu_ok_unable"
         android:title="确定"
         app:showAsAction="always" />
 </menu>

@@ -473,7 +473,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 banner.setInterval(10 * 1000);
                 banner.setScrollDurationFactor(2);
                 banner.startAutoScroll();
-                banner.setSlideBorderMode(AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE);
                 banner.setCurrentItem(bannerAdapter.getStartPos());
 
                 final IndicatorView bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);

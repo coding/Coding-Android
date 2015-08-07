@@ -20,26 +20,6 @@ import java.util.List;
  */
 public class BannerAdapter extends RecyclingPagerAdapter {
 
-//    List<BannerObject> mData = new ArrayList<>();
-//
-//
-//    public BannerAdapter(FragmentManager fm, List<BannerObject> data) {
-//        super(fm);
-//        mData = data;
-//    }
-//
-//    public Fragment getItem(int position) {
-//        BannerObject banner = mData.get(position);
-//        return BannerItemFragment_.builder()
-//                .data(banner)
-//                .build();
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        return mData.size();
-//    }
-
     private Context context;
     private List<BannerObject> imageIdList;
     private ImageLoadTool imageLoadTool;

@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * Created by Neutra on 2015/4/23.
+ * 标签的数据结构
  */
 public class TopicLabelObject implements Serializable {
     public int id;
@@ -39,5 +40,9 @@ public class TopicLabelObject implements Serializable {
 
     public int getColor() {
         return color;
+    }
+
+    public boolean isEmpty() {
+        return name == null || name.isEmpty();
     }
 }

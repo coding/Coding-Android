@@ -29,7 +29,11 @@ public class PointObject implements Serializable {
     }
 
     public static String getHttpRecord() {
-        return Global.HOST_API + "/point/records";
+        return Global.HOST_API + "/point/records?";
+    }
+
+    public static String getHttpPointsAll() {
+        return Global.HOST_API + "/point/points";
     }
 
     public double getPoints_left() {

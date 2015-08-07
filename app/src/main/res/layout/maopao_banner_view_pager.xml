@@ -34,7 +34,7 @@
             android:singleLine="true"
             android:text="hahahah"
             android:textColor="@color/font_black_2"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <net.coding.program.common.guide.IndicatorView
             android:id="@+id/indicatorView"

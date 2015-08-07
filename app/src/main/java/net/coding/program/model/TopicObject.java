@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-18.
+ * 讨论
  */
 public class TopicObject extends BaseComment implements Serializable {
     public static final int SORT_OLD = 0;
@@ -46,7 +47,10 @@ public class TopicObject extends BaseComment implements Serializable {
         {
             JSONArray array = json.optJSONArray("labels");
             for (int i = 0, n = array.length(); i < n; i++) {
-                labels.add(new TopicLabelObject(array.getJSONObject(i)));
+                TopicLabelObject label = new TopicLabelObject(array.getJSONObject(i));
+                if (!label.isEmpty()) {
+                    labels.add(label);
+                }
             }
         }
     }

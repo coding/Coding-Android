@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:listItem1="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/pointAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_12"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/font_green"
+        android:textSize="50sp"
+        tools:text="88.35" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:text="码币余额"
+        android:textColor="@color/font_black_9"
+        android:textSize="12sp" />
+
+
+    <include layout="@layout/divide_1" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemShop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        listItem1:itemIcon="@drawable/user_points_shop"
+        listItem1:itemTitle="商场" />
+
+</LinearLayout>

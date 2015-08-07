@@ -25,6 +25,7 @@ import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.widget.ListItem1;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
@@ -167,9 +168,12 @@ public class UserDetailActivity extends BackActivity {
 
     private void setTitleMyPage() {
         getSupportActionBar().setTitle("个人主页");
-        ((TextView) findViewById(R.id.titleProject)).setText("我的项目");
-        ((TextView) findViewById(R.id.titleMaopao)).setText("我的冒泡");
-        ((TextView) findViewById(R.id.titleTopic)).setText("我的话题");
+        ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
+        ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
+        ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
+
+        findViewById(R.id.pointDivide).setVisibility(View.VISIBLE);
+        findViewById(R.id.clickPointRecord).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -397,7 +401,6 @@ public class UserDetailActivity extends BackActivity {
        UserTopicActivity_.intent(this).mUserObject(mUserObject).start();
 
     }
-
 
     private boolean dataIsLoaded() {
         return mUserObject != null;

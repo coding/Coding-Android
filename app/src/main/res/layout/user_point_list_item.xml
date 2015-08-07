@@ -1,22 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-        <variable
-            name="pointObject"
-            type="net.coding.program.model.PointObject" />
-    </data>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_14"
+        android:paddingLeft="@dimen/padding_12"
+        android:paddingRight="@dimen/padding_12"
+        android:paddingTop="@dimen/padding_14">
 
         <TextView
+            android:id="@+id/usage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/font_black_2"
+            android:textSize="16sp"
+            tools:text="推送代码" />
+
+        <TextView
+            android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aa" />
+            android:textColor="@color/font_black_9"
+            android:textSize="12sp"
+            tools:text="2015-07" />
 
     </LinearLayout>
-</layout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding_14"
+        android:paddingLeft="@dimen/padding_12"
+        android:paddingRight="@dimen/padding_12">
+
+        <TextView
+            android:id="@+id/pointLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/font_black_9"
+            android:textSize="12sp"
+            tools:text="余额" />
+
+        <TextView
+            android:id="@+id/pointsChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_green"
+            android:textSize="16sp"
+            tools:text="0.03" />
+    </LinearLayout>
+
+    <include layout="@layout/divide_1" />
+
+</LinearLayout>
