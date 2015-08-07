@@ -50,6 +50,11 @@ public class AccountInfo {
     private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
     private static final String KEY_MAOPAO_BANNER = "KEY_MAOPAO_BANNER";
 
+    // 每添加一个信鸽能
+    private static final String MARK_GUIDE_32 = "MARK_GUIDE_32"; // 标记3.2中的引导页面
+    private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_32"; // 修改这个值就可以了
+
+
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
         String[] fileNameList = dir.list();
@@ -146,6 +151,19 @@ public class AccountInfo {
         }
 
         return data;
+    }
+
+    public static boolean needDisplayGuide(Context context) {
+        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
+        if (result == null) {
+            return true;
+        }
+
+        return result;
+    }
+
+    public static void markGuideReaded(Context context) {
+        new DataCache<Boolean>().saveGlobal(context, Boolean.FALSE, MARK_GUIDE_FEATURES);
     }
 
     public static boolean isCacheProjects(Context ctx) {

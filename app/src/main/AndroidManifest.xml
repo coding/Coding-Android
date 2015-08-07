@@ -648,6 +648,11 @@
             android:name=".user.UserPointActivity_"
             android:label="@string/title_activity_user_point"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.guide.feature.FeatureActivity_"
+            android:label="@string/title_activity_feature"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
     </application>
 
 </manifest>

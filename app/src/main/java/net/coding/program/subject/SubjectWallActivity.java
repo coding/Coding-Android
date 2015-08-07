@@ -22,6 +22,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.loop.AutoScrollLoopViewPager;
@@ -45,26 +46,60 @@ import java.util.List;
 @EActivity(R.layout.activity_subject_wall)
 public class SubjectWallActivity extends BaseActivity {
 
-    private String mTweetAdUrl = Global.HOST_API + "/tweet_topic/marketing_ad";
-    private String mTweetAdTag = "marketing_ad";
-
-    private List<Subject.SubjectDescObject> mHotTweetDescObjects = new ArrayList<>();
-
-    @ViewById(R.id.loop_view_pager)
+    @ViewById
     AutoScrollLoopViewPager loopViewPager;
-
     @ViewById
     WechatTab tabs;
-
-    @ViewById(R.id.pagerFragmentProgram)
+    @ViewById
     ViewPager pager;
-
     @ViewById(R.id.topic_my_container)
     LinearLayout mTopicMyContainer;
     @ViewById(R.id.topic_hot_container)
     FrameLayout mTopicHotContainer;
-
+    private String mTweetAdUrl = Global.HOST_API + "/tweet_topic/marketing_ad";
+    private String mTweetAdTag = "marketing_ad";
+    private List<Subject.SubjectDescObject> mHotTweetDescObjects = new ArrayList<>();
     private MySpinnerAdapter mSpinnerAdapter;
+    private PagerAdapter mAdPagerAdapter = new PagerAdapter() {
+
+        @Override
+        public int getCount() {
+            if (mHotTweetDescObjects == null) {
+                return 0;
+            }
+            return mHotTweetDescObjects.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, final int position) {
+
+            ImageView imageView = new ImageView(SubjectWallActivity.this);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView.setTag(position);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start();
+                }
+            });
+            getImageLoad().loadImage(imageView, mHotTweetDescObjects.get(position).image_url, ImageLoadTool.bannerOptions);
+            container.addView(imageView);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            if (object instanceof View) {
+                container.removeView((View) object);
+            }
+        }
+    };
 
     @AfterViews
     protected final void initSubjectWallActivity() {
@@ -125,6 +160,44 @@ public class SubjectWallActivity extends BaseActivity {
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
         tabs.setViewPager(pager);
+    }
+
+    private void initLooperViewPager() {
+        loopViewPager.setAdapter(mAdPagerAdapter);
+        loopViewPager.setSmoothScrollDurationRatio(3);
+        loopViewPager.startAutoScroll();
+    }
+
+    private void getTweetTopicAdFromServer() {
+        getNetwork(mTweetAdUrl, mTweetAdTag);
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (mTweetAdTag.equals(tag)) {
+            JSONArray dataArr = respanse.optJSONArray("data");
+            if (dataArr != null) {
+                Subject.SubjectDescObject tweetDescObject = null;
+                mHotTweetDescObjects.clear();
+                for (int i = 0; i < dataArr.length(); i++) {
+                    tweetDescObject = new Subject.SubjectDescObject(dataArr.optJSONObject(i));
+                    mHotTweetDescObjects.add(tweetDescObject);
+                }
+                initLooperViewPager();
+                mAdPagerAdapter.notifyDataSetChanged();
+            }
+            return;
+        }
+    }
+
+    private void changePageShow(int pos) {
+        if (pos == 1) {
+            mTopicHotContainer.setVisibility(View.GONE);
+            mTopicMyContainer.setVisibility(View.VISIBLE);
+        } else {
+            mTopicHotContainer.setVisibility(View.VISIBLE);
+            mTopicMyContainer.setVisibility(View.GONE);
+        }
     }
 
     class MySpinnerAdapter extends BaseAdapter {
@@ -188,54 +261,6 @@ public class SubjectWallActivity extends BaseActivity {
         }
     }
 
-    private void initLooperViewPager() {
-        loopViewPager.setAdapter(mAdPagerAdapter);
-        loopViewPager.setSmoothScrollDurationRatio(3);
-        loopViewPager.startAutoScroll();
-    }
-
-    private PagerAdapter mAdPagerAdapter = new PagerAdapter() {
-
-        @Override
-        public int getCount() {
-            if (mHotTweetDescObjects == null) {
-                return 0;
-            }
-            return mHotTweetDescObjects.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-
-            ImageView imageView = new ImageView(SubjectWallActivity.this);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setTag(position);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start();
-                }
-            });
-            getImageLoad().loadImage(imageView, mHotTweetDescObjects.get(position).image_url);
-            container.addView(imageView);
-            return imageView;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (object instanceof View) {
-                container.removeView((View) object);
-            }
-        }
-    };
-
-
     class MyPagerAdapter extends SaveFragmentPagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
@@ -268,38 +293,6 @@ public class SubjectWallActivity extends BaseActivity {
 
             saveFragment(fragment);
             return fragment;
-        }
-    }
-
-    private void getTweetTopicAdFromServer() {
-        getNetwork(mTweetAdUrl, mTweetAdTag);
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (mTweetAdTag.equals(tag)) {
-            JSONArray dataArr = respanse.optJSONArray("data");
-            if (dataArr != null) {
-                Subject.SubjectDescObject tweetDescObject = null;
-                mHotTweetDescObjects.clear();
-                for (int i = 0; i < dataArr.length(); i++) {
-                    tweetDescObject = new Subject.SubjectDescObject(dataArr.optJSONObject(i));
-                    mHotTweetDescObjects.add(tweetDescObject);
-                }
-                initLooperViewPager();
-                mAdPagerAdapter.notifyDataSetChanged();
-            }
-            return;
-        }
-    }
-
-    private void changePageShow(int pos) {
-        if (pos == 1) {
-            mTopicHotContainer.setVisibility(View.GONE);
-            mTopicMyContainer.setVisibility(View.VISIBLE);
-        } else {
-            mTopicHotContainer.setVisibility(View.VISIBLE);
-            mTopicMyContainer.setVisibility(View.GONE);
         }
     }
 }

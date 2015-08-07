@@ -19,6 +19,7 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.common.guide.feature.FeatureActivity_;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.model.AccountInfo;
@@ -61,7 +62,6 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     void init() {
         Uri uriData = getIntent().getData();
         if (uriData != null) {
-
             String path = uriData.getPath();
             switch (path) {
                 case "/app/detect": {
@@ -206,7 +206,11 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
             }
 
         } else {
-            intent = new Intent(this, MainActivity_.class);
+            if (AccountInfo.needDisplayGuide(this)) {
+                intent = new Intent(this, FeatureActivity_.class);
+            } else {
+                intent = new Intent(this, MainActivity_.class);
+            }
         }
 
         startActivity(intent);

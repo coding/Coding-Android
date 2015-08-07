@@ -30,7 +30,6 @@ public class SubjectUserListAdapter extends BaseAdapter {
         this.userItems = items;
     }
 
-
     @Override
     public int getCount() {
         if (userItems != null && userItems.size() > 0) {
@@ -72,13 +71,18 @@ public class SubjectUserListAdapter extends BaseAdapter {
         holder.name.setText(data.name);
         new ImageLoadTool().loadImage(holder.icon, data.avatar);
 
-        int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
-        holder.mutual.setButtonDrawable(drawableId);
-        holder.mutual.setTag(position);
-        holder.mutual.setChecked(data.followed);
-        if (mFollowClickListener != null)
-            holder.mutual.setOnClickListener(mFollowClickListener);
-
+        if (data.isMe()) {
+            holder.mutual.setVisibility(View.INVISIBLE);
+        } else {
+            holder.mutual.setVisibility(View.VISIBLE);
+            int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
+            holder.mutual.setButtonDrawable(drawableId);
+            holder.mutual.setTag(position);
+            holder.mutual.setChecked(data.followed);
+            if (mFollowClickListener != null) {
+                holder.mutual.setOnClickListener(mFollowClickListener);
+            }
+        }
 
         return convertView;
     }

@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_14"
-        android:paddingLeft="@dimen/padding_12"
-        android:paddingRight="@dimen/padding_12"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
         android:paddingTop="@dimen/padding_14">
 
         <TextView
@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/padding_14"
-        android:paddingLeft="@dimen/padding_12"
-        android:paddingRight="@dimen/padding_12">
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
 
         <TextView
             android:id="@+id/pointLeft"

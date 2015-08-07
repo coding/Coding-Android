@@ -100,7 +100,13 @@ public class UserPointActivity extends BackActivity {
         public void bind(PointObject data) {
             usage.setText(data.getUsage());
             double points_change = data.getPoints_change();
-            pointsChange.setText(String.format("%.2f", points_change));
+            String changeForamt;
+            if (points_change >= 0) {
+                changeForamt = String.format("+%.2f", points_change);
+            } else {
+                changeForamt = String.format("-%.2f", points_change);
+            }
+            pointsChange.setText(changeForamt);
             pointsChange.setTextColor(points_change >= 0 ? 0xff3bbd79 : 0xfffb8638);
             create.setText(Global.mDateYMDHH.format(data.getCreated_at()));
             pointsLeft.setText(String.format("余额: %.2f", data.getPoints_left()));
