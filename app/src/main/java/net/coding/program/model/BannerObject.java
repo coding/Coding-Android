@@ -23,14 +23,14 @@ public class BannerObject implements Serializable {
      * code : app
      */
     private int id;
-    private String title;
+    private String title = "";
     private long updated_at;
     private int status;
-    private String link;
-    private String name;
-    private String image;
+    private String link = "";
+    private String name = "";
+    private String image = "";
     private long created_at;
-    private String code;
+    private String code = "";
 
     public BannerObject(JSONObject json) {
         id = json.optInt("id");
@@ -42,6 +42,9 @@ public class BannerObject implements Serializable {
         image = json.optString("image", "");
         created_at = json.optLong("created_at");
         code = json.optString("code", "");
+    }
+
+    public BannerObject() {
     }
 
     public static String getHttpBanners() {

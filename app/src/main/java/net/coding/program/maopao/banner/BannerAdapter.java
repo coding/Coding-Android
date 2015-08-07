@@ -62,7 +62,9 @@ public class BannerAdapter extends RecyclingPagerAdapter {
         }
 
         BannerObject data = imageIdList.get(translatePosition(position));
-        imageLoadTool.loadImage(holder.imageView, data.getImage());
+
+        String imageUrl = data.getImage();
+        imageLoadTool.loadImage(holder.imageView, imageUrl, ImageLoadTool.bannerOptions);
         holder.imageView.setTag(data);
 
         return view;
