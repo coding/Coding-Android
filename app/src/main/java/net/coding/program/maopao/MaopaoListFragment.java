@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -35,6 +36,7 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.guide.IndicatorView;
@@ -63,11 +65,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
-
 @EFragment(R.layout.fragment_maopao_list)
 @OptionsMenu(R.menu.menu_fragment_maopao)
-public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
+public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity, WeakRefHander.Callback {
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
     public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
@@ -136,7 +136,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             onRefresh();
         }
     };
-    AutoScrollViewPager banner;
+    WeakRefHander mHander = new WeakRefHander(this, 10 * 1000);
+    ViewPager banner;
+    //    AutoScrollViewPager banner;
     private MyImageGetter myImageGetter;
     private int mPxImageWidth;
     BaseAdapter mAdapter = new BaseAdapter() {
@@ -405,6 +407,14 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
     };
 
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (banner != null) {
+            banner.setCurrentItem(banner.getCurrentItem() + 1);
+        }
+        return true;
+    }
+
     @OptionsItem
     void action_search() {
         MaopaoSearchActivity_.intent(this).start();
@@ -463,17 +473,18 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             final ArrayList<BannerObject> banners = AccountInfo.getMaopaoBanners(getActivity());
             if (!banners.isEmpty()) {
                 View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
-                banner = (AutoScrollViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
+                banner = (ViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
                 ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
                 layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
                 banner.setLayoutParams(layoutParams);
 
                 final BannerAdapter bannerAdapter = new BannerAdapter(getActivity(), banners, getImageLoad());
                 banner.setAdapter(bannerAdapter);
-                banner.setInterval(10 * 1000);
-                banner.setScrollDurationFactor(2);
-                banner.startAutoScroll();
+//                banner.setInterval(10 * 1000);
+//                banner.setScrollDurationFactor(2);
+//                banner.startAutoScroll();
                 banner.setCurrentItem(bannerAdapter.getStartPos());
+//                mHander.start();
 
                 final IndicatorView bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);
                 final TextView bannerName = (TextView) bannerLayout.findViewById(R.id.bannerName);
@@ -496,6 +507,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                         bannerName.setText(bannerData.getName());
                         bannerTitle.setText(bannerData.getTitle());
                         bannerIndicator.setSelect(position);
+
                     }
 
                     @Override
@@ -553,18 +565,18 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     @Override
     public void onPause() {
         super.onPause();
-        if (banner != null) {
-            banner.stopAutoScroll();
-        }
+//        if (banner != null) {
+//            banner.stopAutoScroll();
+//        }
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (banner != null) {
-            banner.startAutoScroll();
-        }
+//        if (banner != null) {
+//            banner.startAutoScroll();
+//        }
 
     }
 

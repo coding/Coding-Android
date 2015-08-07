@@ -171,12 +171,12 @@ private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST_API + "%s/file
             if (code == 0) {
                 String fileUri;
 
-                String url = respanse.optString("data", "");
-                if (!url.isEmpty()) {
-                    fileUri = url;
-                } else {
-                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
+                JSONObject jsonData = respanse.optJSONObject("data");
+                if (jsonData != null) {
+                    AttachmentFileObject fileObject = new AttachmentFileObject(jsonData);
                     fileUri = fileObject.owner_preview;
+                } else {
+                    fileUri = respanse.optString("data", "");
                 }
 
                 String mdPhotoUri = String.format("![图片](%s)\n", fileUri);

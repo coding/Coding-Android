@@ -159,8 +159,9 @@ public class Global {
         CookieManager cookieManager = CookieManager.getInstance();
         for (int i = 0; i < cookies.size(); i++) {
             Cookie eachCookie = cookies.get(i);
-            String cookieString = eachCookie.getName() + "=" + eachCookie.getValue();
-            cookieManager.setCookie(Global.HOST, cookieString);
+            cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s; Secure; HttpOnly",
+                    eachCookie.getName(), eachCookie.getValue(), eachCookie.getDomain(),
+                    eachCookie.getPath()));
         }
 
         CookieSyncManager.getInstance().sync();
@@ -366,6 +367,7 @@ public class Global {
         Global.initWebView(webView);
         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
         try {
+            syncCookie(webView.getContext());
             String bubble = readTextFile(context.getAssets().open(tempate));
             webView.loadDataWithBaseURL(Global.HOST, bubble.replace(replaceString, content), "text/html", "UTF-8", null);
         } catch (Exception e) {
@@ -379,7 +381,7 @@ public class Global {
             try {
 
                 String template = readTextFile(context.getAssets().open("markdown"));
-                webview.loadDataWithBaseURL("about:blank", template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
+                webview.loadDataWithBaseURL(Global.HOST, template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
 
             } catch (Exception e) {
                 Global.errorLog(e);
@@ -388,7 +390,7 @@ public class Global {
             try {
                 String template = readTextFile(context.getAssets().open("code"));
                 gitFile.data = gitFile.data.replace("<", "&lt;").replace(">", "&gt;");
-                webview.loadDataWithBaseURL("about:blank", template.replace("${file_code}", gitFile.data).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
+                webview.loadDataWithBaseURL(Global.HOST, template.replace("${file_code}", gitFile.data).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
             } catch (Exception e) {
                 Global.errorLog(e);
             }
