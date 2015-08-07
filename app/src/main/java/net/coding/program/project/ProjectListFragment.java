@@ -48,6 +48,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
     private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
+    ArrayList<ProjectObject> mDataBackup = new ArrayList<>();
     @FragmentArg
     ProjectFragment.Type type = ProjectFragment.Type.Main;
 
@@ -72,12 +73,14 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
     public void setData(ArrayList<ProjectObject> data, boolean requestOk) {
         mData = data;
+        mDataBackup = data;
         mRequestOk = requestOk;
     }
 
     public void setDataAndUpdate(ArrayList<ProjectObject> data) {
         mRequestOk = true;
         mData = data;
+        mDataBackup = data;
         myAdapter.notifyDataSetChanged();
         // 不让空白画面出现
         BlankViewDisplay.setBlank(1, this, true, blankLayout, mOnClickRetry);
@@ -306,9 +309,13 @@ public class ProjectListFragment extends RefreshBaseFragment {
             String ownerName = item.isPublic() ? item.owner_user_name : ("      " + item.owner_user_name);
             holder.content.setText(ownerName);
 
-            int count = item.un_read_activities_count;
-            BadgeView badge = holder.badge;
-            Global.setBadgeView(badge, count);
+            if (type == ProjectFragment.Type.Pick) {
+                holder.badge.setVisibility(View.INVISIBLE);
+            } else {
+                int count = item.un_read_activities_count;
+                BadgeView badge = holder.badge;
+                Global.setBadgeView(badge, count);
+            }
 
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
 

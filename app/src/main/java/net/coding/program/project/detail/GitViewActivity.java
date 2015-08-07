@@ -76,7 +76,7 @@ public class GitViewActivity extends CustomMoreActivity {
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
-        urlBlob = String.format(urlBlob, mProjectPath, mVersion, mGitFileInfoObject.path);
+        urlBlob = String.format(urlBlob, mProjectPath, mVersion, Global.encodeUtf8(mGitFileInfoObject.path));
         webview.getSettings().setBuiltInZoomControls(true);
         Global.initWebView(webview);
 
@@ -157,7 +157,6 @@ public class GitViewActivity extends CustomMoreActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, File response) {
-                Log.v(TAG, "onSuccess:" + statusCode + " " + headers.toString());
                 mArrayUri.add("file:///" + response.getAbsolutePath());
                 adapter.notifyDataSetChanged();
                 pager.setVisibility(View.VISIBLE);

@@ -1,5 +1,6 @@
 package net.coding.program.project;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import net.coding.program.user.AddFollowActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -41,8 +43,8 @@ import java.util.List;
 public class ProjectFragment extends BaseFragment implements ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
+    static final int RESULT_PROJECT_SEARCH_PICK = 88;
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
-
     String[] program_title;
     @ViewById
     net.coding.program.third.WechatTab tabs;
@@ -69,11 +71,10 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
         hideProgressDialog();
         mData = AccountInfo.loadProjects(getActivity());
 
+        setHasOptionsMenu(true);
         if (type == Type.Main) {
-            setHasOptionsMenu(true);
             program_title = getResources().getStringArray(R.array.program_title);
         } else {
-            setHasOptionsMenu(false);
             program_title = getResources().getStringArray(R.array.program_title_pick);
         }
 
@@ -99,7 +100,11 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(net.coding.program.R.menu.menu_fragment_project, menu);
+        if (type == Type.Main) {
+            inflater.inflate(net.coding.program.R.menu.menu_fragment_project, menu);
+        } else {
+            inflater.inflate(R.menu.menu_project_pick_search, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -129,6 +134,23 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
     void action_search() {
         SearchProjectActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+    }
+
+    @OptionsItem
+    void action_search_pick() {
+        SearchProjectActivity_.intent(this).type(type).startForResult(RESULT_PROJECT_SEARCH_PICK);
+        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+    }
+
+    @OnActivityResult(RESULT_PROJECT_SEARCH_PICK)
+    final void resultPickSearch(int result, Intent intent) {
+        if (result == Activity.RESULT_OK) {
+//            ProjectObject projectObject = (ProjectObject) intent.getSerializableExtra("data");
+//            Intent intent1 = new Intent();
+//            intent1.putExtra("data", proj);
+            getActivity().setResult(Activity.RESULT_OK, intent);
+            getActivity().finish();
+        }
     }
 
     @OptionsItem

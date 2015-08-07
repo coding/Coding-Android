@@ -1,5 +1,7 @@
 package net.coding.program.subject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.CheckBox;
@@ -13,10 +15,13 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.UserObject;
 import net.coding.program.subject.adapter.SubjectUserListAdapter;
+import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +40,8 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
     final String subjectUserListUrlFormat = Global.HOST_API + "/tweet_topic/%s/joined?pageSize=10";
     final String subjectUserListTag = "subject_user_list_tag";
 
+    static final int RESULT_USER_DETAIL = 5;
+
     @FragmentArg
     int topicId;
 
@@ -44,7 +51,7 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
     View blankLayout;
 
     SubjectUserListAdapter mAdapter = null;
-    private List<UserObject> mUserList = new ArrayList<UserObject>();
+    private List<UserObject> mUserList = new ArrayList<>();
 
     @AfterViews
     protected void init() {
@@ -82,6 +89,26 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
         loadMore();
     }
 
+    @ItemClick
+    final void listView(UserObject itemData) {
+        UserDetailActivity_.intent(this).globalKey(itemData.global_key).startForResult(RESULT_USER_DETAIL);
+    }
+
+    @OnActivityResult(RESULT_USER_DETAIL)
+    final void resultUserDetail(int result, Intent data) {
+        if (result == Activity.RESULT_OK) {
+            UserObject userObject = (UserObject) data.getSerializableExtra("data");
+            for (int i = 0; i < mUserList.size(); ++i) {
+                if (mUserList.get(i).id == userObject.id) {
+                    mUserList.remove(i);
+                    mUserList.add(i, userObject);
+                    mAdapter.notifyDataSetChanged();
+                    return;
+                }
+            }
+        }
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(subjectUserListTag)) {
@@ -90,8 +117,7 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
                 if (isLoadingFirstPage(tag)) {
                     mUserList.clear();
                 }
-                JSONArray jsonArray = null;
-                jsonArray = respanse.optJSONObject("data").optJSONArray("list");
+                JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     UserObject projectObject = new UserObject(json);
@@ -134,9 +160,7 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
     }
 
     private String getUrl() {
-        String url = "";
-        url = String.format(subjectUserListUrlFormat, topicId);
-        return url;
+        return String.format(subjectUserListUrlFormat, topicId);
     }
 
     private View.OnClickListener mFollowClickListener = new View.OnClickListener() {

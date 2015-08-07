@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.common.guide.feature.FeatureActivity">
+    <item
+        android:id="@+id/action_search_pick"
+        android:icon="@drawable/ic_menu_search"
+        android:title="搜索"
+        app:showAsAction="always" />
+</menu>

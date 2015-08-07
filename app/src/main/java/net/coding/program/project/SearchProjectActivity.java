@@ -12,6 +12,7 @@ import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class SearchProjectActivity extends BackActivity {
     @ViewById
     View emptyView, container;
     SearchView editText;
+    @Extra
+    ProjectFragment.Type type = ProjectFragment.Type.Main;
     private ArrayList<ProjectObject> mData = new ArrayList<>();
     private ArrayList<ProjectObject> mSearchData = new ArrayList<>();
     private ProjectListFragment searchFragment;
@@ -72,7 +75,7 @@ public class SearchProjectActivity extends BackActivity {
         });
 
         mData = AccountInfo.loadProjects(this);
-        searchFragment = ProjectListFragment_.builder().mData(mSearchData).build();
+        searchFragment = ProjectListFragment_.builder().type(type).mData(mSearchData).build();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, searchFragment)
                 .commit();
