@@ -48,8 +48,6 @@ import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
-import net.coding.program.subject.SubjectCreateActivity;
-import net.coding.program.subject.SubjectNewActivity;
 import net.coding.program.subject.SubjectNewActivity_;
 import net.coding.program.third.EmojiFilter;
 
@@ -363,8 +361,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
             if (resultCode == RESULT_OK) {
                 String topicName = data.getStringExtra("topic_name");
                 if (!TextUtils.isEmpty(topicName) && message != null) {
-                    message.setText(topicName);
-                    message.setSelection(topicName.length());
+//                    message.setText(topicName);
+//                    message.setSelection(topicName.length());
+
+                    message.getEditableText().insert(0, topicName);
                 }
             }
 

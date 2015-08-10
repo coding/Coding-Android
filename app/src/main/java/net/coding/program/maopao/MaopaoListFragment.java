@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,22 +34,24 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.maopao.banner.BannerAdapter;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.UserObject;
+import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -55,7 +59,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -65,11 +68,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
 @EFragment(R.layout.fragment_maopao_list)
-@OptionsMenu(R.menu.menu_fragment_maopao)
-public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity, WeakRefHander.Callback {
+public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
     public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
@@ -138,9 +139,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             onRefresh();
         }
     };
-    AutoScrollViewPager banner;
-    boolean mBannerIsInit = false;
-    //    AutoScrollViewPager banner;
+    AutoScrollLoopViewPager banner;
     private MyImageGetter myImageGetter;
     private int mPxImageWidth;
     BaseAdapter mAdapter = new BaseAdapter() {
@@ -408,23 +407,34 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
 
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_maopao, menu);
+        int icon = RedPointTip.show(getActivity(), RedPointTip.Type.MaopaoListSearch315) ?
+                R.drawable.ic_menu_search_red_point : R.drawable.ic_menu_search;
+        menu.findItem(R.id.action_search).setIcon(icon);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
     private IndicatorView bannerIndicator;
     private TextView bannerName;
     private TextView bannerTitle;
-    private BannerAdapter bannerAdapter;
-
-    @Override
-    public boolean handleMessage(Message msg) {
-        if (banner != null) {
-            banner.setCurrentItem(banner.getCurrentItem() + 1);
-        }
-        return true;
-    }
 
     @OptionsItem
     void action_search() {
         MaopaoSearchActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+
+        RedPointTip.markUsed(getActivity(), RedPointTip.Type.MaopaoListSearch315);
     }
 
     @Override
@@ -434,7 +444,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     @AfterViews
-    protected void init() {
+    protected void initMaopaoListFragment() {
         initRefreshLayout();
         initImageWidth();
 
@@ -476,9 +486,8 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         addDoubleClickActionbar();
 
         if (mType == Type.time) {
-            ArrayList<BannerObject> banners = AccountInfo.getMaopaoBanners(getActivity());
-
-            initBannerData(banners);
+            mBannerDatas.addAll(AccountInfo.getMaopaoBanners(getActivity()));
+            initBannerData(mBannerDatas);
             getNetwork(BannerObject.getHttpBanners(), TAG_BANNER);
         }
 
@@ -525,17 +534,23 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         mEnterLayout.hide();
     }
 
-    private void initBannerData(final ArrayList<BannerObject> banners) {
-        if (banners.isEmpty()) {
-            return;
-        }
+    boolean bannerIsInit = false;
 
-        if (mBannerIsInit) {
+    protected void setRedPointStyle(int buttonId, RedPointTip.Type type) {
+        View item = getView().findViewById(buttonId);
+        View redPoint = item.findViewById(R.id.badge);
+        boolean show = RedPointTip.show(getActivity(), type);
+        redPoint.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void initBannerData(ArrayList<BannerObject> banners) {
+        if (banners.isEmpty() || bannerIsInit) {
             return;
         }
+        bannerIsInit = true;
 
         View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
-        banner = (AutoScrollViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
+        banner = (AutoScrollLoopViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
         layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
         banner.setLayoutParams(layoutParams);
@@ -546,19 +561,16 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
         listView.addHeaderView(bannerLayout);
 
-        mBannerIsInit = true;
-        bannerAdapter = new BannerAdapter(getActivity(), banners, getImageLoad());
-        banner.setAdapter(bannerAdapter);
-        banner.setInterval(10 * 1000);
-        banner.setScrollDurationFactor(2);
+        banner.setAdapter(mAdPagerAdapter);
         banner.startAutoScroll();
-        banner.setCurrentItem(bannerAdapter.getStartPos());
 
         int bannerStartPos = 0;
         bannerIndicator.setCount(banners.size(), bannerStartPos);
         bannerName.setVisibility(View.VISIBLE);
-        bannerName.setText(banners.get(bannerStartPos).getName());
-        bannerTitle.setText(banners.get(bannerStartPos).getTitle());
+        if (mBannerDatas.size() > 0) {
+            bannerName.setText(banners.get(bannerStartPos).getName());
+            bannerTitle.setText(banners.get(bannerStartPos).getTitle());
+        }
 
         banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -566,13 +578,18 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             }
 
             @Override
-            public void onPageSelected(int pos) {
-                int position = bannerAdapter.translatePosition(pos);
-                BannerObject bannerData = banners.get(position);
-                bannerName.setText(bannerData.getName());
+            public void onPageSelected(int position) {
+                BannerObject bannerData = mBannerDatas.get(position);
+
+                String name = bannerData.getName();
+                if (name.isEmpty()) {
+                    bannerName.setVisibility(View.INVISIBLE);
+                } else {
+                    bannerName.setVisibility(View.VISIBLE);
+                    bannerName.setText(name);
+                }
                 bannerTitle.setText(bannerData.getTitle());
                 bannerIndicator.setSelect(position);
-
             }
 
             @Override
@@ -580,24 +597,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 enableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (banner != null) {
-            banner.stopAutoScroll();
-        }
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (banner != null) {
-            banner.startAutoScroll();
-        }
-
     }
 
     private void initImageWidth() {
@@ -888,7 +887,9 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     banners.add(new BannerObject(jsonArray.getJSONObject(i)));
                 }
                 AccountInfo.saveMaopaoBanners(getActivity(), banners);
-                initBannerData(banners);
+                mBannerDatas.clear();
+                mBannerDatas.addAll(banners);
+                initBannerData(mBannerDatas);
             }
         }
     }
@@ -968,5 +969,45 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             }
         }
     }
+
+    ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
+
+    private PagerAdapter mAdPagerAdapter = new PagerAdapter() {
+
+        @Override
+        public int getCount() {
+            return mBannerDatas.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, final int position) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView.setTag(position);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BannerObject bannerObject = mBannerDatas.get(position);
+                    URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false);
+                }
+            });
+            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions);
+            container.addView(imageView);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            if (object instanceof View) {
+                container.removeView((View) object);
+            }
+        }
+    };
 
 }

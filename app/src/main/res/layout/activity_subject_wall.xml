@@ -15,7 +15,7 @@
     <net.coding.program.subject.loop.AutoScrollLoopViewPager
         android:id="@+id/loopViewPager"
         android:layout_width="match_parent"
-        android:layout_height="120dp"></net.coding.program.subject.loop.AutoScrollLoopViewPager>
+        android:layout_height="120dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:id="@+id/topic_hot_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/stand_bg"></FrameLayout>
+            android:background="@color/stand_bg" />
 
     </FrameLayout>
 

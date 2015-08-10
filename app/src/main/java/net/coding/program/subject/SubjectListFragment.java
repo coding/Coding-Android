@@ -38,7 +38,6 @@ public class SubjectListFragment extends RefreshBaseFragment {
     final String subjectJoinTag = "subject_join";
     final String subjectHotTweetTag = "subject_hot";
 
-
     @FragmentArg
     Type mType;
     @FragmentArg

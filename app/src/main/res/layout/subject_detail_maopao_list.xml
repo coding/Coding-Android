@@ -19,8 +19,9 @@
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/divide"
                 android:divider="@null"
-                android:dividerHeight="0dp"
+                android:dividerHeight="6dp"
                 android:footerDividersEnabled="false" />
 
         </android.support.v4.widget.SwipeRefreshLayout>

@@ -25,7 +25,6 @@ public class SubjectDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initSubjectDetailActivity() {
-
         setTitle("话题详情");
         if (subjectDescObject != null || topicId > 0) {
             showSubjectDetailFragment();

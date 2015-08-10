@@ -200,6 +200,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
+            AccountInfo.markGuideReaded(this);
             intent = new Intent(this, GuideActivity.class);
             if (background != null) {
                 intent.putExtra(LoginActivity.EXTRA_BACKGROUND, background);

@@ -16,7 +16,6 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileInfoObject;
@@ -157,8 +156,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_project_git, menu);
-        int icon = RedPointTip.show(getActivity(), RedPointTip.Type.CodeHistory) ?
-                R.drawable.ic_menu_history_red_point : R.drawable.ic_menu_history;
+        int icon = R.drawable.ic_menu_history;
         menu.findItem(R.id.action_history).setIcon(icon);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -180,7 +178,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
         String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, peek);
         BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
-        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
+//        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
     }
 
     @Override

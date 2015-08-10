@@ -102,11 +102,13 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
     View commonEnterRoot;
     EnterEmojiLayout mEnterLayout;
 
-
     View mListHeaderView;
     int needScrollY = 0;
     int oldListHigh = 0;
     int cal1 = 0;
+
+    boolean mIsToMaopaoTopic = false;
+
     View.OnClickListener onClickSendText = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -270,7 +272,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
             final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
 
-            if (data.isTop) {
+            if (position == 0 && mIsToMaopaoTopic) {
                 holder.maopaoItemTop.setVisibility(View.VISIBLE);
             } else {
                 holder.maopaoItemTop.setVisibility(View.GONE);
@@ -745,7 +747,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 JSONObject json = respanse.optJSONObject("data");
                 if (json != null) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
-                    item.isTop = true;
+                    mIsToMaopaoTopic = true;
                     if (id == UPDATE_ALL_INT) {
                         mData.clear();
                         mData.add(0, item);
@@ -756,7 +758,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                         else {
                             int index = mData.indexOf(item);
                             item = mData.remove(index);
-                            item.isTop = true;
+                            mIsToMaopaoTopic = true;
                             mData.add(0, item);
                         }
                         mAdapter.notifyDataSetChanged();

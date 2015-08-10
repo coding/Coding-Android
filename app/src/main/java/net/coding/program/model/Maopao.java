@@ -32,7 +32,6 @@ public class Maopao {
         public String location = "";
         public String coord = "";
         public String address = "";
-        public boolean isTop = false;
 
         public MaopaoObject(JSONObject json) throws JSONException {
             activity_id = json.optString("activity_id");

@@ -153,6 +153,17 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
+        // 还是冒泡话题 https://coding.net/pp/topic/551
+        final String maopao2 = "^https://[\\w.]*/pp/topic/([\\w.-]+)$";
+        pattern = Pattern.compile(maopao2);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, SubjectDetailActivity_.class);
+            intent.putExtra("topicId", Integer.valueOf(matcher.group(1)));
+            context.startActivity(intent);
+            return true;
+        }
+
         // 任务详情
         // https://coding.net/u/wzw/p/coding/task/9220
         final String task = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/task/(\\w+)$";

@@ -58,13 +58,17 @@ public class RedPointTip {
     }
 
     public enum Type {
-        Task,
-        Code,
-        Readme,
-        Merge,
-        Pull,
-        CodeHistory,
-        Topic
+//        Task,
+//        Code,
+//        Readme,
+//        Merge,
+//        Pull,
+//        CodeHistory,
+
+        Topic,
+        Task315,
+        MaopaoTopicSearch315,
+        MaopaoListSearch315
     }
 
 }

@@ -11,9 +11,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.readystatesoftware.viewbadger.BadgeView;
+
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.SearchCache;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.SubjectDetailActivity_;
@@ -58,8 +61,8 @@ public class MaopaoSearchActivity extends BackActivity {
     // 历史搜索的记录
     private List<String> mSearchHistoryList = new ArrayList<String>();
 
-
     private String mSearchData = "";
+    private BadgeView badgeView;
 
     @AfterViews
     void init() {
@@ -145,7 +148,14 @@ public class MaopaoSearchActivity extends BackActivity {
         mSearchHotTitle.setOnClickListener(mOnClickListener);
         mSearchHotLayout = (FlowLayout) headerView.findViewById(R.id.subject_search_hot_layout);
         emptyListView.addHeaderView(headerView);
+        badgeView = (BadgeView) headerView.findViewById(R.id.badge);
 
+        updateRedPoint();
+    }
+
+    private void updateRedPoint() {
+        boolean show = RedPointTip.show(this, RedPointTip.Type.MaopaoTopicSearch315);
+        badgeView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void initSearchFooterView() {
@@ -219,10 +229,10 @@ public class MaopaoSearchActivity extends BackActivity {
                 textView.setTag(i);
                 textView.setOnClickListener(mHotTweetClickListener);
                 if (i == 0) {
-                    textView.setBackground(getResources().getDrawable(R.drawable.round_green_corner));
+                    textView.setBackgroundResource(R.drawable.round_green_corner);
                     textView.setTextColor(getResources().getColor(R.color.merge_green));
                 } else {
-                    textView.setBackground(getResources().getDrawable(R.drawable.round_gray_corner));
+                    textView.setBackgroundResource(R.drawable.round_gray_corner);
                     textView.setTextColor(getResources().getColor(R.color.font_black_2));
                 }
                 mSearchHotLayout.addView(itemView);
@@ -260,6 +270,8 @@ public class MaopaoSearchActivity extends BackActivity {
             switch (v.getId()) {
                 case R.id.subject_search_hot_header_title:
                     SubjectWallActivity_.intent(MaopaoSearchActivity.this).start();
+                    RedPointTip.markUsed(MaopaoSearchActivity.this, RedPointTip.Type.MaopaoTopicSearch315);
+                    updateRedPoint();
                     break;
                 case R.id.subject_search_hot_footer_clear:
                     SearchCache.getInstance(MaopaoSearchActivity.this).clearCache();

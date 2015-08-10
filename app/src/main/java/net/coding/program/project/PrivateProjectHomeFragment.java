@@ -66,19 +66,16 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                             break;
 
                         case R.id.itemTask:
-                            markUsed(RedPointTip.Type.Task);
+                            markUsed(RedPointTip.Type.Task315);
                             break;
 
                         case R.id.itemCode:
-                            markUsed(RedPointTip.Type.Code);
                             break;
 
                         case R.id.itemReadme:
-                            markUsed(RedPointTip.Type.Readme);
                             break;
 
                         case R.id.itemMerge:
-                            markUsed(RedPointTip.Type.Merge);
                             break;
                     }
 
@@ -105,16 +102,10 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
     void updateRedPoinitStyle() {
         final int[] buttons = new int[]{
                 R.id.itemTask,
-                R.id.itemCode,
-                R.id.itemReadme,
-                R.id.itemMerge
         };
 
         final RedPointTip.Type[] types = new RedPointTip.Type[]{
-                RedPointTip.Type.Task,
-                RedPointTip.Type.Code,
-                RedPointTip.Type.Readme,
-                RedPointTip.Type.Merge,
+                RedPointTip.Type.Task315,
         };
 
         for (int i = 0; i < buttons.length; ++i) {

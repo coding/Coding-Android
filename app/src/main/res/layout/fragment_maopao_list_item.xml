@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:drawableLeft="@drawable/maopao_item_top_icon"
+                android:drawablePadding="8dp"
                 android:padding="7dp"
                 android:text="置顶话题"
                 android:textColor="@color/font_black_2"

@@ -50,6 +50,7 @@ public class TextWatcherAt implements TextWatcher {
         intent = new Intent(context, UsersListActivity_.class);
         intent.putExtra("type", UsersListActivity.Friend.Follow);
         intent.putExtra("select", true);
+        intent.putExtra("hideFollowButton", true);
         startActivity.startActivityForResult(intent, result);
     }
 
