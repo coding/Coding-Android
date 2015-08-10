@@ -76,7 +76,7 @@ public class UserPointActivity extends BackActivity {
             }
         } else if (tag.equals(TAG_HTTP_ALL_POINTS)) {
             if (code == 0) {
-                double points = respanse.optJSONObject("data").optDouble("points_total");
+                double points = respanse.optJSONObject("data").optDouble("points_left");
                 pointsAll.setText(String.format("%.2f", points));
             } else {
                 showErrorMsg(code, respanse);
@@ -101,13 +101,16 @@ public class UserPointActivity extends BackActivity {
             usage.setText(data.getUsage());
             double points_change = data.getPoints_change();
             String changeForamt;
-            if (points_change >= 0) {
+            int textColor;
+            if (data.isIncome()) {
                 changeForamt = String.format("+%.2f", points_change);
+                textColor = 0xff3bbd79;
             } else {
                 changeForamt = String.format("-%.2f", points_change);
+                textColor = 0xfffb8638;
             }
             pointsChange.setText(changeForamt);
-            pointsChange.setTextColor(points_change >= 0 ? 0xff3bbd79 : 0xfffb8638);
+            pointsChange.setTextColor(textColor);
             create.setText(Global.mDateYMDHH.format(data.getCreated_at()));
             pointsLeft.setText(String.format("余额: %.2f", data.getPoints_left()));
         }

@@ -72,6 +72,10 @@ public class PointObject implements Serializable {
         return usage;
     }
 
+    public boolean isIncome() {
+        return action == 1;
+    }
+
     public void setUsage(String usage) {
         this.usage = usage;
     }

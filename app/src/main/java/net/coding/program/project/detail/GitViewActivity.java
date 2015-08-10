@@ -76,7 +76,7 @@ public class GitViewActivity extends CustomMoreActivity {
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
-        urlBlob = String.format(urlBlob, mProjectPath, mVersion, Global.encodeUtf8(mGitFileInfoObject.path));
+        urlBlob = String.format(urlBlob, mProjectPath, mVersion, Global.encodeUtf8(Global.encodeUtf8(mGitFileInfoObject.path)));
         webview.getSettings().setBuiltInZoomControls(true);
         Global.initWebView(webview);
 
