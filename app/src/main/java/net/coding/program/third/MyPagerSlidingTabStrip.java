@@ -28,10 +28,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -86,6 +88,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     private int iconPadding = 5;
     private int myPaddingLeft = 0;
     private LayoutInflater mInflater;
+    private int myFirstExtraPdddingLeft = 0;
 
     public MyPagerSlidingTabStrip(Context context) {
         this(context, null);
@@ -98,7 +101,10 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     public MyPagerSlidingTabStrip(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
+        myFirstExtraPdddingLeft = getResources().getDimensionPixelSize(net.coding.program.R.dimen.my_pager_sliding_tab_strip_first_padding_left);
+
         myPaddingLeft = getResources().getDimensionPixelSize(net.coding.program.R.dimen.my_pager_sliding_tab_strip);
+        myPaddingLeft = 0;
         setFillViewport(true);
         setWillNotDraw(false);
 
@@ -239,6 +245,9 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         ImageView head = (ImageView) v.findViewById(net.coding.program.R.id.head);
         if (url.isEmpty()) {
             head.setImageResource(net.coding.program.R.drawable.icon_all_task);
+            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) head.getLayoutParams();
+            lp.leftMargin += myFirstExtraPdddingLeft;
+            head.setLayoutParams(lp);
         } else {
             ImageLoader.getInstance().displayImage(Global.makeSmallUrl(head, url), head, ImageLoadTool.options);
         }
@@ -258,6 +267,12 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         tab.setPadding(tabPadding, 0, tabPadding, 0);
 //		tabsContainer.addView(tab, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
         tabsContainer.addView(tab, position);
+
+//        if (position == 0) {
+//            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+//            lp.leftMargin += myFirstExtraPdddingLeft;
+//            tab.setLayoutParams(lp);
+//        }
 
 //        int count = tabCount = pager.getAdapter().getCount();
 //        if (position == 0) {
@@ -342,19 +357,34 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         float lineLeft = currentTab.getLeft();
         float lineRight = currentTab.getRight();
 
+        Log.d("", "tabdraw " + currentPosition);
+
+        if (currentPosition == 0) {
+            lineLeft += myFirstExtraPdddingLeft;
+        }
+
         // if there is an offset, start interpolating left and right coordinates between current and next tab
+
         if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
 
             View nextTab = tabsContainer.getChildAt(currentPosition + 1);
             final float nextTabLeft = nextTab.getLeft();
             final float nextTabRight = nextTab.getRight();
 
+//            if (currentPosition == 0) {
+//                lineLeft -= myFirstExtraPdddingLeft;
+//            }
+
             lineLeft = (currentPositionOffset * nextTabLeft + (1f - currentPositionOffset) * lineLeft);
             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
+
         }
 
-        float myLeft = lineLeft + iconPadding + myPaddingLeft;
-        float myRight = lineRight - iconPadding + myPaddingLeft;
+//        float myLeft = lineLeft + iconPadding + myPaddingLeft;
+//        if (currentPosition == 0) {
+//            myLeft += myFirstExtraPdddingLeft;
+//        }
+//        float myRight = lineRight - iconPadding + myPaddingLeft;
 //        if (currentPosition == 0) {
 //            myLeft += iconPadding;
 //        }
@@ -362,7 +392,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 //            myRight -= iconPadding;
 //        }
 
-        canvas.drawRect(myLeft, height - indicatorHeight, myRight, height, rectPaint);
+        canvas.drawRect(lineLeft + iconPadding, height - indicatorHeight, lineRight - iconPadding, height, rectPaint);
 
         // draw divider
 

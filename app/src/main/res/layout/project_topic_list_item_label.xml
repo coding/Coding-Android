@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="20dp"
     android:layout_centerVertical="true"
-    android:layout_marginBottom="6dp"
+    android:layout_marginBottom="@dimen/label_list_item_merge_bottom"
     android:layout_marginRight="@dimen/label_list_item_merge_right"
     android:background="@drawable/project_topic_label_bg"
     android:gravity="center"
