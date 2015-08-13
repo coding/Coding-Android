@@ -13,15 +13,18 @@ public class UmengActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.openActivityDurationTrack(false);
     }
 
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(getClass().getSimpleName());
         MobclickAgent.onResume(this);
     }
 
     public void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);
     }
 }

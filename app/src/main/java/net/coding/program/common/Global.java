@@ -58,7 +58,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -512,15 +511,16 @@ public class Global {
     }
 
     public static String getTimeDetail(long timeInMillis) {
-        String dataString = getDay(timeInMillis, false);
-        if (dataString == null) {
-            dataString = getWeek(timeInMillis);
-            if (dataString == null) {
-                dataString = MonthDayFormatTime.format(timeInMillis);
-            }
-        }
-
-        return String.format("%s %s", dataString, DateFormatTime.format(new Date(timeInMillis)));
+//        String dataString = getDay(timeInMillis, false);
+//        if (dataString == null) {
+//            dataString = getWeek(timeInMillis);
+//            if (dataString == null) {
+//                dataString = MonthDayFormatTime.format(timeInMillis);
+//            }
+//        }
+//
+//        return String.format("%s %s", dataString, DateFormatTime.format(new Date(timeInMillis)));
+        return dayToNow(timeInMillis, true);
     }
 
     public static String dayToNowCreate(long time) {
