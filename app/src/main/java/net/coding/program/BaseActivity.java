@@ -5,12 +5,10 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -26,6 +24,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.common.widget.SingleToast;
 import net.coding.program.model.PostRequest;
 import net.coding.program.user.UserDetailActivity_;
 
@@ -107,6 +106,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mSingleToast = new SingleToast(this);
+
         networkImpl = new NetworkImpl(this, this);
 
         mProgressDialog = new ProgressDialog(this);
@@ -215,23 +217,22 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         dialogTitleLineColor(dialog);
     }
 
-    protected void showButtomToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    SingleToast mSingleToast;
+
+    public void showButtomToast(String msg) {
+        mSingleToast.showButtomToast(msg);
     }
 
-    protected void showButtomToast(int messageId) {
-        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+    public void showMiddleToast(int id) {
+        mSingleToast.showMiddleToast(id);
     }
 
-    protected void showMiddleToast(int id) {
-        String message = getString(id);
-        showMiddleToast(message);
+    public void showMiddleToast(String msg) {
+        mSingleToast.showMiddleToast(msg);
     }
 
-    protected void showMiddleToast(String msg) {
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+    public void showButtomToast(int messageId) {
+        mSingleToast.showButtomToast(messageId);
     }
 
     protected void iconfromNetwork(ImageView view, String url) {

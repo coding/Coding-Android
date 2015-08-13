@@ -2,7 +2,7 @@ package net.coding.program.common;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by chaochen on 14/12/31.
  */
-public abstract class SaveFragmentPagerAdapter extends FragmentPagerAdapter {
+public abstract class SaveFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<WeakReference<Fragment>> mList = new ArrayList<>();
 

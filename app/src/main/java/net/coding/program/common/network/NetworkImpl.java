@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.LoginActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.model.AccountInfo;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -37,7 +38,7 @@ public class NetworkImpl {
         return info == null || info.isNewRequest;
     }
 
-    public void loadData(String url, RequestParams params, final String tag, final int dataPos, final Object data, Request type) {
+    public void loadData(String url, RequestParams params, final String tag, final int dataPos, final Object data, final Request type) {
         Log.d("", "url " + type + " " + url);
         if (!url.startsWith("http")) {
             url = Global.HOST + url;
@@ -52,6 +53,8 @@ public class NetworkImpl {
 
         AsyncHttpClient client = MyAsyncHttpClient.createClient(appContext);
 
+        final String cacheName = url;
+
         JsonHttpResponseHandler jsonHttpResponseHandler = new JsonHttpResponseHandler() {
 
             private final int HTTP_CODE_RELOGIN = 1000;
@@ -59,7 +62,6 @@ public class NetworkImpl {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
                 try {
                     int code = response.getInt("code");
 
@@ -72,6 +74,11 @@ public class NetworkImpl {
                     } catch (Exception e) {
                         Global.errorLog(e);
                     }
+
+                    if (type == Request.Get && code == 0) {
+                        AccountInfo.saveGetRequestCache(appContext, cacheName, response);
+                    }
+
                     callback.parseJson(code, response, tag, dataPos, data);
 
                     try {
@@ -103,10 +110,17 @@ public class NetworkImpl {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 try {
-                    int translateErrorCode = translateErrorCode(statusCode);
-                    JSONObject json = makeErrorJson(translateErrorCode);
 
-                    callback.parseJson(translateErrorCode, json, tag, dataPos, data);
+                    JSONObject lastCache;
+                    if (type == Request.Get
+                            && (lastCache = AccountInfo.getGetRequestCache(appContext, cacheName)).length() > 0) {
+                        callback.parseJson(0, lastCache, tag, dataPos, data);
+                    } else {
+                        int translateErrorCode = translateErrorCode(statusCode);
+                        JSONObject json = makeErrorJson(translateErrorCode);
+
+                        callback.parseJson(translateErrorCode, json, tag, dataPos, data);
+                    }
 
                 } catch (Exception e) {
                     Global.errorLog(e);

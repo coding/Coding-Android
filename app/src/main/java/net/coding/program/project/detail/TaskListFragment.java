@@ -329,6 +329,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                     }
                 }
 
+                if (array.length() > 0) {
+                    mAdapter.notifyDataSetChanged();
+                }
+
                 AccountInfo.saveTasks(getActivity(), mData, mProjectObject.getId(), mMembers.id);
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
 
@@ -338,7 +342,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
 
             mUpdateAll = false;
-            mAdapter.notifyDataSetChanged();
         } else if (tag.equals(urlTaskCountMy)) {
             if (code == 0) {
                 JSONArray array = respanse.getJSONArray("data");

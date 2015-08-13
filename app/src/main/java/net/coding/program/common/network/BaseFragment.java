@@ -6,12 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -23,6 +21,7 @@ import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.StartActivity;
+import net.coding.program.common.widget.SingleToast;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
@@ -120,6 +119,8 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
+
+        mSingleToast = new SingleToast(getActivity());
     }
 
     @Override
@@ -213,33 +214,38 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         }
     }
 
-    protected void showButtomToast(int messageId) {
-        if (!isResumed()) {
+    SingleToast mSingleToast;
+
+    public void showButtomToast(String msg) {
+        if (!isResumed() || mSingleToast == null) {
             return;
         }
 
-        String message = getString(messageId);
-        showButtomToast(message);
+        mSingleToast.showButtomToast(msg);
     }
 
-    protected void showButtomToast(String msg) {
-        if (!isResumed()) {
+    public void showMiddleToast(int id) {
+        if (!isResumed() || mSingleToast == null) {
+            return;
+        }
+        mSingleToast.showMiddleToast(id);
+    }
+
+    public void showMiddleToast(String msg) {
+        if (!isResumed() || mSingleToast == null) {
+            return;
+        }
+        mSingleToast.showMiddleToast(msg);
+    }
+
+    public void showButtomToast(int messageId) {
+        if (!isResumed() || mSingleToast == null) {
             return;
         }
 
-        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-        toast.show();
+        mSingleToast.showButtomToast(messageId);
     }
 
-    protected void showMiddleToast(String msg) {
-        if (!isResumed()) {
-            return;
-        }
-
-        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
 
     protected void iconfromNetwork(ImageView view, String url) {
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url));

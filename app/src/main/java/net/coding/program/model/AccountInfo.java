@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.user.UsersListActivity;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,6 +52,8 @@ public class AccountInfo {
 
     private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
     private static final String KEY_MAOPAO_BANNER = "KEY_MAOPAO_BANNER";
+
+    private static final String KEY_CACHE_GET_REQUEST = "KEY_CACHE_GET_REQUEST";
 
     // 每添加一个信鸽能
     private static final String MARK_GUIDE_32 = "MARK_GUIDE_32"; // 标记3.2中的引导页面
@@ -129,6 +134,19 @@ public class AccountInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static JSONObject getGetRequestCache(Context context, String request) {
+        String s = new DataCache<String>().loadObject(context, Global.encodeUtf8(request), KEY_CACHE_GET_REQUEST);
+        try {
+            return new JSONObject(s);
+        } catch (Exception e) {
+            return new JSONObject();
+        }
+    }
+
+    public static void saveGetRequestCache(Context context, String request, JSONObject json) {
+        new DataCache<String>().save(context, json.toString(), Global.encodeUtf8(request), KEY_CACHE_GET_REQUEST);
     }
 
     @SuppressWarnings("unchecked")
@@ -594,6 +612,33 @@ public class AccountInfo {
             String folder = FILDER_GLOBAL;
             T data = null;
 
+            File file;
+            if (!folder.isEmpty()) {
+                File fileDir = new File(ctx.getFilesDir(), folder);
+                if (!fileDir.exists() || !fileDir.isDirectory()) {
+                    fileDir.mkdir();
+                }
+                file = new File(fileDir, name);
+            } else {
+                file = new File(ctx.getFilesDir(), name);
+            }
+
+            if (file.exists()) {
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+                    data = (T) ois.readObject();
+                    ois.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return data;
+        }
+
+        @SuppressWarnings("unchecked")
+        private T loadObject(Context ctx, String name, String folder) {
+            T data = null;
             File file;
             if (!folder.isEmpty()) {
                 File fileDir = new File(ctx.getFilesDir(), folder);
