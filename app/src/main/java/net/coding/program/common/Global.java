@@ -59,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -526,35 +527,50 @@ public class Global {
         return "创建于 " + Global.dayToNow(time);
     }
 
-    public static String dayToNow(long time) {
-        Calendar now = Calendar.getInstance();
 
-        long minute = (now.getTimeInMillis() - time) / 60000;
+    private static final SimpleDateFormat sFormatToday = new SimpleDateFormat("今天 HH:mm");
+    private static final SimpleDateFormat sFormatThisYear = new SimpleDateFormat("MM/dd HH:mm");
+    private static final SimpleDateFormat sFormatOtherYear = new SimpleDateFormat("yy/MM/dd HH:mm");
+
+    private static final SimpleDateFormat sFormatMessageToday = new SimpleDateFormat("今天");
+    private static final SimpleDateFormat sFormatMessageThisYear = new SimpleDateFormat("MM/dd");
+    private static final SimpleDateFormat sFormatMessageOtherYear = new SimpleDateFormat("yy/MM/dd");
+
+    public static String dayToNow(long time) {
+        return dayToNow(time, true);
+    }
+
+    public static String dayToNow(long time, boolean displayHour) {
+        long nowMill = System.currentTimeMillis();
+
+        long minute = (nowMill - time) / 60000;
         if (minute < 60) {
             if (minute == 0) {
-                return "刚刚";
+                return (nowMill - time) / 1000 + "秒前";
             } else {
                 return minute + "分钟前";
             }
         }
 
-        long hour = minute / 60;
-        if (hour < 24) {
-            return hour + "小时前";
-        }
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(time);
+        int year = calendar.get(GregorianCalendar.YEAR);
+        int month = calendar.get(GregorianCalendar.MONTH);
+        int day = calendar.get(GregorianCalendar.DAY_OF_MONTH);
 
-        long day = hour / 24;
-        if (day < 30) {
-            return day + "天前";
+        calendar.setTimeInMillis(nowMill);
+        Long timeObject = new Long(time);
+        if (calendar.get(GregorianCalendar.YEAR) != year) { // 不是今年
+            SimpleDateFormat sFormatOtherYear = displayHour ? Global.sFormatOtherYear : Global.sFormatMessageOtherYear;
+            return sFormatOtherYear.format(timeObject);
+        } else if (calendar.get(GregorianCalendar.MONTH) != month
+                || calendar.get(GregorianCalendar.DAY_OF_MONTH) != day) { // 今年
+            SimpleDateFormat sFormatThisYear = displayHour ? Global.sFormatThisYear : Global.sFormatMessageThisYear;
+            return sFormatThisYear.format(timeObject);
+        } else { // 今天
+            SimpleDateFormat sFormatToday = displayHour ? Global.sFormatToday : Global.sFormatMessageToday;
+            return sFormatToday.format(timeObject);
         }
-
-        long month = day / 30;
-        if (month < 12) {
-            return month + "个月前";
-        }
-
-        long year = month / 12;
-        return year + "年前";
     }
 
     public static String dayToNow(long time, String template) {

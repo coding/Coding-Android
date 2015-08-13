@@ -38,7 +38,10 @@ public class LikeUsersListActivity extends BackActivity {
 
     @ViewById
     ListView listView;
-    String UriLikeUsers = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
+
+    public static final String HOST_LIKES_USER = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
+    public String UriLikeUsers = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
+
     private ArrayList<DynamicObject.User> mData = new ArrayList<>();
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override

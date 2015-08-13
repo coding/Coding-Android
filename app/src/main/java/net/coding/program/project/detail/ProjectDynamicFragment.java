@@ -74,7 +74,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     };
     private LayoutInflater inflater;
-    private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("a HH:mm");
+    private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("HH:mm");
     private MyImageGetter myImageGetter;
     private LoadingAnimation mLoadingAnimation;
 

@@ -59,6 +59,7 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
     final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final int RESULT_REQUEST_AT = 1;
     final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
+    private final String TAG_LIKE_USERS = "TAG_LIKE_USERS";
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
     Maopao.MaopaoObject mMaopaoObjectOld;
@@ -328,6 +329,10 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), mOnClickUser);
 
         likeUsersArea.likeUsersLayout.setTag(MaopaoListFragment.TAG_MAOPAO, mMaopaoObject);
+        if (mMaopaoObject.like_users.isEmpty() && mMaopaoObject.likes > 0) {
+            String hostLikes = String.format(LikeUsersListActivity.HOST_LIKES_USER, mMaopaoObject.id);
+            getNetwork(hostLikes, TAG_LIKE_USERS);
+        }
         likeUsersArea.displayLikeUser();
 
         TextView locationView = (TextView) mListHead.findViewById(R.id.location);
@@ -474,6 +479,17 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
                 finish();
             } else {
                 showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_LIKE_USERS)) {
+            if (code == 0) {
+                JSONObject jsonData = respanse.getJSONObject("data");
+                JSONArray jsonArray = jsonData.getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    Maopao.Like_user user = new Maopao.Like_user(jsonArray.getJSONObject(i));
+                    mMaopaoObject.like_users.add(user);
+                }
+
+                likeUsersArea.displayLikeUser();
             }
         }
     }

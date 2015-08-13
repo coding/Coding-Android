@@ -112,7 +112,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             iconfromNetwork(holder.icon, user.friend.avatar);
             holder.title.setText(user.friend.name);
             holder.content.setText(Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
-            holder.time.setText(Global.dayToNow(user.created_at));
+            holder.time.setText(Global.dayToNow(user.created_at, false));
 
             if (user.unreadCount > 0) {
                 UnreadNotify.displayNotify(holder.badge, Unread.countToString(user.unreadCount));

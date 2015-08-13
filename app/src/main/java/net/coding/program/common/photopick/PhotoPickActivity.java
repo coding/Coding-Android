@@ -86,15 +86,17 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
 
-            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
             intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
             intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
+            String folderParam = "";
             if (isAllPhotoMode()) {
                 // 第一个item是照相机
                 intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position - 1);
             } else {
                 intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
+                folderParam = mFolderAdapter.getSelect();
             }
+            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, folderParam);
             startActivityForResult(intent, RESULT_PICK);
         }
     };

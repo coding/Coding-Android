@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_12"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginRight="@dimen/padding_12">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/maopao_user_icon"
@@ -27,7 +28,7 @@
             tools:text="一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_12"
+            android:layout_marginTop="@dimen/padding_14"
             android:layout_toRightOf="@+id/maopao_user_icon"
             android:ellipsize="end"
             android:maxLines="2"
@@ -42,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/maopao_content"
             android:layout_below="@+id/maopao_content"
-            android:layout_marginBottom="@dimen/padding_12"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="@dimen/padding_14"
+            android:layout_marginTop="@dimen/padding_12"
             android:orientation="horizontal">
 
             <TextView
