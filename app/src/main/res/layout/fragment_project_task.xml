@@ -12,8 +12,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="77dip"
-        android:background="@color/stand_bg"
-        android:paddingLeft="@dimen/my_pager_sliding_tab_strip" />
+        android:background="@color/stand_bg" />
 
     <FrameLayout
         android:layout_width="match_parent"

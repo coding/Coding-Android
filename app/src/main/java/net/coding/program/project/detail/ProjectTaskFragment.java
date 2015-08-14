@@ -19,11 +19,13 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
+import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.third.MyPagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
@@ -181,14 +183,19 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
     @Click
     public final void floatButton() {
-        Fragment page = getChildFragmentManager().findFragmentByTag("android:switcher:" + R.id.pagerProjectTask + ":" + pager.getCurrentItem());
+        TaskObject.Members member = adapter.getItemData(pager.getCurrentItem());
 
+        Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
+        TaskObject.SingleTask task = new TaskObject.SingleTask();
+        task.project = mProjectObject;
+        task.project_id = mProjectObject.getId();
+        task.owner = AccountInfo.loadAccount(getActivity());
+        task.owner_id = task.owner.id;
 
-//        return "android:switcher:" + viewId + ":" + id;
-        if (page instanceof TaskListFragment) {
-            ((TaskListFragment) page).action_add();
-        }
+        intent.putExtra("mSingleTask", task);
+        intent.putExtra("mUserOwner", member.user);
 
+        startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
     }
 
     @Override
@@ -266,6 +273,10 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             saveFragment(fragment);
 
             return fragment;
+        }
+
+        public TaskObject.Members getItemData(int postion) {
+            return mMembersAll.get(postion);
         }
 
         @Override
