@@ -37,6 +37,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -254,25 +256,23 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObject.getId());
         //mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //AttachmentsActivity_.intent(getActivity()).mAttachmentFolderObject(mData.get(position)).mProjectObjectId(mProjectObject.id).start();
-                AttachmentsActivity_.intent(getActivity()).mAttachmentFolderObject(mData.get(position)).mProjectObjectId(mProjectObject.getId()).startForResult(RESULT_REQUEST_FILES);
-            }
-        });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //showButtomToast("rename");
-                showPop(view, position);
-                //doRename(position, mData.get(position));
-                return true;
-            }
-        });
         getNetwork(HOST_FILECOUNT, HOST_FILECOUNT);
 
+    }
+
+    @ItemClick
+    public void listViewItemClicked(int position) {
+        AttachmentsActivity_.intent(getActivity())
+                .mAttachmentFolderObject(mData.get(position))
+                .mProjectObjectId(mProjectObject.getId())
+                .startForResult(RESULT_REQUEST_FILES);
+
+    }
+
+    @ItemLongClick
+    public void listViewItemLongClicked(int position) {
+        showPop(listView, position);
     }
 
     @OnActivityResult(RESULT_REQUEST_FILES)

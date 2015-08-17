@@ -577,10 +577,10 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                         AttachmentsActivity_.intent(AttachmentsActivity.this).mAttachmentFolderObject(data.folderObject).mProjectObjectId(mProjectObjectId).startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
                     } else if (data.isImage()) {
                         AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
-                    } else if (data.isHtml() || data.isMd()) {
-                        AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                    } else if (data.isTxt()) {
-                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+//                    } else if (data.isHtml() || data.isMd()) {
+//                        AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+//                    } else if (data.isTxt()) {
+//                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
                     } else {
                         AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
                     }

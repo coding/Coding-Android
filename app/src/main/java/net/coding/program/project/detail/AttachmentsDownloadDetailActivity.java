@@ -222,17 +222,32 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initAttachmentsDownloadDetailActivity() {
+        share = AttachmentsDownloadDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
+        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+
+        if (mAttachmentFileObject != null) {
+            File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName());
+            if (file.exists() && file.isFile()) {
+                if (mAttachmentFileObject.isHtml() || mAttachmentFileObject.isMd()) {
+                    AttachmentsHtmlDetailActivity_.intent(this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(mAttachmentFileObject).start();
+                    finish();
+                    return;
+                } else if (mAttachmentFileObject.isTxt()) {
+                    AttachmentsTextDetailActivity_.intent(this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(mAttachmentFileObject).start();
+                    finish();
+                    return;
+                }
+            }
+        }
+
         getSupportActionBar().setTitle(mAttachmentFileObject.getName());
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadManagerPro = new DownloadManagerPro(downloadManager);
 
         completeReceiver = new CompleteReceiver();
-        /** register download success broadcast **/
         registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        share = AttachmentsDownloadDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
 
         downloadList = AttachmentsDownloadDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_LIST, Context.MODE_PRIVATE);
         downloadListEditor = downloadList.edit();
@@ -427,7 +442,10 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(completeReceiver);
+
+        if (completeReceiver != null) {
+            unregisterReceiver(completeReceiver);
+        }
     }
 
     public void updateView() {
