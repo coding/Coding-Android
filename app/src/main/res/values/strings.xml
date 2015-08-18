@@ -133,5 +133,7 @@
     <string name="pick_project_first">请先选择一个项目</string>
     <string name="title_activity_user_point">我的码币</string>
     <string name="title_activity_feature">FeatureActivity</string>
+    <string name="title_activity_file_history">历史版本</string>
+    <string name="title_activity_file_dynamic">文件动态</string>
 
 </resources>

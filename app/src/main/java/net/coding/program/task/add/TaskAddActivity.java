@@ -211,7 +211,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
         @Override
         public int getViewTypeCount() {
-            return 3;
+            return 2;
         }
 
         @Override
@@ -238,14 +238,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 TaskListHolder holder;
                 if (convertView == null) {
                     convertView = mInflater.inflate(R.layout.task_list_item_dynamic, parent, false);
-                    holder = new TaskListHolder();
-                    holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
-                    holder.mContent = (TextView) convertView.findViewById(R.id.content);
-                    holder.timeLineUp = convertView.findViewById(R.id.timeLineUp);
-                    holder.timeLineDown = convertView.findViewById(R.id.timeLineDown);
-                    convertView.setTag(R.id.layout, holder);
+                    holder = new TaskListHolder(convertView);
                 } else {
-                    holder = (TaskListHolder) convertView.getTag(R.id.layout);
+                    holder = (TaskListHolder) convertView.getTag(TaskListHolder.getTagId());
                 }
 
                 DynamicObject.DynamicTask data = mData.get(position);

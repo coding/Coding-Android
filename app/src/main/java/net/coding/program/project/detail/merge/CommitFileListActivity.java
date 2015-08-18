@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
@@ -16,6 +18,7 @@ import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.DiffFile;
+import net.coding.program.model.PostRequest;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -26,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_commit_file_list)
@@ -118,8 +122,12 @@ public class CommitFileListActivity extends BackActivity {
     }
 
     private void startSendCommentActivity() {
-        CommentActivity.CommitCommentParam param = new CommentActivity.CommitCommentParam(mProjectPath, mCommit.getCommitId());
-        CommentActivity_.intent(CommitFileListActivity.this).mCommitParam(param).startForResult(RESULT_COMMENT);
+        CommentActivity.CommentParam param = createCommentParam();
+        CommentActivity_.intent(CommitFileListActivity.this).mParam(param).startForResult(RESULT_COMMENT);
+    }
+
+    private CommentActivity.CommentParam createCommentParam() {
+        return new CommitCommentParam(mProjectPath, mCommit.getCommitId());
     }
 
     private void initListhead() {
@@ -201,6 +209,50 @@ public class CommitFileListActivity extends BackActivity {
                 BaseComment comment = (BaseComment) data.getSerializableExtra("data");
                 mAdapter.appendSingeDataUpdate(comment);
             }
+        }
+    }
+
+    static class CommitCommentParam implements CommentActivity.CommentParam, Serializable {
+
+        private String mProjectPath = "";
+        private String mCommitId = "";
+
+        public CommitCommentParam(String mProjectPath, String mCommitId) {
+            this.mProjectPath = mProjectPath;
+            this.mCommitId = mCommitId;
+        }
+
+        @Override
+        public PostRequest getSendCommentParam(String input) {
+            String url = Commit.getHttpSendComment(mProjectPath);
+            RequestParams params = new RequestParams();
+            params.put("commitId", mCommitId);
+            params.put("noteable_type", "Commit");
+            params.put("content", input);
+            params.put("position", 0);
+            params.put("line", 0);
+            return new PostRequest(url, params);
+        }
+
+        @Override
+        public String getAtSome() {
+            return "";
+        }
+
+        @Override
+        public String getAtSomeUrl() {
+            return Global.HOST_API + mProjectPath + "/relationships/context?context_type=pull_request_comment&item_id="
+                    + mCommitId;
+        }
+
+        @Override
+        public String getProjectPath() {
+            return mProjectPath;
+        }
+
+        @Override
+        public boolean isPublicProject() {
+            return true;
         }
     }
 }

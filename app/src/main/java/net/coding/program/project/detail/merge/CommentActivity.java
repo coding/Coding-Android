@@ -4,14 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import com.loopj.android.http.RequestParams;
-
 import net.coding.program.BackActivity;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.model.BaseComment;
-import net.coding.program.model.Commit;
-import net.coding.program.model.Merge;
 import net.coding.program.model.PostRequest;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicEditFragment;
@@ -24,19 +19,13 @@ import org.androidannotations.annotations.Extra;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 @EActivity(R.layout.activity_comment)
 public class CommentActivity extends BackActivity implements TopicEditFragment.SaveData {
 
     private static final String HOST_SEND_COMMENT = "HOST_SEND_COMMENT";
-    @Extra
-    Merge mMerge;
-    @Extra
-    CommitCommentParam mCommitParam;
 
     @Extra
-    String mAtName;
+    CommentParam mParam;
 
     CommentEditFragment editFragment;
     Fragment previewFragment;
@@ -46,18 +35,15 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     void init() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (mAtName != null) {
-            modifyData.content = String.format("@%s ", mAtName);
+        String atName = mParam.getAtSome();
+        if (!atName.isEmpty()) {
+            modifyData.content = String.format("@%s ", atName);
         }
 
-        if (mMerge != null) {
-            editFragment = CommentEditFragment_.builder().mMergeUrl(mMerge.getMergeAtMemberUrl()).build();
-        } else {
-            editFragment = CommentEditFragment_.builder().mMergeUrl(mCommitParam.atUrl).build();
-        }
+        editFragment = CommentEditFragment_.builder().mMergeUrl(mParam.getAtSomeUrl()).build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+        switchEdit();
     }
 
     @Override
@@ -86,12 +72,12 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
 
     @Override
     public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment, "previewFragment").commit();
     }
 
     @Override
     public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment, "editFragment").commit();
     }
 
     @Override
@@ -101,41 +87,19 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
             return;
         }
 
-        if (mMerge != null) {
-            PostRequest postRequest = mMerge.getHttpSendComment();
-            postRequest.setContent(contentString);
-            postNetwork(postRequest.url, postRequest.params, HOST_SEND_COMMENT);
-            showProgressBar(true, "发送中");
-        } else {
-            String url = Commit.getHttpSendComment(mCommitParam.projectPath);
-            RequestParams params = new RequestParams();
-            params.put("commitId", mCommitParam.mCommitId);
-            params.put("noteable_type", "Commit");
-            params.put("content", contentString);
-            params.put("position", 0);
-            params.put("line", 0);
-            postNetwork(url, params, HOST_SEND_COMMENT);
-            showProgressBar(true, "发送中");
-        }
+        PostRequest request = mParam.getSendCommentParam(contentString);
+        postNetwork(request.url, request.params, HOST_SEND_COMMENT);
+        showProgressBar(true, "发送中");
     }
 
     @Override
     public String getProjectPath() {
-        if (mMerge != null) {
-            return mMerge.getProjectPath();
-        } else {
-            return mCommitParam.projectPath;
-        }
+        return mParam.getProjectPath();
     }
 
     @Override
     public boolean isProjectPublic() {
-        if (mMerge != null) {
-            return mMerge.isPull();
-        } else {
-            return mCommitParam.isPull();
-
-        }
+        return mParam.isPublicProject();
     }
 
     @Override
@@ -154,19 +118,15 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
         }
     }
 
-    public static class CommitCommentParam implements Serializable {
-        String projectPath;
-        String mCommitId;
-        String atUrl;
+    public interface CommentParam {
+        PostRequest getSendCommentParam(String input);
 
-        public CommitCommentParam(String projectPath, String mCommitId) {
-            this.projectPath = projectPath;
-            this.mCommitId = mCommitId;
-            atUrl = Global.HOST_API + projectPath + "/relationships/context?context_type=pull_request_comment&item_id=" + mCommitId;
-        }
+        String getAtSome();
 
-        public boolean isPull() { // 这个参数没有用处
-            return true;
-        }
+        String getAtSomeUrl();
+
+        String getProjectPath();
+
+        boolean isPublicProject();
     }
 }

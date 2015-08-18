@@ -21,16 +21,23 @@ public class CommentEditFragment extends TopicEditFragment implements StartActiv
 
     final int RESULT_REQUEST_AT = 1;
 
+
     @FragmentArg
     String mMergeUrl;
+    private TextWatcherAt watcher;
 
     public boolean isEmpty() {
         return Global.isEmptyContainSpace(title);
     }
 
+    // TODO 会调用多次，因为在观察者模式里面注册了多个，以后再看吧
     @AfterViews
     protected final void initCommentEditFragment() {
-        edit.addTextChangedListener(new TextWatcherAt(getActivity(), this, RESULT_REQUEST_AT, mMergeUrl));
+        if (watcher == null) {
+            watcher = new TextWatcherAt(getActivity(), this, RESULT_REQUEST_AT, mMergeUrl);
+        }
+        edit.removeTextChangedListener(watcher);
+        edit.addTextChangedListener(watcher);
     }
 
     @OnActivityResult(RESULT_REQUEST_AT)

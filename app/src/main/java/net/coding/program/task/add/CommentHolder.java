@@ -11,7 +11,7 @@ import net.coding.program.maopao.item.ImageCommentHolder;
  * Created by chenchao on 15/7/8.
  * 任务编辑列表的评论，是特殊处理的
  */
-class CommentHolder extends ImageCommentHolder {
+public class CommentHolder extends ImageCommentHolder {
     View timeLineUp;
     View timeLineDown;
 

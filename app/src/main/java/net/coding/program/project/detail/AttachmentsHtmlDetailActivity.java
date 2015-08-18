@@ -11,8 +11,12 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.project.detail.file.FileDynamicActivity;
+import net.coding.program.project.detail.file.FileDynamicActivity_;
+import net.coding.program.project.detail.file.FileHistoryActivity_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -148,4 +152,21 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         return outputStream.toString();
     }
 
+    @Click
+    protected void clickFileDynamic() {
+        FileDynamicActivity.ProjectFileParam param =
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+        FileDynamicActivity_.intent(this)
+                .mProjectFileParam(param)
+                .start();
+    }
+
+    @Click
+    protected void clickFileHistory() {
+        FileDynamicActivity.ProjectFileParam param =
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+        FileHistoryActivity_.intent(this)
+                .mProjectFileParam(param)
+                .start();
+    }
 }

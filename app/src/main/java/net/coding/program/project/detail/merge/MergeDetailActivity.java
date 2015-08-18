@@ -16,6 +16,7 @@ import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
+import net.coding.program.model.PostRequest;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.CommitListActivity_;
 
@@ -28,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
@@ -79,7 +81,8 @@ public class MergeDetailActivity extends BackActivity {
                 });
             } else {
                 String name = item.owner.name;
-                CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).mAtName(name).startForResult(RESULT_COMMENT);
+                CommentActivity.CommentParam param = createParam(name);
+                CommentActivity_.intent(MergeDetailActivity.this).mParam(param).startForResult(RESULT_COMMENT);
             }
         }
     };
@@ -272,9 +275,14 @@ public class MergeDetailActivity extends BackActivity {
         footer.findViewById(R.id.itemAddComment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).startForResult(RESULT_COMMENT);
+                CommentActivity.CommentParam param = createParam("");
+                CommentActivity_.intent(MergeDetailActivity.this).mParam(param).startForResult(RESULT_COMMENT);
             }
         });
+    }
+
+    public CommentActivity.CommentParam createParam(final String atSomeOne) {
+        return new MergeCommentParam(mMerge, atSomeOne);
     }
 
     @Override
@@ -352,5 +360,42 @@ public class MergeDetailActivity extends BackActivity {
     private void finishAndUpdateList() {
         setResult(RESULT_OK);
         finish();
+    }
+
+    private static class MergeCommentParam implements CommentActivity.CommentParam, Serializable {
+        private Merge mMerge;
+        private String atSomeOne;
+
+        public MergeCommentParam(Merge mMerge, String atSomeOne) {
+            this.mMerge = mMerge;
+            this.atSomeOne = atSomeOne;
+        }
+
+        @Override
+        public PostRequest getSendCommentParam(String input) {
+            PostRequest request = mMerge.getHttpSendComment();
+            request.setContent(input);
+            return request;
+        }
+
+        @Override
+        public String getAtSome() {
+            return atSomeOne;
+        }
+
+        @Override
+        public String getAtSomeUrl() {
+            return mMerge.getMergeAtMemberUrl();
+        }
+
+        @Override
+        public String getProjectPath() {
+            return mMerge.getProjectPath();
+        }
+
+        @Override
+        public boolean isPublicProject() {
+            return mMerge.isPull();
+        }
     }
 }

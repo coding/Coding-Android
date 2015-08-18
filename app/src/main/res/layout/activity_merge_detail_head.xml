@@ -55,7 +55,7 @@
 
     <include layout="@layout/divideline_15" />
 
-    <LinearLayout
+    <org.apmem.tools.layouts.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/padding_12"
@@ -70,6 +70,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/merge_detail_branch_buttom"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="merge_request"
             android:textColor="@color/merge_id" />
 
@@ -84,9 +86,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/merge_detail_branch_buttom"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="master"
             android:textColor="@color/merge_id" />
-    </LinearLayout>
+    </org.apmem.tools.layouts.FlowLayout>
 
     <LinearLayout
         android:id="@+id/mergeTreate"

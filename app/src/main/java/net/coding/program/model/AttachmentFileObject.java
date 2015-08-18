@@ -94,6 +94,7 @@ public class AttachmentFileObject implements Serializable {
     public AttachmentFolderObject folderObject;
     private String name = "";
     private int size = 0;
+    private int projectId = 0;
 
     public AttachmentFileObject() {
     }
