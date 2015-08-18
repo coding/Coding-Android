@@ -125,6 +125,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.time.setFocusable(false);
 
+                holder.refId = (TextView) convertView.findViewById(R.id.referenceId);
+
                 holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.flowLayout = (FlowLabelLayout) convertView.findViewById(R.id.flowLayout);
@@ -140,6 +142,8 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             holder.icon.setTag(data.owner.global_key);
 
             holder.title.setText(Global.changeHyperlinkColor(data.title));
+
+            holder.refId.setText(data.getRefId());
 
             holder.name.setText(data.owner.name);
             holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
@@ -348,6 +352,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         public TextView time;
         public TextView name;
         public FlowLabelLayout flowLayout;
+        public TextView refId;
     }
 
     private class DropdownButtonsController implements DropdownListView.Container {

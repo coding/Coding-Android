@@ -112,6 +112,7 @@ public class TaskObject {
         public int comments;
         public boolean has_description;
         public ArrayList<TopicLabelObject> labels = new ArrayList<>();
+        private int number;
         private int id;
         public SingleTask(JSONObject json) throws JSONException {
             comments = json.optInt("comments");
@@ -142,6 +143,7 @@ public class TaskObject {
             updated_at = json.optLong("updated_at");
             deadline = json.optString("deadline");
             has_description = json.optBoolean("has_description", false);
+            number = json.optInt("number");
 
             if (json.has("labels")) {
                 JSONArray jsonLabals = json.optJSONArray("labels");
@@ -179,6 +181,10 @@ public class TaskObject {
 
         public String getHttpRemoveLabal(int labelId) {
             return String.format("%s/task/%d/label/%d", project.getHttpProjectApi(), id, labelId);
+        }
+
+        public String getNumber() {
+            return "#" + number;
         }
     }
 

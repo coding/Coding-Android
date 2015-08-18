@@ -345,6 +345,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
         ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
 
+        ((TextView) mListHead.findViewById(R.id.referenceId)).setText(topicObject.getRefId());
+
         updateLabels(topicObject.labels);
 
         WebView webView = (WebView) mListHead.findViewById(R.id.comment);

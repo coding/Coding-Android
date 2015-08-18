@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/5/27.
+ * merge 列表的 adpter
  */
 public class MergeAdapter extends DataAdapter<Merge> {
 
@@ -46,7 +47,11 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
             holder.discuss.setVisibility(View.GONE);
 
+            holder.refId = (TextView) convertView.findViewById(R.id.referenceId);
+            holder.refId.setVisibility(View.GONE);
+
             holder.name = (TextView) convertView.findViewById(R.id.name);
+
             convertView.setTag(holder);
 
         } else {

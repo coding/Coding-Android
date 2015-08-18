@@ -317,6 +317,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         listView.addHeaderView(headEdit);
 
         mHeadView = mInflater.inflate(R.layout.activity_task_add_head, null);
+
         circleIcon = (ImageView) mHeadView.findViewById(R.id.circleIcon);
         name = (TextView) mHeadView.findViewById(R.id.name);
         status = (TextView) mHeadView.findViewById(R.id.status);
@@ -469,6 +470,14 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         } else {
             createName.setText(mSingleTask.creator.name);
             time.setText(Global.dayToNow(mSingleTask.created_at));
+        }
+
+        TextView refrenceId = (TextView) mHeadView.findViewById(R.id.referenceId);
+        if (mSingleTask.isEmpty()) {
+            refrenceId.setVisibility(View.GONE);
+        } else {
+            refrenceId.setVisibility(View.VISIBLE);
+            refrenceId.setText(mSingleTask.getNumber());
         }
     }
 

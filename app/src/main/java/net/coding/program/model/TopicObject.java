@@ -30,6 +30,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public String title = "";
     public long updated_at;
     public List<TopicLabelObject> labels = new ArrayList<>();
+    private int number;
     private int commentSort = SORT_OLD;
     public TopicObject(JSONObject json) throws JSONException {
         super(json);
@@ -43,6 +44,7 @@ public class TopicObject extends BaseComment implements Serializable {
         project_id = json.optString("project_id");
         title = json.optString("title");
         updated_at = json.optLong("updated_at");
+        number = json.optInt("number");
 
         {
             JSONArray array = json.optJSONArray("labels");
@@ -53,6 +55,10 @@ public class TopicObject extends BaseComment implements Serializable {
                 }
             }
         }
+    }
+
+    public String getRefId() {
+        return "#" + number;
     }
 
     public String getHttpComments() {

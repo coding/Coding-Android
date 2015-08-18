@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/name"
+    android:id="@+id/referenceId"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="蝈蝈"
-    android:textColor="@color/font_black_9"
-    android:textSize="12dp"
-    tools:showIn="@layout/fragment_task_list_item" />
+    android:layout_marginRight="10dp"
+    android:textColor="@color/font_black_2"
+    android:textSize="12sp"
+    tools:showIn="@layout/fragment_task_list_item"
+    tools:text="#179" />

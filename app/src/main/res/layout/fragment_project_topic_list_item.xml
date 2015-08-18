@@ -48,6 +48,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <include layout="@layout/common_ref_id" />
+
         <include layout="@layout/common_name" />
 
         <include layout="@layout/common_time" />

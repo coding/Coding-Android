@@ -41,7 +41,7 @@
         android:maxLines="2"
         android:phoneNumber="false"
         android:text="      江龙减法看东方看a东皇反抗a双簧反抗a荒废"
-        android:textColor="#555555"
+        android:textColor="@color/font_black_2"
         android:textSize="15sp" />
 
     <View
@@ -95,6 +95,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
+            <include layout="@layout/common_ref_id" />
 
             <include layout="@layout/common_name" />
 

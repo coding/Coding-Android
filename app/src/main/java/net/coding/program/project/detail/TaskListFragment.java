@@ -467,6 +467,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mTaskPriority = convertView.findViewById(R.id.taskPriority);
                 holder.mTaskDes = convertView.findViewById(R.id.taskDes);
                 holder.mLayoutDeadline = convertView.findViewById(R.id.layoutDeadline);
+                holder.mRefId = (TextView) convertView.findViewById(R.id.referenceId);
                 holder.flowLabelLayout = (FlowLabelLayout) convertView.findViewById(R.id.flowLayout);
                 convertView.setTag(holder);
             } else {
@@ -476,6 +477,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             final TaskObject.SingleTask data = (TaskObject.SingleTask) getItem(position);
             holder.mTitle.setText("      " + data.content);
 
+            holder.mRefId.setText(data.getNumber());
             holder.mName.setText(data.creator.name);
             holder.mTime.setText(Global.dayToNow(data.created_at));
             holder.mDiscuss.setText(String.valueOf(data.comments));
@@ -622,6 +624,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             View mTaskDes;
             View mLayoutDeadline;
             FlowLabelLayout flowLabelLayout;
+            TextView mRefId;
 
             public void setDeadlineColor(int color) {
                 mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
