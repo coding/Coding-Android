@@ -4,7 +4,6 @@ import android.graphics.Color;
 
 import net.coding.program.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -12,6 +11,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by yangzhen on 2014/10/25.
+ * 项目文档中的文件
  */
 public class AttachmentFileObject implements Serializable {
 
@@ -99,14 +99,14 @@ public class AttachmentFileObject implements Serializable {
     public AttachmentFileObject() {
     }
 
-    public AttachmentFileObject(JSONObject json) throws JSONException {
+    public AttachmentFileObject(JSONObject json) {
         created_at = json.optLong("created_at");
         current_user_role_id = json.optInt("current_user_role_id");
         fileType = json.optString("fileType");
         file_id = json.optString("file_id");
         name = json.optString("name");
         if (json.has("owner")) {
-            owner = new UserObject(json.getJSONObject("owner"));
+            owner = new UserObject(json.optJSONObject("owner"));
         }
         owner_id = json.optString("owner_id");
         owner_preview = json.optString("owner_preview");

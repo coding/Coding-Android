@@ -49,6 +49,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
                     .start();
         }
     };
+    SingleToast mSingleToast;
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;
     private NetworkImpl networkImpl;
@@ -149,6 +150,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         postNetwork(request.url, request.params, tag);
     }
 
+    protected void postNetwork(PostRequest request, String tag, Object data) {
+        postNetwork(request.url, request.params, tag, -1, data);
+    }
+
     protected void postNetwork(String url, String tag) {
         postNetwork(url, new RequestParams(), tag);
     }
@@ -194,15 +199,15 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showDialog(title, msg, clickOk, null);
     }
 
-    protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
-                              DialogInterface.OnClickListener clickCancel) {
-        showDialog(title, msg, clickOk, clickCancel, "确定", "取消");
-    }
-
 //    protected void showListDialog() {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        AlertDialog dialog = builder.setItems()
 //    }
+
+    protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
+                              DialogInterface.OnClickListener clickCancel) {
+        showDialog(title, msg, clickOk, clickCancel, "确定", "取消");
+    }
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCancel,
@@ -216,8 +221,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
                 .show();
         dialogTitleLineColor(dialog);
     }
-
-    SingleToast mSingleToast;
 
     public void showButtomToast(String msg) {
         mSingleToast.showButtomToast(msg);

@@ -149,6 +149,14 @@ public class FileDynamicActivity extends BackActivity {
             mProjectid = projectId;
         }
 
+        public String getProjectPath() {
+            return "/project/" + mProjectid;
+        }
+
+        public int getFileId() {
+            return Integer.valueOf(mFileObject.file_id);
+        }
+
         public String getHttpDynamic() {
             String url = Global.HOST_API + "/project/%d/file/%s/activities?last_id=9999999";
             return String.format(url, mProjectid, mFileObject.file_id);
