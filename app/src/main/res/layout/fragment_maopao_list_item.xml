@@ -82,7 +82,6 @@
             android:background="@drawable/content_pressed_selector"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:maxLength="10"
             android:singleLine="false"
             android:text="去"
             android:textAppearance="?android:attr/textAppearanceSmall"

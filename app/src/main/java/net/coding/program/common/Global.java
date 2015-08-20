@@ -72,6 +72,12 @@ public class Global {
     public static final SimpleDateFormat mDateYMDHH = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
+    private static final SimpleDateFormat sFormatToday = new SimpleDateFormat("今天 HH:mm");
+    private static final SimpleDateFormat sFormatThisYear = new SimpleDateFormat("MM/dd HH:mm");
+    private static final SimpleDateFormat sFormatOtherYear = new SimpleDateFormat("yy/MM/dd HH:mm");
+    private static final SimpleDateFormat sFormatMessageToday = new SimpleDateFormat("今天");
+    private static final SimpleDateFormat sFormatMessageThisYear = new SimpleDateFormat("MM/dd");
+    private static final SimpleDateFormat sFormatMessageOtherYear = new SimpleDateFormat("yy/MM/dd");
     public static String HOST = DEFAULT_HOST;
     public static String HOST_API = HOST + "/api";
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
@@ -99,7 +105,6 @@ public class Global {
         final SimpleDateFormat sd = new SimpleDateFormat(format);
         return sd.parse(day).getTime();
     }
-
 
     public static boolean isEmptyContainSpace(EditText edit) {
         return edit.getText().toString().replace(" ", "").replace("　", "").isEmpty();
@@ -204,7 +209,6 @@ public class Global {
 
         return s;
     }
-
 
     public static void popSoftkeyboard(Context ctx, View view, boolean wantPop) {
         InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -398,7 +402,6 @@ public class Global {
 
     }
 
-
     public static boolean isGif(String uri) {
         return uri.toLowerCase().endsWith(".gif");
     }
@@ -527,15 +530,6 @@ public class Global {
         return "创建于 " + Global.dayToNow(time);
     }
 
-
-    private static final SimpleDateFormat sFormatToday = new SimpleDateFormat("今天 HH:mm");
-    private static final SimpleDateFormat sFormatThisYear = new SimpleDateFormat("MM/dd HH:mm");
-    private static final SimpleDateFormat sFormatOtherYear = new SimpleDateFormat("yy/MM/dd HH:mm");
-
-    private static final SimpleDateFormat sFormatMessageToday = new SimpleDateFormat("今天");
-    private static final SimpleDateFormat sFormatMessageThisYear = new SimpleDateFormat("MM/dd");
-    private static final SimpleDateFormat sFormatMessageOtherYear = new SimpleDateFormat("yy/MM/dd");
-
     public static String dayToNow(long time) {
         return dayToNow(time, true);
     }
@@ -546,7 +540,7 @@ public class Global {
         long minute = (nowMill - time) / 60000;
         if (minute < 60) {
             if (minute == 0) {
-                return (nowMill - time) / 1000 + "秒前";
+                return Math.max((nowMill - time) / 1000, 1) + "秒前"; // 由于手机时间的原因，有时候会为负，这时候显示1秒前
             } else {
                 return minute + "分钟前";
             }

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
@@ -60,11 +61,15 @@ import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
 import org.apache.http.cookie.Cookie;
@@ -173,46 +178,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文档目录的底部弹出框
     private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文档文件的底部弹出框
     private int selectedPosition;
-    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    doRename(selectedPosition, mFilesArray.get(selectedPosition).folderObject);
-                    break;
-                case 1:
-                    AttachmentFolderObject selectedFolderObject = mFilesArray.get(selectedPosition).folderObject;
-                    if (selectedFolderObject.isDeleteable()) {
-                        action_delete_single(selectedFolderObject);
-                    } else {
-                        showButtomToast("请先清空文件夹");
-                        return;
-                    }
-                    break;
-            }
-            mAttachmentPopupWindow.dismiss();
-        }
-    };
-    private AdapterView.OnItemClickListener onFilePopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    // 移动
-                    action_move_single(mFilesArray.get(selectedPosition));
-                    break;
-                case 1:
-                    // 下载
-                    action_download_single(mFilesArray.get(selectedPosition));
-                    break;
-                case 2:
-                    // 删除
-                    action_delete_single(mFilesArray.get(selectedPosition));
-                    break;
-            }
-            mAttachmentFilePopupWindow.dismiss();
-        }
-    };
     BaseAdapter adapter = new BaseAdapter() {
         private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -224,7 +189,15 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPop(view, (Integer) view.getTag());
+                Integer position = (Integer) view.getTag();
+                AttachmentFileObject file = mFilesArray.get(position);
+
+                if (file.isDownload) {
+                    listViewItemClicked(position);
+                } else {
+                    action_download_single(mFilesArray.get(selectedPosition));
+                }
+
             }
         };
         private View.OnClickListener cancelClickListener = new View.OnClickListener() {
@@ -289,8 +262,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 holder.folder_name = (TextView) convertView.findViewById(R.id.folder_name);
 
                 holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
+                holder.downloadFlag = (TextView) convertView.findViewById(R.id.downloadFlag);
 
-                holder.downloadIcon = (ImageView) convertView.findViewById(R.id.downloadIcon);
                 holder.username = (TextView) convertView.findViewById(R.id.username);
                 holder.bottomLine = convertView.findViewById(R.id.bottomLine);
 
@@ -374,9 +347,15 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             }
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
-            holder.more.setOnClickListener(onMoreClickListener);
             holder.more.setTag(position);
+            holder.more.setOnClickListener(onMoreClickListener);
+            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
 
+            if (data.isFolder) {
+                holder.more.setVisibility(View.INVISIBLE);
+            } else {
+                holder.more.setVisibility(View.VISIBLE);
+            }
 
             if (data.downloadId != 0L) {
                 holder.cancel.setTag(position);
@@ -418,15 +397,49 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 holder.progress_layout.setVisibility(View.GONE);
             }
 
-            if (data.isDownload) {
-                holder.downloadIcon.setImageResource(R.drawable.ic_attachment_state_1);
-            } else {
-                holder.downloadIcon.setImageResource(R.drawable.ic_attachment_state_0);
-            }
-
             holder.cancel.setOnClickListener(cancelClickListener);
 
             return convertView;
+        }
+    };
+    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    doRename(selectedPosition, mFilesArray.get(selectedPosition).folderObject);
+                    break;
+                case 1:
+                    AttachmentFolderObject selectedFolderObject = mFilesArray.get(selectedPosition).folderObject;
+                    if (selectedFolderObject.isDeleteable()) {
+                        action_delete_single(selectedFolderObject);
+                    } else {
+                        showButtomToast("请先清空文件夹");
+                        return;
+                    }
+                    break;
+            }
+            mAttachmentPopupWindow.dismiss();
+        }
+    };
+    private AdapterView.OnItemClickListener onFilePopupItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            switch (position) {
+                case 0:
+                    // 移动
+                    action_move_single(mFilesArray.get(selectedPosition));
+                    break;
+                case 1:
+                    // 下载
+                    action_download_single(mFilesArray.get(selectedPosition));
+                    break;
+                case 2:
+                    // 删除
+                    action_delete_single(mFilesArray.get(selectedPosition));
+                    break;
+            }
+            mAttachmentFilePopupWindow.dismiss();
         }
     };
     /**
@@ -562,40 +575,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AttachmentFileObject data = mFilesArray.get(position);
 
-                if (isEditMode) {
-                    if (!data.isFolder) {
-                        data.isSelected = !data.isSelected;
-                        adapter.notifyDataSetChanged();
-                    }
-                } else {
-                    if (data.isFolder) {
-                        AttachmentsActivity_.intent(AttachmentsActivity.this).mAttachmentFolderObject(data.folderObject).mProjectObjectId(mProjectObjectId).startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
-                    } else if (data.isImage()) {
-                        AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
-//                    } else if (data.isHtml() || data.isMd()) {
-//                        AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-//                    } else if (data.isTxt()) {
-//                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                    } else {
-                        AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                    }
-                }
-
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showPop(view, position);
-                return true;
-            }
-        });
 
         initBottomPop();
 
@@ -604,6 +584,36 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         String projectUrl = String.format(HOST_PROJECT_ID, mProjectObjectId);
         getNetwork(projectUrl, HOST_PROJECT_ID);
     }
+
+    @ItemClick
+    void listViewItemClicked(int position) {
+        AttachmentFileObject data = mFilesArray.get(position);
+
+        if (isEditMode) {
+            if (!data.isFolder) {
+                data.isSelected = !data.isSelected;
+                adapter.notifyDataSetChanged();
+            }
+        } else {
+            if (data.isFolder) {
+                AttachmentsActivity_.intent(AttachmentsActivity.this).mAttachmentFolderObject(data.folderObject).mProjectObjectId(mProjectObjectId).startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+            } else if (data.isImage()) {
+                AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
+//                    } else if (data.isHtml() || data.isMd()) {
+//                        AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+//                    } else if (data.isTxt()) {
+//                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+            } else {
+                AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+            }
+        }
+    }
+
+    @ItemLongClick
+    void listViewItemLongClicked(int position) {
+        showPop(null, position);
+    }
+
 
     /**
      * 获取当前文档列表中的所有图片文档，提供给AttachmentsPicDetailActivity
@@ -1144,51 +1154,100 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         if (selectedFileObject.isFolder) {
             AttachmentFolderObject selectedFolderObject = selectedFileObject.folderObject;
 
-            if (mAttachmentPopupWindow == null) {
-                initBottomPop();
-            }
+//            if (mAttachmentPopupWindow == null) {
+//                initBottomPop();
+//            }
+//
+//            DialogUtil.BottomPopupItem renameItem = mAttachmentPopupWindow.adapter.getItem(0);
+//            DialogUtil.BottomPopupItem deleteItem = mAttachmentPopupWindow.adapter.getItem(1);
+//            if (selectedFolderObject.file_id.equals("0")) {
+//                renameItem.enabled = false;
+//                deleteItem.enabled = false;
+//            } else if (selectedFolderObject.count != 0) {
+//                renameItem.enabled = true;
+//                deleteItem.enabled = false;
+//            } else {
+//                renameItem.enabled = true;
+//                deleteItem.enabled = true;
+//            }
+//            mAttachmentPopupWindow.adapter.notifyDataSetChanged();
+//            mAttachmentPopupWindow.tvTitle.setText(selectedFolderObject.name);
+//
+//            mAttachmentPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-            DialogUtil.BottomPopupItem renameItem = mAttachmentPopupWindow.adapter.getItem(0);
-            DialogUtil.BottomPopupItem deleteItem = mAttachmentPopupWindow.adapter.getItem(1);
+            String[] itemNames;
             if (selectedFolderObject.file_id.equals("0")) {
-                renameItem.enabled = false;
-                deleteItem.enabled = false;
+                itemNames = new String[]{};
             } else if (selectedFolderObject.count != 0) {
-                renameItem.enabled = true;
-                deleteItem.enabled = false;
+                itemNames = new String[]{"重命名"};
             } else {
-                renameItem.enabled = true;
-                deleteItem.enabled = true;
+                itemNames = new String[]{"重命名", "删除"};
             }
-            mAttachmentPopupWindow.adapter.notifyDataSetChanged();
-            mAttachmentPopupWindow.tvTitle.setText(selectedFolderObject.name);
+            if (itemNames.length == 0) {
+                return;
+            }
 
-            mAttachmentPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setItems(itemNames, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        doRename(selectedPosition, mFilesArray.get(selectedPosition).folderObject);
+                    } else {
+                        AttachmentFolderObject selectedFolderObject = mFilesArray.get(selectedPosition).folderObject;
+                        if (selectedFolderObject.isDeleteable()) {
+                            action_delete_single(selectedFolderObject);
+                        } else {
+                            showButtomToast("请先清空文件夹");
+                        }
+                    }
+                }
+            });
+            builder.show();
+
         } else {
             if (selectedFileObject.downloadId != 0L)
                 return;
-            if (mAttachmentFilePopupWindow == null) {
-                initBottomPop();
-            }
+//            if (mAttachmentFilePopupWindow == null) {
+//                initBottomPop();
+//            }
+//
+//            DialogUtil.BottomPopupItem moveItem = mAttachmentFilePopupWindow.adapter.getItem(0);
+//            DialogUtil.BottomPopupItem downloadItem = mAttachmentFilePopupWindow.adapter.getItem(1);
+//            DialogUtil.BottomPopupItem deleteItem = mAttachmentFilePopupWindow.adapter.getItem(2);
+//
+//            if (selectedFileObject.isOwner()) {
+//                moveItem.enabled = true;
+//                downloadItem.enabled = true;
+//                deleteItem.enabled = true;
+//            } else {
+//                moveItem.enabled = true;
+//                downloadItem.enabled = true;
+//                deleteItem.enabled = false;
+//            }
+//
+//            mAttachmentFilePopupWindow.adapter.notifyDataSetChanged();
+//            mAttachmentFilePopupWindow.tvTitle.setText(selectedFileObject.getName());
+//
+//            mAttachmentFilePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-            DialogUtil.BottomPopupItem moveItem = mAttachmentFilePopupWindow.adapter.getItem(0);
-            DialogUtil.BottomPopupItem downloadItem = mAttachmentFilePopupWindow.adapter.getItem(1);
-            DialogUtil.BottomPopupItem deleteItem = mAttachmentFilePopupWindow.adapter.getItem(2);
-
+            String[] itemTitles;
             if (selectedFileObject.isOwner()) {
-                moveItem.enabled = true;
-                downloadItem.enabled = true;
-                deleteItem.enabled = true;
+                itemTitles = new String[]{"移动", "删除"};
             } else {
-                moveItem.enabled = true;
-                downloadItem.enabled = true;
-                deleteItem.enabled = false;
+                itemTitles = new String[]{"移动"};
             }
 
-            mAttachmentFilePopupWindow.adapter.notifyDataSetChanged();
-            mAttachmentFilePopupWindow.tvTitle.setText(selectedFileObject.getName());
-
-            mAttachmentFilePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setItems(itemTitles, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+                        action_move_single(mFilesArray.get(selectedPosition));
+                    } else {
+                        action_delete_single(mFilesArray.get(selectedPosition));
+                    }
+                }
+            });
+            builder.show();
         }
     }
 
@@ -1341,8 +1400,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             mFileObject.downloadId = 0L;
             mFileObject.isDownload = false;
         }
-
-
     }
 
     @Override
@@ -1477,14 +1534,101 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 request.setTitle(mFileObject.getName());
                 request.setVisibleInDownloadsUi(false);
 
+
                 long downloadId = downloadManager.enqueue(request);
                 downloadListEditor.putLong(mFileObject.file_id, downloadId);
+
+//                backgroundUpdate(downloadId);
+
+                test1(downloadId);
             }
             downloadListEditor.commit();
         } catch (Exception e) {
             Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void test1(final long downloadId) {
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                boolean downloading = true;
+
+                while (downloading) {
+
+                    DownloadManager.Query q = new DownloadManager.Query();
+                    q.setFilterById(downloadId);
+
+                    Cursor cursor = downloadManager.query(q);
+                    cursor.moveToFirst();
+                    int bytes_downloaded = cursor.getInt(cursor
+                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+
+                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+                        downloading = false;
+                    }
+
+                    final double dl_progress = (bytes_downloaded * 100 / bytes_total);
+                    Log.d("", String.format("progress2 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
+
+
+//                    runOnUiThread(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//
+//                            mProgressBar.setProgress((int) dl_progress);
+//
+//                        }
+//                    });
+
+//                    Log.d(Constants.MAIN_VIEW_ACTIVITY, statusMessage(cursor));
+                    cursor.close();
+                }
+
+            }
+        }).start();
+    }
+
+    @Background
+    void backgroundUpdate(long downloadId) {
+        boolean downloading = true;
+
+        while (downloading) {
+
+            DownloadManager.Query q = new DownloadManager.Query();
+            q.setFilterById(downloadId);
+
+            Cursor cursor = downloadManager.query(q);
+            cursor.moveToFirst();
+            int bytes_downloaded = cursor.getInt(cursor
+                    .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+            int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+
+            if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+                downloading = false;
+            }
+
+            cursor.close();
+
+            final double dl_progress = bytes_downloaded * 100 / bytes_total;
+            Log.d("", String.format("progress1 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
+
+
+            updateProgress(dl_progress);
+
+//            Log.d(Constants.MAIN_VIEW_ACTIVITY, statusMessage(cursor));
+        }
+    }
+
+    @UiThread
+    void updateProgress(double progress) {
+//        mProgressBar.setProgress((int) dl_progress);
+        Log.d("", "progress " + progress);
     }
 
     private void download(AttachmentFileObject mFileObject) {
@@ -1562,7 +1706,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         RelativeLayout more;
 
-        ImageView downloadIcon;
         TextView username;
         View bottomLine;
 
@@ -1571,6 +1714,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         LinearLayout desc_layout, progress_layout;
         ProgressBar progressBar;
         TextView cancel;
+        TextView downloadFlag;
     }
 
     class DownloadChangeObserver extends ContentObserver {

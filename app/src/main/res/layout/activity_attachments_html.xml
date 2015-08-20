@@ -1,26 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
+    android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
-    <net.coding.program.PhotoViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/black"
-        android:visibility="gone" />
-
-    <include
-        android:id="@+id/blankLayout"
-        layout="@layout/view_exception"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <net.coding.program.PhotoViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/black"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/blankLayout"
+            layout="@layout/view_exception"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,5 +52,4 @@
             android:text="历史版本" />
     </LinearLayout>
 
-
-</FrameLayout>
+</LinearLayout>

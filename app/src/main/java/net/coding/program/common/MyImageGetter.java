@@ -45,6 +45,7 @@ public class MyImageGetter implements Html.ImageGetter {
             Field field = R.drawable.class.getField(name);
             return Integer.parseInt(field.get(null).toString());
         } catch (Exception e) {
+            Global.errorLog(e);
         }
 
         return R.drawable.app_icon;
@@ -63,22 +64,26 @@ public class MyImageGetter implements Html.ImageGetter {
     }
 
     private String getPhotoName(String s) {
-        if (s == null) {
+        try {
+            if (s == null) {
+                return "";
+            }
+
+            int begin = s.lastIndexOf('/');
+            if (begin == -1) {
+                return s;
+            }
+
+            ++begin;
+            int end = s.lastIndexOf('.');
+            if (end == -1) {
+                return s;
+            }
+
+            return s.substring(begin, end);
+        } catch (Exception e) {
             return "";
         }
-
-        int begin = s.lastIndexOf('/');
-        if (begin == -1) {
-            return s;
-        }
-
-        ++begin;
-        int end = s.lastIndexOf('.');
-        if (end == -1) {
-            return s;
-        }
-
-        return s.substring(begin, end);
     }
 
     private boolean isMonkey(String name) {
