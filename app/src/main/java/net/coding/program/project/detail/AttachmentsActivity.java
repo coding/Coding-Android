@@ -52,6 +52,7 @@ import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -91,7 +92,7 @@ import java.util.regex.Pattern;
  */
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
-public class AttachmentsActivity extends CustomMoreActivity implements FootUpdate.LoadMore {
+public class AttachmentsActivity extends CustomMoreActivity implements FootUpdate.LoadMore, WeakRefHander.Callback {
     public static final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
@@ -149,6 +150,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             loadMore();
         }
     };
+    Handler mUpdateDownloadHandler;
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
     private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
@@ -192,6 +194,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 Integer position = (Integer) view.getTag();
                 AttachmentFileObject file = mFilesArray.get(position);
 
+                selectedPosition = position;
                 if (file.isDownload) {
                     listViewItemClicked(position);
                 } else {
@@ -583,6 +586,8 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         String projectUrl = String.format(HOST_PROJECT_ID, mProjectObjectId);
         getNetwork(projectUrl, HOST_PROJECT_ID);
+
+        mUpdateDownloadHandler = new WeakRefHander(this, 500);
     }
 
     @ItemClick
@@ -1537,98 +1542,46 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
                 long downloadId = downloadManager.enqueue(request);
                 downloadListEditor.putLong(mFileObject.file_id, downloadId);
-
 //                backgroundUpdate(downloadId);
-
-                test1(downloadId);
             }
             downloadListEditor.commit();
+
+            checkFileDownloadStatus();
         } catch (Exception e) {
             Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
         }
-
-    }
-
-    private void test1(final long downloadId) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                boolean downloading = true;
-
-                while (downloading) {
-
-                    DownloadManager.Query q = new DownloadManager.Query();
-                    q.setFilterById(downloadId);
-
-                    Cursor cursor = downloadManager.query(q);
-                    cursor.moveToFirst();
-                    int bytes_downloaded = cursor.getInt(cursor
-                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-
-                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-                        downloading = false;
-                    }
-
-                    final double dl_progress = (bytes_downloaded * 100 / bytes_total);
-                    Log.d("", String.format("progress2 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
-
-
-//                    runOnUiThread(new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//
-//                            mProgressBar.setProgress((int) dl_progress);
-//
-//                        }
-//                    });
-
-//                    Log.d(Constants.MAIN_VIEW_ACTIVITY, statusMessage(cursor));
-                    cursor.close();
-                }
-
-            }
-        }).start();
     }
 
     @Background
     void backgroundUpdate(long downloadId) {
         boolean downloading = true;
-
         while (downloading) {
-
-            DownloadManager.Query q = new DownloadManager.Query();
-            q.setFilterById(downloadId);
-
+            DownloadManager.Query q = new DownloadManager.Query().setFilterById(downloadId);
             Cursor cursor = downloadManager.query(q);
-            cursor.moveToFirst();
-            int bytes_downloaded = cursor.getInt(cursor
-                    .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-            int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    int bytes_downloaded = cursor.getInt(cursor
+                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
 
-            if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-                downloading = false;
+                    final double dl_progress = bytes_downloaded * 100 / bytes_total;
+                    Log.d("", String.format("progress1 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
+                    updateProgress(dl_progress);
+
+                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+                        downloading = false;
+                    }
+                }
+                cursor.close();
             }
-
-            cursor.close();
-
-            final double dl_progress = bytes_downloaded * 100 / bytes_total;
-            Log.d("", String.format("progress1 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
-
-
-            updateProgress(dl_progress);
-
-//            Log.d(Constants.MAIN_VIEW_ACTIVITY, statusMessage(cursor));
         }
     }
 
     @UiThread
     void updateProgress(double progress) {
 //        mProgressBar.setProgress((int) dl_progress);
-        Log.d("", "progress " + progress);
+//        Log.d("", "progress " + progress);
+        checkFileDownloadStatus();
     }
 
     private void download(AttachmentFileObject mFileObject) {
@@ -1685,6 +1638,11 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
         mRightTopPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
 
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        return false;
     }
 
     private enum UploadStatus {
