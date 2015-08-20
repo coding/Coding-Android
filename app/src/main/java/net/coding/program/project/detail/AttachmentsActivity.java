@@ -150,7 +150,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             loadMore();
         }
     };
-    Handler mUpdateDownloadHandler;
+    WeakRefHander mUpdateDownloadHandler;
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
     private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
@@ -350,25 +350,20 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             }
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
-            holder.more.setTag(position);
-            holder.more.setOnClickListener(onMoreClickListener);
-            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
 
-            if (data.isFolder) {
-                holder.more.setVisibility(View.INVISIBLE);
-            } else {
-                holder.more.setVisibility(View.VISIBLE);
+            AttachmentFileObject mFileObject = data;
+            if (mFileObject.bytesAndStatus != null) {
+                Log.v("updateFileDownload", mFileObject.getName() + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
             }
 
             if (data.downloadId != 0L) {
                 holder.cancel.setTag(position);
                 int status = data.bytesAndStatus[2];
-                holder.progressBar.setMax(data.getSize());
                 if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
                     if (data.bytesAndStatus[1] < 0) {
                         holder.progressBar.setProgress(0);
                     } else {
-                        holder.progressBar.setProgress(data.bytesAndStatus[0]);
+                        holder.progressBar.setProgress(data.bytesAndStatus[0] * 100 / data.bytesAndStatus[1]);
                     }
                     data.isDownload = false;
                     holder.desc_layout.setVisibility(View.GONE);
@@ -401,6 +396,16 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             }
 
             holder.cancel.setOnClickListener(cancelClickListener);
+
+            holder.more.setTag(position);
+            holder.more.setOnClickListener(onMoreClickListener);
+            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
+
+            if (data.isFolder) {
+                holder.more.setVisibility(View.INVISIBLE);
+            } else {
+                holder.more.setVisibility(View.VISIBLE);
+            }
 
             return convertView;
         }
@@ -1388,22 +1393,20 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     public void setDownloadStatus(AttachmentFileObject mFileObject) {
-        File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
 
-        if (mFile.exists() && mFile.isFile()) {
-
-            Long downloadId = downloadList.getLong(mFileObject.file_id, 0L);
-            if (downloadId != 0L) {
-                mFileObject.downloadId = downloadId;
-                updateFileDownloadStatus(mFileObject);
-                mFileObject.isDownload = false;
-            } else {
-                mFileObject.isDownload = true;
-            }
-
-        } else {
-            mFileObject.downloadId = 0L;
+        Long downloadId = downloadList.getLong(mFileObject.file_id, 0L);
+        if (downloadId != 0L) {
+            mFileObject.downloadId = downloadId;
+            updateFileDownloadStatus(mFileObject);
             mFileObject.isDownload = false;
+        } else {
+            File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
+            if (mFile.exists() && mFile.isFile()) {
+                mFileObject.isDownload = true;
+            } else {
+                mFileObject.downloadId = 0L;
+                mFileObject.isDownload = false;
+            }
         }
     }
 
@@ -1417,12 +1420,14 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         //updateView();
 
         checkFileDownloadStatus();
+        mUpdateDownloadHandler.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         getContentResolver().unregisterContentObserver(downloadObserver);
+        mUpdateDownloadHandler.stop();
     }
 
     @Override
@@ -1432,6 +1437,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     }
 
     // 更新文件的下载状态
+
     private void checkFileDownloadStatus() {
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (!fileObject.isFolder) {
@@ -1545,7 +1551,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 //                backgroundUpdate(downloadId);
             }
             downloadListEditor.commit();
-
+            mUpdateDownloadHandler.start();
             checkFileDownloadStatus();
         } catch (Exception e) {
             Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
@@ -1637,12 +1643,16 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         mRightTopPopupWindow.adapter.notifyDataSetChanged();
         mRightTopPopupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
         mRightTopPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
-
     }
 
     @Override
     public boolean handleMessage(Message msg) {
-        return false;
+        if (downloadFiles == null || downloadFiles.isEmpty()) {
+            mUpdateDownloadHandler.stop();
+        }
+
+        checkFileDownloadStatus();
+        return true;
     }
 
     private enum UploadStatus {

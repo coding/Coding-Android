@@ -15,7 +15,6 @@
         android:background="@drawable/edit"
         android:capitalize="none"
         android:gravity="fill_horizontal"
-        android:inputType="textPassword"
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>

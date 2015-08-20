@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="70dp"
+    android:background="@drawable/list_item_selector">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="70dp"
             android:layout_toRightOf="@id/icon_layout"
             android:orientation="vertical">
 
@@ -67,6 +68,7 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="middle"
                 android:singleLine="true"
                 android:text="Medium Text"
                 android:textColor="@color/font_black_content"
@@ -119,22 +121,16 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="开始下载..."
-                    android:textColor="@color/font_black_9"
-                    android:textSize="12sp" />
-
                 <ProgressBar
                     android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
                     android:layout_height="4dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/progressbg"
-                    android:progressDrawable="@drawable/font_green" />
+                    android:max="100"
+                    android:progress="30"
+                    android:progressDrawable="@drawable/progressbg" />
 
                 <TextView
                     android:id="@+id/cancel"
@@ -197,12 +193,6 @@
         </RelativeLayout>
 
 
-        <View
-            android:id="@+id/bottomLine"
-            android:layout_width="fill_parent"
-            android:layout_height="0.3dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/font_black_content_disabled" />
-        <!--android:layout_alignLeft="@+id/icon_layout"-->
     </RelativeLayout>
+
 </FrameLayout>

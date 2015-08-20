@@ -45,12 +45,15 @@
     <color name="divide">#ffeeeeee</color>
     <color name="divide_line">#ffdddddd</color>
 
+    <color name="divide_line_81">#ff818181</color>
+
     <color name="search_divide_color">#e3e3e3</color>
 
     <drawable name="system_divide">#ffdddddd</drawable>
 
     <color name="stand_bg">#fff6f6f6</color>
     <color name="stand_tab_bg">#ffffff</color>
+    <color name="bg_fa">#fafafa</color>
 
     <color name="spinner_black">#ff313743</color>
     <color name="spinner_divider">#ff252b37</color>

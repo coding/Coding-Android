@@ -54,7 +54,7 @@
     <dimen name="mergefile_list_item_icon_width">20dp</dimen>
     <dimen name="bottom_button_padding">8dp</dimen>
 
-    <dimen name="folder_icon_width">30dp</dimen>
+    <dimen name="folder_icon_width">36dp</dimen>
 
     <dimen name="list_section_commit">30dp</dimen>
 
