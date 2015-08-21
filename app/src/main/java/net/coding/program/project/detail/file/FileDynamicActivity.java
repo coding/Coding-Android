@@ -1,6 +1,8 @@
 package net.coding.program.project.detail.file;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -9,11 +11,13 @@ import android.widget.ListView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.BackActivity;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.model.BaseComment;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.PostRequest;
 import net.coding.program.project.detail.merge.CommentActivity;
@@ -42,8 +46,10 @@ public class FileDynamicActivity extends BackActivity {
     public static final int RESULT_COMMENT = 1;
 
     public static final String TAG_HTTP_FILE_DYNAMIC = "TAG_HTTP_FILE_DYNAMIC";
+    private static final String TAG_HTTP_COMMENT_DELETE = "TAG_HTTP_COMMENT_DELETE";
+
     DynamicFileAdapter adapter;
-    ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
+    ArrayList<Object> mData = new ArrayList<>();
     @ViewById
     ListView listView;
     @Extra
@@ -66,11 +72,11 @@ public class FileDynamicActivity extends BackActivity {
                     JSONObject jsonItem = json.getJSONObject(i);
                     String targetType = jsonItem.optString("target_type");
 
-                    DynamicObject.DynamicBaseObject dynamic = null;
+                    Object dynamic = null;
                     if (targetType.equals("ProjectFile")) {
                         dynamic = new DynamicObject.DynamicProjectFile(jsonItem);
                     } else if (targetType.equals("ProjectFileComment")) {
-                        dynamic = new DynamicObject.DynamicProjectFileComment(jsonItem);
+                        dynamic = new BaseComment(new DynamicObject.DynamicProjectFileComment(jsonItem));
                     }
 
                     if (dynamic != null) {
@@ -82,30 +88,40 @@ public class FileDynamicActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals("TAG_HTTP_COMMENT_DELETE")) {
+            if (code == 0) {
+                mData.remove(data);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
     @Click
     protected void itemAddComment() {
         FileDynamicParam param = new FileDynamicParam(mProjectFileParam.mProjectid,
-                Integer.valueOf(mProjectFileParam.mFileObject.file_id));
+                Integer.valueOf(mProjectFileParam.mFileObject.file_id), "");
         CommentActivity_.intent(this).mParam(param).startForResult(RESULT_COMMENT);
     }
 
     @OnActivityResult(RESULT_COMMENT)
-    void onResultComment() {
-
+    void onResultComment(int result, Intent data) {
+        if (result == RESULT_OK && data != null) {
+            BaseComment comment = (BaseComment) data.getSerializableExtra("data");
+            mData.add(comment);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     static class FileDynamicParam implements CommentActivity.CommentParam, Serializable {
 
         int projectId;
         int fileId;
+        String atSomeOne;
 
-
-        public FileDynamicParam(int projectId, int fileId) {
+        public FileDynamicParam(int projectId, int fileId, String atSomeOne) {
             this.projectId = projectId;
             this.fileId = fileId;
+            this.atSomeOne = atSomeOne;
         }
 
         @Override
@@ -119,7 +135,7 @@ public class FileDynamicActivity extends BackActivity {
 
         @Override
         public String getAtSome() {
-            return "";
+            return atSomeOne;
         }
 
         @Override
@@ -161,9 +177,14 @@ public class FileDynamicActivity extends BackActivity {
             String url = Global.HOST_API + "/project/%d/file/%s/activities?last_id=9999999";
             return String.format(url, mProjectid, mFileObject.file_id);
         }
+
+        public String getHttpDeleteComment(int commmentId) {
+            String url = Global.HOST_API + "/project/%d/files/%s/comment/%d";
+            return String.format(url, mProjectid, mFileObject.file_id, commmentId);
+        }
     }
 
-    class DynamicFileAdapter extends ArrayAdapter<DynamicObject.DynamicBaseObject> {
+    class DynamicFileAdapter extends ArrayAdapter<Object> {
 
         final int TYPE_DYNAMIC = 0;
         final int TYPE_COMMENT = 1;
@@ -172,41 +193,56 @@ public class FileDynamicActivity extends BackActivity {
         private View.OnClickListener mOnClickComment = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                final TaskObject.TaskComment comment = (TaskObject.TaskComment) v.getTag();
-//                if (comment.isMy()) {
-//                    showDialog("任务", "删除评论？", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            String url = String.format(hostDeleteComment, comment.taskId, comment.id);
-//                            deleteNetwork(url, hostDeleteComment, comment.id);
-//                        }
-//                    });
-//                } else {
-//                    EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
-//                    mEnterLayout.content.setTag(comment);
-//                    String format = "回复 %s";
-//                    mEnterLayout.content.setHint(String.format(format, comment.owner.name));
-//
-//                    mEnterLayout.restoreLoad(comment);
-//
-//                    mEnterLayout.popKeyboard();
-//                }
-                showButtomToast("item");
+                final Object tagData = v.getTag(R.layout.activity_task_comment_much_image_task);
+                int itemId = 0;
+                String ownerName = "";
+
+                String globalKey = "";
+                if (tagData instanceof BaseComment) {
+                    BaseComment comment = (BaseComment) tagData;
+                    itemId = comment.id;
+                    globalKey = comment.owner.global_key;
+                    ownerName = comment.owner.name;
+                } else if (tagData instanceof DynamicObject.DynamicProjectFileComment) {
+                    DynamicObject.DynamicProjectFileComment commentDynamic = (DynamicObject.DynamicProjectFileComment) tagData;
+                    DynamicObject.ProjectFileComment comment = commentDynamic.getProjectFileComment();
+                    itemId = comment.getId();
+                    globalKey = comment.getOwnerGlobalKey();
+                    ownerName = comment.getOwnerName();
+                }
+
+                final int itemIdFinal = itemId;
+                if (globalKey.equals(MyApp.sUserObject.global_key)) {
+                    showDialog("评论", "删除评论？", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteNetwork(mProjectFileParam.getHttpDeleteComment(itemIdFinal), TAG_HTTP_COMMENT_DELETE, tagData);
+                        }
+                    });
+                } else {
+                    FileDynamicParam param = new FileDynamicParam(mProjectFileParam.mProjectid,
+                            Integer.valueOf(mProjectFileParam.mFileObject.file_id), ownerName);
+                    CommentActivity_.intent(FileDynamicActivity.this).mParam(param).startForResult(RESULT_COMMENT);
+                }
             }
         };
 
-
-        public DynamicFileAdapter(Context context, int resource, List<DynamicObject.DynamicBaseObject> objects) {
+        public DynamicFileAdapter(Context context, int resource, List<Object> objects) {
             super(context, resource, objects);
         }
 
         @Override
         public int getItemViewType(int position) {
-            DynamicObject.DynamicBaseObject item = getItem(position);
-            if (item.target_type.equals("ProjectFileComment")) {
+            Object data = getItem(position);
+            if (data instanceof BaseComment) {
                 return TYPE_COMMENT;
             } else {
-                return TYPE_DYNAMIC;
+                DynamicObject.DynamicBaseObject item = (DynamicObject.DynamicBaseObject) data;
+                if (item.target_type.equals("ProjectFileComment")) {
+                    return TYPE_COMMENT;
+                } else {
+                    return TYPE_DYNAMIC;
+                }
             }
         }
 
@@ -229,14 +265,10 @@ public class FileDynamicActivity extends BackActivity {
                     holder = (CommentHolder) convertView.getTag(R.id.layout);
                 }
 
-//                TaskObject.TaskComment data = getItem(position);
-//                holder.setContent(data);
-
-
-                DynamicObject.DynamicProjectFileComment data = (DynamicObject.DynamicProjectFileComment) getItem(position);
+                Object data = getItem(position);
                 holder.setContent(data);
-
                 holder.updateLine(position, count);
+                convertView.setTag(R.layout.activity_task_comment_much_image_task, data);
 
                 return convertView;
 
@@ -250,18 +282,29 @@ public class FileDynamicActivity extends BackActivity {
                 }
 
                 DynamicObject.DynamicProjectFile data = (DynamicObject.DynamicProjectFile) getItem(position);
+                convertView.setTag(R.layout.activity_task_comment_much_image_task, data);
 
-                holder.mContent.setText(data.content(null));
+                String content = "";
+                switch (data.action) {
+                    case "create":
+                        content = "创建了文件";
+                        break;
+                    case "update":
+                        content = "更新了文件";
+                        break;
+                    case "upload_file":
+                        content = "上传了新版本";
+                        break;
+                    case "delete_history":
+                        content = "删除了版本";
+                        break;
+                    case "default":
+                        content = data.action_msg + "文件";
+                        break;
+                }
 
-//                int iconResId = R.drawable.ic_task_dynamic_update;
-//                try {
-//                    String resName = "ic_task_dynamic_" + kotlin.data.action;
-//                    Field field = R.drawable.class.getField(resName);
-//                    iconResId = Integer.parseInt(field.get(null).toString());
-//                } catch (Exception e) {
-//                    Global.errorLog(e);
-//                }
-//                holder.mIcon.setImageResource(iconResId);
+                content = data.user.name + " " + content;
+                holder.mContent.setText(content);
 
                 holder.updateLine(position, count);
 

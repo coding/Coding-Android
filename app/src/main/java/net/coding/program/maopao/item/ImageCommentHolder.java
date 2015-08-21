@@ -8,6 +8,7 @@ import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
+import net.coding.program.model.DynamicObject;
 
 /**
  * Created by chenchao on 15/3/31.
@@ -34,6 +35,8 @@ public class ImageCommentHolder extends BaseCommentHolder {
             contentArea.setDataContent(((BaseComment) data).content, data);
         } else if (data instanceof Commit) {
             contentArea.setDataContent(((Commit) data).getTitle(), data);
+        } else if (data instanceof DynamicObject.DynamicProjectFileComment) {
+            contentArea.setDataContent(((DynamicObject.DynamicProjectFileComment) data).getComment(), data);
         }
     }
 }

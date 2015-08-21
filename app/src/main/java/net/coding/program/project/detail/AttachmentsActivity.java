@@ -259,7 +259,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
                 holder.content = (TextView) convertView.findViewById(R.id.comment);
                 holder.desc = (TextView) convertView.findViewById(R.id.desc);
                 holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                //holder.btn = (TextView) convertView.findViewById(R.id.btn_right);
 
                 holder.file_info_layout = (LinearLayout) convertView.findViewById(R.id.file_info_layout);
                 holder.folder_name = (TextView) convertView.findViewById(R.id.folder_name);

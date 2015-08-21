@@ -530,6 +530,19 @@ public class DynamicObject {
             return Global.changeHyperlinkColor(HtmlContent.parseDynamic(content), BLACK_COLOR, imageGetter);
 
         }
+
+        public ProjectFileComment getProjectFileComment() {
+            return projectFileComment;
+        }
+
+        public String getComment() {
+            return projectFileComment.content;
+        }
+
+        public Owner getOwner() {
+            return getProjectFileComment().getOwner();
+        }
+
     }
 
     public static class DynamicProjectFile extends DynamicBaseObject implements Serializable {
@@ -1131,6 +1144,22 @@ public class DynamicObject {
             content = json.optString("content");
             id = json.optInt("id");
             owner = new Owner(json.optJSONObject("owner"));
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getOwnerGlobalKey() {
+            return owner.global_key;
+        }
+
+        public String getOwnerName() {
+            return owner.name;
+        }
+
+        public Owner getOwner() {
+            return owner;
         }
 
         String getHtml() {

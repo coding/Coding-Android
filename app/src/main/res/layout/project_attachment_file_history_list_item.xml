@@ -11,27 +11,13 @@
         android:paddingBottom="0dp"
         android:paddingRight="0dp">
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="17dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="13dp"
-            android:button="@drawable/checkbox_attachment"
-            android:checked="false"
-            android:focusable="false" />
-
         <RelativeLayout
             android:id="@+id/icon_layout"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_toRightOf="@+id/checkbox">
+            android:layout_marginRight="12dp">
 
             <ImageView
                 android:id="@+id/icon"
@@ -144,19 +130,6 @@
 
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/folder_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/icon_layout"
-            android:singleLine="true"
-            android:text="Medium Text"
-            android:textColor="@color/font_black_content"
-            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/btn_right"

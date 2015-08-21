@@ -30,6 +30,14 @@ public class BaseComment implements Serializable {
         }
     }
 
+    public BaseComment(DynamicObject.DynamicProjectFileComment dynamic) {
+        content = dynamic.getComment();
+        id = dynamic.id;
+        created_at = dynamic.created_at;
+        owner = dynamic.getOwner();
+        owner_id = 0;
+    }
+
     public BaseComment() {
     }
 

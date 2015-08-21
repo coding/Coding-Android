@@ -18,7 +18,15 @@
             tools:context="net.coding.program.project.detail.file.FileDynamicActivity" />
     </FrameLayout>
 
-    <include layout="@layout/list_item_add_comment" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/list_item_add_comment" />
+
+        <include layout="@layout/divideline_e2" />
+
+    </FrameLayout>
 
 
 </LinearLayout>

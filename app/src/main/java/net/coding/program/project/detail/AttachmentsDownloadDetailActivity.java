@@ -37,6 +37,9 @@ import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.project.detail.file.FileDynamicActivity;
+import net.coding.program.project.detail.file.FileDynamicActivity_;
+import net.coding.program.project.detail.file.FileHistoryActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -89,6 +92,8 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     TextView tvDownload;
     @ViewById
     View blankLayout;
+    @ViewById
+    View layout_dynamic_history;
     String downloadFormat = "下载中...(%s/%s)";
     @ViewById
     ImageView ivDownloadCancel;
@@ -236,6 +241,8 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                     AttachmentsTextDetailActivity_.intent(this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(mAttachmentFileObject).start();
                     finish();
                     return;
+                } else {
+                    layout_dynamic_history.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -361,6 +368,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                 btnDownload.setVisibility(View.GONE);
                 rlDownload.setVisibility(View.GONE);
                 btnOpen.setVisibility(View.VISIBLE);
+                layout_dynamic_history.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -466,6 +474,29 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         }
         Global.copy(this, preViewUrl);
         showButtomToast("已复制 " + preViewUrl);
+    }
+
+    @OptionsItem
+    protected final void action_public_link() {
+
+    }
+
+    @Click
+    protected void clickFileDynamic() {
+        FileDynamicActivity.ProjectFileParam param =
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+        FileDynamicActivity_.intent(this)
+                .mProjectFileParam(param)
+                .start();
+    }
+
+    @Click
+    protected void clickFileHistory() {
+        FileDynamicActivity.ProjectFileParam param =
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+        FileHistoryActivity_.intent(this)
+                .mProjectFileParam(param)
+                .start();
     }
 
     class DownloadChangeObserver extends ContentObserver {

@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_dynamic_history"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/stand_bg">
+    android:background="@color/stand_bg"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_attachments_html">
+
+    <include layout="@layout/divideline_e2" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -13,12 +19,12 @@
         android:paddingRight="@dimen/padding_15">
 
         <TextView
-            android:id="@+id/common_folder_bottom_add"
+            android:id="@+id/clickFileDynamic"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="新建文件夹"
+            android:text="文件动态"
             android:textColor="@color/font_black_6"
             android:textSize="16sp" />
 
@@ -28,16 +34,14 @@
             android:background="@color/divide_line" />
 
         <TextView
-            android:id="@+id/common_folder_bottom_upload"
+            android:id="@+id/clickFileHistory"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="上传文件"
+            android:text="历史版本"
             android:textColor="@color/font_black_6"
             android:textSize="16sp" />
 
     </LinearLayout>
-
-    <include layout="@layout/divideline_e2" />
-</FrameLayout>
+</LinearLayout>

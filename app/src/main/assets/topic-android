@@ -288,6 +288,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
+.webview-detail .markdown-table {
+    width: 100%;
+    overflow: auto;
+    margin: 15px 0!important;
+}
+.webview-detail .markdown-table table {
+    margin: 0;
+}
 .webview-detail table th {
     font-weight: bold;
     background: #eee;

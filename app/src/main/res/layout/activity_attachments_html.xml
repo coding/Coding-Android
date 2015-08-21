@@ -33,50 +33,6 @@
 
     </FrameLayout>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/stand_bg">
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/divide_line_81" />
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/button_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15">
-
-            <TextView
-                android:id="@+id/clickFileDynamic"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="文件动态"
-                android:textColor="@color/font_black_6"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="0.7dp"
-                android:layout_height="33dp"
-                android:background="@color/divide_line" />
-
-            <TextView
-                android:id="@+id/clickFileHistory"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="历史版本"
-                android:textColor="@color/font_black_6"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-    </FrameLayout>
+    <include layout="@layout/common_file_detail_action" />
 
 </LinearLayout>

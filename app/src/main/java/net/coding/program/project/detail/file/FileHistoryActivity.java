@@ -190,7 +190,7 @@ public class FileHistoryActivity extends BackActivity {
 
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_attachment_list_item, parent, false);
+                convertView = mInflater.inflate(R.layout.project_attachment_file_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -201,7 +201,6 @@ public class FileHistoryActivity extends BackActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
             AttachmentFileHistoryObject data = mData.get(position);
-
             holder.name.setText(data.getName() + data.getVersionString());
 
             return convertView;

@@ -327,6 +327,16 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     display: block
 }
 
+.webview-detail .markdown-table {
+    width: 100%;
+    overflow: auto;
+    margin: 15px 0!important;
+}
+
+.webview-detail .markdown-table table {
+    margin: 0;
+}
+
 .webview-detail table th {
     font-weight: bold
 }
@@ -556,7 +566,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
             monkey.each(function(){
                 var title = $(this).attr('title'),
                     url = $(this).attr('src');
-                $(this).replaceWith([':', title , '@', url, ':'].join(''));
+                $(this).replaceWith([':', title , '@', url, ': '].join(''));
             });
             return ctn;
         };

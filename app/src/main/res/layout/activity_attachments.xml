@@ -136,8 +136,8 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/uploadLayout"
             android:background="@color/divide_line"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.5dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:footerDividersEnabled="false" />
 
 
