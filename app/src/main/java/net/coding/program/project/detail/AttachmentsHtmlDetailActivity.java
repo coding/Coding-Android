@@ -13,7 +13,6 @@ import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
-import net.coding.program.project.detail.file.FileHistoryActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

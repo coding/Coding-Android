@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import net.coding.program.common.Global;
+
 import org.json.JSONObject;
 
 /**
@@ -42,5 +44,9 @@ public class AttachmentFileHistoryObject extends AttachmentFileObject {
 
     public int getHistory_id() {
         return history_id;
+    }
+
+    public String getActionMsg() {
+        return action_msg + " " + Global.dayToNow(created_at, true);
     }
 }

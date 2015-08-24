@@ -28,13 +28,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +42,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
@@ -53,13 +52,13 @@ import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.file.ViewHolderFile;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -92,7 +91,7 @@ import java.util.regex.Pattern;
  */
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
-public class AttachmentsActivity extends CustomMoreActivity implements FootUpdate.LoadMore, WeakRefHander.Callback {
+public class AttachmentsActivity extends BackActivity implements FootUpdate.LoadMore, WeakRefHander.Callback {
     public static final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
@@ -106,6 +105,13 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     String urlFiles = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
     String urlUpload = Global.HOST_API + "/project/%s/file/upload";
     ArrayList<AttachmentFileObject> mFilesArray = new ArrayList<>();
+    protected CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            AttachmentFileObject data = mFilesArray.get((Integer) buttonView.getTag());
+            data.isSelected = isChecked;
+        }
+    };
     boolean mNoMore = false;
     @ViewById
     ListView listView;
@@ -174,47 +180,7 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
     private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
     private long uploadStartTime = 0l;
     private boolean isEditMode = false;
-    /**
-     * 弹出框
-     */
-    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文档目录的底部弹出框
-    private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文档文件的底部弹出框
-    private int selectedPosition;
     BaseAdapter adapter = new BaseAdapter() {
-        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AttachmentFileObject data = mFilesArray.get((Integer) buttonView.getTag());
-                data.isSelected = isChecked;
-            }
-        };
-        private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Integer position = (Integer) view.getTag();
-                AttachmentFileObject file = mFilesArray.get(position);
-
-                selectedPosition = position;
-                if (file.isDownload) {
-                    listViewItemClicked(position);
-                } else {
-                    action_download_single(mFilesArray.get(selectedPosition));
-                }
-
-            }
-        };
-        private View.OnClickListener cancelClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
-
-                long downloadId = data.downloadId;
-                Log.d(TAG, "cancel:" + downloadId);
-                downloadManager.remove(downloadId);
-                data.downloadId = 0L;
-                adapter.notifyDataSetChanged();
-            }
-        };
 
         @Override
         public int getCount() {
@@ -249,35 +215,13 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            ViewHolderFile holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.project_attachment_file_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon_txt = (TextView) convertView.findViewById(R.id.icon_txt);
-                holder.content = (TextView) convertView.findViewById(R.id.comment);
-                holder.desc = (TextView) convertView.findViewById(R.id.desc);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-
-                holder.file_info_layout = (LinearLayout) convertView.findViewById(R.id.file_info_layout);
-                holder.folder_name = (TextView) convertView.findViewById(R.id.folder_name);
-
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-                holder.downloadFlag = (TextView) convertView.findViewById(R.id.downloadFlag);
-
-                holder.username = (TextView) convertView.findViewById(R.id.username);
-                holder.bottomLine = convertView.findViewById(R.id.bottomLine);
-
-                holder.icon_layout = (RelativeLayout) convertView.findViewById(R.id.icon_layout);
-
-                holder.desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
-                holder.progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
-                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-                holder.cancel = (TextView) convertView.findViewById(R.id.cancel);
+                holder = new ViewHolderFile(convertView);
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ViewHolderFile) convertView.getTag();
             }
             AttachmentFileObject data = mFilesArray.get(position);
             holder.name.setText(data.getName());
@@ -409,6 +353,39 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             return convertView;
         }
     };
+    protected View.OnClickListener cancelClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
+
+            long downloadId = data.downloadId;
+            Log.d(TAG, "cancel:" + downloadId);
+            downloadManager.remove(downloadId);
+            data.downloadId = 0L;
+            adapter.notifyDataSetChanged();
+        }
+    };
+    /**
+     * 弹出框
+     */
+    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文档目录的底部弹出框
+    private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文档文件的底部弹出框
+    private int selectedPosition;
+    protected View.OnClickListener onMoreClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Integer position = (Integer) view.getTag();
+            AttachmentFileObject file = mFilesArray.get(position);
+
+            selectedPosition = position;
+            if (file.isDownload) {
+                listViewItemClicked(position);
+            } else {
+                action_download_single(mFilesArray.get(selectedPosition));
+            }
+
+        }
+    };
     private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -535,6 +512,17 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
             setListEditMode(false);
         }
     };
+
+    @OptionsItem
+    protected final void action_copy() {
+        String link = getLink();
+        if (link.isEmpty()) {
+            showButtomToast("复制链接失败");
+        } else {
+            Global.copy(this, link);
+            showButtomToast("已复制链接 " + link);
+        }
+    }
 
     @OptionsItem(android.R.id.home)
     void close() {
@@ -1595,7 +1583,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
         download(mFileObjects);
     }
 
-    @Override
     protected String getLink() {
         if (mProjectObject == null) {
             showButtomToast("获取项目信息失败，请稍后重试");
@@ -1656,32 +1643,6 @@ public class AttachmentsActivity extends CustomMoreActivity implements FootUpdat
 
     private enum UploadStatus {
         Uploading, Finish, Close, Failure
-    }
-
-    static class ViewHolder {
-        ImageView icon;
-        TextView icon_txt;
-        TextView name;
-        TextView content;
-        TextView desc;
-        //TextView btn;
-
-        LinearLayout file_info_layout;
-        TextView folder_name;
-
-        CheckBox checkBox;
-
-        RelativeLayout more;
-
-        TextView username;
-        View bottomLine;
-
-        RelativeLayout icon_layout;
-
-        LinearLayout desc_layout, progress_layout;
-        ProgressBar progressBar;
-        TextView cancel;
-        TextView downloadFlag;
     }
 
     class DownloadChangeObserver extends ContentObserver {

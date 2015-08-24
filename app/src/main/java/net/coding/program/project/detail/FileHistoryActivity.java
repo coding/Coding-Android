@@ -1,4 +1,4 @@
-package net.coding.program.project.detail.file;
+package net.coding.program.project.detail;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,6 +22,7 @@ import net.coding.program.common.CustomDialog;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.PostRequest;
 import net.coding.program.model.util.FileRequestHelp;
+import net.coding.program.project.detail.file.FileDynamicActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -46,10 +47,10 @@ import java.util.List;
     fragment 和 activity
 
  */
+//@EActivity(R.layout.activity_attachments)
 @EActivity(R.layout.activity_file_history)
 //@OptionsMenu(R.menu.menu_file_history)
 public class FileHistoryActivity extends BackActivity {
-
 
     private static final String TAG_FILE_HISTORY = "TAG_FILE_HISTORY";
     private static final String TAG_FILE_HISTORY_REMARK = "TAG_FILE_HISTORY_REMARK";
@@ -187,22 +188,78 @@ public class FileHistoryActivity extends BackActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_attachment_file_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            AttachmentFileHistoryObject data = mData.get(position);
-            holder.name.setText(data.getName() + data.getVersionString());
-
+//            ViewHolderFile holder;
+//            if (convertView == null) {
+//                convertView = mInflater.inflate(R.layout.project_attachment_file_history_list_item, parent, false);
+//                holder = new ViewHolderFile(convertView);
+//                holder.content.setVisibility(View.GONE);
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (ViewHolderFile) convertView.getTag();
+//            }
+//
+//            AttachmentFileHistoryObject data = mData.get(position);
+//
+//            holder.icon_txt.setText(data.getVersionString());
+//            holder.name.setText(data.getName());
+//
+//            holder.username.setText(data.owner.name);
+//            holder.desc.setText(data.getActionMsg());
+//
+//            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
+//            holder.more.setTag(position);
+//            holder.more.setOnClickListener(onMoreClickListener);
+//
+//
+//            AttachmentFileObject mFileObject = data;
+//            if (mFileObject.bytesAndStatus != null) {
+//                Log.v("updateFileDownload", mFileObject.getName() + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
+//            }
+//
+//            if (data.downloadId != 0L) {
+//                holder.cancel.setTag(position);
+//                int status = data.bytesAndStatus[2];
+//                if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
+//                    if (data.bytesAndStatus[1] < 0) {
+//                        holder.progressBar.setProgress(0);
+//                    } else {
+//                        holder.progressBar.setProgress(data.bytesAndStatus[0] * 100 / data.bytesAndStatus[1]);
+//                    }
+//                    data.isDownload = false;
+//                    holder.desc_layout.setVisibility(View.GONE);
+//                    holder.content.setVisibility(View.GONE);
+//                    holder.more.setVisibility(View.GONE);
+//                    holder.progress_layout.setVisibility(View.VISIBLE);
+//                } else {
+//                    if (status == DownloadManager.STATUS_FAILED) {
+//                        data.isDownload = false;
+//                    } else if (status == DownloadManager.STATUS_SUCCESSFUL) {
+//                        data.isDownload = true;
+//                        downloadListEditor.remove(data.file_id);
+//                        downloadListEditor.commit();
+//                    } else {
+//                        data.isDownload = false;
+//                    }
+//
+//                    data.downloadId = 0L;
+//
+//                    holder.desc_layout.setVisibility(View.VISIBLE);
+//                    holder.content.setVisibility(View.VISIBLE);
+//                    holder.more.setVisibility(View.VISIBLE);
+//                    holder.progress_layout.setVisibility(View.GONE);
+//                }
+//            } else {
+//                holder.desc_layout.setVisibility(View.VISIBLE);
+//                holder.content.setVisibility(View.VISIBLE);
+//                holder.more.setVisibility(View.VISIBLE);
+//                holder.progress_layout.setVisibility(View.GONE);
+//            }
+//
+//            holder.cancel.setOnClickListener(cancelClickListener);
+//
+//            holder.more.setTag(position);
+//            holder.more.setOnClickListener(onMoreClickListener);
+//            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
             return convertView;
         }
     }
@@ -220,4 +277,5 @@ public class FileHistoryActivity extends BackActivity {
             item.setRemark(remark);
         }
     }
+
 }
