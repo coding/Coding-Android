@@ -14,7 +14,6 @@ public class AttachmentFileHistoryObject extends AttachmentFileObject {
     private int action;
     private int version;
     private String action_msg = "";
-    private int history_id;
 
     public AttachmentFileHistoryObject(JSONObject json) {
         super(json);
@@ -23,7 +22,6 @@ public class AttachmentFileHistoryObject extends AttachmentFileObject {
         action = json.optInt("action");
         version = json.optInt("version");
         action_msg = json.optString("action_msg");
-        history_id = json.optInt("history_id");
     }
 
     public String getVersionString() {
@@ -40,10 +38,6 @@ public class AttachmentFileHistoryObject extends AttachmentFileObject {
 
     public int getVersion() {
         return version;
-    }
-
-    public int getHistory_id() {
-        return history_id;
     }
 
     public String getActionMsg() {

@@ -84,6 +84,7 @@
     <string name="delete_fail">删除评论失败</string>
     <string name="connect_service_fail">连接服务器失败，请检查网络或稍后重试</string>
     <string name="copy_link">复制链接</string>
+    <string name="public_link">共享链接</string>
     <string name="delete_task">删除任务</string>
     <string name="delete_topic">删除讨论</string>
     <string name="perview">预览</string>
@@ -135,5 +136,6 @@
     <string name="title_activity_feature">FeatureActivity</string>
     <string name="title_activity_file_history">历史版本</string>
     <string name="title_activity_file_dynamic">文件动态</string>
+    <string name="title_activity_txt_edit">TxtEditActivity</string>
 
 </resources>

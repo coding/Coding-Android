@@ -65,6 +65,9 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     AttachmentFileObject mAttachmentFileObject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+    @Extra
+    boolean mHideHistoryLayout = false;
+
     @ViewById
     ImageView icon;
     @ViewById
@@ -93,6 +96,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     View blankLayout;
     @ViewById
     View layout_dynamic_history;
+
     String downloadFormat = "下载中...(%s/%s)";
     @ViewById
     ImageView ivDownloadCancel;
@@ -230,18 +234,31 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
 
         if (mAttachmentFileObject != null) {
-            File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName());
+            File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
             if (file.exists() && file.isFile()) {
                 if (mAttachmentFileObject.isHtml() || mAttachmentFileObject.isMd()) {
-                    AttachmentsHtmlDetailActivity_.intent(this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(mAttachmentFileObject).start();
+                    AttachmentsHtmlDetailActivity_
+                            .intent(this)
+                            .mProjectObjectId(mProjectObjectId)
+                            .mAttachmentFolderObject(mAttachmentFolderObject)
+                            .mAttachmentFileObject(mAttachmentFileObject)
+                            .mHideHistory(mHideHistoryLayout)
+                            .start();
                     finish();
                     return;
                 } else if (mAttachmentFileObject.isTxt()) {
-                    AttachmentsTextDetailActivity_.intent(this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(mAttachmentFileObject).start();
+                    AttachmentsTextDetailActivity_
+                            .intent(this)
+                            .mProjectObjectId(mProjectObjectId)
+                            .mAttachmentFolderObject(mAttachmentFolderObject)
+                            .mAttachmentFileObject(mAttachmentFileObject)
+                            .mHideHistory(mHideHistoryLayout)
+                            .start();
                     finish();
                     return;
                 } else {
                     layout_dynamic_history.setVisibility(View.VISIBLE);
+                    showState(STATE_FINISHDOWNLOAD);
                 }
             }
         }
@@ -254,22 +271,57 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         completeReceiver = new CompleteReceiver();
         registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-
         downloadList = AttachmentsDownloadDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_LIST, Context.MODE_PRIVATE);
         downloadListEditor = downloadList.edit();
 
         client = MyAsyncHttpClient.createClient(AttachmentsDownloadDetailActivity.this);
-        mainLayout.setVisibility(View.GONE);
-        urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
-        urlDownload = String.format(urlDownload, mProjectObjectId, mAttachmentFileObject.file_id);
-        showDialogLoading();
 
-        getFileUrlFromNetwork();
+        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
+        urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
+        urlDownload = String.format(urlDownload, mProjectObjectId, mAttachmentFileObject.file_id);
+        if (mAttachmentFileObject == null) {
+            mainLayout.setVisibility(View.GONE);
+            showDialogLoading();
+            getFileUrlFromNetwork();
+        } else {
+            bindView();
+        }
+
+        if (mHideHistoryLayout) {
+            layout_dynamic_history.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void getFileUrlFromNetwork() {
         getNetwork(urlFiles, urlFiles);
+    }
+
+    private void bindView() {
+        hideProgressDialog();
+
+        icon.setVisibility(View.VISIBLE);
+        icon.setImageResource(mFileObject.getIconResourceId());
+
+        iconTxt.setVisibility(View.GONE);
+
+        name.setText(mFileObject.getName());
+
+        content.setText(Global.HumanReadableFilesize(mFileObject.getSize()));
+
+        tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.0), Global.HumanReadableFilesize(mFileObject.getSize())));
+        progressBar.setMax(mFileObject.getSize());
+        mainLayout.setVisibility(View.VISIBLE);
+
+        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
+        Log.d(TAG, "downloadId:" + downloadId);
+
+
+        File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
+        if (file.exists() && file.isFile()) {
+            showState(STATE_NEEDDOWNLOAD);
+        } else {
+            showState(STATE_FINISHDOWNLOAD);
+        }
     }
 
     @Override
@@ -279,28 +331,12 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                 fileUrlSuccess = true;
                 invalidateOptionsMenu();
 
-                hideProgressDialog();
                 JSONObject file = response.getJSONObject("data").getJSONObject("file");
                 mFileObject = new AttachmentFileObject(file);
                 mAttachmentFileObject = mFileObject;
                 downloadId = downloadList.getLong(mFileObject.file_id, 0L);
 
-
-                icon.setVisibility(View.VISIBLE);
-                icon.setImageResource(mFileObject.getIconResourceId());
-
-                iconTxt.setVisibility(View.GONE);
-
-                name.setText(mFileObject.getName());
-
-                content.setText(Global.HumanReadableFilesize(mFileObject.getSize()));
-
-                tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.0), Global.HumanReadableFilesize(mFileObject.getSize())));
-                progressBar.setMax(mFileObject.getSize());
-                mainLayout.setVisibility(View.VISIBLE);
-
-                mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
-                Log.d(TAG, "downloadId:" + downloadId);
+                bindView();
 
                 if (mFile.exists() && mFile.isFile()) {
                     Log.d(TAG, "mFile exists:");
@@ -370,11 +406,15 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                 layout_dynamic_history.setVisibility(View.VISIBLE);
                 break;
         }
+
+        if (mHideHistoryLayout) {
+            layout_dynamic_history.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void download(String url) {
         try {
-            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
 
             PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);
             String cookieString = "";
@@ -384,7 +424,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
             request.addRequestHeader("Cookie", cookieString);
-            request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
+            request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
             request.setTitle(mFileObject.getName());
             // request.setDescription(mFileObject.name);
             // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

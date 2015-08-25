@@ -14,6 +14,7 @@ import net.coding.program.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.model.AttachmentFileObject;
@@ -35,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,6 +171,10 @@ public class FileDynamicActivity extends BackActivity {
             return "/project/" + mProjectid;
         }
 
+        public int getProjectId() {
+            return mProjectid;
+        }
+
         public int getFileId() {
             return Integer.valueOf(mFileObject.file_id);
         }
@@ -181,6 +187,24 @@ public class FileDynamicActivity extends BackActivity {
         public String getHttpDeleteComment(int commmentId) {
             String url = Global.HOST_API + "/project/%d/files/%s/comment/%d";
             return String.format(url, mProjectid, mFileObject.file_id, commmentId);
+        }
+
+        public PostRequest getHttpEditFile(String content) {
+            final String template = Global.HOST_API + "/project/%d/files/%s/edit";
+            String url = String.format(template, mProjectid, mFileObject.file_id);
+            RequestParams params = new RequestParams();
+            params.put("name", mFileObject.getName());
+            params.put("content", content);
+            return new PostRequest(url, params);
+        }
+
+        public AttachmentFileObject getFileObject() {
+            return mFileObject;
+        }
+
+        public File getLocalFile(String path) {
+            return FileUtil.getDestinationInExternalPublicDir(path,
+                    mFileObject.getSaveName(mProjectid));
         }
     }
 

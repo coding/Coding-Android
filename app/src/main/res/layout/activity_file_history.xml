@@ -8,21 +8,14 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="00dp"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <ListView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:footerDividersEnabled="false" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="wrap_content"
+            android:footerDividersEnabled="false" />
 
         <include
             android:id="@+id/blankLayout"

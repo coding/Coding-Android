@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.project.detail.file.TxtEditActivity">
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_menu_ok"
+        android:title="保存"
+        app:showAsAction="always" />
+
+</menu>

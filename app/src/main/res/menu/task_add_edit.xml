@@ -4,6 +4,7 @@
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/ic_menu_ok_unable"
+        android:title="保存"
         app:showAsAction="always" />
 
     <item

@@ -43,7 +43,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     View blankLayout;
 
     String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
-    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
+    //    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
     String urlMdPreview = Global.HOST_API + "/markdown/preview";
 
     AttachmentFileObject mFiles = new AttachmentFileObject();
@@ -62,7 +62,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         }
 
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
+//        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
 
         Global.initWebView(webview);
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="@drawable/list_item_selector">
+    android:background="@drawable/list_item_selector_project_file">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,7 +11,7 @@
         android:paddingBottom="0dp"
         android:paddingRight="0dp">
 
-        <RelativeLayout
+        <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/icon_layout"
             android:layout_width="44dp"
             android:layout_height="44dp"
@@ -30,13 +30,13 @@
 
             <TextView
                 android:id="@+id/icon_txt"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="37dp"
+                android:layout_height="22dp"
                 android:gravity="center"
-                android:text="apk"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:text="V4"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:background="@drawable/round_rect_file_history_orange" />
 
         </RelativeLayout>
 
@@ -59,16 +59,6 @@
                 android:text="Medium Text"
                 android:textColor="@color/font_black_content"
                 android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textColor="@color/font_black_9"
-                android:textSize="12sp" />
 
             <LinearLayout
                 android:id="@+id/desc_layout"

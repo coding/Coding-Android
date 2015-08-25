@@ -3,19 +3,10 @@ package net.coding.program.project.detail;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.database.ContentObserver;
-import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -35,14 +26,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
@@ -51,17 +39,15 @@ import net.coding.program.common.DialogUtil;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.ViewHolderFile;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -69,10 +55,8 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
-import org.apache.http.cookie.Cookie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,7 +75,7 @@ import java.util.regex.Pattern;
  */
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
-public class AttachmentsActivity extends BackActivity implements FootUpdate.LoadMore, WeakRefHander.Callback {
+public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore {
     public static final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
@@ -119,7 +103,6 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
     RelativeLayout uploadLayout;
     @ViewById
     View blankLayout;
-    SharedPreferences.Editor downloadListEditor;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
     @ViewById
@@ -149,14 +132,12 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
     ActionMode mActionMode;
     ArrayList<AttachmentFileObject> selectFile;
     ArrayList<AttachmentFolderObject> selectFolder;
-    ArrayList<AttachmentFileObject> downloadFiles;
     View.OnClickListener mClickReload = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             loadMore();
         }
     };
-    WeakRefHander mUpdateDownloadHandler;
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
     private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
@@ -164,20 +145,11 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
-    private String urlDownload = Global.HOST_API + "/project/%s/files/%s/download";
     private HashMap<String, Integer> fileCountMap = new HashMap<>();
-    private DownloadManager downloadManager;
-    private DownloadManagerPro downloadManagerPro;
-    private DownloadChangeObserver downloadObserver;
-    private CompleteReceiver completeReceiver;
-    private MyHandler handler;
-    private SharedPreferences share;
-    private SharedPreferences downloadList;
-    private String defaultPath;
     private boolean isUploading = false;
-    private String uploadHitLeftFormat = "正在上传%s项";
     private String uploadHitMiddleFormat = "%s%%";
-    private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
+    //    private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
+//    private String uploadHitLeftFormat = "正在上传%s项";
     private long uploadStartTime = 0l;
     private boolean isEditMode = false;
     BaseAdapter adapter = new BaseAdapter() {
@@ -318,8 +290,7 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
                         data.isDownload = false;
                     } else if (status == DownloadManager.STATUS_SUCCESSFUL) {
                         data.isDownload = true;
-                        downloadListEditor.remove(data.file_id);
-                        downloadListEditor.commit();
+                        downloadFileSuccess(data.file_id);
                     } else {
                         data.isDownload = false;
                     }
@@ -359,8 +330,7 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
             AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
 
             long downloadId = data.downloadId;
-            Log.d(TAG, "cancel:" + downloadId);
-            downloadManager.remove(downloadId);
+            removeDownloadFile(downloadId);
             data.downloadId = 0L;
             adapter.notifyDataSetChanged();
         }
@@ -438,7 +408,7 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
                     action_move();
                     break;
                 case 1:
-                    action_download();
+                    action_download(mFilesArray);
                     break;
                 case 2:
                     if (isChooseOthers()) {
@@ -547,17 +517,6 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(mAttachmentFolderObject.name);
 
-        handler = new MyHandler();
-        downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        downloadManagerPro = new DownloadManagerPro(downloadManager);
-
-        completeReceiver = new CompleteReceiver();
-        /** register download success broadcast **/
-        registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
-        downloadList = getSharedPreferences(FileUtil.DOWNLOAD_LIST, Context.MODE_PRIVATE);
-        downloadListEditor = downloadList.edit();
-
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFolderObject.file_id);
         urlUpload = String.format(urlUpload, mProjectObjectId);
         barParams = (LinearLayout.LayoutParams) uploadStatusProgress.getLayoutParams();
@@ -565,12 +524,8 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
 
         HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObjectId);
 
-        share = AttachmentsActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
-
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
-
 
         initBottomPop();
 
@@ -578,8 +533,6 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
 
         String projectUrl = String.format(HOST_PROJECT_ID, mProjectObjectId);
         getNetwork(projectUrl, HOST_PROJECT_ID);
-
-        mUpdateDownloadHandler = new WeakRefHander(this, 500);
     }
 
     @ItemClick
@@ -1369,25 +1322,19 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
         input.requestFocus();
     }
 
-    public String getFileDownloadPath() {
-        String path;
-        if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
-        } else {
-            path = defaultPath;
-        }
-        return path;
+    @Override
+    public String getProjectPath() {
+        return "/project/" + mProjectObjectId;
     }
 
-    public void setDownloadStatus(AttachmentFileObject mFileObject) {
-
-        Long downloadId = downloadList.getLong(mFileObject.file_id, 0L);
+    private void setDownloadStatus(AttachmentFileObject mFileObject) {
+        Long downloadId = getDownloadId(mFileObject);
         if (downloadId != 0L) {
             mFileObject.downloadId = downloadId;
             updateFileDownloadStatus(mFileObject);
             mFileObject.isDownload = false;
         } else {
-            File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
+            File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
             if (mFile.exists() && mFile.isFile()) {
                 mFileObject.isDownload = true;
             } else {
@@ -1397,35 +1344,9 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        /** observer download change **/
-        if (downloadObserver == null)
-            downloadObserver = new DownloadChangeObserver();
-        getContentResolver().registerContentObserver(DownloadManagerPro.CONTENT_URI, true, downloadObserver);
-        //updateView();
-
-        checkFileDownloadStatus();
-        mUpdateDownloadHandler.start();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getContentResolver().unregisterContentObserver(downloadObserver);
-        mUpdateDownloadHandler.stop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(completeReceiver);
-        super.onDestroy();
-    }
-
     // 更新文件的下载状态
-
-    private void checkFileDownloadStatus() {
+    @Override
+    public void checkFileDownloadStatus() {
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (!fileObject.isFolder) {
                 setDownloadStatus(fileObject);
@@ -1435,153 +1356,7 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
         adapter.notifyDataSetChanged();
     }
 
-    public void updateFileDownloadStatus(AttachmentFileObject mFileObject) {
-        if (mFileObject.downloadId != 0L) {
-            mFileObject.bytesAndStatus = downloadManagerPro.getBytesAndStatus(mFileObject.downloadId);
-            Log.v("updateFileDownloadStat", mFileObject.getName() + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
 
-            //handler.sendMessage(handler.obtainMessage(0, bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2]));
-        }
-    }
-
-    private void action_download_single(final AttachmentFileObject selectedFile) {
-        if (selectedFile == null) {
-            showButtomToast("没有选中文件");
-            return;
-        }
-        File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), selectedFile.getSaveName());
-        if (mFile.exists() && mFile.isFile()) {
-            return;
-        }
-        if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
-            String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
-            builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    download(selectedFile);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialogTitleLineColor(dialog);
-
-            SharedPreferences.Editor editor = share.edit();
-            editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
-            editor.commit();
-        } else {
-            download(selectedFile);
-        }
-    }
-
-    void action_download() {
-        final ArrayList<AttachmentFileObject> downloadFiles = new ArrayList<>();
-        for (AttachmentFileObject fileObject : mFilesArray) {
-            if (fileObject.isSelected && !fileObject.isFolder) {
-                File mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileObject.getSaveName());
-                if (mFile.exists() && mFile.isFile()) {
-                    continue;
-                }
-                downloadFiles.add(fileObject);
-            }
-        }
-        if (downloadFiles.size() == 0) {
-            showButtomToast("没有选中文件");
-            return;
-        }
-        if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
-            String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
-            builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    download(downloadFiles);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialogTitleLineColor(dialog);
-
-            SharedPreferences.Editor editor = share.edit();
-            editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
-            editor.commit();
-        } else {
-            download(downloadFiles);
-        }
-    }
-
-    private void download(ArrayList<AttachmentFileObject> mFileObjects) {
-        try {
-            for (AttachmentFileObject mFileObject : mFileObjects) {
-                String url = String.format(urlDownload, mProjectObjectId, mFileObject.file_id);
-
-                PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsActivity.this);
-                String cookieString = "";
-                for (Cookie cookie : cookieStore.getCookies()) {
-                    cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
-                }
-
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                request.addRequestHeader("Cookie", cookieString);
-                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName());
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-                request.setTitle(mFileObject.getName());
-                request.setVisibleInDownloadsUi(false);
-
-
-                long downloadId = downloadManager.enqueue(request);
-                downloadListEditor.putLong(mFileObject.file_id, downloadId);
-//                backgroundUpdate(downloadId);
-            }
-            downloadListEditor.commit();
-            mUpdateDownloadHandler.start();
-            checkFileDownloadStatus();
-        } catch (Exception e) {
-            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Background
-    void backgroundUpdate(long downloadId) {
-        boolean downloading = true;
-        while (downloading) {
-            DownloadManager.Query q = new DownloadManager.Query().setFilterById(downloadId);
-            Cursor cursor = downloadManager.query(q);
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    int bytes_downloaded = cursor.getInt(cursor
-                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-
-                    final double dl_progress = bytes_downloaded * 100 / bytes_total;
-                    Log.d("", String.format("progress1 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
-                    updateProgress(dl_progress);
-
-                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-                        downloading = false;
-                    }
-                }
-                cursor.close();
-            }
-        }
-    }
-
-    @UiThread
-    void updateProgress(double progress) {
-//        mProgressBar.setProgress((int) dl_progress);
-//        Log.d("", "progress " + progress);
-        checkFileDownloadStatus();
-    }
-
-    private void download(AttachmentFileObject mFileObject) {
-        ArrayList<AttachmentFileObject> mFileObjects = new ArrayList<>();
-        mFileObjects.add(mFileObject);
-        download(mFileObjects);
-    }
 
     protected String getLink() {
         if (mProjectObject == null) {
@@ -1604,6 +1379,11 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
             popupItemArrayList.add(deleteItem);
             mRightTopPopupWindow = DialogUtil.initRightTopPopupWindow(AttachmentsActivity.this, popupItemArrayList, onRightTopPopupItemClickListener);
         }
+    }
+
+    @Override
+    public int getProjectId() {
+        return mProjectObjectId;
     }
 
     public void showRightTopPop() {
@@ -1631,51 +1411,9 @@ public class AttachmentsActivity extends BackActivity implements FootUpdate.Load
         mRightTopPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        if (downloadFiles == null || downloadFiles.isEmpty()) {
-            mUpdateDownloadHandler.stop();
-        }
-
-        checkFileDownloadStatus();
-        return true;
-    }
 
     private enum UploadStatus {
         Uploading, Finish, Close, Failure
     }
 
-    class DownloadChangeObserver extends ContentObserver {
-
-        public DownloadChangeObserver() {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            checkFileDownloadStatus();
-        }
-
-    }
-
-    class CompleteReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-//            if (completeDownloadId != -1) {
-//                showMiddleToast(completeDownloadId + " id");
-//            }
-        }
-    }
-
-    private class MyHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-
-        }
-    }
 }

@@ -24,7 +24,7 @@ public class AttachmentFileObject implements Serializable {
     // .file-icon.txt{background-color:#b5bbc4}
     // .file-icon.rar,.file-icon.zip{background-color:#8e6dd2}
     // .file-icon.html,.file-icon.markd,.file-icon.markdown,.file-icon.md,.file-icon.mdown{background-color:#c5f0e9}
-    public static final String SAVE_NAME_SPLIT = "_";
+    private static final String SAVE_NAME_SPLIT = "|||";
     public static String imagePatternStr = "(gif|png|jpeg|jpg|GIF|PNG|JPEG|JPG)"; // /\.(gif|png|jpeg|jpg)$/
     static Pattern imagePattern = Pattern.compile(imagePatternStr);
     static String docPatternStr = "(doc|docx)";
@@ -94,7 +94,7 @@ public class AttachmentFileObject implements Serializable {
     public AttachmentFolderObject folderObject;
     private String name = "";
     private int size = 0;
-    private int projectId = 0;
+    private int history_id;
 
     public AttachmentFileObject() {
     }
@@ -117,6 +117,8 @@ public class AttachmentFileObject implements Serializable {
         storage_type = json.optString("storage_type");
         type = json.optInt("type");
         updated_at = json.optLong("updated_at");
+
+        history_id = json.optInt("history_id");
     }
 
     public static AttachmentFileObject parseFileObject(AttachmentFolderObject folderObject) {
@@ -144,9 +146,13 @@ public class AttachmentFileObject implements Serializable {
         return returnFileObject;
     }
 
+    public int getHistory_id() {
+        return history_id;
+    }
+
     // 保存在本地的名字
-    public String getSaveName() {
-        return file_id + SAVE_NAME_SPLIT + name;
+    public String getSaveName(int projectId) {
+        return projectId + SAVE_NAME_SPLIT + file_id + SAVE_NAME_SPLIT + history_id + SAVE_NAME_SPLIT + name;
     }
 
     public String getName() {

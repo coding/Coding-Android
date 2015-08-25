@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +8,9 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.project.detail.file.FileDynamicActivity;
+import net.coding.program.project.detail.file.TxtEditActivity;
+import net.coding.program.project.detail.file.TxtEditActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -39,18 +41,31 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     @AfterViews
     protected final void initAttachmentsTextDetailActivity() {
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-
-        showDialogLoading();
-        getFileUrlFromNetwork();
+        if (mFile.exists()) {
+            textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+        } else {
+            showDialogLoading();
+            getFileUrlFromNetwork();
+        }
     }
 
     private void getFileUrlFromNetwork() {
         getNetwork(urlFiles, urlFiles);
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.project_attachment_image, menu);
+//        if (!mAttachmentFileObject.isOwner()) {
+//            menu.findItem(R.id.action_delete).setVisible(false);
+//        }
+//
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return !downloadFileSuccess || super.onCreateOptionsMenu(menu);
+    protected int getMenuResourceId() {
+        return R.menu.project_attachment_txt;
     }
 
     @Override
@@ -87,4 +102,12 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     public void action_add() {
     }
 
+    @OptionsItem
+    protected final void action_edit() {
+        FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
+                mProjectObjectId);
+        TxtEditActivity_.intent(this)
+                .mParam(param)
+                .start();
+    }
 }

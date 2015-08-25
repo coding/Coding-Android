@@ -59,6 +59,8 @@ public class AttachmentsPicDetailActivity extends BackActivity {
     AttachmentFileObject mAttachmentFileObject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+    @Extra
+    Boolean mHideHistoryLayout;
     @ViewById
     ViewPager pager;
     @ViewById
@@ -99,7 +101,7 @@ public class AttachmentsPicDetailActivity extends BackActivity {
         @Override
         public void onPageSelected(int i) {
             getSupportActionBar().setTitle(fileList.get(i).getName());
-            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).getSaveName());
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), fileList.get(i).getSaveName(mProjectObjectId));
             mAttachmentFileObject = fileList.get(i);
         }
 
@@ -152,7 +154,7 @@ public class AttachmentsPicDetailActivity extends BackActivity {
         }
 
 
-        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName());
+        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         loading.setVisibility(View.GONE);
 
         adapter = new ImagePager(getSupportFragmentManager());

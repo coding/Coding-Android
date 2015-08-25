@@ -1,15 +1,13 @@
 package net.coding.program.project.detail;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -21,8 +19,12 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.project.detail.file.FileDynamicActivity;
+import net.coding.program.project.detail.file.FileDynamicActivity_;
+import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
@@ -39,6 +41,9 @@ import java.io.File;
 @EActivity
 public class AttachmentsDetailBaseActivity extends BackActivity {
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
+
+    @Extra
+    boolean mHideHistory = false;
 
     @Extra
     int mProjectObjectId;
@@ -59,43 +64,33 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                     "创建人: %s";
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%d/file/delete?fileIds=%s";
     private String urlDownloadBase = Global.HOST_API + "/project/%d/files/%s/download";
-    private SharedPreferences share;
-    private String defaultPath;
     private boolean isDownloading = false;
 
-    @OptionsItem
-    void action_info() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog = builder.setTitle("文件信息")
-                .setMessage(String.format(fileInfoFormat,
-                        mAttachmentFileObject.fileType,
-                        Global.HumanReadableFilesize(mAttachmentFileObject.getSize()),
-                        Global.dayToNow(mAttachmentFileObject.created_at),
-                        Global.dayToNow(mAttachmentFileObject.updated_at),
-                        mAttachmentFileObject.owner.name))
-                .setPositiveButton("确定", null)
-                .show();
-        dialogTitleLineColor(dialog);
-    }
+    private FileSaveHelp mFileSaveHelp;
 
     @AfterViews
     protected final void initAttachmentsDetailBaseActivity() {
         getSupportActionBar().setTitle(mAttachmentFileObject.getName());
 
-        share = AttachmentsDetailBaseActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        mFileSaveHelp = new FileSaveHelp(this);
         client = MyAsyncHttpClient.createClient(AttachmentsDetailBaseActivity.this);
 
-        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName());
+        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
+
+        findViewById(R.id.layout_dynamic_history).setVisibility(mHideHistory ? View.GONE : View.VISIBLE);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.project_attachment_image, menu);
+        getMenuInflater().inflate(getMenuResourceId(), menu);
         if (!mAttachmentFileObject.isOwner()) {
             menu.findItem(R.id.action_delete).setVisible(false);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    protected int getMenuResourceId() {
+        return R.menu.project_attachment_image;
     }
 
     @Override
@@ -115,13 +110,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     }
 
     public String getFileDownloadPath() {
-        String path;
-        if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
-        } else {
-            path = defaultPath;
-        }
-        return path;
+        return mFileSaveHelp.getFileDownloadPath();
     }
 
     //@Click(R.id.btnLeft)
@@ -160,12 +149,12 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             return;
         }
         urlDownload = String.format(urlDownloadBase, mProjectObjectId, mAttachmentFileObject.file_id);
-        if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
+        if (mFileSaveHelp.needShowHint()) {
             String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
 
             AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDetailBaseActivity.this);
             builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setMessage(String.format(msgFormat, mFileSaveHelp.getDefaultPath())).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     download(urlDownload);
@@ -176,9 +165,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             dialog.show();
             dialogTitleLineColor(dialog);
 
-            SharedPreferences.Editor editor = share.edit();
-            editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
-            editor.commit();
+            mFileSaveHelp.alwaysHideHint();
         } else {
             download(urlDownload);
         }
@@ -195,8 +182,51 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         showButtomToast("已复制 " + preViewUrl);
     }
 
+    @OptionsItem
+    protected final void action_link_public() {
+
+    }
+
+    @OptionsItem
+    protected final void action_open_by_other() {
+
+    }
+
+    @OptionsItem
+    void action_info() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog = builder.setTitle("文件信息")
+                .setMessage(String.format(fileInfoFormat,
+                        mAttachmentFileObject.fileType,
+                        Global.HumanReadableFilesize(mAttachmentFileObject.getSize()),
+                        Global.dayToNow(mAttachmentFileObject.created_at),
+                        Global.dayToNow(mAttachmentFileObject.updated_at),
+                        mAttachmentFileObject.owner.name))
+                .setPositiveButton("确定", null)
+                .show();
+        dialogTitleLineColor(dialog);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
+    }
+
+    @Click
+    protected void clickFileDynamic() {
+        FileDynamicActivity.ProjectFileParam param =
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+        FileDynamicActivity_.intent(this)
+                .mProjectFileParam(param)
+                .start();
+    }
+
+    @Click
+    protected void clickFileHistory() {
+        FileDynamicActivity.ProjectFileParam param =
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+        FileHistoryActivity_.intent(this)
+                .mProjectFileParam(param)
+                .start();
     }
 
     private void download(String url) {
