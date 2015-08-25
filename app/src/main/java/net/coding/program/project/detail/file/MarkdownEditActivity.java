@@ -1,4 +1,4 @@
-package net.coding.program.task;
+package net.coding.program.project.detail.file;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,8 +9,11 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicAddActivity.TopicData;
 import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.task.TaskDescrip;
+import net.coding.program.task.TaskDespEditFragment;
+import net.coding.program.task.TaskDespEditFragment_;
+import net.coding.program.task.TaskDespPreviewFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -18,29 +21,31 @@ import org.androidannotations.annotations.Extra;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
+import java.io.File;
+
+@EActivity(R.layout.activity_markdown_edit)
+//@OptionsMenu(R.menu.menu_markdown_edit)
+public class MarkdownEditActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
 
     @Extra
-    TaskObject.TaskDescription descriptionData;
+    FileDynamicActivity.ProjectFileParam mParam;
 
-    @Extra
-    int taskId;
-
-    @Extra
-    String projectPath;
-//    int projectId;
+    TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
 
     String HOST_DESCRIPTION = Global.HOST_API + "/task/%s/description";
 
     TaskDespEditFragment editFragment;
     Fragment previewFragment;
-    private TopicData modifyData = new TopicData();
+    private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
 
     @AfterViews
     protected final void initTaskDescriptionActivity() {
         editFragment = TaskDespEditFragment_.builder().build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
+
+        FileSaveHelp mFileSaveHelp = new FileSaveHelp(this);
+        File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
+        descriptionData.markdown = TxtEditActivity.readPhoneNumber(file);
 
         String markdown = descriptionData.markdown;
         if (markdown.isEmpty()) {
@@ -99,7 +104,7 @@ public class TaskDescriptionActivity extends BackActivity implements TaskDescrip
     }
 
     @Override
-    public void saveData(TopicData data) {
+    public void saveData(TopicAddActivity.TopicData data) {
         modifyData = data;
     }
 
@@ -128,10 +133,10 @@ public class TaskDescriptionActivity extends BackActivity implements TaskDescrip
 
     @Override
     public String getProjectPath() {
-        return projectPath;
+        return mParam.getProjectPath();
     }
 
-    // 有任务的项目必定是私有项目
+    // 有文件的项目必定是私有项目
     @Override
     public boolean isProjectPublic() {
         return false;

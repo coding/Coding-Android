@@ -21,6 +21,7 @@ import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.PostRequest;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.merge.CommentActivity;
 import net.coding.program.project.detail.merge.CommentActivity_;
 import net.coding.program.task.add.CommentHolder;
@@ -100,7 +101,7 @@ public class FileDynamicActivity extends BackActivity {
 
     @Click
     protected void itemAddComment() {
-        FileDynamicParam param = new FileDynamicParam(mProjectFileParam.mProjectid,
+        FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProjectId(),
                 Integer.valueOf(mProjectFileParam.mFileObject.file_id), "");
         CommentActivity_.intent(this).mParam(param).startForResult(RESULT_COMMENT);
     }
@@ -160,19 +161,20 @@ public class FileDynamicActivity extends BackActivity {
     public static class ProjectFileParam implements Serializable {
 
         private AttachmentFileObject mFileObject;
-        private int mProjectid;
+        //        private int mProjectid;
+        private ProjectObject mProject;
 
-        public ProjectFileParam(AttachmentFileObject fileObject, int projectId) {
+        public ProjectFileParam(AttachmentFileObject fileObject, ProjectObject project) {
             mFileObject = fileObject;
-            mProjectid = projectId;
+            mProject = project;
         }
 
         public String getProjectPath() {
-            return "/project/" + mProjectid;
+            return mProject.getProjectPath();
         }
 
         public int getProjectId() {
-            return mProjectid;
+            return mProject.getId();
         }
 
         public int getFileId() {
@@ -180,18 +182,18 @@ public class FileDynamicActivity extends BackActivity {
         }
 
         public String getHttpDynamic() {
-            String url = Global.HOST_API + "/project/%d/file/%s/activities?last_id=9999999";
-            return String.format(url, mProjectid, mFileObject.file_id);
+            String url = Global.HOST_API + mProject.getProjectPath() + "/file/%s/activities?last_id=9999999";
+            return String.format(url, mFileObject.file_id);
         }
 
         public String getHttpDeleteComment(int commmentId) {
-            String url = Global.HOST_API + "/project/%d/files/%s/comment/%d";
-            return String.format(url, mProjectid, mFileObject.file_id, commmentId);
+            String url = Global.HOST_API + mProject.getProjectPath() + "/files/%s/comment/%d";
+            return String.format(url, mFileObject.file_id, commmentId);
         }
 
         public PostRequest getHttpEditFile(String content) {
-            final String template = Global.HOST_API + "/project/%d/files/%s/edit";
-            String url = String.format(template, mProjectid, mFileObject.file_id);
+            final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
+            String url = String.format(template, mFileObject.file_id);
             RequestParams params = new RequestParams();
             params.put("name", mFileObject.getName());
             params.put("content", content);
@@ -204,7 +206,7 @@ public class FileDynamicActivity extends BackActivity {
 
         public File getLocalFile(String path) {
             return FileUtil.getDestinationInExternalPublicDir(path,
-                    mFileObject.getSaveName(mProjectid));
+                    mFileObject.getSaveName(mProject.getId()));
         }
     }
 
@@ -244,7 +246,7 @@ public class FileDynamicActivity extends BackActivity {
                         }
                     });
                 } else {
-                    FileDynamicParam param = new FileDynamicParam(mProjectFileParam.mProjectid,
+                    FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProjectId(),
                             Integer.valueOf(mProjectFileParam.mFileObject.file_id), ownerName);
                     CommentActivity_.intent(FileDynamicActivity.this).mParam(param).startForResult(RESULT_COMMENT);
                 }

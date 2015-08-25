@@ -146,7 +146,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             final int insertAttPos = 3;
             spinnerIcons.add(insertAttPos, R.drawable.ic_spinner_attachment);
             spinnerFragments.add(insertAttPos, ProjectAttachmentFragment_.class);
-            project_activity_action_list.add(insertAttPos, "项目文档");
+            project_activity_action_list.add(insertAttPos, "项目文件");
         }
         selectFragment(getJumpPos());
     }

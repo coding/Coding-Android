@@ -23,7 +23,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                 "动态",
                 "任务",
                 "讨论",
-                "文档",
+                "文件",
                 "代码",
                 "成员",
                 "Readme",

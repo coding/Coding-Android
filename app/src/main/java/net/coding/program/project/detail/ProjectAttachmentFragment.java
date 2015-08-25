@@ -265,6 +265,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         AttachmentsActivity_.intent(getActivity())
                 .mAttachmentFolderObject(mData.get(position))
                 .mProjectObjectId(mProjectObject.getId())
+                .mProject(mProjectObject)
                 .startForResult(RESULT_REQUEST_FILES);
 
     }

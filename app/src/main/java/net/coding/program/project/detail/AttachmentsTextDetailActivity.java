@@ -105,7 +105,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     @OptionsItem
     protected final void action_edit() {
         FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
-                mProjectObjectId);
+                mProject);
         TxtEditActivity_.intent(this)
                 .mParam(param)
                 .start();

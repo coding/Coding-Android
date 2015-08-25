@@ -19,6 +19,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
@@ -47,6 +48,9 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     @Extra
     int mProjectObjectId;
+
+    @Extra
+    ProjectObject mProject;
 
     @Extra
     AttachmentFileObject mAttachmentFileObject;
@@ -214,7 +218,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     @Click
     protected void clickFileDynamic() {
         FileDynamicActivity.ProjectFileParam param =
-                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
         FileDynamicActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
@@ -223,7 +227,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     @Click
     protected void clickFileHistory() {
         FileDynamicActivity.ProjectFileParam param =
-                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
         FileHistoryActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
@@ -263,4 +267,23 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             }
         });
     }
+
+
+//    @Click
+//    protected void clickFileDynamic() {
+//        FileDynamicActivity.ProjectFileParam param =
+//                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+//        FileDynamicActivity_.intent(this)
+//                .mProjectFileParam(param)
+//                .start();
+//    }
+//
+//    @Click
+//    protected void clickFileHistory() {
+//        FileDynamicActivity.ProjectFileParam param =
+//                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+//        FileHistoryActivity_.intent(this)
+//                .mProjectFileParam(param)
+//                .start();
+//    }
 }

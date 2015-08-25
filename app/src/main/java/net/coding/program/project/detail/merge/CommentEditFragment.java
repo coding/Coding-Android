@@ -21,7 +21,6 @@ public class CommentEditFragment extends TopicEditFragment implements StartActiv
 
     final int RESULT_REQUEST_AT = 1;
 
-
     @FragmentArg
     String mMergeUrl;
     private TextWatcherAt watcher;

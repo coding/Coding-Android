@@ -37,6 +37,7 @@ import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 
@@ -65,6 +66,9 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     AttachmentFileObject mAttachmentFileObject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+    @Extra
+    ProjectObject mProject;
+
     @Extra
     boolean mHideHistoryLayout = false;
 
@@ -236,13 +240,14 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         if (mAttachmentFileObject != null) {
             File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
             if (file.exists() && file.isFile()) {
-                if (mAttachmentFileObject.isHtml() || mAttachmentFileObject.isMd()) {
+                if (mAttachmentFileObject.isMd()) {
                     AttachmentsHtmlDetailActivity_
                             .intent(this)
                             .mProjectObjectId(mProjectObjectId)
                             .mAttachmentFolderObject(mAttachmentFolderObject)
                             .mAttachmentFileObject(mAttachmentFileObject)
                             .mHideHistory(mHideHistoryLayout)
+                            .mProject(mProject)
                             .start();
                     finish();
                     return;
@@ -251,6 +256,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                             .intent(this)
                             .mProjectObjectId(mProjectObjectId)
                             .mAttachmentFolderObject(mAttachmentFolderObject)
+                            .mProject(mProject)
                             .mAttachmentFileObject(mAttachmentFileObject)
                             .mHideHistory(mHideHistoryLayout)
                             .start();
@@ -523,7 +529,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     @Click
     protected void clickFileDynamic() {
         FileDynamicActivity.ProjectFileParam param =
-                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
         FileDynamicActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
@@ -532,7 +538,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     @Click
     protected void clickFileHistory() {
         FileDynamicActivity.ProjectFileParam param =
-                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
+                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
         FileHistoryActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();

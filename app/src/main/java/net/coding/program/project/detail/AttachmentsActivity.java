@@ -84,6 +84,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     @Extra
     int mProjectObjectId;
     @Extra
+    ProjectObject mProject;
+    @Extra
     AttachmentFolderObject mAttachmentFolderObject;
     ProjectObject mProjectObject;
     String urlFiles = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
@@ -546,7 +548,11 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
         } else {
             if (data.isFolder) {
-                AttachmentsActivity_.intent(AttachmentsActivity.this).mAttachmentFolderObject(data.folderObject).mProjectObjectId(mProjectObjectId).startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+                AttachmentsActivity_.intent(AttachmentsActivity.this)
+                        .mAttachmentFolderObject(data.folderObject).
+                        mProjectObjectId(mProjectObjectId)
+                        .mProject(mProject)
+                        .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
             } else if (data.isImage()) {
                 AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
 //                    } else if (data.isHtml() || data.isMd()) {
@@ -554,7 +560,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 //                    } else if (data.isTxt()) {
 //                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
             } else {
-                AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
+                AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
+                        .mProjectObjectId(mProjectObjectId)
+                        .mAttachmentFolderObject(mAttachmentFolderObject)
+                        .mAttachmentFileObject(data)
+                        .mProject(mProject)
+                        .startForResult(FILE_DELETE_CODE);
             }
         }
     }

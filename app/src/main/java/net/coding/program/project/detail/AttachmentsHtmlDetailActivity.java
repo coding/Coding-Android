@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.view.Menu;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -12,10 +11,9 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
-import net.coding.program.project.detail.file.FileDynamicActivity_;
+import net.coding.program.project.detail.file.MarkdownEditActivity_;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -43,7 +41,6 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     View blankLayout;
 
     String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
-    //    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
     String urlMdPreview = Global.HOST_API + "/markdown/preview";
 
     AttachmentFileObject mFiles = new AttachmentFileObject();
@@ -62,7 +59,6 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         }
 
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-//        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
 
         Global.initWebView(webview);
 
@@ -75,12 +71,8 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (downloadFileSuccess) {
-            return super.onCreateOptionsMenu(menu);
-        } else {
-            return true;
-        }
+    protected int getMenuResourceId() {
+        return R.menu.project_attachment_txt;
     }
 
     @Override
@@ -151,21 +143,15 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         return outputStream.toString();
     }
 
-    @Click
-    protected void clickFileDynamic() {
-        FileDynamicActivity.ProjectFileParam param =
-                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
-        FileDynamicActivity_.intent(this)
-                .mProjectFileParam(param)
-                .start();
-    }
 
-    @Click
-    protected void clickFileHistory() {
-        FileDynamicActivity.ProjectFileParam param =
-                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
-        FileHistoryActivity_.intent(this)
-                .mProjectFileParam(param)
+    @OptionsItem
+    protected final void action_edit() {
+        FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
+                mProject);
+        MarkdownEditActivity_.intent(this)
+                .mParam(param)
                 .start();
+
+
     }
 }
