@@ -3,6 +3,7 @@ package net.coding.program;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -11,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
@@ -114,6 +116,14 @@ public class MyApp extends Application {
         }
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
+
+        try{
+            Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(this, Environment.DIRECTORY_MUSIC,FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
+            Log.w("VoiceDir",Global.sVoiceDir);
+        }catch (Exception e){
+            Global.errorLog(e);
+        }
+
 
         MyAsyncHttpClient.init(this);
 
