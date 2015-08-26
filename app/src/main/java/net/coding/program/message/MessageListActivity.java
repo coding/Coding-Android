@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,16 +37,20 @@ import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.MyMediaPlayer;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.enter.EnterVoiceLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.maopao.ContentArea;
+import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
@@ -58,6 +65,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,16 +74,21 @@ import java.util.Calendar;
 @EActivity(R.layout.activity_message_list)
 //@OptionsMenu(R.menu.message_list)
 public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
-        StartActivity, EnterLayout.CameraAndPhoto, Handler.Callback {
+        StartActivity, EnterLayout.CameraAndPhoto, Handler.Callback,EnterVoiceLayout.VoiceRecordCompleteCallback,
+        ContentAreaImages.VoicePlayCallBack, EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack{
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     private static final int RESULT_REQUEST_PHOTO = 1005;
+    private static final int PAGESIZE = 20;
     final String HOST_MESSAGE_SEND = Global.HOST_API + "/message/send?";
     final String hostDeleteMessage = Global.HOST_API + "/message/%s";
     final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
+    final String TAG_SEND_VOICE = "TAG_SEND_VOICE";
+    final String TAG_MARK_VOICE_PLAYED = "TAG_MARK_VOICE_PLAYED";
     final String HOST_MESSAGE_LAST = Global.HOST_API + "/message/conversations/%s/last?id=%s";
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+    final String HOST_MARK_VOICE_PLAYED = Global.HOST_API + "/message/conversations/%s/play";
     private final int REFRUSH_TIME = 3 * 1000;
     @Extra
     UserObject mUserObject;
@@ -88,7 +102,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     ListView listView;
     @ViewById
     View blankLayout;
-    EnterEmojiLayout mEnterLayout;
+    EnterVoiceLayout mEnterLayout;
 
     WeakRefHander mWeakRefHandler;
 
@@ -100,6 +114,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         }
     };
     String HOST_INSERT_IMAGE = Global.HOST_API + "/tweet/insert_image";
+    String HOST_SEND_VOICE = Global.HOST_API + "/message/send_voice";
     MyImageGetter myImageGetter = new MyImageGetter(this);
     View.OnClickListener mOnClickSendText = new View.OnClickListener() {
         @Override
@@ -166,8 +181,9 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         public View getView(int position, View convertView, ViewGroup parent) {
             Message.MessageObject item = (Message.MessageObject) getItem(position);
             ViewHolder holder;
+            boolean isLeft = getItemViewType(position) == 0;
             if (convertView == null) {
-                int res = getItemViewType(position) == 0 ? R.layout.message_list_list_item_left : R.layout.message_list_list_item_right;
+                int res = isLeft ? R.layout.message_list_list_item_left : R.layout.message_list_list_item_right;
                 convertView = mInflater.inflate(res, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -177,7 +193,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 holder.contentArea.clearConentLongClick();
                 holder.resend = convertView.findViewById(R.id.resend);
                 holder.sending = convertView.findViewById(R.id.sending);
-
                 convertView.setTag(holder);
 
             } else {
@@ -217,8 +232,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                         public void onClick(View v) {
                             if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
                                 postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
-                            } else {
+                            } else if(myMessage.myRequestType == MyMessage.REQUEST_IMAGE){
                                 postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                            } else if(myMessage.myRequestType == MyMessage.REQUEST_VOICE){
+                                Global.MessageParse mp = ContentArea.parseVoice(myMessage.extra);
+                                postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
                             }
                             myMessage.myStyle = MyMessage.STYLE_SENDING;
                             adapter.notifyDataSetChanged();
@@ -234,9 +252,24 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 holder.resend.setVisibility(View.INVISIBLE);
                 holder.sending.setVisibility(View.INVISIBLE);
             }
-
-            holder.contentArea.setData(item.content);
-
+            boolean isVoice = item.extra!=null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
+            String data = isVoice?item.extra:item.content;
+            holder.contentArea.setData(data);
+            if(holder.contentArea.getVocicePath()!=null){
+                holder.contentArea.setVoicePlayCallBack(MessageListActivity.this);
+                //与最新的消息相差3天的超过一个页面的语音消息不下载
+                if(mData.size()>PAGESIZE && position <=mData.size()-1-PAGESIZE && lastTime!=0 && lastTime - selfTime >=3*24*60*60*1000){
+                    holder.contentArea.setVoiceNeedDownload(false);
+                }else{
+                    holder.contentArea.setVoiceNeedDownload(true);
+                }
+            }
+            if(isLeft && isVoice){
+                if(item.played==0){
+                    holder.resend.setVisibility(View.VISIBLE);
+                    holder.sending.setVisibility(View.INVISIBLE);
+                }
+            }
             return convertView;
         }
 
@@ -277,7 +310,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @AfterViews
     protected final void initMessageListActivity() {
-        mEnterLayout = new EnterEmojiLayout(this, mOnClickSendText);
+        mEnterLayout = new EnterVoiceLayout(this, mOnClickSendText);
 
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
@@ -309,7 +342,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
-        url = String.format(Global.HOST_API + "/message/conversations/%s?pageSize=20", mUserObject.global_key);
+        url = String.format(Global.HOST_API + "/message/conversations/%s?pageSize="+PAGESIZE, mUserObject.global_key);
 
         getSupportActionBar().setTitle(mUserObject.name);
 
@@ -386,6 +419,13 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         } else {
             String url = String.format(hostDeleteMessage, msg.getId());
             deleteNetwork(url, hostDeleteMessage, msg.getId());
+        }
+        if(msg.extra!=null && msg.extra.startsWith("[voice]{") && msg.extra.endsWith("}[voice]")){
+            Global.MessageParse mp = ContentArea.parseVoice(msg.extra);
+            if(mp.voiceUrl!=null){
+                File f = new File(Global.sVoiceDir + File.separator + mp.voiceUrl.substring(mp.voiceUrl.lastIndexOf('/')+1));
+                f.delete();
+            }
         }
     }
 
@@ -489,8 +529,13 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void onPause() {
+        mEnterLayout.removeTempWindow();
         super.onPause();
-
+        if(mMyMediaPlayer!=null){
+            onStopPlay();
+            mMyMediaPlayer.release();
+            mMyMediaPlayer = null;
+        }
         Message.MessageObject item = null;
         if (mData.size() > 0) {
             item = mData.get(mData.size() - 1);
@@ -501,6 +546,12 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     protected void onStop() {
+
+        if(mMyMediaPlayer!=null){
+            onStopPlay();
+            mMyMediaPlayer.release();
+            mMyMediaPlayer = null;
+        }
 
         String input = mEnterLayout.getContent();
         AccountInfo.saveMessageDraft(this, input, mGlobalKey);
@@ -536,6 +587,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < array.length(); ++i) {
                     Message.MessageObject item = new Message.MessageObject(array.getJSONObject(i));
+                    handleVoiceMessage(item);
                     mData.add(0, item);
                 }
 
@@ -565,7 +617,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 JSONArray array = respanse.getJSONArray("data");
                 for (int i = 0; i < array.length(); ++i) {
                     Message.MessageObject item = new Message.MessageObject(array.getJSONObject(i));
-
+                    handleVoiceMessage(item);
                     boolean inserted = false;
                     for (int j = mData.size() - 1; j >= 0; --j) {
                         Message.MessageObject msg = mData.get(j);
@@ -677,13 +729,75 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(hostDeleteMessage)) {
+        } else if (tag.indexOf(TAG_SEND_VOICE) == 0) {
+            long sendId = (Long) data;
+            if(code == 0){
+                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
+                String voiceUrl = item.file;
+                //将发送到服务器的本地录音文件的名字改成与其在服务器的文件名一致
+                File oldfile = new File(tag.replace(TAG_SEND_VOICE,""));
+                File newFile = new File(String.format(Global.sVoiceDir + File.separator + voiceUrl.substring(voiceUrl.lastIndexOf('/')+1)));
+                oldfile.renameTo(newFile);
+                //设置content内容,方便气泡获取录音时长与链接
+                item.extra = "[voice]{'voiceUrl':'"+voiceUrl+"',voiceDuration:"+item.duration/1000+"}[voice]";
+                //替换本地消息为获取到的远程消息
+                for (int i = mData.size() - 1; i >= 0; --i) {
+                    Message.MessageObject temp = mData.get(i);
+                    if (temp.getId() < item.getId()) {
+                        mData.add(i, item);
+                        break;
+                    }
+                }
+
+                for (int i = mData.size() - 1; i >= 0; --i) {
+                    Object singleItem = mData.get(i);
+                    if (singleItem instanceof MyMessage) {
+                        MyMessage tempMsg = (MyMessage) singleItem;
+                        if (tempMsg.getCreateTime() == sendId) {
+                            mData.remove(i);
+                            break;
+                        }
+                    }
+                }
+                listView.setSelection(mData.size());
+                AccountInfo.saveMessages(MessageListActivity.this, mUserObject.global_key, mData);
+            }else{
+                for (int i = mData.size() - 1; i >= 0; --i) {
+                    Object singleItem = mData.get(i);
+                    if (singleItem instanceof MyMessage) {
+                        MyMessage tempMsg = (MyMessage) singleItem;
+                        if (tempMsg.getCreateTime() == sendId) {
+                            tempMsg.myStyle = MyMessage.STYLE_RESEND;
+                            break;
+                        }
+                    }
+                }
+                showErrorMsg(code, respanse);
+            }
+            adapter.notifyDataSetChanged();
+            listView.setSelection(mData.size());
+        }else if (tag.equals(hostDeleteMessage)) {
             if (code == 0) {
                 deleteItem((int) data);
                 AccountInfo.saveMessages(MessageListActivity.this, mUserObject.global_key, mData);
             } else {
                 showErrorMsg(code, respanse);
             }
+        }else if(tag.startsWith(TAG_MARK_VOICE_PLAYED)){
+            if(code == 0){
+                int id = Integer.valueOf(tag.replace(TAG_MARK_VOICE_PLAYED,""));
+                
+            }
+        }
+    }
+
+    private void handleVoiceMessage(Message.MessageObject item) {
+        //语音消息重新设置extra
+        if(item.file!=null && item.file.endsWith(".amr") && item.duration>0){
+            Log.w("test", "recordDuration1=" + item.duration);
+            //用户录音时间会比实际录音时长最大大约260ms左右
+            int dur = (item.duration+260)/1000;
+            item.extra = "[voice]{'id':"+item.getId()+",'voiceUrl':'"+item.file+"','voiceDuration':"+dur+",'played':"+item.played+"}[voice]";
         }
     }
 
@@ -713,6 +827,104 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         return true;
     }
 
+    @Override
+    public void recordFinished(long duration, String voicePath) {
+        try {
+            //开始发送语音文件
+            RequestParams params = new RequestParams();
+            params.put("receiver_global_key", mUserObject.global_key);
+            params.put("file",new File(voicePath));
+            MyMessage myMessage = new MyMessage(MyMessage.REQUEST_VOICE, params, mUserObject);
+            //[voice]{'voiceUrl':'/sd/voice/a.amr',voiceDuration:10}[voice]
+            myMessage.extra = "[voice]{'voiceUrl':'"+voicePath+"',voiceDuration:"+duration/1000+"}[voice]";
+            mData.add(myMessage);
+            adapter.notifyDataSetChanged();
+            listView.setSelection(mData.size());
+            postNetwork(HOST_SEND_VOICE, params, TAG_SEND_VOICE + voicePath, -1, myMessage.getCreateTime());
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
+
+
+    private MyMediaPlayer mMyMediaPlayer;
+    @Override
+    public void onStartPlay(String path,MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
+        try {
+            if(mMyMediaPlayer == null){
+                mMyMediaPlayer = new MyMediaPlayer();
+            }else{
+                mMyMediaPlayer.reset();
+            }
+            mMyMediaPlayer.setOnPreparedListener(mOnPreparedListener);
+            mMyMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+            mMyMediaPlayer.setDataSource(path);
+//            mMyMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+//                @Override
+//                public boolean onError(MediaPlayer mp, int what, int extra) {
+//                    return false;
+//                }
+//            });
+            mMyMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMyMediaPlayer.prepare();
+            mMyMediaPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String getPlayingVoicePath() {
+        try{
+            if(mMyMediaPlayer!=null && mMyMediaPlayer.isPlaying()){
+                return mMyMediaPlayer.getDataSource();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void onStopPlay() {
+        try{
+            if(mMyMediaPlayer!=null && mMyMediaPlayer.isPlaying()){
+                mMyMediaPlayer.stop();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void markVoicePlayed(int id) {
+        RequestParams params = new RequestParams();
+        params.put("played", 1);
+        postNetwork(String.format(HOST_MARK_VOICE_PLAYED, id), params, TAG_MARK_VOICE_PLAYED + id, -1, id);
+        for(int i = 0;i<mData.size();i++){
+                    Message.MessageObject item = mData.get(i);
+                    if(item.getId() == id){
+                        item.played = 1;
+                        handleVoiceMessage(item);
+                        break;
+                    }
+                }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onChanage(int lastBottomMargin,int newBottomMargin) {
+        if(!mEnterLayout.isKeyboardOpen){
+            listView.smoothScrollBy(newBottomMargin - lastBottomMargin ,10);
+        }
+        if(newBottomMargin==Global.dpToPx(248)){
+            listView.setSelection(mData.size());
+        }
+    }
+
+
     public static class MyMessage extends Message.MessageObject implements Serializable {
 
         public static final int STYLE_SENDING = 0;
@@ -720,10 +932,12 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
         public static final int REQUEST_TEXT = 0;
         public static final int REQUEST_IMAGE = 1;
+        public static final int REQUEST_VOICE = 2;
 
         public RequestParams requestParams;
         public int myStyle = 0;
         public int myRequestType = 0;
+
 
         public MyMessage(int requestType, RequestParams params, UserObject friendUser) {
             myStyle = STYLE_SENDING;
