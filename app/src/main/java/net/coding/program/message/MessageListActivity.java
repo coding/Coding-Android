@@ -747,7 +747,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         ImageView icon;
         ContentArea contentArea;
 
-        
+
         View resend;
         View sending;
     }
