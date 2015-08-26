@@ -80,6 +80,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
     final public static int FILE_MOVE_CODE = 12;
+
+    private static final String TAG_HTTP_FILE_EXIST = "TAG_HTTP_FILE_EXIST";
+
     private static String TAG = AttachmentsActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
@@ -597,7 +600,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, final Object data) throws JSONException {
         if (tag.equals(urlFiles)) {
             if (code == 0) {
                 JSONArray files = respanse.getJSONObject("data").getJSONArray("list");
@@ -722,6 +725,23 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(TAG_HTTP_FILE_EXIST)) {
+            if (code == 0) {
+                String s = respanse.optJSONObject("data").optString("conflict_file");
+                if (s.isEmpty()) {
+                    uploadFile((File) data);
+                } else {
+                    File file = (File) data;
+                    showDialog(file.getName(), "存在同名文件，是否覆盖？", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            uploadFile((File) data);
+                        }
+                    });
+                }
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 
@@ -747,8 +767,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             Uri uri = data.getData();
             String path = FileUtil.getPath(this, uri);
             File selectedFile = new File(path);
-            uploadFile(selectedFile);
+            uploadFilePrepare(selectedFile);
         }
+    }
+
+    private void uploadFilePrepare(File selectedFile) {
+        String httpHost = getHttpFileExist(selectedFile.getName(), mAttachmentFolderObject);
+        getNetwork(httpHost, TAG_HTTP_FILE_EXIST, -1, selectedFile);
     }
 
     private void uploadFile(File selectedFile) {
@@ -781,7 +806,20 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                         if (code == 0) {
                             AttachmentFileObject newFile = new AttachmentFileObject(response.getJSONObject("data"));
                             setDownloadStatus(newFile);
-                            mFilesArray.add(mAttachmentFolderObject.sub_folders.size(), newFile);
+
+                            int i = 0;
+                            for (; i < mFilesArray.size(); ++i) {
+                                AttachmentFileObject item = mFilesArray.get(i);
+                                String itemName = item.getName();
+                                if (!item.isFolder && itemName.equals(newFile.getName())) {
+                                    mFilesArray.set(i, newFile);
+                                    break;
+                                }
+                            }
+                            if (i == mFilesArray.size()) {
+                                mFilesArray.add(mAttachmentFolderObject.sub_folders.size(), newFile);
+                            }
+
                             adapter.notifyDataSetChanged();
                             setResult(Activity.RESULT_OK);
                             showUploadStatus(UploadStatus.Finish);
@@ -828,6 +866,18 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
 
     }
+
+
+    private String getHttpFileExist(String name, AttachmentFolderObject folder) {
+        String encodeName = Global.encodeUtf8(name);
+        return Global.HOST_API +
+                mProject.getProjectPath() +
+                "/dir/" +
+                folder.file_id +
+                "/files/existed?names=" +
+                encodeName;
+    }
+
 
     private void showUploadStatus(UploadStatus status) {
         switch (status) {
@@ -1366,7 +1416,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
         adapter.notifyDataSetChanged();
     }
-
 
 
     protected String getLink() {
