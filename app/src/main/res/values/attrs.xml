@@ -48,4 +48,15 @@
     <declare-styleable name="ScanMaskView">
         <attr name="scan_width" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SoundWaveView">
+        <attr name="waveColor" format="color"/>
+        <attr name="soundOriginOrientation">
+            <enum name="left" value="1"/>
+            <enum name="right" value="0"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="EnterLayoutAnimSupportContainer">
+        <attr name="isAdjustResize" format="boolean"/>
+    </declare-styleable>
 </resources>
