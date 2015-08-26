@@ -1,30 +1,50 @@
 package net.coding.program.common.enter;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.os.Build;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
+import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by chaochen on 14-10-28.
+ * @notice common_enter_emoji必须以EnterLayoutAnimSupportContainer作父容器,且该容器只有两个子布局
+ *
  */
-public class EnterLayout {
+public abstract class EnterLayout {
 
     public TextView sendText;
     public ImageButton send;
     public EditText content;
     private Activity mActivity;
-    private Type mType = Type.Default;
+    protected ViewGroup commonEnterRoot;
+    protected Type mType = Type.Default;
+    protected int inputBoxHeight = 0;
+    protected int screenHeight;
+    protected int panelHeight;
+    protected EnterLayoutAnimSupportContainer mEnterLayoutAnimSupportContainer;
+    protected boolean mEnterLayoutStatus;
+    public boolean isKeyboardOpen;
     private TextWatcher restoreWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -42,8 +62,23 @@ public class EnterLayout {
 
         mActivity = activity;
 
+        panelHeight =  Global.dpToPx(200);
+        inputBoxHeight = Global.dpToPx(48);
+        screenHeight = MyApp.sHeightPix;
+
+        commonEnterRoot = (ViewGroup)mActivity.findViewById(R.id.commonEnterRoot);
+        if(commonEnterRoot!=null && commonEnterRoot.getParent() instanceof EnterLayoutAnimSupportContainer){
+            mEnterLayoutAnimSupportContainer = (EnterLayoutAnimSupportContainer) commonEnterRoot.getParent();
+            if(activity instanceof EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack){
+                mEnterLayoutAnimSupportContainer.setOnEnterLayoutBottomMarginChanagedCallBack((EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack) activity);
+            }
+        }
+
+
         sendText = (TextView) activity.findViewById(R.id.sendText);
         sendText.setOnClickListener(sendTextOnClick);
+
+
         if (mType == Type.TextOnly) {
             sendText.setVisibility(View.VISIBLE);
         }
@@ -64,8 +99,8 @@ public class EnterLayout {
         }
 
         content = (EditText) activity.findViewById(R.id.comment);
-
-
+        //拦截输入法 通过点击事件触发输入法
+        interceptInputMethod(content);
         content.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -121,6 +156,32 @@ public class EnterLayout {
         });
     }
 
+    private void interceptInputMethod(EditText et){
+        // Android.edittext点击时,隐藏系统弹出的键盘,显示出光标
+        // 3.0以下版本可以用editText.setInputType(InputType.TYPE_NULL)来实现。
+        // 3.0以上版本除了调用隐藏方法:setShowSoftInputOnFocus(false)
+        int sdkInt = Build.VERSION.SDK_INT;// 16 -- 4.1系统
+        if (sdkInt >= 11)
+        {
+            Class<EditText> cls = EditText.class;
+            try
+            {
+                Method setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                setShowSoftInputOnFocus.setAccessible(true);
+                setShowSoftInputOnFocus.invoke(et, false);
+            }
+            catch (Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            et.setInputType(EditorInfo.TYPE_NULL);
+        }
+    }
+
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
         this(activity, sendTextOnClick, Type.Default);
     }
@@ -132,6 +193,49 @@ public class EnterLayout {
         String insertString = s + " ";
         Editable editable = edit.getText();
         editable.insert(insertPos, insertString);
+    }
+
+    public void animEnterLayoutStatusChanaged(final boolean isOpen){
+        if(mEnterLayoutStatus == isOpen){
+            return;
+        }
+        mEnterLayoutStatus = isOpen;
+        if(commonEnterRoot!=null && mEnterLayoutAnimSupportContainer!=null){
+            ValueAnimator va = ValueAnimator.ofInt(isOpen?new int[]{-panelHeight,0}:new int[]{0,-panelHeight});
+            va.setDuration(300);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int v = (int) animation.getAnimatedValue();
+                    mEnterLayoutAnimSupportContainer.setEnterLayoutBottomMargin(v);
+                    if (isOpen) {
+                        onEnterLayoutPopUp(v);
+                    } else {
+                        onEnterLayoutDropDown(v);
+                    }
+                }
+            });
+            va.start();
+        }
+    }
+
+    protected void onEnterLayoutPopUp(int bottom){
+
+    }
+
+    protected void onEnterLayoutDropDown(int bottom){
+
+    }
+
+    protected void updateEnterLayoutBottom(int bottom){
+        if(bottom == 0){
+            mEnterLayoutStatus = true;
+        }else if(bottom == -panelHeight){
+            mEnterLayoutStatus = false;
+        }
+        if(mEnterLayoutAnimSupportContainer!=null){
+            mEnterLayoutAnimSupportContainer.setEnterLayoutBottomMargin(bottom);
+        }
     }
 
     public void updateSendButtonStyle() {
@@ -202,18 +306,21 @@ public class EnterLayout {
     }
 
     public void hide() {
-        View root = mActivity.findViewById(R.id.commonEnterRoot);
-        root.setVisibility(View.GONE);
+        if(commonEnterRoot!=null){
+            commonEnterRoot.setVisibility(View.GONE);
+        }
+
     }
 
     public void show() {
-        View root = mActivity.findViewById(R.id.commonEnterRoot);
-        root.setVisibility(View.VISIBLE);
+        if(commonEnterRoot!=null){
+            commonEnterRoot.setVisibility(View.VISIBLE);
+        }
+
     }
 
     public boolean isShow() {
-        View root = mActivity.findViewById(R.id.commonEnterRoot);
-        return root.getVisibility() == View.VISIBLE;
+        return commonEnterRoot!=null && commonEnterRoot.getVisibility() == View.VISIBLE;
     }
 
     public void restoreSaveStart() {
@@ -228,20 +335,39 @@ public class EnterLayout {
         CommentBackup.getInstance().delete(CommentBackup.BackupParam.create(comment));
     }
 
-    public void restoreLoad(Object object) {
+    public void restoreLoad(final Object object) {
         if (object == null) {
             return;
         }
+        if(commonEnterRoot!=null && mEnterLayoutAnimSupportContainer!=null && !mEnterLayoutAnimSupportContainer.isAdjustResize()){
+            //common_enter_emoji控件由于在某些情况下第一次进入activity恢复数据时会出现显示不正常现象，因此先让控件以空文本形式正常显示出来
+            //之后再恢复数据
+            clearContent();
+            content.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    restoreSaveStop();
+                    String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
+                    content.getText().append(lastInput);
+                    restoreSaveStart();
+                }
+            }, 100);
+        }else{
+            restoreSaveStop();
+            clearContent();
+            String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
+            content.getText().append(lastInput);
+            restoreSaveStart();
+        }
 
-        restoreSaveStop();
-        clearContent();
-        String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
-        content.getText().append(lastInput);
-        restoreSaveStart();
     }
 
     public enum Type {
         Default, TextOnly
+    }
+
+    public enum InputType{
+        Text,Voice,Emoji
     }
 
 
