@@ -8,6 +8,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;
+import net.coding.program.project.detail.AttachmentsActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -138,6 +139,7 @@ public class TxtEditActivity extends BackActivity {
 
                 Intent intent = new Intent();
                 intent.putExtra(AttachmentFileObject.RESULT, fileObject);
+                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME, AttachmentsActivity.FileActions.ACTION_EDIT);
                 setResult(RESULT_OK, intent);
                 finish();
             } else {

@@ -121,12 +121,10 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
     @OnActivityResult(RESULT_MODIFY_TXT)
     protected void onResultModify(int result, Intent intent) {
-        intent.setAction(AttachmentFileObject.ACTION_EDIT);
-        setResult(result, intent);
         if (result == Activity.RESULT_OK) {
+            setResult(result, intent);
             mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra(AttachmentFileObject.RESULT);
             updateLoadFile();
         }
     }
-
 }

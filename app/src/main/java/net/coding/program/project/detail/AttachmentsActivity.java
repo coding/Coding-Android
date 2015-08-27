@@ -565,37 +565,15 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 //                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
             } else {
                 if (data.isDownload) {
-                    if (data.isTxt()) {
-                        AttachmentsTextDetailActivity_
-                                .intent(this)
-                                .mProjectObjectId(mProjectObjectId)
-                                .mAttachmentFolderObject(mAttachmentFolderObject)
-                                .mAttachmentFileObject(data)
-                                .mProject(mProject)
-                                .startForResult(FILE_DELETE_CODE);
-
-                    } else if (data.isMd()) {
-
-                        AttachmentsHtmlDetailActivity_
-                                .intent(this)
-                                .mProjectObjectId(mProjectObjectId)
-                                .mAttachmentFolderObject(mAttachmentFolderObject)
-                                .mAttachmentFileObject(data)
-                                .mProject(mProject)
-                                .startForResult(FILE_DELETE_CODE);
-
-                    } else if (data.isImage()) {
-
-                        showButtomToast("wwwwwwwwwwwwwwwwwwwww");
-                    } else {
-
-                        AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
-                                .mProjectObjectId(mProjectObjectId)
-                                .mAttachmentFolderObject(mAttachmentFolderObject)
-                                .mAttachmentFileObject(data)
-                                .mProject(mProject)
-                                .startForResult(FILE_DELETE_CODE);
-                    }
+                    jumpToDetail(data);
+                } else if (data.isImage()) {
+                    AttachmentsPhotoDetailActivity_
+                            .intent(this)
+                            .mProjectObjectId(mProjectObjectId)
+                            .mAttachmentFolderObject(mAttachmentFolderObject)
+                            .mAttachmentFileObject(data)
+                            .mProject(mProject)
+                            .startForResult(FILE_DELETE_CODE);
                 } else {
                     AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
                             .mProjectObjectId(mProjectObjectId)
@@ -607,6 +585,44 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
         }
     }
+
+    private void jumpToDetail(AttachmentFileObject data) {
+        if (data.isTxt()) {
+            AttachmentsTextDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(mProjectObjectId)
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(mProject)
+                    .startForResult(FILE_DELETE_CODE);
+
+        } else if (data.isMd()) {
+            AttachmentsHtmlDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(mProjectObjectId)
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(mProject)
+                    .startForResult(FILE_DELETE_CODE);
+
+        } else if (data.isImage()) {
+            AttachmentsPhotoDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(mProjectObjectId)
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(mProject)
+                    .startForResult(FILE_DELETE_CODE);
+        } else {
+            AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
+                    .mProjectObjectId(mProjectObjectId)
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(mProject)
+                    .startForResult(FILE_DELETE_CODE);
+        }
+    }
+
 
     @ItemLongClick
     void listViewItemLongClicked(int position) {
@@ -990,22 +1006,30 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
                 case FileActions.ACTION_EDIT: {
                     AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-                    for (int i = 0; i < mFilesArray.size(); ++i) {
-                        AttachmentFileObject file = mFilesArray.get(i);
-                        if (file.file_id.equals(paramFileObject.file_id)) {
-                            mFilesArray.set(i, paramFileObject);
-                            adapter.notifyDataSetChanged();
-                            break;
-                        }
-                    }
+                    upadateListItem(paramFileObject);
+                    break;
                 }
 
                 case FileActions.ACTION_DOWNLOAD_OPEN: {
-
+                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
+                    upadateListItem(paramFileObject);
+                    jumpToDetail(paramFileObject);
+                    break;
                 }
 
 //                default:
 //                    showMiddleToast("");
+            }
+        }
+    }
+
+    private void upadateListItem(AttachmentFileObject paramFileObject) {
+        for (int i = 0; i < mFilesArray.size(); ++i) {
+            AttachmentFileObject file = mFilesArray.get(i);
+            if (file.file_id.equals(paramFileObject.file_id)) {
+                mFilesArray.set(i, paramFileObject);
+                adapter.notifyDataSetChanged();
+                break;
             }
         }
     }
@@ -1533,7 +1557,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         public static final String ACTION_NAME = "ACTION_NAME";
         public static final int ACTION_EDIT = 1;
         public static final int ACTION_DELETE = 2;
-        public static final int ACTION_DOWNLOAD = 3;
         public static final int ACTION_DOWNLOAD_OPEN = 4;
     }
 

@@ -138,5 +138,6 @@
     <string name="title_activity_file_dynamic">文件动态</string>
     <string name="title_activity_txt_edit">TxtEditActivity</string>
     <string name="title_activity_markdown_edit">Markdown编辑</string>
+    <string name="title_activity_attachments_photo_detail">AttachmentsPhotoDetailActivity</string>
 
 </resources>

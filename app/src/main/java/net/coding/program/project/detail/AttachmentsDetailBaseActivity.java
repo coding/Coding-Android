@@ -237,6 +237,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
                 showButtomToast("下载失败");
                 isDownloading = false;
+                onDownloadFinish(false);
             }
 
             @Override
@@ -244,6 +245,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                 Log.v(TAG, "onSuccess:" + statusCode + " " + headers.toString());
                 showButtomToast("下载完成");
                 isDownloading = false;
+                onDownloadFinish(true);
 
                 /*MediaScannerConnection.scanFile(AttachmentsPicDetailActivity.this,
                         new String[]{response.toString()}, null,
@@ -262,6 +264,10 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             }
         });
     }
+
+    protected void onDownloadFinish(boolean success) {
+    }
+
 
 
 //    @Click

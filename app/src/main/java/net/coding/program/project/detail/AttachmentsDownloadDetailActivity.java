@@ -109,7 +109,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     @ViewById
     ImageView ivDownloadCancel;
     String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
-    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
+    //    String urlPages = Global.HOST_API + "/project/%d/files/image/%s?folderId=%s&orderByDesc=true";
     String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
     AttachmentFileObject mFileObject = new AttachmentFileObject();
     AsyncHttpClient client;
@@ -270,7 +270,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
         client = MyAsyncHttpClient.createClient(AttachmentsDownloadDetailActivity.this);
 
-        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
+//        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
         urlDownload = String.format(urlDownload, mProjectObjectId, mAttachmentFileObject.file_id);
         if (mAttachmentFileObject == null) {

@@ -1,5 +1,7 @@
 package net.coding.program.project.detail;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -8,13 +10,16 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.MarkdownEditActivity_;
+import net.coding.program.project.detail.file.TxtEditActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
@@ -34,19 +39,15 @@ import java.io.InputStream;
 //@OptionsMenu(R.menu.users)
 public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity {
 
+    private static final int RESULT_MODIFY_TXT = 1;
     @ViewById
     WebView webview;
-
     @ViewById
     View blankLayout;
-
     String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
     String urlMdPreview = Global.HOST_API + "/markdown/preview";
-
     AttachmentFileObject mFiles = new AttachmentFileObject();
-
     String markdown;
-
     boolean downloadFileSuccess = false;
 
     @AfterViews
@@ -84,14 +85,13 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
                 mFiles = new AttachmentFileObject(file);
                 String content = respanse.getJSONObject("data").optString("content");
                 mAttachmentFileObject = mFiles;
-                if (mFiles.isHtml()) {
-                    hideProgressDialog();
-                    webview.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
-                } else if (mFiles.isMd()) {
-                    RequestParams params = new RequestParams();
-                    params.put("content", content);
-                    postNetwork(urlMdPreview, params, urlMdPreview);
-                }
+//                if (mFiles.isHtml()) {
+//                    hideProgressDialog();
+//                    webview.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
+//                } else
+//                if (mFiles.isMd()) {
+                requestMd2Html(content);
+//                }
                 invalidateOptionsMenu();
 
             } else {
@@ -121,6 +121,12 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         }
     }
 
+    private void requestMd2Html(String content) {
+        RequestParams params = new RequestParams();
+        params.put("content", content);
+        postNetwork(urlMdPreview, params, urlMdPreview);
+    }
+
     @OptionsItem
     public void action_add() {
     }
@@ -143,15 +149,31 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         return outputStream.toString();
     }
 
-
     @OptionsItem
     protected final void action_edit() {
         FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
                 mProject);
         MarkdownEditActivity_.intent(this)
                 .mParam(param)
-                .start();
-
-
+                .startForResult(RESULT_MODIFY_TXT);
     }
+
+    @OnActivityResult(RESULT_MODIFY_TXT)
+    protected void onResultModify(int result, Intent intent) {
+        if (result == Activity.RESULT_OK) {
+            setResult(result, intent);
+            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra(AttachmentFileObject.RESULT);
+            updateLoadFile();
+        }
+    }
+
+    private void updateLoadFile() {
+        mFiles = mAttachmentFileObject;
+        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
+        if (mFile.exists()) {
+            String content = TxtEditActivity.readPhoneNumber(mFile);
+            requestMd2Html(content);
+        }
+    }
+
 }

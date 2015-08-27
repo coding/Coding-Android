@@ -193,8 +193,8 @@ public class FileDynamicActivity extends BackActivity {
 
         public PostRequest getHttpEditFile(String content) {
             // TODO 改回来
-//            final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
-            final String template = Global.HOST_API + "/project/126848" + "/files/%s/edit";
+            final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
+//            final String template = Global.HOST_API + "/project/126848" + "/files/%s/edit";
             String url = String.format(template, mFileObject.file_id);
             RequestParams params = new RequestParams();
             params.put("name", mFileObject.getName());

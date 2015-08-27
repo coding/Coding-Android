@@ -671,7 +671,10 @@
             android:name=".project.detail.file.MarkdownEditActivity_"
             android:label="@string/title_activity_markdown_edit"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateUnspecified"></activity>
+            android:windowSoftInputMode="adjustResize|stateUnspecified" />
+        <activity
+            android:name=".project.detail.AttachmentsPhotoDetailActivity_"
+            android:label="@string/title_activity_attachments_photo_detail"></activity>
     </application>
 
 </manifest>

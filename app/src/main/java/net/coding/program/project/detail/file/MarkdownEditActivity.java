@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;
 import net.coding.program.model.TaskObject;
+import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.task.TaskDescrip;
@@ -29,6 +31,7 @@ import java.io.File;
 public class MarkdownEditActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
 
     private static final String TAG_SAVE_CONTENT = "TAG_SAVE_CONTENT";
+    private static final String TAG_HTTP_FILE_VIEW = "TAG_HTTP_FILE_VIEW";
 
     @Extra
     FileDynamicActivity.ProjectFileParam mParam;
@@ -88,8 +91,29 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
         } else if (tag.equals(TAG_SAVE_CONTENT)) {
             hideProgressDialog();
             if (code == 0) {
-                showButtomToast("修改成功");
+                showProgressBar(true, "正在保存");
                 setResult(RESULT_OK);
+                String url = mParam.getHtttpFileView();
+                getNetwork(url, TAG_HTTP_FILE_VIEW);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_HTTP_FILE_VIEW)) {
+            showProgressBar(false);
+            if (code == 0) {
+                JSONObject json = respanse.optJSONObject("data").optJSONObject("file");
+                AttachmentFileObject fileObject = new AttachmentFileObject(json);
+
+                FileSaveHelp help = new FileSaveHelp(this);
+                mParam.setFileObject(fileObject);
+                File localFile = mParam.getLocalFile(help.getFileDownloadPath());
+                TxtEditActivity.writeFile(localFile, modifyData.content);
+                fileObject.isDownload = true;
+
+                Intent intent = new Intent();
+                intent.putExtra(AttachmentFileObject.RESULT, fileObject);
+                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME, AttachmentsActivity.FileActions.ACTION_EDIT);
+                setResult(RESULT_OK, intent);
                 finish();
             } else {
                 showErrorMsg(code, respanse);
