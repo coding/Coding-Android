@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,10 +11,11 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp" />
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <net.coding.program.common.widget.EnterLayoutAnimSupportContainer xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        app:isAdjustResize="true"
         tools:context="net.coding.program.message.MessageListActivity">
 
         <!--<android.support.v4.widget.SwipeRefreshLayout-->
@@ -27,11 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-
             android:divider="@null" />
-
-        <include layout="@layout/common_enter_emoji" />
-
-    </LinearLayout>
+        <include layout="@layout/common_enter_emoji"/>
+    </net.coding.program.common.widget.EnterLayoutAnimSupportContainer>
 
 </FrameLayout>

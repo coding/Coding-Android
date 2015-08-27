@@ -21,6 +21,11 @@ public class Message {
         public UserObject sender = new UserObject();
         public int status;
         public int unreadCount;
+        public int duration;
+        public String file;
+        public int type;
+        public int played;
+        public String extra;
 
         public MessageObject(JSONObject json) throws JSONException {
             content = json.optString("content");
@@ -36,6 +41,21 @@ public class Message {
 
             if (json.has("sender")) {
                 sender = new UserObject(json.optJSONObject("sender"));
+            }
+
+            if(json.has("type")){
+                type = json.getInt("type");
+            }
+            if(json.has("played")){
+                played = json.getInt("played");
+            }
+
+            if(json.has("file")){
+                file = json.getString("file");
+            }
+
+            if(json.has("duration")){
+                duration = json.optInt("duration");
             }
 
             status = json.optInt("status");
