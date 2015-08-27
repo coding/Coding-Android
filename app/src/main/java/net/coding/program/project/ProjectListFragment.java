@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -229,11 +230,12 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 } else if (action.equals(InitProUtils.FLAG_UPDATE_DYNAMIC)) {
                     int projectId = data.getIntExtra("projectId", 0);
                     if (projectId != 0) {
-
                         Fragment parentFragment = getParentFragment();
-                        if (parentFragment instanceof UpdateData) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
+                        FragmentActivity activity = getActivity();
+                        if ((parentFragment instanceof UpdateData)
+                                && (activity != null)) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
                             ((UpdateData) parentFragment).updateRead(projectId);
-                            UnreadNotify.update(getActivity());
+                            UnreadNotify.update(activity);
                         }
                     }
                 }
