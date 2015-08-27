@@ -313,7 +313,7 @@ public class ContentAreaImages extends ContentAreaBase {
             int s = maopaoData.voiceDuration>= 60 ?60:maopaoData.voiceDuration;
             int width = minWidth + (maxWidth - minWidth)*s/60;
             width = width< minWidth?minWidth:width;
-            lp_voiceLayout.width = maxWidth;
+            lp_voiceLayout.width = width;
             if(isRight){
                 lp_voiceLayout.gravity = Gravity.LEFT;
             }else{
