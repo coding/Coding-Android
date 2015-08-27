@@ -83,6 +83,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     private static final String TAG_HTTP_FILE_EXIST = "TAG_HTTP_FILE_EXIST";
 
+
     private static String TAG = AttachmentsActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
@@ -556,19 +557,53 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                         mProjectObjectId(mProjectObjectId)
                         .mProject(mProject)
                         .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
-            } else if (data.isImage()) {
-                AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
+//            } else if (data.isImage()) {
+//                AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
 //                    } else if (data.isHtml() || data.isMd()) {
 //                        AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
 //                    } else if (data.isTxt()) {
 //                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
             } else {
-                AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
-                        .mProjectObjectId(mProjectObjectId)
-                        .mAttachmentFolderObject(mAttachmentFolderObject)
-                        .mAttachmentFileObject(data)
-                        .mProject(mProject)
-                        .startForResult(FILE_DELETE_CODE);
+                if (data.isDownload) {
+                    if (data.isTxt()) {
+                        AttachmentsTextDetailActivity_
+                                .intent(this)
+                                .mProjectObjectId(mProjectObjectId)
+                                .mAttachmentFolderObject(mAttachmentFolderObject)
+                                .mAttachmentFileObject(data)
+                                .mProject(mProject)
+                                .startForResult(FILE_DELETE_CODE);
+
+                    } else if (data.isMd()) {
+
+                        AttachmentsHtmlDetailActivity_
+                                .intent(this)
+                                .mProjectObjectId(mProjectObjectId)
+                                .mAttachmentFolderObject(mAttachmentFolderObject)
+                                .mAttachmentFileObject(data)
+                                .mProject(mProject)
+                                .startForResult(FILE_DELETE_CODE);
+
+                    } else if (data.isImage()) {
+
+                        showButtomToast("wwwwwwwwwwwwwwwwwwwww");
+                    } else {
+
+                        AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
+                                .mProjectObjectId(mProjectObjectId)
+                                .mAttachmentFolderObject(mAttachmentFolderObject)
+                                .mAttachmentFileObject(data)
+                                .mProject(mProject)
+                                .startForResult(FILE_DELETE_CODE);
+                    }
+                } else {
+                    AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
+                            .mProjectObjectId(mProjectObjectId)
+                            .mAttachmentFolderObject(mAttachmentFolderObject)
+                            .mAttachmentFileObject(data)
+                            .mProject(mProject)
+                            .startForResult(FILE_DELETE_CODE);
+                }
             }
         }
     }
@@ -643,6 +678,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             } else {
                 showErrorMsg(code, respanse);
             }
+
             BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
 
         } else if (tag.equals(HOST_FILE_MOVETO)) {
@@ -867,7 +903,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     }
 
-
     private String getHttpFileExist(String name, AttachmentFolderObject folder) {
         String encodeName = Global.encodeUtf8(name);
         return Global.HOST_API +
@@ -877,7 +912,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 "/files/existed?names=" +
                 encodeName;
     }
-
 
     private void showUploadStatus(UploadStatus status) {
         switch (status) {
@@ -939,19 +973,40 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     @OnActivityResult(FILE_DELETE_CODE)
     void onFileResult(int resultCode, Intent data) {
-        Log.d("onFileResult", resultCode + "");
-
         if (resultCode == Activity.RESULT_OK) {
-            AttachmentFileObject deletedFileObject = (AttachmentFileObject) data.getSerializableExtra("mAttachmentFileObject");
-            Log.d("onFileResult", resultCode + " " + deletedFileObject.getName());
-            for (AttachmentFileObject file : mFilesArray) {
-                if (file.file_id.equals(deletedFileObject.file_id)) {
-                    mFilesArray.remove(file);
-                    adapter.notifyDataSetChanged();
-                    break;
+            int actionName = data.getIntExtra(FileActions.ACTION_NAME, 0);
+            switch (actionName) {
+                case FileActions.ACTION_DELETE: {
+                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
+                    for (AttachmentFileObject file : mFilesArray) {
+                        if (file.file_id.equals(paramFileObject.file_id)) {
+                            mFilesArray.remove(file);
+                            adapter.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+                    setResult(Activity.RESULT_OK);
                 }
+
+                case FileActions.ACTION_EDIT: {
+                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
+                    for (int i = 0; i < mFilesArray.size(); ++i) {
+                        AttachmentFileObject file = mFilesArray.get(i);
+                        if (file.file_id.equals(paramFileObject.file_id)) {
+                            mFilesArray.set(i, paramFileObject);
+                            adapter.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+                }
+
+                case FileActions.ACTION_DOWNLOAD_OPEN: {
+
+                }
+
+//                default:
+//                    showMiddleToast("");
             }
-            setResult(Activity.RESULT_OK);
         }
     }
 
@@ -1417,7 +1472,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         adapter.notifyDataSetChanged();
     }
 
-
     protected String getLink() {
         if (mProjectObject == null) {
             showButtomToast("获取项目信息失败，请稍后重试");
@@ -1471,9 +1525,16 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         mRightTopPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP | Gravity.RIGHT, 0, contentViewTop);
     }
 
-
     private enum UploadStatus {
         Uploading, Finish, Close, Failure
+    }
+
+    public class FileActions {
+        public static final String ACTION_NAME = "ACTION_NAME";
+        public static final int ACTION_EDIT = 1;
+        public static final int ACTION_DELETE = 2;
+        public static final int ACTION_DOWNLOAD = 3;
+        public static final int ACTION_DOWNLOAD_OPEN = 4;
     }
 
 }

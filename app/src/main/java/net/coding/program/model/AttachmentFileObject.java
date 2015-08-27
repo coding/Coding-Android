@@ -17,6 +17,10 @@ public class AttachmentFileObject implements Serializable {
 
     public static final int ROLE_TYPE_OWNER = 100;
 
+    public static final String RESULT = "AttachmentFileObject";
+    public static final String ACTION_EDIT = "ACTION_EDIT";
+    public static final String ACTION_DELETE = "ACTION_DELETE";
+
     // .file-icon.doc,.file-icon.docx{background-color:#4a83dc}
     // .file-icon.ppt,.file-icon.pptx{background-color:#fcba17}
     // .file-icon.pdf{background-color:#ff0034}
@@ -193,6 +197,10 @@ public class AttachmentFileObject implements Serializable {
 
     public boolean isTxt() {
         return txtPattern.matcher(this.fileType).find();
+    }
+
+    public boolean needJump() {
+        return isTxt() || isMd() || isImage();
     }
 
     public boolean isZip() {

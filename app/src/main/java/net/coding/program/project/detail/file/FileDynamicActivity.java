@@ -192,7 +192,9 @@ public class FileDynamicActivity extends BackActivity {
         }
 
         public PostRequest getHttpEditFile(String content) {
-            final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
+            // TODO 改回来
+//            final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
+            final String template = Global.HOST_API + "/project/126848" + "/files/%s/edit";
             String url = String.format(template, mFileObject.file_id);
             RequestParams params = new RequestParams();
             params.put("name", mFileObject.getName());
@@ -200,8 +202,21 @@ public class FileDynamicActivity extends BackActivity {
             return new PostRequest(url, params);
         }
 
+        public String getHtttpFileView() {
+            String url = Global.HOST_API + mProject.getProjectPath() + "/files/%s/view";
+            return String.format(url, mFileObject.file_id);
+        }
+
+        public ProjectObject getProject() {
+            return mProject;
+        }
+
         public AttachmentFileObject getFileObject() {
             return mFileObject;
+        }
+
+        public void setFileObject(AttachmentFileObject fileObject) {
+            mFileObject = fileObject;
         }
 
         public File getLocalFile(String path) {

@@ -229,9 +229,9 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 } else if (action.equals(InitProUtils.FLAG_UPDATE_DYNAMIC)) {
                     int projectId = data.getIntExtra("projectId", 0);
                     if (projectId != 0) {
-
                         Fragment parentFragment = getParentFragment();
-                        if (parentFragment instanceof UpdateData) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
+                        if ((parentFragment instanceof UpdateData)
+                                && (getActivity() != null)) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
                             ((UpdateData) parentFragment).updateRead(projectId);
                             UnreadNotify.update(getActivity());
                         }

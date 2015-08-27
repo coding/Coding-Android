@@ -42,23 +42,18 @@ import java.io.File;
 @EActivity
 public class AttachmentsDetailBaseActivity extends BackActivity {
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
-
+    protected File mFile;
     @Extra
     boolean mHideHistory = false;
-
     @Extra
     int mProjectObjectId;
-
     @Extra
     ProjectObject mProject;
-
     @Extra
     AttachmentFileObject mAttachmentFileObject;
-
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
     String urlDownload = "";
-    File mFile;
     AsyncHttpClient client;
     String fileInfoFormat =
             "文件类型: %s\n" +

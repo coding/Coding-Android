@@ -1,11 +1,14 @@
 package net.coding.program.project.detail;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
@@ -14,6 +17,7 @@ import net.coding.program.project.detail.file.TxtEditActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
@@ -26,16 +30,13 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_attachments_text)
 public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity {
 
+    private static final int RESULT_MODIFY_TXT = 1;
     @ViewById
     TextView textView;
-
     @ViewById
     View blankLayout;
-
     boolean downloadFileSuccess = false;
-
     String urlFiles = Global.HOST_API + "/project/%s/files/%s/view";
-
     AttachmentFileObject mFiles = new AttachmentFileObject();
 
     @AfterViews
@@ -49,8 +50,11 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
         }
     }
 
-    private void getFileUrlFromNetwork() {
-        getNetwork(urlFiles, urlFiles);
+    private void updateLoadFile() {
+        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
+        if (mFile.exists()) {
+            textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+        }
     }
 
 //    @Override
@@ -62,6 +66,10 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 //
 //        return super.onCreateOptionsMenu(menu);
 //    }
+
+    private void getFileUrlFromNetwork() {
+        getNetwork(urlFiles, urlFiles);
+    }
 
     @Override
     protected int getMenuResourceId() {
@@ -108,6 +116,17 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
                 mProject);
         TxtEditActivity_.intent(this)
                 .mParam(param)
-                .start();
+                .startForResult(RESULT_MODIFY_TXT);
     }
+
+    @OnActivityResult(RESULT_MODIFY_TXT)
+    protected void onResultModify(int result, Intent intent) {
+        intent.setAction(AttachmentFileObject.ACTION_EDIT);
+        setResult(result, intent);
+        if (result == Activity.RESULT_OK) {
+            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra(AttachmentFileObject.RESULT);
+            updateLoadFile();
+        }
+    }
+
 }

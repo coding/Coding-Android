@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.model.PostRequest;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicEditFragment;
@@ -26,6 +27,8 @@ import java.io.File;
 @EActivity(R.layout.activity_markdown_edit)
 //@OptionsMenu(R.menu.menu_markdown_edit)
 public class MarkdownEditActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
+
+    private static final String TAG_SAVE_CONTENT = "TAG_SAVE_CONTENT";
 
     @Extra
     FileDynamicActivity.ProjectFileParam mParam;
@@ -59,12 +62,13 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
     @Override
     public void onBackPressed() {
         if (editFragment.isContentModify()) {
-            showDialog("任务描述", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+            showDialog(mParam.getFileObject().getName(), "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
                 }
             });
+
         } else {
             finish();
         }
@@ -75,7 +79,16 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
         if (tag.equals(HOST_DESCRIPTION)) {
             hideProgressDialog();
             if (code == 0) {
-                showButtomToast("修改描述成功");
+                showButtomToast("修改成功");
+                setResult(RESULT_OK);
+                finish();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_SAVE_CONTENT)) {
+            hideProgressDialog();
+            if (code == 0) {
+                showButtomToast("修改成功");
                 setResult(RESULT_OK);
                 finish();
             } else {
@@ -125,10 +138,9 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
 
     @Override
     public void exit() {
-        Intent intent = new Intent();
-        intent.putExtra("data", modifyData.content);
-        setResult(RESULT_OK, intent);
-        finish();
+        PostRequest request = mParam.getHttpEditFile(modifyData.content);
+        postNetwork(request, TAG_SAVE_CONTENT);
+        showProgressBar(true, "正在保存到服务器");
     }
 
     @Override

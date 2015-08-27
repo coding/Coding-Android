@@ -45,6 +45,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.cookie.Cookie;
@@ -59,6 +60,9 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     private static final int STATE_NEEDDOWNLOAD = 0;
     private static final int STATE_STARTDOWNLOAD = 1;
     private static final int STATE_FINISHDOWNLOAD = 2;
+
+    private static final int RESULT_EDIT_FILE = 3;
+
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
@@ -180,6 +184,12 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         }
     }
 
+    @OnActivityResult(RESULT_EDIT_FILE)
+    protected void resultEditFile(int result, Intent intent) {
+        setResult(result, intent);
+        finish();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (fileUrlSuccess) {
@@ -236,36 +246,14 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     protected final void initAttachmentsDownloadDetailActivity() {
         share = AttachmentsDownloadDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        mFileObject = mAttachmentFileObject;
 
         if (mAttachmentFileObject != null) {
             File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
             if (file.exists() && file.isFile()) {
-                if (mAttachmentFileObject.isMd()) {
-                    AttachmentsHtmlDetailActivity_
-                            .intent(this)
-                            .mProjectObjectId(mProjectObjectId)
-                            .mAttachmentFolderObject(mAttachmentFolderObject)
-                            .mAttachmentFileObject(mAttachmentFileObject)
-                            .mHideHistory(mHideHistoryLayout)
-                            .mProject(mProject)
-                            .start();
-                    finish();
-                    return;
-                } else if (mAttachmentFileObject.isTxt()) {
-                    AttachmentsTextDetailActivity_
-                            .intent(this)
-                            .mProjectObjectId(mProjectObjectId)
-                            .mAttachmentFolderObject(mAttachmentFolderObject)
-                            .mProject(mProject)
-                            .mAttachmentFileObject(mAttachmentFileObject)
-                            .mHideHistory(mHideHistoryLayout)
-                            .start();
-                    finish();
-                    return;
-                } else {
-                    layout_dynamic_history.setVisibility(View.VISIBLE);
-                    showState(STATE_FINISHDOWNLOAD);
-                }
+                jumpTextHtmlActivity();
+                layout_dynamic_history.setVisibility(View.VISIBLE);
+                showState(STATE_FINISHDOWNLOAD);
             }
         }
 
@@ -298,6 +286,28 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         }
     }
 
+    private void jumpTextHtmlActivity() {
+        if (mAttachmentFileObject.isMd()) {
+            AttachmentsHtmlDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(mProjectObjectId)
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(mAttachmentFileObject)
+                    .mHideHistory(mHideHistoryLayout)
+                    .mProject(mProject)
+                    .startForResult(RESULT_EDIT_FILE);
+        } else if (mAttachmentFileObject.isTxt()) {
+            AttachmentsTextDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(mProjectObjectId)
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mProject(mProject)
+                    .mAttachmentFileObject(mAttachmentFileObject)
+                    .mHideHistory(mHideHistoryLayout)
+                    .startForResult(RESULT_EDIT_FILE);
+        }
+    }
+
     private void getFileUrlFromNetwork() {
         getNetwork(urlFiles, urlFiles);
     }
@@ -321,12 +331,11 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
         Log.d(TAG, "downloadId:" + downloadId);
 
-
         File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         if (file.exists() && file.isFile()) {
-            showState(STATE_NEEDDOWNLOAD);
-        } else {
             showState(STATE_FINISHDOWNLOAD);
+        } else {
+            showState(STATE_NEEDDOWNLOAD);
         }
     }
 
@@ -589,6 +598,24 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                             downloadListEditor.commit();
                             showState(STATE_FINISHDOWNLOAD);
                             downloadId = 0L;
+
+//                            jumpTextHtmlActivity();
+//                            if (mAttachmentFileObject.isMd())
+//                            finish();
+                            Intent intent = new Intent();
+                            mAttachmentFileObject.isDownload = true;
+                            intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
+                            if (mAttachmentFileObject.needJump()) {
+                                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
+                                        AttachmentsActivity.FileActions.ACTION_DOWNLOAD_OPEN);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            } else {
+                                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
+                                        AttachmentsActivity.FileActions.ACTION_DOWNLOAD_OPEN);
+                                setResult(RESULT_OK, intent);
+                            }
+
                         } else {
                             showState(STATE_NEEDDOWNLOAD);
                         }

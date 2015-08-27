@@ -137,6 +137,6 @@
     <string name="title_activity_file_history">历史版本</string>
     <string name="title_activity_file_dynamic">文件动态</string>
     <string name="title_activity_txt_edit">TxtEditActivity</string>
-    <string name="title_activity_markdown_edit">MarkdownEditActivity</string>
+    <string name="title_activity_markdown_edit">Markdown编辑</string>
 
 </resources>

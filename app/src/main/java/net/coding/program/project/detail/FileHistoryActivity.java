@@ -170,6 +170,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             AttachmentsActivity_.intent(this)
                     .mAttachmentFolderObject(data.folderObject)
                     .mProjectObjectId(mProjectFileParam.getProjectId())
+                    .mProject(mProjectFileParam.getProject())
                     .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
         } else if (data.isImage()) {
             AttachmentsPicDetailActivity_.intent(this)
@@ -181,6 +182,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
                     .mProjectObjectId(mProjectFileParam.getProjectId())
                     .mHideHistoryLayout(true)
                     .mAttachmentFileObject(data)
+                    .mProject(mProjectFileParam.getProject())
                     .startForResult(FILE_DELETE_CODE);
         }
     }

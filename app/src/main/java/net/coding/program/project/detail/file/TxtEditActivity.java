@@ -1,9 +1,12 @@
 package net.coding.program.project.detail.file;
 
+import android.content.Intent;
 import android.widget.EditText;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.Global;
+import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;
 
 import org.androidannotations.annotations.AfterViews;
@@ -19,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 @EActivity(R.layout.activity_txt_edit)
@@ -26,6 +30,7 @@ import java.io.IOException;
 public class TxtEditActivity extends BackActivity {
 
     private static final String TAG_SAVE_CONTENT = "TAG_SAVE_CONTENT";
+    private static final String TAG_HTTP_FILE_VIEW = "TAG_HTTP_FILE_VIEW";
 
     @Extra
     FileDynamicActivity.ProjectFileParam mParam;
@@ -73,6 +78,16 @@ public class TxtEditActivity extends BackActivity {
         return "";
     }
 
+    public static void writeFile(File srcFile, String content) {
+        try {
+            FileOutputStream fos = new FileOutputStream(srcFile);
+            fos.write(content.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
     @AfterViews
     final void initTxtEditActivity() {
         getSupportActionBar().setTitle(mParam.getFileObject().getName());
@@ -97,11 +112,37 @@ public class TxtEditActivity extends BackActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (code == 0) {
+        if (tag.equals(TAG_SAVE_CONTENT)) {
             showProgressBar(false);
-            showMiddleToast("保存成功");
-        } else {
-            showErrorMsg(code, respanse);
+            if (code == 0) {
+                showProgressBar(true, "正在保存");
+                setResult(RESULT_OK);
+                String url = mParam.getHtttpFileView();
+                getNetwork(url, TAG_HTTP_FILE_VIEW);
+
+
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_HTTP_FILE_VIEW)) {
+            showProgressBar(false);
+            if (code == 0) {
+                JSONObject json = respanse.optJSONObject("data").optJSONObject("file");
+                AttachmentFileObject fileObject = new AttachmentFileObject(json);
+
+                FileSaveHelp help = new FileSaveHelp(this);
+                mParam.setFileObject(fileObject);
+                File localFile = mParam.getLocalFile(help.getFileDownloadPath());
+                writeFile(localFile, editText.getText().toString());
+                fileObject.isDownload = true;
+
+                Intent intent = new Intent();
+                intent.putExtra(AttachmentFileObject.RESULT, fileObject);
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 }
