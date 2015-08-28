@@ -50,4 +50,16 @@ public class UrlCreate {
         dest = Global.encodeUtf8(dest);
         return dest;
     }
+
+
+    // 重编码2次，git服务器那边要求的
+    public static String pathEncode2NoSplite(String path) {
+        if (path == null || path.isEmpty()) {
+            return "";
+        }
+
+        String dest = Global.encodeUtf8(path);
+        dest = Global.encodeUtf8(dest);
+        return dest;
+    }
 }

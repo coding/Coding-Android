@@ -22,6 +22,8 @@ import org.json.JSONObject;
 public class MergeFileDetailActivity extends BackActivity {
 
     public static final String HOST_COMMIT_FILE_DETAIL = "HOST_COMMIT_FILE_DETAIL";
+    private static final String TAG_HTTP_ALL_COMMENTS = "TAG_HTTP_ALL_COMMENTS";
+
     @Extra
     String mProjectPath;
     @Extra
@@ -32,22 +34,19 @@ public class MergeFileDetailActivity extends BackActivity {
     @ViewById
     WebView webView;
     String mRef = "";
-    private JSONObject data;
+    private JSONObject mCommentsData;
 
     @AfterViews
     protected final void initMergeFileDetailActivity() {
         getSupportActionBar().setTitle(mSingleFile.getName());
+
         String url;
         if (mergeIid != 0) {
-            url = mSingleFile.getHttpFileDiffDetail(mProjectPath, mergeIid);
+            url = mSingleFile.getHttpFileDiffComment(mProjectPath, mergeIid);
         } else {
-            url = mSingleFile.getHttpFileDiffDetail(mProjectPath);
+            url = mSingleFile.getHttpFileDiffComment(mProjectPath);
         }
-        Log.d("", "url Get " + url);
-//        Global.setWebViewContent(webView, "diff", "${diff-content}", url);
-
-        Global.initWebView(webView);
-        getNetwork(url, HOST_COMMIT_FILE_DETAIL);
+        getNetwork(url, TAG_HTTP_ALL_COMMENTS);
     }
 
     @OptionsItem
@@ -67,17 +66,34 @@ public class MergeFileDetailActivity extends BackActivity {
             if (code == 0) {
                 try {
 //                    String s = respanse.optString("data");
-
-
 //                    this.data = respanse.optJSONObject("data");
+
                     respanse.remove("code");
                     mRef = respanse.optJSONObject("data").optString("linkRef", "");
+                    Global.initWebView(webView);
                     Global.setWebViewContent(webView, "diff", "${diff-content}",
-                            respanse.toString());
+                            respanse.toString(), "${comments}", mCommentsData.toString());
+
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }
 
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_HTTP_ALL_COMMENTS)) {
+            if (code == 0) {
+                String url;
+                if (mergeIid != 0) {
+                    url = mSingleFile.getHttpFileDiffDetail(mProjectPath, mergeIid);
+                } else {
+                    url = mSingleFile.getHttpFileDiffDetail(mProjectPath);
+                }
+                Log.d("", "url Get " + url);
+                getNetwork(url, HOST_COMMIT_FILE_DETAIL);
+
+
+                mCommentsData = respanse;
             } else {
                 showErrorMsg(code, respanse);
             }

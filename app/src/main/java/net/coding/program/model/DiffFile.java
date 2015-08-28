@@ -89,14 +89,26 @@ public class DiffFile implements Serializable {
 
         public String getHttpFileDiffDetail(String projectPath) {
             String realPath = ProjectObject.translatePath(projectPath);
-            return Global.HOST_API + realPath + "/git/commitDiffContent/" + commitId + "/" + path;
+            return Global.HOST_API + realPath + "/git/commitDiffContent/" + commitId + "/" + UrlCreate.pathEncode2NoSplite(path);
+        }
 
+        public String getHttpFileDiffComment(String projectPath) {
+            String realPath = ProjectObject.translatePath(projectPath);
+            return Global.HOST_API + realPath + "/git/commitDiffComment/" + commitId + "/" + UrlCreate.pathEncode2NoSplite(path);
         }
 
         public String getHttpFileDiffDetail(String projectPath, int mergeIid) {
             String realPath = ProjectObject.translatePath(projectPath);
-            return Global.HOST_API + realPath + "/git/merge/"+ mergeIid +"/commitDiffContent?path=" + path;
+            return Global.HOST_API + realPath + "/git/merge/" + mergeIid + "/commitDiffContent?path="
+                    + UrlCreate.pathEncode2NoSplite(path);
         }
+
+        public String getHttpFileDiffComment(String projectPath, int mergeIid) {
+            String realPath = ProjectObject.translatePath(projectPath);
+            return Global.HOST_API + realPath + "/git/merge/" + mergeIid + "/commitDiffComment?path="
+                    + UrlCreate.pathEncode2NoSplite(path);
+        }
+
 
         public String getHttpSourceFile(String projectPath, String refId) {
             String realPath = ProjectObject.translatePath(projectPath);
