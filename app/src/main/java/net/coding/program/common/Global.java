@@ -539,7 +539,7 @@ public class Global {
 
         long minute = (nowMill - time) / 60000;
         if (minute < 60) {
-            if (minute == 0) {
+            if (minute <= 0) {
                 return Math.max((nowMill - time) / 1000, 1) + "秒前"; // 由于手机时间的原因，有时候会为负，这时候显示1秒前
             } else {
                 return minute + "分钟前";

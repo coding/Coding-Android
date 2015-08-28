@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -43,6 +44,9 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     @ViewById
     WebView webview;
     @ViewById
+    TextView textView;
+
+    @ViewById
     View blankLayout;
     String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
     String urlMdPreview = Global.HOST_API + "/markdown/preview";
@@ -51,8 +55,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     boolean downloadFileSuccess = false;
 
     @AfterViews
-    void init1() {
-
+    void initAttachmentsHtmlDetailActivity() {
         try {
             markdown = readTextFile(getAssets().open("markdown"));
         } catch (Exception e) {
@@ -64,11 +67,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         Global.initWebView(webview);
 
         showDialogLoading();
-        getFileUrlFromNetwork();
-    }
-
-    private void getFileUrlFromNetwork() {
-        getNetwork(urlFiles, urlFiles);
+        updateLoadFile();
     }
 
     @Override
@@ -80,6 +79,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         super.parseJson(code, respanse, tag, pos, data);
         if (tag.equals(urlFiles)) {
+            showProgressBar(false);
             if (code == 0) {
                 JSONObject file = respanse.getJSONObject("data").getJSONObject("file");
                 mFiles = new AttachmentFileObject(file);
@@ -91,6 +91,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 //                } else
 //                if (mFiles.isMd()) {
                 requestMd2Html(content);
+                showProgressBar(true, "");
 //                }
                 invalidateOptionsMenu();
 
@@ -113,9 +114,17 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
             if (code == 0) {
                 hideProgressDialog();
                 String html = respanse.optString("data", "");
+                webview.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
                 webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
             } else {
                 hideProgressDialog();
+                String content = TxtEditActivity.readPhoneNumber(mFile);
+                webview.setVisibility(View.GONE);
+                textView.setVisibility(View.VISIBLE);
+//                webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", content), "text/html", "UTF-8", null);
+                textView.setText(content);
+
                 showButtomToast(R.string.connect_service_fail);
             }
         }
@@ -173,7 +182,14 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         if (mFile.exists()) {
             String content = TxtEditActivity.readPhoneNumber(mFile);
             requestMd2Html(content);
+        } else {
+            getFileUrlFromNetwork();
         }
     }
+
+    private void getFileUrlFromNetwork() {
+        getNetwork(urlFiles, urlFiles);
+    }
+
 
 }

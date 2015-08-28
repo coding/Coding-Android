@@ -40,11 +40,12 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
 
     private void updateDisplay() {
         if (mFile.exists()) {
-            imagefromNetwork(imageView, mAttachmentFileObject.owner_preview, ImageLoadTool.enterOptions);
+            String filePath = "file://" + mFile.getPath();
+            imagefromNetwork(imageView, filePath, ImageLoadTool.enterOptions);
             layout_image_prototype.setVisibility(View.GONE);
             layout_dynamic_history.setVisibility(View.VISIBLE);
         } else {
-            imagefromNetwork(imageView, mAttachmentFileObject.preview);
+            imagefromNetwork(imageView, mAttachmentFileObject.owner_preview);
             layout_image_prototype.setVisibility(View.VISIBLE);
             layout_dynamic_history.setVisibility(View.GONE);
         }
@@ -68,6 +69,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
         showProgressBar(false);
         if (success) {
             Intent intent = new Intent();
+            mAttachmentFileObject.isDownload = true;
             intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
             intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
                     AttachmentsActivity.FileActions.ACTION_EDIT);
