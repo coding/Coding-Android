@@ -740,6 +740,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 oldfile.renameTo(newFile);
                 //设置content内容,方便气泡获取录音时长与链接
                 item.extra = "[voice]{'voiceUrl':'"+voiceUrl+"',voiceDuration:"+item.duration/1000+"}[voice]";
+                item.content = "[语音]";
                 //替换本地消息为获取到的远程消息
                 for (int i = mData.size() - 1; i >= 0; --i) {
                     Message.MessageObject temp = mData.get(i);
@@ -795,8 +796,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         //语音消息重新设置extra
         if(item.file!=null && item.file.endsWith(".amr") && item.duration>0){
             Log.w("test", "recordDuration1=" + item.duration);
-            //用户录音时间会比实际录音时长最大大约260ms左右
-            int dur = (item.duration+260)/1000;
+            int dur = item.duration/1000;
+            item.content = "[语音]";
             item.extra = "[voice]{'id':"+item.getId()+",'voiceUrl':'"+item.file+"','voiceDuration':"+dur+",'played':"+item.played+"}[voice]";
         }
     }

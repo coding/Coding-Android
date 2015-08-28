@@ -43,7 +43,8 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     private OnEnterLayoutBottomMarginChanagedCallBack mOnEnterLayoutBottomMarginChanagedCallBack;
     private Editable tempData;
     private Handler mHandler;
-    private Boolean hasInitStatus;
+    private boolean isEnterHeightChanaged;
+    private int inputboxHeight;
     /**
      * mEnter关闭时的绝对y坐标
      */
@@ -69,8 +70,23 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
 
     public void setEnterLayoutBottomMargin(int mEnterLayoutBottomMargin) {
         this.mEnterLayoutBottomMargin = mEnterLayoutBottomMargin;
+        isEnterHeightChanaged = false;
         requestLayout();
     }
+//
+//    public void hideEnterPanel(){
+//        lp_enter.height = inputboxHeight;
+//        lp_enter.bottomMargin = 0;
+//        isEnterHeightChanaged = true;
+//        requestLayout();
+//    }
+//
+//    public void showEnterPanel(){
+//        lp_enter.height = mEnterHeight;
+//        lp_enter.bottomMargin = 0;
+//        isEnterHeightChanaged = true;
+//        requestLayout();
+//    }
 
 
     /**
@@ -106,6 +122,7 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
             lp_emoji = (LayoutParams) emojiKeyboardLayout.getLayoutParams();
             isFirstLayout = false;
             orignalHeight = bottom - top;
+            inputboxHeight = mInputBox.getMeasuredHeight();
             int[] location = new int[2];
             getLocationInWindow(location);
             mY = location[1];
@@ -169,67 +186,74 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
             minCommentHeight = comment.getMeasuredHeight();
             minVoiceLayoutTop = lp_voice.topMargin;
             minEmojikeyboardLayoutTop = lp_emoji.topMargin;
+            inputboxHeight = mInputBox.getMeasuredHeight();
         }
-        if (mEnter.getVisibility() != View.GONE) {
-            int commentHeight = comment.getMeasuredHeight();
-            int dH = commentHeight - minCommentHeight;
-            mEnterHeight = minEnterHeight + dH;
-            if (dH > 0) {
-                lp_enter.height = mEnterHeight;
-                lp_voice.topMargin = minVoiceLayoutTop + dH;
-                lp_emoji.topMargin = minEmojikeyboardLayoutTop + dH;
+        if(!isEnterHeightChanaged){
+            if (mEnter.getVisibility() != View.GONE) {
+                int commentHeight = comment.getMeasuredHeight();
+                int dH = commentHeight - minCommentHeight;
+                mEnterHeight = minEnterHeight + dH;
+                if (dH > 0) {
+                    lp_enter.height = mEnterHeight;
+                    lp_voice.topMargin = minVoiceLayoutTop + dH;
+                    lp_emoji.topMargin = minEmojikeyboardLayoutTop + dH;
+                } else {
+                    lp_voice.topMargin = minVoiceLayoutTop;
+                    lp_emoji.topMargin = minEmojikeyboardLayoutTop;
+                }
+
+                closeY = mY + orignalHeight - (mEnterHeight + mEnterLayoutBottomMargin);
+                openY = closeY + mEnterLayoutBottomMargin;
+
+            }
+
+            int content_bottom = bottom - top - (mEnterHeight + mEnterLayoutBottomMargin);
+            int cL = 0, cR = 0, cT = 0, cB = 0;
+            int eL = 0, eR = 0, eT = 0, eB = 0;
+            if (isAdjustResize) {
+                // lp_enter.bottomMargin = mEnterLayoutBottomMargin;
+
+                //加上这一句防止mContent的高度有时显示不正确
+                if (lp_content.height == -1) {
+                    lp_content.height = content_bottom - getPaddingTop() - lp_content.topMargin;
+                }
+                cL = getPaddingLeft() + lp_content.leftMargin;
+                cT = getPaddingTop() + lp_content.topMargin;
+                cR = cL + mContent.getMeasuredWidth();
+                cB = content_bottom;
+
+                eL = lp_enter.leftMargin + getPaddingLeft();
+                eT = content_bottom;
+                eR = eL + mEnter.getMeasuredWidth();
+                eB = mEnterHeight + content_bottom;
+
+
             } else {
-                lp_voice.topMargin = minVoiceLayoutTop;
-                lp_emoji.topMargin = minEmojikeyboardLayoutTop;
+
+                cL = getPaddingLeft() + lp_content.leftMargin;
+                cT = getPaddingTop() + lp_content.topMargin;
+                cR = cL + mContent.getMeasuredWidth();
+                cB = cT + mContent.getMeasuredHeight();
+
+                eL = lp_enter.leftMargin + getPaddingLeft();
+                eT = content_bottom;
+                eR = eL + mEnter.getMeasuredWidth();
+                eB = mEnterHeight + content_bottom;
+
             }
 
-            closeY = mY + orignalHeight - (mEnterHeight + mEnterLayoutBottomMargin);
-            openY = closeY + mEnterLayoutBottomMargin;
-
-        }
-
-        int content_bottom = bottom - top - (mEnterHeight + mEnterLayoutBottomMargin);
-        int cL = 0, cR = 0, cT = 0, cB = 0;
-        int eL = 0, eR = 0, eT = 0, eB = 0;
-        if (isAdjustResize) {
-           // lp_enter.bottomMargin = mEnterLayoutBottomMargin;
-
-            //加上这一句防止mContent的高度有时显示不正确
-            if (lp_content.height == -1) {
-                lp_content.height = content_bottom - getPaddingTop() - lp_content.topMargin;
+            mContent.layout(cL, cT, cR, cB);
+            mEnter.layout(eL, eT, eR, eB);
+            lp_enter.bottomMargin = mEnterLayoutBottomMargin;
+            if (mOnEnterLayoutBottomMarginChanagedCallBack != null) {
+                mOnEnterLayoutBottomMarginChanagedCallBack.onChanage(mEnterLayoutBottomMargin, lastEnterLayoutBottomMargin);
             }
-            cL = getPaddingLeft() + lp_content.leftMargin;
-            cT = getPaddingTop() + lp_content.topMargin;
-            cR = cL + mContent.getMeasuredWidth();
-            cB = content_bottom;
-
-            eL = lp_enter.leftMargin + getPaddingLeft();
-            eT = content_bottom;
-            eR = eL + mEnter.getMeasuredWidth();
-            eB = mEnterHeight + content_bottom;
-
-
-        } else {
-
-            cL = getPaddingLeft() + lp_content.leftMargin;
-            cT = getPaddingTop() + lp_content.topMargin;
-            cR = cL + mContent.getMeasuredWidth();
-            cB = cT + mContent.getMeasuredHeight();
-
-            eL = lp_enter.leftMargin + getPaddingLeft();
-            eT = content_bottom;
-            eR = eL + mEnter.getMeasuredWidth();
-            eB = mEnterHeight + content_bottom;
-
+            lastEnterLayoutBottomMargin = mEnterLayoutBottomMargin;
+        }else{
+            super.onLayout(changed,left,top,right,bottom);
         }
 
-        mContent.layout(cL, cT, cR, cB);
-        mEnter.layout(eL, eT, eR, eB);
-        lp_enter.bottomMargin = mEnterLayoutBottomMargin;
-        if (mOnEnterLayoutBottomMarginChanagedCallBack != null) {
-            mOnEnterLayoutBottomMarginChanagedCallBack.onChanage(mEnterLayoutBottomMargin, lastEnterLayoutBottomMargin);
-        }
-        lastEnterLayoutBottomMargin = mEnterLayoutBottomMargin;
+       // super.onLayout(changed,left,top,right,bottom);
     }
 
     public interface OnEnterLayoutBottomMarginChanagedCallBack {

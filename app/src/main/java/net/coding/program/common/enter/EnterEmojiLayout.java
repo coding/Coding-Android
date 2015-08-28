@@ -532,6 +532,7 @@ public class EnterEmojiLayout extends EnterLayout {
                     ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
                     ViewHelper.setTranslationY(voiceLayout, 0);
                     updateEnterLayoutBottom(-panelHeight);
+                    //mEnterLayoutAnimSupportContainer.hideEnterPanel();
                     Global.popSoftkeyboard(mActivity, content, true);
                     isKeyboardOpen = true;
                 }
