@@ -107,11 +107,19 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
         if (tag.equals(HOST_SEND_COMMENT)) {
             showProgressBar(false);
             if (code == 0) {
-                BaseComment comment = new BaseComment(respanse.getJSONObject("data"));
-                Intent intent = new Intent();
-                intent.putExtra("data", comment);
-                setResult(RESULT_OK, intent);
-                finish();
+                JSONObject jsonData = respanse.getJSONObject("data");
+                if (!jsonData.optString("noteable_id").isEmpty()) {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", jsonData.toString());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    BaseComment comment = new BaseComment(jsonData);
+                    Intent intent = new Intent();
+                    intent.putExtra("data", comment);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -120,13 +128,9 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
 
     public interface CommentParam {
         PostRequest getSendCommentParam(String input);
-
         String getAtSome();
-
         String getAtSomeUrl();
-
         String getProjectPath();
-
         boolean isPublicProject();
     }
 }

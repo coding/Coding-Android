@@ -76,7 +76,11 @@ public class CommitFileListActivity extends BackActivity {
     public final void listView(Object data) {
         if (data instanceof DiffFile.DiffSingleFile) {
             DiffFile.DiffSingleFile fileData = (DiffFile.DiffSingleFile) data;
-            MergeFileDetailActivity_.intent(CommitFileListActivity.this).mProjectPath(mProjectPath).mSingleFile(fileData).start();
+            MergeFileDetailActivity_
+                    .intent(CommitFileListActivity.this)
+                    .mProjectPath(mProjectPath)
+                    .mSingleFile(fileData)
+                    .start();
         }
     }
 

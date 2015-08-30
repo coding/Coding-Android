@@ -87,29 +87,43 @@ public class DiffFile implements Serializable {
             return path;
         }
 
+        // encode 2 次，path 前不加 /
         public String getHttpFileDiffDetail(String projectPath) {
             String realPath = ProjectObject.translatePath(projectPath);
             return Global.HOST_API + realPath + "/git/commitDiffContent/" + commitId + "/" + UrlCreate.pathEncode2NoSplite(path);
         }
 
+        // encode 2 次，path 前不加 /
         public String getHttpFileDiffComment(String projectPath) {
             String realPath = ProjectObject.translatePath(projectPath);
             return Global.HOST_API + realPath + "/git/commitDiffComment/" + commitId + "/" + UrlCreate.pathEncode2NoSplite(path);
         }
 
-        public String getHttpFileDiffDetail(String projectPath, int mergeIid) {
-            String realPath = ProjectObject.translatePath(projectPath);
-            return Global.HOST_API + realPath + "/git/merge/" + mergeIid + "/commitDiffContent?path="
-                    + UrlCreate.pathEncode2NoSplite(path);
+        // 都是文件名，只需要 encode 一次
+        public String getHttpFileDiffDetail(String projectPath, int mergeIid, Merge merge) {
+            return getHttpFileDiff(projectPath, mergeIid, merge, "commitDiffContent");
+
         }
 
-        public String getHttpFileDiffComment(String projectPath, int mergeIid) {
-            String realPath = ProjectObject.translatePath(projectPath);
-            return Global.HOST_API + realPath + "/git/merge/" + mergeIid + "/commitDiffComment?path="
-                    + UrlCreate.pathEncode2NoSplite(path);
+        // 都是文件名，只需要 encode 一次
+        public String getHttpFileDiffComment(String projectPath, int mergeIid, Merge merge) {
+            return getHttpFileDiff(projectPath, mergeIid, merge, "commitDiffComment");
         }
 
+        private String getHttpFileDiff(String projectPath, int mergeIid, Merge merge, String type) {
+            String realPath = ProjectObject.translatePath(projectPath);
+            String mergePath = "/git/merge/";
+            if (merge != null && merge.isPull()) {
+                mergePath = "/git/pull/";
+            }
 
+            return Global.HOST_API + realPath + mergePath + mergeIid + "/" +
+                    type +
+                    "?path="
+                    + Global.encodeUtf8(path);
+        }
+
+        // encode 2 次，path 前要加上 /
         public String getHttpSourceFile(String projectPath, String refId) {
             String realPath = ProjectObject.translatePath(projectPath);
             return Global.HOST_API + realPath + "/git/blob/" + refId + UrlCreate.pathEncode2(path);

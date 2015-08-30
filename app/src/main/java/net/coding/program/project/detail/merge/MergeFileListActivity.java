@@ -39,7 +39,12 @@ public class MergeFileListActivity extends BackActivity {
 
     @ItemClick
     public final void listView(DiffFile.DiffSingleFile data) {
-        MergeFileDetailActivity_.intent(this).mProjectPath(mMerge.getProjectPath()).mSingleFile(data).mergeIid(mMerge.getIid()).start();
+        MergeFileDetailActivity_.intent(this)
+                .mProjectPath(mMerge.getProjectPath())
+                .mSingleFile(data)
+                .mergeIid(mMerge.getIid())
+                .mMerge(mMerge)
+                .start();
     }
 
     @Override
