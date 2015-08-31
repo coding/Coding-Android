@@ -110,7 +110,6 @@ public class AmrAudioRecorder {
 	}
 
 	public void pause(){
-		isAddAmrFileHead = false;
 		stop();
 	}
 
@@ -122,9 +121,13 @@ public class AmrAudioRecorder {
 		if(state != State.ERROR){
 			initAudioRecoder(audioSource, channelConfig, audioFormat);
 			state = State.READY;
+			isAddAmrFileHead = false;
 			start();
 		}
 	}
+
+
+
 	
 	/**
 	 * 
@@ -181,7 +184,12 @@ public class AmrAudioRecorder {
 							}
 						}
 						try {
-							ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+							byte[] pcm = bos.toByteArray();
+//							VoiceDenoiseUtils mVoiceDenoiseUtils = new VoiceDenoiseUtils();
+//							mVoiceDenoiseUtils.initAudioDeNose();
+//							mVoiceDenoiseUtils.audioDeNose8K(pcm);
+//							mVoiceDenoiseUtils.exitAudioDeNose();
+							ByteArrayInputStream bis = new ByteArrayInputStream(pcm);
 							bos.close();
 
 							if(bis.available()!=0){

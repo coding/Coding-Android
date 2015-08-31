@@ -3,20 +3,16 @@ package net.coding.program.common.enter;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.media.AudioFormat;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.util.Log;
-import android.util.LruCache;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +21,6 @@ import android.view.animation.BounceInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -33,9 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nineoldandroids.view.ViewHelper;
 import com.readystatesoftware.viewbadger.BadgeView;
-import com.skyfishjy.library.RippleBackground;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -45,15 +38,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.widget.SoundWaveView;
 import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.RedPointTip.Type;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -107,7 +93,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     private void init(final ActionBarActivity activity) {
         this.activity = activity;
 
-        closeEmojiKeyboard();
         mInputLayout = (LinearLayout) activity.findViewById(R.id.mInputLayout);
         voiceRecordButton = (ImageButton) voiceLayout.findViewById(R.id.voiceRecordButton);
         arrowLayout = (RelativeLayout) activity.findViewById(R.id.arrowLayout);
@@ -122,11 +107,21 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         recordTime = (TextView) soundWaveLayout.findViewById(R.id.recordTime);
         recordTime.setGravity(Gravity.CENTER);
         popVoice.setVisibility(View.VISIBLE);
+        content.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if ("".equals(s.toString().trim())) {
+                    popVoice.setVisibility(View.VISIBLE);
+                } else {
+                    popVoice.setVisibility(View.GONE);
+                }
+            }
+        });
         popVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( mBadgeView!=null && mBadgeView.isShown()){
-                    RedPointTip.markUsed(activity,RedPointTip.Type.Voice);
+                if (mBadgeView != null && mBadgeView.isShown()) {
+                    RedPointTip.markUsed(activity, RedPointTip.Type.Voice);
                     // 设置进入的移动动画，设置了插值器，可以实现颤动的效果
                     TranslateAnimation anim = new TranslateAnimation(-100, 0, 0, 0);
                     anim.setInterpolator(new BounceInterpolator());
@@ -137,7 +132,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                     anim2.setDuration(500);
                     mBadgeView.toggle(anim, anim2);
                 }
-                if(popVoice.isChecked()){
+                if (popVoice.isChecked()) {
                     rootViewHigh = rootView.getHeight();
 
                     final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
@@ -157,7 +152,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                         toggleNoTextInput(InputType.Voice);
                         rootViewHigh = 0;
                     }
-                }else{
+                } else {
                     mInputLayout.setVisibility(View.VISIBLE);
                     arrowLayout.setVisibility(View.GONE);
                     toggleSoftkeyboardWithCloseNoTextInput(InputType.Voice);
@@ -168,17 +163,14 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrowLayout.setVisibility(View.GONE);
-                mInputLayout.setVisibility(View.VISIBLE);
-                popVoice.setChecked(false);
-                animEnterLayoutStatusChanaged(false);
+                onArrowClick();
             }
         });
         btn_emoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popVoice.setChecked(false);
-                openEmojiKeyboard();
+                openEnterPanel();
             }
         });
 
@@ -203,28 +195,28 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                 if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
                     //long nowTime = System.currentTimeMillis();
                     float nowY = event.getRawY();
-                    if(nowY-touchY<=-100){
+                    if (nowY - touchY <= -100) {
                         //上滑取消录音发送
                         cancelRecord();
                         showToast(R.string.record_has_canceled);
-                    }else{
+                    } else {
                         sendVoice();
                     }
                     return false;
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     touchY = event.getRawY();
                     return false;
-                } else if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    if(out!=null){
-                        if(!isTouchInside((int)event.getX(),(int)event.getY())){
-                            if(isRecoding){
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    if (out != null) {
+                        if (!isTouchInside((int) event.getX(), (int) event.getY())) {
+                            if (isRecoding) {
                                 tips_hold_to_talk.setVisibility(View.VISIBLE);
                                 tips_hold_to_talk.setText(R.string.loosen_to_cancel);
                                 soundWaveLayout.setVisibility(View.GONE);
                                 pause();
                             }
-                        }else{
-                            if(!isRecoding){
+                        } else {
+                            if (!isRecoding) {
                                 touchY = event.getRawY();
                                 tips_hold_to_talk.setVisibility(View.GONE);
                                 tips_hold_to_talk.setText(R.string.hold_to_talk);
@@ -254,9 +246,32 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
             mBadgeView.setText("");
             mBadgeView.setWidth(size);
             mBadgeView.setHeight(size);
-            mBadgeView.setBadgeMargin(0,0);
+            mBadgeView.setBadgeMargin(0, 0);
             mBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
             mBadgeView.show();
+            ViewGroup.LayoutParams lp = ((ViewGroup)mBadgeView.getParent()).getLayoutParams();
+            lp.width = Global.dpToPx(32+9);
+            lp.height = lp.width;
+            FrameLayout.LayoutParams fl = (FrameLayout.LayoutParams) popVoice.getLayoutParams();
+            fl.gravity  = Gravity.CENTER_VERTICAL;
+
+        }
+        closeEnterPanel();
+    }
+
+    private void onArrowClick() {
+        arrowLayout.setVisibility(View.GONE);
+        mInputLayout.setVisibility(View.VISIBLE);
+        popVoice.setChecked(false);
+        animEnterLayoutStatusChanaged(false);
+    }
+
+    @Override
+    public void closeEnterPanel() {
+        if(voiceLayout.getVisibility() == View.VISIBLE){
+            onArrowClick();
+        }else {
+            super.closeEnterPanel();
         }
     }
 

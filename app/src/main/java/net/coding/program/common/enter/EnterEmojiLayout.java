@@ -3,10 +3,8 @@ package net.coding.program.common.enter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,26 +21,21 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.skyfishjy.library.RippleBackground;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by chaochen on 14-10-31.
@@ -210,7 +203,8 @@ public class EnterEmojiLayout extends EnterLayout {
     private ImageView mWindowView;
     private int statusBarHeight;
     protected InputType mInputType;
-    protected boolean isCloseSoftkeyboardAndOpenNoTextInput;
+    private FrameLayout mPanelLayout;
+
 
 
 
@@ -225,7 +219,7 @@ public class EnterEmojiLayout extends EnterLayout {
         mInputBox = (ViewGroup) activity.findViewById(R.id.mInputBox);
         checkBoxEmoji = (CheckBox) activity.findViewById(R.id.popEmoji);
         checkBoxEmoji.setOnClickListener(checkBoxEmojiOnClicked);
-
+        mPanelLayout = (FrameLayout) activity.findViewById(R.id.mPanelLayout);
         rootView = mActivity.findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -246,12 +240,12 @@ public class EnterEmojiLayout extends EnterLayout {
                             }
                         }
 
-                        if(isCloseSoftkeyboardAndOpenNoTextInput && !mEnterLayoutStatus && mInputType!=null && mInputType!=InputType.Text && contentViewHeight == getContentViewHeight(activity)){
-                            // dropTempWindow();
-                            isCloseSoftkeyboardAndOpenNoTextInput = false;
-                            updateEnterLayoutBottom(0);
-                            Log.w("Test", "输入法已经隐藏");
-                        }
+//                        if(isCloseSoftkeyboardAndOpenNoTextInput && !mEnterLayoutStatus && mInputType!=null && mInputType!=InputType.Text && contentViewHeight == getContentViewHeight(activity)){
+//                            // dropTempWindow();
+//                            isCloseSoftkeyboardAndOpenNoTextInput = false;
+//                           // updateEnterLayoutBottom(0);
+//                            Log.w("Test", "输入法已经隐藏");
+//                        }
                         if (rootViewHigh == 0) {
                             return;
                         }
@@ -326,16 +320,9 @@ public class EnterEmojiLayout extends EnterLayout {
 
         selectEmoji.performClick();
 
-//        content.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //mInputType = InputType.Text;
-//                toggleSoftkeyboardWithCloseNoTextInput(mInputType);
-//            }
-//        });
+
 
         content.setOnTouchListener(new View.OnTouchListener() {
-            int touch_flag;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
@@ -353,14 +340,7 @@ public class EnterEmojiLayout extends EnterLayout {
             }
         });
 
-//        content.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//               // mInputType = InputType.Text;
-//                toggleSoftkeyboardWithCloseNoTextInput(mInputType);
-//                return false;
-//            }
-//        });
+
 
     }
 
@@ -378,7 +358,6 @@ public class EnterEmojiLayout extends EnterLayout {
                 if (y == mEnterLayoutAnimSupportContainer.openY) {
                     removeTempWindow();
                     mInputBox.setVisibility(View.VISIBLE);
-                    isKeyboardOpen = false;
                 }
             }
         });
@@ -498,46 +477,24 @@ public class EnterEmojiLayout extends EnterLayout {
     }
 
     protected void toggleInputTypeWithCloseSoftkeyboard(InputType type) {
-        isKeyboardOpen = true;
         mInputType = type;
-        isCloseSoftkeyboardAndOpenNoTextInput = true;
+        mEnterLayoutAnimSupportContainer.setCloseInputMethodBySelf(false);
         Global.popSoftkeyboard(mActivity, content, false);
+      //  mPanelLayout.setVisibility(View.GONE);
         //去掉动画 不然太卡了
 //        createTempWindow(mInputBox);
 //        dropTempWindow();
     }
 
     protected void toggleSoftkeyboardWithCloseNoTextInput(InputType type){
-        isCloseSoftkeyboardAndOpenNoTextInput = false;
         checkBoxEmoji.setChecked(false);
         if(type!=null && type!= InputType.Text && mEnterLayoutStatus){
             mInputType = type;
-            View action = null;
-            switch (type){
-                case Emoji:
-                    action = emojiKeyboardLayout;
-                    voiceLayout.setVisibility(View.INVISIBLE);
-                    break;
-                case Voice:
-                    action = voiceLayout;
-                    emojiKeyboardLayout.setVisibility(View.INVISIBLE);
-                    break;
-            }
-            final View target = action;
-            ObjectAnimator oa = ObjectAnimator.ofFloat(target,"translationY",panelHeight);
-            oa.setDuration(300);
-            oa.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
-                    ViewHelper.setTranslationY(voiceLayout, 0);
-                    updateEnterLayoutBottom(-panelHeight);
-                    //mEnterLayoutAnimSupportContainer.hideEnterPanel();
-                    Global.popSoftkeyboard(mActivity, content, true);
-                    isKeyboardOpen = true;
-                }
-            });
-            oa.start();
+            voiceLayout.setVisibility(View.INVISIBLE);
+            emojiKeyboardLayout.setVisibility(View.INVISIBLE);
+            Global.popSoftkeyboard(mActivity, content, true);
+            ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
+            ViewHelper.setTranslationY(voiceLayout, 0);
         }else {
             emojiKeyboardLayout.setVisibility(View.INVISIBLE);
             voiceLayout.setVisibility(View.INVISIBLE);
@@ -550,7 +507,7 @@ public class EnterEmojiLayout extends EnterLayout {
     }
 
     protected void toggleNoTextInput(InputType type) {
-        isCloseSoftkeyboardAndOpenNoTextInput = false;
+        mPanelLayout.setVisibility(View.VISIBLE);
         if(type!=null && type!= InputType.Text){
             View dropView = getCurrentNoTextInput();
             mInputType = type;
@@ -573,6 +530,7 @@ public class EnterEmojiLayout extends EnterLayout {
                     }
                     break;
             }
+            mEnterLayoutStatus = mEnterLayoutAnimSupportContainer.isPanelLauoutOpen();
             if(mEnterLayoutStatus){
                 final View dropTarget = dropView;
                 final View popUpTarget = popUpView;
@@ -602,7 +560,6 @@ public class EnterEmojiLayout extends EnterLayout {
 
     @Override
     public void animEnterLayoutStatusChanaged(boolean isOpen) {
-        isCloseSoftkeyboardAndOpenNoTextInput = false;
         super.animEnterLayoutStatusChanaged(isOpen);
         if(!isOpen){
             ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
@@ -631,27 +588,28 @@ public class EnterEmojiLayout extends EnterLayout {
         this(activity, sendTextOnClick, Type.Default, EmojiType.Default);
     }
 
-    public boolean isEmojiKeyboardShowing() {
-        return mEnterLayoutStatus && emojiKeyboardLayout.getVisibility() == View.VISIBLE;
+    public boolean isEnterPanelShowing() {
+        return mEnterLayoutStatus && (emojiKeyboardLayout.getVisibility() == View.VISIBLE || voiceLayout.getVisibility() == View.VISIBLE);
     }
 
-    public void closeEmojiKeyboard() {
-        emojiKeyboardLayout.setVisibility(View.GONE);
+    public void closeEnterPanel() {
         checkBoxEmoji.setChecked(false);
         if(commonEnterRoot!=null){
-            animEnterLayoutStatusChanaged(false);
+            if(mInputType != InputType.Voice){
+                animEnterLayoutStatusChanaged(false);
+            }
         }
 
     }
 
-    public void openEmojiKeyboard(){
+    public void openEnterPanel(){
         checkBoxEmoji.setChecked(true);
         checkBoxEmojiOnClicked.onClick(checkBoxEmoji);
     }
 
     @Override
     public void hide() {
-        closeEmojiKeyboard();
+        closeEnterPanel();
         super.hide();
     }
 

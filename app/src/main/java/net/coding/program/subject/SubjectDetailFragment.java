@@ -383,7 +383,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 }
             }
 
-            mEnterLayout.closeEmojiKeyboard();
+            mEnterLayout.closeEnterPanel();
             mEnterLayout.show();
 
             mEnterLayout.restoreLoad(commentObject);

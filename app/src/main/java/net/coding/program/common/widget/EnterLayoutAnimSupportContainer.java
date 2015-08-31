@@ -24,6 +24,7 @@ import net.coding.program.common.Global;
  * 输入控件(common_enter_emoji)支持切换动画的父容器,必须保证它只有两个子控件,并且输入控件是第二个
  */
 public class EnterLayoutAnimSupportContainer extends FrameLayout {
+    private String TAG = "EnterLayoutAnimSupportContainer";
     private ViewGroup mContent;
     private FrameLayout mEnter;
     private boolean isFirstLayout = true;
@@ -45,6 +46,7 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     private Handler mHandler;
     private boolean isEnterHeightChanaged;
     private int inputboxHeight;
+    private FrameLayout mPanelLayout;
     /**
      * mEnter关闭时的绝对y坐标
      */
@@ -73,20 +75,90 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
         isEnterHeightChanaged = false;
         requestLayout();
     }
-//
-//    public void hideEnterPanel(){
-//        lp_enter.height = inputboxHeight;
-//        lp_enter.bottomMargin = 0;
-//        isEnterHeightChanaged = true;
-//        requestLayout();
-//    }
-//
-//    public void showEnterPanel(){
-//        lp_enter.height = mEnterHeight;
-//        lp_enter.bottomMargin = 0;
-//        isEnterHeightChanaged = true;
-//        requestLayout();
-//    }
+
+    private int mOldHeight = -1;
+
+    private SoftKeyBordState mSoftKeyBordState = SoftKeyBordState.Hide;
+
+   public SoftKeyBordState getSoftKeyBordState(){
+       return mSoftKeyBordState;
+   }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        // 由当前布局被键盘挤压，获知，由于键盘的活动，导致布局将要发生变化。
+        do {
+            final int width = MeasureSpec.getSize(widthMeasureSpec);
+            final int height = MeasureSpec.getSize(heightMeasureSpec);
+
+            Log.d(TAG, "onMeasure, width: " + width + " height: " + height);
+            if (height < 0) {
+                break;
+            }
+
+            if (mOldHeight < 0) {
+                mOldHeight = height;
+                break;
+            }
+
+            final int offset = mOldHeight - height;
+            mOldHeight = height;
+
+            if (offset == 0) {
+                Log.d(TAG, "" + offset + " == 0 break;");
+                mSoftKeyBordState = SoftKeyBordState.Hide;
+                break;
+            }
+
+            if(mEnter != null && mPanelLayout == null){
+                mPanelLayout = (FrameLayout) mEnter.getChildAt(1);
+            }
+
+            if (mPanelLayout == null) {
+                Log.d(TAG, "bottom == null break;");
+                break;
+            }
+
+            // 检测到真正的 由于键盘收起触发了本次的布局变化
+
+            if (offset > 0) {
+                //键盘弹起 (offset > 0，高度变小)
+                mSoftKeyBordState = SoftKeyBordState.Opening;
+                mEnterLayoutBottomMargin = minEnterLayoutBottomMargin;
+                mPanelLayout.setVisibility(View.GONE);
+            } else {
+                mSoftKeyBordState = SoftKeyBordState.Closing;
+                //键盘收回 (offset < 0，高度变大)
+                if(!isCloseInputMethodBySelf){
+                    isCloseInputMethodBySelf = true;
+                    mPanelLayout.setVisibility(View.VISIBLE);
+                    mEnterLayoutBottomMargin = 0;
+                }else{
+                    mPanelLayout.setVisibility(View.GONE);
+                    mEnterLayoutBottomMargin = minEnterLayoutBottomMargin;
+                }
+            }
+
+
+        } while (false);
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+    }
+
+    public enum SoftKeyBordState{
+        Opening,Closing,Hide
+    }
+
+    private boolean isCloseInputMethodBySelf = true;
+    public void setCloseInputMethodBySelf(boolean closeBySelf){
+        isCloseInputMethodBySelf = closeBySelf;
+    }
+
+    public boolean isPanelLauoutOpen(){
+        return mEnterLayoutBottomMargin == 0;
+    }
 
 
     /**
@@ -102,14 +174,20 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
         this.mOnEnterLayoutBottomMarginChanagedCallBack = callBack;
     }
 
+    public FrameLayout getPanelLayout(){
+        return mPanelLayout;
+    }
+
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right,
                             int bottom) {
+
         if (isFirstLayout && getVisibility() != View.GONE) {
             mContent = (ViewGroup) getChildAt(0);
-            mEnter = (FrameLayout) getChildAt(1);
             lp_content = (LayoutParams) mContent.getLayoutParams();
+            mEnter = (FrameLayout) getChildAt(1);
+            mPanelLayout = (FrameLayout) mEnter.getChildAt(1);
             lp_enter = (LayoutParams) mEnter.getLayoutParams();
             mEnterLayoutBottomMargin = lp_enter.bottomMargin;
             minEnterLayoutBottomMargin = mEnterLayoutBottomMargin;
@@ -210,6 +288,7 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
             int content_bottom = bottom - top - (mEnterHeight + mEnterLayoutBottomMargin);
             int cL = 0, cR = 0, cT = 0, cB = 0;
             int eL = 0, eR = 0, eT = 0, eB = 0;
+
             if (isAdjustResize) {
                 // lp_enter.bottomMargin = mEnterLayoutBottomMargin;
 
@@ -253,7 +332,6 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
             super.onLayout(changed,left,top,right,bottom);
         }
 
-       // super.onLayout(changed,left,top,right,bottom);
     }
 
     public interface OnEnterLayoutBottomMarginChanagedCallBack {

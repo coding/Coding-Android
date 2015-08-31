@@ -373,8 +373,8 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
 
     @Override
     public void onBackPressed() {
-        if (mEnterLayout.isEmojiKeyboardShowing()) {
-            mEnterLayout.closeEmojiKeyboard();
+        if (mEnterLayout.isEnterPanelShowing()) {
+            mEnterLayout.closeEnterPanel();
             return;
         }
 

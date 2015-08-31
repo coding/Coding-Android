@@ -42,7 +42,6 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.EnterVoiceLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
@@ -66,7 +65,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -519,8 +517,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void onBackPressed() {
-        if (mEnterLayout != null && mEnterLayout.isEmojiKeyboardShowing()) {
-            mEnterLayout.closeEmojiKeyboard();
+        if (mEnterLayout != null && mEnterLayout.isEnterPanelShowing()) {
+            mEnterLayout.closeEnterPanel();
             return;
         }
 
@@ -850,14 +848,17 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
 
     private MyMediaPlayer mMyMediaPlayer;
+
+
     @Override
-    public void onStartPlay(String path,MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
+    public void onStartPlay(String path,int id,MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
         try {
             if(mMyMediaPlayer == null){
                 mMyMediaPlayer = new MyMediaPlayer();
             }else{
                 mMyMediaPlayer.reset();
             }
+            mMyMediaPlayer.setVoiceId(id);
             mMyMediaPlayer.setOnPreparedListener(mOnPreparedListener);
             mMyMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             mMyMediaPlayer.setDataSource(path);
@@ -916,11 +917,21 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     @Override
+    public int getPlayingVoiceId() {
+        return mMyMediaPlayer==null?-1:mMyMediaPlayer.getVoiceId();
+    }
+
+    private int minBottom = Global.dpToPx(200);
+    @Override
     public void onChanage(int lastBottomMargin,int newBottomMargin) {
-        if(!mEnterLayout.isKeyboardOpen){
-            listView.smoothScrollBy(newBottomMargin - lastBottomMargin ,10);
+//        if(!mEnterLayout.isKeyboardOpen){
+//            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
+//        }
+        EnterLayoutAnimSupportContainer.SoftKeyBordState  mSoftKeyBordState = mEnterLayout.getEnterLayoutAnimSupportContainer().getSoftKeyBordState();
+        if(mSoftKeyBordState == EnterLayoutAnimSupportContainer.SoftKeyBordState.Hide){
+            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
         }
-        if(newBottomMargin==Global.dpToPx(248)){
+        if(newBottomMargin==minBottom || newBottomMargin == 0){
             listView.setSelection(mData.size());
         }
     }
