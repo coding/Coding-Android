@@ -914,6 +914,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                     }
                 }
         adapter.notifyDataSetChanged();
+        AccountInfo.saveMessages(MessageListActivity.this, mUserObject.global_key, mData);
     }
 
     @Override

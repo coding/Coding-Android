@@ -400,6 +400,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     private void markUserReaded(String globalKey, Message.MessageObject message) {
         for (int i = 0; i < mData.size(); ++i) {
             Message.MessageObject item = mData.get(i);
+            handleVoiceMessage(item);
             if (item.friend.global_key.equals(globalKey)) {
                 item.unreadCount = 0;
                 if (message != null) {

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
