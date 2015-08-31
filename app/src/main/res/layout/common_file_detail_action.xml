@@ -18,30 +18,47 @@
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15">
 
-        <TextView
+        <FrameLayout
             android:id="@+id/clickFileDynamic"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="文件动态"
             android:textColor="@color/font_black_6"
-            android:textSize="16sp" />
+            android:textSize="16sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/project_file_button_dynamic"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="文件动态" />
+        </FrameLayout>
 
         <View
             android:layout_width="0.7dp"
             android:layout_height="33dp"
             android:background="@color/divide_line" />
 
-        <TextView
+        <FrameLayout
             android:id="@+id/clickFileHistory"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="历史版本"
             android:textColor="@color/font_black_6"
-            android:textSize="16sp" />
+            android:textSize="16sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/project_file_button_history"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="历史版本" />
+
+        </FrameLayout>
 
     </LinearLayout>
 </LinearLayout>

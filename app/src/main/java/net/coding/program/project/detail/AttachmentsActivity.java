@@ -272,9 +272,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
 
-            AttachmentFileObject mFileObject = data;
-            if (mFileObject.bytesAndStatus != null) {
-                Log.v("updateFileDownload", mFileObject.getName() + ":" + mFileObject.bytesAndStatus[0] + " " + mFileObject.bytesAndStatus[1] + " " + mFileObject.bytesAndStatus[2]);
+            if (data.bytesAndStatus != null) {
+                Log.v("updateFileDownload", data.getName() + ":" + data.bytesAndStatus[0] + " " + data.bytesAndStatus[1] + " " + data.bytesAndStatus[2]);
             }
 
             if (data.downloadId != 0L) {
@@ -320,6 +319,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             holder.more.setTag(position);
             holder.more.setOnClickListener(onMoreClickListener);
             holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
+            holder.item_layout_root.setBackgroundResource(data.isDownload
+                    ? R.drawable.list_item_selector_project_file
+                    : R.drawable.list_item_selector);
 
             if (data.isFolder) {
                 holder.more.setVisibility(View.INVISIBLE);

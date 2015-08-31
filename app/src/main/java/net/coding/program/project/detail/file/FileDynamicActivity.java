@@ -192,9 +192,7 @@ public class FileDynamicActivity extends BackActivity {
         }
 
         public PostRequest getHttpEditFile(String content) {
-            // TODO 改回来
             final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
-//            final String template = Global.HOST_API + "/project/126848" + "/files/%s/edit";
             String url = String.format(template, mFileObject.file_id);
             RequestParams params = new RequestParams();
             params.put("name", mFileObject.getName());
@@ -301,7 +299,6 @@ public class FileDynamicActivity extends BackActivity {
                     convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
                     holder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                     convertView.setTag(R.id.layout, holder);
-
                 } else {
                     holder = (CommentHolder) convertView.getTag(R.id.layout);
                 }
@@ -325,27 +322,39 @@ public class FileDynamicActivity extends BackActivity {
                 DynamicObject.DynamicProjectFile data = (DynamicObject.DynamicProjectFile) getItem(position);
                 convertView.setTag(R.layout.activity_task_comment_much_image_task, data);
 
-                String content = "";
+                String content;
+                int resId;
                 switch (data.action) {
-                    case "create":
-                        content = "创建了文件";
-                        break;
+//                    case "create":
+//                        content = "创建了文件";
+//                        resId = R.drawable.project_file_dynamic_delete;
+//                        break;
                     case "update":
                         content = "更新了文件";
+                        resId = R.drawable.project_file_dynamic_edit;
                         break;
                     case "upload_file":
                         content = "上传了新版本";
+                        resId = R.drawable.project_file_dynamic_upload;
                         break;
                     case "delete_history":
                         content = "删除了版本";
+                        resId = R.drawable.project_file_dynamic_delete;
                         break;
-                    case "default":
+                    case "move_file":
+                        content = "移动了文件";
+                        resId = R.drawable.project_file_dynamic_move;
+                        break;
+
+                    default:
                         content = data.action_msg + "文件";
+                        resId = R.drawable.project_file_dynamic_edit;
                         break;
                 }
 
                 content = data.user.name + " " + content;
                 holder.mContent.setText(content);
+                holder.mIcon.setImageResource(resId);
 
                 holder.updateLine(position, count);
 

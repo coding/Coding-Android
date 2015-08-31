@@ -4,7 +4,7 @@
     tools:context=".MyActivity">
     <item
         android:id="@+id/action_info"
-        android:icon="@drawable/ic_menu_info"
+        android:icon="@drawable/ic_menu_info_big"
         android:title="@string/action_info"
         app:showAsAction="always" />
 

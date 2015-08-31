@@ -12,6 +12,7 @@ import net.coding.program.R;
 
 /**
  * Created by chenchao on 15/8/21.
+ * 项目文件 list item
  */
 public class ViewHolderFile {
     public ImageView icon;
@@ -36,8 +37,10 @@ public class ViewHolderFile {
     public ProgressBar progressBar;
     public TextView cancel;
     public TextView downloadFlag;
+    public View item_layout_root;
 
     public ViewHolderFile(View convertView) {
+        item_layout_root = convertView.findViewById(R.id.item_layout_root);
         name = (TextView) convertView.findViewById(R.id.name);
         icon = (ImageView) convertView.findViewById(R.id.icon);
         icon_txt = (TextView) convertView.findViewById(R.id.icon_txt);
