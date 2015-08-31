@@ -3,18 +3,16 @@ package net.coding.program.common.enter;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.media.AudioFormat;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.util.Log;
-import android.util.LruCache;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.view.animation.BounceInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -31,26 +28,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nineoldandroids.view.ViewHelper;
 import com.readystatesoftware.viewbadger.BadgeView;
-import com.skyfishjy.library.RippleBackground;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.AmrAudioRecorder;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.widget.SoundWaveView;
 import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.RedPointTip.Type;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -104,7 +93,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     private void init(final ActionBarActivity activity) {
         this.activity = activity;
 
-        closeEmojiKeyboard();
         mInputLayout = (LinearLayout) activity.findViewById(R.id.mInputLayout);
         voiceRecordButton = (ImageButton) voiceLayout.findViewById(R.id.voiceRecordButton);
         arrowLayout = (RelativeLayout) activity.findViewById(R.id.arrowLayout);
@@ -119,11 +107,21 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         recordTime = (TextView) soundWaveLayout.findViewById(R.id.recordTime);
         recordTime.setGravity(Gravity.CENTER);
         popVoice.setVisibility(View.VISIBLE);
+        content.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if ("".equals(s.toString().trim())) {
+                    popVoice.setVisibility(View.VISIBLE);
+                } else {
+                    popVoice.setVisibility(View.GONE);
+                }
+            }
+        });
         popVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( mBadgeView!=null && mBadgeView.isShown()){
-                    RedPointTip.markUsed(activity,RedPointTip.Type.Voice);
+                if (mBadgeView != null && mBadgeView.isShown()) {
+                    RedPointTip.markUsed(activity, RedPointTip.Type.Voice);
                     // 设置进入的移动动画，设置了插值器，可以实现颤动的效果
                     TranslateAnimation anim = new TranslateAnimation(-100, 0, 0, 0);
                     anim.setInterpolator(new BounceInterpolator());
@@ -134,7 +132,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                     anim2.setDuration(500);
                     mBadgeView.toggle(anim, anim2);
                 }
-                if(popVoice.isChecked()){
+                if (popVoice.isChecked()) {
                     rootViewHigh = rootView.getHeight();
 
                     final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
@@ -154,7 +152,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                         toggleNoTextInput(InputType.Voice);
                         rootViewHigh = 0;
                     }
-                }else{
+                } else {
                     mInputLayout.setVisibility(View.VISIBLE);
                     arrowLayout.setVisibility(View.GONE);
                     toggleSoftkeyboardWithCloseNoTextInput(InputType.Voice);
@@ -165,17 +163,14 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrowLayout.setVisibility(View.GONE);
-                mInputLayout.setVisibility(View.VISIBLE);
-                popVoice.setChecked(false);
-                animEnterLayoutStatusChanaged(false);
+                onArrowClick();
             }
         });
         btn_emoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popVoice.setChecked(false);
-                openEmojiKeyboard();
+                openEnterPanel();
             }
         });
 
@@ -200,29 +195,28 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                 if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
                     //long nowTime = System.currentTimeMillis();
                     float nowY = event.getRawY();
-                    if(nowY-touchY<=-100){
+                    if (nowY - touchY <= -100) {
                         //上滑取消录音发送
                         cancelRecord();
                         showToast(R.string.record_has_canceled);
-                    }else{
+                    } else {
                         sendVoice();
                     }
-                    startTime = 0l;
                     return false;
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     touchY = event.getRawY();
                     return false;
-                } else if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    if(out!=null){
-                        if(!isTouchInside((int)event.getX(),(int)event.getY())){
-                            if(isRecoding){
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    if (out != null) {
+                        if (!isTouchInside((int) event.getX(), (int) event.getY())) {
+                            if (isRecoding) {
                                 tips_hold_to_talk.setVisibility(View.VISIBLE);
                                 tips_hold_to_talk.setText(R.string.loosen_to_cancel);
                                 soundWaveLayout.setVisibility(View.GONE);
                                 pause();
                             }
-                        }else{
-                            if(!isRecoding){
+                        } else {
+                            if (!isRecoding) {
                                 touchY = event.getRawY();
                                 tips_hold_to_talk.setVisibility(View.GONE);
                                 tips_hold_to_talk.setText(R.string.hold_to_talk);
@@ -252,29 +246,46 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
             mBadgeView.setText("");
             mBadgeView.setWidth(size);
             mBadgeView.setHeight(size);
-            mBadgeView.setBadgeMargin(0,0);
+            mBadgeView.setBadgeMargin(0, 0);
             mBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
             mBadgeView.show();
+            ViewGroup.LayoutParams lp = ((ViewGroup)mBadgeView.getParent()).getLayoutParams();
+            lp.width = Global.dpToPx(32+9);
+            lp.height = lp.width;
+            FrameLayout.LayoutParams fl = (FrameLayout.LayoutParams) popVoice.getLayoutParams();
+            fl.gravity  = Gravity.CENTER_VERTICAL;
+
+        }
+        closeEnterPanel();
+    }
+
+    private void onArrowClick() {
+        arrowLayout.setVisibility(View.GONE);
+        mInputLayout.setVisibility(View.VISIBLE);
+        popVoice.setChecked(false);
+        animEnterLayoutStatusChanaged(false);
+    }
+
+    @Override
+    public void closeEnterPanel() {
+        if(voiceLayout.getVisibility() == View.VISIBLE){
+            onArrowClick();
+        }else {
+            super.closeEnterPanel();
         }
     }
 
     private void sendVoice() {
         tips_hold_to_talk.setText(R.string.hold_to_talk);
         soundWaveLayout.setVisibility(View.GONE);
-        recordDuration += stopRecord();
-        if(out!=null){
-            appendRecordFile();
-            out = out.replace("temp","amr");
-        }
-
+        long recordDuration = stopRecord();
         if (recordDuration > 0l && out!=null) {
             Log.w("test", "recordDuration=" + recordDuration);
-            if(recordDuration>=1000l && new File(out).length()>400 && System.currentTimeMillis()/recordDuration>100000){
+            if(recordDuration>=1000l && new File(out).length()>100){
                 //录音发送
                 VoiceRecordCompleteCallback callback = (VoiceRecordCompleteCallback) activity;
 
                 callback.recordFinished(recordDuration>=60000?60000:recordDuration,out);
-                recordDuration = 0;
             }else{
                 cancelRecord();
                 showToast(R.string.voice_can_not_send_because_duration_too_short);
@@ -319,16 +330,24 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         super.toggleNoTextInput(type);
     }
 
-    private long startTime = 0l;
-    private long recordDuration = 0l;
-    private MediaRecorder mMediaRecorder;
+//    private long startTime = 0l;
+//    private long recordDuration = 0l;
+   // private MediaRecorder mMediaRecorder;
+    private AmrAudioRecorder mAmrAudioRecorder;
     private boolean isRecoding;
     public static final int MAX_LENGTH = 1000 * 60;// 最大录音时长1000*60;
-
-    private void startRecord() {
-        if(recordDuration==0){
-            out = null;
+    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack(){
+        @Override
+        public void onRecord(long duration, double volume) {
+            Message m = Message.obtain();
+            Bundle data = new Bundle();
+            data.putDouble("volume",volume);
+            data.putLong("duration",duration);
+            m.setData(data);
+            mHandler.sendMessage(m);
         }
+    };
+    private void startRecord() {
         if (Global.sVoiceDir == null) {
             try {
                 Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(activity, Environment.DIRECTORY_MUSIC, FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
@@ -351,57 +370,68 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         recordTime.setText("00:00");
         soundWaveLeft.reSet();
         soundWaveRight.reSet();
-
-        if (mMediaRecorder == null) {
-            mMediaRecorder = new MediaRecorder();
-        }
-        try {
-            /* 设置麦克风*/
-            mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            /* 设置输出音频文件的格式：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
-            mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-           /*
-            * 设置音频的编码：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
-            * ，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
-            *
-             */
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            if(isRecoding && out!=null && out.endsWith("temp")){
-
-            }else{
-                out = Global.sVoiceDir + File.separator + "coding_voice_" + UUID.randomUUID().toString() + ".amr";
-            }
-            File p = new File(out).getParentFile();
-            if (!p.exists()) {
-                p.mkdirs();
-            }
-            mMediaRecorder.setAudioChannels(1);
-            mMediaRecorder.setAudioSamplingRate(8000);
-            mMediaRecorder.setOutputFile(out);
-            mMediaRecorder.setMaxDuration(MAX_LENGTH);
-            /* 准备 */
-            mMediaRecorder.prepare();
-            /* 开始 */
-            mMediaRecorder.start();
-            isRecoding = true;
-        } catch (Exception e) {
-            isRecoding = false;
-            recordDuration = 0;
-            startTime = 0l;
+        out = Global.sVoiceDir + File.separator + "coding_voice_" + UUID.randomUUID().toString() + ".amr";
+        mAmrAudioRecorder = new AmrAudioRecorder(MediaRecorder.AudioSource.MIC, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, out);
+        mAmrAudioRecorder.setVoiceRecordingCallBack(mVoiceRecordingCallBack);
+        mAmrAudioRecorder.prepare();
+        mAmrAudioRecorder.start();
+        if(AmrAudioRecorder.State.ERROR == mAmrAudioRecorder.getState()){
             showToast(R.string.record_failed);
-            Global.errorLog(e);
-            File f = new File(out);
-            if (f.exists()) {
-                f.delete();
-            }
-            out = null;
-            stopRecord();
-        }finally {
-            if(isRecoding && out!=null){
-                startTime = System.currentTimeMillis();
-                updateMicStatus();
-            }
+        }else{
+            isRecoding = true;
         }
+
+
+//        if (mMediaRecorder == null) {
+//            mMediaRecorder = new MediaRecorder();
+//        }
+//        try {
+//            /* 设置麦克风*/
+//            mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//            /* 设置输出音频文件的格式：AAC/AMR_NB/AMR_MB/Default 声音的（波形）的采样 */
+//            mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+//           /*
+//            * 设置音频的编码：THREE_GPP/MPEG-4/RAW_AMR/Default THREE_GPP(3gp格式
+//            * ，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
+//            *
+//             */
+//            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+//            if(isRecoding && out!=null && out.endsWith("temp")){
+//
+//            }else{
+//                out = Global.sVoiceDir + File.separator + "coding_voice_" + UUID.randomUUID().toString() + ".amr";
+//            }
+//            File p = new File(out).getParentFile();
+//            if (!p.exists()) {
+//                p.mkdirs();
+//            }
+//            mMediaRecorder.setAudioChannels(1);
+//            mMediaRecorder.setAudioSamplingRate(8000);
+//            mMediaRecorder.setOutputFile(out);
+//            mMediaRecorder.setMaxDuration(MAX_LENGTH);
+//            /* 准备 */
+//            mMediaRecorder.prepare();
+//            /* 开始 */
+//            mMediaRecorder.start();
+//            isRecoding = true;
+//        } catch (Exception e) {
+//            isRecoding = false;
+//            recordDuration = 0;
+//            startTime = 0l;
+//            showToast(R.string.record_failed);
+//            Global.errorLog(e);
+//            File f = new File(out);
+//            if (f.exists()) {
+//                f.delete();
+//            }
+//            out = null;
+//            stopRecord();
+//        }finally {
+//            if(isRecoding && out!=null){
+//                startTime = System.currentTimeMillis();
+//                updateMicStatus();
+//            }
+//        }
 
 
     }
@@ -417,62 +447,58 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         return false;
     }
 
-    private void appendRecordFile(){
-        if(out.endsWith("temp")){
-            File f = new File(out.replace("temp","amr"));
-            if(f.length()!=0){
-                File temp = new File(out);
-                BufferedInputStream bis = null;
-                BufferedOutputStream bos = null;
-                try {
-                    bis = new BufferedInputStream(new FileInputStream(temp));
-                    bos = new BufferedOutputStream(new FileOutputStream(f,true));
-                    //
-                    byte[] buf = new byte[6];
-                    int len = bis.read(buf);
-                    buf = new byte[1024];
-                    if(len==6){
-                        while((len = bis.read(buf))!=-1){
-                            bos.write(buf,0,len);
-                            buf = new byte[1024];
-                        }
-                    }
-
-                    bos.flush();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        if(bis!=null){
-                            bis.close();
-                        }
-                        if(bos!=null){
-                            bos.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    temp.delete();
-                }
-            }
-        }
-    }
-
+//    private void appendRecordFile(){
+//        if(out.endsWith("temp")){
+//            File f = new File(out.replace("temp","amr"));
+//            if(f.length()!=0){
+//                File temp = new File(out);
+//                BufferedInputStream bis = null;
+//                BufferedOutputStream bos = null;
+//                try {
+//                    bis = new BufferedInputStream(new FileInputStream(temp));
+//                    bos = new BufferedOutputStream(new FileOutputStream(f,true));
+//                    //
+//                    byte[] buf = new byte[6];
+//                    int len = bis.read(buf);
+//                    buf = new byte[1024];
+//                    if(len==6){
+//                        while((len = bis.read(buf))!=-1){
+//                            bos.write(buf,0,len);
+//                            buf = new byte[1024];
+//                        }
+//                    }
+//
+//                    bos.flush();
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }finally {
+//                    try {
+//                        if(bis!=null){
+//                            bis.close();
+//                        }
+//                        if(bos!=null){
+//                            bos.close();
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    temp.delete();
+//                }
+//            }
+//        }
+//    }
+//
     private void pause(){
 
         try{
-            if(mMediaRecorder!=null){
+            if(mAmrAudioRecorder!=null){
                 isRecoding = false;
-                recordDuration += stopRecord();
-                startTime = 0l;
-                Thread.sleep(30);
-                appendRecordFile();
-                out = out.replace("amr","temp");
+                mAmrAudioRecorder.pause();
+
             }
         }catch (Exception e){
-            recordDuration = 0l;
             if(out!=null){
                 File f = new File(out);
                 if (f.exists()) {
@@ -485,23 +511,23 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     }
 
     private void reset() {
-        isRecoding = true;
-        startRecord();
+        try {
+            mAmrAudioRecorder.continueRecord();
+            isRecoding = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            mAmrAudioRecorder.stop();
+        }
     }
 
 
 
     private void cancelRecord() {
         stopRecord();
-        recordDuration = 0;
         isRecoding = false;
         if (out != null) {
-            if(out.endsWith("temp")){
-                File f = new File(out);
-                f.delete();
-                f = new File(out.replace("temp","amr"));
-                f.delete();
-            }
+            File f = new File(out);
+            f.delete();
             out = null;
         }
     }
@@ -513,57 +539,29 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         voiceRecrodAnimtion.selectDrawable(0);
         tips_hold_to_talk.setVisibility(View.VISIBLE);
         soundWaveLayout.setVisibility(View.GONE);
-        if (mMediaRecorder == null) {
-            startTime = 0l;
+        if (mAmrAudioRecorder == null) {
             return 0L;
         }
-        mMediaRecorder.stop();
-        mMediaRecorder.reset();
-        mMediaRecorder.release();
-        mMediaRecorder = null;
-        return System.currentTimeMillis() - startTime;
+        mAmrAudioRecorder.stop();
+        long dur = mAmrAudioRecorder.getDuration();
+        mAmrAudioRecorder = null;
+        return dur;
     }
 
-    private final Handler mHandler = new Handler();
-    private Runnable mUpdateMicStatusTimer = new Runnable() {
-        public void run() {
-            updateMicStatus();
-        }
-    };
-
-    /**
-     * 更新话筒状态
-     */
-    private int BASE = 1;
-    private int SPACE = 100;// 间隔取样时间
-
-    private void updateMicStatus() {
-        if (mMediaRecorder != null && isRecoding) {
-            double ratio = (double) mMediaRecorder.getMaxAmplitude() / BASE;
-            float db = 0;// 分贝
-            if (ratio > 1)
-                db = (float) ((float) 20 * Math.log10(ratio));
-            Log.d("EnterVoiceLayout", "分贝值：" + db);
+    private final Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle data = msg.getData();
+            long dur = (long) data.get("duration");
+            double volume = (double) data.get("volume");
+            float db = (float)volume*1.618f;
             soundWaveLeft.setVolume(db);
             soundWaveRight.setVolume(db);
-            long dur =  (System.currentTimeMillis() - startTime + recordDuration) ;
-            //不知道为什么实际录音时长会比测得的时长少一秒钟，暂时找不到原因，只好做做假数据
             if (dur>=55000){
                 recordTime.setTextColor(0xFFFF3C30);
             }else{
                 recordTime.setTextColor(0xFF50AEEA);
             }
-
-            //录音时长在60.05s到60.5s的范围内时停止录音
-            if(dur>60100 && dur<60500){
-                sendVoice();
-                mHandler.removeCallbacksAndMessages(null);
-                return;
-            }else if(dur>1400000){
-                mHandler.removeCallbacksAndMessages(null);
-                return;
-            }
-
             int t = (int)dur/1000;
             int min = 0;
             int sec = 0;
@@ -576,9 +574,15 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
             String m = min < 10 ? "0" + min : "" + min;
             String s = sec < 10 ? "0" + sec : "" + sec;
             recordTime.setText(m + ":" + s);
-            mHandler.postDelayed(mUpdateMicStatusTimer, SPACE);
+            //录音时长在60.05s到60.5s的范围内时停止录音
+            if(dur>60100 && dur<60500){
+                sendVoice();
+            }
         }
-    }
+    };
+
+
+
 
     /**
      * 录音完成回调接口

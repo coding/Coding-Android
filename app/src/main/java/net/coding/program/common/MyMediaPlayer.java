@@ -12,6 +12,7 @@ public class MyMediaPlayer extends MediaPlayer {
     private MediaPlayer.OnCompletionListener onCompletionListener;
     private String path;
     private OnPreparedListener mOnPreparedListener;
+    private int voiceId = -1;
 
     @Override
     public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
@@ -35,10 +36,19 @@ public class MyMediaPlayer extends MediaPlayer {
         return path;
     }
 
+    public void setVoiceId(int id){
+        voiceId = id;
+    }
+
+    public int getVoiceId(){
+        return voiceId;
+    }
+
     @Override
     public void stop() throws IllegalStateException {
         super.stop();
         path = null;
+        voiceId = -1;
         onCompletionListener.onCompletion(this);
         onCompletionListener = null;
         mOnPreparedListener = null;
