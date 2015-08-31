@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="248dp"
     android:background="@color/white"
     android:layout_marginBottom="-200dp"
     android:id="@+id/commonEnterRoot"
@@ -22,6 +21,7 @@
             android:layout_height="32dp"
             android:button="@null"
             android:visibility="gone"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/checkbox_pop_voice"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="13dp"/>
@@ -112,166 +112,172 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.skyfishjy.library.RippleBackground android:id="@+id/voiceLayout"
+    <FrameLayout
+        android:id ="@+id/mPanelLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="48dp"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="@color/white"
-        app:rb_color="#0082AD"
-        app:rb_radius="16dp"
-        app:rb_rippleAmount="3"
-        app:rb_duration="1500"
-        app:rb_scale="4"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="visible">
+        android:layout_height="match_parent">
+        <com.skyfishjy.library.RippleBackground android:id="@+id/voiceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="48dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@color/white"
+            app:rb_color="#0082AD"
+            app:rb_radius="16dp"
+            app:rb_rippleAmount="3"
+            app:rb_duration="1500"
+            app:rb_scale="4"
+            android:focusable="true"
+            android:clickable="true"
+            android:visibility="visible">
 
-        <ImageButton
-            android:id="@+id/voiceRecordButton"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/anim_voice_record"/>
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/voiceRecordButton">
-            <TextView android:id="@+id/tips_hold_to_talk"
+            <ImageButton
+                android:id="@+id/voiceRecordButton"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/anim_voice_record"/>
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:textColor="@color/font_black_9"
-                android:text="@string/hold_to_talk"/>
-            <!--显示录音时间-->
-            <FrameLayout android:id="@+id/soundWaveLayout"
-                android:layout_width="120dp"
-                android:visibility="gone"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                <net.coding.program.common.widget.SoundWaveView
-                    android:id = "@+id/soundWaveLeft"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/voiceRecordButton">
+                <TextView android:id="@+id/tips_hold_to_talk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:soundOriginOrientation="right"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"/>
-                <!--不知道为什么这里的TextView就是不能再真机中文本居中，因此加了个2sp的marginBottom，让它看起来居中-->
-                <TextView android:id="@+id/recordTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:layout_marginBottom="2sp"
-                    android:textColor="#50aeea"/>
-
-                <net.coding.program.common.widget.SoundWaveView
-                    android:id = "@+id/soundWaveRight"
-                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/font_black_9"
+                    android:text="@string/hold_to_talk"/>
+                <!--显示录音时间-->
+                <FrameLayout android:id="@+id/soundWaveLayout"
+                    android:layout_width="120dp"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    app:soundOriginOrientation="left"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_gravity="center">
+                    <net.coding.program.common.widget.SoundWaveView
+                        android:id = "@+id/soundWaveLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:soundOriginOrientation="right"
+                        android:layout_gravity="center_vertical|left"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"/>
+                    <!--不知道为什么这里的TextView就是不能再真机中文本居中，因此加了个2sp的marginBottom，让它看起来居中-->
+                    <TextView android:id="@+id/recordTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="2sp"
+                        android:textColor="#50aeea"/>
+
+                    <net.coding.program.common.widget.SoundWaveView
+                        android:id = "@+id/soundWaveRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:soundOriginOrientation="left"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+                </FrameLayout>
             </FrameLayout>
-        </FrameLayout>
 
-        <TextView android:layout_below="@+id/voiceRecordButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/font_black_9"
-            android:text="@string/sliding_upwards_and_cancel_sending" />
-    </com.skyfishjy.library.RippleBackground>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical"
-        android:layout_marginTop="48dp"
-        android:id="@+id/emojiKeyboardLayout"
-        android:visibility="gone"
-        android:focusable="true"
-        android:clickable="true">
+            <TextView android:layout_below="@+id/voiceRecordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/font_black_9"
+                android:text="@string/sliding_upwards_and_cancel_sending" />
+        </com.skyfishjy.library.RippleBackground>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="7.5dp"
-            android:orientation="vertical">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:layout_marginTop="48dp"
+            android:id="@+id/emojiKeyboardLayout"
+            android:visibility="gone"
+            android:focusable="true"
+            android:clickable="true">
 
             <LinearLayout
-                android:layout_marginTop="7.5dp"
-                android:id="@+id/emojiKeyboardIndicator"
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
-                android:orientation="horizontal"
-                android:gravity="center" />
+                android:layout_height="wrap_content"
+                android:paddingTop="7.5dp"
+                android:orientation="vertical">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp" />
+
+                <LinearLayout
+                    android:layout_marginTop="7.5dp"
+                    android:id="@+id/emojiKeyboardIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:orientation="horizontal"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/emoji_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/selectEmoji"
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@drawable/ic_emoji_small"
+                    android:textColor="@color/font_black_comment"
+                    android:text="经典"
+                    android:paddingLeft="30dp" />
+
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/emoji_line" />
+
+                <TextView
+                    android:id="@+id/selectMonkey"
+                    android:layout_width="120dp"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="3dp"
+                    android:textColor="@color/font_black_comment"
+                    android:textSize="15sp"
+                    android:drawableLeft="@drawable/ic_emoji_monkey"
+                    android:text="洋葱猴"
+                    android:paddingLeft="15dp" />
+
+                <View
+                    android:id="@+id/selectMonkeyDivideLine"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/emoji_line" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/emoji_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:id="@+id/selectEmoji"
-                android:gravity="center_vertical"
-                android:textSize="15sp"
-                android:drawablePadding="3dp"
-                android:drawableLeft="@drawable/ic_emoji_small"
-                android:textColor="@color/font_black_comment"
-                android:text="经典"
-                android:paddingLeft="30dp" />
-
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/emoji_line" />
-
-            <TextView
-                android:id="@+id/selectMonkey"
-                android:layout_width="120dp"
-                android:gravity="center_vertical"
-                android:layout_height="match_parent"
-                android:drawablePadding="3dp"
-                android:textColor="@color/font_black_comment"
-                android:textSize="15sp"
-                android:drawableLeft="@drawable/ic_emoji_monkey"
-                android:text="洋葱猴"
-                android:paddingLeft="15dp" />
-
-            <View
-                android:id="@+id/selectMonkeyDivideLine"
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/emoji_line" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 
 </FrameLayout>

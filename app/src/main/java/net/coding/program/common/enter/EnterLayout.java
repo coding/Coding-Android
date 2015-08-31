@@ -44,7 +44,6 @@ public abstract class EnterLayout {
     protected int panelHeight;
     protected EnterLayoutAnimSupportContainer mEnterLayoutAnimSupportContainer;
     protected boolean mEnterLayoutStatus;
-    public boolean isKeyboardOpen;
     private TextWatcher restoreWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -57,6 +56,9 @@ public abstract class EnterLayout {
         }
     };
 
+    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer(){
+        return mEnterLayoutAnimSupportContainer;
+    }
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type) {
         mType = type;
 

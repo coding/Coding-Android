@@ -221,18 +221,21 @@ public class ContentAreaImages extends ContentAreaBase {
     private boolean isAnimRuning;
 
     private void playVoiceAnim(){
-        isAnimRuning = true;
-        frame ++;
-        if(frame>2){
-            frame = 0;
+        if(mVoicePlayCallBack.getPlayingVoiceId() == id){
+            isAnimRuning = true;
+            frame ++;
+            if(frame>2){
+                frame = 0;
+            }
+
+            if(Build.VERSION.SDK_INT>=16){
+                voice_play.setBackground(voicePlayAnim.getFrame(frame));
+            }else{
+                voice_play.setBackgroundDrawable(voicePlayAnim.getFrame(frame));
+            }
+            mHandler.postDelayed(task,200);
         }
-        
-        if(Build.VERSION.SDK_INT>=16){
-            voice_play.setBackground(voicePlayAnim.getFrame(frame));
-        }else{
-            voice_play.setBackgroundDrawable(voicePlayAnim.getFrame(frame));
-        }
-        mHandler.postDelayed(task,200);
+
     }
 
     private void stopPlayVoiceAnim(){
@@ -313,7 +316,7 @@ public class ContentAreaImages extends ContentAreaBase {
             int s = maopaoData.voiceDuration>= 60 ?60:maopaoData.voiceDuration;
             int width = minWidth + (maxWidth - minWidth)*s/60;
             width = width< minWidth?minWidth:width;
-            lp_voiceLayout.width = maxWidth;
+            lp_voiceLayout.width = width;
             if(isRight){
                 lp_voiceLayout.gravity = Gravity.LEFT;
             }else{
@@ -325,11 +328,17 @@ public class ContentAreaImages extends ContentAreaBase {
             //这里没有用AnimationDrawable做帧动画，而是自己根据其原理实现帧动画，因为在内存中同一资源id的多个drawable实例的状态好像是一样的
             //而上面注释代码由于activity每隔一段时间就会刷新ui,在播放动画时就会执行到这里，从而打断动画，造成语音播放还没完动画就突然停止的现象
             //
-            if(Build.VERSION.SDK_INT>=16){
-                voice_play.setBackground(voicePlayAnim.getFrame(0));
+            if(mVoicePlayCallBack==null || mVoicePlayCallBack.getPlayingVoiceId() != id){
+                if(Build.VERSION.SDK_INT>=16){
+                    voice_play.setBackground(voicePlayAnim.getFrame(0));
+                }else{
+                    voice_play.setBackgroundDrawable(voicePlayAnim.getFrame(0));
+                }
             }else{
-                voice_play.setBackgroundDrawable(voicePlayAnim.getFrame(0));
+                mHandler.removeCallbacksAndMessages(null);
+                playVoiceAnim();
             }
+
             View.OnClickListener mOnClickListener =  new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -350,7 +359,7 @@ public class ContentAreaImages extends ContentAreaBase {
                             if(currentPlayingVoicePath!=null){
                                 mVoicePlayCallBack.onStopPlay();
                             }
-                            mVoicePlayCallBack.onStartPlay(voicePath,new MediaPlayer.OnPreparedListener(){
+                            mVoicePlayCallBack.onStartPlay(voicePath,id,new MediaPlayer.OnPreparedListener(){
 
                                 @Override
                                 public void onPrepared(MediaPlayer mp) {
@@ -425,10 +434,11 @@ public class ContentAreaImages extends ContentAreaBase {
      * 语音播放回调接口
      */
     public interface VoicePlayCallBack{
-        void onStartPlay(String path,MediaPlayer.OnPreparedListener mOnPreparedListener,MediaPlayer.OnCompletionListener mOnCompletionListener);
+        void onStartPlay(String path,int id,MediaPlayer.OnPreparedListener mOnPreparedListener,MediaPlayer.OnCompletionListener mOnCompletionListener);
         String getPlayingVoicePath();
         void onStopPlay();
         void markVoicePlayed(int id);
+        int getPlayingVoiceId();
     }
 
 }

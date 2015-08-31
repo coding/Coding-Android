@@ -4,6 +4,8 @@ package net.coding.program.message;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -111,7 +113,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             Message.MessageObject user = (Message.MessageObject) getItem(position);
             iconfromNetwork(holder.icon, user.friend.avatar);
             holder.title.setText(user.friend.name);
-            holder.content.setText(Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
+            boolean isUnPlayedVoiceMessage = !user.sender.isMe() && user.played == 0 && user.file!=null && user.file.endsWith(".amr");
+            holder.content.setText(isUnPlayedVoiceMessage? Html.fromHtml("<font color='#3bbd79'>"+user.content+"</font>"):Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
             holder.time.setText(Global.dayToNow(user.created_at, false));
 
             if (user.unreadCount > 0) {
@@ -310,6 +313,16 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
     }
 
+    private void handleVoiceMessage(Message.MessageObject item) {
+        //语音消息重新设置extra
+        if(item.file!=null && item.file.endsWith(".amr") && item.duration>0){
+            Log.w("test", "recordDuration1=" + item.duration);
+            int dur = item.duration/1000;
+            item.content = "[语音]";
+            item.extra = "[voice]{'id':"+item.getId()+",'voiceUrl':'"+item.file+"','voiceDuration':"+dur+",'played':"+item.played+"}[voice]";
+        }
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MESSAGE_USERS)) {
@@ -323,6 +336,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Message.MessageObject messageObject = new Message.MessageObject(jsonArray.getJSONObject(i));
+                    handleVoiceMessage(messageObject);
                     mData.add(messageObject);
                 }
                 AccountInfo.saveMessageUsers(getActivity(), mData);

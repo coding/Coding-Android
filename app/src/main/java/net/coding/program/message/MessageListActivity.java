@@ -42,7 +42,6 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.EnterVoiceLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
@@ -66,7 +65,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -519,8 +517,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void onBackPressed() {
-        if (mEnterLayout != null && mEnterLayout.isEmojiKeyboardShowing()) {
-            mEnterLayout.closeEmojiKeyboard();
+        if (mEnterLayout != null && mEnterLayout.isEnterPanelShowing()) {
+            mEnterLayout.closeEnterPanel();
             return;
         }
 
@@ -740,6 +738,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 oldfile.renameTo(newFile);
                 //设置content内容,方便气泡获取录音时长与链接
                 item.extra = "[voice]{'voiceUrl':'"+voiceUrl+"',voiceDuration:"+item.duration/1000+"}[voice]";
+                item.content = "[语音]";
                 //替换本地消息为获取到的远程消息
                 for (int i = mData.size() - 1; i >= 0; --i) {
                     Message.MessageObject temp = mData.get(i);
@@ -795,8 +794,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         //语音消息重新设置extra
         if(item.file!=null && item.file.endsWith(".amr") && item.duration>0){
             Log.w("test", "recordDuration1=" + item.duration);
-            //用户录音时间会比实际录音时长最大大约260ms左右
-            int dur = (item.duration+260)/1000;
+            int dur = item.duration/1000;
+            item.content = "[语音]";
             item.extra = "[voice]{'id':"+item.getId()+",'voiceUrl':'"+item.file+"','voiceDuration':"+dur+",'played':"+item.played+"}[voice]";
         }
     }
@@ -849,14 +848,17 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
 
     private MyMediaPlayer mMyMediaPlayer;
+
+
     @Override
-    public void onStartPlay(String path,MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
+    public void onStartPlay(String path,int id,MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
         try {
             if(mMyMediaPlayer == null){
                 mMyMediaPlayer = new MyMediaPlayer();
             }else{
                 mMyMediaPlayer.reset();
             }
+            mMyMediaPlayer.setVoiceId(id);
             mMyMediaPlayer.setOnPreparedListener(mOnPreparedListener);
             mMyMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             mMyMediaPlayer.setDataSource(path);
@@ -915,11 +917,21 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     @Override
+    public int getPlayingVoiceId() {
+        return mMyMediaPlayer==null?-1:mMyMediaPlayer.getVoiceId();
+    }
+
+    private int minBottom = Global.dpToPx(200);
+    @Override
     public void onChanage(int lastBottomMargin,int newBottomMargin) {
-        if(!mEnterLayout.isKeyboardOpen){
-            listView.smoothScrollBy(newBottomMargin - lastBottomMargin ,10);
+//        if(!mEnterLayout.isKeyboardOpen){
+//            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
+//        }
+        EnterLayoutAnimSupportContainer.SoftKeyBordState  mSoftKeyBordState = mEnterLayout.getEnterLayoutAnimSupportContainer().getSoftKeyBordState();
+        if(mSoftKeyBordState == EnterLayoutAnimSupportContainer.SoftKeyBordState.Hide){
+            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
         }
-        if(newBottomMargin==Global.dpToPx(248)){
+        if(newBottomMargin==minBottom || newBottomMargin == 0){
             listView.setSelection(mData.size());
         }
     }
