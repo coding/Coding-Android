@@ -205,7 +205,7 @@ public class EnterEmojiLayout extends EnterLayout {
     protected InputType mInputType;
     private FrameLayout mPanelLayout;
 
-
+    protected boolean isSoftKeyBoard = false;
 
 
     public EnterEmojiLayout(final FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
@@ -240,12 +240,15 @@ public class EnterEmojiLayout extends EnterLayout {
                             }
                         }
 
-//                        if(isCloseSoftkeyboardAndOpenNoTextInput && !mEnterLayoutStatus && mInputType!=null && mInputType!=InputType.Text && contentViewHeight == getContentViewHeight(activity)){
-//                            // dropTempWindow();
-//                            isCloseSoftkeyboardAndOpenNoTextInput = false;
-//                           // updateEnterLayoutBottom(0);
-//                            Log.w("Test", "输入法已经隐藏");
-//                        }
+                        int h = getContentViewHeight(activity);
+                        if(contentViewHeight == h){
+                            // dropTempWindow();
+                            isSoftKeyBoard = false;
+                           // updateEnterLayoutBottom(0);
+                            //Log.w("Test", "输入法已经隐藏");
+                        }else if(contentViewHeight>h){
+                            isSoftKeyBoard = true;
+                        }
                         if (rootViewHigh == 0) {
                             return;
                         }
@@ -426,7 +429,8 @@ public class EnterEmojiLayout extends EnterLayout {
 
                 final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
                 int rootParentHigh = rootView.getRootView().getHeight();
-                if (rootParentHigh - rootViewHigh > bottomHigh) {
+                //rootParentHigh - rootViewHigh > bottomHigh
+                if (isSoftKeyBoard) {
                     // 说明键盘已经弹出来了，等键盘消失后再设置 emoji keyboard 可见
                     if(commonEnterRoot!=null){
                         toggleInputTypeWithCloseSoftkeyboard(InputType.Emoji);
