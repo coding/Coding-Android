@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<net.coding.program.common.widget.EnterLayoutAnimSupportContainer
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,8 +8,7 @@
 
     <FrameLayout xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -48,4 +48,4 @@
 
     <include layout="@layout/common_enter_emoji" />
 
-</LinearLayout>
+</net.coding.program.common.widget.EnterLayoutAnimSupportContainer>

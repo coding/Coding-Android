@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="85"
-    android:versionName="3.1.7">
+    android:versionCode="87"
+    android:versionName="3.1.9">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -15,6 +15,9 @@
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 友盟,腾讯push需要 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -25,7 +28,6 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    x
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -655,7 +657,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity
-            android:name=".project.detail.FileHistoryActivity_"
+            android:name=".project.detail.file.FileHistoryActivity_"
             android:label="@string/title_activity_file_history"
             android:screenOrientation="portrait" />
         <activity

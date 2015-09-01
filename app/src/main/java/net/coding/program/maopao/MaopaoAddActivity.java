@@ -277,7 +277,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
         MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData, currentLocation);
         AccountInfo.saveMaopaoDraft(this, draft);
 
-        mEnterLayout.closeEmojiKeyboard();
+        mEnterLayout.closeEnterPanel();
 
         super.onStop();
     }

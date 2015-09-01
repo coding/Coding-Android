@@ -136,6 +136,14 @@
     <string name="title_activity_feature">FeatureActivity</string>
     <string name="title_activity_file_history">历史版本</string>
     <string name="title_activity_file_dynamic">文件动态</string>
+    
+     <string name="hold_to_talk">按住说话</string>
+    <string name="loosen_to_cancel">松开取消</string>
+    <string name="sliding_upwards_and_cancel_sending">向上滑动，取消发送</string>
+    <string name="record_has_canceled">录音已取消</string>
+    <string name="record_failed">录音失败</string>
+    <string name="record_failed_no_enough_storage_space">无法访问存储空间,录音失败!</string>
+    <string name="voice_can_not_send_because_duration_too_short">录音时间太短，取消发送!</string>
     <string name="title_activity_txt_edit">TxtEditActivity</string>
     <string name="title_activity_markdown_edit">Markdown编辑</string>
     <string name="title_activity_attachments_photo_detail">AttachmentsPhotoDetailActivity</string>

@@ -378,7 +378,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
             floatButton.setVisibility(View.INVISIBLE);
 
-            mEnterLayout.closeEmojiKeyboard();
+            mEnterLayout.closeEnterPanel();
             mEnterLayout.show();
 
             mEnterLayout.restoreLoad(commentObject);

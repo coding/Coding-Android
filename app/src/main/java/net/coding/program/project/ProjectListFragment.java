@@ -230,10 +230,11 @@ public class ProjectListFragment extends RefreshBaseFragment {
                     int projectId = data.getIntExtra("projectId", 0);
                     if (projectId != 0) {
                         Fragment parentFragment = getParentFragment();
+                        FragmentActivity activity = getActivity();
                         if ((parentFragment instanceof UpdateData)
-                                && (getActivity() != null)) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
+                                && (activity != null)) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
                             ((UpdateData) parentFragment).updateRead(projectId);
-                            UnreadNotify.update(getActivity());
+                            UnreadNotify.update(activity);
                         }
                     }
                 }

@@ -80,6 +80,10 @@ public class Global {
     private static final SimpleDateFormat sFormatMessageOtherYear = new SimpleDateFormat("yy/MM/dd");
     public static String HOST = DEFAULT_HOST;
     public static String HOST_API = HOST + "/api";
+	/**
+     * 语音文件存放目录
+     */
+    public static String sVoiceDir;
     public static SimpleDateFormat DateFormatTime = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat MonthDayFormatTime = new SimpleDateFormat("MMMdd日");
     public static SimpleDateFormat WeekFormatTime = new SimpleDateFormat("EEE");
@@ -778,8 +782,12 @@ public class Global {
 
     public static class MessageParse {
         public String text = "";
-        public ArrayList<String> uris = new ArrayList<>();
-
+        public ArrayList<String> uris = new ArrayList<>(); 		
+		public boolean isVoice;
+        public String voiceUrl;
+        public int voiceDuration;
+        public int played;
+        public int id;
         public String toString() {
             String s = "text " + text + "\n";
             for (int i = 0; i < uris.size(); ++i) {

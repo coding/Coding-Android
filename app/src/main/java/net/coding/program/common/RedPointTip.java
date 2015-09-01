@@ -68,7 +68,8 @@ public class RedPointTip {
         Topic,
         Task315,
         MaopaoTopicSearch315,
-        MaopaoListSearch315
+        MaopaoListSearch315,
+        Voice
     }
 
 }
