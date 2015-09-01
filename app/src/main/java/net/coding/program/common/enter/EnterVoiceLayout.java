@@ -63,7 +63,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     //判断是否为新功能，如果是，语音按钮会显示红点
     private boolean isNewFunction = true;
     private BadgeView mBadgeView;
-
     public EnterVoiceLayout(ActionBarActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type, emojiType);
         init(activity);
@@ -137,7 +136,8 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
 
                     final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
                     int rootParentHigh = rootView.getRootView().getHeight();
-                    if (rootParentHigh - rootViewHigh > bottomHigh) {
+
+                    if (isSoftKeyBoard) {
                         // 说明键盘已经弹出来了，等键盘消失后再设置 emoji keyboard 可见
                         toggleInputTypeWithCloseSoftkeyboard(InputType.Voice);
                         // 魅族手机的 rootView 无论输入法是否弹出高度都是不变的，只好搞个延时做这个事
@@ -539,6 +539,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         voiceRecrodAnimtion.selectDrawable(0);
         tips_hold_to_talk.setVisibility(View.VISIBLE);
         soundWaveLayout.setVisibility(View.GONE);
+        recordTime.setTextColor(0xFF50AEEA);
         if (mAmrAudioRecorder == null) {
             return 0L;
         }

@@ -400,10 +400,12 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     private void markUserReaded(String globalKey, Message.MessageObject message) {
         for (int i = 0; i < mData.size(); ++i) {
             Message.MessageObject item = mData.get(i);
+            handleVoiceMessage(item);
             if (item.friend.global_key.equals(globalKey)) {
                 item.unreadCount = 0;
                 if (message != null) {
                     item.content = message.content;
+                    item.played = message.played;
                 }
                 adapter.notifyDataSetChanged();
                 return;
@@ -418,6 +420,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     private void messagePlus1(String globalKey, String message) {
         for (int i = 0; i < mData.size(); ++i) {
             Message.MessageObject messageObject = mData.get(i);
+            handleVoiceMessage(messageObject);
             if (messageObject.friend.global_key.equals(globalKey)) {
                 messageObject.content = message;
                 messageObject.unreadCount += 1;

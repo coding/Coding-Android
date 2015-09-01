@@ -268,7 +268,7 @@ public class AmrAudioRecorder {
 		isRecording = false;
 		synchronized (mLock) {
 			try {
-				mLock.wait(500);
+				mLock.wait(1800);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

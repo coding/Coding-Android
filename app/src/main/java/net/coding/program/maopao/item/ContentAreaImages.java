@@ -241,6 +241,7 @@ public class ContentAreaImages extends ContentAreaBase {
     private void stopPlayVoiceAnim(){
         
         isAnimRuning = false;
+        mHandler.removeCallbacksAndMessages(null);
         frame = 0;
         if(Build.VERSION.SDK_INT>=16){
             voice_play.setBackground(voicePlayAnim.getFrame(0));
@@ -335,8 +336,11 @@ public class ContentAreaImages extends ContentAreaBase {
                     voice_play.setBackgroundDrawable(voicePlayAnim.getFrame(0));
                 }
             }else{
-                mHandler.removeCallbacksAndMessages(null);
-                playVoiceAnim();
+                stopPlayVoiceAnim();
+                if(mVoicePlayCallBack.getPlayingVoicePath()!=null){
+                    playVoiceAnim();
+                }
+
             }
 
             View.OnClickListener mOnClickListener =  new View.OnClickListener() {
