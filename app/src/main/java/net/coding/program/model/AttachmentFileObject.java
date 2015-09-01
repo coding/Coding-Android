@@ -2,7 +2,10 @@ package net.coding.program.model;
 
 import android.graphics.Color;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.R;
+import net.coding.program.common.Global;
 
 import org.json.JSONObject;
 
@@ -99,6 +102,8 @@ public class AttachmentFileObject implements Serializable {
     private String name = "";
     private int size = 0;
     private int history_id;
+    //    private Share share = new Share();
+    private String share_url = "";
 
     public AttachmentFileObject() {
     }
@@ -123,7 +128,13 @@ public class AttachmentFileObject implements Serializable {
         updated_at = json.optLong("updated_at");
 
         history_id = json.optInt("history_id");
+
+        share_url = json.optString("share_url");
     }
+
+//    public void setShare(Share shareParam) {
+//        share = shareParam;
+//    }
 
     public static AttachmentFileObject parseFileObject(AttachmentFolderObject folderObject) {
         AttachmentFileObject returnFileObject = new AttachmentFileObject();
@@ -150,6 +161,22 @@ public class AttachmentFileObject implements Serializable {
         return returnFileObject;
     }
 
+    public boolean isShared() {
+        return !share_url.isEmpty();
+    }
+
+    public String getShareLink() {
+//        return share.url;
+        return share_url;
+    }
+
+    public void setShereLink(String link) {
+        if (link == null) {
+            link = "";
+        }
+        share_url = link;
+    }
+
     public int getHistory_id() {
         return history_id;
     }
@@ -157,6 +184,27 @@ public class AttachmentFileObject implements Serializable {
     // 保存在本地的名字
     public String getSaveName(int projectId) {
         return projectId + SAVE_NAME_SPLIT + file_id + SAVE_NAME_SPLIT + history_id + SAVE_NAME_SPLIT + name;
+    }
+
+    // todo 服务器改完后 projectId 改为 path
+    public PostRequest getHttpShareLinkOn(ProjectObject projectObject) {
+        String url = Global.HOST_API + "/share/create";
+        RequestParams params = new RequestParams();
+        params.put("resourceId", file_id);
+        params.put("resourceType", 0);
+        params.put("projectId", projectObject.getId());
+        params.put("accessType", 0);
+        return new PostRequest(url, params);
+    }
+
+    public String getHttpShareLinkOff() {
+        int pos = share_url.lastIndexOf("/");
+        if (pos == -1) {
+            return "";
+        }
+
+        String hash = share_url.substring(pos + 1);
+        return Global.HOST_API + "/share/" + hash;
     }
 
     public String getName() {
@@ -293,4 +341,47 @@ public class AttachmentFileObject implements Serializable {
         return current_user_role_id == ROLE_TYPE_OWNER;
     }
 
+    public static class Share implements Serializable {
+
+        /**
+         * resource_type : 0
+         * resource_id : 308811
+         * user_id : 7074
+         * access_type : 0
+         * project_id : 126848
+         * overdue : 0
+         * created_at : 1440992709000
+         * hash : 572e7ead-8b42-4e2f-9d18-b74b48d2195a
+         * url : https://coding.net/s/572e7ead-8b42-4e2f-9d18-b74b48d2195a
+         */
+
+        int resource_type;
+        int resource_id;
+        int user_id;
+        int access_type;
+        int project_id;
+        int overdue;
+        long created_at;
+        String hash = "";
+        String url = "";
+
+        public Share() {
+        }
+
+        public Share(JSONObject json) {
+            resource_type = json.optInt("resource_type");
+            resource_id = json.optInt("resource_id");
+            user_id = json.optInt("user_id");
+            access_type = json.optInt("access_type");
+            project_id = json.optInt("project_id");
+            overdue = json.optInt("overdue");
+            created_at = json.optLong("created_at");
+            hash = json.optString("hash");
+            url = json.optString("url");
+        }
+
+        public String getUrl() {
+            return url;
+        }
+    }
 }

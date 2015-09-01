@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.ActionMode;
@@ -83,7 +84,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     private static final String TAG_HTTP_FILE_EXIST = "TAG_HTTP_FILE_EXIST";
 
-
     private static String TAG = AttachmentsActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
@@ -111,6 +111,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     View blankLayout;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
+
+    @ViewById
+    View folder_actions_layout;
+
+    @ViewById
+    View files_actions_layout;
+
     @ViewById
     ImageView uploadCloseBtn;
     @ViewById
@@ -435,8 +442,10 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = mode.getMenuInflater();
-
             inflater.inflate(R.menu.project_attachment_file_edit, menu);
+
+            files_actions_layout.setVisibility(View.VISIBLE);
+            folder_actions_layout.setVisibility(View.GONE);
 
             return true;
         }
@@ -487,6 +496,10 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
+
+            files_actions_layout.setVisibility(View.GONE);
+            folder_actions_layout.setVisibility(View.VISIBLE);
+
             setListEditMode(false);
         }
     };
@@ -514,8 +527,16 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
 //            menu.findItem(R.id.action_new_folder).setVisible(false);
-            findViewById(R.id.common_folder_bottom_add).setEnabled(false);
+            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_create_folder_disable);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            ((TextView) findViewById(R.id.textCreateFolder)).setCompoundDrawables(
+                    drawable,
+                    null,
+                    null,
+                    null
+            );
         }
+
         return true;
     }
 
@@ -541,6 +562,25 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         String projectUrl = String.format(HOST_PROJECT_ID, mProjectObjectId);
         getNetwork(projectUrl, HOST_PROJECT_ID);
+    }
+
+    @Click
+    void common_files_move() {
+        action_move();
+    }
+
+    @Click
+    void common_files_download() {
+        action_download(mFilesArray);
+    }
+
+    @Click
+    void common_files_delete() {
+        if (isChooseOthers()) {
+            return;
+        } else {
+            action_delete();
+        }
     }
 
     @ItemClick

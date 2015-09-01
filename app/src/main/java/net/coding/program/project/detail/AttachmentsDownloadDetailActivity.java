@@ -252,7 +252,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
             File file = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
             if (file.exists() && file.isFile()) {
                 jumpTextHtmlActivity();
-                layout_dynamic_history.setVisibility(View.VISIBLE);
                 showState(STATE_FINISHDOWNLOAD);
             }
         }

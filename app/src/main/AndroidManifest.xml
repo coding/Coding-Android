@@ -674,7 +674,12 @@
             android:windowSoftInputMode="adjustResize|stateUnspecified" />
         <activity
             android:name=".project.detail.AttachmentsPhotoDetailActivity_"
-            android:label="@string/title_activity_attachments_photo_detail"></activity>
+            android:label="@string/title_activity_attachments_photo_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.file.ShareFileLinkActivity_"
+            android:label="@string/title_activity_share_file_link"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

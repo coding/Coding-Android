@@ -150,4 +150,9 @@
     </RelativeLayout>
 
     <include layout="@layout/common_folder_upload_add" />
+
+    <include
+        layout="@layout/common_folder_move_download_delete"
+        android:visibility="gone" />
+
 </LinearLayout>

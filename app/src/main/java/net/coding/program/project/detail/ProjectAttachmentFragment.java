@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -247,6 +248,14 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     protected void init() {
         // 根目录下不能上传文件
         getView().findViewById(R.id.common_folder_bottom_upload).setEnabled(false);
+        Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_upload_disable);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        ((TextView) getView().findViewById(R.id.textUploadFile)).setCompoundDrawables(
+                drawable,
+                null,
+                null,
+                null
+        );
 
         initRefreshLayout();
 
@@ -257,7 +266,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         listView.setAdapter(adapter);
 
         getNetwork(HOST_FILECOUNT, HOST_FILECOUNT);
-
     }
 
     @ItemClick

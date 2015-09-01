@@ -12,11 +12,11 @@
         android:title="@string/action_inverse"
         app:showAsAction="withText|always" />
 
-    <item
-        android:id="@+id/action_more"
-        android:icon="@drawable/ic_action_overflow"
-        android:title="@string/action_more"
-        app:showAsAction="withText|always">
+    <!--<item-->
+    <!--android:id="@+id/action_more"-->
+    <!--android:icon="@drawable/ic_action_overflow"-->
+    <!--android:title="@string/action_more"-->
+    <!--app:showAsAction="withText|always">-->
 
         <!--<menu>-->
         <!--<item-->
@@ -36,7 +36,7 @@
         <!--app:showAsAction="always" />-->
 
         <!--</menu>-->
-    </item>
+    <!--</item>-->
 
     <!--<item android:id="@+id/action_download"
         android:title="@string/action_download"

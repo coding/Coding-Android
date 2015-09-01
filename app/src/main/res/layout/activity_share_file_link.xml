@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.detail.file.ShareFileLinkActivity">
+
+    <include layout="@layout/divide_15_bottom" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff7f3d5"
+        android:padding="@dimen/padding_12"
+        android:text="适用于所有人，无需登陆。\n当前未开启分享，请先创建公开链接。"
+        android:textColor="@color/font_black_6"
+        android:textSize="16sp" />
+
+    <include layout="@layout/divide_15_top_bottom" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:minHeight="48dp"
+        android:paddingLeft="@dimen/padding_12"
+        android:paddingRight="@dimen/padding_12">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="共享链接"
+            android:textColor="#222222"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/clickSettingShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/push_checkbox"
+            android:button="@null" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutShareLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:minHeight="48dp"
+        android:paddingLeft="@dimen/padding_12"
+        android:paddingRight="@dimen/padding_12">
+
+        <include layout="@layout/divide_1" />
+
+        <TextView
+            android:id="@+id/linkContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="60dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="linkContent"
+            android:textColor="@color/font_black_2"
+            android:textSize="16sp"
+            tools:text="https://coding.net/32l3k23l/akldsfj;asdk,ajdsf;alksdfaadsfasdfads" />
+
+        <TextView
+            android:id="@+id/clickShareLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/round_rect_shape_green2"
+            android:button="@null"
+            android:paddingBottom="6dp"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="6dp"
+            android:text="拷贝"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+    <include layout="@layout/divide_15_top" />
+
+</LinearLayout>

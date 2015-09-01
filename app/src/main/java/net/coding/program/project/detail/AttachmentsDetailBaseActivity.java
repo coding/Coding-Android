@@ -23,11 +23,13 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
+import net.coding.program.project.detail.file.ShareFileLinkActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -41,6 +43,8 @@ import java.io.File;
  */
 @EActivity
 public class AttachmentsDetailBaseActivity extends BackActivity {
+
+    private static final int RESULT_SHARE_LINK = 1;
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
     protected File mFile;
     @Extra
@@ -64,7 +68,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%d/file/delete?fileIds=%s";
     private String urlDownloadBase = Global.HOST_API + "/project/%d/files/%s/download";
     private boolean isDownloading = false;
-
     private FileSaveHelp mFileSaveHelp;
     private String type;
 
@@ -184,7 +187,17 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     @OptionsItem
     protected final void action_link_public() {
+        ShareFileLinkActivity_.intent(this)
+                .mAttachmentFileObject(mAttachmentFileObject)
+                .mProject(mProject)
+                .start();
+    }
 
+    @OnActivityResult(RESULT_SHARE_LINK)
+    void onResultShareLink(int result, Intent intent) {
+        if (result == RESULT_OK) {
+            setResult(result, intent);
+        }
     }
 
     @OptionsItem

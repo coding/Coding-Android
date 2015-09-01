@@ -96,4 +96,6 @@
     <dimen name="label_list_item_merge_bottom">6dp</dimen>
     <dimen name="label_list_item_padding_left">3dp</dimen>
 
+    <dimen name="project_action_icon_text">5dp</dimen>
+
 </resources>
