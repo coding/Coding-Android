@@ -210,8 +210,14 @@ public class CommitFileListActivity extends BackActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_COMMENT) {
             if (resultCode == RESULT_OK) {
-                BaseComment comment = (BaseComment) data.getSerializableExtra("data");
-                mAdapter.appendSingeDataUpdate(comment);
+                try {
+                    String commentString = (String) data.getSerializableExtra("data");
+                    JSONObject json = new JSONObject(commentString);
+                    BaseComment comment = new BaseComment(json);
+                    mAdapter.appendSingeDataUpdate(comment);
+                } catch (Exception e) {
+                    showButtomToast("" + e.toString());
+                }
             }
         }
     }

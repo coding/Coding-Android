@@ -24,8 +24,8 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="下载原图"
-            android:textColor="@color/font_black_6"
+            android:text="下载原文件"
+            android:textColor="@color/font_green"
             android:textSize="16sp" />
 
     </LinearLayout>

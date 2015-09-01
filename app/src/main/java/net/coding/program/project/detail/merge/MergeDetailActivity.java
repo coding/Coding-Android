@@ -289,9 +289,15 @@ public class MergeDetailActivity extends BackActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_COMMENT) {
             if (resultCode == RESULT_OK) {
-                BaseComment comment = (BaseComment) data.getSerializableExtra("data");
-                mAdapter.appendData(comment);
-                mAdapter.notifyDataSetChanged();
+                String commentString = (String) data.getSerializableExtra("data");
+                try {
+                    JSONObject json = new JSONObject(commentString);
+                    BaseComment comment = new BaseComment(json);
+                    mAdapter.appendData(comment);
+                    mAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    showButtomToast("" + e.toString());
+                }
             }
 
         } else if (requestCode == RESULT_MERGE) {

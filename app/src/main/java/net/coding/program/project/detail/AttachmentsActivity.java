@@ -83,7 +83,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     final public static int FILE_MOVE_CODE = 12;
 
     private static final String TAG_HTTP_FILE_EXIST = "TAG_HTTP_FILE_EXIST";
-
+    private static final String HOST_HTTP_FILE_RENAME = "HOST_HTTP_FILE_RENAME";
     private static String TAG = AttachmentsActivity.class.getSimpleName();
     @Extra
     int mProjectObjectId;
@@ -107,17 +107,14 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     ListView listView;
     @ViewById
     RelativeLayout uploadLayout;
-    @ViewById
-    View blankLayout;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
-
+    @ViewById
+    View blankLayout;
     @ViewById
     View folder_actions_layout;
-
     @ViewById
     View files_actions_layout;
-
     @ViewById
     ImageView uploadCloseBtn;
     @ViewById
@@ -576,9 +573,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     @Click
     void common_files_delete() {
-        if (isChooseOthers()) {
-            return;
-        } else {
+        if (!isChooseOthers()) {
             action_delete();
         }
     }
@@ -780,6 +775,16 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 //mData.clear();
                 //AttachmentFolderObject folderObject = (AttachmentFolderObject)data;
                 //loadMore();
+            } else {
+                showButtomToast("重命名失败");
+            }
+        } else if (tag.equals(HOST_HTTP_FILE_RENAME)) {
+            if (code == 0) {
+                showButtomToast("重命名成功");
+                AttachmentFileObject folderObject = mFilesArray.get(pos);
+                folderObject.setName((String) data);
+                adapter.notifyDataSetChanged();
+
             } else {
                 showButtomToast("重命名失败");
             }
@@ -1364,15 +1369,17 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
             String[] itemTitles;
             if (selectedFileObject.isOwner()) {
-                itemTitles = new String[]{"移动", "删除"};
+                itemTitles = new String[]{"重命名", "移动", "删除"};
             } else {
-                itemTitles = new String[]{"移动"};
+                itemTitles = new String[]{"重命名", "移动"};
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setItems(itemTitles, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
+                        fileRename(selectedPosition, mFilesArray.get(selectedPosition));
+                    } else if (which == 1) {
                         action_move_single(mFilesArray.get(selectedPosition));
                     } else {
                         action_delete_single(mFilesArray.get(selectedPosition));
@@ -1425,6 +1432,43 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     if (!newName.equals(folderObject.name)) {
                         HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObjectId, folderObject.file_id, newName);
                         putNetwork(HOST_FOLDER_NAME, HOST_FOLDER_NAME, position, newName);
+                    }
+                }
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        //builder.create().show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialogTitleLineColor(dialog);
+        input.requestFocus();
+    }
+
+
+    private void fileRename(final int postion, final AttachmentFileObject folderObject) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
+        LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);
+        View v1 = li.inflate(R.layout.dialog_input, null);
+        final EditText input = (EditText) v1.findViewById(R.id.value);
+        input.setText(folderObject.getName());
+        builder.setTitle("重命名")
+                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newName = input.getText().toString();
+                if (newName.equals("")) {
+                    showButtomToast("名字不能为空");
+                } else {
+                    if (!newName.equals(folderObject.getName())) {
+                        String urlTemplate = Global.HOST_API + "/project/%d/files/%s/rename";
+                        String url = String.format(urlTemplate, mProjectObjectId, folderObject.file_id);
+                        RequestParams params = new RequestParams();
+                        params.put("name", newName);
+                        putNetwork(url, params, HOST_HTTP_FILE_RENAME, postion, newName);
                     }
                 }
             }

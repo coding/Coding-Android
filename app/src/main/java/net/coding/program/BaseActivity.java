@@ -179,6 +179,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         networkImpl.loadData(url, params, tag, -1, null, NetworkImpl.Request.Put);
     }
 
+    protected void putNetwork(String url, RequestParams params, String tag, int pos, Object object) {
+        networkImpl.loadData(url, params, tag, pos, object, NetworkImpl.Request.Put);
+    }
+
     protected void putNetwork(String url, final String tag, int dataPos, Object data) {
         networkImpl.loadData(url, null, tag, dataPos, data, NetworkImpl.Request.Put);
     }

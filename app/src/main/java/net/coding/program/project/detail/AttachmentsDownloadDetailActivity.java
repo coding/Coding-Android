@@ -1,5 +1,6 @@
 package net.coding.program.project.detail;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -140,6 +141,32 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                 || downloadManagerStatus == DownloadManager.STATUS_PENDING;
     }
 
+    public static void openFile(Activity activity, File file) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //设置intent的Action属性
+        intent.setAction(Intent.ACTION_VIEW);
+        //获取文件file的MIME类型
+
+        Uri uri = Uri.fromFile(file);
+        //ContentResolver cR = getContentResolver();
+        //String mime = cR.getType(uri);
+
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        int index = file.getName().lastIndexOf('.') + 1;
+        String ext = file.getName().substring(index).toLowerCase();
+        String type = mime.getMimeTypeFromExtension(ext);
+
+        //设置intent的data和Type属性。
+        intent.setDataAndType(uri, type);
+        //跳转
+        try {
+            activity.startActivity(intent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(activity, "没有能打开这个文件的应用", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Click
     final void ivDownloadCancel() {
         isCanceled = true;
@@ -151,7 +178,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     final void btnOpen() {
         //File mFile = getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
         if (mFile.exists() && mFile.isFile())
-            openFile(mFile);
+            openFile(this, mFile);
         else {
             showButtomToast("无法打开，请重新下载");
             showState(STATE_NEEDDOWNLOAD);
@@ -455,33 +482,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
             Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
         }
 
-    }
-
-    private void openFile(File file) {
-
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //设置intent的Action属性
-        intent.setAction(Intent.ACTION_VIEW);
-        //获取文件file的MIME类型
-
-        Uri uri = Uri.fromFile(file);
-        //ContentResolver cR = getContentResolver();
-        //String mime = cR.getType(uri);
-
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        int index = file.getName().lastIndexOf('.') + 1;
-        String ext = file.getName().substring(index).toLowerCase();
-        String type = mime.getMimeTypeFromExtension(ext);
-
-        //设置intent的data和Type属性。
-        intent.setDataAndType(uri, type);
-        //跳转
-        try {
-            startActivity(intent);
-        } catch (android.content.ActivityNotFoundException ex) {
-            showButtomToast("没有能打开这个文件的应用");
-        }
     }
 
     @Override

@@ -101,7 +101,7 @@ public class FileDynamicActivity extends BackActivity {
 
     @Click
     protected void itemAddComment() {
-        FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProjectId(),
+        FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProject(),
                 Integer.valueOf(mProjectFileParam.mFileObject.file_id), "");
         CommentActivity_.intent(this).mParam(param).startForResult(RESULT_COMMENT);
     }
@@ -117,12 +117,12 @@ public class FileDynamicActivity extends BackActivity {
 
     static class FileDynamicParam implements CommentActivity.CommentParam, Serializable {
 
-        int projectId;
         int fileId;
         String atSomeOne;
+        ProjectObject mProjectObject;
 
-        public FileDynamicParam(int projectId, int fileId, String atSomeOne) {
-            this.projectId = projectId;
+        public FileDynamicParam(ProjectObject projectObject, int fileId, String atSomeOne) {
+            this.mProjectObject = projectObject;
             this.fileId = fileId;
             this.atSomeOne = atSomeOne;
         }
@@ -130,7 +130,8 @@ public class FileDynamicActivity extends BackActivity {
         @Override
         public PostRequest getSendCommentParam(String input) {
             String url = String.format(Global.HOST_API +
-                    "/project/%d/files/%d/comment", projectId, fileId);
+                    mProjectObject.getProjectPath() +
+                    "/files/%d/comment", fileId);
             PostRequest request = new PostRequest(url, new RequestParams());
             request.setContent(input);
             return request;
@@ -144,12 +145,12 @@ public class FileDynamicActivity extends BackActivity {
         @Override
         public String getAtSomeUrl() {
             return String.format(Global.HOST_API +
-                    "/user/relationships/context?context_type=project_file_comment&item_id=%d", projectId);
+                    "/user/relationships/context?context_type=project_file_comment&item_id=%d", mProjectObject.getId());
         }
 
         @Override
         public String getProjectPath() {
-            return String.format("/project/%d", projectId);
+            return mProjectObject.getProjectPath();
         }
 
         @Override
@@ -259,7 +260,7 @@ public class FileDynamicActivity extends BackActivity {
                         }
                     });
                 } else {
-                    FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProjectId(),
+                    FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProject(),
                             Integer.valueOf(mProjectFileParam.mFileObject.file_id), ownerName);
                     CommentActivity_.intent(FileDynamicActivity.this).mParam(param).startForResult(RESULT_COMMENT);
                 }

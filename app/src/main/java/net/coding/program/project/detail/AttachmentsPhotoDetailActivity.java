@@ -47,7 +47,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
         } else {
             imagefromNetwork(imageView, mAttachmentFileObject.owner_preview, ImageLoadTool.enterOptions);
             layout_image_prototype.setVisibility(View.VISIBLE);
-            layout_dynamic_history.setVisibility(View.GONE);
+            layout_dynamic_history.setVisibility(View.VISIBLE);
         }
     }
 

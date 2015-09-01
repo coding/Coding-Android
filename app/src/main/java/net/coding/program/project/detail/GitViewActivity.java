@@ -26,6 +26,7 @@ import net.coding.program.model.ProjectObject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
@@ -36,7 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@EActivity(R.layout.activity_attachments_html)
+@EActivity(R.layout.activity_gitview)
 //@OptionsMenu(R.menu.users)
 @OptionsMenu(R.menu.common_more)
 public class GitViewActivity extends CustomMoreActivity {
@@ -72,6 +73,7 @@ public class GitViewActivity extends CustomMoreActivity {
 
     @AfterViews
     protected final void initGitViewActivity() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(mGitFileInfoObject.name);
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
@@ -87,6 +89,11 @@ public class GitViewActivity extends CustomMoreActivity {
         webview.getSettings().setDefaultTextEncodingName("UTF-8");
         showDialogLoading();
         getNetwork(urlBlob, urlBlob);
+    }
+
+    @OptionsItem(android.R.id.home)
+    protected final void annotaionClose() {
+        onBackPressed();
     }
 
     @Override

@@ -203,17 +203,18 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     @OptionsItem
     protected final void action_open_by_other() {
         if (mFile != null && mFile.exists()) {
-            try {
-                Intent mResultIntent = new Intent(Intent.ACTION_VIEW);
-                Uri fileUri = Uri.fromFile(mFile);
-                type = getContentResolver().getType(fileUri);
-                mResultIntent.setDataAndType(fileUri,
-                        type);
-                startActivity(mResultIntent);
-            } catch (Exception e) {
-                Global.errorLog(e);
-                showMiddleToast("没有能打开此文件的程序");
-            }
+//            try {
+//                Intent mResultIntent = new Intent(Intent.ACTION_VIEW);
+//                Uri fileUri = Uri.fromFile(mFile);
+//                type = getContentResolver().getType(fileUri);
+//                mResultIntent.setDataAndType(fileUri,
+//                        type);
+//                startActivity(mResultIntent);
+//            } catch (Exception e) {
+//                Global.errorLog(e);
+//                showMiddleToast("没有能打开此文件的程序");
+//            }
+            AttachmentsDownloadDetailActivity.openFile(this, mFile);
         } else {
             showMiddleToast("文件未下载");
         }
