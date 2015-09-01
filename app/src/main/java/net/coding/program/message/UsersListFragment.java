@@ -405,6 +405,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 item.unreadCount = 0;
                 if (message != null) {
                     item.content = message.content;
+                    item.played = message.played;
                 }
                 adapter.notifyDataSetChanged();
                 return;
@@ -419,6 +420,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     private void messagePlus1(String globalKey, String message) {
         for (int i = 0; i < mData.size(); ++i) {
             Message.MessageObject messageObject = mData.get(i);
+            handleVoiceMessage(messageObject);
             if (messageObject.friend.global_key.equals(globalKey)) {
                 messageObject.content = message;
                 messageObject.unreadCount += 1;

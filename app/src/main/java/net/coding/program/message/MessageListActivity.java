@@ -538,8 +538,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         if (mData.size() > 0) {
             item = mData.get(mData.size() - 1);
         }
-
-        UsersListFragment.ReadedUserId.setReadedUser(mGlobalKey, item);
+        UsersListFragment.ReadedUserId.setReadedUser(mGlobalKey,item);
     }
 
     @Override
@@ -902,9 +901,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void markVoicePlayed(int id) {
-        RequestParams params = new RequestParams();
-        params.put("played", 1);
-        postNetwork(String.format(HOST_MARK_VOICE_PLAYED, id), params, TAG_MARK_VOICE_PLAYED + id, -1, id);
+        Log.w("VoiceMessage", "markVoicePlayed:id=" + id);
+        postNetwork(String.format(HOST_MARK_VOICE_PLAYED, id), null, TAG_MARK_VOICE_PLAYED + id, -1, id);
         for(int i = 0;i<mData.size();i++){
                     Message.MessageObject item = mData.get(i);
                     if(item.getId() == id){
