@@ -97,6 +97,10 @@ public class Merge implements Serializable {
         return iid;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public ActionAuthor getActionAuthor() {
         return action_author;
     }

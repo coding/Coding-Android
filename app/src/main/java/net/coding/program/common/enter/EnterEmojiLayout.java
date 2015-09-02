@@ -183,6 +183,11 @@ public class EnterEmojiLayout extends EnterLayout {
             "coding_emoji_43",
     }};
     protected final View rootView;
+    protected int rootViewHigh = 0;
+    protected ViewGroup mInputBox;//文本输入框所在的布局容器
+    protected RippleBackground voiceLayout;
+    protected InputType mInputType;
+    protected boolean isSoftKeyBoard = false;
     PageChangeListener pageChange = new PageChangeListener();
     private CheckBox checkBoxEmoji;
     private View emojiKeyboardLayout;
@@ -193,20 +198,63 @@ public class EnterEmojiLayout extends EnterLayout {
     private View selectMonkey;
     private MyImageGetter myImageGetter;
     private Activity mActivity;
-    protected int rootViewHigh = 0;
-    protected ViewGroup mInputBox;//文本输入框所在的布局容器
-    protected RippleBackground voiceLayout;
     private boolean firstLayout = true;
     private int contentViewHeight;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mWindowLp;
     private ImageView mWindowView;
     private int statusBarHeight;
-    protected InputType mInputType;
     private FrameLayout mPanelLayout;
+    private View.OnClickListener checkBoxEmojiOnClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            content.requestFocus();
+            if (checkBoxEmoji.isChecked()) {
+                rootViewHigh = rootView.getHeight();
 
-    protected boolean isSoftKeyBoard = false;
+                final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
+                int rootParentHigh = rootView.getRootView().getHeight();
+                //rootParentHigh - rootViewHigh > bottomHigh
+                if (isSoftKeyBoard) {
+                    // 说明键盘已经弹出来了，等键盘消失后再设置 emoji keyboard 可见
+                    if (commonEnterRoot != null) {
+                        toggleInputTypeWithCloseSoftkeyboard(InputType.Emoji);
+                    } else {
+                        //兼容没有使用common_enter_emoji的输入控件
+                        Global.popSoftkeyboard(mActivity, content, false);
+                        mInputType = InputType.Emoji;
+                    }
 
+                    // 魅族手机的 rootView 无论输入法是否弹出高度都是不变的，只好搞个延时做这个事
+                    rootView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            rootView.setLayoutParams(rootView.getLayoutParams());
+                        }
+                    }, 50);
+
+                } else {
+                    if (commonEnterRoot != null) {
+                        toggleNoTextInput(InputType.Emoji);
+                    } else {
+                        //兼容没有使用common_enter_emoji的输入控件
+                        emojiKeyboardLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    rootViewHigh = 0;
+                }
+            } else {
+                if (commonEnterRoot != null) {
+                    toggleSoftkeyboardWithCloseNoTextInput(InputType.Emoji);
+                } else {
+                    //兼容没有使用common_enter_emoji的输入控件
+                    Global.popSoftkeyboard(mActivity, content, true);
+                    emojiKeyboardLayout.setVisibility(View.GONE);
+                }
+
+            }
+        }
+    };
 
     public EnterEmojiLayout(final FragmentActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type);
@@ -257,16 +305,13 @@ public class EnterEmojiLayout extends EnterLayout {
                             if(mInputType!=null){
                                 switch (mInputType){
                                     case Text:
-                                        voiceLayout.setVisibility(View.GONE);
-                                        emojiKeyboardLayout.setVisibility(View.GONE);
+                                        setInputStyle(View.GONE, View.GONE);
                                         break;
                                     case Voice:
-                                        voiceLayout.setVisibility(View.VISIBLE);
-                                        emojiKeyboardLayout.setVisibility(View.GONE);
+                                        setInputStyle(View.GONE, View.VISIBLE);
                                         break;
                                     case Emoji:
-                                        emojiKeyboardLayout.setVisibility(View.VISIBLE);
-                                        voiceLayout.setVisibility(View.GONE);
+                                        setInputStyle(View.VISIBLE, View.GONE);
                                         break;
                                 }
                             }
@@ -342,9 +387,19 @@ public class EnterEmojiLayout extends EnterLayout {
                 return false;
             }
         });
+    }
 
+    public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick) {
+        this(activity, sendTextOnClick, Type.Default, EmojiType.Default);
+    }
 
-
+    private void setInputStyle(int emojiKeyboard, int voiceKeyboard) {
+        if (emojiKeyboardLayout != null) {
+            emojiKeyboardLayout.setVisibility(emojiKeyboard);
+        }
+        if (voiceLayout != null) {
+            voiceLayout.setVisibility(voiceKeyboard);
+        }
     }
 
     private void dropTempWindow(){
@@ -407,8 +462,6 @@ public class EnterEmojiLayout extends EnterLayout {
         mWindowManager.updateViewLayout(mWindowView, mWindowLp);
     }
 
-
-
     protected int getContentViewHeight(Activity activity){
         Rect rect = new Rect();
         Window window = activity.getWindow();
@@ -418,57 +471,6 @@ public class EnterEmojiLayout extends EnterLayout {
         }
         return rect.bottom - rect.top;
     }
-
-
-    private View.OnClickListener checkBoxEmojiOnClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            content.requestFocus();
-            if (checkBoxEmoji.isChecked()) {
-                rootViewHigh = rootView.getHeight();
-
-                final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
-                int rootParentHigh = rootView.getRootView().getHeight();
-                //rootParentHigh - rootViewHigh > bottomHigh
-                if (isSoftKeyBoard) {
-                    // 说明键盘已经弹出来了，等键盘消失后再设置 emoji keyboard 可见
-                    if(commonEnterRoot!=null){
-                        toggleInputTypeWithCloseSoftkeyboard(InputType.Emoji);
-                    }else{
-                        //兼容没有使用common_enter_emoji的输入控件
-                        Global.popSoftkeyboard(mActivity, content, false);
-                    }
-
-                    // 魅族手机的 rootView 无论输入法是否弹出高度都是不变的，只好搞个延时做这个事
-                    rootView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            rootView.setLayoutParams(rootView.getLayoutParams());
-                        }
-                    }, 50);
-
-                } else {
-                    if(commonEnterRoot!=null){
-                        toggleNoTextInput(InputType.Emoji);
-                    }else{
-                        //兼容没有使用common_enter_emoji的输入控件
-                        emojiKeyboardLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    rootViewHigh = 0;
-                }
-            } else {
-                if(commonEnterRoot!=null){
-                    toggleSoftkeyboardWithCloseNoTextInput(InputType.Emoji);
-                }else{
-                    //兼容没有使用common_enter_emoji的输入控件
-                    Global.popSoftkeyboard(mActivity, content, true);
-                    emojiKeyboardLayout.setVisibility(View.GONE);
-                }
-
-            }
-        }
-    };
 
     private View getCurrentNoTextInput(){
         if(mInputType!=null && mInputType!= InputType.Text){
@@ -559,7 +561,6 @@ public class EnterEmojiLayout extends EnterLayout {
                 animEnterLayoutStatusChanaged(true);
             }
         }
-
     }
 
     @Override
@@ -571,8 +572,6 @@ public class EnterEmojiLayout extends EnterLayout {
         }
     }
 
-
-
     @Override
     protected void onEnterLayoutDropDown(int bottom) {
         super.onEnterLayoutDropDown(bottom);
@@ -581,15 +580,6 @@ public class EnterEmojiLayout extends EnterLayout {
     @Override
     protected void onEnterLayoutPopUp(int bottom) {
         super.onEnterLayoutPopUp(bottom);
-    }
-
-
-
-
-
-
-    public EnterEmojiLayout(FragmentActivity activity, View.OnClickListener sendTextOnClick) {
-        this(activity, sendTextOnClick, Type.Default, EmojiType.Default);
     }
 
     public boolean isEnterPanelShowing() {

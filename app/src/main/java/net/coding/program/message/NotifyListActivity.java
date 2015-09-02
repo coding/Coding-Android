@@ -87,6 +87,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                 holder.title.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.root = convertView;
+                holder.badge = convertView.findViewById(R.id.badge);
 
 
             } else {
@@ -162,6 +163,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
             holder.title.setText(Global.changeHyperlinkColor(title));
             holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);
+            holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
 
             if (position == (mData.size() - 1)) {
                 loadMore();
@@ -264,6 +266,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         public TextView title;
         public TextView time;
         public View root;
+        public View badge;
     }
 
 }

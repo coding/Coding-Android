@@ -65,26 +65,19 @@ public class MergeFileDetailActivity extends BackActivity {
             String host = uri.getHost();
             switch (host) {
                 case "line_note": {
-                    final LineNoteBase lineNote = new LineNoteBase(uri);
+                    final LineNoteBase lineNote = new LineNoteBase(uri, mMerge.getId());
                     showDialog("line " + lineNote.line, "添加评论", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            String url = "https://coding.net/api/user/ease/project/CodingTest/git/line_notes";
-//                            RequestParams params = lineNote.getPostParam("ccccc test");
-//                            postNetwork(url, params, TAG_LINE_NOTE_CREATE);
-
-
-//                            CommentActivity.CommentParam param = createParam(name);
                             LineNoteParam param = createParam(lineNote, "");
                             CommentActivity_.intent(MergeFileDetailActivity.this).mParam(param).startForResult(RESULT_COMMENT);
-
                         }
                     });
                     break;
                 }
 
                 case "note": {
-                    final LineNote lineNote = new LineNote(uri);
+                    final LineNote lineNote = new LineNote(uri, mMerge.getId());
                     if (lineNote.isMe()) {
                         showDialog("line note", "删除评论", new DialogInterface.OnClickListener() {
                             @Override
@@ -265,15 +258,16 @@ public class MergeFileDetailActivity extends BackActivity {
         public String position;
         public String line;
         public String anchor;
-        public String noteable_id = "24212";
+        public String noteable_id;// = "24212";
 
-        public LineNoteBase(Uri uri) {
+        public LineNoteBase(Uri uri, int noteableId) {
             commitId = uri.getQueryParameter("commitId");
             noteable_type = uri.getQueryParameter("noteable_type");
             path = uri.getQueryParameter("path");
             position = uri.getQueryParameter("position");
             line = uri.getQueryParameter("line");
             anchor = uri.getQueryParameter("anchor");
+            noteable_id = String.valueOf(noteableId);
         }
 
         public RequestParams getPostParam(String content) {
@@ -295,8 +289,8 @@ public class MergeFileDetailActivity extends BackActivity {
         public String line_note_commentclicked_line_note_id;
         public String clicked_user_name; // 其实是 global key
 
-        public LineNote(Uri uri) {
-            super(uri);
+        public LineNote(Uri uri, int noteableId) {
+            super(uri, noteableId);
             line_note_commentclicked_line_note_id = uri.getQueryParameter("line_note_commentclicked_line_note_id");
             clicked_user_name = uri.getQueryParameter("clicked_user_name");
         }

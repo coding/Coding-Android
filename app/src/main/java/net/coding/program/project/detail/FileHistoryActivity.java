@@ -142,8 +142,12 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
         } else {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String[] itemTitles = {"修改备注"};
+            if (mData.get(pos).owner.isMe()) {
+                itemTitles = new String[]{"修改备注", "删除"};
+            }
             builder
-                    .setItems(new String[]{"修改备注", "删除"}, new DialogInterface.OnClickListener() {
+                    .setItems(itemTitles, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             AttachmentFileHistoryObject itemData = mData.get(pos);
                             if (which == 0) {

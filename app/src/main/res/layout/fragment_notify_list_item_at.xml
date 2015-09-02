@@ -4,13 +4,22 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.message.NotifyListActivity">
 
+    <com.readystatesoftware.viewbadger.BadgeView
+        android:id="@+id/badge"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
+        android:layout_marginLeft="@dimen/padding_12"
+        android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/ic_notify"
+        android:gravity="center"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingRight="6dp"
+        android:layout_marginRight="@dimen/padding_12"
         android:paddingTop="15dp"
         android:src="@drawable/ic_notify_at" />
 

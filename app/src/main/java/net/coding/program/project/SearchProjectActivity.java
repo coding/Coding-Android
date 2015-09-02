@@ -16,6 +16,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @EActivity(R.layout.activity_search_project)
 public class SearchProjectActivity extends BackActivity {
@@ -75,6 +76,14 @@ public class SearchProjectActivity extends BackActivity {
         });
 
         mData = AccountInfo.loadProjects(this);
+        if (type == ProjectFragment.Type.Pick) {
+            for (Iterator<ProjectObject> iterator = mData.iterator(); iterator.hasNext(); ) {
+                if (iterator.next().isPublic()) {
+                    iterator.remove();
+                }
+            }
+        }
+
         searchFragment = ProjectListFragment_.builder().type(type).mData(mSearchData).build();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, searchFragment)

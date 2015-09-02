@@ -108,6 +108,8 @@ public class WebActivity extends UmengActivity {
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         webView.setWebViewClient(new CustomWebViewClient(this));
+        String useAgent = MyAsyncHttpClient.getMapHeaders().get("User-Agent");
+        webView.getSettings().setUserAgentString(useAgent);
         webView.loadUrl(url, MyAsyncHttpClient.getMapHeaders());
     }
 
