@@ -16,7 +16,6 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.RedPointTip;
 import net.coding.program.common.SearchCache;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.SubjectDetailActivity_;
@@ -154,8 +153,7 @@ public class MaopaoSearchActivity extends BackActivity {
     }
 
     private void updateRedPoint() {
-        boolean show = RedPointTip.show(this, RedPointTip.Type.MaopaoTopicSearch315);
-        badgeView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+        badgeView.setVisibility(View.INVISIBLE);
     }
 
     private void initSearchFooterView() {
@@ -263,6 +261,32 @@ public class MaopaoSearchActivity extends BackActivity {
         }
     };
 
+    private void fillHotTweetToLayout() {
+        if (mSubjectList != null) {
+            Subject.SubjectDescObject descObject = null;
+            View itemView = null;
+            TextView textView = null;
+            for (int i = 0; i < mSubjectList.size(); i++) {
+                descObject = mSubjectList.get(i);
+                itemView = LayoutInflater.from(this).inflate(R.layout.subject_search_hot_topic_item, null);
+                textView = (TextView) itemView.findViewById(R.id.hot_tweet_item);
+                textView.setText("#" + descObject.name + "#");
+                textView.setTag(i);
+                textView.setOnClickListener(mHotTweetClickListener);
+                if (i == 0) {
+                    textView.setBackgroundResource(R.drawable.round_green_corner);
+                    textView.setTextColor(getResources().getColor(R.color.merge_green));
+                } else {
+                    textView.setBackgroundResource(R.drawable.round_gray_corner);
+                    textView.setTextColor(getResources().getColor(R.color.font_black_2));
+                }
+                mSearchHotLayout.addView(itemView);
+                if (i > 4)
+                    break;
+            }
+        }
+    }
+
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
         @Override
@@ -270,7 +294,6 @@ public class MaopaoSearchActivity extends BackActivity {
             switch (v.getId()) {
                 case R.id.subject_search_hot_header_title:
                     SubjectWallActivity_.intent(MaopaoSearchActivity.this).start();
-                    RedPointTip.markUsed(MaopaoSearchActivity.this, RedPointTip.Type.MaopaoTopicSearch315);
                     updateRedPoint();
                     break;
                 case R.id.subject_search_hot_footer_clear:

@@ -35,9 +35,9 @@ import net.coding.program.R;
 import net.coding.program.common.AmrAudioRecorder;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.widget.SoundWaveView;
 import net.coding.program.maopao.item.ContentAreaImages;
-import net.coding.program.common.RedPointTip;
 
 import java.io.File;
 import java.util.UUID;
@@ -48,6 +48,7 @@ import java.util.UUID;
  * 注意其所用的控件布局文件必须是common_enter_emoji,不然会崩溃!!!
  */
 public class EnterVoiceLayout extends EnterEmojiLayout {
+    public static final int MAX_LENGTH = 1000 * 60;// 最大录音时长1000*60;
     private LinearLayout mInputLayout;
     private RelativeLayout arrowLayout;
     private Button btn_emoji;
@@ -63,6 +64,55 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     //判断是否为新功能，如果是，语音按钮会显示红点
     private boolean isNewFunction = true;
     private BadgeView mBadgeView;
+    //    private long startTime = 0l;
+//    private long recordDuration = 0l;
+    // private MediaRecorder mMediaRecorder;
+    private AmrAudioRecorder mAmrAudioRecorder;
+    private boolean isRecoding;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle data = msg.getData();
+            long dur = (long) data.get("duration");
+            double volume = (double) data.get("volume");
+            float db = (float) volume * 1.618f;
+            soundWaveLeft.setVolume(db);
+            soundWaveRight.setVolume(db);
+            if (dur >= 55000) {
+                recordTime.setTextColor(0xFFFF3C30);
+            } else {
+                recordTime.setTextColor(0xFF50AEEA);
+            }
+            int t = (int) dur / 1000;
+            int min = 0;
+            int sec = 0;
+            if (dur < 60) {
+                sec = t;
+            } else {
+                min = t / 60;
+                sec = t % 60;
+            }
+            String m = min < 10 ? "0" + min : "" + min;
+            String s = sec < 10 ? "0" + sec : "" + sec;
+            recordTime.setText(m + ":" + s);
+            //录音时长在60.05s到60.5s的范围内时停止录音
+            if (dur > 60100 && dur < 60500) {
+                sendVoice();
+            }
+        }
+    };
+    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack() {
+        @Override
+        public void onRecord(long duration, double volume) {
+            Message m = Message.obtain();
+            Bundle data = new Bundle();
+            data.putDouble("volume", volume);
+            data.putLong("duration", duration);
+            m.setData(data);
+            mHandler.sendMessage(m);
+        }
+    };
+
     public EnterVoiceLayout(ActionBarActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type, emojiType);
         init(activity);
@@ -120,7 +170,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
             @Override
             public void onClick(View v) {
                 if (mBadgeView != null && mBadgeView.isShown()) {
-                    RedPointTip.markUsed(activity, RedPointTip.Type.Voice);
+                    RedPointTip.markUsed(activity, RedPointTip.Type.Voice320);
                     // 设置进入的移动动画，设置了插值器，可以实现颤动的效果
                     TranslateAnimation anim = new TranslateAnimation(-100, 0, 0, 0);
                     anim.setInterpolator(new BounceInterpolator());
@@ -232,13 +282,13 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         });
 
 
-        isNewFunction = RedPointTip.show(activity,RedPointTip.Type.Voice);
-        if(isNewFunction){
-            mBadgeView = new BadgeView(activity,popVoice);
+        isNewFunction = RedPointTip.show(activity, RedPointTip.Type.Voice320);
+        if (isNewFunction) {
+            mBadgeView = new BadgeView(activity, popVoice);
             GradientDrawable sd = (GradientDrawable) activity.getResources().getDrawable(R.drawable.shape_red_circle);
             int size = Global.dpToPx(9);
             sd.setSize(size, size);
-            if(Build.VERSION.SDK_INT>=16){
+            if (Build.VERSION.SDK_INT >= 16) {
                 mBadgeView.setBackground(sd);
             }else{
                 mBadgeView.setBackgroundDrawable(sd);
@@ -249,11 +299,11 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
             mBadgeView.setBadgeMargin(0, 0);
             mBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
             mBadgeView.show();
-            ViewGroup.LayoutParams lp = ((ViewGroup)mBadgeView.getParent()).getLayoutParams();
-            lp.width = Global.dpToPx(32+9);
+            ViewGroup.LayoutParams lp = ((ViewGroup) mBadgeView.getParent()).getLayoutParams();
+            lp.width = Global.dpToPx(32 + 9);
             lp.height = lp.width;
             FrameLayout.LayoutParams fl = (FrameLayout.LayoutParams) popVoice.getLayoutParams();
-            fl.gravity  = Gravity.CENTER_VERTICAL;
+            fl.gravity = Gravity.CENTER_VERTICAL;
 
         }
         closeEnterPanel();
@@ -268,9 +318,9 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
 
     @Override
     public void closeEnterPanel() {
-        if(voiceLayout.getVisibility() == View.VISIBLE){
+        if (voiceLayout.getVisibility() == View.VISIBLE) {
             onArrowClick();
-        }else {
+        } else {
             super.closeEnterPanel();
         }
     }
@@ -279,14 +329,14 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         tips_hold_to_talk.setText(R.string.hold_to_talk);
         soundWaveLayout.setVisibility(View.GONE);
         long recordDuration = stopRecord();
-        if (recordDuration > 0l && out!=null) {
+        if (recordDuration > 0l && out != null) {
             Log.w("test", "recordDuration=" + recordDuration);
-            if(recordDuration>=1000l && new File(out).length()>100){
+            if (recordDuration >= 1000l && new File(out).length() > 100) {
                 //录音发送
                 VoiceRecordCompleteCallback callback = (VoiceRecordCompleteCallback) activity;
 
-                callback.recordFinished(recordDuration>=60000?60000:recordDuration,out);
-            }else{
+                callback.recordFinished(recordDuration >= 60000 ? 60000 : recordDuration, out);
+            } else {
                 cancelRecord();
                 showToast(R.string.voice_can_not_send_because_duration_too_short);
             }
@@ -294,7 +344,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         }
         out = null;
     }
-
 
     @Override
     protected void toggleSoftkeyboardWithCloseNoTextInput(InputType type) {
@@ -304,11 +353,11 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
 
     @Override
     protected void toggleInputTypeWithCloseSoftkeyboard(InputType type) {
-        if(type!=null){
-            if(type == InputType.Voice){
+        if (type != null) {
+            if (type == InputType.Voice) {
                 mInputLayout.setVisibility(View.GONE);
                 arrowLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 mInputLayout.setVisibility(View.VISIBLE);
                 arrowLayout.setVisibility(View.GONE);
             }
@@ -318,11 +367,11 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
 
     @Override
     protected void toggleNoTextInput(InputType type) {
-        if(type!=null){
-            if(type == InputType.Voice){
+        if (type != null) {
+            if (type == InputType.Voice) {
                 mInputLayout.setVisibility(View.GONE);
                 arrowLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 mInputLayout.setVisibility(View.VISIBLE);
                 arrowLayout.setVisibility(View.GONE);
             }
@@ -330,23 +379,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         super.toggleNoTextInput(type);
     }
 
-//    private long startTime = 0l;
-//    private long recordDuration = 0l;
-   // private MediaRecorder mMediaRecorder;
-    private AmrAudioRecorder mAmrAudioRecorder;
-    private boolean isRecoding;
-    public static final int MAX_LENGTH = 1000 * 60;// 最大录音时长1000*60;
-    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack(){
-        @Override
-        public void onRecord(long duration, double volume) {
-            Message m = Message.obtain();
-            Bundle data = new Bundle();
-            data.putDouble("volume",volume);
-            data.putLong("duration",duration);
-            m.setData(data);
-            mHandler.sendMessage(m);
-        }
-    };
     private void startRecord() {
         if (Global.sVoiceDir == null) {
             try {
@@ -520,8 +552,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         }
     }
 
-
-
     private void cancelRecord() {
         stopRecord();
         isRecoding = false;
@@ -548,39 +578,6 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         mAmrAudioRecorder = null;
         return dur;
     }
-
-    private final Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle data = msg.getData();
-            long dur = (long) data.get("duration");
-            double volume = (double) data.get("volume");
-            float db = (float)volume*1.618f;
-            soundWaveLeft.setVolume(db);
-            soundWaveRight.setVolume(db);
-            if (dur>=55000){
-                recordTime.setTextColor(0xFFFF3C30);
-            }else{
-                recordTime.setTextColor(0xFF50AEEA);
-            }
-            int t = (int)dur/1000;
-            int min = 0;
-            int sec = 0;
-            if (dur < 60) {
-                sec = t;
-            } else {
-                min = t / 60;
-                sec = t % 60;
-            }
-            String m = min < 10 ? "0" + min : "" + min;
-            String s = sec < 10 ? "0" + sec : "" + sec;
-            recordTime.setText(m + ":" + s);
-            //录音时长在60.05s到60.5s的范围内时停止录音
-            if(dur>60100 && dur<60500){
-                sendVoice();
-            }
-        }
-    };
 
 
 

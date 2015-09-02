@@ -164,6 +164,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                             break;
 
                         case R.id.itemMerge:
+                            markUsed(RedPointTip.Type.Merge320);
                             break;
                     }
 
@@ -187,9 +188,11 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
     void updateRedPoinitStyle() {
         final int[] buttons = new int[]{
+                R.id.itemMerge
         };
 
         final RedPointTip.Type[] types = new RedPointTip.Type[]{
+                RedPointTip.Type.Merge320
         };
 
         for (int i = 0; i < buttons.length; ++i) {

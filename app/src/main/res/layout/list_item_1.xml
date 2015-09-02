@@ -25,6 +25,15 @@
         android:textColor="#222222"
         android:textSize="16sp" />
 
+    <com.readystatesoftware.viewbadger.BadgeView
+        android:id="@+id/badge"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/ic_notify"
+        android:gravity="center"
+        android:visibility="invisible" />
+
     <include
         android:id="@+id/arrow"
         layout="@layout/list_item_common_arrow" />

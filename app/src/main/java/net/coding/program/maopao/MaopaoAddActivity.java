@@ -37,7 +37,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.PhotoOperate;
-import net.coding.program.common.RedPointTip;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterEmojiLayout;
@@ -244,8 +243,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
     }
 
     private void setPopTopicIconShow() {
-        int icon = RedPointTip.show(this, RedPointTip.Type.Topic) ?
-                R.drawable.pop_topic_red_point : R.drawable.pop_topic;
+        int icon = R.drawable.pop_topic;
         ((ImageView) findViewById(R.id.popTopic)).setImageResource(icon);
     }
 
@@ -590,10 +588,6 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
     @Click
     protected final void popTopic() {
-        if (RedPointTip.show(this, RedPointTip.Type.Topic)) {
-            RedPointTip.markUsed(this, RedPointTip.Type.Topic);
-            setPopTopicIconShow();
-        }
         Intent intent = new Intent(this, SubjectNewActivity_.class);
         startActivityForResult(intent, RESULT_REQUEST_TOPIC);
     }

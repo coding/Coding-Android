@@ -136,7 +136,7 @@ public class CommitFileListActivity extends BackActivity {
 
     private void initListhead() {
         mListHead = mInflater.inflate(R.layout.commit_file_list_head, listView, false);
-        listView.addHeaderView(mListHead);
+        listView.addHeaderView(mListHead, null, false);
 
         bindData(mListHead, R.id.title, mCommit.getTitle());
         bindData(mListHead, R.id.icon, mCommit.getIcon());

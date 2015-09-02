@@ -12,7 +12,9 @@ import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.widget.ListItem1;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
@@ -113,7 +115,7 @@ public class MergeDetailActivity extends BackActivity {
 
         View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, null);
         initHead(mListHead);
-        listView.addHeaderView(mListHead);
+        listView.addHeaderView(mListHead, null, false);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
         listView.addFooterView(footer);
         initFooter(footer);
@@ -188,9 +190,13 @@ public class MergeDetailActivity extends BackActivity {
             }
         });
 
-        head.findViewById(R.id.itemFile).setOnClickListener(new View.OnClickListener() {
+        ListItem1 itemFiles = (ListItem1) head.findViewById(R.id.itemFile);
+        itemFiles.showBadge(RedPointTip.show(this, RedPointTip.Type.MergeFile320));
+        itemFiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RedPointTip.markUsed(MergeDetailActivity.this, RedPointTip.Type.MergeFile320);
+                ((ListItem1) v).showBadge(false);
                 MergeFileListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start();
             }
         });

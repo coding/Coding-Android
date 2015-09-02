@@ -34,6 +34,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
@@ -310,6 +311,8 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         if (mHideHistoryLayout) {
             layout_dynamic_history.setVisibility(View.INVISIBLE);
         }
+
+        updateRedPoinitStyle();
     }
 
     private void jumpTextHtmlActivity() {
@@ -541,6 +544,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         FileDynamicActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
+        markUsed(RedPointTip.Type.FileDynamic320);
     }
 
     @Click
@@ -550,6 +554,35 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         FileHistoryActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
+        markUsed(RedPointTip.Type.FileHistory320);
+    }
+
+    protected void markUsed(RedPointTip.Type type) {
+        RedPointTip.markUsed(this, type);
+        updateRedPoinitStyle();
+    }
+
+    void updateRedPoinitStyle() {
+        final int[] buttons = new int[]{
+                R.id.clickFileDynamic,
+                R.id.clickFileHistory
+        };
+
+        final RedPointTip.Type[] types = new RedPointTip.Type[]{
+                RedPointTip.Type.FileDynamic320,
+                RedPointTip.Type.FileHistory320
+        };
+
+        for (int i = 0; i < buttons.length; ++i) {
+            setRedPointStyle(buttons[i], types[i]);
+        }
+    }
+
+    protected void setRedPointStyle(int buttonId, RedPointTip.Type type) {
+        View item = findViewById(buttonId);
+        View redPoint = item.findViewById(R.id.badge);
+        boolean show = RedPointTip.show(this, type);
+        redPoint.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     class DownloadChangeObserver extends ContentObserver {

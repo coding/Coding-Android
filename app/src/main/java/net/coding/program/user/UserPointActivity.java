@@ -49,7 +49,7 @@ public class UserPointActivity extends BackActivity {
                         .start();
             }
         });
-        listView.addHeaderView(head);
+        listView.addHeaderView(head, null, false);
 
         View footShade = mInflater.inflate(R.layout.divide_shade_up, null);
         listView.addFooterView(footShade);

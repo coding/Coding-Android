@@ -417,8 +417,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_fragment_maopao, menu);
-        int icon = RedPointTip.show(getActivity(), RedPointTip.Type.MaopaoListSearch315) ?
-                R.drawable.ic_menu_search_red_point : R.drawable.ic_menu_search;
+        int icon = R.drawable.ic_menu_search;
         menu.findItem(R.id.action_search).setIcon(icon);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -434,7 +433,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         MaopaoSearchActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
 
-        RedPointTip.markUsed(getActivity(), RedPointTip.Type.MaopaoListSearch315);
     }
 
     @Override
@@ -971,6 +969,23 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
     }
 
     ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
+
+    // listview 向上滑才有动画
+    class UpSlideInEffect extends SlideInEffect {
+        @Override
+        public void initView(View item, int position, int scrollDirection) {
+            if (scrollDirection > 0) {
+                super.initView(item, position, scrollDirection);
+            }
+        }
+
+        @Override
+        public void setupAnimation(View item, int position, int scrollDirection, ViewPropertyAnimator animator) {
+            if (scrollDirection > 0) {
+                super.setupAnimation(item, position, scrollDirection, animator);
+            }
+        }
+    }
 
     private PagerAdapter mAdPagerAdapter = new PagerAdapter() {
 

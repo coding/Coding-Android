@@ -30,7 +30,9 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
     }
 
     protected final void disableRefreshing() {
-        swipeRefreshLayout.setEnabled(false);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(false);
+        }
     }
 
     protected final void enableSwipeRefresh(boolean enable) {

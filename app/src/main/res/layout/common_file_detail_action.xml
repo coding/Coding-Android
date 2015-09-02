@@ -18,13 +18,27 @@
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/clickFileDynamic"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:textColor="@color/font_black_6"
             android:textSize="16sp">
+
+
+            <com.readystatesoftware.viewbadger.BadgeView
+                android:id="@+id/badge"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_notify"
+                android:gravity="center"
+                android:visibility="invisible" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,20 +48,31 @@
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:text="文件动态" />
-        </FrameLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="0.7dp"
             android:layout_height="33dp"
             android:background="@color/divide_line" />
 
-        <FrameLayout
+
+        <LinearLayout
             android:id="@+id/clickFileHistory"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:textColor="@color/font_black_6"
             android:textSize="16sp">
+
+            <com.readystatesoftware.viewbadger.BadgeView
+                android:id="@+id/badge"
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_notify"
+                android:gravity="center"
+                android:visibility="invisible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,7 +83,7 @@
                 android:gravity="center"
                 android:text="历史版本" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

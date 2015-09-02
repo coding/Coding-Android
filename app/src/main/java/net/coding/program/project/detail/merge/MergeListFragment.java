@@ -47,7 +47,9 @@ public class MergeListFragment extends BaseLoadMoreFragment {
 
     @AfterViews
     protected final void initMergeListFragment() {
+        initRefreshLayout();
         disableRefreshing();
+
         mUrlMerge = mProjectObject.getHttpMerge(mType == TYPE_OPEN);
         mMergeAdapter = new MergeAdapter(new ArrayList<Merge>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);

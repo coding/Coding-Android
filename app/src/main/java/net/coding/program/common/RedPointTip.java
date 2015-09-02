@@ -65,11 +65,17 @@ public class RedPointTip {
 //        Pull,
 //        CodeHistory,
 
-        Topic,
-        Task315,
-        MaopaoTopicSearch315,
-        MaopaoListSearch315,
-        Voice
+//        Topic,
+//        Task315,
+//        MaopaoTopicSearch315,
+//        MaopaoListSearch315,
+
+        Voice320,
+        File320,
+        FileDynamic320,
+        FileHistory320,
+        Merge320,
+        MergeFile320
     }
 
 }
