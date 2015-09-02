@@ -261,32 +261,6 @@ public class MaopaoSearchActivity extends BackActivity {
         }
     };
 
-    private void fillHotTweetToLayout() {
-        if (mSubjectList != null) {
-            Subject.SubjectDescObject descObject = null;
-            View itemView = null;
-            TextView textView = null;
-            for (int i = 0; i < mSubjectList.size(); i++) {
-                descObject = mSubjectList.get(i);
-                itemView = LayoutInflater.from(this).inflate(R.layout.subject_search_hot_topic_item, null);
-                textView = (TextView) itemView.findViewById(R.id.hot_tweet_item);
-                textView.setText("#" + descObject.name + "#");
-                textView.setTag(i);
-                textView.setOnClickListener(mHotTweetClickListener);
-                if (i == 0) {
-                    textView.setBackgroundResource(R.drawable.round_green_corner);
-                    textView.setTextColor(getResources().getColor(R.color.merge_green));
-                } else {
-                    textView.setBackgroundResource(R.drawable.round_gray_corner);
-                    textView.setTextColor(getResources().getColor(R.color.font_black_2));
-                }
-                mSearchHotLayout.addView(itemView);
-                if (i > 4)
-                    break;
-            }
-        }
-    }
-
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
         @Override

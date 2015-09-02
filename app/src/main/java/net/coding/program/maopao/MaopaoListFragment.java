@@ -951,23 +951,6 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         }
     }
 
-    // listview 向上滑才有动画
-    class UpSlideInEffect extends SlideInEffect {
-        @Override
-        public void initView(View item, int position, int scrollDirection) {
-            if (scrollDirection > 0) {
-                super.initView(item, position, scrollDirection);
-            }
-        }
-
-        @Override
-        public void setupAnimation(View item, int position, int scrollDirection, ViewPropertyAnimator animator) {
-            if (scrollDirection > 0) {
-                super.setupAnimation(item, position, scrollDirection, animator);
-            }
-        }
-    }
-
     ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
 
     // listview 向上滑才有动画
