@@ -42,6 +42,7 @@ import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
+import net.coding.program.project.detail.file.ShareFileLinkActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -63,6 +64,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     private static final int STATE_STARTDOWNLOAD = 1;
     private static final int STATE_FINISHDOWNLOAD = 2;
 
+    private static final int RESULT_SHARE_LINK = 1;
     private static final int RESULT_EDIT_FILE = 3;
 
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
@@ -163,9 +165,10 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         //跳转
         try {
             activity.startActivity(intent);
+            return;
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(activity, "没有能打开这个文件的应用", Toast.LENGTH_SHORT).show();
         }
+        Toast.makeText(activity, "没有能打开这个文件的应用", Toast.LENGTH_SHORT).show();
     }
 
     @Click
@@ -220,14 +223,14 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (fileUrlSuccess) {
+//        if (fileUrlSuccess) {
             getMenuInflater().inflate(R.menu.project_attachment_download, menu);
             if (!mAttachmentFileObject.isOwner()) {
                 menu.findItem(R.id.action_delete).setVisible(false);
             }
-        } else {
-            getMenuInflater().inflate(R.menu.menu_empty, menu);
-        }
+//        } else {
+//            getMenuInflater().inflate(R.menu.menu_empty, menu);
+//        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -311,8 +314,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         if (mHideHistoryLayout) {
             layout_dynamic_history.setVisibility(View.INVISIBLE);
         }
-
-        updateRedPoinitStyle();
     }
 
     private void jumpTextHtmlActivity() {
@@ -533,8 +534,19 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     }
 
     @OptionsItem
-    protected final void action_public_link() {
+    protected final void action_link_public() {
+        ShareFileLinkActivity_.intent(this)
+                .mAttachmentFileObject(mAttachmentFileObject)
+                .mProject(mProject)
+                .startForResult(RESULT_SHARE_LINK);
+    }
 
+    @OnActivityResult(RESULT_SHARE_LINK)
+    void onResultShareLink(int result, Intent intent) {
+        if (result == RESULT_OK) {
+            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra("data");
+            setResult(result, intent);
+        }
     }
 
     @Click
@@ -544,7 +556,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         FileDynamicActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
-        markUsed(RedPointTip.Type.FileDynamic320);
     }
 
     @Click
@@ -554,7 +565,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         FileHistoryActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
-        markUsed(RedPointTip.Type.FileHistory320);
     }
 
     protected void markUsed(RedPointTip.Type type) {
@@ -564,13 +574,9 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     void updateRedPoinitStyle() {
         final int[] buttons = new int[]{
-                R.id.clickFileDynamic,
-                R.id.clickFileHistory
         };
 
         final RedPointTip.Type[] types = new RedPointTip.Type[]{
-                RedPointTip.Type.FileDynamic320,
-                RedPointTip.Type.FileHistory320
         };
 
         for (int i = 0; i < buttons.length; ++i) {

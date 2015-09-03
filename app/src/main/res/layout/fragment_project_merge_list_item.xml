@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="12dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="12.5dp"
+        android:src="@drawable/ic_default_user" />
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/icon"
+        android:layout_toRightOf="@+id/icon"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="15.3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mergeId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:singleLine="true"
+                android:text="Medium Text"
+                android:textColor="@color/merge_id"
+                tools:text="#2245"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:singleLine="true"
+                android:text="Medium Text"
+                android:textColor="@color/font_black_content"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <net.coding.program.common.widget.FlowLabelLayout
+            android:id="@+id/flowLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/layout1"
+        android:layout_below="@id/layout1"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <include layout="@layout/common_ref_id" />
+
+        <include layout="@layout/common_name" />
+
+        <include layout="@layout/common_time" />
+
+        <include layout="@layout/common_discuss" />
+    </LinearLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/time"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignLeft="@+id/title"-->
+    <!--android:singleLine="true"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_alignStart="@+id/title"-->
+    <!--android:layout_below="@+id/title"-->
+    <!--android:text="Medium Text"-->
+    <!--android:textColor="@color/font_gray"-->
+    <!--android:textSize="12sp"-->
+    <!--android:layout_alignRight="@+id/time"-->
+    <!--android:layout_alignEnd="@+id/time" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/discuss"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:gravity="left"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignTop="@+id/name"-->
+    <!--android:layout_marginRight="0dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_below="@id/title"-->
+    <!--android:singleLine="true"-->
+    <!--android:textSize="12sp"-->
+    <!--android:drawablePadding="4dp"-->
+    <!--android:drawableLeft="@drawable/ic_task_comment"-->
+    <!--android:text="888"-->
+    <!--android:textColor="@color/font_gray" />-->
+
+</RelativeLayout>

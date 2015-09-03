@@ -2,11 +2,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MyActivity">
-    <item
-        android:id="@+id/action_info"
-        android:icon="@drawable/ic_menu_info_big"
-        android:title="@string/action_info"
-        app:showAsAction="always" />
+    <!--<item-->
+    <!--android:id="@+id/action_info"-->
+    <!--android:icon="@drawable/ic_menu_info_big"-->
+    <!--android:title="@string/action_info"-->
+    <!--app:showAsAction="always" />-->
+
+    <!--<item-->
+    <!--android:id="@+id/action_more"-->
+    <!--android:icon="@drawable/ic_action_overflow"-->
+    <!--android:title="@string/action_more"-->
+    <!--app:showAsAction="withText|always">-->
+
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/action_copy"-->
+    <!--android:icon="@drawable/ic_menu_link"-->
+    <!--android:title="@string/copy_link"-->
+    <!--app:showAsAction="always" />-->
+    <!--<item-->
+    <!--android:id="@+id/action_link_public"-->
+    <!--android:icon="@drawable/ic_menu_delete"-->
+    <!--android:title="@string/action_delete"-->
+    <!--app:showAsAction="always" />-->
+    <!--<item-->
+    <!--android:id="@+id/action_delete"-->
+    <!--android:icon="@drawable/ic_menu_delete"-->
+    <!--android:title="@string/action_delete"-->
+    <!--app:showAsAction="always" />-->
+
+    <!--</menu>-->
+
+    <!--</item>-->
+
 
     <item
         android:id="@+id/action_more"
@@ -16,21 +44,22 @@
 
         <menu>
             <item
-                android:id="@+id/action_copy"
-                android:icon="@drawable/ic_menu_link"
-                android:title="@string/copy_link"
+                android:id="@+id/action_link_public"
+                android:icon="@drawable/ic_menu_share_link"
+                android:title="@string/public_link"
                 app:showAsAction="always" />
+
             <item
-                android:id="@+id/action_public_link"
-                android:icon="@drawable/ic_menu_delete"
-                android:title="@string/action_delete"
+                android:id="@+id/action_info"
+                android:icon="@drawable/ic_menu_info"
+                android:title="文件信息"
                 app:showAsAction="always" />
+
             <item
                 android:id="@+id/action_delete"
                 android:icon="@drawable/ic_menu_delete"
-                android:title="@string/action_delete"
+                android:title="删除文件"
                 app:showAsAction="always" />
-
         </menu>
 
     </item>

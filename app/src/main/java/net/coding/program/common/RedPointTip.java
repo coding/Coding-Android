@@ -72,8 +72,6 @@ public class RedPointTip {
 
         Voice320,
         File320,
-        FileDynamic320,
-        FileHistory320,
         Merge320,
         MergeFile320
     }

@@ -28,18 +28,6 @@
             android:textColor="@color/font_black_6"
             android:textSize="16sp">
 
-
-            <com.readystatesoftware.viewbadger.BadgeView
-                android:id="@+id/badge"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/ic_notify"
-                android:gravity="center"
-                android:visibility="invisible" />
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,15 +52,6 @@
             android:gravity="center"
             android:textColor="@color/font_black_6"
             android:textSize="16sp">
-
-            <com.readystatesoftware.viewbadger.BadgeView
-                android:id="@+id/badge"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/ic_notify"
-                android:gravity="center"
-                android:visibility="invisible" />
 
             <TextView
                 android:layout_width="wrap_content"

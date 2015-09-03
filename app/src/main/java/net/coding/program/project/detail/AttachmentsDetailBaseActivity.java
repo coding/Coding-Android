@@ -16,7 +16,6 @@ import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.RedPointTip;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
@@ -82,8 +81,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
 
         findViewById(R.id.layout_dynamic_history).setVisibility(mHideHistory ? View.GONE : View.VISIBLE);
-
-        updateRedPoinitStyle();
     }
 
     @Override
@@ -193,13 +190,14 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         ShareFileLinkActivity_.intent(this)
                 .mAttachmentFileObject(mAttachmentFileObject)
                 .mProject(mProject)
-                .start();
+                .startForResult(RESULT_SHARE_LINK);
     }
 
     @OnActivityResult(RESULT_SHARE_LINK)
     void onResultShareLink(int result, Intent intent) {
         if (result == RESULT_OK) {
             setResult(result, intent);
+            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra("data");
         }
     }
 
@@ -242,34 +240,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     public void onSaveInstanceState(Bundle outState) {
     }
 
-    protected void markUsed(RedPointTip.Type type) {
-        RedPointTip.markUsed(this, type);
-        updateRedPoinitStyle();
-    }
-
-    void updateRedPoinitStyle() {
-        final int[] buttons = new int[]{
-                R.id.clickFileDynamic,
-                R.id.clickFileHistory
-        };
-
-        final RedPointTip.Type[] types = new RedPointTip.Type[]{
-                RedPointTip.Type.FileDynamic320,
-                RedPointTip.Type.FileHistory320
-        };
-
-        for (int i = 0; i < buttons.length; ++i) {
-            setRedPointStyle(buttons[i], types[i]);
-        }
-    }
-
-    protected void setRedPointStyle(int buttonId, RedPointTip.Type type) {
-        View item = findViewById(buttonId);
-        View redPoint = item.findViewById(R.id.badge);
-        boolean show = RedPointTip.show(this, type);
-        redPoint.setVisibility(show ? View.VISIBLE : View.GONE);
-    }
-
     @Click
     protected void clickFileDynamic() {
         FileDynamicActivity.ProjectFileParam param =
@@ -277,8 +247,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         FileDynamicActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
-        markUsed(RedPointTip.Type.FileDynamic320);
-
     }
 
     @Click
@@ -288,7 +256,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         FileHistoryActivity_.intent(this)
                 .mProjectFileParam(param)
                 .start();
-        markUsed(RedPointTip.Type.FileHistory320);
     }
 
     private void download(String url) {

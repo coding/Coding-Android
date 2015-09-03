@@ -65,7 +65,7 @@ public class MergeFileDetailActivity extends BackActivity {
             String host = uri.getHost();
             switch (host) {
                 case "line_note": {
-                    final LineNoteBase lineNote = new LineNoteBase(uri, mMerge.getId());
+                    final LineNoteBase lineNote = new LineNoteBase(uri, mMerge);
                     showDialog("line " + lineNote.line, "添加评论", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -77,7 +77,7 @@ public class MergeFileDetailActivity extends BackActivity {
                 }
 
                 case "note": {
-                    final LineNote lineNote = new LineNote(uri, mMerge.getId());
+                    final LineNote lineNote = new LineNote(uri, mMerge);
                     if (lineNote.isMe()) {
                         showDialog("line note", "删除评论", new DialogInterface.OnClickListener() {
                             @Override
@@ -260,14 +260,18 @@ public class MergeFileDetailActivity extends BackActivity {
         public String anchor;
         public String noteable_id;// = "24212";
 
-        public LineNoteBase(Uri uri, int noteableId) {
+        public LineNoteBase(Uri uri, Merge merge) {
             commitId = uri.getQueryParameter("commitId");
             noteable_type = uri.getQueryParameter("noteable_type");
             path = uri.getQueryParameter("path");
             position = uri.getQueryParameter("position");
             line = uri.getQueryParameter("line");
             anchor = uri.getQueryParameter("anchor");
-            noteable_id = String.valueOf(noteableId);
+
+            if (merge != null) {
+                int noteableId = merge.getId();
+                noteable_id = String.valueOf(noteableId);
+            }
         }
 
         public RequestParams getPostParam(String content) {
@@ -289,8 +293,8 @@ public class MergeFileDetailActivity extends BackActivity {
         public String line_note_commentclicked_line_note_id;
         public String clicked_user_name; // 其实是 global key
 
-        public LineNote(Uri uri, int noteableId) {
-            super(uri, noteableId);
+        public LineNote(Uri uri, Merge merge) {
+            super(uri, merge);
             line_note_commentclicked_line_note_id = uri.getQueryParameter("line_note_commentclicked_line_note_id");
             clicked_user_name = uri.getQueryParameter("clicked_user_name");
         }

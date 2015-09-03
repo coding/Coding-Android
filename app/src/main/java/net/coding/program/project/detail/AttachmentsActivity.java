@@ -575,6 +575,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     void common_files_delete() {
         if (!isChooseOthers()) {
             action_delete();
+        } else {
+            showMiddleToast("不能删除别人的文件");
         }
     }
 
@@ -1510,6 +1512,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     @Click
     protected final void common_folder_bottom_add() {
+        if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
+            return;
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
         LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);

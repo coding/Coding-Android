@@ -73,7 +73,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
             intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
             intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
                     AttachmentsActivity.FileActions.ACTION_EDIT);
-            setIntent(intent);
+            setResult(RESULT_OK, intent);
             updateDisplay();
         } else {
             showButtomToast("下载原图失败");

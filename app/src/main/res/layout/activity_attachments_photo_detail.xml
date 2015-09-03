@@ -1,19 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.coding.program.project.detail.AttachmentsPhotoDetailActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black"
+    tools:context="net.coding.program.project.detail.AttachmentsPhotoDetailActivity"
+    android:orientation="vertical">
 
-
-    <include
-        android:id="@+id/imageView"
-        layout="@layout/imageview_touch" />
-
-    <include
-        android:id="@+id/blankLayout"
-        layout="@layout/view_exception"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <include
+            android:id="@+id/imageView"
+            layout="@layout/imageview_touch" />
+
+        <include
+            android:id="@+id/blankLayout"
+            layout="@layout/view_exception"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,13 +33,14 @@
             layout="@layout/common_image_download"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <include
             layout="@layout/common_file_detail_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:visibility="visible" />
     </LinearLayout>
 
-</FrameLayout>
+
+</LinearLayout>

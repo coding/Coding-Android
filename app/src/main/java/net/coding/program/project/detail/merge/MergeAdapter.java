@@ -31,12 +31,16 @@ public class MergeAdapter extends DataAdapter<Merge> {
         mImageLoadr = imageLoader;
     }
 
+    class MergeItemHolder extends TopicListFragment.ViewHolder {
+        TextView mergeId;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TopicListFragment.ViewHolder holder;
+        MergeItemHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_project_topic_list_item, parent, false);
-            holder = new TopicListFragment.ViewHolder();
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_project_merge_list_item, parent, false);
+            holder = new MergeItemHolder();
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 //            holder.icon.setOnClickListener(onClickUser);
 
@@ -51,11 +55,12 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.refId.setVisibility(View.GONE);
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.mergeId = (TextView) convertView.findViewById(R.id.mergeId);
 
             convertView.setTag(holder);
 
         } else {
-            holder = (TopicListFragment.ViewHolder) convertView.getTag();
+            holder = (MergeItemHolder) convertView.getTag();
         }
 
         if (getCount() - 1 <= position) {
@@ -72,6 +77,7 @@ public class MergeAdapter extends DataAdapter<Merge> {
         holder.name.setText(data.getAuthor().name);
         holder.time.setText(Global.dayToNowCreate(data.getCreatedAt()));
 //        holder.discuss.setText(String.format("%d", data.child_count));
+        holder.mergeId.setText(data.getTitleIId());
 
         return convertView;
     }
