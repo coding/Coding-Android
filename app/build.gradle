@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "net.coding.program"
         renderscriptTargetApi 19
-
+        multiDexEnabled true
 
     }
 
@@ -47,11 +47,13 @@ dependencies {
     compile 'com.prolificinteractive:parallaxpager:2.2.0'
     compile 'uk.co.chrisjenx:calligraphy:2.0.1'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
-    compile 'org.apmem.tools:layouts:1.9@aar'//flow_layout
+    compile 'org.apmem.tools:layouts:1.9@aar'
+    //flow_layout
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
     compile 'com.twotoasters.jazzylistview:library:1.2.1'
+    compile project(':social_sdk_library_project')
 }
 
 //################

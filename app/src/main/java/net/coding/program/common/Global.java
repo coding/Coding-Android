@@ -79,6 +79,7 @@ public class Global {
     private static final SimpleDateFormat sFormatMessageThisYear = new SimpleDateFormat("MM/dd");
     private static final SimpleDateFormat sFormatMessageOtherYear = new SimpleDateFormat("yy/MM/dd");
     public static String HOST = DEFAULT_HOST;
+    public static String HOST_MOBILE = "https://m.coding.net";
     public static String HOST_API = HOST + "/api";
 	/**
      * 语音文件存放目录

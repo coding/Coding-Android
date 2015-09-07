@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -32,6 +33,7 @@ import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
 
@@ -53,7 +55,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_detail)
-@OptionsMenu(R.menu.common_more)
+@OptionsMenu(R.menu.activity_maopao_detail)
 public class MaopaoDetailActivity extends CustomMoreActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
     final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
@@ -522,6 +524,25 @@ public class MaopaoDetailActivity extends CustomMoreActivity implements StartAct
         }
 
         return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
+    }
+
+    protected String getMobileLink() {
+        if (mMaopaoObject == null) {
+            return "";
+        }
+
+        return Global.HOST_MOBILE + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
+    }
+
+    @OptionsItem
+    void action_share_third() {
+        String name = mMaopaoObject.owner.name + " 的冒泡";
+        String content = HtmlContent.parseToShareText(mMaopaoObject.content);
+        String link = getMobileLink();
+        String img = "https://dn-coding-net-production-static.qbox.me/512b2a62-956b-4ef8-8e84-b3c66e71468f.png";
+        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(name, content, link, img);
+        CustomShareBoard shareBoard = new CustomShareBoard(this, shareData);
+        shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
     }
 
     public static class ClickParam implements Serializable {

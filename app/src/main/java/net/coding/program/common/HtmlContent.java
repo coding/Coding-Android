@@ -1,7 +1,5 @@
 package net.coding.program.common;
 
-import android.util.Log;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -86,6 +84,16 @@ public class HtmlContent {
                 .replaceAll(REGX_CODE, REPLACE_CODE)
                 .replaceAll(REGX_HTML, "$2")
                 .replace("<sup>", "");
+    }
+
+    public static String parseToShareText(String s) {
+        return s.replaceAll(REGX_MONKEY, "[$1]")
+                .replaceAll(REGX_PHOTO, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
+                .replaceAll(REGX_CODE, REPLACE_CODE)
+                .replaceAll(REGX_HTML, "$2")
+                .replace("<sup>", "")
+                .replaceAll("<(.*?)>", "");
     }
 
     private static Global.MessageParse createMessageParse(String s, String regx) {

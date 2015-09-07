@@ -8,6 +8,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.AllThirdKeys;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.UserObject;
@@ -26,10 +27,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class BaiduLbsLoader {
-    // 以下需coding修改成官方版
-    private static final String geotable = "";
-    private static final String ak = "";
-    private static final String sk = "";
 
     private static final String host = "http://api.map.baidu.com";
     private static final int PAGE_SIZE = 20; // 每页数量10~20,超过20服务器也只会返回20个
@@ -43,12 +40,12 @@ public class BaiduLbsLoader {
     public static void searchCustom(Context context, String keyword, double latitude, double longitude, final int page, final LbsResultListener listener) {
         final String path = "/geosearch/v3/nearby";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
-        params.put("ak", ak);
+        params.put("ak", AllThirdKeys.ak);
         UserObject userObject = AccountInfo.loadAccount(context);
         if (userObject != null) {
             params.put("filter", String.format("user_id:[%d]", userObject.id));
         }
-        params.put("geotable_id", geotable);
+        params.put("geotable_id", AllThirdKeys.geotable);
         params.put("q", keyword);
         params.put("location", String.format("%f,%f", longitude, latitude));
         params.put("pageIndex", String.valueOf(page));
@@ -97,7 +94,7 @@ public class BaiduLbsLoader {
     public static void searchPublic(Context context, String keyword, double latitude, double longitude, final int page, final LbsResultListener listener) {
         final String path = "/place/v2/search";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
-        params.put("ak", ak);
+        params.put("ak", AllThirdKeys.ak);
         params.put("location", String.format("%f,%f", latitude, longitude));
         params.put("output", "json");
         params.put("page_num", String.valueOf(page));
@@ -154,9 +151,9 @@ public class BaiduLbsLoader {
         final String path = "/geodata/v3/poi/create";
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         params.put("address", address);
-        params.put("ak", ak);
+        params.put("ak", AllThirdKeys.ak);
         params.put("coord_type", "3");
-        params.put("geotable_id", geotable);
+        params.put("geotable_id", AllThirdKeys.geotable);
         params.put("latitude", String.valueOf(latitude));
         params.put("longitude", String.valueOf(longitude));
         params.put("title", name);
@@ -189,7 +186,7 @@ public class BaiduLbsLoader {
     }
 
     private static String sn(String path, LinkedHashMap<String, String> params) throws UnsupportedEncodingException {
-        return md5(URLEncoder.encode(path + "?" + queryString(params) + sk, "UTF-8"));
+        return md5(URLEncoder.encode(path + "?" + queryString(params) + AllThirdKeys.sk, "UTF-8"));
     }
 
     private static String queryString(Map<?, ?> data) throws UnsupportedEncodingException {
