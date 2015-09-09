@@ -6,16 +6,12 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.MyApp;
@@ -103,7 +99,10 @@ public abstract class EnterLayout {
 
         content = (EditText) activity.findViewById(R.id.comment);
         //拦截输入法 通过点击事件触发输入法
-        interceptInputMethod(content);
+        if (mType != Type.TextOnly) {
+            interceptInputMethod(content);
+        }
+
         content.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
