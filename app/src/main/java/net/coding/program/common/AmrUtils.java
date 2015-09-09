@@ -13,18 +13,7 @@ public class AmrUtils {
 
     /**
      * Created by Carlos2015 on 2015/8/28.
-     * <p/>
      * converts 16 bit PCM to AMR
-     *
-     * @param inputStream
-     * @return
-     * @throws ClassNotFoundException
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws IllegalArgumentException
-     * @throws IOException
      */
     public static byte[] convertToAmr(InputStream inputStream, boolean isAddAmrFileHead) throws ClassNotFoundException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException {
         Class<?> cls = Class.forName("android.media.AmrInputStream");
@@ -51,7 +40,7 @@ public class AmrUtils {
         }
         Method close = cls.getMethod("close");
         close.setAccessible(true);
-        close.invoke(amrInputStream, null);
+        close.invoke(amrInputStream);
         buf = bos.toByteArray();
         bos.close();
         return buf;

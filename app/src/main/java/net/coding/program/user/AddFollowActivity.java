@@ -44,9 +44,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     public static final int RESULT_USER_DETAIL = 1000;
 
     String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
-
     String urlAddUser = "";
-
     ArrayList<UserObject> mData = new ArrayList<>();
 
     boolean mNeedUpdate = false;
