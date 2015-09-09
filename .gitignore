@@ -28,6 +28,8 @@ proguard/
 # Intellij project files
 *.iml
 *.ipr
+/social_sdk_library_project/.classpath
+/social_sdk_library_project/.project
 *.iws
 
 # Mac system files

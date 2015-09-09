@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/3/30.
+ * 可以发图片的评论输入框
  */
 public class ImageCommentLayout {
 
