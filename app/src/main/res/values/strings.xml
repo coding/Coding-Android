@@ -148,5 +148,6 @@
     <string name="title_activity_markdown_edit">Markdown编辑</string>
     <string name="title_activity_attachments_photo_detail">AttachmentsPhotoDetailActivity</string>
     <string name="title_activity_share_file_link">设置共享链接</string>
+    <string name="title_activity_inform_maopao">举报</string>
 
 </resources>

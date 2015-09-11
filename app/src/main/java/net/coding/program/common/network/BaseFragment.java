@@ -178,6 +178,10 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         CustomDialog.dialogTitleLineColor(getActivity(), dialog);
     }
 
+    protected void showDialog(String[] titles, DialogInterface.OnClickListener clickOk) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setItems(titles, clickOk).show();
+    }
 
     public void putNetwork(String url, final String tag, int dataPos, Object data) {
         networkImpl.loadData(url, null, tag, dataPos, data, NetworkImpl.Request.Put);

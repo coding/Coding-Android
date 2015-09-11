@@ -79,7 +79,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     private static final int RESULT_REQUEST_PHOTO = 1005;
     private static final int PAGESIZE = 20;
-    final String HOST_MESSAGE_SEND = Global.HOST_API + "/message/send?";
+    public static final String HOST_MESSAGE_SEND = Global.HOST_API + "/message/send?";
     final String hostDeleteMessage = Global.HOST_API + "/message/%s";
     final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
     final String TAG_SEND_VOICE = "TAG_SEND_VOICE";

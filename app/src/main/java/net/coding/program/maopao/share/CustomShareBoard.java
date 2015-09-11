@@ -6,20 +6,19 @@ package net.coding.program.maopao.share;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.UMEvernoteHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -34,20 +33,31 @@ import com.umeng.socialize.weixin.controller.UMWXHandler;
 import net.coding.program.AllThirdKeys;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
+import net.coding.program.user.UsersListActivity;
+import net.coding.program.user.UsersListActivity_;
 
-/**
- *
- */
+import java.util.ArrayList;
+
 public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
-    private UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
+    private static UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
+
     private Activity mActivity;
     private ShareData mShareData;
+
+    private View mBackground;
+    private View mButtonsLayout;
+
+    public static UMSocialService getShareController() {
+        return mController;
+    }
 
     public CustomShareBoard(Activity activity, ShareData shareData) {
         super(activity);
         this.mActivity = activity;
         initView(activity);
+        mController.getConfig().closeToast();
 
         mShareData = shareData;
     }
@@ -82,9 +92,9 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
     }
 
     private void addSinaWeibo() {
-//        SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
-//        sinaSsoHandler.setTargetUrl(mShareData.link);
-//        sinaSsoHandler.addToSocialSDK();
+        SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
+        sinaSsoHandler.setTargetUrl(mShareData.link);
+        sinaSsoHandler.addToSocialSDK();
         mController.getConfig().setSsoHandler(new SinaSsoHandler());
     }
 
@@ -125,11 +135,14 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             des = in.readString();
         }
 
-        public ShareData(String name, String des, String link, String img) {
+        public ShareData(String name, String des, String link) {
             this.name = name;
-            this.des = des;
             this.link = link;
-            this.img = img;
+            this.des = HtmlContent.parseToShareText(des);
+            ArrayList<String> uris = HtmlContent.parseMaopao(des).uris;
+            if (uris.size() > 0) {
+                this.img = uris.get(0);
+            }
         }
 
         public String getImg() {
@@ -153,18 +166,6 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         };
     }
 
-//    private static class ButtonPair {
-//        Button likeBt, shareBt, commentBt;
-//
-//        public ButtonPair(Button likeBt, Button shareBt, Button commentBt) {
-//            super();
-//            this.likeBt = likeBt;
-//            this.shareBt = shareBt;
-//            this.commentBt = commentBt;
-//        }
-//
-//    }
-
     @SuppressWarnings("deprecation")
     private void initView(Context context) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.share_custom_board, null);
@@ -176,7 +177,10 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 R.id.sinaWeibo,
                 R.id.evernote,
                 R.id.codingFriend,
-                R.id.linkCopy
+                R.id.linkCopy,
+                R.id.close,
+                R.id.rootLayout,
+                R.id.buttonsLayout
         };
         for (int id : buttns) {
             rootView.findViewById(id).setOnClickListener(this);
@@ -186,8 +190,26 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         setWidth(LayoutParams.MATCH_PARENT);
         setHeight(LayoutParams.WRAP_CONTENT);
         setFocusable(true);
-        setBackgroundDrawable(new BitmapDrawable());
+        ColorDrawable cd = new ColorDrawable(0xb0000000);
+        setBackgroundDrawable(cd);
         setTouchable(true);
+
+        mBackground = rootView.findViewById(R.id.rootLayout);
+        mBackground.startAnimation(AnimationUtils.loadAnimation(mActivity,
+                R.anim.share_dialog_bg_enter));
+
+        mButtonsLayout = rootView.findViewById(R.id.buttonsLayout);
+        mButtonsLayout.startAnimation(AnimationUtils.loadAnimation(mActivity,
+                R.anim.share_dialog_buttons_layout_enter));
+    }
+
+    @Override
+    public void dismiss() {
+        mBackground.startAnimation(AnimationUtils.loadAnimation(mActivity,
+                R.anim.share_dialog_bg_exit));
+        mButtonsLayout.startAnimation(AnimationUtils.loadAnimation(mActivity,
+                R.anim.share_dialog_buttons_layout_exit));
+        super.dismiss();
     }
 
     @Override
@@ -222,6 +244,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 break;
 
             case R.id.codingFriend:
+                UsersListActivity_.intent(mActivity)
+                        .type(UsersListActivity.Friend.Follow)
+                        .hideFollowButton(true)
+                        .relayString(mShareData.link)
+                        .start();
+                dismiss();
                 break;
 
             case R.id.linkCopy:
@@ -229,26 +257,32 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 Toast.makeText(mActivity, "链接已复制 " + mShareData.link, Toast.LENGTH_SHORT).show();
                 break;
 
+            case R.id.buttonsLayout:
+                return;
+
             default:
                 break;
         }
+        dismiss();
     }
 
     private void performShare(SHARE_MEDIA platform) {
         mController.setShareContent(mShareData.des);
+
+        UMImage umImage;
         if (!mShareData.getImg().isEmpty()) {
-            UMImage umImage = new UMImage(mActivity, mShareData.getImg());
-            mController.setShareImage(umImage);
+             umImage = new UMImage(mActivity, mShareData.getImg());
+        } else {
+             umImage = new UMImage(mActivity, R.drawable.share_default_icon);
         }
+        mController.setShareImage(umImage);
 
         if (platform == SHARE_MEDIA.SINA) {
             SinaShareContent sinaContent = new SinaShareContent();
             sinaContent.setShareContent(mShareData.des + " " + mShareData.link);
             sinaContent.setTargetUrl(mShareData.link);
-            UMImage umImage = new UMImage(mActivity, mShareData.img);
             sinaContent.setShareImage(umImage);
             sinaContent.setTitle(mShareData.name);
-            sinaContent.setAppWebSite(mShareData.link);
             mController.setShareMedia(sinaContent);
         }
 
@@ -256,20 +290,20 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
                     @Override
                     public void onStart() {
-                        dismiss();
+//                        dismiss();
                     }
 
                     @Override
                     public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
-                        String showText = platform.toString();
-                        if (eCode == StatusCode.ST_CODE_SUCCESSED) {
-                            showText += "平台分享成功";
-                        } else {
-                            showText += "平台分享失败";
-                        }
-                        Log.d("", "umengshare " + eCode);
-                        Toast.makeText(mActivity, showText, Toast.LENGTH_SHORT).show();
-                        dismiss();
+//                        String showText = platform.toString();
+//                        if (eCode == StatusCode.ST_CODE_SUCCESSED) {
+//                            showText += "平台分享成功";
+//                        } else {
+//                            showText += "平台分享失败";
+//                        }
+//                        Log.d("", "umengshare " + eCode);
+//                        Toast.makeText(mActivity, showText, Toast.LENGTH_SHORT).show();
+//                        dismiss();
                     }
                 }
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
@@ -28,6 +30,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -42,6 +45,7 @@ import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.maopao.MaopaoLocationArea;
 import net.coding.program.maopao.MaopaoSearchActivity_;
 import net.coding.program.maopao.item.CommentArea;
+import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.Subject;
@@ -68,7 +72,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SubjectDetailFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
-    public final static int TAG_MAOPAO_ID = R.id.maopaoDelete;
+    public final static int TAG_MAOPAO_ID = R.id.maopaoMore;
     public final static int TAG_MAOPAO = R.id.clickMaopao;
     public final static int TAG_COMMENT = R.id.comment;
     public final static int TAG_COMMENT_TEXT = R.id.commentArea;
@@ -220,6 +224,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         public View getView(int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
 
+
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.fragment_maopao_list_item, parent, false);
@@ -244,7 +249,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 holder.location = (TextView) convertView.findViewById(R.id.location);
                 holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
-                holder.commentBtn = (CheckBox) convertView.findViewById(R.id.commentBtn);
+                holder.commentBtn = convertView.findViewById(R.id.commentBtn);
                 holder.likeBtn.setTag(R.id.likeBtn, holder);
                 holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
                 holder.commentBtn.setOnClickListener(new View.OnClickListener() {
@@ -254,8 +259,19 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                     }
                 });
 
-                holder.maopaoDelete = convertView.findViewById(R.id.maopaoDelete);
-                holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
+                holder.shareBtn = convertView.findViewById(R.id.shareBtn);
+                holder.shareBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Object item = v.getTag();
+                        if (item instanceof Maopao.MaopaoObject) {
+                            action_share_third((Maopao.MaopaoObject) item);
+                        }
+                    }
+                });
+
+                holder.maopaoMore = convertView.findViewById(R.id.maopaoMore);
+                holder.maopaoMore.setOnClickListener(onClickMaopaoMore);
 
                 holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
 
@@ -272,12 +288,6 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
             final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
 
-            if (position == 0 && mIsToMaopaoTopic) {
-                holder.maopaoItemTop.setVisibility(View.VISIBLE);
-            } else {
-                holder.maopaoItemTop.setVisibility(View.GONE);
-            }
-
             holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
             holder.likeUsersArea.displayLikeUser();
 
@@ -287,17 +297,21 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 holder.commentLikeArea.setVisibility(View.GONE);
             }
 
+            if (position == 0 && mIsToMaopaoTopic) {
+                holder.maopaoItemTop.setVisibility(View.VISIBLE);
+            } else {
+                holder.maopaoItemTop.setVisibility(View.GONE);
+            }
+
             MaopaoLocationArea.bind(holder.location, data);
 
-            String device = data.device;
-            if (!device.isEmpty()) {
-                final String format = "来自 %s";
-                device = String.format(format, device);
+            if (!data.device.isEmpty()) {
+                String device = String.format("来自 %s", data.device);
                 holder.photoType.setVisibility(View.VISIBLE);
+                holder.photoType.setText(device);
             } else {
                 holder.photoType.setVisibility(View.GONE);
             }
-            holder.photoType.setText(device);
 
             iconfromNetwork(holder.icon, data.owner.avatar);
             holder.icon.setTag(data.owner.global_key);
@@ -323,6 +337,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                     postNetwork(uri, new RequestParams(), HOST_GOOD, 0, data);
                 }
             });
+            holder.shareBtn.setTag(data);
 
             if (data.likes > 0) {
                 holder.likeAreaDivide.setVisibility(data.comments > 0 ? View.VISIBLE : View.INVISIBLE);
@@ -331,10 +346,10 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             holder.commentBtn.setTag(data);
 
             if (data.owner_id == (MyApp.sUserObject.id)) {
-                holder.maopaoDelete.setVisibility(View.VISIBLE);
-                holder.maopaoDelete.setTag(TAG_MAOPAO_ID, data.id);
+                holder.maopaoMore.setVisibility(View.VISIBLE);
+                holder.maopaoMore.setTag(TAG_MAOPAO_ID, data.id);
             } else {
-                holder.maopaoDelete.setVisibility(View.INVISIBLE);
+                holder.maopaoMore.setVisibility(View.INVISIBLE);
             }
 
             holder.commentArea.displayContentData(data);
@@ -360,6 +375,39 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
             return convertView;
         }
+
+        void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
+            String name = mMaopaoObject.owner.name + " 的冒泡";
+            String content = HtmlContent.parseToShareText(mMaopaoObject.content);
+            String link = Global.HOST_MOBILE + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
+
+            CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(name, content, link);
+            CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
+            shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        }
+
+        View.OnClickListener onClickMaopaoMore = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
+                showDialog(new String[]{"删除冒泡"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
+                                    deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
+                                            -1, maopaoId);
+                                }
+                            });
+                        }
+                    }
+                });
+
+            }
+        };
 
         void popComment(View v) {
             EditText comment = mEnterLayout.content;
@@ -664,6 +712,13 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 mEnterLayout.insertText(name);
             }
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
+        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
+                requestCode);
+        if (ssoHandler != null) {
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
     }
 
     String createUrl() {
@@ -915,20 +970,20 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
     }
 
     static class ViewHolder {
-        View maopaoItem;
-
         View maopaoItemTop;
+
+        View maopaoItem;
 
         ImageView icon;
         TextView name;
         TextView time;
         ContentArea contentArea;
 
-        View maopaoDelete;
 
         TextView photoType;
         CheckBox likeBtn;
-        CheckBox commentBtn;
+        View commentBtn;
+        View shareBtn;
 
         LikeUsersArea likeUsersArea;
         View commentLikeArea;
@@ -939,6 +994,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
         View likeAreaDivide;
         TextView location;
+
+        View maopaoMore;
     }
 
 }

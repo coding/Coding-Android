@@ -1,6 +1,7 @@
 package net.coding.program.user;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -24,6 +25,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.message.MessageListActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.sidebar.IndexableListView;
@@ -58,6 +60,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
     public static final String RESULT_EXTRA_NAME = "name";
     public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
+    private static final String TAG_RELAY_MESSAGE = "TAG_RELAY_MESSAGE";
     final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=500";
     final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=500";
     final int RESULT_REQUEST_ADD = 1;
@@ -70,6 +73,10 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     boolean hideFollowButton; // 隐藏互相关注按钮，用于发私信选人的界面
     @Extra
     String titleName = ""; // 设置title
+
+    @Extra
+    String relayString = "";
+
     @Extra
     UserParams mUserParam;
     ArrayList<UserObject> mData = new ArrayList<>();
@@ -131,6 +138,24 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                     intent.putExtra(RESULT_EXTRA_USESR, user);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
+                }
+            });
+        } else if (!relayString.isEmpty()) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent();
+                    final UserObject user = (UserObject) parent.getItemAtPosition(position);
+                    showDialog("转发", "转发给" + user.name, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            RequestParams params = new RequestParams();
+                            params.put("content", relayString);
+                            params.put("receiver_global_key", user.global_key);
+                            postNetwork(MessageListActivity.HOST_MESSAGE_SEND, params, TAG_RELAY_MESSAGE);
+                            showProgressBar(true, "发送中...");
+                        }
+                    });
                 }
             });
         } else {
@@ -320,6 +345,15 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 showButtomToast(R.string.unfollow_fail);
             }
             adapter.notifyDataSetChanged();
+        } else if (tag.equals(TAG_RELAY_MESSAGE)) {
+            showProgressBar(false);
+            if (code == 0) {
+//                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
+                showMiddleToast("发送成功");
+                finish();
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 

@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 23
-    useLibrary 'org.apache.http.legacy' // 因为 sdk23 去掉了 apache
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 22
+//    useLibrary 'org.apache.http.legacy' // 因为 sdk23 去掉了 apache
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "net.coding.program"

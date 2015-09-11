@@ -11,39 +11,46 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="68dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/icon"
                 android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:layout_centerVertical="true" />
+
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_alignTop="@id/icon"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/icon"
                 android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="Large Text"
+                android:text="wwww"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_green" />
+                android:textColor="@color/font_black_2"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_clock"
-                android:drawablePadding="2dp"
-                android:text="Small Text"
+                android:layout_alignBottom="@id/icon"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_toRightOf="@id/icon"
+                android:text="1小时前"
                 android:textColor="@color/font_black_9"
                 android:textSize="12sp" />
-        </LinearLayout>
+
+        </RelativeLayout>
 
         <WebView
             android:id="@+id/comment"
@@ -51,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/name"
             android:layout_below="@+id/name"
-            android:layout_marginTop="8dp"
             android:background="@color/transparent"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
@@ -83,60 +89,67 @@
             android:text="北京"
             android:textColor="@color/font_green" />
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/photoType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:layout_marginTop="9dp"
+            android:singleLine="true"
+            android:text="来自 iPhone 6"
+            android:drawableLeft="@drawable/icon_maopao_send_phone"
+            android:textColor="@color/font_black_9"
+            android:textSize="13sp"
+            android:layout_marginLeft="12dp" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
+            android:layout_marginTop="14dp"
             android:layout_marginRight="5dp"
-            android:gravity="center_vertical|right"
             android:minHeight="30dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/photoType"
-                android:layout_width="0px"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="来自 iPhone 6"
-                android:textColor="@color/font_black_9" />
-
-            <TextView
-                android:id="@+id/maopaoDelete"
+            <ImageButton
+                android:id="@+id/shareBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:text="删除"
-                android:textColor="@color/font_black_9" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:src="@drawable/maopao_item_share" />
+
+            <ImageButton
+                android:id="@+id/commentBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:gravity="center"
+                android:src="@drawable/checkbox_comment" />
 
             <CheckBox
                 android:id="@+id/likeBtn"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:button="@drawable/checkbox_good" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/commentBtn"
+                android:background="@null"
+                android:button="@drawable/checkbox_good"
+                android:layout_marginRight="8dp" />
 
-            <CheckBox
-                android:id="@+id/commentBtn"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:button="@drawable/checkbox_comment" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/likesAllLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/maopao_comment_divide" />
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
 
         <LinearLayout
             android:id="@+id/likeUsersLayout"
@@ -147,5 +160,12 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/maopao_comment_divide" />
 
 </LinearLayout>

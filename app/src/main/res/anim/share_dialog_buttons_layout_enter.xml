@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<alpha xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:f="0.0"-->
+    <!--android:toAlpha="1.0"-->
+    <!--android:fillAfter="true"-->
+    <!--android:duration="500"/>-->
+
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromYDelta="100%p"
+    android:toYDelta="0%p"
+    android:duration="300"
+    />

@@ -14,9 +14,9 @@
                 android:title="@string/copy_link"
                 app:showAsAction="always" />
             <item
-                android:id="@+id/action_inform"
-                android:icon="@drawable/ic_menu_inform"
-                android:title="举报"
+                android:id="@+id/action_del_maopao"
+                android:title="删除冒泡"
+                android:icon="@drawable/ic_menu_delete"
                 app:showAsAction="always" />
         </menu>
     </item>

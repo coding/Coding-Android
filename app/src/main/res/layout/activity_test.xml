@@ -56,5 +56,17 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/button" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button2"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/editText2"
+            android:layout_alignEnd="@+id/editText2"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
+            android:onClick="onClick2" />
+
     </RelativeLayout>
 </LinearLayout>

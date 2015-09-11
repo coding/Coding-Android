@@ -1,14 +1,12 @@
 package net.coding.program;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+
+import net.coding.program.user.UsersListActivity;
+import net.coding.program.user.UsersListActivity_;
 
 
 public class TestActivity extends ActionBarActivity {
@@ -18,32 +16,32 @@ public class TestActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar supportActionBar = getSupportActionBar();
-
-        supportActionBar.setDisplayShowCustomEnabled(true);
-        supportActionBar.setCustomView(R.layout.actionbar_custom_spinner);
-        Spinner spinner = (Spinner) supportActionBar.getCustomView().findViewById(R.id.spinner);
-
-//        spinner = (Spinner) findViewById(R.id.spinner2);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.maopao_action_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        ActionBar supportActionBar = getSupportActionBar();
+//
+//        supportActionBar.setDisplayShowCustomEnabled(true);
+//        supportActionBar.setCustomView(R.layout.actionbar_custom_spinner);
+//        Spinner spinner = (Spinner) supportActionBar.getCustomView().findViewById(R.id.spinner);
+//
+////        spinner = (Spinner) findViewById(R.id.spinner2);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.maopao_action_types, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 
     public void click1(View v) {
@@ -56,6 +54,14 @@ public class TestActivity extends ActionBarActivity {
 //        getMenuInflater().inflate(R.menu.menu_test, menu);
 //        return true;
 //    }
+
+    public void onClick2(View v) {
+        UsersListActivity_.intent(this)
+                .type(UsersListActivity.Friend.Follow)
+                .hideFollowButton(true)
+                .relayString("haahahahaha")
+                .start();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

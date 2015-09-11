@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="88"
-    android:versionName="3.2">
+    android:versionCode="89"
+    android:versionName="3.2.1" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -70,7 +70,7 @@
         android:theme="@style/ActionbarNoIcon" >
 
         <!-- ###################注册SDK使用的Activity###################### -->
-        <!--分享编辑页-->
+        <!-- 分享编辑页 -->
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -78,6 +78,7 @@
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -88,14 +89,14 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID-->
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
                 <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
-        <activity android:name="com.tencent.connect.common.AssistActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
@@ -162,6 +163,10 @@
             android:value="Channel" />
 
         <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test" >
+        </activity>
+        <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
             android:launchMode="singleTask"
@@ -198,6 +203,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -531,9 +538,6 @@
             android:name=".project.ProjectHomeActivity_"
             android:label="@string/title_activity_project_home"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".TestActivity"
-            android:label="@string/title_activity_test" />
 
         <receiver
             android:name=".MyPushReceiver"
@@ -579,13 +583,11 @@
         <activity
             android:name=".login.UserActiveActivity_"
             android:label="@string/title_activity_user_active"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.ResetPasswordActivity_"
             android:label="@string/title_activity_reset_password"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".message.MessageReceiver" >
             <intent-filter>
@@ -710,6 +712,11 @@
             android:name=".project.detail.file.ShareFileLinkActivity_"
             android:label="@string/title_activity_share_file_link"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".maopao.InformMaopaoActivity_"
+            android:label="@string/title_activity_inform_maopao"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
