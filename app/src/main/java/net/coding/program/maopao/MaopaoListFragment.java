@@ -36,7 +36,6 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
@@ -247,10 +246,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
 
         void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
             mEnterLayout.hideKeyboard();
-            String name = mMaopaoObject.owner.name + " 的冒泡";
-            String content = HtmlContent.parseToShareText(mMaopaoObject.content);
-            String link = Global.HOST_MOBILE + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
-            CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(name, content, link);
+            CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
             CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
             shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
         }

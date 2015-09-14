@@ -69,6 +69,7 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon" >
 
+
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity
@@ -203,8 +204,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -715,7 +714,12 @@
         <activity
             android:name=".maopao.InformMaopaoActivity_"
             android:label="@string/title_activity_inform_maopao"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:theme="@style/TranslateThemeFull"
+            android:name=".maopao.share.ShareSinaHelpActivity"
+            android:label="@string/title_activity_share_sina_help" >
         </activity>
     </application>
 

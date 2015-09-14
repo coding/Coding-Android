@@ -6,6 +6,7 @@ package net.coding.program.maopao.share;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -28,12 +29,15 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.utils.OauthHelper;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import net.coding.program.AllThirdKeys;
+import net.coding.program.MainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.model.Maopao;
 import net.coding.program.user.UsersListActivity;
 import net.coding.program.user.UsersListActivity_;
 
@@ -92,9 +96,9 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
     }
 
     private void addSinaWeibo() {
-        SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
-        sinaSsoHandler.setTargetUrl(mShareData.link);
-        sinaSsoHandler.addToSocialSDK();
+//        SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
+//        sinaSsoHandler.setTargetUrl(mShareData.link);
+//        sinaSsoHandler.addToSocialSDK();
         mController.getConfig().setSsoHandler(new SinaSsoHandler());
     }
 
@@ -135,9 +139,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             des = in.readString();
         }
 
-        public ShareData(String name, String des, String link) {
-            this.name = name;
-            this.link = link;
+
+        public ShareData(Maopao.MaopaoObject mMaopaoObject) {
+            this.name = mMaopaoObject.owner.name + "的冒泡";
+            this.link = mMaopaoObject.getMobileLink();
+
+            String des = HtmlContent.parseToShareText(mMaopaoObject.content);
             this.des = HtmlContent.parseToShareText(des);
             ArrayList<String> uris = HtmlContent.parseMaopao(des).uris;
             if (uris.size() > 0) {
@@ -234,8 +241,15 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 break;
 
             case R.id.sinaWeibo:
-                addSinaWeibo();
-                performShare(SHARE_MEDIA.SINA);
+                if (mActivity instanceof MainActivity_
+                        && !OauthHelper.isAuthenticatedAndTokenNotExpired(mActivity, SHARE_MEDIA.SINA)) {
+                    Intent intent = new Intent(mActivity, ShareSinaHelpActivity.class);
+                    intent.putExtra(ShareSinaHelpActivity.EXTRA_SHARE_DATA, mShareData);
+                    mActivity.startActivity(intent);
+                } else {
+                    addSinaWeibo();
+                    performShare(SHARE_MEDIA.SINA);
+                }
                 break;
 
             case R.id.evernote:
@@ -267,6 +281,10 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
     }
 
     private void performShare(SHARE_MEDIA platform) {
+        performShare(platform, mActivity, mShareData);
+    }
+
+    public static void performShare(SHARE_MEDIA platform, Activity mActivity, ShareData mShareData) {
         mController.setShareContent(mShareData.des);
 
         UMImage umImage;
@@ -290,20 +308,10 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
                     @Override
                     public void onStart() {
-//                        dismiss();
                     }
 
                     @Override
                     public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
-//                        String showText = platform.toString();
-//                        if (eCode == StatusCode.ST_CODE_SUCCESSED) {
-//                            showText += "平台分享成功";
-//                        } else {
-//                            showText += "平台分享失败";
-//                        }
-//                        Log.d("", "umengshare " + eCode);
-//                        Toast.makeText(mActivity, showText, Toast.LENGTH_SHORT).show();
-//                        dismiss();
                     }
                 }
 

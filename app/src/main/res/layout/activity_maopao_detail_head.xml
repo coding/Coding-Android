@@ -74,6 +74,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:gravity="bottom"
         android:orientation="vertical">
 
@@ -149,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="5dp">
+        android:layout_marginBottom="5dp">
 
         <LinearLayout
             android:id="@+id/likeUsersLayout"
@@ -160,12 +161,5 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/maopao_comment_divide" />
 
 </LinearLayout>

@@ -70,6 +70,14 @@ public class Maopao {
             address = json.optString("address");
         }
 
+        public String getLink() {
+            return Global.HOST + "/u/" + owner.global_key + "/pp/" + id;
+        }
+
+        public String getMobileLink() {
+            return Global.HOST_MOBILE + "/u/" + owner.global_key + "/pp/" + id;
+        }
+
         @Override
         public boolean equals(Object o) {
             if( o instanceof MaopaoObject){

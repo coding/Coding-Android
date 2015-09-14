@@ -574,28 +574,16 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     protected String getLink() {
         if (mMaopaoObject == null) {
             return "";
+        } else {
+            return mMaopaoObject.getLink();
         }
-
-        return Global.HOST + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
-    }
-
-    protected String getMobileLink() {
-        if (mMaopaoObject == null) {
-            return "";
-        }
-
-        return Global.HOST_MOBILE + "/u/" + mMaopaoObject.owner.global_key + "/pp/" + mMaopaoObject.id;
     }
 
     void action_share_third() {
         mEnterLayout.hideKeyboard();
-        String name = mMaopaoObject.owner.name + " 的冒泡";
-        String link = getMobileLink();
-        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(name,
-                mMaopaoObject.content, link);
+        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
         CustomShareBoard shareBoard = new CustomShareBoard(this, shareData);
         shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
-
     }
 
     public static class ClickParam implements Serializable {
