@@ -44,6 +44,7 @@ import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.maopao.MaopaoLocationArea;
 import net.coding.program.maopao.MaopaoSearchActivity_;
 import net.coding.program.maopao.item.CommentArea;
+import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
@@ -250,6 +251,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
                 holder.commentBtn = convertView.findViewById(R.id.commentBtn);
                 holder.likeBtn.setTag(R.id.likeBtn, holder);
+                holder.good = convertView.findViewById(R.id.maopaoGood);
                 holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
                 holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -329,7 +331,11 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
             holder.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String type = ((CheckBox) v).isChecked() ? "like" : "unlike";
+                    boolean like = ((CheckBox) v).isChecked();
+                    String type = like ? "like" : "unlike";
+                    if (like) {
+                        MaopaoLikeAnimation.playAnimation(holder.good, v);
+                    }
                     String uri = String.format(HOST_GOOD, data.id, type);
                     v.setTag(data);
 
@@ -991,6 +997,7 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         TextView location;
 
         View maopaoMore;
+        View good;
     }
 
 }

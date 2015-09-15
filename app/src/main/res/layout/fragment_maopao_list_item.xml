@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:clipChildren="false"
         android:paddingBottom="@dimen/padding_12"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
@@ -177,6 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
+            android:clipChildren="false"
             android:orientation="vertical">
 
             <TextView
@@ -207,6 +209,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
+                android:clipChildren="true"
+                android:clipToPadding="false"
                 android:layout_marginTop="14dp"
                 android:minHeight="30dp"
                 android:orientation="horizontal">
@@ -238,6 +242,14 @@
                     android:background="@null"
                     android:button="@drawable/checkbox_good"
                     android:layout_marginRight="8dp" />
+
+
+                <ImageView
+                    android:id="@+id/maopaoGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.0"
+                    android:src="@drawable/view_maopao_good"/>
 
             </RelativeLayout>
         </LinearLayout>
@@ -341,6 +353,7 @@
                             android:layout_toRightOf="@id/temp1"
                             android:text="查看全部24条评论"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
+
                         <!--<View-->
                         <!--android:layout_width="match_parent"-->
                         <!--android:layout_height="1dp"-->

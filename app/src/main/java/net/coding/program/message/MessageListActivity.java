@@ -54,6 +54,8 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
+import net.coding.program.user.UsersListActivity;
+import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -361,14 +363,18 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int ppp, long id) {
                 final Message.MessageObject msg = mData.get((int) id);
-                Global.MessageParse msgParse = HtmlContent.parseMessage(msg.content);
+                final Global.MessageParse msgParse = HtmlContent.parseMessage(msg.content);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this);
                 if (msgParse.text.isEmpty()) {
                     builder.setItems(R.array.message_action_image, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            deleteMessage(msg);
+                            if (which == 0) {
+                                relayMessage(msg);
+                            } else if (which == 1) {
+                                deleteMessage(msg);
+                            }
                         }
                     });
 
@@ -380,6 +386,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                                 Global.copy(MessageListActivity.this, msg.content);
                                 showButtomToast("已复制");
                             } else if (which == 1) {
+                                relayMessage(msg);
+                            } else if (which == 2) {
                                 deleteMessage(msg);
                             }
                         }
@@ -408,6 +416,14 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 last = current;
             }
         });
+    }
+
+    private void relayMessage(Message.MessageObject message) {
+        UsersListActivity_.intent(this)
+                .type(UsersListActivity.Friend.Follow)
+                .hideFollowButton(true)
+                .relayString(message.content)
+                .start();
     }
 
     private void deleteMessage(Message.MessageObject msg) {

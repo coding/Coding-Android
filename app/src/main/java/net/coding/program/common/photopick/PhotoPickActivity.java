@@ -342,6 +342,7 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
             if (resultCode == RESULT_OK) {
                 mPickData = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                 photoAdapter.notifyDataSetChanged();
+
                 boolean send = data.getBooleanExtra("send", false);
                 if (send) {
                     send();
@@ -354,6 +355,9 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
                 send();
             }
         }
+
+        updatePickCount();
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

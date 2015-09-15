@@ -17,6 +17,7 @@
 
             <com.twotoasters.jazzylistview.JazzyListView
                 android:id="@+id/listView"
+                android:scrollingCache="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/divide"

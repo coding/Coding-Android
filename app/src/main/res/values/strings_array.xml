@@ -176,15 +176,17 @@
 
     <string-array name="message_action_text">
         <item>复制</item>
+        <item>转发</item>
+        <item>删除</item>
+    </string-array>
+
+    <string-array name="message_action_image">
+        <item>转发</item>
         <item>删除</item>
     </string-array>
 
     <string-array name="message_action_text_copy">
         <item>复制</item>
-    </string-array>
-
-    <string-array name="message_action_image">
-        <item>删除</item>
     </string-array>
 
     <string-array name="topic_label_action">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:clipChildren="false"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -70,6 +71,7 @@
     <LinearLayout
         android:id="@+id/goodCommentLayout"
         android:layout_width="match_parent"
+        android:clipChildren="false"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -112,6 +114,7 @@
             android:layout_marginTop="14dp"
             android:layout_marginRight="5dp"
             android:minHeight="30dp"
+            android:clipChildren="false"
             android:orientation="horizontal">
 
             <ImageButton
@@ -141,6 +144,13 @@
                 android:background="@null"
                 android:button="@drawable/checkbox_good"
                 android:layout_marginRight="8dp" />
+
+            <ImageView
+                android:id="@+id/maopaoGood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.0"
+                android:src="@drawable/view_maopao_good"/>
 
         </RelativeLayout>
     </LinearLayout>

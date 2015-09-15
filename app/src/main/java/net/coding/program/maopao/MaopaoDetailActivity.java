@@ -37,6 +37,7 @@ import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
@@ -380,7 +381,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                     return;
                 }
 
-                String type = ((CheckBox) v).isChecked() ? "like" : "unlike";
+                boolean like = ((CheckBox) v).isChecked();
+                String type = like ? "like" : "unlike";
+                if (like) {
+                    View good = mListHead.findViewById(R.id.maopaoGood);
+                    MaopaoLikeAnimation.playAnimation(good, v);
+                }
                 String uri = String.format(HOST_GOOD, mMaopaoObject.id, type);
 
                 postNetwork(uri, new RequestParams(), HOST_GOOD, 0, mMaopaoObject);

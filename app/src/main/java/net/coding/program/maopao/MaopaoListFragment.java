@@ -48,6 +48,7 @@ import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.item.CommentArea;
+import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
@@ -279,6 +280,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
                 holder.commentBtn = convertView.findViewById(R.id.commentBtn);
                 holder.likeBtn.setTag(R.id.likeBtn, holder);
+                holder.maopaoGoodView = convertView.findViewById(R.id.maopaoGood);
                 holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
                 holder.commentBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -352,7 +354,11 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
             holder.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String type = ((CheckBox) v).isChecked() ? "like" : "unlike";
+                    boolean like = ((CheckBox) v).isChecked();
+                    if (like) {
+                        MaopaoLikeAnimation.playAnimation(holder.maopaoGoodView, v);
+                    }
+                    String type = like ? "like" : "unlike";
                     String uri = String.format(HOST_GOOD, data.id, type);
                     v.setTag(data);
 
@@ -886,14 +892,27 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                             }
                         }
 
+                        int first = listView.getFirstVisiblePosition();
+                        int last = listView.getLastVisiblePosition();
+                        // TODO head
+                        if (first <= i && i <= last) {
+                            ViewHolder holder = (ViewHolder) listView.getChildAt(i).getTag(R.id.MaopaoItem);
+
+                            holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
+                            holder.likeUsersArea.displayLikeUser();
+                            if (maopao.likes > 0 || maopao.comments > 0) {
+                                holder.commentLikeArea.setVisibility(View.VISIBLE);
+                            } else {
+                                holder.commentLikeArea.setVisibility(View.GONE);
+                            }
+                        }
+
                         break;
                     }
                 }
             } else {
                 showErrorMsg(code, respanse);
             }
-
-            mAdapter.notifyDataSetChanged();
 
         } else if (tag.equals(TAG_DELETE_MAOPAO)) {
             int maopaoId = (int) data;
@@ -975,6 +994,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         TextView location;
 
         View maopaoMore;
+        View maopaoGoodView;
     }
 
     public static class ClickImageParam {
