@@ -12,6 +12,7 @@ import com.prolificinteractive.parallaxpager.ParallaxContextWrapper;
 
 import net.coding.program.LoginActivity;
 import net.coding.program.R;
+import net.coding.program.login.ZhongQiuGuideActivity;
 
 public class GuideActivity extends ActionBarActivity {
 
@@ -37,6 +38,8 @@ public class GuideActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_parallax);
 
         IntentFilter filter = new IntentFilter();
@@ -50,6 +53,9 @@ public class GuideActivity extends ActionBarActivity {
                     .add(R.id.content, new ParallaxFragment())
                     .commit();
         }
+
+        ZhongQiuGuideActivity.showHolidayGuide(this);
+
     }
 
     @Override

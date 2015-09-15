@@ -28,6 +28,7 @@ import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.message.UsersListFragment_;
@@ -78,6 +79,9 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ZhongQiuGuideActivity.showHolidayGuide(this);
+
         MyApp.setMainActivityState(true);
 
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);

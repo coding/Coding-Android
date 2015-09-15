@@ -69,7 +69,6 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon" >
 
-
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity
@@ -169,9 +168,9 @@
         </activity>
         <activity
             android:name=".MainActivity_"
+            android:hardwareAccelerated="false"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarSpannerTheme1" />
         <activity
@@ -205,11 +204,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".task.add.TaskAddActivity_"
@@ -718,9 +719,17 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:theme="@style/TranslateThemeFull"
             android:name=".maopao.share.ShareSinaHelpActivity"
-            android:label="@string/title_activity_share_sina_help" >
+            android:label="@string/title_activity_share_sina_help"
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslateThemeFull" >
+        </activity>
+        <activity
+            android:name=".login.ZhongQiuGuideActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslateThemeFull"
+            android:label="@string/title_activity_zhong_qiu_guide" >
+
         </activity>
     </application>
 
