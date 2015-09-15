@@ -112,7 +112,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         unregisterReceiver(mUpdatePushReceiver);
-
         super.onDestroy();
     }
 

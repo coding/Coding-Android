@@ -82,14 +82,14 @@ public class EmojiFragment extends Fragment {
         emojiMonkeyMap.put("coding_emoji_42", "求红包");
         emojiMonkeyMap.put("coding_emoji_43", "新年快乐");
 
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_01", "奔月");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_02", "吃月饼");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_03", "捞月");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_04", "打招呼");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_05", "中秋快乐");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_06", "赏月");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_07", "悠闲");
-        emojiMonkeyMap.put("coding_zhongqiu_emoji_08", "爬爬");
+        emojiMonkeyMap.put("festival_emoji_01", "奔月");
+        emojiMonkeyMap.put("festival_emoji_02", "吃月饼");
+        emojiMonkeyMap.put("festival_emoji_03", "捞月");
+        emojiMonkeyMap.put("festival_emoji_04", "打招呼");
+        emojiMonkeyMap.put("festival_emoji_05", "中秋快乐");
+        emojiMonkeyMap.put("festival_emoji_06", "赏月");
+        emojiMonkeyMap.put("festival_emoji_07", "悠闲");
+        emojiMonkeyMap.put("festival_emoji_08", "爬爬");
 
         textToMonkdyMap.put("哈哈", "coding_emoji_01");
         textToMonkdyMap.put("吐", "coding_emoji_02");
@@ -134,14 +134,14 @@ public class EmojiFragment extends Fragment {
         textToMonkdyMap.put("求红包", "coding_emoji_42");
         textToMonkdyMap.put("新年快乐", "coding_emoji_43");
 
-        textToMonkdyMap.put("奔月", "coding_zhongqiu_emoji_01");
-        textToMonkdyMap.put("吃月饼", "coding_zhongqiu_emoji_02");
-        textToMonkdyMap.put("捞月", "coding_zhongqiu_emoji_03");
-        textToMonkdyMap.put("打招呼", "coding_zhongqiu_emoji_04");
-        textToMonkdyMap.put("中秋快乐", "coding_zhongqiu_emoji_05");
-        textToMonkdyMap.put("赏月", "coding_zhongqiu_emoji_06");
-        textToMonkdyMap.put("悠闲", "coding_zhongqiu_emoji_07");
-        textToMonkdyMap.put("爬爬", "coding_zhongqiu_emoji_08");
+        textToMonkdyMap.put("奔月", "festival_emoji_01");
+        textToMonkdyMap.put("吃月饼", "festival_emoji_02");
+        textToMonkdyMap.put("捞月", "festival_emoji_03");
+        textToMonkdyMap.put("打招呼", "festival_emoji_04");
+        textToMonkdyMap.put("中秋快乐", "festival_emoji_05");
+        textToMonkdyMap.put("赏月", "festival_emoji_06");
+        textToMonkdyMap.put("悠闲", "festival_emoji_07");
+        textToMonkdyMap.put("爬爬", "festival_emoji_08");
     }
 
     public EmojiFragment() {

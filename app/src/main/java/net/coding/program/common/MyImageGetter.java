@@ -87,7 +87,8 @@ public class MyImageGetter implements Html.ImageGetter {
     }
 
     private boolean isMonkey(String name) {
-        return name.indexOf("coding") == 0;
+        return name.indexOf("coding") == 0 ||
+                name.indexOf("festival") == 0;
     }
 
 }

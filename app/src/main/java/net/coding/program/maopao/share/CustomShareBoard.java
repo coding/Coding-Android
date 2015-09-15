@@ -24,6 +24,7 @@ import com.umeng.socialize.controller.UMEvernoteHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners;
+import com.umeng.socialize.media.QZoneShareContent;
 import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
@@ -40,8 +41,6 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.model.Maopao;
 import net.coding.program.user.UsersListActivity;
 import net.coding.program.user.UsersListActivity_;
-
-import java.util.ArrayList;
 
 public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
@@ -83,7 +82,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
     private void addWXCircle() {
         UMWXHandler wxCircleHandler = new UMWXHandler(mActivity, AllThirdKeys.WX_APP_ID, AllThirdKeys.WX_APP_KEY);
         wxCircleHandler.setTargetUrl(mShareData.link);
-        wxCircleHandler.setTitle(mShareData.name);
+        wxCircleHandler.setTitle(mShareData.des);
         wxCircleHandler.setToCircle(true);
         wxCircleHandler.addToSocialSDK();
     }
@@ -144,12 +143,18 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             this.name = mMaopaoObject.owner.name + "的冒泡";
             this.link = mMaopaoObject.getMobileLink();
 
-            String des = HtmlContent.parseToShareText(mMaopaoObject.content);
-            this.des = HtmlContent.parseToShareText(des);
-            ArrayList<String> uris = HtmlContent.parseMaopao(des).uris;
-            if (uris.size() > 0) {
-                this.img = uris.get(0);
+            Global.MessageParse parse = HtmlContent.parseMaopao(mMaopaoObject.content);
+            this.des = HtmlContent.parseToShareText(parse.text);
+            if (parse.uris.size() > 0) {
+                this.img = parse.uris.get(0);
             }
+
+//            String des = HtmlContent.parseToShareText(mMaopaoObject.content);
+//            this.des = HtmlContent.parseToShareText(des);
+//            ArrayList<String> uris = HtmlContent.parseMaopao(mMaopaoObject).uris;
+//            if (uris.size() > 0) {
+//                this.img = uris.get(0);
+//            }
         }
 
         public String getImg() {
@@ -302,6 +307,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             sinaContent.setShareImage(umImage);
             sinaContent.setTitle(mShareData.name);
             mController.setShareMedia(sinaContent);
+        } else if (platform == SHARE_MEDIA.QZONE) {
+            QZoneShareContent qzone = new QZoneShareContent();
+            qzone.setShareContent(mShareData.des);
+            qzone.setTitle(mShareData.name);
+            qzone.setShareImage(umImage);
+            mController.setShareMedia(qzone);
         }
 
         mController.postShare(mActivity, platform, new SocializeListeners.SnsPostListener() {

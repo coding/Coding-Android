@@ -3,7 +3,8 @@
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -30,6 +31,7 @@
             android:background="@drawable/content_pressed_selector"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
+            tools:text="内容很多"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/font_black_content"
             android:textSize="15sp" />

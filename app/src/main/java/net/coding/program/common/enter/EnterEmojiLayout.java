@@ -184,14 +184,14 @@ public class EnterEmojiLayout extends EnterLayout {
     }};
 
     static String zhongqiuIcons[][] = new String[][]{{
-            "coding_zhongqiu_emoji_01",
-            "coding_zhongqiu_emoji_02",
-            "coding_zhongqiu_emoji_03",
-            "coding_zhongqiu_emoji_04",
-            "coding_zhongqiu_emoji_05",
-            "coding_zhongqiu_emoji_06",
-            "coding_zhongqiu_emoji_07",
-            "coding_zhongqiu_emoji_08"
+            "festival_emoji_01",
+            "festival_emoji_02",
+            "festival_emoji_03",
+            "festival_emoji_04",
+            "festival_emoji_05",
+            "festival_emoji_06",
+            "festival_emoji_07",
+            "festival_emoji_08"
     }};
 
     protected final View rootView;
