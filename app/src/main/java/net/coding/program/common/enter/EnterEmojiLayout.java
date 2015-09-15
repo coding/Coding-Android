@@ -182,6 +182,18 @@ public class EnterEmojiLayout extends EnterLayout {
             "coding_emoji_42",
             "coding_emoji_43",
     }};
+
+    static String zhongqiuIcons[][] = new String[][]{{
+            "coding_zhongqiu_emoji_01",
+            "coding_zhongqiu_emoji_02",
+            "coding_zhongqiu_emoji_03",
+            "coding_zhongqiu_emoji_04",
+            "coding_zhongqiu_emoji_05",
+            "coding_zhongqiu_emoji_06",
+            "coding_zhongqiu_emoji_07",
+            "coding_zhongqiu_emoji_08"
+    }};
+
     protected final View rootView;
     protected int rootViewHigh = 0;
     protected ViewGroup mInputBox;//文本输入框所在的布局容器
@@ -194,8 +206,11 @@ public class EnterEmojiLayout extends EnterLayout {
     private LinearLayout emojiKeyboardIndicator;
     private EmojiPagerAdapter mEmojiPagerAdapter;
     private MonkeyPagerAdapter mMonkeyPagerAdapter;
+    private ZhongqiuPagerAdapter mZhongqiuPagerAdapter;
     private View selectEmoji;
     private View selectMonkey;
+    private View selectZhongqiu;
+
     private MyImageGetter myImageGetter;
     private Activity mActivity;
     private boolean firstLayout = true;
@@ -283,18 +298,18 @@ public class EnterEmojiLayout extends EnterLayout {
                             int softkeyboardHeight = contentViewHeight - getContentViewHeight(activity);
                             if (softkeyboardHeight > contentViewHeight / 4) {
                                 //为什么要再减去状态栏的高度才得到正确的mInputBox在软键盘弹出后的绝对y坐标???
-                                mEnterLayoutAnimSupportContainer.softkeyboardOpenY = mEnterLayoutAnimSupportContainer.closeY - softkeyboardHeight-statusBarHeight;
+                                mEnterLayoutAnimSupportContainer.softkeyboardOpenY = mEnterLayoutAnimSupportContainer.closeY - softkeyboardHeight - statusBarHeight;
                                 Log.w("softkeyboardHeight", softkeyboardHeight + "");
                             }
                         }
 
                         int h = getContentViewHeight(activity);
-                        if(contentViewHeight == h){
+                        if (contentViewHeight == h) {
                             // dropTempWindow();
                             isSoftKeyBoard = false;
-                           // updateEnterLayoutBottom(0);
+                            // updateEnterLayoutBottom(0);
                             //Log.w("Test", "输入法已经隐藏");
-                        }else if(contentViewHeight>h){
+                        } else if (contentViewHeight > h) {
                             isSoftKeyBoard = true;
                         }
                         if (rootViewHigh == 0) {
@@ -302,8 +317,8 @@ public class EnterEmojiLayout extends EnterLayout {
                         }
                         int high = rootView.getHeight();
                         if (high >= rootViewHigh) {
-                            if(mInputType!=null){
-                                switch (mInputType){
+                            if (mInputType != null) {
+                                switch (mInputType) {
                                     case Text:
                                         setInputStyle(View.GONE, View.GONE);
                                         break;
@@ -325,8 +340,10 @@ public class EnterEmojiLayout extends EnterLayout {
         emojiKeyboardLayout = activity.findViewById(R.id.emojiKeyboardLayout);
 
         final ViewPager viewPager = (ViewPager) activity.findViewById(R.id.viewPager);
-        mEmojiPagerAdapter = new EmojiPagerAdapter(activity.getSupportFragmentManager());
-        mMonkeyPagerAdapter = new MonkeyPagerAdapter(activity.getSupportFragmentManager());
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        mEmojiPagerAdapter = new EmojiPagerAdapter(fragmentManager);
+        mMonkeyPagerAdapter = new MonkeyPagerAdapter(fragmentManager);
+        mZhongqiuPagerAdapter = new ZhongqiuPagerAdapter(fragmentManager);
 
         emojiKeyboardIndicator = (LinearLayout) mActivity.findViewById(R.id.emojiKeyboardIndicator);
 
@@ -347,9 +364,13 @@ public class EnterEmojiLayout extends EnterLayout {
         });
 
         selectMonkey = mActivity.findViewById(R.id.selectMonkey);
+        selectZhongqiu = mActivity.findViewById(R.id.selectZhongqiu);
         if (emojiType == EmojiType.SmallOnly) {
             selectMonkey.setVisibility(View.INVISIBLE);
             mActivity.findViewById(R.id.selectMonkeyDivideLine).setVisibility(View.INVISIBLE);
+
+            selectZhongqiu.setVisibility(View.INVISIBLE);
+            mActivity.findViewById(R.id.selectMonkeyDivideLine1).setVisibility(View.INVISIBLE);
         }
 
         selectMonkey.setOnClickListener(new View.OnClickListener() {
@@ -366,19 +387,31 @@ public class EnterEmojiLayout extends EnterLayout {
             }
         });
 
-        selectEmoji.performClick();
+        selectZhongqiu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setIndicatorCount(zhongqiuIcons.length);
+                if (viewPager.getAdapter() != mZhongqiuPagerAdapter) {
+                    viewPager.setAdapter(mZhongqiuPagerAdapter);
+                    pageChange.resetPos();
+                }
 
+                setPressEmojiType(EmojiFragment.Type.Zhongqiu);
+            }
+        });
+
+        selectEmoji.performClick();
 
 
         content.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                }else if(event.getAction() == MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     content.requestFocus();
-                    if(commonEnterRoot!=null){
+                    if (commonEnterRoot != null) {
                         toggleSoftkeyboardWithCloseNoTextInput(mInputType);
-                    }else{
+                    } else {
                         //兼容没有使用common_enter_emoji的输入控件
                         emojiKeyboardLayout.setVisibility(View.GONE);
                         checkBoxEmoji.setChecked(false);
@@ -402,9 +435,9 @@ public class EnterEmojiLayout extends EnterLayout {
         }
     }
 
-    private void dropTempWindow(){
+    private void dropTempWindow() {
         mInputBox.setVisibility(View.INVISIBLE);
-        ValueAnimator va = ValueAnimator.ofInt(mEnterLayoutAnimSupportContainer.softkeyboardOpenY,mEnterLayoutAnimSupportContainer.openY);
+        ValueAnimator va = ValueAnimator.ofInt(mEnterLayoutAnimSupportContainer.softkeyboardOpenY, mEnterLayoutAnimSupportContainer.openY);
         va.setDuration(300);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -423,8 +456,8 @@ public class EnterEmojiLayout extends EnterLayout {
 
     }
 
-    private void createTempWindow(View source){
-        if(mWindowView == null){
+    private void createTempWindow(View source) {
+        if (mWindowView == null) {
             source.destroyDrawingCache();
             source.setDrawingCacheEnabled(true);
             source.buildDrawingCache();
@@ -432,7 +465,7 @@ public class EnterEmojiLayout extends EnterLayout {
             source.setDrawingCacheEnabled(false);
             mWindowView = new ImageView(mActivity);
             mWindowView.setImageBitmap(shot);
-            if(mWindowLp==null){
+            if (mWindowLp == null) {
                 mWindowLp = new WindowManager.LayoutParams();
                 mWindowLp.height = source.getMeasuredHeight();
                 mWindowLp.width = source.getMeasuredWidth();
@@ -443,40 +476,42 @@ public class EnterEmojiLayout extends EnterLayout {
             }
             mWindowLp.x = source.getLeft();
             mWindowLp.y = mEnterLayoutAnimSupportContainer.softkeyboardOpenY;
-            Log.w("softkeyboardOpenY",""+mWindowLp.y);
-            mWindowManager.addView(mWindowView,mWindowLp);
-        }else{
+            Log.w("softkeyboardOpenY", "" + mWindowLp.y);
+            mWindowManager.addView(mWindowView, mWindowLp);
+        } else {
             removeTempWindow();
         }
     }
 
-    public  void removeTempWindow(){
-        if(mWindowView!=null){
+    public void removeTempWindow() {
+        if (mWindowView != null) {
             mWindowManager.removeViewImmediate(mWindowView);
             mWindowView = null;
         }
     }
 
-    private void moveTempWindow(int y){
+    private void moveTempWindow(int y) {
         mWindowLp.y = y;
         mWindowManager.updateViewLayout(mWindowView, mWindowLp);
     }
 
-    protected int getContentViewHeight(Activity activity){
+    protected int getContentViewHeight(Activity activity) {
         Rect rect = new Rect();
         Window window = activity.getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(rect);
-        if(statusBarHeight==0){
+        if (statusBarHeight == 0) {
             statusBarHeight = rect.top;
         }
         return rect.bottom - rect.top;
     }
 
-    private View getCurrentNoTextInput(){
-        if(mInputType!=null && mInputType!= InputType.Text){
-            switch (mInputType){
-                case Voice:return voiceLayout;
-                case Emoji:return emojiKeyboardLayout;
+    private View getCurrentNoTextInput() {
+        if (mInputType != null && mInputType != InputType.Text) {
+            switch (mInputType) {
+                case Voice:
+                    return voiceLayout;
+                case Emoji:
+                    return emojiKeyboardLayout;
             }
         }
         return null;
@@ -486,22 +521,22 @@ public class EnterEmojiLayout extends EnterLayout {
         mInputType = type;
         mEnterLayoutAnimSupportContainer.setCloseInputMethodBySelf(false);
         Global.popSoftkeyboard(mActivity, content, false);
-      //  mPanelLayout.setVisibility(View.GONE);
+        //  mPanelLayout.setVisibility(View.GONE);
         //去掉动画 不然太卡了
 //        createTempWindow(mInputBox);
 //        dropTempWindow();
     }
 
-    protected void toggleSoftkeyboardWithCloseNoTextInput(InputType type){
+    protected void toggleSoftkeyboardWithCloseNoTextInput(InputType type) {
         checkBoxEmoji.setChecked(false);
-        if(type!=null && type!= InputType.Text && mEnterLayoutStatus){
+        if (type != null && type != InputType.Text && mEnterLayoutStatus) {
             mInputType = type;
             voiceLayout.setVisibility(View.INVISIBLE);
             emojiKeyboardLayout.setVisibility(View.INVISIBLE);
             Global.popSoftkeyboard(mActivity, content, true);
             ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
             ViewHelper.setTranslationY(voiceLayout, 0);
-        }else {
+        } else {
             emojiKeyboardLayout.setVisibility(View.INVISIBLE);
             voiceLayout.setVisibility(View.INVISIBLE);
             ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
@@ -514,15 +549,15 @@ public class EnterEmojiLayout extends EnterLayout {
 
     protected void toggleNoTextInput(InputType type) {
         mPanelLayout.setVisibility(View.VISIBLE);
-        if(type!=null && type!= InputType.Text){
+        if (type != null && type != InputType.Text) {
             View dropView = getCurrentNoTextInput();
             mInputType = type;
             View popUpView = null;
-            switch (type){
+            switch (type) {
                 case Voice:
                     checkBoxEmoji.setChecked(false);
                     popUpView = voiceLayout;
-                    if(!mEnterLayoutStatus){
+                    if (!mEnterLayoutStatus) {
                         voiceLayout.setVisibility(View.VISIBLE);
                         emojiKeyboardLayout.setVisibility(View.GONE);
                     }
@@ -530,18 +565,18 @@ public class EnterEmojiLayout extends EnterLayout {
                 case Emoji:
                     checkBoxEmoji.setChecked(true);
                     popUpView = emojiKeyboardLayout;
-                    if(!mEnterLayoutStatus){
+                    if (!mEnterLayoutStatus) {
                         emojiKeyboardLayout.setVisibility(View.VISIBLE);
                         voiceLayout.setVisibility(View.GONE);
                     }
                     break;
             }
             mEnterLayoutStatus = mEnterLayoutAnimSupportContainer.isPanelLauoutOpen();
-            if(mEnterLayoutStatus){
+            if (mEnterLayoutStatus) {
                 final View dropTarget = dropView;
                 final View popUpTarget = popUpView;
                 ViewHelper.setTranslationY(popUpView, panelHeight);
-                ObjectAnimator drop = ObjectAnimator.ofFloat(dropView,"translationY",0,panelHeight);
+                ObjectAnimator drop = ObjectAnimator.ofFloat(dropView, "translationY", 0, panelHeight);
                 drop.setDuration(180);
                 drop.setInterpolator(new AccelerateInterpolator());
                 drop.addListener(new AnimatorListenerAdapter() {
@@ -549,14 +584,14 @@ public class EnterEmojiLayout extends EnterLayout {
                     public void onAnimationEnd(Animator animation) {
                         dropTarget.setVisibility(View.GONE);
                         popUpTarget.setVisibility(View.VISIBLE);
-                        ObjectAnimator popUp = ObjectAnimator.ofFloat(popUpTarget, "translationY", panelHeight,0);
+                        ObjectAnimator popUp = ObjectAnimator.ofFloat(popUpTarget, "translationY", panelHeight, 0);
                         popUp.setDuration(180);
                         popUp.setInterpolator(new DecelerateInterpolator());
                         popUp.start();
                     }
                 });
                 drop.start();
-            }else{
+            } else {
                 popUpView.setVisibility(View.VISIBLE);
                 animEnterLayoutStatusChanaged(true);
             }
@@ -566,7 +601,7 @@ public class EnterEmojiLayout extends EnterLayout {
     @Override
     public void animEnterLayoutStatusChanaged(boolean isOpen) {
         super.animEnterLayoutStatusChanaged(isOpen);
-        if(!isOpen){
+        if (!isOpen) {
             ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
             ViewHelper.setTranslationY(voiceLayout, 0);
         }
@@ -588,15 +623,15 @@ public class EnterEmojiLayout extends EnterLayout {
 
     public void closeEnterPanel() {
         checkBoxEmoji.setChecked(false);
-        if(commonEnterRoot!=null){
-            if(mInputType != InputType.Voice){
+        if (commonEnterRoot != null) {
+            if (mInputType != InputType.Voice) {
                 animEnterLayoutStatusChanaged(false);
             }
         }
 
     }
 
-    public void openEnterPanel(){
+    public void openEnterPanel() {
         checkBoxEmoji.setChecked(true);
         checkBoxEmojiOnClicked.onClick(checkBoxEmoji);
     }
@@ -623,15 +658,27 @@ public class EnterEmojiLayout extends EnterLayout {
     }
 
     private void setPressEmojiType(EmojiFragment.Type type) {
+
+        if (type == EmojiFragment.Type.Small) {
+            setEmojiButtonBackground(selectEmoji);
+        } else if (type == EmojiFragment.Type.Big) {
+            setEmojiButtonBackground(selectMonkey);
+        } else {
+            setEmojiButtonBackground(selectZhongqiu);
+        }
+    }
+
+    private void setEmojiButtonBackground(View view) {
         final int colorNormal = 0xffffffff;
         final int colorPress = 0xffe8e8e8;
 
-        if (type == EmojiFragment.Type.Small) {
-            selectEmoji.setBackgroundColor(colorPress);
-            selectMonkey.setBackgroundColor(colorNormal);
-        } else {
-            selectEmoji.setBackgroundColor(colorNormal);
-            selectMonkey.setBackgroundColor(colorPress);
+        View[] views = new View[]{selectEmoji, selectMonkey, selectZhongqiu};
+        for (View item : views) {
+            if (view == item) {
+                item.setBackgroundColor(colorPress);
+            } else {
+                item.setBackgroundColor(colorPress);
+            }
         }
     }
 
@@ -693,6 +740,25 @@ public class EnterEmojiLayout extends EnterLayout {
         @Override
         public int getCount() {
             return monkeyIcons.length;
+        }
+    }
+
+    class ZhongqiuPagerAdapter extends FragmentStatePagerAdapter {
+
+        ZhongqiuPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            EmojiFragment fragment = new EmojiFragment();
+            fragment.init(zhongqiuIcons[position], myImageGetter, EnterEmojiLayout.this, EmojiFragment.Type.Zhongqiu);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return zhongqiuIcons.length;
         }
     }
 

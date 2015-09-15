@@ -307,6 +307,23 @@
                     android:layout_height="match_parent"
                     android:background="@color/emoji_line"/>
 
+                <TextView
+                    android:id="@+id/selectZhongqiu"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/ic_emoji_zhongqiu"
+                    android:drawablePadding="3dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:text="洋葱猴"
+                    android:textColor="@color/font_black_comment"
+                    android:textSize="15sp"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/emoji_line"/>
+
             </LinearLayout>
 
         </LinearLayout>
