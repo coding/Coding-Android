@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="net.coding.program.maopao.MaopaoAddActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.maopao.MaopaoAddActivity">
 
 
     <!--<EditText-->
@@ -31,7 +31,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="14dp"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:layout_width="54dp"
@@ -46,7 +46,7 @@
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/message_button_add"
-                android:padding="5dp"/>
+                android:padding="5dp" />
 
             <TextView
                 android:id="@+id/sendText"
@@ -58,7 +58,7 @@
                 android:padding="5dp"
                 android:text="发送"
                 android:textColor="@color/white"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -139,7 +139,7 @@
         android:horizontalSpacing="8dp"
         android:numColumns="4"
         android:stretchMode="none"
-        android:verticalSpacing="8dp"/>
+        android:verticalSpacing="8dp" />
 
 
     <LinearLayout
@@ -152,12 +152,12 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
-            android:background="#cfcfcf"/>
+            android:background="#cfcfcf" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:background="#dddddd"
+            android:background="@color/input_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="12dp">
@@ -186,7 +186,7 @@
                     android:id="@+id/popPhoto"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/pop_photo"/>
+                    android:background="@drawable/pop_photo" />
             </LinearLayout>
 
             <LinearLayout
@@ -198,7 +198,7 @@
                     android:id="@+id/popTopic"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/pop_topic"/>
+                    android:background="@drawable/pop_topic" />
 
             </LinearLayout>
 
@@ -211,7 +211,7 @@
                     android:id="@+id/popAt"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/pop_at"/>
+                    android:background="@drawable/pop_at" />
 
             </LinearLayout>
 
@@ -228,105 +228,11 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="0.5dp"
-            android:background="#cfcfcf"/>
+            android:background="#cfcfcf" />
 
-        <LinearLayout
-            android:id="@+id/emojiKeyboardLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="7.5dp">
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"/>
-
-                <LinearLayout
-                    android:id="@+id/emojiKeyboardIndicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="14dp"
-                    android:layout_marginTop="7.5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/emoji_line"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/selectEmoji"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ic_emoji_small"
-                    android:drawablePadding="3dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="30dp"
-                    android:text="经典"
-                    android:textColor="@color/font_black_comment"
-                    android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/emoji_line"/>
-
-                <TextView
-                    android:id="@+id/selectMonkey"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ic_emoji_monkey"
-                    android:drawablePadding="3dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:text="洋葱猴"
-                    android:textColor="@color/font_black_comment"
-                    android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/emoji_line"/>
-
-                <TextView
-                    android:id="@+id/selectZhongqiu"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ic_emoji_zhongqiu"
-                    android:drawablePadding="3dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:text="洋葱猴"
-                    android:textColor="@color/font_black_comment"
-                    android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/emoji_line"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <include
+            layout="@layout/emoji_keyboard_content"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -349,7 +255,7 @@
         android:text=""
         android:textColor="@color/font_black_content"
         android:textColorHint="@color/font_black_9"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--android:layout_width="match_parent"-->

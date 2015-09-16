@@ -175,7 +175,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
                     TranslateAnimation anim = new TranslateAnimation(-100, 0, 0, 0);
                     anim.setInterpolator(new BounceInterpolator());
                     // 设置动画的持续时间
-                    anim.setDuration(1000);
+                    anim.setDuration(10000);
                     // 设置退出的移动动画
                     TranslateAnimation anim2 = new TranslateAnimation(0, -100, 0, 0);
                     anim2.setDuration(500);

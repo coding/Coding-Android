@@ -669,7 +669,7 @@ public class EnterEmojiLayout extends EnterLayout {
     }
 
     private void setEmojiButtonBackground(View view) {
-        final int colorNormal = 0xffffffff;
+        final int colorNormal = 0x00000000;
         final int colorPress = 0xffe8e8e8;
 
         View[] views = new View[]{selectEmoji, selectMonkey, selectZhongqiu};
@@ -677,7 +677,7 @@ public class EnterEmojiLayout extends EnterLayout {
             if (view == item) {
                 item.setBackgroundColor(colorPress);
             } else {
-                item.setBackgroundColor(colorPress);
+                item.setBackgroundColor(colorNormal);
             }
         }
     }

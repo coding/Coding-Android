@@ -26,6 +26,8 @@
 
     <color name="file_downloaded">#ffe9f5f0</color>
 
+    <color name="input_background">#ffe8e8e8</color>
+
     <color name="gray_dark">#f0f0f0</color>
 
     <color name="font_green_1">#ff09b058</color>

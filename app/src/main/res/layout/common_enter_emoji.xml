@@ -12,9 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
-        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/emoji_line" />
+
         <CheckBox
             android:id="@+id/popVoice"
             android:layout_width="32dp"
@@ -115,14 +121,14 @@
     <FrameLayout
         android:id ="@+id/mPanelLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.skyfishjy.library.RippleBackground android:id="@+id/voiceLayout"
+        android:layout_height="wrap_content"
+        android:paddingTop="48dp">
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/voiceLayout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="48dp"
+            android:layout_height="195dp"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:background="@color/white"
             app:rb_color="#0082AD"
             app:rb_radius="16dp"
             app:rb_rippleAmount="3"
@@ -196,105 +202,7 @@
                 android:text="@string/sliding_upwards_and_cancel_sending" />
         </com.skyfishjy.library.RippleBackground>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            android:layout_marginTop="48dp"
-            android:id="@+id/emojiKeyboardLayout"
-            android:visibility="gone"
-            android:focusable="true"
-            android:clickable="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="7.5dp"
-                android:orientation="vertical">
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp" />
-
-                <LinearLayout
-                    android:layout_marginTop="7.5dp"
-                    android:id="@+id/emojiKeyboardIndicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="14dp"
-                    android:orientation="horizontal"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/emoji_line" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/selectEmoji"
-                    android:gravity="center_vertical"
-                    android:textSize="15sp"
-                    android:drawablePadding="3dp"
-                    android:drawableLeft="@drawable/ic_emoji_small"
-                    android:textColor="@color/font_black_comment"
-                    android:text="经典"
-                    android:paddingLeft="30dp" />
-
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/emoji_line" />
-
-                <TextView
-                    android:id="@+id/selectMonkey"
-                    android:layout_width="120dp"
-                    android:gravity="center_vertical"
-                    android:layout_height="match_parent"
-                    android:drawablePadding="3dp"
-                    android:textColor="@color/font_black_comment"
-                    android:textSize="15sp"
-                    android:drawableLeft="@drawable/ic_emoji_monkey"
-                    android:text="洋葱猴"
-                    android:paddingLeft="15dp" />
-
-                <View
-                    android:id="@+id/selectMonkeyDivideLine"
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/emoji_line" />
-
-                <TextView
-                    android:id="@+id/selectZhongqiu"
-                    android:layout_width="120dp"
-                    android:gravity="center_vertical"
-                    android:layout_height="match_parent"
-                    android:drawablePadding="3dp"
-                    android:textColor="@color/font_black_comment"
-                    android:textSize="15sp"
-                    android:drawableLeft="@drawable/ic_emoji_zhongqiu"
-                    android:text="洋葱猴"
-                    android:paddingLeft="15dp" />
-
-                <View
-                    android:id="@+id/selectMonkeyDivideLine1"
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/emoji_line" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <include layout="@layout/emoji_keyboard_content" />
 
     </FrameLayout>
 

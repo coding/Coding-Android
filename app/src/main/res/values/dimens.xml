@@ -98,4 +98,5 @@
 
     <dimen name="project_action_icon_text">5dp</dimen>
 
+    <dimen name="emoji_switch_button_width">60dp</dimen>
 </resources>
