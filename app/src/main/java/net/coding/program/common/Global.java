@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
+import android.text.style.ImageSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -34,6 +36,8 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.MyApp;
+import net.coding.program.common.enter.DrawableTool;
+import net.coding.program.common.enter.GifImageSpan;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.login.auth.AuthListActivity;
@@ -61,6 +65,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifDrawable;
+
 /**
  * Created by cc191954 on 14-8-23.
  * 放一些公共的全局方法
@@ -81,7 +87,7 @@ public class Global {
     public static String HOST = DEFAULT_HOST;
     public static String HOST_MOBILE = "https://m.coding.net";
     public static String HOST_API = HOST + "/api";
-	/**
+    /**
      * 语音文件存放目录
      */
     public static String sVoiceDir;
@@ -282,6 +288,12 @@ public class Global {
         return changeHyperlinkColor(content, imageGetter, tagHandler, 0xFF3BBD79);
     }
 
+
+    public static Spannable changeHyperlinkColorMaopao(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, AssetManager assetManager) {
+        Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, 0xFF3BBD79);
+        return spannToGif(s, assetManager);
+    }
+
     public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, int color) {
         Spannable s = (Spannable) Html.fromHtml(content, imageGetter, tagHandler);
         return getCustomSpannable(color, s);
@@ -331,6 +343,44 @@ public class Global {
             s.removeSpan(span);
             GrayQuoteSpan grayQuoteSpan = new GrayQuoteSpan();
             s.setSpan(grayQuoteSpan, start, end, 0);
+        }
+
+        return s;
+    }
+
+    private static Spannable spannToGif(Spannable s, AssetManager assetManager) {
+        ImageSpan[] imageSpans = s.getSpans(0, s.length(), ImageSpan.class);
+
+        final String[] gifEmojiName = new String[]{
+                "festival-emoji-01.gif",
+                "festival-emoji-02.gif",
+                "festival-emoji-03.gif",
+                "festival-emoji-04.gif",
+                "festival-emoji-05.gif",
+                "festival-emoji-06.gif",
+                "festival-emoji-07.gif",
+                "festival-emoji-08.gif",
+        };
+
+        for (ImageSpan imageSpan : imageSpans) {
+            int start = s.getSpanStart(imageSpan);
+            int end = s.getSpanEnd(imageSpan);
+
+            String imageSource = imageSpan.getSource();
+            for (String endString : gifEmojiName) {
+                if (imageSource.endsWith(endString)) {
+                    try {
+                        GifDrawable gifDrawable = new GifDrawable(assetManager, endString);
+                        DrawableTool.zoomDrwable(gifDrawable, true);
+                        gifDrawable.setLoopCount(100);
+                        GifImageSpan gifImageSpan = new GifImageSpan(gifDrawable);
+                        s.removeSpan(imageSpan);
+                        s.setSpan(gifImageSpan, start, end, 0);
+                    } catch (Exception e) {
+                        Global.errorLog(e);
+                    }
+                }
+            }
         }
 
         return s;
@@ -783,12 +833,13 @@ public class Global {
 
     public static class MessageParse {
         public String text = "";
-        public ArrayList<String> uris = new ArrayList<>(); 		
-		public boolean isVoice;
+        public ArrayList<String> uris = new ArrayList<>();
+        public boolean isVoice;
         public String voiceUrl;
         public int voiceDuration;
         public int played;
         public int id;
+
         public String toString() {
             String s = "text " + text + "\n";
             for (int i = 0; i < uris.size(); ++i) {

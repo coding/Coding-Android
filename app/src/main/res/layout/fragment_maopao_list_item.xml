@@ -91,7 +91,7 @@
                 android:src="@drawable/ic_maopao_more" />
         </RelativeLayout>
 
-        <TextView
+        <net.coding.program.common.enter.GifSpanTextView
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

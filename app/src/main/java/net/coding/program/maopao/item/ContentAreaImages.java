@@ -8,12 +8,11 @@ import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -39,7 +38,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -143,7 +141,8 @@ public class ContentAreaImages extends ContentAreaBase {
         } else {
             content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
+            content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
+                    content.getContext().getAssets()), TextView.BufferType.EDITABLE);
             content.setTag(contentObject);
 
         }
