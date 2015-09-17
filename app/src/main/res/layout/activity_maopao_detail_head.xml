@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="14dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="12dp"
             android:minHeight="30dp"
             android:clipChildren="false"
             android:orientation="horizontal">
@@ -144,6 +144,17 @@
                 android:background="@null"
                 android:button="@drawable/checkbox_good"
                 android:layout_marginRight="8dp" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:id="@+id/deleteButton"
+                android:layout_toLeftOf="@id/likeBtn"
+                android:visibility="invisible"
+                android:text="删除"
+                android:textColor="@color/font_green"
+                android:layout_centerVertical="true" />
 
             <ImageView
                 android:id="@+id/maopaoGood"

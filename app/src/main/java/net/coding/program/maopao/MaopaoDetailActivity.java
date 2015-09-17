@@ -215,9 +215,9 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mMaopaoObject != null) {
             int menuId = R.menu.activity_maopao_detail;
-            if (mMaopaoObject.owner.isMe()) {
-                menuId = R.menu.activity_maopao_detail_my;
-            }
+//            if (mMaopaoObject.owner.isMe()) {
+//                menuId = R.menu.activity_maopao_detail_my;
+//            }
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(menuId, menu);
         }
@@ -417,7 +417,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             photoType.setVisibility(View.GONE);
         }
 
-        invalidateOptionsMenu();
+        View deleteButton = mListHead.findViewById(R.id.deleteButton);
+        if (mMaopaoObject.owner.isMe()) {
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(onClickDeleteMaopao);
+        } else {
+            deleteButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     @OnActivityResult(RESULT_REQUEST_AT)

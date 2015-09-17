@@ -12,7 +12,7 @@ import pl.droidsonroids.gif.GifTextView;
 
 /**
  * Created by chenchao on 15/9/15.
- *
+ * 实现了 gif，图片，文字混排
  */
 public class GifSpanTextView extends GifTextView {
 

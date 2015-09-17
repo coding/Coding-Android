@@ -15,13 +15,16 @@ import net.coding.program.R;
  */
 public class IconTextView extends FrameLayout {
 
+    private final ImageView imageView;
+    private final TextView textView;
+
     public IconTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         View.inflate(context, R.layout.icon_text_view, this);
 
-        ImageView imageView = (ImageView) findViewById(R.id.icon);
-        TextView textView = (TextView) findViewById(R.id.text);
+        imageView = (ImageView) findViewById(R.id.icon);
+        textView = (TextView) findViewById(R.id.text);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.IconTextView);
         String text = array.getString(R.styleable.IconTextView_iconTextTitle);
@@ -32,5 +35,22 @@ public class IconTextView extends FrameLayout {
         }
         textView.setText(text);
         imageView.setImageResource(icon);
+    }
+
+    public void setData(Data data) {
+        imageView.setImageResource(data.icon);
+        textView.setText(data.title);
+    }
+
+    public static class Data {
+        public int icon;
+        public String title;
+        public int id;
+
+        public Data(int id, String title, int icon) {
+            this.title = title;
+            this.icon = icon;
+            this.id = id;
+        }
     }
 }

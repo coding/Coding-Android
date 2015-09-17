@@ -244,7 +244,7 @@ public class URLSpanNoUnderline extends URLSpan {
             String extension = folderFile.getName().toLowerCase();
             final String imageType = ".*\\.(gif|png|jpeg|jpg)$";
             final String htmlMdType = ".*\\.(html|htm|markd|markdown|md|mdown)$";
-            final String txtType = ".*\\.(txt)$";
+            final String txtType = ".*\\.(sh|txt)$";
             if (extension.matches(imageType)) {
                 AttachmentsPicDetailActivity_.intent(context)
                         .mProjectObjectId(projectId)

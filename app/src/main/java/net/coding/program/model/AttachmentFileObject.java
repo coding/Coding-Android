@@ -46,7 +46,7 @@ public class AttachmentFileObject implements Serializable {
     static String xlsPatternStr = "(xls|xlsx)";
     static Pattern xlsPattern = Pattern.compile(xlsPatternStr);
     static int xlsIconBgColor = Color.parseColor("#00c075");
-    static String txtPatternStr = "(txt)";
+    static String txtPatternStr = "(sh|txt)";
     static Pattern txtPattern = Pattern.compile(txtPatternStr);
     static int txtIconBgColor = Color.parseColor("#b5bbc4");
     static String zipPatternStr = "(rar|zip|7z)";

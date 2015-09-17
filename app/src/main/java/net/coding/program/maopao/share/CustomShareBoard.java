@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
@@ -35,9 +36,11 @@ import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import net.coding.program.AllThirdKeys;
 import net.coding.program.MainActivity_;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.widget.IconTextView;
 import net.coding.program.model.Maopao;
 import net.coding.program.user.UsersListActivity;
 import net.coding.program.user.UsersListActivity_;
@@ -51,6 +54,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
     private View mBackground;
     private View mButtonsLayout;
+    private UMQQSsoHandler mQqSsoHandler;
+    private QZoneSsoHandler mQZoneSsoHandler;
+    private SinaSsoHandler mSinaSsoHandler;
+    private UMWXHandler mWXHandler;
+    private UMEvernoteHandler mEvernoteHandler;
+    private ViewGroup allButtonsLayout;
 
     public static UMSocialService getShareController() {
         return mController;
@@ -66,50 +75,36 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
     }
 
     private void addQQ() {
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(mActivity, AllThirdKeys.QQ_APP_ID, AllThirdKeys.QQ_APP_KEY);
-        qqSsoHandler.setTargetUrl(mShareData.link);
-        qqSsoHandler.setTitle(mShareData.name);
-        qqSsoHandler.addToSocialSDK();
+        mQqSsoHandler.setTargetUrl(mShareData.link);
+        mQqSsoHandler.setTitle(mShareData.name);
+        mQqSsoHandler.addToSocialSDK();
     }
 
     private void addWX() {
-        UMWXHandler wxHandler = new UMWXHandler(mActivity, AllThirdKeys.WX_APP_ID, AllThirdKeys.WX_APP_KEY);
-        wxHandler.setTargetUrl(mShareData.link);
-        wxHandler.setTitle(mShareData.name);
-        wxHandler.addToSocialSDK();
+        mWXHandler.setTargetUrl(mShareData.link);
+        mWXHandler.setTitle(mShareData.name);
+        mWXHandler.addToSocialSDK();
     }
 
     private void addWXCircle() {
-        UMWXHandler wxCircleHandler = new UMWXHandler(mActivity, AllThirdKeys.WX_APP_ID, AllThirdKeys.WX_APP_KEY);
-        wxCircleHandler.setTargetUrl(mShareData.link);
-        wxCircleHandler.setTitle(mShareData.des);
-        wxCircleHandler.setToCircle(true);
-        wxCircleHandler.addToSocialSDK();
+        mWXHandler.setTargetUrl(mShareData.link);
+        mWXHandler.setTitle(mShareData.des);
+        mWXHandler.setToCircle(true);
+        mWXHandler.addToSocialSDK();
     }
 
     private void addQQZone() {
         // 添加QZone平台
-        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(mActivity, AllThirdKeys.QQ_APP_ID, AllThirdKeys.QQ_APP_KEY);
-        qZoneSsoHandler.setTargetUrl(mShareData.link);
-        qZoneSsoHandler.addToSocialSDK();
+        mQZoneSsoHandler.setTargetUrl(mShareData.link);
+        mQZoneSsoHandler.addToSocialSDK();
     }
 
     private void addSinaWeibo() {
-//        SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
-//        sinaSsoHandler.setTargetUrl(mShareData.link);
-//        sinaSsoHandler.addToSocialSDK();
-        mController.getConfig().setSsoHandler(new SinaSsoHandler());
+        mController.getConfig().setSsoHandler(mSinaSsoHandler);
     }
 
     private void addEvernote() {
-        UMEvernoteHandler evernoteHandler = new UMEvernoteHandler(mActivity);
-        evernoteHandler.addToSocialSDK();
-
-        // 设置evernote的分享内容
-//        EvernoteShareContent shareContent = new EvernoteShareContent(
-//                "来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能-EverNote。http://www.umeng.com/social");
-//        shareContent.setShareMedia(new UMImage(getActivity(), R.drawable.test));
-//        mController.setShareMedia(shareContent);
+        mEvernoteHandler.addToSocialSDK();
     }
 
     public static class ShareData implements Parcelable {
@@ -178,25 +173,72 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         };
     }
 
+    private void addButton(IconTextView.Data data) {
+        IconTextView iconTextView = new IconTextView(mActivity, null);
+        iconTextView.setData(data);
+        iconTextView.setId(data.id);
+        iconTextView.setOnClickListener(this);
+        allButtonsLayout.addView(iconTextView);
+        ViewGroup.LayoutParams lp = iconTextView.getLayoutParams();
+        lp.width = MyApp.sWidthPix / 4;
+        iconTextView.setLayoutParams(lp);
+    }
+
     @SuppressWarnings("deprecation")
     private void initView(Context context) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.share_custom_board, null);
         final int[] buttns = new int[]{
-                R.id.wechat,
-                R.id.wechat_circle,
-                R.id.qq,
-                R.id.qzone,
-                R.id.sinaWeibo,
-                R.id.evernote,
-                R.id.codingFriend,
-                R.id.linkCopy,
                 R.id.close,
                 R.id.rootLayout,
                 R.id.buttonsLayout
         };
+
         for (int id : buttns) {
             rootView.findViewById(id).setOnClickListener(this);
         }
+
+        final IconTextView.Data[] datas = new IconTextView.Data[] {
+            new IconTextView.Data(R.id.wechat, "微信好友", R.drawable.icon_share_weixin),
+            new IconTextView.Data(R.id.wechat_circle, "朋友圈", R.drawable.icon_share_weixin_friend),
+            new IconTextView.Data(R.id.qq, "QQ", R.drawable.icon_share_qq),
+            new IconTextView.Data(R.id.qzone, "QQ空间", R.drawable.icon_share_qq_zone),
+            new IconTextView.Data(R.id.sinaWeibo, "微博", R.drawable.icon_share_sina),
+            new IconTextView.Data(R.id.evernote, "印象笔记", R.drawable.icon_share_evernote),
+            new IconTextView.Data(R.id.codingFriend, "Coding好友", R.drawable.icon_share_coding_friend),
+            new IconTextView.Data(R.id.linkCopy, "复制链接", R.drawable.icon_share_copy_link)
+        };
+
+        allButtonsLayout = (ViewGroup) rootView.findViewById(R.id.allButtonsLayout);
+
+        mWXHandler = new UMWXHandler(mActivity, AllThirdKeys.WX_APP_ID, AllThirdKeys.WX_APP_KEY);
+        if (mWXHandler.isClientInstalled()) {
+            addButton(datas[0]);
+            addButton(datas[1]);
+        }
+
+        mQqSsoHandler = new UMQQSsoHandler(mActivity, AllThirdKeys.QQ_APP_ID, AllThirdKeys.QQ_APP_KEY);
+        if (mQqSsoHandler.isClientInstalled()) {
+            addButton(datas[2]);
+        }
+
+
+        mQZoneSsoHandler = new QZoneSsoHandler(mActivity, AllThirdKeys.QQ_APP_ID, AllThirdKeys.QQ_APP_KEY);
+        if (mQZoneSsoHandler.isClientInstalled()) {
+            addButton(datas[3]);
+        }
+
+        mSinaSsoHandler = new SinaSsoHandler();
+//        if (mSinaSsoHandler.isClientInstalled()) {
+            addButton(datas[4]);
+//        }
+
+        mEvernoteHandler = new UMEvernoteHandler(mActivity);
+        if (mEvernoteHandler.isClientInstalled()) {
+            addButton(datas[5]);
+        }
+
+        addButton(datas[6]);
+        addButton(datas[7]);
 
         setContentView(rootView);
         setWidth(LayoutParams.MATCH_PARENT);

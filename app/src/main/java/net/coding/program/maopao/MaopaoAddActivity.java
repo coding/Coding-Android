@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -39,6 +40,7 @@ import net.coding.program.common.PhoneType;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.ImageInfo;
@@ -239,8 +241,38 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
         setPopTopicIconShow();
 
-        Global.popSoftkeyboard(this, message, false);
+        mEnterLayout.content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEnterLayout.popKeyboard();
+            }
+        });
+
+        mEnterLayout.content.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (mFirstFocus && hasFocus) {
+                    mFirstFocus = false;
+                    mEnterLayout.popKeyboard();
+                }
+            }
+        });
+
+        WeakRefHander hander = new WeakRefHander(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (MaopaoAddActivity.this.isFinishing()) {
+                    return false;
+                }
+
+                mEnterLayout.popKeyboard();
+                return false;
+            }
+        });
+        hander.start(0, 500);
     }
+
+    private boolean mFirstFocus = true;
 
     private void setPopTopicIconShow() {
         int icon = R.drawable.pop_topic;

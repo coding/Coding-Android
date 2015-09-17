@@ -205,7 +205,7 @@ public class ContentAreaImages extends ContentAreaBase {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         mUpdating.put(voicePath,false);
-                        Log.e("Voice","Down the voice file failed,statusCode:"+statusCode+",\n error:"+error!=null?error.toString():""+",\n file:"+voicePath);
+//                        Log.e("Voice","Down the voice file failed,statusCode:"+statusCode+",\n error:"+error!=null?error.toString():""+",\n file:"+voicePath);
                     }
                 });
             }
@@ -279,7 +279,8 @@ public class ContentAreaImages extends ContentAreaBase {
         } else {
             content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
+            content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter,
+                    Global.tagHandler, content.getContext().getAssets()));
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) content.getLayoutParams();
             if (maopaoData.uris.size() > 0) {
                 lp.bottomMargin = contentMarginBottom;

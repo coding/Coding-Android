@@ -54,7 +54,7 @@
                 android:layout_height="20sp"
                 android:layout_marginRight="4dp"
                 android:visibility="gone"/>
-            <TextView
+            <net.coding.program.common.enter.GifSpanTextView
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:orientation="horizontal">
-                <TextView
+                <net.coding.program.common.enter.GifSpanTextView
                     android:id="@+id/content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

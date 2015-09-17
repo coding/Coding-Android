@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff0f0f0"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_15"
+            android:text="冒泡分享到" />
+
+        <org.apmem.tools.layouts.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:id="@+id/allButtonsLayout"
+            android:layout_height="wrap_content"></org.apmem.tools.layouts.FlowLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_weixin"
+                app:iconTextTitle="微信好友" />
+
+            <include layout="@layout/space_view" />
+
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/wechat_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_weixin_friend"
+                app:iconTextTitle="朋友圈" />
+
+            <include layout="@layout/space_view" />
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_qq"
+                app:iconTextTitle="QQ" />
+
+            <include layout="@layout/space_view" />
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/qzone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_qq_zone"
+                app:iconTextTitle="QQ空间" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/sinaWeibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_sina"
+                app:iconTextTitle="微博" />
+
+            <include layout="@layout/space_view" />
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/evernote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_evernote"
+                app:iconTextTitle="印象笔记" />
+
+            <include layout="@layout/space_view" />
+
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/codingFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_coding_friend"
+                app:iconTextTitle="Coding好友" />
+
+            <include layout="@layout/space_view" />
+
+            <net.coding.program.common.widget.IconTextView
+                android:id="@+id/linkCopy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTextIcon="@drawable/icon_share_copy_link"
+                app:iconTextTitle="复制链接" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/round_rect_close"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#ff808080"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+</RelativeLayout>

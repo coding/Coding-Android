@@ -99,9 +99,9 @@ public abstract class EnterLayout {
 
         content = (EditText) activity.findViewById(R.id.comment);
         //拦截输入法 通过点击事件触发输入法
-        if (mType != Type.TextOnly) {
-            interceptInputMethod(content);
-        }
+//        if (mType != Type.TextOnly) {
+//            interceptInputMethod(content);
+//        }
 
         content.addTextChangedListener(new SimpleTextWatcher() {
             @Override

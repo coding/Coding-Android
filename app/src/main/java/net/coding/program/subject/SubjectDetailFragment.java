@@ -246,6 +246,9 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                 holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
                 holder.likeUsersArea = new LikeUsersArea(convertView, SubjectDetailFragment.this, getImageLoad(), mOnClickUser);
 
+                holder.maopaoDelete = convertView.findViewById(R.id.deleteButton);
+                holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
+
                 holder.location = (TextView) convertView.findViewById(R.id.location);
                 holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
                 holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
@@ -271,8 +274,8 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
                     }
                 });
 
-                holder.maopaoMore = convertView.findViewById(R.id.maopaoMore);
-                holder.maopaoMore.setOnClickListener(onClickMaopaoMore);
+//                holder.maopaoMore = convertView.findViewById(R.id.maopaoMore);
+//                holder.maopaoMore.setOnClickListener(onClickMaopaoMore);
 
                 holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
 
@@ -350,11 +353,18 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
 
             holder.commentBtn.setTag(data);
 
+//            if (data.owner_id == (MyApp.sUserObject.id)) {
+//                holder.maopaoMore.setVisibility(View.VISIBLE);
+//                holder.maopaoMore.setTag(TAG_MAOPAO_ID, data.id);
+//            } else {
+//                holder.maopaoMore.setVisibility(View.INVISIBLE);
+//            }
+
             if (data.owner_id == (MyApp.sUserObject.id)) {
-                holder.maopaoMore.setVisibility(View.VISIBLE);
-                holder.maopaoMore.setTag(TAG_MAOPAO_ID, data.id);
+                holder.maopaoDelete.setVisibility(View.VISIBLE);
+                holder.maopaoDelete.setTag(TAG_MAOPAO_ID, data.id);
             } else {
-                holder.maopaoMore.setVisibility(View.INVISIBLE);
+                holder.maopaoDelete.setVisibility(View.INVISIBLE);
             }
 
             holder.commentArea.displayContentData(data);
@@ -996,8 +1006,9 @@ public class SubjectDetailFragment extends RefreshBaseFragment implements FootUp
         View likeAreaDivide;
         TextView location;
 
-        View maopaoMore;
+//        View maopaoMore;
         View good;
+        View maopaoDelete;
     }
 
 }
