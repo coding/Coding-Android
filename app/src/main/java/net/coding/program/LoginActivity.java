@@ -35,6 +35,7 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
+import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.model.AccountInfo;
@@ -126,25 +127,7 @@ public class LoginActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        if (background == null) {
-            LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
-            File file = photoItem.getCacheFile(this);
-            if (file.exists()) {
-                background = Uri.fromFile(file);
-            }
-        }
-
-        try {
-            BitmapDrawable bitmapDrawable;
-            if (background == null) {
-                bitmapDrawable = createBlur();
-            } else {
-                bitmapDrawable = createBlur(background);
-            }
-            backgroundImage.setImageDrawable(bitmapDrawable);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
+        settingBackground();
 
         needCaptcha();
 
@@ -179,10 +162,36 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private BitmapDrawable createBlur() {
+    private void settingBackground() {
+        try {
+            BitmapDrawable bitmapDrawable;
+            if (ZhongQiuGuideActivity.isZhongqiu()) {
+                bitmapDrawable = createBlur(R.drawable.zhongqiu_init_photo);
+            } else {
+                if (background == null) {
+                    LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
+                    File file = photoItem.getCacheFile(this);
+                    if (file.exists()) {
+                        background = Uri.fromFile(file);
+                    }
+                }
+
+                if (background == null) {
+                    bitmapDrawable = createBlur(R.drawable.entrance1);
+                } else {
+                    bitmapDrawable = createBlur(background);
+                }
+            }
+            backgroundImage.setImageDrawable(bitmapDrawable);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
+    private BitmapDrawable createBlur(int bgId) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), R.drawable.entrance1, options);
+        BitmapFactory.decodeResource(getResources(), bgId, options);
         int height = options.outHeight;
         int width = options.outWidth;
 

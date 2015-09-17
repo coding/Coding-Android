@@ -19,9 +19,9 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
-import net.coding.program.common.guide.feature.FeatureActivity_;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
+import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -103,21 +103,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
         mWeakRefHandler = new WeakRefHander(this);
 
-        LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
-        File file = photoItem.getCacheFile(this);
-        getImageLoad().imageLoader.clearMemoryCache();
-        if (file.exists()) {
-            background = Uri.fromFile(file);
-            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
-            title.setText(photoItem.getTitle());
-
-            if (photoItem.isGuoguo()) {
-                hideLogo();
-            }
-        } else {
-            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
-            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
-        }
+        settingBackground();
 
         entrance.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -142,6 +128,31 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         }
 
         mWeakRefHandler.start(HANDLER_MESSAGE_ANIMATION, 900);
+    }
+
+    private void settingBackground() {
+        if (ZhongQiuGuideActivity.isZhongqiu()) {
+            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.zhongqiu_init_photo, imageSize));
+            title.setText("中秋快乐 © Mango");
+            return;
+        }
+
+        LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
+        File file = photoItem.getCacheFile(this);
+        getImageLoad().imageLoader.clearMemoryCache();
+        if (file.exists()) {
+            background = Uri.fromFile(file);
+            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
+            title.setText(photoItem.getTitle());
+
+            if (photoItem.isGuoguo()) {
+                hideLogo();
+            }
+        } else {
+            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
+        }
     }
 
     @Override
@@ -200,18 +211,17 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
-            AccountInfo.markGuideReaded(this);
             intent = new Intent(this, GuideActivity.class);
             if (background != null) {
                 intent.putExtra(LoginActivity.EXTRA_BACKGROUND, background);
             }
 
         } else {
-            if (AccountInfo.needDisplayGuide(this)) {
-                intent = new Intent(this, FeatureActivity_.class);
-            } else {
+//            if (AccountInfo.needDisplayGuide(this)) {
+//                intent = new Intent(this, FeatureActivity_.class);
+//            } else {
                 intent = new Intent(this, MainActivity_.class);
-            }
+//            }
         }
 
         startActivity(intent);

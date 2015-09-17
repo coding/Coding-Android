@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
+import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.user.UsersListActivity;
@@ -55,9 +56,9 @@ public class AccountInfo {
 
     private static final String KEY_CACHE_GET_REQUEST = "KEY_CACHE_GET_REQUEST";
 
-    // 每添加一个信鸽能
+    // 每添加一个
     private static final String MARK_GUIDE_32 = "MARK_GUIDE_32"; // 标记3.2中的引导页面
-    private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_32"; // 修改这个值就可以了
+    private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_325"; // 修改这个值就可以了
 
 
     public static void loginOut(Context ctx) {
@@ -172,6 +173,10 @@ public class AccountInfo {
     }
 
     public static boolean needDisplayGuide(Context context) {
+        if (!ZhongQiuGuideActivity.isZhongqiu()) {
+            return false;
+        }
+
         Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
         if (result == null) {
             return true;

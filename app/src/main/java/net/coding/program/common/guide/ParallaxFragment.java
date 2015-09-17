@@ -50,7 +50,8 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
             }
         });
 
-        view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
+        final View loginButton = view.findViewById(R.id.login_button);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), LoginActivity_.class);
@@ -60,10 +61,27 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
                 }
 
                 getActivity().startActivity(intent);
+
+
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

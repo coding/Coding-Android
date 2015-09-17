@@ -39,7 +39,7 @@ public class GuideActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        ZhongQiuGuideActivity.showHolidayGuide(this);
         setContentView(R.layout.activity_parallax);
 
         IntentFilter filter = new IntentFilter();
@@ -53,9 +53,6 @@ public class GuideActivity extends ActionBarActivity {
                     .add(R.id.content, new ParallaxFragment())
                     .commit();
         }
-
-        ZhongQiuGuideActivity.showHolidayGuide(this);
-
     }
 
     @Override

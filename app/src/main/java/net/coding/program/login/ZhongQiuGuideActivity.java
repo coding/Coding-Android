@@ -1,6 +1,7 @@
 package net.coding.program.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,36 +16,74 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.coding.program.BaseActivity;
+import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.model.AccountInfo;
+
+import java.util.Calendar;
 
 public class ZhongQiuGuideActivity extends BaseActivity {
 
     public static void showHolidayGuide(Activity activity) {
-//        Intent intent1 = new Intent(activity, ZhongQiuGuideActivity.class);
-//        activity.startActivity(intent1);
+        if (AccountInfo.needDisplayGuide(activity)) {
+            AccountInfo.markGuideReaded(activity);
+            Intent intent1 = new Intent(activity, ZhongQiuGuideActivity.class);
+            activity.startActivity(intent1);
+        }
+    }
+
+    public static boolean isZhongqiu() {
+        Calendar calendar = Calendar.getInstance();
+
+        // 25,26,27
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        return month == Calendar.SEPTEMBER && 25 <= day && day <= 27;
     }
 
     ViewPager mViewPager;
+
+    IndicatorView mIndicatorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhong_qiu_guide);
+
+        mIndicatorView = (IndicatorView) findViewById(R.id.indicatorView);
+
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new HolidayPager(getSupportFragmentManager());
         mViewPager.setAdapter(pagerAdapter);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            int indicatorWidth = 0;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d("", String.format("scr1 %d %f %d", position, positionOffset, positionOffsetPixels));
                 if (position == 1 && positionOffset > 0) {
                     Fragment fragment1 = getFragment(1);
                     Fragment fragment2 = getFragment(2);
-                    fragment1.getView().setAlpha(1 - positionOffset);
-                    fragment2.getView().setAlpha(1 - positionOffset);
+                    float alpha = 1 - positionOffset;
+                    fragment1.getView().setAlpha(alpha);
+                    fragment2.getView().setAlpha(alpha);
+
+                    if (indicatorWidth == 0) {
+                        indicatorWidth = mIndicatorView.getWidth();
+                    }
+                    mIndicatorView.setAlpha(alpha);
+                    mIndicatorView.setX((MyApp.sWidthPix - indicatorWidth) / 2 - positionOffsetPixels);
                 } else if (position == 2) {
                     finish();
+                }
+
+                if (positionOffset > 0.5) {
+                    mIndicatorView.setSelect(position + 1);
+                } else {
+                    mIndicatorView.setSelect(position);
                 }
             }
 
@@ -68,11 +107,6 @@ public class ZhongQiuGuideActivity extends BaseActivity {
                 return "android:switcher:" + viewId + ":" + id;
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        // 屏蔽后退键
     }
 
     @Override
@@ -142,6 +176,4 @@ public class ZhongQiuGuideActivity extends BaseActivity {
             return v;
         }
     }
-
-
 }

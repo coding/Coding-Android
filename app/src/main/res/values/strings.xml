@@ -151,5 +151,6 @@
     <string name="title_activity_inform_maopao">举报</string>
     <string name="title_activity_share_sina_help">ShareSinaHelpActivity</string>
     <string name="title_activity_zhong_qiu_guide">ZhongQiuGuideActivity</string>
+    <string name="title_activity_test2">Test2Activity</string>
 
 </resources>

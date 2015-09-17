@@ -69,7 +69,6 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon" >
 
-
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity
@@ -204,13 +203,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".task.add.TaskAddActivity_"
@@ -657,7 +654,7 @@
             android:name=".common.guide.GuideActivity"
             android:label="@string/title_activity_guide"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".project.detail.merge.SourceActivity_"
             android:label="@string/title_activity_source"
@@ -726,10 +723,14 @@
         </activity>
         <activity
             android:name=".login.ZhongQiuGuideActivity"
+            android:label="@string/title_activity_zhong_qiu_guide"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull"
-            android:label="@string/title_activity_zhong_qiu_guide" >
-
+            android:theme="@style/TranslateThemeFull" >
+        </activity>
+        <activity
+            android:name=".Test2Activity"
+            android:theme="@style/TranslateTheme"
+            android:label="@string/title_activity_test2" >
         </activity>
     </application>
 
