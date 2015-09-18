@@ -19,6 +19,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AccountInfo;
 
 import java.util.ArrayList;
@@ -46,6 +47,9 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_list);
+
+        umengEvent(UmengEvent.LOCAL, "查看2fa码");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mClock = new TotpClock(this);

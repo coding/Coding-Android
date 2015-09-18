@@ -3,9 +3,12 @@ package net.coding.program.maopao.banner;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import net.coding.program.R;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.BannerObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -44,5 +47,6 @@ public class BannerItemFragment extends BaseFragment {
         WebActivity_.intent(getActivity())
                 .url(data.getLink())
                 .start();
+        MobclickAgent.onEvent(getActivity(), UmengEvent.MAOPAO, "点击banner");
     }
 }

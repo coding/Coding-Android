@@ -27,4 +27,8 @@ public class UmengActivity extends ActionBarActivity {
         MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);
     }
+
+    protected void umengEvent(String s, String param) {
+        MobclickAgent.onEvent(this, s, param);
+    }
 }

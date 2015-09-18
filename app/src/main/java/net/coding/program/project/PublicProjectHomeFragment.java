@@ -11,6 +11,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
@@ -64,11 +65,21 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(mUrlStar) || tag.equals(mUrlUnstar)) {
+            if (tag.equals(mUrlStar)) {
+                umengEvent(UmengEvent.CODE, "收藏");
+            } else {
+                umengEvent(UmengEvent.CODE, "取消收藏");
+            }
             if (code != 0) {
                 mButtonStar.changeState();
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(mUrlWatch) || tag.equals(mUrlUnwatch)) {
+            if (tag.equals(mUrlWatch)) {
+                umengEvent(UmengEvent.CODE, "关注");
+            } else {
+                umengEvent(UmengEvent.CODE, "取消关注");
+            }
             if (code != 0) {
                 mButtonWatch.changeState();
                 showErrorMsg(code, respanse);
@@ -76,6 +87,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         } else if (tag.equals(forkUrl)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.CODE, "Fork");
                 JSONObject jsonData = respanse.getJSONObject("data");
                 String projectName = jsonData.optString("name");
                 DynamicObject.Owner owner = new DynamicObject.Owner(jsonData.optJSONObject("owner"));

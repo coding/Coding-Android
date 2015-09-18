@@ -55,10 +55,10 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
     @AfterViews
     void init() {
-        mData = AccountInfo.loadTaskProjects(getActivity());
-        if (mData.isEmpty()) {
+//        mData = AccountInfo.loadTaskProjects(getActivity());
+//        if (mData.isEmpty()) {
             showDialogLoading();
-        }
+//        }
 
         pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());

@@ -14,6 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.umeng.UmengEvent;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
@@ -85,6 +86,7 @@ public class SetPasswordActivity extends BackActivity {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (code == 0) {
+            umengEvent(UmengEvent.USER, "修改密码");
             showButtomToast("密码修改成功");
             popDialog();
         } else {

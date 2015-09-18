@@ -115,17 +115,19 @@ public class UserDetailActivity extends BackActivity {
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
-                setTitleMyPage();
-                resizeHead();
+                isMe = true;
             }
+            bindViewType();
+
+
             getNetwork(HOST_USER_INFO + globalKey, HOST_USER_INFO);
         } else {
             try {
                 String name = getIntent().getData().getQueryParameter("name");
                 if (name.equals(MyApp.sUserObject.name)) {
-                    setTitleMyPage();
-                    resizeHead();
+                    isMe = true;
                 }
+                bindViewType();
 
                 getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
             } catch (Exception e) {
@@ -166,14 +168,23 @@ public class UserDetailActivity extends BackActivity {
         }
     }
 
-    private void setTitleMyPage() {
-        getSupportActionBar().setTitle("个人主页");
-        ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
-        ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
-        ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
+    // 自己的和他人的显示项目有所不同
+    private void bindViewType() {
+        if (isMe) {
+            getSupportActionBar().setTitle("个人主页");
+            ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
+            ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
+            ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
+        }
 
-        findViewById(R.id.pointDivide).setVisibility(View.VISIBLE);
-        findViewById(R.id.clickPointRecord).setVisibility(View.VISIBLE);
+        followCheckbox.setVisibility(isMe ? View.GONE : View.VISIBLE);
+        findViewById(R.id.sendMessageLayout).setVisibility(isMe ? View.GONE : View.VISIBLE);
+        findViewById(R.id.layoutLocal).setVisibility(isMe ? View.GONE : View.VISIBLE);
+
+        findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
+        findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
+
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -212,14 +223,6 @@ public class UserDetailActivity extends BackActivity {
     @OnActivityResult(RESULT_EDIT)
     void onResult() {
         getNetwork(HOST_USER_INFO + mUserObject.global_key, HOST_USER_INFO);
-    }
-
-    private void resizeHead() {
-        isMe = true;
-        invalidateOptionsMenu();
-
-        followCheckbox.setVisibility(View.GONE);
-        findViewById(R.id.sendMessageLayout).setVisibility(View.GONE);
     }
 
     void displayUserinfo() {

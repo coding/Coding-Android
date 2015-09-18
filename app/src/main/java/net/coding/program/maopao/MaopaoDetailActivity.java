@@ -37,6 +37,7 @@ import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.Maopao;
@@ -479,6 +480,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         } else if (tag.equals(ADD_COMMENT)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.MAOPAO, "添加冒泡评论");
                 getNetwork(URI_COMMENT, URI_COMMENT);
 
                 mEnterLayout.restoreDelete(data);
@@ -497,10 +499,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 Maopao.MaopaoObject maopao = mMaopaoObject;
                 maopao.liked = !maopao.liked;
                 if (maopao.liked) {
+                    umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
                     Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
                     maopao.like_users.add(0, like_user);
                     ++maopao.likes;
                 } else {
+                    umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
                     for (int j = 0; j < maopao.like_users.size(); ++j) {
                         if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
                             maopao.like_users.remove(j);

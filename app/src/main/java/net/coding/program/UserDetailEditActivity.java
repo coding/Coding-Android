@@ -26,6 +26,7 @@ import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -276,6 +277,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         params.put("tags", user.tags);
 
         postNetwork(HOST_USERINFO, params, HOST_USERINFO);
+
+        umengEvent(UmengEvent.USER, "修改个人信息");
     }
 
     @Override
@@ -317,6 +320,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
             }
         } else if (tag.equals(HOST_JOB)) {
             if (code == 0) {
+                umengEvent(UmengEvent.USER, "修改个人信息");
+
                 ArrayList<String> jobs = new ArrayList<>();
                 jobs.add("");
                 JSONObject jobJSONObject = respanse.getJSONObject("data");

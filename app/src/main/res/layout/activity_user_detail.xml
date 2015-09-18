@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/divide">
 
     <LinearLayout
@@ -125,13 +126,17 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/divide_15_top_bottom" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/layoutLocal"
             android:background="@color/stand_bg"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:orientation="vertical">
+
+            <include layout="@layout/divide_15_top_bottom" />
 
             <include
                 android:id="@+id/pos0"

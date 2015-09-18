@@ -47,6 +47,7 @@ import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.AccountInfo;
@@ -875,6 +876,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         } else if (tag.equals(URI_COMMENT)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.MAOPAO, "添加评论");
                 mEnterLayout.clearContent();
                 Maopao.Comment myComment = new Maopao.Comment(respanse.getJSONObject("data"));
                 myComment.owner = new DynamicObject.Owner(MyApp.sUserObject);
@@ -906,10 +908,12 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                     if (maopao.id == ((Maopao.MaopaoObject) data).id) {
                         maopao.liked = !maopao.liked;
                         if (maopao.liked) {
+                            umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
                             Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
                             maopao.like_users.add(0, like_user);
                             ++maopao.likes;
                         } else {
+                            umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
                             for (int j = 0; j < maopao.like_users.size(); ++j) {
                                 if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
                                     maopao.like_users.remove(j);
@@ -931,6 +935,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         } else if (tag.equals(TAG_DELETE_MAOPAO)) {
             int maopaoId = (int) data;
             if (code == 0) {
+                umengEvent(UmengEvent.MAOPAO, "删除冒泡");
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject item = mData.get(i);
                     if (item.id == maopaoId) {
@@ -945,6 +950,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
         } else if (tag.equals(TAG_DELETE_MAOPAO_COMMENT)) {
             Maopao.Comment comment = (Maopao.Comment) data;
             if (code == 0) {
+                umengEvent(UmengEvent.MAOPAO, "删除冒泡评论");
                 for (int i = 0; i < mData.size(); ++i) {
                     Maopao.MaopaoObject item = mData.get(i);
                     if (item.id == (comment.tweet_id)) {

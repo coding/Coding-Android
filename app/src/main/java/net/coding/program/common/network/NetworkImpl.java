@@ -3,14 +3,18 @@ package net.coding.program.common.network;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.LoginActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.user.UserDetailActivity;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -22,6 +26,7 @@ public class NetworkImpl {
     public static final int NETWORK_ERROR = -1;
     public static final int NETWORK_ERROR_SERVICE = -2;
     private final NetworkCallback callback;
+    private final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
 
     public HashMap<String, PageInfo> mPages = new HashMap<>();
     Context appContext;
@@ -36,6 +41,11 @@ public class NetworkImpl {
     public boolean isLoadingFirstPage(String tag) {
         PageInfo info = mPages.get(tag);
         return info == null || info.isNewRequest;
+    }
+
+
+    protected void umengEvent(String s, String param) {
+        MobclickAgent.onEvent(appContext, s, param);
     }
 
     public void loadData(String url, RequestParams params, final String tag, final int dataPos, final Object data, final Request type) {
@@ -75,8 +85,16 @@ public class NetworkImpl {
                         Global.errorLog(e);
                     }
 
-                    if (type == Request.Get && code == 0) {
-                        AccountInfo.saveGetRequestCache(appContext, cacheName, response);
+                    if (type == Request.Get) {
+                        if (code == 0) {
+                            AccountInfo.saveGetRequestCache(appContext, cacheName, response);
+                        }
+                    }
+
+                    if (tag.equals(UserDetailActivity.HOST_FOLLOW)) {
+                        umengEvent(UmengEvent.USER, "关注好友");
+                    } else if (tag.equals(UserDetailActivity.HOST_UNFOLLOW)) {
+                        umengEvent(UmengEvent.USER, "取消关注好友");
                     }
 
                     callback.parseJson(code, response, tag, dataPos, data);
@@ -96,11 +114,31 @@ public class NetworkImpl {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
                     int translateStatusCode = translateErrorCode(statusCode);
-                    if (errorResponse == null) {
-                        errorResponse = makeErrorJson(translateStatusCode);
-                    }
-                    callback.parseJson(translateStatusCode, errorResponse, tag, dataPos, data);
 
+                    JSONObject lastCache;
+                    if (type == Request.Get
+                            && (lastCache = AccountInfo.getGetRequestCache(appContext, cacheName)).length() > 0) {
+
+                        try {
+                            updatePage(lastCache, tag);
+                        } catch (Exception e) {
+                            Global.errorLog(e);
+                        }
+
+                        Toast.makeText(appContext, ERROR_MSG_CONNECT_FAIL, Toast.LENGTH_SHORT).show();
+
+                        callback.parseJson(0, lastCache, tag, dataPos, data);
+                        try {
+                            updateRequest(lastCache, tag);
+                        } catch (Exception e) {
+                            Global.errorLog(e);
+                        }
+                    } else {
+                        if (errorResponse == null) {
+                            errorResponse = makeErrorJson(translateStatusCode);
+                        }
+                        callback.parseJson(translateStatusCode, errorResponse, tag, dataPos, data);
+                    }
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }
@@ -110,17 +148,10 @@ public class NetworkImpl {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 try {
+                    int translateErrorCode = translateErrorCode(statusCode);
+                    JSONObject json = makeErrorJson(translateErrorCode);
 
-                    JSONObject lastCache;
-                    if (type == Request.Get
-                            && (lastCache = AccountInfo.getGetRequestCache(appContext, cacheName)).length() > 0) {
-                        callback.parseJson(0, lastCache, tag, dataPos, data);
-                    } else {
-                        int translateErrorCode = translateErrorCode(statusCode);
-                        JSONObject json = makeErrorJson(translateErrorCode);
-
-                        callback.parseJson(translateErrorCode, json, tag, dataPos, data);
-                    }
+                    callback.parseJson(translateErrorCode, json, tag, dataPos, data);
 
                 } catch (Exception e) {
                     Global.errorLog(e);
@@ -147,7 +178,7 @@ public class NetworkImpl {
                     if (statusCode == NETWORK_ERROR_SERVICE) {
                         errorMessage = "服务器内部错误，有人要扣奖金了";
                     } else {
-                        errorMessage = "连接服务器失败，请检查网络或稍后重试";
+                        errorMessage = ERROR_MSG_CONNECT_FAIL;
                     }
                     jsonErrorMsg.put("msg", errorMessage);
 

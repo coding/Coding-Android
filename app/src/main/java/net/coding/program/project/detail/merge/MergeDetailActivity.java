@@ -14,6 +14,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
@@ -334,12 +335,14 @@ public class MergeDetailActivity extends BackActivity {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_MERGE_REFUSE)) {
+            umengEvent(UmengEvent.CODE, "拒绝mrpr");
             if (code == 0) {
                 finishAndUpdateList();
             } else {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_MERGE_CANNEL)) {
+            umengEvent(UmengEvent.CODE, "取消mrpr");
             if (code == 0) {
                 finishAndUpdateList();
             } else {

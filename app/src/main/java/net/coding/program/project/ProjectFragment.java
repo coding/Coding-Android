@@ -18,6 +18,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -155,21 +156,25 @@ public class ProjectFragment extends BaseFragment implements ProjectListFragment
 
     @OptionsItem
     void action_create_friend() {
+        umengEvent(UmengEvent.LOCAL, "快捷添加好友");
         AddFollowActivity_.intent(this).start();
     }
 
     @OptionsItem
     final void action_create() {
+        umengEvent(UmengEvent.LOCAL, "快捷创建项目");
         ProjectCreateActivity_.intent(this).start();
     }
 
     @OptionsItem
     final void action_create_task() {
+        umengEvent(UmengEvent.LOCAL, "快捷创建任务");
         TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
     }
 
     @OptionsItem
     final void action_create_maopao() {
+        umengEvent(UmengEvent.LOCAL, "快捷创建冒泡");
         MaopaoAddActivity_.intent(this).start();
     }
 

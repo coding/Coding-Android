@@ -47,6 +47,7 @@ import net.coding.program.common.enter.EnterVoiceLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.item.ContentAreaImages;
@@ -678,6 +679,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         } else if (tag.indexOf(HOST_MESSAGE_SEND) == 0) {
             long sendId = (long) data;
             if (code == 0) {
+                umengEvent(UmengEvent.NOTIFY, "发私信");
+
                 Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
 
                 for (int i = mData.size() - 1; i >= 0; --i) {
@@ -745,6 +748,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         } else if (tag.indexOf(TAG_SEND_VOICE) == 0) {
             long sendId = (Long) data;
             if(code == 0){
+                umengEvent(UmengEvent.NOTIFY, "发语音私信");
                 Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
                 String voiceUrl = item.file;
                 //将发送到服务器的本地录音文件的名字改成与其在服务器的文件名一致
@@ -792,6 +796,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             listView.setSelection(mData.size());
         }else if (tag.equals(hostDeleteMessage)) {
             if (code == 0) {
+                umengEvent(UmengEvent.NOTIFY, "删除私信");
                 deleteItem((int) data);
                 AccountInfo.saveMessages(MessageListActivity.this, mUserObject.global_key, mData);
             } else {

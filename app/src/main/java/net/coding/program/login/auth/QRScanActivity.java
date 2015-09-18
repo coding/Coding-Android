@@ -9,8 +9,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.R;
+import net.coding.program.common.umeng.UmengEvent;
 
 public class QRScanActivity extends ActionBarActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
@@ -79,6 +81,8 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
             intent.putExtra("data", s);
             setResult(RESULT_OK, intent);
         }
+
+        MobclickAgent.onEvent(this, UmengEvent.LOCAL, "扫描2fa成功");
         finish();
     }
 

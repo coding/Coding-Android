@@ -27,6 +27,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -162,7 +163,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     protected void init() {
         initRefreshLayout();
 
-        mData = AccountInfo.loadTasks(getActivity(), mProjectObject.getId(), mMembers.id);
+//        mData = AccountInfo.loadTasks(getActivity(), mProjectObject.getId(), mMembers.id);
 
         Calendar calendar = Calendar.getInstance();
         mToday = mDateFormat.format(calendar.getTimeInMillis());
@@ -372,6 +373,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         } else if (tag.equals(hostTaskDelete)) {
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "删除任务");
                 mData.remove(pos);
                 mAdapter.notifyDataSetChanged();
                 if (mParent != null) {
@@ -384,6 +386,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
         } else if (tag.equals(URL_TASK_SATUS)) {
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "修改任务");
+
                 TaskParam param = (TaskParam) data;
                 TaskObject.SingleTask task = param.mTask;
                 task.status = param.mStatus;

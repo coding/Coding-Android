@@ -19,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.UMEvernoteHandler;
@@ -40,6 +41,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.IconTextView;
 import net.coding.program.model.Maopao;
 import net.coding.program.user.UsersListActivity;
@@ -266,28 +268,37 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         super.dismiss();
     }
 
+    private void umengEvent(String s, String param) {
+        MobclickAgent.onEvent(mActivity, s, param);
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.wechat:
+                umengEvent(UmengEvent.MAOPAO, "分享到微信");
                 addWX();
                 performShare(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.wechat_circle:
+                umengEvent(UmengEvent.MAOPAO, "分享到朋友圈");
                 addWXCircle();
                 performShare(SHARE_MEDIA.WEIXIN_CIRCLE);
                 break;
             case R.id.qq:
+                umengEvent(UmengEvent.MAOPAO, "分享到qq");
                 addQQ();
                 performShare(SHARE_MEDIA.QQ);
                 break;
             case R.id.qzone:
+                umengEvent(UmengEvent.MAOPAO, "分享到qq空间");
                 addQQZone();
                 performShare(SHARE_MEDIA.QZONE);
                 break;
 
             case R.id.sinaWeibo:
+                umengEvent(UmengEvent.MAOPAO, "分享到sina");
                 if (mActivity instanceof MainActivity_
                         && !OauthHelper.isAuthenticatedAndTokenNotExpired(mActivity, SHARE_MEDIA.SINA)) {
                     Intent intent = new Intent(mActivity, ShareSinaHelpActivity.class);
@@ -300,11 +311,13 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 break;
 
             case R.id.evernote:
+                umengEvent(UmengEvent.MAOPAO, "分享到evernote");
                 addEvernote();
                 performShare(SHARE_MEDIA.EVERNOTE);
                 break;
 
             case R.id.codingFriend:
+                umengEvent(UmengEvent.MAOPAO, "分享到好友");
                 UsersListActivity_.intent(mActivity)
                         .type(UsersListActivity.Friend.Follow)
                         .hideFollowButton(true)
@@ -314,6 +327,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 break;
 
             case R.id.linkCopy:
+                umengEvent(UmengEvent.MAOPAO, "复制链接");
                 Global.copy(mActivity, mShareData.link);
                 Toast.makeText(mActivity, "链接已复制 " + mShareData.link, Toast.LENGTH_SHORT).show();
                 break;

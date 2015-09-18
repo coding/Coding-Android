@@ -19,4 +19,11 @@ public class UmengFragment extends Fragment {
         super.onPause();
         MobclickAgent.onPageEnd(getClass().getSimpleName());
     }
+
+    protected void umengEvent(String s, String param) {
+        if (getActivity() != null) {
+            MobclickAgent.onEvent(getActivity(), s, param);
+        }
+    }
+
 }

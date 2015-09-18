@@ -69,6 +69,7 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon" >
 
+
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity

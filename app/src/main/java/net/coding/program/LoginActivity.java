@@ -32,6 +32,7 @@ import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
@@ -378,7 +379,9 @@ public class LoginActivity extends BaseActivity {
         if (tag.equals(HOST_LOGIN)) {
             if (code == 0) {
                 loginSuccess(respanse);
+                umengEvent(UmengEvent.USER, "普通登陆");
             } else if (code == 3205) {
+                umengEvent(UmengEvent.USER, "2fa登陆");
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
                 show2FA(true);
                 showProgressBar(false);

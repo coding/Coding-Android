@@ -41,6 +41,7 @@ import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.DynamicObject;
@@ -782,6 +783,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         if (tag.equals(HOST_TASK_ADD)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "新建任务");
                 closeActivity("新建任务成功");
             } else {
                 showErrorMsg(code, respanse);
@@ -805,6 +807,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         } else if (tag.equals(HOST_COMMENT_ADD)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "新建任务评论");
 
                 EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
                 mEnterLayout.restoreDelete(data);
@@ -822,6 +825,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             }
         } else if (tag.equals(hostDeleteComment)) {
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "删除任务评论");
+
                 int commentId = (int) data;
                 for (int i = 0; i < mData.size(); ++i) {
                     if (mData.get(i).id == (commentId)) {
@@ -839,6 +844,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         } else if (tag.equals(TAG_TASK_UPDATE)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "修改任务");
                 closeActivity("修改任务成功");
             } else {
                 showErrorMsg(code, respanse);
@@ -846,6 +852,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         } else if (tag.equals(TaskListFragment.hostTaskDelete)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.TASK, "删除任务");
                 closeActivity("删除任务成功");
             } else {
                 showErrorMsg(code, respanse);

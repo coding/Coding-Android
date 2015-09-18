@@ -15,6 +15,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.NotifyObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -234,6 +235,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_MARK_READ)) {
+            umengEvent(UmengEvent.NOTIFY, "标记已读");
             int id = (int) data;
             for (NotifyObject item : mData) {
                 if (item.id == id) {
@@ -246,6 +248,8 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                 || tag.equals(HOST_MARK_COMMENT)
                 || tag.equals(HOST_MARK_SYSTEM)) {
             if (code == 0) {
+                umengEvent(UmengEvent.NOTIFY, "标记全部已读");
+
                 markAllRead();
             } else {
                 showErrorMsg(code, respanse);

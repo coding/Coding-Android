@@ -14,6 +14,7 @@ import net.coding.program.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.DiffFile;
 import net.coding.program.model.Merge;
 import net.coding.program.model.PostRequest;
@@ -207,6 +208,7 @@ public class MergeFileDetailActivity extends BackActivity {
         } else if (tag.equals(TAG_LINE_NOTE_CREATE)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.CODE, "linenote添加评论");
                 mCommentsData.optJSONArray("data").put(respanse.optJSONObject("data"));
                 updateWebViewDisplay();
                 showButtomToast("添加评论成功");
@@ -217,6 +219,7 @@ public class MergeFileDetailActivity extends BackActivity {
         } else if (tag.equals(TAG_HTTP_DELETE_COMMENT)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.CODE, "linenote删除评论");
                 int deleteItemId = (int) data;
                 JSONArray comments = mCommentsData.optJSONArray("data");
                 for (int i = 0; i < comments.length(); ++i) {

@@ -5,6 +5,7 @@ import android.widget.EditText;
 
 import net.coding.program.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.MergeDetail;
 import net.coding.program.model.PostRequest;
 import net.coding.program.third.EmojiFilter;
@@ -55,6 +56,7 @@ public class MergeAcceptActivity extends BackActivity {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_ACCEPT_MEREGE)) {
+            umengEvent(UmengEvent.CODE, "合并mrpr");
             if (code == 0) {
                 setResult(RESULT_OK);
                 finish();
