@@ -5,107 +5,112 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
-    android:orientation="vertical">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/padding_12"
+    android:paddingRight="@dimen/padding_12">
 
-    <include layout="@layout/divide_shade_down" />
+    <include
+        layout="@layout/divide_shade_down"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="-12dp"
+        android:layout_marginRight="-12dp" />
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/maopao_item_top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/maopao_item_top_icon"
+            android:drawablePadding="8dp"
+            android:padding="7dp"
+            android:text="置顶话题"
+            android:textColor="@color/font_black_2"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divide_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true" />
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon"
+            android:layout_marginLeft="@dimen/padding_12"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/icon"
+            android:layout_weight="1"
+            android:text="wwww"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/font_black_2"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/icon"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="@dimen/padding_12"
+            android:layout_toRightOf="@id/icon"
+            android:text="1小时前"
+            android:textColor="@color/font_black_9"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/maopaoMore"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/name"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_maopao_more"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <net.coding.program.common.enter.GifSpanTextView
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clipChildren="false"
-        android:paddingBottom="@dimen/padding_12"
-        android:paddingLeft="@dimen/padding_12"
-        android:paddingRight="@dimen/padding_12">
+        android:layout_alignLeft="@+id/name"
+        android:layout_below="@+id/name"
+        android:background="@drawable/content_pressed_selector"
+        android:lineSpacingExtra="1dp"
+        android:lineSpacingMultiplier="1.1"
+        android:singleLine="false"
+        android:text="去"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/font_black_content"
+        android:textSize="15sp" />
 
-        <RelativeLayout
-            android:id="@+id/maopao_item_top"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/maopao_item_top_icon"
-                android:drawablePadding="8dp"
-                android:padding="7dp"
-                android:text="置顶话题"
-                android:textColor="@color/font_black_2"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/divide_line" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true" />
-
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/icon"
-                android:layout_marginLeft="@dimen/padding_12"
-                android:layout_marginTop="2dp"
-                android:layout_toRightOf="@id/icon"
-                android:layout_weight="1"
-                android:text="wwww"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/icon"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="@dimen/padding_12"
-                android:layout_toRightOf="@id/icon"
-                android:text="1小时前"
-                android:textColor="@color/font_black_9"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/maopaoMore"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/name"
-                android:layout_marginTop="2dp"
-                android:src="@drawable/ic_maopao_more"
-                android:visibility="invisible" />
-        </RelativeLayout>
-
-        <net.coding.program.common.enter.GifSpanTextView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/name"
-            android:layout_below="@+id/name"
-            android:background="@drawable/content_pressed_selector"
-            android:lineSpacingExtra="1dp"
-            android:lineSpacingMultiplier="1.1"
-            android:singleLine="false"
-            android:text="去"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_black_content"
-            android:textSize="15sp" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <net.coding.program.common.widget.MinSizeImageView
             android:id="@+id/imageSingle"
@@ -122,259 +127,264 @@
             custom:microSize="@dimen/image_single_micro_width"
             custom:minHeight="@dimen/image_single_min_size"
             custom:minWidth="@dimen/image_single_min_size" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="2dp"
+        android:visibility="visible">
 
         <LinearLayout
-            android:id="@+id/imageLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="2dp"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:id="@+id/imagesLayout0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <include
-                    android:id="@+id/image0"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image1"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image2"
-                    layout="@layout/maopao_image" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/imagesLayout1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <include
-                    android:id="@+id/image3"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image4"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image5"
-                    layout="@layout/maopao_image" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/goodCommentLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:clipChildren="false"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:ellipsize="end"
-                android:gravity="bottom"
-                android:singleLine="true"
-                android:text="北京"
-                android:textColor="@color/font_green"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/photoType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:drawableLeft="@drawable/icon_maopao_send_phone"
-                android:layout_marginTop="9dp"
-                android:singleLine="true"
-                android:text="来自 iPhone 6"
-                android:textColor="@color/font_black_9"
-                android:textSize="13sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="true"
-                android:clipToPadding="false"
-                android:layout_marginTop="14dp"
-                android:minHeight="30dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/shareBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:src="@drawable/maopao_item_share" />
-
-                <ImageButton
-                    android:id="@+id/commentBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:src="@drawable/checkbox_comment" />
-
-                <CheckBox
-                    android:id="@+id/likeBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/commentBtn"
-                    android:background="@null"
-                    android:button="@drawable/checkbox_good"
-                    android:layout_marginRight="8dp" />
-
-                <TextView
-                    android:layout_width="60dp"
-                    android:layout_height="25dp"
-                    android:gravity="center"
-                    android:id="@+id/deleteButton"
-                    android:layout_toLeftOf="@id/likeBtn"
-                    android:text="删除"
-                    android:textColor="@color/font_green"
-                    android:layout_centerVertical="true" />
-
-
-                <ImageView
-                    android:id="@+id/maopaoGood"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.0"
-                    android:src="@drawable/view_maopao_good"/>
-
-            </RelativeLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/commentLikeArea"
+            android:id="@+id/imagesLayout0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/name"
-            android:layout_below="@id/imageLayout"
-            android:layout_marginTop="0dp"
-            android:visibility="visible">
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/triangle"
+            <include
+                android:id="@+id/image0"
+                layout="@layout/maopao_image" />
+
+            <include
+                android:id="@+id/image1"
+                layout="@layout/maopao_image" />
+
+            <include
+                android:id="@+id/image2"
+                layout="@layout/maopao_image" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/imagesLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <include
+                android:id="@+id/image3"
+                layout="@layout/maopao_image" />
+
+            <include
+                android:id="@+id/image4"
+                layout="@layout/maopao_image" />
+
+            <include
+                android:id="@+id/image5"
+                layout="@layout/maopao_image" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/goodCommentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:clipChildren="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:singleLine="true"
+            android:text="北京"
+            android:textColor="@color/font_green"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/photoType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:drawableLeft="@drawable/icon_maopao_send_phone"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="来自 iPhone 6"
+            android:textColor="@color/font_black_9"
+            android:textSize="13sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:clipChildren="false"
+            android:minHeight="30dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/shareBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/maopao_item_1"
-                android:layout_marginTop="9dp" />
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:src="@drawable/maopao_item_share" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/commentBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/triangle"
-                android:layout_marginBottom="5dp"
-                android:background="@color/bg_maopao_comment"
-                android:orientation="vertical">
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:gravity="center"
+                android:src="@drawable/checkbox_comment" />
 
-                <LinearLayout
-                    android:id="@+id/likesAllLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="visible">
+            <CheckBox
+                android:id="@+id/likeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/commentBtn"
+                android:background="@null"
+                android:button="@drawable/checkbox_good" />
 
-                    <LinearLayout
-                        android:id="@+id/likeUsersLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp" />
+            <TextView
+                android:id="@+id/deleteButton"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/likeBtn"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/font_green" />
 
-                    <View
-                        android:id="@+id/likeAreaDivide"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/maopao_comment_divide" />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/commentArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <ImageView
+                android:id="@+id/maopaoGood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.0"
+                android:src="@drawable/view_maopao_good" />
 
-                    <include
-                        android:id="@+id/comment0"
-                        layout="@layout/maopao_list_comment_area_item" />
-
-                    <include
-                        android:id="@+id/comment1"
-                        layout="@layout/maopao_list_comment_area_item" />
-
-                    <include
-                        android:id="@+id/comment2"
-                        layout="@layout/maopao_list_comment_area_item" />
-
-                    <include
-                        android:id="@+id/comment3"
-                        layout="@layout/maopao_list_comment_area_item" />
-
-                    <include
-                        android:id="@+id/comment4"
-                        layout="@layout/maopao_list_comment_area_item" />
-
-                    <RelativeLayout
-                        android:id="@+id/commentMore"
-                        android:layout_width="match_parent"
-                        android:layout_height="33dp"
-                        android:visibility="visible">
-
-                        <ImageView
-                            android:id="@+id/temp1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="12dp"
-                            android:src="@drawable/ic_maopao_all_comment" />
-
-                        <TextView
-                            android:id="@+id/commentMoreCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/temp1"
-                            android:text="查看全部24条评论"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1dp"-->
-                        <!--android:layout_alignLeft="@id/temp1"-->
-                        <!--android:layout_alignParentBottom="true"-->
-                        <!--android:background="@drawable/maopao_comment_divide" />-->
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
-    <include layout="@layout/divide_shade_up" />
+    <RelativeLayout
+        android:id="@+id/commentLikeArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/name"
+        android:layout_below="@id/imageLayout"
+        android:layout_marginTop="0dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/maopao_item_1" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/triangle"
+            android:layout_marginBottom="5dp"
+            android:background="@color/bg_maopao_comment"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/likesAllLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/likeUsersLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp" />
+
+                <View
+                    android:id="@+id/likeAreaDivide"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/maopao_comment_divide" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/commentArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/comment0"
+                    layout="@layout/maopao_list_comment_area_item" />
+
+                <include
+                    android:id="@+id/comment1"
+                    layout="@layout/maopao_list_comment_area_item" />
+
+                <include
+                    android:id="@+id/comment2"
+                    layout="@layout/maopao_list_comment_area_item" />
+
+                <include
+                    android:id="@+id/comment3"
+                    layout="@layout/maopao_list_comment_area_item" />
+
+                <include
+                    android:id="@+id/comment4"
+                    layout="@layout/maopao_list_comment_area_item" />
+
+                <RelativeLayout
+                    android:id="@+id/commentMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/temp1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:src="@drawable/ic_maopao_all_comment" />
+
+                    <TextView
+                        android:id="@+id/commentMoreCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/temp1"
+                        android:text="查看全部24条评论"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_alignLeft="@id/temp1"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:background="@drawable/maopao_comment_divide" />-->
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include
+        layout="@layout/divide_shade_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-12dp"
+        android:layout_marginRight="-12dp"
+        android:layout_marginTop="@dimen/padding_12" />
 
 </LinearLayout>

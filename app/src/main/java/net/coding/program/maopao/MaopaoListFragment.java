@@ -49,6 +49,7 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.CommentArea;
+import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
@@ -383,7 +384,7 @@ public class MaopaoListFragment extends RefreshBaseFragment implements FootUpdat
                 public void onClick(View v) {
                     boolean like = ((CheckBox) v).isChecked();
                     if (like) {
-//                        MaopaoLikeAnimation.playAnimation(holder.maopaoGoodView, v);
+                        MaopaoLikeAnimation.playAnimation(holder.maopaoGoodView, v);
                     }
                     String type = like ? "like" : "unlike";
                     String uri = String.format(HOST_GOOD, data.id, type);
