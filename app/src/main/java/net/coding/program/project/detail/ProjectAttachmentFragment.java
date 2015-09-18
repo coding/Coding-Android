@@ -30,6 +30,7 @@ import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 
@@ -354,6 +355,8 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             }
         } else if (tag.equals(HOST_FOLDER_NAME)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "重命名文件夹");
+
                 showButtomToast("重命名成功");
                 AttachmentFolderObject folderObject = mData.get(pos);
                 folderObject.name = (String) data;
@@ -366,6 +369,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             }
         } else if (tag.equals(HOST_FOLDER_NEW)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "新建文件夹");
                 AttachmentFolderObject folder = new AttachmentFolderObject(respanse.getJSONObject("data"));
                 mData.add(1, folder);
                 adapter.notifyDataSetChanged();
@@ -374,6 +378,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             }
         } else if (tag.equals(HOST_FOLDER_DELETE)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "删除文件夹");
                 setRefreshing(false);
                 mData.remove(selectFolder.get(0));
                 selectFolder.remove(0);

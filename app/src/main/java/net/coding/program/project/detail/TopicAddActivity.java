@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
@@ -100,6 +101,12 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         if (tag.equals(HOST_TOPIC_NEW) ||
                 tag.equals(HOST_TOPIC_EDIT)) {
             if (code == 0) {
+                if (tag.equals(HOST_TOPIC_NEW)) {
+                    umengEvent(UmengEvent.TOPIC, "新建讨论");
+                } else if (tag.equals(HOST_TOPIC_EDIT)) {
+                    umengEvent(UmengEvent.TOPIC, "修改讨论");
+                }
+
                 Intent intent = new Intent();
                 TopicObject topic = new TopicObject(respanse.getJSONObject("data"));
                 intent.putExtra("topic", topic);

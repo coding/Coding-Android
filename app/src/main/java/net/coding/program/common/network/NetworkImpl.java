@@ -13,6 +13,7 @@ import com.umeng.analytics.MobclickAgent;
 import net.coding.program.LoginActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.user.UserDetailActivity;
 
@@ -53,6 +54,8 @@ public class NetworkImpl {
         if (!url.startsWith("http")) {
             url = Global.HOST + url;
         }
+
+        final String finalUrl = url;
 
         if (mUpdateing.containsKey(tag) && mUpdateing.get(tag)) {
             Log.d("", "url#" + (params == null ? "get " : "post ") + url);
@@ -95,6 +98,18 @@ public class NetworkImpl {
                         umengEvent(UmengEvent.USER, "关注好友");
                     } else if (tag.equals(UserDetailActivity.HOST_UNFOLLOW)) {
                         umengEvent(UmengEvent.USER, "取消关注好友");
+                    } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO)) {
+                        umengEvent(UmengEvent.MAOPAO, "删除冒泡");
+                    } else if (tag.equals(MaopaoListFragment.TAG_COMMENT)) {
+                        umengEvent(UmengEvent.MAOPAO, "添加冒泡评论");
+                    } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO_COMMENT)) {
+                        umengEvent(UmengEvent.MAOPAO, "删除冒泡评论");
+                    } else if (tag.equals(MaopaoListFragment.HOST_GOOD)) {
+                        if (finalUrl.endsWith("like")) {
+                            umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
+                        } else {
+                            umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
+                        }
                     }
 
                     callback.parseJson(code, response, tag, dataPos, data);

@@ -26,6 +26,7 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.model.AccountInfo;
@@ -162,6 +163,7 @@ public class ProjectAdvanceSetActivity extends BackActivity implements Handler.C
         } else if (tag.equals(TAG_DELETE_PROJECT_2FA)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "删除项目2fa");
                 showButtomToast("删除成功");
                 InitProUtils.intentToMain(ProjectAdvanceSetActivity.this);
                 finish();
@@ -199,6 +201,7 @@ public class ProjectAdvanceSetActivity extends BackActivity implements Handler.C
                         startActivity(new Intent(ProjectAdvanceSetActivity.this, LoginActivity_.class));
                     }
                     if (code == 0) {
+                        umengEvent(UmengEvent.PROJECT, "删除项目");
                         showButtomToast("删除成功");
                         InitProUtils.intentToMain(ProjectAdvanceSetActivity.this);
                         finish();

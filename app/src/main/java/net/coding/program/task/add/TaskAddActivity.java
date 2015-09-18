@@ -598,9 +598,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 0) {
-                                    mNewParam.status = 1; // "未完成"
+                                    mNewParam.status = TaskObject.STATUS_PRECESS; // "未完成"
                                 } else {
-                                    mNewParam.status = 2;
+                                    mNewParam.status = TaskObject.STATUS_FINISH;
                                 }
 
                                 setStatus();

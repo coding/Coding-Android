@@ -25,6 +25,7 @@ import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 
@@ -132,6 +133,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
         } else if (tag.equals(UsersListActivity.HOST_FOLLOW)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "关注他人");
                 mNeedUpdate = true;
                 showButtomToast(R.string.follow_success);
                 mData.get(pos).followed = true;
@@ -140,6 +142,8 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             }
             baseAdapter.notifyDataSetChanged();
         } else if (tag.equals(UsersListActivity.HOST_UNFOLLOW)) {
+            umengEvent(UmengEvent.USER, "取消关注");
+
             if (code == 0) {
                 mNeedUpdate = true;
                 showButtomToast("取消关注成功");
@@ -150,6 +154,8 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             baseAdapter.notifyDataSetChanged();
         } else if (tag.equals(urlAddUser)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "添加成员");
+
                 mNeedUpdate = true;
                 showMiddleToast(String.format("添加项目成员 %s 成功", ((UserObject) data).name));
             } else {

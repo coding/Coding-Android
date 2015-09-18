@@ -23,6 +23,7 @@ import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFolderObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -295,6 +296,8 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             }
         } else if (tag.equals(HOST_FOLDER_NEW)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "新建文件夹");
+
                 AttachmentFolderObject folder = new AttachmentFolderObject(respanse.getJSONObject("data"));
                 if (mAttachmentFolderObject == null) {
                     mData.add(1, folder);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;
 import net.coding.program.model.ProjectObject;
@@ -84,6 +85,7 @@ public class ShareFileLinkActivity extends BackActivity {
         if (tag.equals(TAG_SHARE_LINK_ON)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "开启共享");
                 AttachmentFileObject.Share mShare = new AttachmentFileObject.Share(respanse.optJSONObject("data"));
                 mAttachmentFileObject.setShereLink(mShare.getUrl());
                 bindData();
@@ -93,6 +95,7 @@ public class ShareFileLinkActivity extends BackActivity {
         } else if (tag.equals(TAG_SHARE_LINK_OFF)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "关闭共享");
                 mAttachmentFileObject.setShereLink("");
                 bindData();
             } else {

@@ -42,6 +42,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -725,6 +726,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         } else if (tag.equals(HOST_FILE_DELETE)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "删除文件");
+
                 hideProgressDialog();
                 showButtomToast("删除完成");
                 mFilesArray.removeAll(selectFile);
@@ -738,6 +741,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         } else if (tag.equals(HOST_FILE_MOVETO)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "移动文件夹");
+
                 showButtomToast("移动成功");
                 mFilesArray.removeAll(selectFile);
                 adapter.notifyDataSetChanged();
@@ -768,6 +773,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
         } else if (tag.equals(HOST_FOLDER_NAME)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "重命名文件夹");
                 showButtomToast("重命名成功");
                 AttachmentFileObject folderObject = mFilesArray.get(pos);
 
@@ -782,6 +788,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
         } else if (tag.equals(HOST_HTTP_FILE_RENAME)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "重命名文件");
+
                 showButtomToast("重命名成功");
                 AttachmentFileObject folderObject = mFilesArray.get(pos);
                 folderObject.setName((String) data);
@@ -792,6 +800,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
         } else if (tag.equals(HOST_FOLDER_DELETE)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "删除文件夹");
                 //setRefreshing(false);
                 AttachmentFileObject folderObject = mFilesArray.get(pos);
                 mFilesArray.remove(pos);
@@ -810,6 +819,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
         } else if (tag.equals(HOST_FOLDER_NEW)) {
             if (code == 0) {
+                umengEvent(UmengEvent.FILE, "新建文件夹");
                 AttachmentFolderObject folder = new AttachmentFolderObject(respanse.getJSONObject("data"));
                 mAttachmentFolderObject.sub_folders.add(0, folder);
                 mFilesArray.add(0, AttachmentFileObject.parseFileObject(folder));
@@ -827,6 +837,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_HTTP_FILE_EXIST)) {
+            umengEvent(UmengEvent.FILE, "上传文件");
             if (code == 0) {
                 String s = respanse.optJSONObject("data").optString("conflict_file");
                 if (s.isEmpty()) {
@@ -905,6 +916,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                             AttachmentsActivity.this.startActivity(new Intent(AttachmentsActivity.this, LoginActivity_.class));
                         }
                         if (code == 0) {
+                            umengEvent(UmengEvent.FILE, "上传文件");
                             AttachmentFileObject newFile = new AttachmentFileObject(response.getJSONObject("data"));
                             setDownloadStatus(newFile);
 

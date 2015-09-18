@@ -15,6 +15,9 @@ import java.util.ArrayList;
  */
 public class TaskObject {
 
+    public static int STATUS_PRECESS = 1;
+    public static int STATUS_FINISH = 2;
+
     public static class Members implements Serializable {
         public static final int MEMBER_TYPE_OWNER = 100;
         public static final int MEMBER_TYPE_MEMBER = 80;

@@ -45,6 +45,7 @@ import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
@@ -496,6 +497,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
         if (tag.equals(sendUrl)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.MAOPAO, "发冒泡");
+
                 JSONObject jsonData = respanse.getJSONObject("data");
                 Maopao.MaopaoObject maopaoObject = new Maopao.MaopaoObject(jsonData);
                 maopaoObject.owner = MyApp.sUserObject;

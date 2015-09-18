@@ -24,6 +24,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
 
@@ -197,6 +198,7 @@ public class ProjectSetFragment extends BaseFragment {
         showProgressBar(false);
         if (tag.equals(host)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "修改项目");
                 showButtomToast("修改成功");
                 isBackToRefresh = true;
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
@@ -208,6 +210,7 @@ public class ProjectSetFragment extends BaseFragment {
             }
         } else {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "修改项目图片");
                 showButtomToast("图片上传成功...");
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
                 isBackToRefresh = true;

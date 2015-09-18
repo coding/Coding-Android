@@ -134,7 +134,6 @@ public class ContentAreaImages extends ContentAreaBase {
 
     private void setDataContent(String data, Object contentObject) {
         Global.MessageParse maopaoData = HtmlContent.parseMaopao(data);
-
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
 
@@ -204,7 +203,7 @@ public class ContentAreaImages extends ContentAreaBase {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        mUpdating.put(voicePath,false);
+                        mUpdating.put(voicePath, false);
 //                        Log.e("Voice","Down the voice file failed,statusCode:"+statusCode+",\n error:"+error!=null?error.toString():""+",\n file:"+voicePath);
                     }
                 });

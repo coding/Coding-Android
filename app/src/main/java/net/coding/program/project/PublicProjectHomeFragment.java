@@ -65,6 +65,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(mUrlStar) || tag.equals(mUrlUnstar)) {
+            umengEvent(UmengEvent.PROJECT, "收藏项目");
             if (tag.equals(mUrlStar)) {
                 umengEvent(UmengEvent.CODE, "收藏");
             } else {
@@ -75,6 +76,8 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(mUrlWatch) || tag.equals(mUrlUnwatch)) {
+            umengEvent(UmengEvent.PROJECT, "关注项目");
+
             if (tag.equals(mUrlWatch)) {
                 umengEvent(UmengEvent.CODE, "关注");
             } else {
@@ -87,6 +90,8 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         } else if (tag.equals(forkUrl)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "Fork");
+
                 umengEvent(UmengEvent.CODE, "Fork");
                 JSONObject jsonData = respanse.getJSONObject("data");
                 String projectName = jsonData.optString("name");

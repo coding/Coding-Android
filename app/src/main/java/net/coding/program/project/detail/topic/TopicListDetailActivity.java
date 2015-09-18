@@ -34,6 +34,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.TopicLabelObject;
@@ -512,6 +513,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         } else if (tag.equals(urlCommentSend)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.TOPIC, "新建讨论评论");
+
                 JSONObject jsonObject = respanse.getJSONObject("data");
 
                 ++topicObject.child_count;
@@ -542,6 +545,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         } else if (tag.equals(TAG_DELETE_TOPIC_COMMENT)) {
             int itemId = (int) data;
             if (code == 0) {
+                umengEvent(UmengEvent.TOPIC, "删除讨论评论");
                 for (int i = 0; i < mData.size(); ++i) {
                     if (itemId == mData.get(i).id) {
                         mData.remove(i);
@@ -558,6 +562,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             }
         } else if (tag.equals(TAG_DELETE_TOPIC)) {
             if (code == 0) {
+                umengEvent(UmengEvent.TOPIC, "删除讨论");
                 mResultData.putExtra("id", topicObject.id);
                 setResult(RESULT_OK, mResultData);
                 finish();
@@ -582,6 +587,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             }
         } else if (URI_DELETE_TOPIC_LABEL.equals(tag)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "删除标签");
+
                 labelBar.removeLabel(currentLabelId);
                 if (topicObject.labels != null) {
                     for (TopicLabelObject item : topicObject.labels) {

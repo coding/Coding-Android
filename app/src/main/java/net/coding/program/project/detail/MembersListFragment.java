@@ -23,6 +23,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -404,6 +405,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
         } else if (tag.equals(urlQuit)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "退出项目");
+
                 showButtomToast("成功退出项目");
                 Intent intent = new Intent();
                 intent.setAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
@@ -416,6 +419,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         } else if (tag.equals(urlDeleteUser)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "移除成员");
                 mSearchData.remove(pos);
                 adapter.notifyDataSetChanged();
             } else {

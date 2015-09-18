@@ -325,14 +325,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 for (int i = 0; i < array.length(); ++i) {
                     TaskObject.SingleTask task = new TaskObject.SingleTask(array.getJSONObject(i));
                     mData.add(task);
-                    if (task.status == 1) {
-                        ++mSectionId;
-                    }
                 }
 
-                if (array.length() > 0) {
-                    mAdapter.notifyDataSetChanged();
-                }
+                mAdapter.notifyDataSetChanged();
 
                 AccountInfo.saveTasks(getActivity(), mData, mProjectObject.getId(), mMembers.id);
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
@@ -436,6 +431,20 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             StickyListHeadersAdapter, SectionIndexer {
 
         public TestBaseAdapter() {
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            mSectionId = 0;
+            for (TaskObject.SingleTask item  : mData) {
+                if (item.status == TaskObject.STATUS_PRECESS) {
+                    ++mSectionId;
+                } else {
+                    break;
+                }
+            }
+
+            super.notifyDataSetChanged();
         }
 
         @Override

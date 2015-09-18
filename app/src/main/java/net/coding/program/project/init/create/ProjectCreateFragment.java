@@ -29,6 +29,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
@@ -294,6 +295,7 @@ public class ProjectCreateFragment extends BaseFragment {
         if (tag.equals(host)) {
             if (code == 0) {
 //                InitProUtils.intentToMain(getActivity());
+                umengEvent(UmengEvent.PROJECT, "新建项目");
                 String path = respanse.optString("data");
                 ProjectHomeActivity_
                         .intent(this)
