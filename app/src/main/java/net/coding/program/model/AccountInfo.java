@@ -318,13 +318,13 @@ public class AccountInfo {
         return "";
     }
 
-    public static void saveProjectMembers(Context ctx, ArrayList<TaskObject.Members> data, int projectId) {
-        new DataCache<TaskObject.Members>().save(ctx, data, PROJECT_MEMBER + projectId);
-    }
+//    public static void saveProjectMembers(Context ctx, ArrayList<TaskObject.Members> data, int projectId) {
+//        new DataCache<TaskObject.Members>().save(ctx, data, PROJECT_MEMBER + projectId);
+//    }
 
-    public static ArrayList<TaskObject.Members> loadProjectMembers(Context ctx, int projectId) {
-        return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
-    }
+//    public static ArrayList<TaskObject.Members> loadProjectMembers(Context ctx, int projectId) {
+//        return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
+//    }
 
     // input 为 "" 时，删除上次的输入
     public static void saveMessageDraft(Context ctx, String input, String globalkey) {

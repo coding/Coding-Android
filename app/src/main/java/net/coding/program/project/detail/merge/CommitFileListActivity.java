@@ -251,8 +251,9 @@ public class CommitFileListActivity extends BackActivity {
 
         @Override
         public String getAtSomeUrl() {
-            return Global.HOST_API + mProjectPath + "/relationships/context?context_type=pull_request_comment&item_id="
-                    + mCommitId;
+//            return Global.HOST_API + mProjectPath + "/relationships/context?context_type=pull_request_comment&item_id="
+//                    + mCommitId;
+            return Global.HOST_API + mProjectPath + "/members?page=1&pageSize=200";
         }
 
         @Override

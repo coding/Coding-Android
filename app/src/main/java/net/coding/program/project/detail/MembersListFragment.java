@@ -25,7 +25,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.message.MessageListActivity_;
-import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
@@ -188,11 +187,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     protected void init() {
         initRefreshLayout();
 
-        if (mProjectObject != null) {
-            mData = (ArrayList) AccountInfo.loadProjectMembers(getActivity(), mProjectObject.getId());
-        } else {
-            mData = new ArrayList<>();
-        }
+        mData = new ArrayList<>();
         mSearchData = new ArrayList<>(mData);
         if (mSearchData.isEmpty()) {
             showDialogLoading();
@@ -318,11 +313,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     }
 
     private boolean projectCreateByMe() {
-        if (mProjectObject != null) {
-            return mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
-        }
-
-        return false;
+        return mProjectObject != null &&
+             mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
     }
 
     @OptionsItem
@@ -373,8 +365,10 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
                 }
+
+                JSONObject dataObject = respanse.optJSONObject("data");
                 // 项目成员的数据是 data - list，包了两层
-                if (mProjectObject != null) {
+                if (dataObject != null) {
                     JSONArray members;
                     members = respanse.getJSONObject("data").getJSONArray("list");
 
@@ -387,7 +381,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         }
                     }
 
-                    AccountInfo.saveProjectMembers(getActivity(), (ArrayList) mData, mProjectObject.getId());
+//                    AccountInfo.saveProjectMembers(getActivity(), (ArrayList) mData, mProjectObject.getId());
                 } else { // merge 的at他人列表只用 data 包了一层
                     JSONArray members = respanse.getJSONArray("data");
                     for (int i = 0; i < members.length(); ++i) {
