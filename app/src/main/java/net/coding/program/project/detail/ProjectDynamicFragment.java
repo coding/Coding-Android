@@ -64,7 +64,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     int mLastId = UPDATE_ALL_INT;
     boolean mNoMore = false;
     ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
-    TestBaseAdapter mAdapter = new TestBaseAdapter();
+    ProjectDynamicAdapter mAdapter = new ProjectDynamicAdapter();
     String sToday = "";
     String sYesterday = "";
     View.OnClickListener onClickRetry = new View.OnClickListener() {
@@ -299,7 +299,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     }
 
-    public class TestBaseAdapter extends BaseAdapter implements
+    private class ProjectDynamicAdapter extends BaseAdapter implements
             StickyListHeadersAdapter, SectionIndexer {
 
         View.OnClickListener onClickJump = new View.OnClickListener() {
@@ -322,7 +322,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         private ArrayList<Long> mSectionTitle = new ArrayList<>();
         private ArrayList<Integer> mSectionId = new ArrayList<>();
 
-        public TestBaseAdapter() {
+        public ProjectDynamicAdapter() {
         }
 
         @Override

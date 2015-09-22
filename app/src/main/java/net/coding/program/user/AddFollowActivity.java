@@ -1,6 +1,7 @@
 package net.coding.program.user;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -39,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @EActivity(R.layout.activity_add_follow)
 public class AddFollowActivity extends BackActivity implements Handler.Callback {
@@ -68,7 +71,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         mHandler = new WeakRefHander(this);
 
         if (mProjectObject == null) {
-            baseAdapter = new FollowAdapter();
+            baseAdapter = new FollowAdapter(this, true, mData);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -82,11 +85,10 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         } else {
             urlAddUser = String.format(Global.HOST_API + "/project/%d/members/add?", mProjectObject.getId());
             getSupportActionBar().setTitle("添加项目成员");
-            baseAdapter = new AddProjectAdapter();
+            baseAdapter = new FollowAdapter(this, false, mData);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final int pos = (int) id;
                     final UserObject data = mData.get((int) id);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(AddFollowActivity.this);
@@ -96,7 +98,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                                 public void onClick(DialogInterface dialog, int which) {
                                     RequestParams params = new RequestParams();
                                     params.put("users", data.id);
-                                    postNetwork(urlAddUser, params, urlAddUser, pos, data);
+                                    postNetwork(urlAddUser, params, urlAddUser, -1, data);
                                 }
                             })
                             .setNegativeButton("取消", null).show();
@@ -136,7 +138,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 umengEvent(UmengEvent.PROJECT, "关注他人");
                 mNeedUpdate = true;
                 showButtomToast(R.string.follow_success);
-                mData.get(pos).followed = true;
+                ((UserObject) data).followed = true;
             } else {
                 showButtomToast(R.string.follow_fail);
             }
@@ -147,7 +149,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             if (code == 0) {
                 mNeedUpdate = true;
                 showButtomToast("取消关注成功");
-                mData.get(pos).followed = false;
+                ((UserObject) data).followed = false;
             } else {
                 showButtomToast("取消关注失败");
             }
@@ -241,24 +243,17 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         CheckBox mutual;
     }
 
-    class AddProjectAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return mData.size();
+    private class FollowAdapter extends ArrayAdapter<UserObject> {
+
+        boolean mShowFollowButton = true;
+
+        public FollowAdapter(Context context, boolean showFollowButton, List<UserObject> objects) {
+            super(context, 0, objects);
+            mShowFollowButton = showFollowButton;
         }
 
         @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.activity_add_follow_list_item, parent, false);
@@ -266,73 +261,41 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followed);
-                holder.mutual.setVisibility(View.INVISIBLE);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            final UserObject data = (UserObject) getItem(position);
-
-            iconfromNetwork(holder.icon, data.avatar);
-            holder.name.setText(String.format("%s - %s", data.name, data.global_key));
-
-            return convertView;
-        }
-    }
-
-    class FollowAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_add_follow_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.mutual = (CheckBox) convertView.findViewById(R.id.followed);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            final UserObject data = (UserObject) getItem(position);
-
-            iconfromNetwork(holder.icon, data.avatar);
-            holder.name.setText(String.format("%s - %s", data.name, data.global_key));
-
-            int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
-            holder.mutual.setButtonDrawable(drawableId);
-            holder.mutual.setChecked(data.followed);
-
-            holder.mutual.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RequestParams params = new RequestParams();
-                    params.put("users", data.global_key);
-                    if (((CheckBox) v).isChecked()) {
-                        postNetwork(UsersListActivity.HOST_FOLLOW, params, UsersListActivity.HOST_FOLLOW, position, null);
-                    } else {
-                        postNetwork(UsersListActivity.HOST_UNFOLLOW, params, UsersListActivity.HOST_UNFOLLOW, position, null);
-                    }
+                if (mShowFollowButton) {
+                    holder.mutual.setVisibility(View.VISIBLE);
+                    holder.mutual.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            UserObject user = (UserObject) v.getTag(R.id.followed);
+                            RequestParams params = new RequestParams();
+                            params.put("users", user.global_key);
+                            if (((CheckBox) v).isChecked()) {
+                                postNetwork(UsersListActivity.HOST_FOLLOW, params, UsersListActivity.HOST_FOLLOW, -1, user);
+                            } else {
+                                postNetwork(UsersListActivity.HOST_UNFOLLOW, params, UsersListActivity.HOST_UNFOLLOW, -1, user);
+                            }
+                        }
+                    });
+                } else {
+                    holder.mutual.setVisibility(View.INVISIBLE);
                 }
-            });
+
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            final UserObject data = getItem(position);
+
+            iconfromNetwork(holder.icon, data.avatar);
+            holder.name.setText(String.format("%s - %s", data.name, data.global_key));
+
+            if (mShowFollowButton) {
+                int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
+                holder.mutual.setButtonDrawable(drawableId);
+                holder.mutual.setChecked(data.followed);
+                holder.mutual.setTag(R.id.followed, data);
+            }
 
             return convertView;
         }
