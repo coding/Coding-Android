@@ -134,7 +134,7 @@ public class LikeUsersArea {
     }
 
     public void displayLikeUser() {
-        Maopao.MaopaoObject data = (Maopao.MaopaoObject) likeUsersLayout.getTag(MaopaoListFragment.TAG_MAOPAO);
+        Maopao.MaopaoObject data = (Maopao.MaopaoObject) likeUsersLayout.getTag(MaopaoListBaseFragment.TAG_MAOPAO);
 
         if (data.likes == 0) {
             likeUsersAllLayout.setVisibility(View.GONE);

@@ -397,7 +397,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
         likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), mOnClickUser);
 
-        likeUsersArea.likeUsersLayout.setTag(MaopaoListFragment.TAG_MAOPAO, mMaopaoObject);
+        likeUsersArea.likeUsersLayout.setTag(MaopaoListBaseFragment.TAG_MAOPAO, mMaopaoObject);
         if (mMaopaoObject.like_users.isEmpty() && mMaopaoObject.likes > 0) {
             String hostLikes = String.format(LikeUsersListActivity.HOST_LIKES_USER, mMaopaoObject.id);
             getNetwork(hostLikes, TAG_LIKE_USERS);

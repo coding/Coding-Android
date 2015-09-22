@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 
 /**
  * Created by chaochen on 15/1/29.
@@ -29,7 +29,7 @@ public class DialogCopy {
                             if (which == 0) {
                                 TextView textView = (TextView) v;
                                 Context context = v.getContext();
-                                Object dataString = textView.getTag(MaopaoListFragment.TAG_COMMENT_TEXT);
+                                Object dataString = textView.getTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT);
                                 String text;
                                 if (dataString instanceof String) {
                                     text = (String) dataString;

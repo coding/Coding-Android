@@ -9,7 +9,7 @@ import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.TaskObject;
 
@@ -48,7 +48,7 @@ public class ContentAreaBase {
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
         } else {
-            content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
+            content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setTag(data);
             content.setVisibility(View.VISIBLE);
             content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));

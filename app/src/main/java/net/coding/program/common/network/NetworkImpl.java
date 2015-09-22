@@ -13,6 +13,7 @@ import com.umeng.analytics.MobclickAgent;
 import net.coding.program.LoginActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.user.UserDetailActivity;
@@ -100,7 +101,7 @@ public class NetworkImpl {
                         umengEvent(UmengEvent.USER, "取消关注好友");
                     } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡");
-                    } else if (tag.equals(MaopaoListFragment.TAG_COMMENT)) {
+                    } else if (tag.equals(MaopaoListBaseFragment.TAG_COMMENT)) {
                         umengEvent(UmengEvent.MAOPAO, "添加冒泡评论");
                     } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO_COMMENT)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡评论");

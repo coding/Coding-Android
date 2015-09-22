@@ -25,6 +25,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.widget.GifMarkImageView;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Maopao;
@@ -138,7 +139,7 @@ public class ContentAreaImages extends ContentAreaBase {
             content.setVisibility(View.GONE);
 
         } else {
-            content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
+            content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
             content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
                     content.getContext().getAssets()), TextView.BufferType.EDITABLE);
@@ -276,7 +277,7 @@ public class ContentAreaImages extends ContentAreaBase {
             content.setVisibility(View.GONE);
             content.setText("");
         } else {
-            content.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, maopaoData.text);
+            content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
             content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter,
                     Global.tagHandler, content.getContext().getAssets()));

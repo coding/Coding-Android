@@ -9,7 +9,7 @@ import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Maopao;
 
 /**
@@ -34,9 +34,9 @@ class CommentItem {
     }
 
     public void setContent(Maopao.Comment commentData, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        layout.setTag(MaopaoListFragment.TAG_COMMENT, commentData);
-        comment.setTag(MaopaoListFragment.TAG_COMMENT, commentData);
-        comment.setTag(MaopaoListFragment.TAG_COMMENT_TEXT, commentData.content);
+        layout.setTag(MaopaoListBaseFragment.TAG_COMMENT, commentData);
+        comment.setTag(MaopaoListBaseFragment.TAG_COMMENT, commentData);
+        comment.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, commentData.content);
 
         name.setText(commentData.owner.name);
         time.setText(Global.dayToNow(commentData.created_at));
