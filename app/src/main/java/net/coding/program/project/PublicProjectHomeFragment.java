@@ -16,6 +16,7 @@ import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -117,9 +118,9 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         int[][] titlesColors = new int[][]{
-                new int[]{0xff222222, 0xff3bbd79},
-                new int[]{0xff222222, 0xff3bbd79},
-                new int[]{0xff222222, 0xff666666},
+                new int[]{0xff222222, 0xffffffff},
+                new int[]{0xff222222, 0xffffffff},
+                new int[]{0xff222222, 0xff222222},
         };
 
         int[][] icons = new int[][]{
@@ -128,10 +129,56 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 new int[]{R.drawable.project_home_button_public_fork, R.drawable.project_home_button_public_fork},
         };
 
-        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], mProjectObject.stared, mProjectObject.star_count);
-        mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], mProjectObject.watched, mProjectObject.watch_count);
-        mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], mProjectObject.forked, mProjectObject.fork_count);
+        int[][] backgroundLeft = new int[][] {
+                new int[] {R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
+                new int[] {R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
+                new int[] {R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left0},
+        };
+
+        int[][] backgroundRight = new int[][] {
+                new int[] {R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
+                new int[] {R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
+                new int[] {R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right0},
+        };
+
+        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], backgroundRight[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
+        mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], backgroundRight[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
+        mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], backgroundRight[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
+
+
     }
+
+    View.OnClickListener onClickStatCount = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String title = String.format("收藏了 %s 的人", mProjectObject.name);
+            String url = mProjectObject.getHttptStargazers();
+            startUserList(title, url);
+        }
+    };
+
+    View.OnClickListener onClickFollowCount = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String title = String.format("关注了 %s 的人", mProjectObject.name);
+            String url = mProjectObject.getHttptwatchers();
+            startUserList(title, url);
+        }
+    };
+
+    private void startUserList(String title, String url) {
+        UsersListActivity_.intent(PublicProjectHomeFragment.this)
+                .titleName(title)
+                .statUrl(url)
+                .start();
+    }
+
+    View.OnClickListener onClickForkCount = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     private void initHead3(View root) {
         final int[] buttons = new int[]{
@@ -267,19 +314,25 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         String[] title;
         int[] titleColor;
         int[] icon;
+        int [] leftBackground;
+        int[] rightBackground;
 
         boolean mCheck = false;
         int mCount = 0;
         View mButton;
 
-        ProjectMarkButton(View button, String[] title, int[] titleColor, int[] icon, final boolean mCheck, int mCount) {
+        ProjectMarkButton(View button, String[] title, int[] titleColor, int[] icon, int[] leftBackground,
+                          int[] rightBackground, final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
             this.title = title;
             this.titleColor = titleColor;
             this.icon = icon;
+            this.leftBackground = leftBackground;
             this.mCheck = mCheck;
             this.mCount = mCount;
             this.mButton = button;
+            this.rightBackground = rightBackground;
 
+            button.findViewById(R.id.count).setOnClickListener(onClickListener);
             updateControl();
         }
 
@@ -304,12 +357,19 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
         private void updateControl() {
             mButton.setTag(mCheck);
-            ((TextView) mButton.findViewById(R.id.count)).setText(String.valueOf(mCount));
+
+            TextView countView = (TextView) mButton.findViewById(R.id.count);
+            countView.setText(String.valueOf(mCount));
+            countView.setTextColor(!mCheck ? titleColor[0] : titleColor[1]);
+            countView.setBackgroundResource(!mCheck ? rightBackground[0] : rightBackground[1]);
 
             mButton.findViewById(R.id.icon).setBackgroundResource(!mCheck ? icon[0] : icon[1]);
             TextView title = (TextView) mButton.findViewById(R.id.title);
             title.setText(!mCheck ? this.title[0] : this.title[1]);
             title.setTextColor(!mCheck ? titleColor[0] : titleColor[1]);
+
+            mButton.findViewById(R.id.leftBg).setBackgroundResource(!mCheck ? leftBackground[0] : leftBackground[1]);
+
         }
 
         public boolean isChecked() {

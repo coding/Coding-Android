@@ -67,15 +67,21 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     final int RESULT_REQUEST_DETAIL = 2;
     @Extra
     Friend type;
+
     @Extra
     boolean select;
+
     @Extra
     boolean hideFollowButton; // 隐藏互相关注按钮，用于发私信选人的界面
+
     @Extra
     String titleName = ""; // 设置title
 
     @Extra
     String relayString = "";
+
+    @Extra
+    String statUrl; // 收藏项目的人
 
     @Extra
     UserParams mUserParam;
@@ -172,13 +178,16 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     }
 
     private boolean isMyFriendList() {
-        return mUserParam == null ||
-                mUserParam.mUser.global_key.equals(MyApp.sUserObject.global_key);
+        return (mUserParam == null ||
+                mUserParam.mUser.global_key.equals(MyApp.sUserObject.global_key)) &&
+                statUrl == null;
     }
 
     @Override
     public void loadMore() {
-        if (mUserParam == null) {
+        if (statUrl != null) {
+            getNetwork(statUrl, statUrl);
+        } else if (mUserParam == null) {
             if (type == Friend.Fans) {
                 getNextPageNetwork(HOST_FANS, HOST_FANS);
             } else {
@@ -351,6 +360,22 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
 //                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
                 showMiddleToast("发送成功");
                 finish();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(statUrl)) {
+            showProgressBar(false);
+            hideProgressDialog();
+            if (code == 0) {
+                JSONArray json = respanse.optJSONArray("data");
+                for (int i = 0; i < json.length(); ++i) {
+                    UserObject userObject = new UserObject(json.getJSONObject(i));
+                    mData.add(userObject);
+                }
+
+                Collections.sort(mData);
+                mSearchData = new ArrayList<>(mData);
+                adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
             }

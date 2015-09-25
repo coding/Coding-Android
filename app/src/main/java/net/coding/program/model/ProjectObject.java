@@ -181,4 +181,12 @@ public class ProjectObject implements Serializable {
         String params = String.format("?name=%s&two_factor_code=%s", name, code);
         return Global.HOST_API + backend_project_path + params;
     }
+
+    public String getHttptStargazers() {
+        return Global.HOST_API + backend_project_path + "/stargazers";
+    }
+
+    public String getHttptwatchers() {
+        return Global.HOST_API + backend_project_path + "/watchers";
+    }
 }
