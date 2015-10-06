@@ -1,6 +1,6 @@
 package net.coding.program.common.base;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.Global;
 
 import org.androidannotations.annotations.EActivity;

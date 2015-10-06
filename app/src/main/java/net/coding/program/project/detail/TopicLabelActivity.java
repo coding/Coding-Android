@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.model.PostRequest;

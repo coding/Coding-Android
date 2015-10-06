@@ -32,6 +32,7 @@ import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;

@@ -6,8 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
-import net.coding.program.BackActivity;
-import net.coding.program.BaseActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.model.UserObject;

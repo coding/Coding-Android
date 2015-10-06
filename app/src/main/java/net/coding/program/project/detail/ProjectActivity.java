@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;

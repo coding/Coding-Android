@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.MyPushReceiver;

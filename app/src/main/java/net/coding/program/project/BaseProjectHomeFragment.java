@@ -13,7 +13,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.setting.ProjectSetActivity_;

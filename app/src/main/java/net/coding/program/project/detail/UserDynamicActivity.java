@@ -2,7 +2,7 @@ package net.coding.program.project.detail;
 
 import android.os.Bundle;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;

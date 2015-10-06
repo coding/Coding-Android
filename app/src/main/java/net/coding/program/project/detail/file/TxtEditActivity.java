@@ -3,7 +3,7 @@ package net.coding.program.project.detail.file;
 import android.content.Intent;
 import android.widget.EditText;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;

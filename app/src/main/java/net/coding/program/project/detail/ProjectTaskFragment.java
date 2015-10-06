@@ -18,7 +18,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;

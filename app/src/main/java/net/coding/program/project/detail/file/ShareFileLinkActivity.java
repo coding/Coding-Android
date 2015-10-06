@@ -6,7 +6,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;

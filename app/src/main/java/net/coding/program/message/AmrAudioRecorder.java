@@ -1,16 +1,14 @@
-package net.coding.program.common;
+package net.coding.program.message;
+
+import android.media.AudioRecord;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.reflect.InvocationTargetException;
-
-import android.media.AudioRecord;
-import android.os.SystemClock;
-import android.util.Log;
 
 /**
  * Created by Carlos2015 on 2015/8/28.
@@ -193,7 +191,7 @@ public class AmrAudioRecorder {
 							bos.close();
 
 							if(bis.available()!=0){
-								byte[] data =AmrUtils.convertToAmr(bis,isAddAmrFileHead);
+								byte[] data = AmrUtils.convertToAmr(bis, isAddAmrFileHead);
 								File f = new File(outPath);
 								if(!f.exists()){
 									f.createNewFile();

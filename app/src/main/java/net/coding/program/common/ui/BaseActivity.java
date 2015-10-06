@@ -1,4 +1,4 @@
-package net.coding.program;
+package net.coding.program.common.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,6 +14,8 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import net.coding.program.FootUpdate;
+import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;

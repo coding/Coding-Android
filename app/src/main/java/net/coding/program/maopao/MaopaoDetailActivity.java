@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;

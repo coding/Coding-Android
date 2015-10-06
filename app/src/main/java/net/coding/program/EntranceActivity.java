@@ -19,6 +19,7 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.login.ZhongQiuGuideActivity;

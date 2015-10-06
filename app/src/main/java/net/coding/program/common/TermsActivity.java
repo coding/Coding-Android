@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.R;
 
 public class TermsActivity extends BaseActivity {

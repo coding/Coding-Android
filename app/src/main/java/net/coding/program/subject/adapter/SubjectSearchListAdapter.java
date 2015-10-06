@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import net.coding.program.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;

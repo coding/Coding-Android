@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;

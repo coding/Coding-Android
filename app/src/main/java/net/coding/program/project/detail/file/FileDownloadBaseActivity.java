@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;

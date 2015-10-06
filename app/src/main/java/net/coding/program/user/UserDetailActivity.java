@@ -19,7 +19,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;

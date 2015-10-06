@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;

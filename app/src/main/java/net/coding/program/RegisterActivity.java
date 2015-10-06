@@ -20,6 +20,7 @@ import net.coding.program.common.TermsActivity;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 

@@ -24,7 +24,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;

@@ -27,7 +27,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.model.AttachmentFileObject;

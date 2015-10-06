@@ -1,6 +1,6 @@
 package net.coding.program.project.init.create;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 
 import org.androidannotations.annotations.AfterViews;

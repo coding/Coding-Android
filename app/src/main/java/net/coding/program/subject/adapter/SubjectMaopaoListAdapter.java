@@ -1,6 +1,5 @@
 package net.coding.program.subject.adapter;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,16 +7,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.RequestParams;
-
-import net.coding.program.BaseActivity;
-import net.coding.program.MyApp;
-import net.coding.program.R;
-import net.coding.program.common.Global;
-import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.LikeUsersArea;
-import net.coding.program.maopao.MaopaoLocationArea;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.model.Maopao;
 

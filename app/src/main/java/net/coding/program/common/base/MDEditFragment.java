@@ -17,7 +17,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.TopicEditFragment;

@@ -7,7 +7,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.project.detail.TopicEditFragment.SaveData;

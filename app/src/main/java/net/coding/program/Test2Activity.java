@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import net.coding.program.common.ui.BaseActivity;
+
 public class Test2Activity extends BaseActivity {
 
     public static void start(Activity activity) {

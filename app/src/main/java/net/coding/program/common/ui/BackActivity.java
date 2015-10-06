@@ -1,4 +1,6 @@
-package net.coding.program;
+package net.coding.program.common.ui;
+
+import net.coding.program.R;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

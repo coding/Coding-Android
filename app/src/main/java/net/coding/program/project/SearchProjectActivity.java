@@ -5,7 +5,7 @@ import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.view.View;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;

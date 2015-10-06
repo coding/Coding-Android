@@ -1,6 +1,7 @@
 package net.coding.program;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;

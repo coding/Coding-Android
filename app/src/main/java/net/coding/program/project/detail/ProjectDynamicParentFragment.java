@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 
 import net.coding.program.R;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.third.WechatTab;
 

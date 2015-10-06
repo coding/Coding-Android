@@ -3,7 +3,7 @@ package net.coding.program.project.detail.merge;
 import android.view.View;
 import android.widget.EditText;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.MergeDetail;

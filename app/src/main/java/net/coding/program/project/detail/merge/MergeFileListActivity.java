@@ -2,7 +2,7 @@ package net.coding.program.project.detail.merge;
 
 import android.widget.ListView;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.model.DiffFile;
 import net.coding.program.model.Merge;

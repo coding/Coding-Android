@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.model.ProjectObject;

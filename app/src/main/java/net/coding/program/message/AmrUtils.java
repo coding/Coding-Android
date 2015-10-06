@@ -1,4 +1,4 @@
-package net.coding.program.common;
+package net.coding.program.message;
 
 import android.util.Log;
 

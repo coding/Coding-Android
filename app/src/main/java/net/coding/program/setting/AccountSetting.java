@@ -2,7 +2,7 @@ package net.coding.program.setting;
 
 import android.widget.TextView;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.model.UserObject;

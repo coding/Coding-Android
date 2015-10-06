@@ -27,7 +27,7 @@ import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.project.ProjectHomeActivity_;

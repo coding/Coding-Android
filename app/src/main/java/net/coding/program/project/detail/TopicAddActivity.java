@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.BackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;

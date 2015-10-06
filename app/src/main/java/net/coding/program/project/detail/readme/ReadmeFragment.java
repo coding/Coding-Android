@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.BaseFragment;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.Depot;
 import net.coding.program.model.ProjectObject;

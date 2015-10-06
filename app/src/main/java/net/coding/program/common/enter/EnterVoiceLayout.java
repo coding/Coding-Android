@@ -32,7 +32,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.AmrAudioRecorder;
+import net.coding.program.message.AmrAudioRecorder;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;

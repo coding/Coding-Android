@@ -1,4 +1,4 @@
-package net.coding.program.common.network;
+package net.coding.program.common.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -14,13 +14,15 @@ import android.widget.ImageView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
-import net.coding.program.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.StartActivity;
+import net.coding.program.common.network.NetworkCallback;
+import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.network.UmengFragment;
 import net.coding.program.common.widget.SingleToast;
 import net.coding.program.user.UserDetailActivity_;
 

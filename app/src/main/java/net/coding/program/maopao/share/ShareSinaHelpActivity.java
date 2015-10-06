@@ -7,7 +7,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.BaseActivity;
+import net.coding.program.common.ui.BaseActivity;
 
 public class ShareSinaHelpActivity extends BaseActivity {
 
