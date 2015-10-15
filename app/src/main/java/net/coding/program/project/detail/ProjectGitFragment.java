@@ -59,6 +59,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
     private String commentFormat = "%s 发布于%s";
+    private boolean mTooManyFiles = false;
+
     BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -90,12 +92,17 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
             GitFileInfoObject data = mData.get(position);
             holder.name.setText(data.name);
-            if (data.isTree())
+            if (data.isTree()) {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder);
-            else
+            } else {
                 holder.icon.setImageResource(R.drawable.ic_project_git_file);
+            }
 
-            holder.comment.setText(String.format(commentFormat, data.lastCommitter.name, Global.dayToNow(data.lastCommitDate)));
+            if (data.lastCommitDate == 0) {
+                holder.comment.setText("");
+            } else {
+                holder.comment.setText(String.format(commentFormat, data.lastCommitter.name, Global.dayToNow(data.lastCommitDate)));
+            }
             /*if (position == mData.size() - 1) {
                 loadMore();
             }*/
@@ -189,6 +196,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @Override
     public void onRefresh() {
+        if (mTooManyFiles) {
+            showTooManyFilesAlert();
+            hideProgressDialog();
+            setRefreshing(false);
+            return;
+        }
+
         initSetting();
         host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
         getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
@@ -196,6 +210,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @Override
     public void loadMore() {
+        if (mTooManyFiles) {
+            return;
+        }
+
         host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
         getNextPageNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
@@ -223,6 +241,23 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
+                JSONObject jsonData = respanse.optJSONObject("data");
+                if (jsonData.optBoolean("too_many_files", false) == true) {
+                    showTooManyFilesAlert();
+                    JSONArray jsonArray = jsonData.optJSONArray("files");
+                    for (int i = 0; i < jsonArray.length(); ++i) {
+                        GitFileInfoObject fileInfoObject = new GitFileInfoObject(jsonArray.optJSONObject(i));
+                        mData.add(fileInfoObject);
+                    }
+
+                    mTooManyFiles = true;
+                    hideProgressDialog();
+                    setRefreshing(false);
+                    adapter.notifyDataSetChanged();
+                    switchVersionSuccess();
+                    return;
+                }
+
                 host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
                 getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
             } else {
@@ -231,6 +266,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
             }
         }
+    }
+
+    private void showTooManyFilesAlert() {
+        showMiddleToast("该目录下文件太多，这里最多显示出 500 个文件，如需要查看所有文件，请使用电脑 Clone 到本地查看。");
     }
 
     protected void switchVersionSuccess() {
