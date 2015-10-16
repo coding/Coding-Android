@@ -86,3 +86,12 @@ apt {
         resourcePackageName 'net.coding.program'
     }
 }
+dependencies {
+    compile 'com.android.support:design:22.+'
+}
+dependencies {
+    compile 'com.android.support:design:22.+'
+}
+dependencies {
+    compile 'com.android.support:design:22.+'
+}

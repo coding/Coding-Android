@@ -16,6 +16,7 @@ import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.git.ForksListActivity_;
 import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -176,7 +177,9 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     View.OnClickListener onClickForkCount = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            ForksListActivity_.intent(PublicProjectHomeFragment.this)
+                    .mProjectObject(mProjectObject)
+                    .start();
         }
     };
 

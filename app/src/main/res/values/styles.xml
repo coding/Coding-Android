@@ -222,5 +222,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@android:color/secondary_text_light</item>
     </style>
+    <style name="ActionbarNoIcon.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="ActionbarNoIcon.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="ActionbarNoIcon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

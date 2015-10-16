@@ -43,6 +43,8 @@ public class ProjectObject implements Serializable {
     private boolean is_public;
     private boolean pin;
     private int type;
+    private String fork_path = "";
+    private DynamicObject.Owner owner;
 
     public ProjectObject(JSONObject json) throws JSONException {
         backend_project_path = json.optString("backend_project_path");
@@ -74,6 +76,10 @@ public class ProjectObject implements Serializable {
         is_public = json.optBoolean("is_public");
         stared = json.optBoolean("stared");
         pin = json.optBoolean("pin");
+        fork_path = json.optString("path");
+        if (json.has("owner")) {
+            owner = new DynamicObject.Owner(json.optJSONObject("owner"));
+        }
     }
 
     public ProjectObject() {
@@ -188,5 +194,16 @@ public class ProjectObject implements Serializable {
 
     public String getHttptwatchers() {
         return Global.HOST_API + backend_project_path + "/watchers";
+    }
+
+    public String getForkPath() {
+        return fork_path;
+    }
+
+    public DynamicObject.Owner getOwner() {
+        if (owner == null) {
+            owner = new DynamicObject.Owner();
+        }
+        return owner;
     }
 }

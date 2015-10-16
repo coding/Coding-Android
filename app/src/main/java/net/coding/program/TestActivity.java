@@ -1,12 +1,10 @@
 package net.coding.program;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
-
-import net.coding.program.user.UsersListActivity;
-import net.coding.program.user.UsersListActivity_;
 
 
 public class TestActivity extends ActionBarActivity {
@@ -42,6 +40,14 @@ public class TestActivity extends ActionBarActivity {
 //
 //            }
 //        });
+
+        findViewById(R.id.clickMain).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TestActivity.this, EntranceActivity_.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void click1(View v) {
@@ -56,11 +62,14 @@ public class TestActivity extends ActionBarActivity {
 //    }
 
     public void onClick2(View v) {
-        UsersListActivity_.intent(this)
-                .type(UsersListActivity.Friend.Follow)
-                .hideFollowButton(true)
-                .relayString("haahahahaha")
-                .start();
+//        UsersListActivity_.intent(this)
+//                .type(UsersListActivity.Friend.Follow)
+//                .hideFollowButton(true)
+//                .relayString("haahahahaha")
+//                .start();
+//        ForksListActivity_.intent(this)
+//                .projectPath("/user/coding/project/Coding-Android")
+//                .start();
     }
 
     @Override

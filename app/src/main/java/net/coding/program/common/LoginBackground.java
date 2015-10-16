@@ -165,7 +165,12 @@ public class LoginBackground {
         }
 
         private String getCacheName() {
-            return String.valueOf(group.id);
+            try {
+                return SimpleSHA1.sha1(url);
+            } catch (Exception e) {
+            }
+
+            return "noname";
         }
 
         public File getCacheFile(Context ctx) {

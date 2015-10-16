@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_selector">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_icon_path"
+            android:padding="@dimen/project_icon_edge_width"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_default_image" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/icon"
+            android:singleLine="true"
+            android:text="Medium Text"
+            android:textColor="@color/font_black_content"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/icon"
+            android:layout_alignLeft="@+id/name"
+            android:layout_marginBottom="5dp"
+            android:singleLine="true"
+            android:text="cc"
+            android:textColor="@color/font_black_9"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+</FrameLayout>
