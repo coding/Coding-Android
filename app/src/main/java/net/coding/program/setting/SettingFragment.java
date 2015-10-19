@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,14 +13,15 @@ import android.widget.EditText;
 
 import com.tencent.android.tpush.XGPushManager;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -29,7 +29,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.File;
 import java.util.regex.Pattern;
 
 @EFragment(R.layout.fragment_setting)
@@ -67,12 +66,7 @@ public class SettingFragment extends BaseFragment {
     @Click
     void downloadPathSetting() {
         final SharedPreferences share = getActivity().getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        String path;
-        if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
-        } else {
-            path = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
-        }
+        String path = new FileSaveHelp(getActivity()).getFileDownloadPath();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater li = LayoutInflater.from(getActivity());

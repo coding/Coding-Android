@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import net.coding.program.project.detail.file.LocalProjectFileActivity_;
+
 
 public class TestActivity extends ActionBarActivity {
 
@@ -70,6 +72,9 @@ public class TestActivity extends ActionBarActivity {
 //        ForksListActivity_.intent(this)
 //                .projectPath("/user/coding/project/Coding-Android")
 //                .start();
+
+        LocalProjectFileActivity_.intent(this)
+                .start();
     }
 
     @Override

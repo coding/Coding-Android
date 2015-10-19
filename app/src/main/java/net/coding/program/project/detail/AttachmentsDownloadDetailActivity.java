@@ -42,6 +42,7 @@ import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
+import net.coding.program.project.detail.file.FileSaveHelp;
 import net.coding.program.project.detail.file.ShareFileLinkActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -423,13 +424,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     }
 
     public String getFileDownloadPath() {
-        String path;
-        if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
-        } else {
-            path = defaultPath;
-        }
-        return path;
+        return FileSaveHelp.getFileDownloadPath(this);
     }
 
     public void showState(int state) {

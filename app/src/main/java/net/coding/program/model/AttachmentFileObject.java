@@ -182,7 +182,9 @@ public class AttachmentFileObject implements Serializable {
     }
 
     // 保存在本地的名字
+    public static final int INFO_COUNT = 4;
     public String getSaveName(int projectId) {
+//        修改字段要记得修改 INFO_COUNT
         return projectId + SAVE_NAME_SPLIT + file_id + SAVE_NAME_SPLIT + history_id + SAVE_NAME_SPLIT + name;
     }
 

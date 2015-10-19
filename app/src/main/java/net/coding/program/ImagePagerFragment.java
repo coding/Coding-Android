@@ -1,14 +1,11 @@
 package net.coding.program;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -27,11 +24,12 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity;
+import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -298,7 +296,8 @@ public class ImagePagerFragment extends BaseFragment {
                     }
                 });
 
-        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
+        FileSaveHelp fileSaveHelp = new FileSaveHelp(getActivity());
+        mFile = FileUtil.getDestinationInExternalPublicDir(fileSaveHelp.getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
     }
 
     @Override
@@ -342,17 +341,5 @@ public class ImagePagerFragment extends BaseFragment {
         }
 
         super.onDestroy();
-    }
-
-    public String getFileDownloadPath() {
-        String path;
-        String defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
-        SharedPreferences share = getActivity().getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
-        } else {
-            path = defaultPath;
-        }
-        return path;
     }
 }

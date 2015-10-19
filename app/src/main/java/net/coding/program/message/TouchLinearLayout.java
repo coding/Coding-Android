@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * Created by chaochen on 15/2/9.
  */
-public class TouchLinearLayout extends LinearLayout {
+public class TouchLinearLayout extends RelativeLayout {
 
     private long pressTime = 0;
     private int action;

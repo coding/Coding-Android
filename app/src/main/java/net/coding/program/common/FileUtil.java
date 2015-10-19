@@ -56,6 +56,22 @@ public class FileUtil {
         return new File(file.getAbsolutePath() + File.separator + fileName);
     }
 
+    public static String getDestinationInExternalPublicDir(String dirType) {
+        File file = Environment.getExternalStoragePublicDirectory(dirType);
+        if (file.exists()) {
+            if (!file.isDirectory()) {
+                throw new IllegalStateException(file.getAbsolutePath() +
+                        " already exists and is not a directory");
+            }
+        } else {
+            if (!file.mkdirs()) {
+                throw new IllegalStateException("Unable to create directory: " +
+                        file.getAbsolutePath());
+            }
+        }
+        return file.getAbsolutePath();
+    }
+
     public static File getDestinationInExternalFilesDir(Context context, String dirType,
                                                         String fileName) {
         final File file = context.getExternalFilesDir(dirType);

@@ -1,6 +1,7 @@
 package net.coding.program.message;
 
 
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,11 +11,11 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.NotifyObject;
 
@@ -29,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @EActivity(R.layout.activity_notify_list)
 @OptionsMenu(R.menu.notify_list_activity)
@@ -43,6 +45,39 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
     @ViewById
     ListView listView;
+
+    private static HashMap<String, Pair<Integer, Integer>> sHashMap = new HashMap<>();
+
+
+    static {
+        final int DEFAULT_BG = 0xFF14A9DA;
+
+//        sHashMap.put("ProjectMember", new Pair<>(R.drawable.ic_notify_project_member, 0xFF1AB6D9));
+//        sHashMap.put("BranchMember", new Pair<>(R.drawable.ic_notify_branch_member, 0xFF1AB6D9));
+//        sHashMap.put("Depot", new Pair<>(R.drawable.ic_notify_depot, DEFAULT_BG));
+//        sHashMap.put("Task", new Pair<>(R.drawable.ic_notify_task, 0xFF379FD3));
+//        sHashMap.put("ProjectFile", new Pair<>(R.drawable.ic_notify_project_file, 0xff112233));
+//        sHashMap.put("QcTask", new Pair<>(R.drawable.ic_notify_qc_task, 0xFF3C8CEA));
+//        sHashMap.put("ProjectTopic", new Pair<>(R.drawable.ic_notify_project_topic, 0xFF2FAEEA));
+//        sHashMap.put("Project", new Pair<>(R.drawable.ic_notify_project, 0xFFF8BE46));
+//        sHashMap.put("ProjectStar", new Pair<>(R.drawable.ic_notify_project_star, 0xff112233));
+//        sHashMap.put("ProjectWatcher", new Pair<>(R.drawable.ic_notify_project_watcher, 0xff112233));
+//        sHashMap.put("PullRequestComment", new Pair<>(R.drawable.ic_notify_pull_request_comment, 0xFF49C9A7));
+//        sHashMap.put("PullRequestBean", new Pair<>(R.drawable.ic_notify_pull_request_bean, 0xff112233));
+//        sHashMap.put("Tweet", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
+//        sHashMap.put("TweetComment", new Pair<>(R.drawable.ic_notify_tweet_comment, 0xFFFB8638));
+//        sHashMap.put("TweetLike", new Pair<>(R.drawable.ic_notify_tweet_like, 0xFFFF5847));
+//        sHashMap.put("MergeRequestBean", new Pair<>(R.drawable.ic_notify_merge_request_bean, 0xFF4E74B7));
+//        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, 0xFF3BBD79));
+//        sHashMap.put("User", new Pair<>(R.drawable.ic_notify_user, 0xFF496AB3));
+//        sHashMap.put("TaskComment", new Pair<>(R.drawable.ic_notify_task_comment, 0xFF379FD3));
+//        sHashMap.put("CommitLineNote", new Pair<>(R.drawable.ic_notify_commit_line_note, DEFAULT_BG));
+//        sHashMap.put("MergeRequestComment", new Pair<>(R.drawable.ic_notify_merge_request_comment, 0xFF4E74B7));
+//        sHashMap.put("ProjectFileComment", new Pair<>(R.drawable.ic_notify_project_file_comment, DEFAULT_BG));
+//        sHashMap.put("ProjectPayment", new Pair<>(R.drawable.ic_notify_project_payment, DEFAULT_BG));
+//        sHashMap.put("ProjectTweet", new Pair<>(R.drawable.ic_notify_project_tweet, 0xFFFB8638));
+//        sHashMap.put("ProjectTweetComment", new Pair<>(R.drawable.ic_notify_project_tweet_comment, 0xFFFB8638));
+    }
 
     int defaultIcon = R.drawable.ic_notify_at;
 
@@ -104,63 +139,71 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
             String itemType = data.target_type;
 
-            if (itemType.equals("ProjectMember")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_user);
-
-            } else if (itemType.equals("Depot")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_code);
-
-            } else if (itemType.equals("Task")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-
-            } else if (itemType.equals("ProjectFile")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_file);
-
-            } else if (itemType.equals("QcTask")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-
-            } else if (itemType.equals("ProjectTopic")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_projecttopic);
-
-            } else if (itemType.equals("Project")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_project);
-
-            } else if (itemType.equals("ProjectStar")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_unfollow);
-
-            } else if (itemType.equals("ProjectWatcher")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_unfollow);
-
-            } else if (itemType.equals("PullRequestComment")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
-
-            } else if (itemType.equals("PullRequestBean")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_pull_request);
-
-            } else if (itemType.equals("Tweet")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tweet);
-
-            } else if (itemType.equals("TweetComment")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
-
-            } else if (itemType.equals("TweetLike")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tweetlike);
-
-            } else if (itemType.equals("MergeRequestBean")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
-
-            } else if (itemType.equals("UserFollow")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_follow);
-
-            } else if (itemType.equals("TaskComment")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-
-            } else if (itemType.equals("CommitLineNote")) {
-                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
-
-            } else {
+//            if (itemType.equals("ProjectMember")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_user);
+//
+//            } else if (itemType.equals("Depot")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_code);
+//
+//            } else if (itemType.equals("Task")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
+//
+//            } else if (itemType.equals("ProjectFile")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_file);
+//
+//            } else if (itemType.equals("QcTask")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
+//
+//            } else if (itemType.equals("ProjectTopic")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_projecttopic);
+//
+//            } else if (itemType.equals("Project")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_project);
+//
+//            } else if (itemType.equals("ProjectStar")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_unfollow);
+//
+//            } else if (itemType.equals("ProjectWatcher")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_unfollow);
+//
+//            } else if (itemType.equals("PullRequestComment")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
+//
+//            } else if (itemType.equals("PullRequestBean")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_pull_request);
+//
+//            } else if (itemType.equals("Tweet")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tweet);
+//
+//            } else if (itemType.equals("TweetComment")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
+//
+//            } else if (itemType.equals("TweetLike")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tweetlike);
+//
+//            } else if (itemType.equals("MergeRequestBean")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
+//
+//            } else if (itemType.equals("UserFollow")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_follow);
+//
+//            } else if (itemType.equals("TaskComment")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
+//
+//            } else if (itemType.equals("CommitLineNote")) {
+//                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
+//
+//            } else {
                 holder.icon.setImageResource(R.drawable.ic_notify_unknown);
+//            }
+
+            Pair iconItem = sHashMap.get(itemType);
+            if (iconItem == null) {
+                iconItem = new Pair(R.drawable.ic_notify_unknown, 0xFF14A9DA);
             }
+
+
+
 
             holder.title.setText(Global.changeHyperlinkColor(title));
             holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);

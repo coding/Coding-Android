@@ -269,13 +269,7 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
     }
 
     public String getFileDownloadPath() {
-        String path;
-        if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
-        } else {
-            path = defaultPath;
-        }
-        return path;
+        return FileSaveHelp.getFileDownloadPath(this);
     }
 
     protected void removeDownloadFile(long downloadId) {

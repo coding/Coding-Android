@@ -37,10 +37,6 @@ public class ForksListActivity extends BaseListActivity {
     AdapterView.OnItemClickListener mItemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Object item = parent.getItemAtPosition(position);
-            ProjectObject data = (ProjectObject) item;
-
-
             ProjectHomeActivity_.intent(ForksListActivity.this)
                     .mProjectObject(mProjectObject)
                     .startForResult(InitProUtils.REQUEST_PRO_UPDATE);

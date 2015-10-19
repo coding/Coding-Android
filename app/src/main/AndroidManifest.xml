@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
     android:versionCode="92"
-    android:versionName="3.2.5">
+    android:versionName="3.2.5" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -67,7 +67,7 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/ActionbarNoIcon">
+        android:theme="@style/ActionbarNoIcon" >
 
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
@@ -83,7 +83,7 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -101,8 +101,8 @@
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2">
-            <intent-filter android:priority="0x7fffffff">
+            android:process=":xg_service_v2" >
+            <intent-filter android:priority="0x7fffffff" >
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
@@ -122,7 +122,7 @@
         <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action" />
             </intent-filter>
@@ -139,7 +139,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <receiver android:name=".common.PushReceiver">
+        <receiver android:name=".common.PushReceiver" >
             <intent-filter>
 
                 <!-- 接收消息透传 -->
@@ -152,7 +152,7 @@
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="net.coding.program.PUSH_ACTION" />
             </intent-filter>
@@ -164,14 +164,12 @@
 
         <activity
             android:name=".TestActivity"
-            android:label="@string/title_activity_test">
-
+            android:label="@string/title_activity_test" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity_"
@@ -194,7 +192,7 @@
             android:name=".EntranceActivity_"
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar">
+            android:theme="@style/AppThemeNoActionbar" >
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -307,7 +305,7 @@
             android:icon="@drawable/app_icon"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -542,7 +540,7 @@
         <receiver
             android:name=".MyPushReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
 
             <!-- TODO exproted 设为 false 会被360拦截，有时间看看原因 -->
             <intent-filter>
@@ -589,7 +587,7 @@
             android:label="@string/title_activity_reset_password"
             android:screenOrientation="portrait" />
 
-        <receiver android:name=".message.MessageReceiver">
+        <receiver android:name=".message.MessageReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -715,25 +713,30 @@
         <activity
             android:name=".maopao.InformMaopaoActivity_"
             android:label="@string/title_activity_inform_maopao"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".maopao.share.ShareSinaHelpActivity"
             android:label="@string/title_activity_share_sina_help"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull"></activity>
+            android:theme="@style/TranslateThemeFull" />
         <activity
             android:name=".login.ZhongQiuGuideActivity"
             android:label="@string/title_activity_zhong_qiu_guide"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull"></activity>
+            android:theme="@style/TranslateThemeFull" />
         <activity
             android:name=".Test2Activity"
             android:label="@string/title_activity_test2"
-            android:theme="@style/TranslateTheme"></activity>
+            android:theme="@style/TranslateTheme" />
         <activity
             android:name=".project.git.ForksListActivity_"
             android:label="@string/title_activity_forks_list"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.file.LocalProjectFileActivity_"
+            android:label="@string/title_activity_local_project_file"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

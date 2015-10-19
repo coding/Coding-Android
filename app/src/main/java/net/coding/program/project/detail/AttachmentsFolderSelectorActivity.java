@@ -19,10 +19,10 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFolderObject;
 
@@ -91,18 +91,8 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.project_attachment_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
+            ViewHolder holder = ViewHolder.instance(convertView, parent);
+
             AttachmentFolderObject data = mData.get(position);
             //holder.name.setText(data.getNameCount());
             holder.name.setText(data.name);
@@ -123,7 +113,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 loadMore();
             }*/
 
-            return convertView;
+            return holder.getRootView();
         }
 
     };
@@ -289,7 +279,6 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 }
 
                 mDefaultData.addAll(mData);
-
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
@@ -317,11 +306,35 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         }
     }
 
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        CheckBox checkBox;
-        RelativeLayout more;
+    public static class ViewHolder {
+        public ImageView icon;
+        public TextView name;
+        public CheckBox checkBox;
+        public RelativeLayout more;
+        View rootView;
+
+        public View getRootView() {
+            return rootView;
+        }
+
+        public static ViewHolder instance(View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_attachment_list_item, parent, false);
+                holder = new ViewHolder();
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
+                holder.rootView = convertView;
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            return holder;
+
+        }
     }
 
 }

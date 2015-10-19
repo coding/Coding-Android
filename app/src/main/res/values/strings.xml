@@ -153,5 +153,6 @@
     <string name="title_activity_zhong_qiu_guide">ZhongQiuGuideActivity</string>
     <string name="title_activity_test2">Test2Activity</string>
     <string name="title_activity_forks_list">ForksListActivity</string>
+    <string name="title_activity_local_project_file">已缓存的文件</string>
 
 </resources>
