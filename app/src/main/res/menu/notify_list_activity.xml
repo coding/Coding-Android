@@ -4,7 +4,8 @@
 
     <item
         android:id="@+id/markRead"
-        android:title="标记所有为已读"
+        android:title="全部标注已读"
+        android:icon="@drawable/ic_menu_notify_read_all"
         app:showAsAction="never" />
 
 </menu>

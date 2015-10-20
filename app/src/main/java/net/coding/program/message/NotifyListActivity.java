@@ -52,31 +52,31 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
     static {
         final int DEFAULT_BG = 0xFF14A9DA;
 
-//        sHashMap.put("ProjectMember", new Pair<>(R.drawable.ic_notify_project_member, 0xFF1AB6D9));
-//        sHashMap.put("BranchMember", new Pair<>(R.drawable.ic_notify_branch_member, 0xFF1AB6D9));
-//        sHashMap.put("Depot", new Pair<>(R.drawable.ic_notify_depot, DEFAULT_BG));
-//        sHashMap.put("Task", new Pair<>(R.drawable.ic_notify_task, 0xFF379FD3));
-//        sHashMap.put("ProjectFile", new Pair<>(R.drawable.ic_notify_project_file, 0xff112233));
-//        sHashMap.put("QcTask", new Pair<>(R.drawable.ic_notify_qc_task, 0xFF3C8CEA));
-//        sHashMap.put("ProjectTopic", new Pair<>(R.drawable.ic_notify_project_topic, 0xFF2FAEEA));
-//        sHashMap.put("Project", new Pair<>(R.drawable.ic_notify_project, 0xFFF8BE46));
 //        sHashMap.put("ProjectStar", new Pair<>(R.drawable.ic_notify_project_star, 0xff112233));
+//        sHashMap.put("ProjectFile", new Pair<>(R.drawable.ic_notify_project_file, 0xff112233));
 //        sHashMap.put("ProjectWatcher", new Pair<>(R.drawable.ic_notify_project_watcher, 0xff112233));
-//        sHashMap.put("PullRequestComment", new Pair<>(R.drawable.ic_notify_pull_request_comment, 0xFF49C9A7));
-//        sHashMap.put("PullRequestBean", new Pair<>(R.drawable.ic_notify_pull_request_bean, 0xff112233));
-//        sHashMap.put("Tweet", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
-//        sHashMap.put("TweetComment", new Pair<>(R.drawable.ic_notify_tweet_comment, 0xFFFB8638));
-//        sHashMap.put("TweetLike", new Pair<>(R.drawable.ic_notify_tweet_like, 0xFFFF5847));
-//        sHashMap.put("MergeRequestBean", new Pair<>(R.drawable.ic_notify_merge_request_bean, 0xFF4E74B7));
-//        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, 0xFF3BBD79));
-//        sHashMap.put("User", new Pair<>(R.drawable.ic_notify_user, 0xFF496AB3));
-//        sHashMap.put("TaskComment", new Pair<>(R.drawable.ic_notify_task_comment, 0xFF379FD3));
-//        sHashMap.put("CommitLineNote", new Pair<>(R.drawable.ic_notify_commit_line_note, DEFAULT_BG));
-//        sHashMap.put("MergeRequestComment", new Pair<>(R.drawable.ic_notify_merge_request_comment, 0xFF4E74B7));
-//        sHashMap.put("ProjectFileComment", new Pair<>(R.drawable.ic_notify_project_file_comment, DEFAULT_BG));
-//        sHashMap.put("ProjectPayment", new Pair<>(R.drawable.ic_notify_project_payment, DEFAULT_BG));
-//        sHashMap.put("ProjectTweet", new Pair<>(R.drawable.ic_notify_project_tweet, 0xFFFB8638));
-//        sHashMap.put("ProjectTweetComment", new Pair<>(R.drawable.ic_notify_project_tweet_comment, 0xFFFB8638));
+        sHashMap.put("ProjectMember", new Pair<>(R.drawable.ic_notify_project_member, 0xFF1AB6D9));
+        sHashMap.put("BranchMember", new Pair<>(R.drawable.ic_notify_branch_member, 0xFF1AB6D9));
+        sHashMap.put("Depot", new Pair<>(R.drawable.ic_notify_depot, DEFAULT_BG));
+        sHashMap.put("Task", new Pair<>(R.drawable.ic_notify_task, 0xFF379FD3));
+        sHashMap.put("PullRequestComment", new Pair<>(R.drawable.ic_notify_pull_request_comment, 0xFF49C9A7));
+        sHashMap.put("QcTask", new Pair<>(R.drawable.ic_notify_qc_task, 0xFF3C8CEA));
+        sHashMap.put("ProjectTopic", new Pair<>(R.drawable.ic_notify_project_topic, 0xFF2FAEEA));
+        sHashMap.put("Project", new Pair<>(R.drawable.ic_notify_project, 0xFFF8BE46));
+        sHashMap.put("PullRequestBean", new Pair<>(R.drawable.ic_notify_pull_request_bean, 0xff112233));
+        sHashMap.put("Tweet", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
+        sHashMap.put("TweetComment", new Pair<>(R.drawable.ic_notify_tweet_comment, 0xFFFB8638));
+        sHashMap.put("TweetLike", new Pair<>(R.drawable.ic_notify_tweet_like, 0xFFFF5847));
+        sHashMap.put("MergeRequestBean", new Pair<>(R.drawable.ic_notify_merge_request_bean, 0xFF4E74B7));
+        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, 0xFF3BBD79));
+        sHashMap.put("User", new Pair<>(R.drawable.ic_notify_user, 0xFF496AB3));
+        sHashMap.put("TaskComment", new Pair<>(R.drawable.ic_notify_task_comment, 0xFF379FD3));
+        sHashMap.put("CommitLineNote", new Pair<>(R.drawable.ic_notify_commit_line_note, DEFAULT_BG));
+        sHashMap.put("MergeRequestComment", new Pair<>(R.drawable.ic_notify_merge_request_comment, 0xFF4E74B7));
+        sHashMap.put("ProjectFileComment", new Pair<>(R.drawable.ic_notify_project_file_comment, DEFAULT_BG));
+        sHashMap.put("ProjectPayment", new Pair<>(R.drawable.ic_notify_project_payment, DEFAULT_BG));
+        sHashMap.put("ProjectTweet", new Pair<>(R.drawable.ic_notify_project_tweet, 0xFFFB8638));
+        sHashMap.put("ProjectTweetComment", new Pair<>(R.drawable.ic_notify_project_tweet_comment, 0xFFFB8638));
     }
 
     int defaultIcon = R.drawable.ic_notify_at;
@@ -123,8 +123,12 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                 holder.title.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.root = convertView;
+                holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.name.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+                holder.detailLayout = convertView.findViewById(R.id.detailLayout);
+                holder.detail = (TextView) convertView.findViewById(R.id.detail);
+                holder.detail.setMovementMethod(LongClickLinkMovementMethod.getInstance());
                 holder.badge = convertView.findViewById(R.id.badge);
-
 
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -194,19 +198,119 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 //                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
 //
 //            } else {
-                holder.icon.setImageResource(R.drawable.ic_notify_unknown);
+//                holder.icon.setImageResource(R.drawable.ic_notify_unknown);
 //            }
 
-            Pair iconItem = sHashMap.get(itemType);
+            Pair<Integer, Integer> iconItem = sHashMap.get(itemType);
             if (iconItem == null) {
-                iconItem = new Pair(R.drawable.ic_notify_unknown, 0xFF14A9DA);
+                iconItem = new Pair<>(R.drawable.ic_notify_unknown, 0xFF14A9DA);
             }
 
+            holder.icon.setImageResource(iconItem.first);
+            holder.icon.setBackgroundColor(iconItem.second);
 
+            String hrefBegin = "<a href=";
+            String hrefEnd = "</a>";
+            int firstStart = title.indexOf(hrefBegin);
+            int firstEnd = title.indexOf(hrefEnd, firstStart);
 
+            if (firstStart != -1 && firstEnd != -1) {
+                String firstLink = title.substring(firstStart, firstEnd + hrefEnd.length());
+                holder.name.setText(Global.changeHyperlinkColor(firstLink));
+
+                title = title.replaceFirst(firstLink, "");
+                int lastEnd = title.lastIndexOf(hrefEnd);
+                int lastStart = title.lastIndexOf(hrefBegin, lastEnd);
+
+                if (lastStart != -1 && lastEnd != -1) { // 至少两个链接
+                    int last = lastEnd + hrefEnd.length();
+                    String thirdLink = title.substring(lastStart, last);
+                    holder.detailLayout.setVisibility(View.VISIBLE);
+                    holder.detail.setText(Global.changeHyperlinkColor(thirdLink, 0xFF222222));
+
+                    StringBuilder b = new StringBuilder(title);
+                    b.replace(lastStart, last, "");
+                    title = b.toString();
+
+                } else {
+                    holder.detailLayout.setVisibility(View.GONE);
+                }
+
+            } else {
+                holder.detailLayout.setVisibility(View.GONE);
+                holder.name.setText("");
+            }
 
             holder.title.setText(Global.changeHyperlinkColor(title));
-            holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);
+
+
+
+//            if (urlSpan.length >= 2) {
+//                StringBuffer sb = new StringBuffer(ttt);
+//
+//                URLSpan spanLast = urlSpan[urlSpan.length - 1];
+//                int spanLastStart = text.getSpanStart(spanLast);
+//                int spanLastEnd = text.getSpanEnd(spanLast);
+//                String nameString = title.substring(spanLastStart, spanLastEnd);
+//                Spannable spanName = (Spannable) Html.fromHtml(nameString);
+//                spanName.setSpan(spanLast, 0, spanName.length(), 0);
+//
+//                StringBuffer detalBuffer = sb.delete(spanLastStart, spanLastEnd);
+//
+//                URLSpan spanFirst = urlSpan[0];
+//                int spanFirstStart = text.getSpanStart(spanFirst);
+//                int spanFirstEnd = text.getSpanEnd(spanFirst);
+//                StringBuffer nameBuffer = sb.delete(spanFirstStart, spanFirstEnd);
+//
+//                holder.title.setText(Global.changeHyperlinkColor(sb.toString()));
+//                holder.detail.setText(Global.changeHyperlinkColor(detalBuffer.toString()));
+//            } else if (urlSpan.length == 1) {
+//
+//            } else {
+//
+//            }
+//
+//            if (urlSpan.length >= 2) {
+//
+//
+//                StringBuffer sb = new StringBuffer(ttt);
+//
+//                URLSpan spanLast = urlSpan[urlSpan.length - 1];
+//                int spanLastStart = text.getSpanStart(spanLast);
+//                int spanLastEnd = text.getSpanEnd(spanLast);
+//
+//
+//                URLSpan spanFirst = urlSpan[0];
+//                int spanFirstStart = text.getSpanStart(spanFirst);
+//                int spanFirstEnd = text.getSpanEnd(spanFirst);
+//                String nameString = tttString.substring(spanFirstStart, spanFirstEnd);
+//                Spannable nameSpan = new SpannableString(nameString);
+//                nameSpan.setSpan(spanFirst, 0, nameSpan.length(), 0);
+//                holder.name.setText(nameSpan);
+//
+//                holder.title.setText(Global.changeHyperlinkColor(sb.toString()));
+////                holder.detail.setText(Global.changeHyperlinkColor(detalBuffer.toString()));
+//            } else if (urlSpan.length == 1) {
+//
+//            } else {
+//
+//            }
+
+//
+//
+//            out.append("<a href=\"");
+//            out.append(((URLSpan) style[j]).getURL());
+//            out.append("\">");
+//            title.
+
+
+//            URLSpan[] urlSpans = text.getSpans(0, text.length(), URLSpan.class);
+//            for (URLSpan item : urlSpans) {
+//                text.removeSpan(item);
+//            }
+//            holder.title.setText(text);
+//            holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);
+
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
 
             if (position == (mData.size() - 1)) {
@@ -216,7 +320,10 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
             return convertView;
         }
 
+
+
     };
+
 
     @AfterViews
     protected final void initNotifyListActivity() {
@@ -314,6 +421,9 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         public TextView time;
         public View root;
         public View badge;
+        public TextView name;
+        public TextView detail;
+        public View detailLayout;
     }
 
 }

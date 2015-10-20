@@ -5,12 +5,13 @@
     android:paddingBottom="@dimen/list_item_space_height"
     android:paddingLeft="@dimen/list_item_space_width"
     android:paddingRight="@dimen/list_item_space_width"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="net.coding.program.message.NotifyListActivity">
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
         android:layout_width="9dp"
+        android:layout_marginTop="8dp"
         android:layout_height="9dp"
         android:background="@drawable/ic_notify"
         android:gravity="center"
@@ -19,51 +20,66 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="3dp"
         android:layout_marginLeft="@dimen/list_item_space_width"
         android:text="A栋飞等到了"
         android:textColor="@color/font_green"
         android:layout_toRightOf="@id/badge"
+        android:clickable="true"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="3dp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:text="A栋飞等到了"
         android:layout_below="@id/name"
         android:layout_alignLeft="@id/name"
-        android:layout_marginTop="@dimen/list_item_space_height"
+        android:layout_marginTop="12dp"
         android:textColor="@color/font_black_content"
         android:textSize="16sp" />
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="50dp"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/title"
         android:layout_alignLeft="@id/name"
         android:layout_marginTop="@dimen/list_item_space_height"
-        android:background="@color/font_green"
-        android:padding="13dp"
-        android:src="@drawable/ic_notify_at" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="55555"
-        android:textSize="14sp"
-        android:gravity="center_vertical"
-        android:textColor="@color/font_black_2"
-        android:paddingLeft="@dimen/list_item_space_width"
         android:layout_toRightOf="@id/icon"
-        android:background="#eeeeee"
         android:layout_alignTop="@id/icon"
         android:layout_alignBottom="@id/icon"
-        />
+        android:id="@+id/detailLayout"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/icon"
+            android:background="@color/font_green"
+            android:padding="13dp"
+            android:src="@drawable/ic_notify_at" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="55555"
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:id="@+id/detail"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textColor="@color/font_black_2"
+            android:paddingLeft="@dimen/list_item_space_width"
+            android:background="#eeeeee"
+            android:clickable="true"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/time"

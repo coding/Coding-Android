@@ -280,6 +280,10 @@ public class Global {
         return Global.changeHyperlinkColor(content, null, null);
     }
 
+    public static Spannable changeHyperlinkColor(String content, int linkColor) {
+        return changeHyperlinkColor(content, null, tagHandler, linkColor);
+    }
+
     public static Spannable changeHyperlinkColor(String content, int color, MyImageGetter imageGetter) {
         return Global.changeHyperlinkColor(content, imageGetter, null);
     }
