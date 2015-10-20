@@ -4,7 +4,6 @@
     <style name="TranslateThemeFull" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="TranslateTheme" parent="ActionbarNoIcon">
@@ -224,7 +223,6 @@
     </style>
     <style name="ActionbarNoIcon.NoActionBar">
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
     <style name="ActionbarNoIcon.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="ActionbarNoIcon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
