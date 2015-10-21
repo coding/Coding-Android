@@ -29,6 +29,7 @@ import net.coding.program.common.widget.ListItem1;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
+import net.coding.program.project.detail.file.LocalProjectFileActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -175,6 +176,10 @@ public class UserDetailActivity extends BackActivity {
             ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
             ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
             ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
+
+        } else {
+            findViewById(R.id.divideLocal).setVisibility(View.GONE);
+            findViewById(R.id.clickLocal).setVisibility(View.GONE);
         }
 
         followCheckbox.setVisibility(isMe ? View.GONE : View.VISIBLE);
@@ -183,6 +188,9 @@ public class UserDetailActivity extends BackActivity {
 
         findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
         findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
+
+
+
 
         invalidateOptionsMenu();
     }
@@ -374,6 +382,12 @@ public class UserDetailActivity extends BackActivity {
         }
 
         UserProjectActivity_.intent(this).mUserObject(mUserObject).start();
+    }
+
+    @Click
+    public void clickLocal() {
+        LocalProjectFileActivity_.intent(this)
+                .start();
     }
 
     @Click

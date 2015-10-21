@@ -188,6 +188,12 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path + params;
     }
 
+
+    public String getHttpTransferProject(String globalKey) {
+        return Global.HOST_API + backend_project_path + "/transfer_to/" + globalKey;
+    }
+
+
     public String getHttptStargazers() {
         return Global.HOST_API + backend_project_path + "/stargazers";
     }

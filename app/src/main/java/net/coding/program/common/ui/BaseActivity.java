@@ -193,6 +193,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         networkImpl.loadData(url, null, tag, -1, null, NetworkImpl.Request.Delete);
     }
 
+    protected void deleteNetwork(String url, RequestParams params, final String tag) {
+        networkImpl.loadData(url, params, tag, -1, null, NetworkImpl.Request.Delete);
+    }
+
     protected void deleteNetwork(String url, final String tag, Object id) {
         networkImpl.loadData(url, null, tag, -1, id, NetworkImpl.Request.Delete);
     }

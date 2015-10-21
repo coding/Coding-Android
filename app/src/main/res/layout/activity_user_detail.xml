@@ -194,6 +194,17 @@
                 listItem1:itemIcon="@drawable/user_home_topic"
                 listItem1:itemTitle="TA的话题" />
 
+            <include layout="@layout/divide_1_12"
+                android:id="@+id/divideLocal"/>
+
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/clickLocal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                listItem1:itemIcon="@drawable/user_home_local"
+                listItem1:itemTitle="本地文件" />
+
             <include
                 android:id="@+id/pointDivide"
                 layout="@layout/divide_15_top"

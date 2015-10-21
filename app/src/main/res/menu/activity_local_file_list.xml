@@ -1,0 +1,12 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.maopao.MaopaoAddActivity">
+    <item
+        android:id="@+id/action_edit"
+        android:title="编辑"
+        android:icon="@drawable/ic_menu_edit"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+</menu>

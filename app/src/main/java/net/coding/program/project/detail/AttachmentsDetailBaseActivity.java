@@ -57,6 +57,9 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     AttachmentFileObject mAttachmentFileObject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+    @Extra
+    protected File mExtraFile;
+
     String urlDownload = "";
     AsyncHttpClient client;
     String fileInfoFormat =
@@ -78,13 +81,20 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         mFileSaveHelp = new FileSaveHelp(this);
         client = MyAsyncHttpClient.createClient(AttachmentsDetailBaseActivity.this);
 
-        mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
+        if (mExtraFile != null) {
+            mFile = mExtraFile;
+        } else {
+            mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
+        }
 
         findViewById(R.id.layout_dynamic_history).setVisibility(mHideHistory ? View.GONE : View.VISIBLE);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (mExtraFile != null) {
+            return super.onCreateOptionsMenu(menu);
+        }
         getMenuInflater().inflate(getMenuResourceId(), menu);
         if (!mAttachmentFileObject.isOwner()) {
             menu.findItem(R.id.action_delete).setVisible(false);

@@ -14,6 +14,7 @@
             android:layout_height="@dimen/folder_icon_width"
             android:layout_centerVertical="true"
             android:layout_margin="12dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_project_git_folder2" />
 
         <TextView
@@ -22,12 +23,14 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="12dp"
             android:layout_toRightOf="@id/icon"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text="Medium Text"
             android:textColor="@color/font_black_content"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:layout_toLeftOf="@+id/more"
+            android:layout_toStartOf="@+id/more" />
 
         <RelativeLayout
             android:id="@+id/more"

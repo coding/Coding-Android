@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,8 +21,9 @@ import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
@@ -40,6 +40,7 @@ import java.io.File;
 
 /**
  * Created by jack wang on 2015/3/31.
+ * 项目设置页面
  */
 @EFragment(R.layout.init_fragment_project_set)
 @OptionsMenu(R.menu.menu_fragment_create)
@@ -65,7 +66,9 @@ public class ProjectSetFragment extends BaseFragment {
     EditText description;
     @ViewById
     View item;
-    @ViewById(R.id.title)
+    @ViewById
+    View itemTransfer;
+
     TextView advanceText;
     private Uri fileUri;
     private Uri fileCropUri;
@@ -73,23 +76,18 @@ public class ProjectSetFragment extends BaseFragment {
     @AfterViews
     protected void init() {
         mProjectObject = (ProjectObject) getArguments().getSerializable("projectObject");
-        advanceText.setText("高级设置");
+
+        ((TextView) itemTransfer.findViewById(R.id.title)).setText("项目转让");
+
+        advanceText = (TextView) item.findViewById(R.id.title);
+        advanceText.setText("删除项目");
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         description.setText(mProjectObject.description);
         if (!mProjectObject.isPublic()) {
             iconPrivate.setVisibility(View.VISIBLE);
         }
-        description.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+        description.addTextChangedListener(new SimpleTextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -133,10 +131,19 @@ public class ProjectSetFragment extends BaseFragment {
 
 
     @Click
-    void item() {
-        Intent intent = new Intent(getActivity(), ProjectAdvanceSetActivity_.class);
-        intent.putExtra("projectObject", mProjectObject);
-        startActivity(intent);
+    public void item() {
+        ProjectAdvanceSetActivity_
+                .intent(this)
+                .mProjectObject(mProjectObject)
+                .start();
+    }
+
+    @Click
+    public void itemTransfer() {
+        ProjectTransferActivity_
+                .intent(this)
+                .mProjectObject(mProjectObject)
+                .start();
     }
 
     @Override

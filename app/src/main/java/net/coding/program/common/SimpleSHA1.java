@@ -28,7 +28,14 @@ public class SimpleSHA1 {
         return convertToHex(sha1hash);
     }
 
-    public static String sha1(String s) throws Exception {
-        return SHA1(s);
+    public static String sha1(String s) {
+        try {
+            return SHA1(s);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+        return "";
     }
+
 }

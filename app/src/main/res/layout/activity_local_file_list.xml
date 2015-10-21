@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/divide"
+    tools:context="net.coding.program.project.detail.file.LocalFileListActivity">
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/stand_bg"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false" />
+
+    <FrameLayout
+        android:id="@+id/common_files_delete"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:background="@color/stand_bg"
+        android:layout_height="48dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/project_file_action_delete"
+            android:drawablePadding="@dimen/project_action_icon_text"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/font_black_6"
+            android:textSize="16sp" />
+
+        <include layout="@layout/divideline_e2" />
+    </FrameLayout>
+
+</LinearLayout>

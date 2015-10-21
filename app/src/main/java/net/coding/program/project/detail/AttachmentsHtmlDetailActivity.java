@@ -2,6 +2,7 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -52,22 +53,32 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     String urlMdPreview = Global.HOST_API + "/markdown/preview";
     AttachmentFileObject mFiles = new AttachmentFileObject();
     String markdown;
-    boolean downloadFileSuccess = false;
 
     @AfterViews
     void initAttachmentsHtmlDetailActivity() {
+        textView.setMovementMethod(new ScrollingMovementMethod());
+
         try {
             markdown = readTextFile(getAssets().open("markdown"));
         } catch (Exception e) {
             Global.errorLog(e);
         }
 
-        urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-
         Global.initWebView(webview);
 
-        showDialogLoading();
-        updateLoadFile();
+        if (mExtraFile != null) {
+            try {
+                requestMd2Html(TxtEditActivity.readPhoneNumber(mExtraFile));
+                findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
+            } catch (Exception e) {
+                showButtomToast("读取文件错误");
+                finish();
+            }
+        } else {
+            urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
+            showDialogLoading();
+            updateLoadFile();
+        }
     }
 
     @Override

@@ -50,6 +50,8 @@ public class TestActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        onClick2(null);
     }
 
     public void click1(View v) {

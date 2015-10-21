@@ -41,12 +41,17 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
     @AfterViews
     protected final void initAttachmentsTextDetailActivity() {
-        urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-        if (mFile.exists()) {
-            textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+        if (mExtraFile != null) {
+            textView.setText(TxtEditActivity.readPhoneNumber(mExtraFile));
+            findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
         } else {
-            showDialogLoading();
-            getFileUrlFromNetwork();
+            urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
+            if (mFile.exists()) {
+                textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+            } else {
+                showDialogLoading();
+                getFileUrlFromNetwork();
+            }
         }
     }
 

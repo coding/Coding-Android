@@ -318,6 +318,10 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         }
 
         public static ViewHolder instance(View convertView, ViewGroup parent) {
+            return instance(convertView, parent, null);
+        }
+
+        public static ViewHolder instance(View convertView, ViewGroup parent, CompoundButton.OnCheckedChangeListener onCheckedChange) {
             ViewHolder holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_attachment_list_item, parent, false);
@@ -325,6 +329,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+                holder.checkBox.setOnCheckedChangeListener(onCheckedChange);
                 holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
                 holder.rootView = convertView;
                 convertView.setTag(holder);

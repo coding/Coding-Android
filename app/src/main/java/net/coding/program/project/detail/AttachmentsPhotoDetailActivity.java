@@ -39,7 +39,15 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     }
 
     private void updateDisplay() {
-        if (mFile.exists()) {
+        if (mExtraFile != null) {
+
+            String filePath = "file://" + mExtraFile.getPath();
+            imagefromNetwork(imageView, filePath, ImageLoadTool.enterOptions);
+            layout_image_prototype.setVisibility(View.GONE);
+            layout_dynamic_history.setVisibility(View.VISIBLE);
+            findViewById(R.id.bottomPanel).setVisibility(View.GONE);
+
+        } else if (mFile.exists()) {
             String filePath = "file://" + mFile.getPath();
             imagefromNetwork(imageView, filePath, ImageLoadTool.enterOptions);
             layout_image_prototype.setVisibility(View.GONE);

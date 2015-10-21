@@ -188,7 +188,6 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -738,6 +737,16 @@
             android:name=".project.detail.file.LocalProjectFileActivity_"
             android:label="@string/title_activity_local_project_file"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".project.detail.file.LocalFileListActivity_"
+            android:label="@string/title_activity_local_file_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".project.init.setting.ProjectTransferActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_project_transfer" >
         </activity>
     </application>
 

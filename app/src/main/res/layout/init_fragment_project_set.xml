@@ -67,6 +67,13 @@
     <include layout="@layout/divide_15_top_bottom" />
 
     <include
+        android:id="@+id/itemTransfer"
+        layout="@layout/init_common_item" />
+
+    <include
+        layout="@layout/divide_1_12" />
+
+    <include
         android:id="@+id/item"
         layout="@layout/init_common_item" />
 

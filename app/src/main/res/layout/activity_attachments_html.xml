@@ -12,8 +12,10 @@
         android:layout_weight="1"
         tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
 
+
         <TextView
             android:id="@+id/textView"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/padding_15" />
