@@ -1,5 +1,6 @@
 package net.coding.program.message;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ public class EmojiFragment extends Fragment {
     private EnterLayout mEnterLayout;
 
     private Type mType;
-    private int mItemLayout;
+    private int mItemLayout = R.layout.gridview_emotion_emoji;
     private int mGridViewColumns;
 
     public static HashMap<String, String> emojiMonkeyMap = new HashMap<String, String>();
@@ -155,12 +156,13 @@ public class EmojiFragment extends Fragment {
         mEnterLayout = enterLayout;
 
         mType = type;
-        if (type == Type.Small) {
-            mItemLayout = R.layout.gridview_emotion_emoji;
-            mGridViewColumns = 7;
-        } else if (type == Type.Big || type == Type.Zhongqiu) {
+        if (type == Type.Big || type == Type.Zhongqiu) {
             mItemLayout = R.layout.gridview_emotion_big;
             mGridViewColumns = 4;
+        } else {
+//            if (type == Type.Small) {
+                mItemLayout = R.layout.gridview_emotion_emoji;
+                mGridViewColumns = 7;
         }
     }
 
@@ -168,22 +170,35 @@ public class EmojiFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArray("mEmojiData", mEmojiData);
+        outState.putInt("deletePos", deletePos);
+        outState.putSerializable("mType", mType);
+        outState.putInt("mItemLayout", mItemLayout);
+        outState.putInt("mGridViewColumns", mGridViewColumns);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         mInflater = inflater;
         View v = inflater.inflate(R.layout.emoji_gridview, container, false);
 
         if (savedInstanceState != null) {
             mEmojiData = savedInstanceState.getStringArray("mEmojiData");
+            deletePos = savedInstanceState.getInt("deletePos");
+            mType = (EmojiFragment.Type) savedInstanceState.getSerializable("mType");
+            mItemLayout = savedInstanceState.getInt("mItemLayout");
+            mGridViewColumns = savedInstanceState.getInt("mGridViewColumns");
+
+            myImageGetter = new MyImageGetter(getActivity());
+            Activity activity = getActivity();
+            if (activity instanceof EnterEmojiLayout) {
+                mEnterLayout = ((EnterEmojiLayout) activity).getEnterLayout();
+            }
         }
 
         GridView gridView = (GridView) v.findViewById(R.id.gridView);
         gridView.setNumColumns(mGridViewColumns);
-
         gridView.setAdapter(adapterIcon);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -253,5 +268,9 @@ public class EmojiFragment extends Fragment {
             public View icon;
         }
     };
+
+    public interface EnterEmojiLayout {
+        public EnterLayout getEnterLayout();
+    }
 
 }

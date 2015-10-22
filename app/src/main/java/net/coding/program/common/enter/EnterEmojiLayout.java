@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -722,6 +723,14 @@ public class EnterEmojiLayout extends EnterLayout {
         public int getCount() {
             return emojiIcons.length;
         }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {}
     }
 
     class MonkeyPagerAdapter extends FragmentStatePagerAdapter {
@@ -741,6 +750,14 @@ public class EnterEmojiLayout extends EnterLayout {
         public int getCount() {
             return monkeyIcons.length;
         }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {}
     }
 
     class ZhongqiuPagerAdapter extends FragmentStatePagerAdapter {
@@ -760,6 +777,14 @@ public class EnterEmojiLayout extends EnterLayout {
         public int getCount() {
             return zhongqiuIcons.length;
         }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {}
     }
 
 }

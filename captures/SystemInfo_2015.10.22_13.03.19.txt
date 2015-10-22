@@ -1,0 +1,107 @@
+TASK net.coding.program id=588
+  ACTIVITY net.coding.program/.MainActivity_ 92b4993 pid=26407
+    Local FragmentActivity f7483cb State:
+      mCreated=truemResumed=false mStopped=true mReallyStopped=true
+      mLoadersStarted=false
+    Active Fragments in 37047f0a:
+      #0: NavigationDrawerFragment_{175b537b #0 id=0x7f0d00be}
+        mFragmentId=#7f0d00be mContainerId=#0 mTag=null
+        mState=2 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+        mAdded=true mRemoving=false mResumed=false mFromLayout=true mInLayout=true
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=true
+        mRetainInstance=false mRetaining=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{37047f0a in MainActivity_{f7483cb}}
+        mActivity=net.coding.program.MainActivity_@f7483cb
+        mSavedViewState={2131558522=android.view.AbsSavedState$1@11743598, 2131558650=android.view.AbsSavedState$1@11743598, 2131558717=android.view.AbsSavedState$1@11743598, 2131558718=android.view.AbsSavedState$1@11743598, 2131558860=android.view.AbsSavedState$1@11743598, 2131558861=android.view.AbsSavedState$1@11743598, 2131558862=android.view.AbsSavedState$1@11743598, 2131558863=android.view.AbsSavedState$1@11743598, 2131558864=android.view.AbsSavedState$1@11743598, 2131558865=CompoundButton.SavedState{225f51f1 checked=false}, 2131558866=android.view.AbsSavedState$1@11743598, 2131558867=CompoundButton.SavedState{3ef381d6 checked=false}, 2131558868=CompoundButton.SavedState{c1ac57 checked=false}, 2131558869=CompoundButton.SavedState{37431344 checked=true}, 2131558870=android.view.AbsSavedState$1@11743598, 2131558871=CompoundButton.SavedState{22061c2d checked=false}, 2131558872=android.view.AbsSavedState$1@11743598}
+        mView=android.support.v4.app.NoSaveStateFrameLayout{10fde562 V.E..... ......I. 0,0-0,0 #7f0d00be app:id/navigation_drawer}
+        mInnerView=android.support.v4.app.NoSaveStateFrameLayout{10fde562 V.E..... ......I. 0,0-0,0 #7f0d00be app:id/navigation_drawer}
+        Child FragmentManager{23cab6f3 in NavigationDrawerFragment_{175b537b}}:
+          FragmentManager misc state:
+            mActivity=net.coding.program.MainActivity_@f7483cb
+            mContainer=android.support.v4.app.Fragment$1@34001fb0
+            mParent=NavigationDrawerFragment_{175b537b #0 id=0x7f0d00be}
+            mCurState=2 mStateSaved=true mDestroyed=false
+      #1: UsersListFragment_{1fd54e29 #1 id=0x7f0d0006}
+        mFragmentId=#7f0d0006 mContainerId=#7f0d0006 mTag=null
+        mState=2 mIndex=1 mWho=android:fragment:1 mBackStackNesting=0
+        mAdded=true mRemoving=false mResumed=false mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=true
+        mRetainInstance=false mRetaining=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{37047f0a in MainActivity_{f7483cb}}
+        mActivity=net.coding.program.MainActivity_@f7483cb
+        mSavedViewState={2131558481=android.view.AbsSavedState$1@11743598, 2131558521=AbsListView.SavedState{2858f5ae selectedId=-1 firstId=-1 viewTop=0 position=0 height=0 filter=null checkState=null}, 2131558537=android.view.AbsSavedState$1@11743598, 2131558603=android.view.AbsSavedState$1@11743598, 2131558618=android.view.AbsSavedState$1@11743598, 2131559192=android.view.AbsSavedState$1@11743598}
+        mContainer=android.widget.FrameLayout{3b4fcf4f V.E..... ......I. 0,0-0,0 #7f0d0006 app:id/container}
+        mView=android.support.v4.app.NoSaveStateFrameLayout{383f86dc V.E..... ......I. 0,0-0,0}
+        mInnerView=android.support.v4.app.NoSaveStateFrameLayout{383f86dc V.E..... ......I. 0,0-0,0}
+        Child FragmentManager{384ba3e5 in UsersListFragment_{1fd54e29}}:
+          FragmentManager misc state:
+            mActivity=net.coding.program.MainActivity_@f7483cb
+            mContainer=android.support.v4.app.Fragment$1@2c42beba
+            mParent=UsersListFragment_{1fd54e29 #1 id=0x7f0d0006}
+            mCurState=2 mStateSaved=true mDestroyed=false
+    Added Fragments:
+      #0: NavigationDrawerFragment_{175b537b #0 id=0x7f0d00be}
+      #1: UsersListFragment_{1fd54e29 #1 id=0x7f0d0006}
+    Fragments Created Menus:
+      #0: NavigationDrawerFragment_{175b537b #0 id=0x7f0d00be}
+      #1: UsersListFragment_{1fd54e29 #1 id=0x7f0d0006}
+    FragmentManager misc state:
+      mActivity=net.coding.program.MainActivity_@f7483cb
+      mContainer=android.support.v4.app.FragmentActivity$2@2c64116b
+      mCurState=2 mStateSaved=true mDestroyed=false
+    View Hierarchy:
+      com.android.internal.policy.impl.PhoneWindow$DecorView{7ac34c8 V.E..... ... 0,0-0,0}
+        android.widget.FrameLayout{17179961 V.E..... ... 0,0-0,0}
+          android.widget.FrameLayout{7ce0c86 V.E..... ... 0,0-0,0}
+            android.support.v7.internal.widget.FitWindowsLinearLayout{10305947 V.ED.... ... 0,0-0,0 #7f0d0057 app:id/action_bar_root}
+              android.support.v7.internal.widget.ViewStubCompat{33b3d574 G.E..... ... 0,0-0,0 #7f0d0058 app:id/action_mode_bar_stub}
+              android.support.v7.internal.widget.NativeActionModeAwareLayout{1a536a9d V.E..... ... 0,0-0,0 #1020002 android:id/content}
+                android.support.v4.widget.DrawerLayout{326e6b12 VFED.... ... 0,0-0,0 #7f0d009f app:id/drawer_layout}
+                  android.widget.LinearLayout{3f8f42e3 V.ED.... ... 0,0-0,0}
+                    android.support.v7.widget.Toolbar{14f2d4e0 V.E..... ... 0,0-0,0 #7f0d009e app:id/toolbar}
+                      android.widget.TextView{2d811399 V.ED.... ... 0,0-0,0}
+                      android.support.v7.widget.ActionMenuView{3544265e V.E..... ... 0,0-0,0}
+                        android.support.v7.internal.view.menu.ActionMenuItemView{3c692a3f VFED..CL ... 0,0-0,0 #7f0d0133 app:id/action_add}
+                      android.widget.ImageButton{2f605f0c VFED..C. F.. 0,0-0,0}
+                    android.widget.FrameLayout{3b4fcf4f V.E..... ... 0,0-0,0 #7f0d0006 app:id/container}
+                      android.support.v4.app.NoSaveStateFrameLayout{383f86dc V.E..... ... 0,0-0,0}
+                        android.widget.RelativeLayout{18465055 V.E..... ... 0,0-0,0}
+                          android.support.v4.widget.SwipeRefreshLayout{39284a6a V.ED.... ... 0,0-0,0 #7f0d00cb app:id/swipeRefreshLayout}
+                            android.support.v4.widget.CircleImageView{14d02b5b G.ED.... ... 0,0-0,0}
+                            android.widget.ListView{2d3a5ff8 VFED.VCL ... 0,0-0,0 #7f0d0079 app:id/listView}
+                          android.widget.LinearLayout{3ce89cd1 I.ED.... ... 0,0-0,0 #7f0d0089 app:id/blankLayout}
+                            android.view.View{2978a336 V.ED.... ... 0,0-0,0 #7f0d0051 app:id/icon}
+                            android.widget.TextView{1bdc2237 V.ED.... ... 0,0-0,0 #7f0d00da app:id/message}
+                            android.widget.Button{1cb183a4 VFED..C. ... 0,0-0,0 #7f0d0318 app:id/btnRetry}
+                  android.support.v4.app.NoSaveStateFrameLayout{10fde562 V.E..... ... 0,0-0,0 #7f0d00be app:id/navigation_drawer}
+                    android.widget.ScrollView{289350d VFED.V.. ... 0,0-0,0}
+                      android.widget.LinearLayout{37a3bcc2 V.ED.... ... 0,0-0,0}
+                        android.widget.RelativeLayout{1446aad3 V.E...C. ... 0,0-0,0 #7f0d01cc app:id/userInfo}
+                          android.widget.ImageView{1c553610 V.ED.... ... 0,0-0,0}
+                          android.widget.RelativeLayout{27211509 V.E..... ... 0,0-0,0 #7f0d01cd app:id/circleLayout}
+                            de.hdodenhof.circleimageview.CircleImageView{407a575 V.ED..C. ... 0,0-0,0 #7f0d00fa app:id/circleIcon}
+                          android.widget.TextView{b74e30e V.ED.... ... 0,0-0,0 #7f0d007a app:id/name}
+                          android.widget.TextView{28c7212f G.ED.... ... 0,0-0,0 #7f0d01ce app:id/sign}
+                        android.widget.LinearLayout{223fa33c G.ED.... ... 0,0-0,0}
+                          android.widget.LinearLayout{353cf8c5 V.ED.... ... 0,0-0,0 #7f0d01cf app:id/fansLayout}
+                            android.widget.TextView{2c20221a V.ED.... ... 0,0-0,0}
+                            android.widget.TextView{e2ea14b V.ED.... ... 0,0-0,0 #7f0d013d app:id/fans}
+                          android.view.View{a01b728 V.ED.... ... 0,0-0,0}
+                          android.widget.LinearLayout{19795c41 V.ED.... ... 0,0-0,0 #7f0d01d0 app:id/followsLayout}
+                            android.widget.TextView{2e0e45e6 V.ED.... ... 0,0-0,0}
+                            android.widget.TextView{2b440727 V.ED.... ... 0,0-0,0 #7f0d013e app:id/follows}
+                        android.widget.LinearLayout{154f1dd4 V.ED.... ... 0,0-0,0}
+                          android.widget.RelativeLayout{13be7b7d V.E..... ... 0,0-0,0}
+                            android.widget.RadioButton{3168da72 VFED..C. ... 0,0-0,0 #7f0d01d1 app:id/radio0}
+                            com.readystatesoftware.viewbadger.BadgeView{225feec3 I.ED.... ... 0,0-0,0 #7f0d01d2 app:id/badge0}
+                          android.widget.RadioButton{b6a4340 VFED..C. ... 0,0-0,0 #7f0d01d3 app:id/radio1}
+                          android.widget.RadioButton{3c5279 VFED..C. ... 0,0-0,0 #7f0d01d4 app:id/radio2}
+                          android.widget.RelativeLayout{3d662bbe V.E..... ... 0,0-0,0}
+                            android.widget.RadioButton{18c8b41f VFED..C. ... 0,0-0,0 #7f0d01d5 app:id/radio3}
+                            com.readystatesoftware.viewbadger.BadgeView{2350536c I.ED.... ... 0,0-0,0 #7f0d01d6 app:id/badge3}
+                          android.view.View{34269d35 V.ED.... ... 0,0-0,0}
+                          android.widget.RadioButton{45545ca VFED..C. ... 0,0-0,0 #7f0d01d7 app:id/radio4}
+                          android.widget.Button{17ce733b VFED..C. ... 0,0-0,0 #7f0d01d8 app:id/buttonFeedback}
+          android.view.ViewStub{24a53a58 G.E..... ... 0,0-0,0 #1020373}
+        android.view.View{2a30d7b1 V.ED.... ... 0,0-0,0 #102002f android:id/statusBarBackground}
+        android.view.View{1c69f496 V.ED.... ... 0,0-0,0 #1020030 android:id/navigationBarBackground}

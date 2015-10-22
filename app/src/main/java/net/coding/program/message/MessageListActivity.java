@@ -76,7 +76,8 @@ import java.util.Calendar;
 //@OptionsMenu(R.menu.message_list)
 public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
         StartActivity, EnterLayout.CameraAndPhoto, Handler.Callback,EnterVoiceLayout.VoiceRecordCompleteCallback,
-        ContentAreaImages.VoicePlayCallBack, EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack{
+        ContentAreaImages.VoicePlayCallBack, EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack,
+        EmojiFragment.EnterEmojiLayout {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -956,6 +957,10 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         }
     }
 
+    @Override
+    public EnterLayout getEnterLayout() {
+        return mEnterLayout;
+    }
 
     public static class MyMessage extends Message.MessageObject implements Serializable {
 
@@ -992,7 +997,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         TextView time;
         ImageView icon;
         ContentArea contentArea;
-
 
         View resend;
         View sending;

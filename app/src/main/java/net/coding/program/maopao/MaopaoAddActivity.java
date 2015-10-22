@@ -29,6 +29,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.LoginActivity_;
@@ -47,6 +48,7 @@ import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.LocationCoord;
+import net.coding.program.message.EmojiFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
@@ -68,7 +70,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_maopao_add)
-public class MaopaoAddActivity extends BackActivity implements StartActivity {
+public class MaopaoAddActivity extends BackActivity implements StartActivity, EmojiFragment.EnterEmojiLayout {
 
     public static final int PHOTO_MAX_COUNT = 6;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
@@ -274,6 +276,11 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
     }
 
     private boolean mFirstFocus = true;
+
+    @Override
+    public EnterLayout getEnterLayout() {
+        return mEnterLayout;
+    }
 
     private void setPopTopicIconShow() {
         int icon = R.drawable.pop_topic;

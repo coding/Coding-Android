@@ -94,7 +94,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
-    protected ImageLoadTool getImageLoad() {
+    public ImageLoadTool getImageLoad() {
         return imageLoadTool;
     }
 
