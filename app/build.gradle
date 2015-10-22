@@ -55,6 +55,7 @@ dependencies {
     }
     compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
+    compile 'com.bigkoo:convenientbanner:1.0.8'
 }
 
 //################

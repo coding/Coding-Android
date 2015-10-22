@@ -1,8 +1,8 @@
 package net.coding.program.maopao;
 
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +12,9 @@ import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.CBPageAdapter;
+import com.bigkoo.convenientbanner.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
 import com.twotoasters.jazzylistview.effects.SlideInEffect;
 
@@ -25,7 +28,6 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
-import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -64,12 +66,13 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     @ViewById
     FloatingActionButton floatButton;
 
-    AutoScrollLoopViewPager banner;
+    ConvenientBanner banner;
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().invalidateOptionsMenu();
+        banner.startTurning(5000);
     }
 
     @OptionsItem
@@ -112,9 +115,11 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
                     banners.add(new BannerObject(jsonArray.getJSONObject(i)));
                 }
                 AccountInfo.saveMaopaoBanners(getActivity(), banners);
+
                 mBannerDatas.clear();
                 mBannerDatas.addAll(banners);
-                initBannerData(mBannerDatas);
+//                initBannerData(mBannerDatas);
+                updateBannerData();
             }
         } else {
             super.parseJson(code, respanse, tag, pos, data);
@@ -141,7 +146,8 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
         if (mType == Type.time) {
             mBannerDatas.addAll(AccountInfo.getMaopaoBanners(getActivity()));
-            initBannerData(mBannerDatas);
+            initBannerData();
+            updateBannerData();
             getNetwork(BannerObject.getHttpBanners(), TAG_BANNER);
         }
 
@@ -179,8 +185,11 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     }
 
-
-    boolean bannerIsInit = false;
+    @Override
+    public void onPause() {
+        banner.stopTurning();
+        super.onPause();
+    }
 
     protected void setRedPointStyle(int buttonId, RedPointTip.Type type) {
         View item = getView().findViewById(buttonId);
@@ -189,14 +198,30 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         redPoint.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    private void initBannerData(ArrayList<BannerObject> banners) {
-        if (banners.isEmpty() || bannerIsInit) {
-            return;
+    private void updateBannerData() {
+        if (mBannerDatas.isEmpty()) {
+            mBannerDatas.add(new BannerObject());
         }
-        bannerIsInit = true;
+        banner.setPages(new CBViewHolderCreator() {
+            @Override
+            public Object createHolder() {
+                return new LocalImageHolder();
+            }
+        }, mBannerDatas);
 
+        int bannerStartPos = 0;
+        bannerIndicator.setCount(mBannerDatas.size(), bannerStartPos);
+        bannerName.setVisibility(View.VISIBLE);
+        if (mBannerDatas.size() > 0) {
+            bannerName.setText(mBannerDatas.get(bannerStartPos).getName());
+            bannerTitle.setText(mBannerDatas.get(bannerStartPos).getTitle());
+        }
+    }
+
+    private void initBannerData() {
         View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
-        banner = (AutoScrollLoopViewPager) bannerLayout.findViewById(R.id.bannerViewPager);
+        banner = (ConvenientBanner) bannerLayout.findViewById(R.id.bannerViewPager);
+
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
         layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
         banner.setLayoutParams(layoutParams);
@@ -207,18 +232,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
         listView.addHeaderView(bannerLayout);
 
-        banner.setAdapter(mAdPagerAdapter);
-        banner.startAutoScroll();
-
-        int bannerStartPos = 0;
-        bannerIndicator.setCount(banners.size(), bannerStartPos);
-        bannerName.setVisibility(View.VISIBLE);
-        if (mBannerDatas.size() > 0) {
-            bannerName.setText(banners.get(bannerStartPos).getName());
-            bannerTitle.setText(banners.get(bannerStartPos).getTitle());
-        }
-
-        banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -244,9 +258,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             }
         });
     }
-
-
-
 
     @Click
     protected final void floatButton() {
@@ -298,7 +309,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         user, friends, hot, my, time
     }
 
-
     public static class ClickImageParam {
         public ArrayList<String> urls;
         public int pos;
@@ -347,42 +357,29 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-    private PagerAdapter mAdPagerAdapter = new PagerAdapter() {
+    class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
+        ImageView imageView;
 
         @Override
-        public int getCount() {
-            return mBannerDatas.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-            ImageView imageView = new ImageView(getActivity());
+        public View createView(Context context) {
+            imageView = new ImageView(getActivity());
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setTag(position);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int position = (int) v.getTag(R.id.image);
                     BannerObject bannerObject = mBannerDatas.get(position);
                     URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false);
                 }
             });
-            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions);
-            container.addView(imageView);
             return imageView;
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (object instanceof View) {
-                container.removeView((View) object);
-            }
+        public void UpdateUI(Context context, int position, BannerObject data) {
+            imageView.setTag(R.id.image, position);
+            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions);
         }
-    };
-
+    }
 }

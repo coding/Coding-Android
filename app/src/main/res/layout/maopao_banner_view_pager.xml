@@ -46,7 +46,7 @@
 
     </LinearLayout>
 
-    <net.coding.program.subject.loop.AutoScrollLoopViewPager
+    <com.bigkoo.convenientbanner.ConvenientBanner
         android:id="@+id/bannerViewPager"
         android:layout_width="match_parent"
         android:layout_height="200dp"
