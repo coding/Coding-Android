@@ -5,6 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
+import net.coding.program.MyApp;
+
 /**
  * Created by chaochen on 14-10-9.
  */
@@ -20,9 +22,11 @@ public class UmengActivity extends ActionBarActivity {
         super.onResume();
         MobclickAgent.onPageStart(getClass().getSimpleName());
         MobclickAgent.onResume(this);
+        MyApp.setMainActivityState(true);
     }
 
     public void onPause() {
+        MyApp.setMainActivityState(false);
         super.onPause();
         MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);

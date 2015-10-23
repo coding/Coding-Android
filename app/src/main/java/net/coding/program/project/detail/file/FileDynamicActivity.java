@@ -219,6 +219,10 @@ public class FileDynamicActivity extends BackActivity {
         }
 
         public File getLocalFile(String path) {
+            if (mFileObject == null || mProject == null) {
+                return null;
+            }
+
             return FileUtil.getDestinationInExternalPublicDir(path,
                     mFileObject.getSaveName(mProject.getId()));
         }

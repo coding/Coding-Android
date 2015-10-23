@@ -56,8 +56,12 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     }
 
     private void updateLoadFile() {
+        if (mAttachmentFileObject == null || mProjectObjectId == 0) {
+            return;
+        }
+
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
-        if (mFile.exists()) {
+        if (mFile != null && mFile.exists()) {
             textView.setText(TxtEditActivity.readPhoneNumber(mFile));
         }
     }

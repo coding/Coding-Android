@@ -45,14 +45,18 @@ public class MyApp extends Application {
     public static UserObject sUserObject;
     public static Unread sUnread;
 
-    public static boolean sMainCreate = false;
+    public static int sMainCreate = 0;
 
     public static boolean getMainActivityState() {
-        return sMainCreate;
+        return sMainCreate > 0;
     }
 
     public static void setMainActivityState(boolean create) {
-        sMainCreate = create;
+        if (create) {
+            ++sMainCreate;
+        } else {
+            --sMainCreate;
+        }
     }
 
     public static void initImageLoader(Context context) {

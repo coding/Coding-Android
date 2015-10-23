@@ -75,20 +75,15 @@
     <Button
         android:id="@+id/deleteBut"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:textSize="18sp"
-        style="?android:textAppearanceButton"
         android:layout_marginLeft="@dimen/padding_14"
         android:layout_marginRight="@dimen/padding_14"
         android:background="@drawable/login_button"
         android:text="转让项目"
+        android:gravity="center"
         android:textColor="@drawable/font_login_button"
         android:textStyle="bold"
         />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divide_15_top" />
 
 </LinearLayout>

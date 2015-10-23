@@ -83,8 +83,6 @@ public class MainActivity extends BaseActivity
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
 
-        MyApp.setMainActivityState(true);
-
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
@@ -114,13 +112,6 @@ public class MainActivity extends BaseActivity
     protected void onDestroy() {
         unregisterReceiver(mUpdatePushReceiver);
         super.onDestroy();
-    }
-
-    @Override
-    public void finish() {
-        MyApp.setMainActivityState(false);
-
-        super.finish();
     }
 
     // 信鸽文档推荐调用，防止在小米手机上收不到推送

@@ -768,8 +768,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
     private void closeActivity(String msg) {
         Intent intent = new Intent();
-        intent.putExtra(RESULT_GLOBARKEY, mNewParam.owner.global_key);
-        setResult(Activity.RESULT_OK, intent);
+        if (mNewParam != null && mNewParam.owner != null) { // 友盟显示有可能为空
+            intent.putExtra(RESULT_GLOBARKEY, mNewParam.owner.global_key);
+            setResult(Activity.RESULT_OK, intent);
+        }
 
         if (!msg.isEmpty()) {
             showButtomToast(msg);

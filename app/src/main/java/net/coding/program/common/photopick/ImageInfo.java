@@ -18,6 +18,10 @@ public class ImageInfo implements Serializable {
     }
 
     public static String pathAddPreFix(String path) {
+        if (path == null) {
+            path = "";
+        }
+
         if (!path.startsWith(prefix)) {
             path = prefix + path;
         }

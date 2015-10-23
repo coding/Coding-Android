@@ -234,11 +234,17 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
                 } else {
                     holder.detailLayout.setVisibility(View.GONE);
+
+                    if (title.trim().isEmpty()) {
+                        title = firstLink;
+                        holder.name.setText(" ");
+                    }
+
                 }
 
             } else {
                 holder.detailLayout.setVisibility(View.GONE);
-                holder.name.setText("");
+                holder.name.setText(" ");
             }
 
             holder.title.setText(Global.changeHyperlinkColor(title));

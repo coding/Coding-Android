@@ -46,6 +46,9 @@ public class WebActivity extends UmengActivity {
     @AfterViews
     protected final void initWebActivity() {
         Log.d("", "WebActivity " + url);
+        if (url.equals("/user/tasks")) {
+            url = Global.HOST_MOBILE + url;
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.custom_action_bar);
         setSupportActionBar(toolbar);
@@ -143,6 +146,11 @@ public class WebActivity extends UmengActivity {
     @OptionsItem
     protected final void action_copy() {
         String urlString = webView.getUrl();
+        if (urlString == null) {
+            Toast.makeText(WebActivity.this, "复制链接失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Global.copy(WebActivity.this, urlString);
         Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
     }

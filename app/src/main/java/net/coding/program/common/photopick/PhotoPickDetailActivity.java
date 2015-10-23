@@ -240,8 +240,10 @@ public class PhotoPickDetailActivity extends UmengActivity {
     int getImageCount() {
         if (mAllPhotos != null) {
             return mAllPhotos.size();
-        } else {
+        } else if (mCursor != null){
             return mCursor.getCount();
+        } else {
+            return 0;
         }
     }
 
