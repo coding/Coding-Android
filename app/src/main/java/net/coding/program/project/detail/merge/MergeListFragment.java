@@ -33,6 +33,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
     ProjectObject mProjectObject;
     @FragmentArg
     int mType;
+
     @ViewById
     View blankLayout;
     private MergeAdapter mMergeAdapter;

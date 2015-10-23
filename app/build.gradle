@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "net.coding.program"
         renderscriptTargetApi 19
-        multiDexEnabled true
+//        multiDexEnabled true
     }
 
     buildTypes {

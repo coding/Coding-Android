@@ -3,6 +3,7 @@ package net.coding.program;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -55,6 +56,14 @@ public class TestActivity extends ActionBarActivity {
     }
 
     public void click1(View v) {
+//        finish();
+        int i = 0;
+        Log.d("", "yiui " + i);
+        Log.d("", "yiui " + i);
+        Log.d("", "yiuddddi " + i);
+        Log.d("", "yiuddddi " + i);
+        Log.d("", "yiuddddi " + i);
+
         finish();
     }
 

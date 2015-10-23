@@ -7,14 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.merge.ProjectMergeFragment_;
+import net.coding.program.project.detail.merge.ProjectPullFragment_;
 import net.coding.program.project.detail.readme.ReadmeFragment_;
 
 import org.androidannotations.annotations.EActivity;
@@ -89,7 +89,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             ProjectGitFragmentMain_.class,
             MembersListFragment_.class,
             ReadmeFragment_.class,
-            ProjectMergeFragment_.class
+            ProjectPullFragment_.class
     ));
     private NetworkImpl networkImpl;
 
@@ -174,7 +174,12 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         Bundle bundle = new Bundle();
 
         try {
-            fragment = (Fragment) spinnerFragments.get(position).newInstance();
+            Class fragmentClass = spinnerFragments.get(position);
+//            if (fragmentClass == ProjectPullFragment_.class && !mProjectObject.isPublic()) {
+//
+//            }
+
+            fragment = (Fragment) fragmentClass.newInstance();
 
             bundle.putSerializable("mProjectObject", mProjectObject);
             bundle.putSerializable("mProjectPath", ProjectObject.translatePath(mProjectObject.project_path));
