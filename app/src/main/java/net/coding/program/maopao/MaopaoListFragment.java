@@ -72,7 +72,9 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     public void onResume() {
         super.onResume();
         getActivity().invalidateOptionsMenu();
-        banner.startTurning(5000);
+        if (banner != null) {
+            banner.startTurning(5000);
+        }
     }
 
     @OptionsItem
@@ -187,7 +189,9 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     @Override
     public void onPause() {
-        banner.stopTurning();
+        if (banner != null) {
+            banner.stopTurning();
+        }
         super.onPause();
     }
 
@@ -281,7 +285,8 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
 
     @Override
-    protected void initData() {}
+    protected void initData() {
+    }
 
     // 如果不设延时的话会闪一下
     @UiThread(delay = 1500)
