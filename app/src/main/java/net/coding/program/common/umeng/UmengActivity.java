@@ -18,18 +18,22 @@ public class UmengActivity extends ActionBarActivity {
         MobclickAgent.openActivityDurationTrack(false);
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(getClass().getSimpleName());
         MobclickAgent.onResume(this);
+
         MyApp.setMainActivityState(true);
     }
 
+    @Override
     public void onPause() {
-        MyApp.setMainActivityState(false);
         super.onPause();
         MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);
+
+        MyApp.setMainActivityState(false);
     }
 
     protected void umengEvent(String s, String param) {

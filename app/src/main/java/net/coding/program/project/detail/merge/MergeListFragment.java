@@ -33,6 +33,8 @@ public class MergeListFragment extends BaseLoadMoreFragment {
     ProjectObject mProjectObject;
     @FragmentArg
     int mType;
+    @FragmentArg
+    ProjectObject.MergeExamine mMineType;
 
     @ViewById
     View blankLayout;
@@ -51,7 +53,11 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         initRefreshLayout();
         disableRefreshing();
 
-        mUrlMerge = mProjectObject.getHttpMerge(mType == TYPE_OPEN);
+        if (mProjectObject.isPublic()) {
+            mUrlMerge = mProjectObject.getHttpMerge(mType == TYPE_OPEN);
+        } else {
+            mUrlMerge = mProjectObject.getHttpMergeExamine(mType == TYPE_OPEN, mMineType);
+        }
         mMergeAdapter = new MergeAdapter(new ArrayList<Merge>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);
         loadMore();

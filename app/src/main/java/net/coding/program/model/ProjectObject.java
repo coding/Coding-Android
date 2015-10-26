@@ -183,6 +183,17 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path + pull + type + "?";
     }
 
+    public enum MergeExamine {
+        review, mine, other
+    }
+
+    public String getHttpMergeExamine(boolean open, MergeExamine mineType) {
+        String type = open ? "open" : "closed";
+        return Global.HOST_API + backend_project_path + "/git/merges/list/" + mineType + "?&status=" + type;
+    }
+
+
+
     public String getHttpDeleteProject2fa(String code) {
         String params = String.format("?name=%s&two_factor_code=%s", name, code);
         return Global.HOST_API + backend_project_path + params;

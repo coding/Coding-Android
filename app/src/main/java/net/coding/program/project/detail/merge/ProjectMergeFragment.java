@@ -13,6 +13,7 @@ import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -28,6 +29,9 @@ public class ProjectMergeFragment extends BaseFragment {
     ProjectObject mProjectObject;
     @ViewById
     RadioGroup checkGroup;
+    @ViewById
+    WechatTab tabs;
+
     private MergePagerAdapter mAdapter;
 
     @AfterViews
@@ -41,31 +45,16 @@ public class ProjectMergeFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.checkClose) {
-                    viewPager.setCurrentItem(1);
+                    mAdapter.setState(1);
                 } else {
-                    viewPager.setCurrentItem(0);
+                    mAdapter.setState(0);
                 }
+
+                mAdapter.notifyDataSetChanged();
             }
         });
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                int radios[] = new int[]{
-                        R.id.checkOpen,
-                        R.id.checkClose
-                };
-                checkGroup.check(radios[position]);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        tabs.setViewPager(viewPager);
     }
 
     @Override
@@ -77,19 +66,45 @@ public class ProjectMergeFragment extends BaseFragment {
         }
     }
 
-    static class MergePagerAdapter extends FragmentPagerAdapter {
+    private static class MergePagerAdapter extends FragmentPagerAdapter {
 
         private ProjectObject mProjectObject;
+        private int mStatus = 0;
+
+        ProjectObject.MergeExamine[] mine = new ProjectObject.MergeExamine[] {
+                ProjectObject.MergeExamine.review,
+                ProjectObject.MergeExamine.mine,
+                ProjectObject.MergeExamine.other
+        };
+
+        String[] titles = new String[] {
+                "我评审的",
+                "我发布的",
+                "其他的"
+        };
 
         public MergePagerAdapter(FragmentManager fm, ProjectObject projectObject) {
             super(fm);
             mProjectObject = projectObject;
         }
 
+        public void setState(int status) {
+            if (mStatus == status) {
+                return;
+            }
+
+            mStatus = status;
+            notifyDataSetChanged();
+        }
+
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = MergeListFragment_.builder().mProjectObject(mProjectObject).mType(position).build();
-            return fragment;
+            return MergeListFragment_
+                    .builder()
+                    .mProjectObject(mProjectObject)
+                    .mType(mStatus)
+                    .mMineType(mine[position])
+                    .build();
         }
 
         @Override
@@ -99,7 +114,12 @@ public class ProjectMergeFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return 2;
+            return mine.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
         }
     }
 }

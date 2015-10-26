@@ -14,6 +14,7 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.merge.ProjectMergeFragment_;
 import net.coding.program.project.detail.merge.ProjectPullFragment_;
 import net.coding.program.project.detail.readme.ReadmeFragment_;
 
@@ -175,9 +176,9 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
         try {
             Class fragmentClass = spinnerFragments.get(position);
-//            if (fragmentClass == ProjectPullFragment_.class && !mProjectObject.isPublic()) {
-//
-//            }
+            if (fragmentClass == ProjectPullFragment_.class && !mProjectObject.isPublic()) {
+                fragmentClass = ProjectMergeFragment_.class;
+            }
 
             fragment = (Fragment) fragmentClass.newInstance();
 

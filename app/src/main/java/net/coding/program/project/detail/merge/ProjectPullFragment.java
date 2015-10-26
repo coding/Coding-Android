@@ -3,6 +3,9 @@ package net.coding.program.project.detail.merge;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
@@ -25,44 +28,27 @@ public class ProjectPullFragment extends BaseFragment {
     ProjectObject mProjectObject;
     @ViewById
     RadioGroup checkGroup;
-    private ProjectMergeFragment.MergePagerAdapter mAdapter;
+    private PullPagerAdapter mAdapter;
 
     @AfterViews
     protected final void initProjectMergeFragment() {
         String title = ProjectObject.getTitle(mProjectObject.isPublic());
         ((BaseActivity) getActivity()).getSupportActionBar().setTitle(title);
-        mAdapter = new ProjectMergeFragment.MergePagerAdapter(getChildFragmentManager(), mProjectObject);
+        mAdapter = new PullPagerAdapter(getChildFragmentManager(), mProjectObject);
         viewPager.setAdapter(mAdapter);
 
         ((RadioGroup) getView().findViewById(R.id.checkGroup)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.checkClose) {
-                    viewPager.setCurrentItem(1);
+                    mAdapter.setState(1);
                 } else {
-                    viewPager.setCurrentItem(0);
+                    mAdapter.setState(0);
                 }
+                mAdapter.notifyDataSetChanged();
             }
         });
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                int radios[] = new int[]{
-                        R.id.checkOpen,
-                        R.id.checkClose
-                };
-                checkGroup.check(radios[position]);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
     }
 
     @Override
@@ -71,6 +57,50 @@ public class ProjectPullFragment extends BaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 mAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    private static class PullPagerAdapter extends FragmentPagerAdapter {
+
+        private ProjectObject mProjectObject;
+        private int mStatus = 0;
+
+        public PullPagerAdapter(FragmentManager fm, ProjectObject projectObject) {
+            super(fm);
+            mProjectObject = projectObject;
+        }
+
+        public void setState(int status) {
+            if (mStatus == status) {
+                return;
+            }
+
+            mStatus = status;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return MergeListFragment_
+                    .builder()
+                    .mProjectObject(mProjectObject)
+                    .mType(mStatus)
+                    .build();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "";
         }
     }
 

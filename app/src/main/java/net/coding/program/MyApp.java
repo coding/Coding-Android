@@ -45,7 +45,7 @@ public class MyApp extends Application {
     public static UserObject sUserObject;
     public static Unread sUnread;
 
-    public static int sMainCreate = 0;
+    private static int sMainCreate = 0;
 
     public static boolean getMainActivityState() {
         return sMainCreate > 0;
@@ -57,6 +57,7 @@ public class MyApp extends Application {
         } else {
             --sMainCreate;
         }
+        Log.d("", "showsss " + sMainCreate);
     }
 
     public static void initImageLoader(Context context) {

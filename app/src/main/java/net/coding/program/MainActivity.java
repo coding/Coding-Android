@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
-//        XGPushConfig.enableDebug(this, true);
+        XGPushConfig.enableDebug(this, true);
         // qq push
         updateNotifyService();
         pushInXiaomi();

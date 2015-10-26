@@ -42,8 +42,9 @@ public class MyPushReceiver extends BroadcastReceiver {
             } else {
                 Intent mainIntent = new Intent(context, MainActivity_.class);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mainIntent.putExtra("mPushUrl", url);
+//                mainIntent.putExtra("mPushUrl", url);
                 context.startActivity(mainIntent);
+                URLSpanNoUnderline.openActivityByUri(context, url, true);
             }
         }
 

@@ -118,12 +118,13 @@ public class PushReceiver extends XGPushBaseReceiver {
     }
 
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
-        Log.d("", "" + context);
+        Log.d("", xgPushClickedResult + " || cccccccc || " + xgPushClickedResult.getCustomContent()  );
 
     }
 
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
-        Log.d("", "" + context);
+        Log.d("", xgPushShowedResult + " || sssssssss || " + xgPushShowedResult.getCustomContent()  );
+
     }
 
     private void showNotify(Context context, String title, String msg, String id, String url) {
