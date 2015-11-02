@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/task_list_head">
+    android:background="@color/divide">
 
     <include layout="@layout/divide_15_bottom" />
 
