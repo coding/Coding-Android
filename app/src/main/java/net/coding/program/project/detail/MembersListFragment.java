@@ -80,7 +80,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 //showButtomToast("quit");
 //                String.format(urlMembers, mProjectObject.getId());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                AlertDialog dialog = builder.setTitle("确认退出项目")
+                AlertDialog dialog = builder.setTitle("退出项目")
                         .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
@@ -90,13 +90,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                                 postNetwork(urlQuit, params, urlQuit);
                             }
                         })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setNegativeButton("取消", null)
                         .show();
 
                 CustomDialog.dialogTitleLineColor(getActivity(), dialog);

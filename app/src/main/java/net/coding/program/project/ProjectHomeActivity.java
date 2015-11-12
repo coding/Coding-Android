@@ -1,12 +1,16 @@
 package net.coding.program.project;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
@@ -54,6 +58,30 @@ public class ProjectHomeActivity extends BaseActivity {
         } else {
             finish();
         }
+    }
+
+    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT)) {
+                finish();
+            }
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
+        registerReceiver(refreshReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(refreshReceiver);
+        super.onDestroy();
     }
 
     @Override

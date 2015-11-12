@@ -165,7 +165,6 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test" >
-
         </activity>
         <activity
             android:name=".MainActivity_"
@@ -189,13 +188,11 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -747,8 +744,13 @@
         </activity>
         <activity
             android:name=".project.init.setting.ProjectTransferActivity_"
+            android:label="@string/title_activity_project_transfer"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".task.AllTasksActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_project_transfer" >
+            android:label="@string/title_activity_all_tasks" >
         </activity>
     </application>
 

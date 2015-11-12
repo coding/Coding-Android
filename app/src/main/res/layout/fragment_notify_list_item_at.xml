@@ -17,14 +17,13 @@
         android:gravity="center"
         android:visibility="invisible" />
 
-
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/list_item_space_width"
         android:text="A栋飞等到了"
-        android:textColor="@color/font_green"
+        android:textColor="@color/font_black_2"
         android:layout_toRightOf="@id/badge"
         android:clickable="true"
         android:textSize="18sp" />

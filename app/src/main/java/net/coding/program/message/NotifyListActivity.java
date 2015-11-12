@@ -31,6 +31,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_notify_list)
 @OptionsMenu(R.menu.notify_list_activity)
@@ -247,6 +249,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                 holder.name.setText(" ");
             }
 
+
             holder.title.setText(Global.changeHyperlinkColor(title));
 
 
@@ -319,15 +322,33 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
 
+
+
+//          这种情况做特殊处理。  早上好，今天您有3个任务已超期
+            if (data.target_type.equals("Task") && data.type == 4) {
+                String titleString = holder.title.getText().toString();
+                Pattern pattern = Pattern.compile("早上好，今天您有\\d*((个任务已超期)|(个紧急任务))");
+                Matcher matcher = pattern.matcher(titleString);
+                if (matcher.find()) {
+                    holder.name.setVisibility(View.VISIBLE);
+                    holder.name.setText("任务提醒");
+                    holder.title.setVisibility(View.GONE);
+                    holder.detailLayout.setVisibility(View.VISIBLE);
+                    Pair<Integer, Integer> pair = sHashMap.get(data.target_type);
+                    if (pair != null) {
+                        holder.icon.setImageResource(pair.first);
+                        holder.icon.setBackgroundColor(pair.second);
+                        holder.detail.setText(Global.changeHyperlinkColor(title, 0xFF222222));
+                    }
+                }
+            }
+
             if (position == (mData.size() - 1)) {
                 loadMore();
             }
 
             return convertView;
         }
-
-
-
     };
 
 

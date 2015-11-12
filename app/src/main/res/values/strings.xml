@@ -156,5 +156,6 @@
     <string name="title_activity_local_project_file">本地文件</string>
     <string name="title_activity_local_file_list">LocalFileListActivity</string>
     <string name="title_activity_project_transfer">项目转让</string>
+    <string name="title_activity_all_tasks">我的任务</string>
 
 </resources>

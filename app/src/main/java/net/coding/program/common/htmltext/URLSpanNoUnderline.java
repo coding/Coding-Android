@@ -32,6 +32,7 @@ import net.coding.program.project.detail.topic.TopicListDetailActivity;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 import net.coding.program.project.git.BranchMainActivity_;
 import net.coding.program.subject.SubjectDetailActivity_;
+import net.coding.program.task.AllTasksActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.task.add.TaskJumpParams;
 import net.coding.program.user.UserDetailActivity_;
@@ -174,6 +175,16 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setClass(context, TaskAddActivity_.class);
             intent.putExtra("mJumpParams", new TaskJumpParams(matcher.group(1),
                     matcher.group(2), matcher.group(3)));
+            context.startActivity(intent);
+            return true;
+        }
+
+//      我的已过期任务  "/user/tasks"
+        final String myExpireTask = "/user/tasks";
+        pattern = Pattern.compile(myExpireTask);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, AllTasksActivity_.class);
             context.startActivity(intent);
             return true;
         }
