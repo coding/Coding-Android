@@ -30,6 +30,7 @@ public class BlankViewDisplay {
     public static final String OTHER_PROJECT_BLANK = "这个人很懒，一个项目都木有～";
     public static final String MY_SUBJECT_BLANK = "您还没有话题呢～";
     public static final String OTHER_SUBJECT_BLANK = "这个人很懒，一个话题都木有~";
+    public static final String OTHER_MALL_ORDER_BLANK = "还木有订单呢，努力推代码，把猴带回家~";
 
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
         setBlank(itemSize, fragment, request, v, onClick, "");

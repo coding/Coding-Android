@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/white"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<include layout="@layout/divide_15_bottom"/>
+
+	<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<TextView
+				android:layout_marginLeft="16dp"
+				android:text="订单编号："
+				android:background="@drawable/round_rect_edge"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<TextView
+				android:id="@+id/order_no"
+				android:text="11111111"
+				android:padding="16dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+			android:background="@drawable/divide_15_bottom"
+			android:padding="16dp"
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<ImageView
+				android:id="@+id/order_img"
+				android:layout_width="135dp"
+				android:layout_height="135dp"/>
+		<RelativeLayout
+				android:layout_gravity="center_vertical"
+				android:layout_width="match_parent"
+				android:layout_height="135dp">
+			<LinearLayout
+					android:paddingLeft="16dp"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+				<TextView
+						android:text="title"
+						android:textSize="18sp"
+						android:id="@+id/order_title"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"/>
+
+				<TextView
+						android:gravity="right"
+						android:layout_marginRight="16dp"
+						android:text="1 X"
+						android:textColor="@color/font_green"
+						android:id="@+id/mall_order_count"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"/>
+			</LinearLayout>
+
+			<LinearLayout
+					android:paddingLeft="16dp"
+					android:layout_gravity="center_vertical"
+					android:gravity="center_vertical"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+				<ImageView
+						android:gravity="center_vertical"
+						android:background="@drawable/ic_icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"/>
+
+				<TextView
+						android:paddingLeft="16dp"
+						android:text="0.0 码币"
+						android:id="@+id/order_point"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"/>
+			</LinearLayout>
+			<TextView
+					android:gravity="left|bottom"
+					android:id="@+id/order_note"
+					android:text="备注：要XL的"
+					android:paddingLeft="16dp"
+					android:maxLines="1"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+			</TextView>
+
+		</RelativeLayout>
+	</LinearLayout>
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+		<LinearLayout
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<TextView
+					android:text="收货人："
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:id="@+id/order_receiver_name"
+					android:text="张三"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+		<LinearLayout
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<TextView
+					android:text="联系电话："
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:id="@+id/order_receiver_phone"
+					android:text="12345678901"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+		<LinearLayout
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<TextView
+					android:text="状态："
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:id="@+id/order_status"
+					android:text="已发货"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+		<LinearLayout
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<TextView
+					android:text="快递："
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:id="@+id/order_express"
+					android:text="中通 0000000"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+		<LinearLayout
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<TextView
+					android:text="时间："
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:id="@+id/order_time"
+					android:text="2015-11-11 11：:1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+		<LinearLayout
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			<TextView
+					android:text="收货地址："
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:id="@+id/order_addr"
+					android:text="广东 深圳"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

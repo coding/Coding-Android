@@ -1,0 +1,52 @@
+<android.support.v4.widget.SwipeRefreshLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/swipeRefreshLayout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		tools:context="net.coding.program.mall.MallIndexFragment">
+
+	<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+		<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+			<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+				<include
+						android:id="@+id/mall_banner"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						layout="@layout/mall_banner_view_pager"/>
+
+				<net.coding.program.third.WechatTab
+						android:id="@+id/mallTab"
+						android:layout_width="match_parent"
+						android:layout_height="48dp"
+						android:background="@android:color/transparent"/>
+
+				<android.support.v4.view.ViewPager
+						android:id="@+id/mallIndexViewpager"
+						android:layout_width="match_parent"
+						android:layout_height="500dp">
+
+				</android.support.v4.view.ViewPager>
+			</LinearLayout>
+
+			<include
+					android:id="@+id/blankLayout"
+					layout="@layout/view_exception"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"/>
+
+		</FrameLayout>
+	</ScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

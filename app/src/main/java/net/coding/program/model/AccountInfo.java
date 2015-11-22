@@ -53,6 +53,7 @@ public class AccountInfo {
 
     private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
     private static final String KEY_MAOPAO_BANNER = "KEY_MAOPAO_BANNER";
+    private static final String KEY_MALL_BANNER = "KEY_MALL_BANNER";
 
     private static final String KEY_CACHE_GET_REQUEST = "KEY_CACHE_GET_REQUEST";
 
@@ -471,6 +472,14 @@ public class AccountInfo {
 
     public static ArrayList<BannerObject> getMaopaoBanners(Context context) {
         return new DataCache<BannerObject>().loadGlobal(context, KEY_MAOPAO_BANNER);
+    }
+
+    public static void saveMallBanners(Context context, ArrayList<MallBannerObject> data) {
+        new DataCache<MallBannerObject>().saveGlobal(context, data, KEY_MALL_BANNER);
+    }
+
+    public static ArrayList<MallBannerObject> getMallBanners(Context context) {
+        return new DataCache<MallBannerObject>().loadGlobal(context, KEY_MALL_BANNER);
     }
 
     public static void removeNoSendMessage(Context context, long createTime) {

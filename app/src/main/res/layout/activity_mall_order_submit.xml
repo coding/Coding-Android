@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<LinearLayout
+				android:padding="16dp"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="235dp">
+
+
+			<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+				<ImageView
+						android:src="@drawable/ic_lancher"
+						android:id="@+id/mall_order_img"
+						android:padding="10dp"
+						android:layout_width="135dp"
+						android:layout_height="135dp"/>
+
+				<LinearLayout
+						android:orientation="vertical"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent">
+
+					<LinearLayout
+							android:paddingLeft="16dp"
+							android:orientation="horizontal"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content">
+
+						<TextView
+								android:text="title"
+								android:textSize="18sp"
+								android:id="@+id/mall_order_title"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"/>
+
+						<TextView
+								android:gravity="right"
+								android:layout_marginRight="16dp"
+								android:text="1 X"
+								android:textColor="@color/font_green"
+								android:id="@+id/mall_order_count"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"/>
+					</LinearLayout>
+
+					<LinearLayout
+							android:paddingLeft="16dp"
+							android:layout_gravity="center_vertical"
+							android:gravity="center_vertical"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent">
+
+						<ImageView
+								android:gravity="center_vertical"
+								android:background="@drawable/ic_icon"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"/>
+
+						<TextView
+								android:paddingLeft="16dp"
+								android:text="0.0 码币"
+								android:id="@+id/mall_order_point"
+								android:layout_width="match_parent"
+								android:layout_height="wrap_content"/>
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+
+			<include
+					layout="@layout/divide_1"
+					android:layout_width="match_parent"
+					android:layout_height="1dp"/>
+
+					<!--android:paddingTop="15dp"-->
+					<!--android:layout_gravity="center_vertical"-->
+			<TextView
+					android:gravity="center|left"
+					android:text="@string/desc_mall_order_item_tip"
+					android:minLines="2"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"/>
+		</LinearLayout>
+
+		<TextView
+				android:padding="16dp"
+				android:textSize="16sp"
+				android:text="填写并核对信息"
+				android:background="@drawable/divide_15_top_bottom"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"/>
+
+		<LinearLayout
+				android:orientation="vertical"
+				android:padding="16dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+			<TextView
+					android:textAppearance="@style/TextAppearance.AppCompat.Title"
+					android:text="收货人 *"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<EditText
+					android:id="@+id/mall_order_edit_username"
+					android:hint="收货人姓名"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:textAppearance="@style/TextAppearance.AppCompat.Title"
+					android:text="详细地址 *"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<EditText
+					android:id="@+id/mall_order_edit_address"
+					android:hint="省，市，县，镇，街道"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:textAppearance="@style/TextAppearance.AppCompat.Title"
+					android:text="联系电话 *"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<EditText
+					android:id="@+id/mall_order_edit_phone"
+					android:hint="电话"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<TextView
+					android:textAppearance="@style/TextAppearance.AppCompat.Title"
+					android:text="备注"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<EditText
+					android:id="@+id/mall_order_edit_note"
+					android:hint="备注信息如：衣服码数 XXL"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+
+		</LinearLayout>
+		<Button
+				android:text="提交订单"
+				android:textColor="#ffffff"
+				android:id="@+id/mall_order_button_submit"
+				android:background="@drawable/edit_send_green"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginLeft="12dp"
+				android:layout_marginRight="12dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginBottom="16dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"/>
+	</LinearLayout>
+</ScrollView>
