@@ -3,6 +3,7 @@ package net.coding.program.common;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.util.Log;
 
 import net.coding.program.R;
 import net.coding.program.common.enter.DrawableTool;
@@ -53,6 +54,7 @@ public class MyImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String source) {
+        Log.d("", "text drawable " + source);
         String name = getPhotoName(source);
         int id = getResourceId(name);
 

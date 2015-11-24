@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
+import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
@@ -155,8 +156,20 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                     showDialog("转发", "转发给" + user.name, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Global.MessageParse messageParse = HtmlContent.parseMessage(relayString);
+//                            String urls = "";
+//                            for (String item : messageParse.uris) {
+//                                urls += item + "/n";
+//                            }
+
                             RequestParams params = new RequestParams();
-                            params.put("content", relayString);
+                            String text = messageParse.text;
+                            for (String url : messageParse.uris) {
+                                String photoTemplate = "\n![图片](%s)";
+                                text += String.format(photoTemplate, url);
+
+                            }
+                            params.put("content", text);
                             params.put("receiver_global_key", user.global_key);
                             postNetwork(MessageListActivity.HOST_MESSAGE_SEND, params, TAG_RELAY_MESSAGE);
                             showProgressBar(true, "发送中...");

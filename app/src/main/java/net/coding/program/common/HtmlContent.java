@@ -99,6 +99,11 @@ public class HtmlContent {
     private static Global.MessageParse createMessageParse(String s, String regx) {
         Global.MessageParse parse = new Global.MessageParse();
 
+        // emoji 有时候会是类似于 image 的形式
+        String emojiSrc = "<a href=\"https://coding.net/static/emojis/(.*?)\" target=\"_blank\" class=\"bubble-markdown-image-link\" rel=\"nofollow\"><img class=\"emotion emoji bubble-markdown-image\" src=\"(.*?)\" title=\"(.*?)\"></a>";
+        String emojiDesc = "<img class=\"emotion emoji\" src=\"$2\" title=\"$3\">";
+        s = s.replaceAll(emojiSrc, emojiDesc);
+
         Pattern pattern = Pattern.compile(regx);
         Matcher matcher = pattern.matcher(s);
         while (matcher.find()) {

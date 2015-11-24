@@ -23,7 +23,8 @@ import java.util.Calendar;
 public class DynamicObject {
 
     static final String BLACK_HTML = "<font color='#666666'>%s</font>";
-    static final int BLACK_COLOR = 0xff666666;
+    static final int BLACK_COLOR = 0XFF666666;
+    static final int BLACK_COLOR_9 = 0XFF999999;
 
     private static String createLink(String name, String link) {
         name = name.replaceAll("<a (?:.*?)>(.*?)</a>", "$1");
@@ -686,6 +687,10 @@ public class DynamicObject {
             return Global.changeHyperlinkColor(title);
         }
 
+        public String getBranch() {
+            return ref;
+        }
+
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             if (commits.isEmpty()) {
@@ -722,10 +727,20 @@ public class DynamicObject {
         Task task;
         TaskObject.TaskComment taskComment;
 
+        String ref;
+        Commit commit;
+
+
         public DynamicTask(JSONObject json) throws JSONException {
             super(json);
             if (json.has("origin_task")) {
                 origin_task = new Origin_task(json.optJSONObject("origin_task"));
+            }
+
+            if (json.has("commit")) {
+                JSONObject commitJson = json.optJSONObject("commit");
+                ref = commitJson.optString("ref", "");
+                commit = new Commit(commitJson);
             }
 
             if (json.has("project")) {
@@ -778,6 +793,7 @@ public class DynamicObject {
             }
         }
 
+        // 任务详情界面的动态
         public Spannable dynamicTitle() {
             final String format;
             final String title;
@@ -794,6 +810,19 @@ public class DynamicObject {
                     return Global.changeHyperlinkColor(title);
                 case "update_priority":
                 case "update_description":
+                    format = "%s %s - %s";
+                    title = String.format(format, userString, action_msg, time);
+                    return Global.changeHyperlinkColor(title);
+                case "commit_refer":
+                    format = "%s 在分支%s%s任务 - %s<br/>%s:[%s]%s";
+                    title = String.format(format, userString, ref, action_msg, time,
+                            commit.committer.name,
+                            commit.shortSha(),
+                            commit.short_message);
+                    return Global.changeHyperlinkColor(title, BLACK_COLOR_9);
+
+                case "remove_watcher":
+                case "add_watcher":
                     format = "%s %s - %s";
                     title = String.format(format, userString, action_msg, time);
                     return Global.changeHyperlinkColor(title);
@@ -1006,6 +1035,14 @@ public class DynamicObject {
             if (json.has("committer")) {
                 committer = new Committer(json.optJSONObject("committer"));
             }
+        }
+
+        public String shortSha() {
+            if (sha.length() >= 7) {
+                return sha.substring(0, 7);
+            }
+
+            return sha;
         }
     }
 
