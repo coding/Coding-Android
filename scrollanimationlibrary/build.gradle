@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+
+android {
+//    compileSdkVersion 23
+//    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+
+    compileSdkVersion 21
+//    useLibrary 'org.apache.http.legacy' // 因为 sdk23 去掉了 apache
+    buildToolsVersion "21.0.1"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 21
+
+//        versionCode Integer.parseInt(project.VERSION_CODE)
+//        versionName project.VERSION_NAME
+
+        versionCode 99
+        versionName "1.2.1"
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:21.0.0'
+}
+
+//apply from: '../gradle-bintray-push.gradle'

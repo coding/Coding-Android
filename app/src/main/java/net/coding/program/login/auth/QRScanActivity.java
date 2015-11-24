@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
@@ -24,12 +26,10 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main1);
+//        setContentView(R.layout.activity_main1);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        qrCodeView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
-        qrCodeView.setOnQRCodeReadListener(this);
 
     }
 
@@ -44,16 +44,31 @@ public class QRScanActivity extends ActionBarActivity implements QRCodeReaderVie
         return super.onOptionsItemSelected(item);
     }
 
+    View codeViewRoot;
+
     @Override
     protected void onResume() {
         super.onResume();
+
+        codeViewRoot = getLayoutInflater().inflate(R.layout.activity_main1, null, false);
+        ((ViewGroup) findViewById(android.R.id.content)).addView(codeViewRoot);
+        qrCodeView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
+        qrCodeView.setOnQRCodeReadListener(this);
+
         qrCodeView.getCameraManager().startPreview();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        qrCodeView.getCameraManager().stopPreview();
+
+        if (codeViewRoot != null) {
+            qrCodeView.getCameraManager().stopPreview();
+            qrCodeView = null;
+            ((ViewGroup) findViewById(android.R.id.content)).removeView(codeViewRoot);
+            codeViewRoot = null;
+        }
+
     }
 
     @Override

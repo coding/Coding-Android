@@ -26,7 +26,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
-//    compile 'com.loopj.android:android-async-http:1.9.31'
+    //    compile 'com.loopj.android:android-async-http:1.9.31'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
@@ -53,9 +53,10 @@ dependencies {
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
-    compile 'com.twotoasters.jazzylistview:library:1.2.1'
+    //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
+    compile project(':scrollanimationlibrary')
 }
 
 //################

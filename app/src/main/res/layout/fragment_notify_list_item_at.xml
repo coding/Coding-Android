@@ -22,9 +22,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/list_item_space_width"
-        android:text="A栋飞等到了"
+        tools:text="A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了"
         android:textColor="@color/font_black_2"
         android:layout_toRightOf="@id/badge"
+        android:layout_toLeftOf="@id/time"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:clickable="true"
         android:textSize="18sp" />
 

@@ -216,17 +216,19 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
             int firstStart = title.indexOf(hrefBegin);
             int firstEnd = title.indexOf(hrefEnd, firstStart);
 
+            String firstLink = "";
             if (firstStart != -1 && firstEnd != -1) {
-                String firstLink = title.substring(firstStart, firstEnd + hrefEnd.length());
+                firstLink = title.substring(firstStart, firstEnd + hrefEnd.length());
                 holder.name.setText(Global.changeHyperlinkColor(firstLink));
 
-                title = title.replaceFirst(firstLink, "");
+                title = title.replace(firstLink, "");
                 int lastEnd = title.lastIndexOf(hrefEnd);
                 int lastStart = title.lastIndexOf(hrefBegin, lastEnd);
 
                 if (lastStart != -1 && lastEnd != -1) { // 至少两个链接
                     int last = lastEnd + hrefEnd.length();
                     String thirdLink = title.substring(lastStart, last);
+
                     holder.detailLayout.setVisibility(View.VISIBLE);
                     holder.detail.setText(Global.changeHyperlinkColor(thirdLink, 0xFF222222));
 
@@ -250,6 +252,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
             }
 
 
+            holder.title.setVisibility(View.VISIBLE);
             holder.title.setText(Global.changeHyperlinkColor(title));
 
 
@@ -325,9 +328,9 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
 
 //          这种情况做特殊处理。  早上好，今天您有3个任务已超期
+            String titleString = holder.title.getText().toString();
             if (data.target_type.equals("Task") && data.type == 4) {
-                String titleString = holder.title.getText().toString();
-                Pattern pattern = Pattern.compile("早上好，今天您有\\d*((个任务已超期)|(个紧急任务))");
+                Pattern pattern = Pattern.compile("早上好，今天您有.*");
                 Matcher matcher = pattern.matcher(titleString);
                 if (matcher.find()) {
                     holder.name.setVisibility(View.VISIBLE);
@@ -338,7 +341,20 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                     if (pair != null) {
                         holder.icon.setImageResource(pair.first);
                         holder.icon.setBackgroundColor(pair.second);
-                        holder.detail.setText(Global.changeHyperlinkColor(title, 0xFF222222));
+                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, 0xFF222222));
+                    }
+                }
+            } else if (data.target_type.equals("Tweet") && data.type == 1) {
+                if (titleString.endsWith("推荐到冒泡广场")) {
+                    holder.name.setVisibility(View.VISIBLE);
+                    holder.name.setText("冒泡提醒");
+                    holder.title.setVisibility(View.VISIBLE);
+                    holder.detailLayout.setVisibility(View.VISIBLE);
+                    Pair<Integer, Integer> pair = sHashMap.get(data.target_type);
+                    if (pair != null) {
+                        holder.icon.setImageResource(pair.first);
+                        holder.icon.setBackgroundColor(pair.second);
+                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, 0xFF222222));
                     }
                 }
             }
