@@ -10,10 +10,9 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.guide.IndicatorView;
-import net.coding.program.common.widget.RefreshBaseActivity;
+import net.coding.program.common.widget.RefreshBaseAppCompatActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.MallBannerObject;
-import net.coding.program.model.MallItemObject;
 import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,9 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,53 +37,33 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by libo on 2015/11/20.
- */
-
-@EActivity(R.layout.activity_mall_index)
+@EActivity(R.layout.activity_mall)
 @OptionsMenu(R.menu.menu_mall_index)
-public class MallIndexActivity extends RefreshBaseActivity
-        implements MallListFragment.FragmentCallback {
+public class MallIndexActivity extends RefreshBaseAppCompatActivity {
 
     @ViewById
     WechatTab mallTab;
 
-    String[] fragmentTitles;
+    @ViewById
+    CollapsingToolbarLayout collapsing_toolbar;
 
     @ViewById
-    ViewPager mallIndexViewpager;
-
-    @ViewById
-    View blankLayout;
+    ViewPager viewpager;
 
     @ViewById(R.id.bannerViewPager)
     ConvenientBanner banner;
 
+    @ViewById
+    View blankLayout;
+
     @ViewById(R.id.indicatorView)
     IndicatorView bannerIndicator;
 
-    ArrayList<MallItemObject> list1Data = new ArrayList<>();
-
-    private ArrayList<MallBannerObject> mBannerData = new ArrayList<>();
-
-    private double userPoint = 0.0;
+    final String BANNER_URL = Global.HOST_API + "/gifts/sliders";
 
     final String TAG_BANNER = "TAG_BANNER";
 
-    final String TAG_MALL_LIST = "TAG_MALL_LIST";
-
-    final String TAG_USER_POINT = "TAG_USER_POINT";
-
-    static final String DATA_URL = Global.HOST_API + "/gifts";
-
-    final String BANNER_URL = Global.HOST_API + "/gifts/sliders";
-
-    final String USER_POINT_URL = Global.HOST_API + "/account/points";
-
-    private List<Fragment> fragmentList = new ArrayList<>();
-
-    private MyPageAdapter pageAdapter;
+    private ArrayList<MallBannerObject> mBannerData = new ArrayList<>();
 
     @OptionsItem
     void action_order() {
@@ -90,12 +71,35 @@ public class MallIndexActivity extends RefreshBaseActivity
         MallOrderDetailActivity_.intent(this).start();
     }
 
-    @Override
-    public void onRefresh() {
-        initSetting();
+    @AfterViews
+    void initView() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        collapsing_toolbar.setTitle("商城");
+
+        setupViewPager(viewpager);
+        mallTab.setViewPager(viewpager);
+
+        if (mBannerData.isEmpty()) {
+            showDialogLoading();
+        } else {
+//            setRefreshing(true);
+        }
+
+        mBannerData.addAll(AccountInfo.getMallBanners(this));
+        initBannerData();
+        updateBannerData();
+
         getNetwork(BANNER_URL, TAG_BANNER);
-        getNetwork(DATA_URL, TAG_MALL_LIST);
-        getNetwork(USER_POINT_URL, TAG_USER_POINT);
     }
 
     @Override
@@ -104,71 +108,6 @@ public class MallIndexActivity extends RefreshBaseActivity
         invalidateOptionsMenu();
         if (banner != null) {
             banner.startTurning(5000);
-        }
-    }
-
-    @AfterViews
-    protected void initMallIndexFragment() {
-        init();
-
-    }
-
-    private void init() {
-        initRefreshBaseActivity();
-        fragmentTitles = getResources().getStringArray(R.array.mall_index_title);
-
-        if (mBannerData.isEmpty()) {
-            showDialogLoading();
-        } else {
-            setRefreshing(true);
-        }
-
-        mBannerData.addAll(AccountInfo.getMallBanners(this));
-        initBannerData();
-        updateBannerData();
-
-        getNetwork(BANNER_URL, TAG_BANNER);
-        getNetwork(DATA_URL, TAG_MALL_LIST);
-        getNetwork(USER_POINT_URL, TAG_USER_POINT);
-    }
-
-    @Override
-    public void fragmentCallBack(int viewHeight) {
-        if (mallIndexViewpager != null) {
-            ViewGroup.LayoutParams params = mallIndexViewpager.getLayoutParams();
-            params.height = viewHeight;
-            mallIndexViewpager.setLayoutParams(params);
-        }
-    }
-
-    class MyPageAdapter extends SaveFragmentPagerAdapter {
-
-        List<Fragment> fragmentList;
-
-        public void replaceList(List<Fragment> list) {
-            fragmentList.clear();
-            fragmentList.addAll(list);
-        }
-
-        public MyPageAdapter(FragmentManager fm,
-                List<Fragment> fragmentList) {
-            super(fm);
-            this.fragmentList = fragmentList;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return fragmentTitles[position];
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
         }
     }
 
@@ -199,59 +138,6 @@ public class MallIndexActivity extends RefreshBaseActivity
                 super.parseJson(code, response, tag, pos, data);
             }
         }
-        if (tag.equals(TAG_USER_POINT)) {
-            if (code == 0) {
-                JSONObject jsonObject = response.getJSONObject("data");
-                userPoint = jsonObject.optDouble("points_left");
-            } else {
-                super.parseJson(code, response, tag, pos, data);
-            }
-        }
-        if (tag.equals(TAG_MALL_LIST)) {
-            if (code == 0) {
-                BlankViewDisplay
-                        .setBlank(mBannerData.size(), this, true, blankLayout, onClickRetry);
-
-                ArrayList<MallItemObject> mallItemObjects = new ArrayList<>();
-                JSONObject obj = response.getJSONObject("data");
-                JSONArray jsonArray = obj.getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    mallItemObjects.add(new MallItemObject(jsonArray.getJSONObject(i)));
-                }
-
-                ArrayList<String> strList = new ArrayList<>();
-                for (int i = 0; i < 20; i++) {
-                    strList.add("str" + i);
-                }
-
-                Fragment mallListFragment = MallListFragment_.builder().rawListData(mallItemObjects)
-                        .stringList(strList)
-                        .testStr("1234")
-                        .userPoint(userPoint)
-                        .build();
-                Fragment mallListFragment1 = MallListFragment_.builder()
-                        .rawListData(mallItemObjects)
-                        .stringList(strList)
-                        .testStr("5678")
-                        .userPoint(userPoint)
-                        .build();
-                fragmentList.clear();
-                fragmentList.add(mallListFragment);
-                fragmentList.add(mallListFragment1);
-
-                pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragmentList);
-                mallIndexViewpager.setAdapter(pageAdapter);
-
-                mallTab.setViewPager(mallIndexViewpager);
-
-                mallIndexViewpager.setCurrentItem(0);
-
-            } else {
-                BlankViewDisplay
-                        .setBlank(mBannerData.size(), this, false, blankLayout, onClickRetry);
-                super.parseJson(code, response, tag, pos, data);
-            }
-        }
     }
 
     View.OnClickListener onClickRetry = new View.OnClickListener() {
@@ -260,6 +146,73 @@ public class MallIndexActivity extends RefreshBaseActivity
             onRefresh();
         }
     };
+
+    private void setupViewPager(ViewPager mViewPager) {
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(
+                MallListFragment_.builder().mType(MallListFragment.Type.all_goods).build(),
+                "全部商品");
+        adapter.addFragment(
+                MallListFragment_.builder().mType(MallListFragment.Type.can_change).build(),
+                "可兑换商品");
+        mViewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onRefresh() {
+        getNetwork(BANNER_URL, TAG_BANNER);
+    }
+
+    static class MyPagerAdapter extends SaveFragmentPagerAdapter {
+
+        private final List<Fragment> mFragments = new ArrayList<>();
+
+        private final List<String> mFragmentTitles = new ArrayList<>();
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragments.add(fragment);
+            mFragmentTitles.add(title);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitles.get(position);
+        }
+    }
+
+    private void initBannerData() {
+        ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(
+                new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset,
+                            int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        bannerIndicator.setSelect(position);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+    }
 
     private void updateBannerData() {
         if (mBannerData.isEmpty()) {
@@ -296,31 +249,6 @@ public class MallIndexActivity extends RefreshBaseActivity
             getImageLoad().loadImage(imageView, mBannerData.get(position).getImage(),
                     ImageLoadTool.bannerOptions);
         }
-    }
-
-
-    private void initBannerData() {
-        ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
-
-        banner.setLayoutParams(layoutParams);
-
-        ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(
-                new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset,
-                            int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        bannerIndicator.setSelect(position);
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                });
     }
 
 }

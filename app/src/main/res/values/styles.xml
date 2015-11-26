@@ -51,6 +51,9 @@
         <!--<item name="colorAccent">@color/material_green_A200</item>-->
 
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
+
+        <!--add by libo material theme-->
+        <!--<item name="alertDialogProTheme">@style/Theme.AlertDialogPro.Material.Light</item>-->
     </style>
 
     <!--没有icon的actionbar -->
@@ -148,6 +151,12 @@
         <!--<item name="colorAccent">@color/material_green_A200</item>-->
 
         <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
+    </style>
+
+    <!--商城界面主题-->
+    <style name="ThemeMall" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@drawable/gray_drawable</item>
+        <item name="colorPrimaryDark">@color/black</item>
     </style>
 
     <!--弹出菜单字体颜色-->

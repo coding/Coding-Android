@@ -123,17 +123,18 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     @AfterViews
     protected final void init() {
         initRefreshLayout();
+        mFootUpdate.init(listView, mInflater, this);
 
         listView.setAdapter(mAdapter);
         switch (mType) {
             case un_send:
-                mUrl = Global.HOST_API + "/gifts/orders";
+                mUrl = Global.HOST_API + "/gifts/orders?";
                 break;
             case already_send:
-                mUrl = Global.HOST_API + "/gifts/orders";
+                mUrl = Global.HOST_API + "/gifts/orders?";
                 break;
             default: // 0
-                mUrl = Global.HOST_API + "/gifts/orders";
+                mUrl = Global.HOST_API + "/gifts/orders?";
                 break;
         }
 
@@ -143,8 +144,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
             throws JSONException {
+        setRefreshing(false);
+        hideProgressDialog();
         if (tag.equals(mUrl)) {
-            setRefreshing(false);
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();

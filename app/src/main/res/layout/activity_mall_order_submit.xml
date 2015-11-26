@@ -87,6 +87,7 @@
 					<!--android:paddingTop="15dp"-->
 					<!--android:layout_gravity="center_vertical"-->
 			<TextView
+					android:id="@+id/mall_order_desc"
 					android:gravity="center|left"
 					android:text="@string/desc_mall_order_item_tip"
 					android:minLines="2"
@@ -136,6 +137,7 @@
 			<EditText
 					android:id="@+id/mall_order_edit_phone"
 					android:hint="电话"
+					android:inputType="phone"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 			<TextView

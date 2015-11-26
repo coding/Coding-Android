@@ -1,0 +1,40 @@
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		>
+
+	<android.support.v4.widget.SwipeRefreshLayout
+			android:id="@+id/swipeRefreshLayout"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+	<!--<net.coding.program.mall.HeaderGridView-->
+			<!--android:id="@+id/mallListHeaderGridView"-->
+			<!--android:numColumns="2"-->
+			<!--android:verticalSpacing="10dp"-->
+			<!--android:horizontalSpacing="10dp"-->
+			<!--android:stretchMode="columnWidth"-->
+			<!--android:gravity="center"-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--/>-->
+	<android.support.v7.widget.RecyclerView
+			android:id="@+id/mallListHeaderGridView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+	</android.support.v7.widget.RecyclerView>
+
+
+	</android.support.v4.widget.SwipeRefreshLayout>
+
+	<include
+			android:id="@+id/blankLayout"
+			layout="@layout/view_exception"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
+
+</LinearLayout>

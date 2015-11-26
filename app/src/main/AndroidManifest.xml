@@ -757,6 +757,7 @@
         <activity
                 android:name=".mall.MallIndexActivity_"
                 android:screenOrientation="portrait"
+                android:theme="@style/ThemeMall"
                 android:label="@string/title_activity_mall" >
         </activity>
         <activity
@@ -768,6 +769,7 @@
         </activity>
         <activity
                 android:name=".mall.MallOrderDetailActivity_"
+                android:windowSoftInputMode="stateHidden|adjustResize"
                 android:screenOrientation="portrait"
                 android:label="@string/title_activity_mall_order_detail" >
         </activity>

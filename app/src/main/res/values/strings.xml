@@ -164,5 +164,6 @@
 	<string name="desc_mall_order_item_tip">身高，体重参考：S码（165-50kg），M码（170-60kg），L码（175-70kg） XL码（180-80kg），XXL码（185-90kg）</string>
 	<string name="title_activity_mall_order_detail">历史订单</string>
 	<string name="mall_detail_footer_tips">温馨提示：\n所有兑换商品都定于每周五发货，请耐心等待哦！</string>
+	<string name="mall_exchange_title">确认订单</string>
 
 </resources>
