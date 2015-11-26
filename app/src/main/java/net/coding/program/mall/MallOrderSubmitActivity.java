@@ -5,7 +5,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.BaseAppCompatActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -15,6 +15,8 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,15 +24,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import me.drakeet.materialdialog.MaterialDialog;
-
 
 /**
  * Created by libo on 2015/11/22.
  */
 
 @EActivity(R.layout.activity_mall_order_submit)
-public class MallOrderSubmitActivity extends BackActivity {
+public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     final String host = Global.HOST_API + "/gifts/exchange";
     @ViewById
@@ -90,33 +90,26 @@ public class MallOrderSubmitActivity extends BackActivity {
         final View entryView = inflater.inflate(R.layout.dialog_mall_order_submit, null);
         final EditText editText = (EditText) entryView.findViewById(R.id.edit_text);
 
-        final MaterialDialog dialog = new MaterialDialog(this);
-        dialog.setView(entryView)
-                .setPositiveButton("确认",
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                                parsePassword(editText.getText().toString().trim());
-                            }
-                        })
-
-                .setNegativeButton("取消",
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.dismiss();
-                            }
-                        });
-        dialog.setTitle(getResources().getString(R.string.mall_exchange_title));
-        dialog.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(entryView)
+                .setTitle("确认订单")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        parsePassword(editText.getText().toString().trim());
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void parsePassword(String submitPassword) {
         if (submitPassword.length() < 6 || submitPassword.length() > 64 || TextUtils
                 .isEmpty(submitPassword)) {
             showMiddleToast("密码格式有误，请重新输入");
+            return;
         }
+        this.submitPassword = submitPassword;
         postSubmit();
 
     }
@@ -135,8 +128,8 @@ public class MallOrderSubmitActivity extends BackActivity {
         params.put("receiverPhone", phone);
         params.put("remark", note);
         params.put("receiverAddress",address);
-        params.put("giftId",giftId);
-        putNetwork(host, params, host);
+        params.put("giftId", giftId);
+        postNetwork(host, params, host);
     }
 
     @Override

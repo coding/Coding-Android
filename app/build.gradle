@@ -59,7 +59,6 @@ dependencies {
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
 
-    compile 'me.drakeet.materialdialog:library:1.2.8'
     compile 'com.android.support:design:23.+'
 }
 
