@@ -589,6 +589,22 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                 }
                 mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
             }
+        } else if ("android.intent.action.SEND.net.coding.program".equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    File outputFile;
+                    try {
+                        outputFile = photoOperate.scal(imageUri);
+                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));
+                        adapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        showMiddleToast("缩放图片失败");
+                        Global.errorLog(e);
+                    }
+                }
+                mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
         }
     }
 

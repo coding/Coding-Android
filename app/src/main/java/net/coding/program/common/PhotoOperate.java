@@ -85,6 +85,8 @@ public class PhotoOperate {
             inputChannel = new FileInputStream(source).getChannel();
             outputChannel = new FileOutputStream(dest).getChannel();
             outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } catch (Exception e) {
+            Global.errorLog(e);
         } finally {
             inputChannel.close();
             outputChannel.close();

@@ -306,6 +306,13 @@
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND.net.coding.program" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
