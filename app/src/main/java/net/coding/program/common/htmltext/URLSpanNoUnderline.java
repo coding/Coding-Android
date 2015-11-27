@@ -167,7 +167,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 任务详情
         // https://coding.net/u/wzw/p/coding/task/9220
-        final String task = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/task/(\\w+)$";
+        final String task = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)$";
         pattern = Pattern.compile(task);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -312,7 +312,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到merge或pull
-        final String mergeString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/(merge)?(pull)?/(\\w+)$";
+        final String mergeString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\w+)$";
         pattern = Pattern.compile(mergeString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -323,7 +323,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到commit
-        final String commitString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/commit/.+$";
+        final String commitString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
         pattern = Pattern.compile(commitString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -334,7 +334,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到branch
-        final String branchString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w-]+)/git/tree/(.+)$";
+        final String branchString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
         pattern = Pattern.compile(branchString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
