@@ -162,7 +162,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         if (isLoadingLastPage(mDataUrl)){
             return;
         }
-        showDialogLoading();
+        setRefreshing(true);
         getNextPageNetwork(mDataUrl, mDataUrl);
     }
 

@@ -14,6 +14,12 @@
     <TextView
             android:id="@+id/mall_list_item_title"
             android:text="title"
+            android:singleLine="true"
+            android:focusable="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

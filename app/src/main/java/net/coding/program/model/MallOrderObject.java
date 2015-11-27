@@ -60,7 +60,7 @@ public class MallOrderObject implements Serializable {
         orderNo = object.optString("orderNo");
         id = object.optInt("id");
         giftId = object.optInt("giftId");
-        name = object.optString("name");
+        name = object.optString("giftName");
         pointsCost = object.optDouble("pointsCost");
         receiverName = object.optString("receiverName");
         receiverPhone = object.optString("receiverPhone");

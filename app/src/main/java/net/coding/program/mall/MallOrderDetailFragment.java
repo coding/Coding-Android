@@ -25,6 +25,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by libo on 2015/11/22.
@@ -41,6 +42,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     @FragmentArg
     Type mType;
 
+    private AtomicBoolean footerAdded = new AtomicBoolean(false);
     ArrayList<MallOrderObject> mData = new ArrayList<>();
 
     String mUrl;
@@ -185,7 +187,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 //
 //                mData.add(orderObject);
 
-                if (mData.size() > 0 && listView.getFooterViewsCount() == 0) {
+                if (footerAdded.compareAndSet(false,true)) {
                     View footerView = LayoutInflater.from(getActivity()).inflate(
                             R.layout.mall_detail_list_footer, null);
                     listView.addFooterView(footerView);

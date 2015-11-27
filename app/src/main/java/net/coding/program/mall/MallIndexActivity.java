@@ -92,7 +92,7 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
         if (mBannerData.isEmpty()) {
             showDialogLoading();
         } else {
-//            setRefreshing(true);
+            setRefreshing(true);
         }
 
         mBannerData.addAll(AccountInfo.getMallBanners(this));

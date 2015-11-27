@@ -112,11 +112,13 @@
 			<TextView
 					android:textAppearance="@style/TextAppearance.AppCompat.Title"
 					android:text="收货人 *"
+					android:inputType="textPersonName"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 			<EditText
 					android:id="@+id/mall_order_edit_username"
 					android:hint="收货人姓名"
+					android:inputType=""
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 			<TextView
