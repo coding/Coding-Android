@@ -131,7 +131,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         if (position > lastPosition)
         {
             Animation animation = AnimationUtils
-                    .loadAnimation(context, R.anim.listview_fade_in);
+                    .loadAnimation(context, R.anim.slide_in_right);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
