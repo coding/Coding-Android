@@ -153,15 +153,14 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
     @Override
     public void onRefresh() {
         initSetting();
-        loadMore();
-//        getNetwork(mDataUrl, mDataUrl);
+        getNextPageNetwork(mDataUrl, mDataUrl);
     }
 
     @Override
     public void loadMore() {
-//        if (isLoadingLastPage(mDataUrl)) {
-//            return;
-//        }
+        if (!isLoadingLastPage(mDataUrl)) {
+            showDialogLoading();
+        }
         getNextPageNetwork(mDataUrl, mDataUrl);
     }
 

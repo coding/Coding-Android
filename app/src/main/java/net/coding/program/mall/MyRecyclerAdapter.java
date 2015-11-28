@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     private Context context;
 
+    private int lastPosition = -1;
+
     public void addAll(ArrayList<MallItemObject> data) {
         this.mDataList.addAll(data);
     }
@@ -40,7 +45,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         mDataList.clear();
     }
 
-    public void setUserPoint(double userPoint){
+    public void setUserPoint(double userPoint) {
         this.userPoint = userPoint;
     }
 
@@ -62,13 +67,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         ImageView exchange;
 
-
+        LinearLayout container;
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.mall_list_item_title);
             points_cost = (TextView) itemView.findViewById(R.id.mall_list_item_cost);
             image = (ImageView) itemView.findViewById(R.id.mall_list_item_img);
             exchange = (ImageView) itemView.findViewById(R.id.mall_list_item_exchange);
+            container = (LinearLayout)itemView.findViewById(R.id.mall_list_item_container);
         }
     }
 
@@ -108,12 +114,26 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 }
             }
         });
+
+        setAnimation(holder.container,position);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.mall_list_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.mall_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
+    }
+
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils
+                    .loadAnimation(context, R.anim.listview_fade_in);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 }
