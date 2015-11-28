@@ -11,6 +11,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +59,7 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     @Click
     void mall_order_button_submit() {
-        showDialog();
+        parseParams();
     }
 
     @Extra
@@ -79,6 +80,7 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     @AfterViews
     void initView() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mall_order_title.setText(title);
         mall_order_point.setText(point + " 码币");
         mall_order_desc.setText(desc);
@@ -103,6 +105,22 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
                 .show();
     }
 
+    private void parseParams(){
+        if (mall_order_edit_username.getText().toString().trim().length() == 0) {
+            showMiddleToast("姓名不能为空");
+            return;
+        }
+        if (mall_order_edit_address.getText().toString().trim().length() == 0){
+            showMiddleToast("地址不能为空");
+            return;
+        }
+        int phoneLength = mall_order_edit_phone.getText().toString().trim().length();
+        if (phoneLength<8 || phoneLength > 16 ){
+            showMiddleToast("电话号码格式不正确");
+            return;
+        }
+        showDialog();
+    }
     private void parsePassword(String submitPassword) {
         if (submitPassword.length() < 6 || submitPassword.length() > 64 || TextUtils
                 .isEmpty(submitPassword)) {
@@ -115,7 +133,6 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
     }
 
     private void postSubmit() {
-        //todo lll fix params
         String password = SimpleSHA1.sha1(submitPassword);
         String userName = mall_order_edit_username.getText().toString().trim();
         String address = mall_order_edit_address.getText().toString().trim();
@@ -142,5 +159,10 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
                 showButtomToast("很抱歉，订单提交失败！");
             }
         }
+    }
+
+    @OptionsItem(android.R.id.home)
+    protected final void annotaionClose() {
+        onBackPressed();
     }
 }

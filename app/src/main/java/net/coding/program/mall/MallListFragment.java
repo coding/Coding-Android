@@ -1,6 +1,7 @@
 package net.coding.program.mall;
 
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseAppCompatFragment;
 import net.coding.program.model.MallItemObject;
@@ -13,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -44,8 +46,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
     String mDataUrl = Global.HOST_API + "/gifts?";
 
-    //    private MallListAdapter mAdapter;
-    private MyRecylerAdapter mAdapter;
+    private MyRecyclerAdapter mAdapter;
 
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
@@ -57,7 +58,6 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
     @AfterViews
     void initView() {
         initRefreshLayout();
-        mFootUpdate.init(mallListHeaderGridView, mInflater, this);
 
         if (mType.equals(Type.all_goods)) {
             mDataUrl = Global.HOST_API + "/gifts?";
@@ -67,7 +67,8 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2,
                 GridLayoutManager.VERTICAL, false);
         mallListHeaderGridView.setLayoutManager(layoutManager);
-        mAdapter = new MyRecylerAdapter(mData, userPoint, getImageLoad(), getActivity());
+        mallListHeaderGridView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new MyRecyclerAdapter(mData, userPoint, getImageLoad(), getActivity());
         mallListHeaderGridView.setAdapter(mAdapter);
 
         //到底加载更多
@@ -94,8 +95,8 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
                 }
             }
         });
+
         getNetwork(USER_POINT_URL, USER_POINT_URL);
-//        loadMore();
     }
 
     @Override
@@ -118,30 +119,29 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
-                    mAdapter = new MyRecylerAdapter(mData, userPoint, getImageLoad(),
-                            getActivity());
-                    mallListHeaderGridView.setAdapter(mAdapter);
+//                    mAdapter = new MyRecyclerAdapter(mData, userPoint, getImageLoad(),
+//                            getActivity());
+//                    mallListHeaderGridView.setAdapter(mAdapter);
+                    mAdapter.setUserPoint(userPoint);
+                    mAdapter.removeAll();
                 }
 
                 JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
-                    synchronized (mData) {
-                        JSONObject json = jsonArray.getJSONObject(i);
-                        MallItemObject orderObject = new MallItemObject(json);
-                        if (mType == Type.all_goods) {
+                    JSONObject json = jsonArray.getJSONObject(i);
+                    MallItemObject orderObject = new MallItemObject(json);
+                    if (mType == Type.all_goods) {
+                        mData.add(orderObject);
+                    } else if (mType == Type.can_change) {
+                        if (orderObject.getPoints_cost() <= userPoint) {
                             mData.add(orderObject);
-                        } else if (mType == Type.can_change) {
-                            if (orderObject.getPoints_cost() < userPoint) {
-                                mData.add(orderObject);
-                            }
                         }
                     }
                 }
 
-//                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 //                String tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK;
 //                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
-
+                mAdapter.removeAll();
                 mAdapter.addAll(mData);
                 mAdapter.notifyDataSetChanged();
             } else {
@@ -159,10 +159,9 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
     @Override
     public void loadMore() {
-        if (isLoadingLastPage(mDataUrl)){
-            return;
-        }
-        setRefreshing(true);
+//        if (isLoadingLastPage(mDataUrl)) {
+//            return;
+//        }
         getNextPageNetwork(mDataUrl, mDataUrl);
     }
 

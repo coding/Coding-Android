@@ -30,42 +30,54 @@
 
 	<LinearLayout
 			android:background="@drawable/divide_15_bottom"
-			android:padding="16dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
 			android:orientation="horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
 		<ImageView
 				android:id="@+id/order_img"
-				android:layout_width="135dp"
-				android:layout_height="135dp"/>
+				android:layout_width="110dp"
+				android:layout_height="110dp"/>
 		<RelativeLayout
 				android:layout_gravity="center_vertical"
 				android:layout_width="match_parent"
-				android:layout_height="135dp">
-			<LinearLayout
-					android:paddingLeft="16dp"
+				android:layout_height="110dp">
+			<RelativeLayout
+					android:gravity="center_vertical"
+					android:paddingLeft="8dp"
+					android:orientation="horizontal"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content">
 				<TextView
 						android:text="title"
-						android:textSize="18sp"
 						android:id="@+id/order_title"
-						android:layout_width="wrap_content"
+						android:layout_toLeftOf="@id/mall_order_count"
+						android:textAppearance="?android:attr/textAppearanceMedium"
+						android:textColor="@color/font_black_2"
+						android:textSize="18sp"
+						android:singleLine="true"
+						android:focusable="true"
+						android:marqueeRepeatLimit="marquee_forever"
+						android:focusableInTouchMode="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"/>
 
 				<TextView
-						android:gravity="right"
-						android:layout_marginRight="16dp"
+						android:gravity="right|center_vertical"
+						android:layout_alignParentRight="true"
 						android:text="1 X"
 						android:textColor="@color/font_green"
 						android:id="@+id/mall_order_count"
-						android:layout_width="match_parent"
+						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"/>
-			</LinearLayout>
+			</RelativeLayout>
 
 			<LinearLayout
-					android:paddingLeft="16dp"
+					android:paddingLeft="8dp"
 					android:layout_gravity="center_vertical"
 					android:gravity="center_vertical"
 					android:layout_width="match_parent"
@@ -88,7 +100,7 @@
 					android:gravity="left|bottom"
 					android:id="@+id/order_note"
 					android:text="备注：要XL的"
-					android:paddingLeft="16dp"
+					android:paddingLeft="8dp"
 					android:maxLines="1"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent">

@@ -39,6 +39,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     @ViewById
     View blankLayout;
 
+    @ViewById
+    View list_footer;
+
     @FragmentArg
     Type mType;
 
@@ -187,10 +190,15 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 //
 //                mData.add(orderObject);
 
-                if (footerAdded.compareAndSet(false,true)) {
-                    View footerView = LayoutInflater.from(getActivity()).inflate(
-                            R.layout.mall_detail_list_footer, null);
-                    listView.addFooterView(footerView);
+//                if (footerAdded.compareAndSet(false,true)) {
+//                    View footerView = LayoutInflater.from(getActivity()).inflate(
+//                            R.layout.mall_detail_list_footer, null);
+//                    listView.addFooterView(footerView);
+//                }
+                if (mData.size() == 0) {
+                    list_footer.setVisibility(View.GONE);
+                }else {
+                    list_footer.setVisibility(View.VISIBLE);
                 }
 
                 mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());

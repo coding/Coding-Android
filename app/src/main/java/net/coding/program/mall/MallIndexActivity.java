@@ -29,6 +29,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,9 @@ import java.util.List;
 @EActivity(R.layout.activity_mall)
 @OptionsMenu(R.menu.menu_mall_index)
 public class MallIndexActivity extends RefreshBaseAppCompatActivity {
+
+    @ViewById
+    Toolbar toolbar;
 
     @ViewById
     WechatTab mallTab;
@@ -67,24 +71,21 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
 
     @OptionsItem
     void action_order() {
-        //todo lll fix target
         MallOrderDetailActivity_.intent(this).start();
+    }
+
+    @OptionsItem(android.R.id.home)
+    protected final void annotaionClose() {
+        onBackPressed();
     }
 
     @AfterViews
     void initView() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-        collapsing_toolbar.setTitle("商城");
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeButtonEnabled(true);
+        actionbar.setTitle("商城");
 
         setupViewPager(viewpager);
         mallTab.setViewPager(viewpager);

@@ -3,6 +3,7 @@
               android:orientation="vertical"
               android:paddingLeft="16dp"
               android:paddingRight="16dp"
+              android:addStatesFromChildren="true"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -10,8 +11,8 @@
             android:id="@+id/mall_list_item_img"
             android:layout_width="match_parent"
             android:layout_height="135dp"
-            android:layout_gravity="center_horizontal"/>
-    <TextView
+            />
+    <net.coding.program.common.widget.MarqueeView
             android:id="@+id/mall_list_item_title"
             android:text="title"
             android:singleLine="true"
@@ -24,11 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <LinearLayout
+            android:paddingTop="5dp"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <ImageView
+                android:layout_gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:scaleType="fitXY"
@@ -36,11 +39,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <TextView
+                android:layout_gravity="center_vertical"
                 android:id="@+id/mall_list_item_cost"
                 android:text="5 码币"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <ImageView
+                android:layout_gravity="center_vertical"
                 android:id="@+id/mall_list_item_exchange"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"

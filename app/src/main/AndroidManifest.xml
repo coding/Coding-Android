@@ -757,9 +757,9 @@
         <activity
                 android:name=".mall.MallIndexActivity_"
                 android:screenOrientation="portrait"
-                android:theme="@style/ThemeMall"
                 android:label="@string/title_activity_mall" >
         </activity>
+                <!--android:theme="@style/ThemeMall"-->
         <activity
                 android:name=".mall.MallOrderSubmitActivity_"
                 android:screenOrientation="portrait"

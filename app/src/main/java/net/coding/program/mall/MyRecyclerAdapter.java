@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by libo on 2015/11/26.
  */
-public class MyRecylerAdapter extends RecyclerView.Adapter<MyRecylerAdapter.ViewHolder> {
+public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
 
     private ArrayList<MallItemObject> mDataList = new ArrayList<>();
 
@@ -40,7 +40,11 @@ public class MyRecylerAdapter extends RecyclerView.Adapter<MyRecylerAdapter.View
         mDataList.clear();
     }
 
-    public MyRecylerAdapter(ArrayList<MallItemObject> mData, double userPoint,
+    public void setUserPoint(double userPoint){
+        this.userPoint = userPoint;
+    }
+
+    public MyRecyclerAdapter(ArrayList<MallItemObject> mData, double userPoint,
             ImageLoadTool imageLoader, Context context) {
         this.mDataList.addAll(mData);
         this.userPoint = userPoint;
