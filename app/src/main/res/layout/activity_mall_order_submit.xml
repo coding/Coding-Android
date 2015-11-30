@@ -60,7 +60,7 @@
 						<TextView
 								android:paddingLeft="5dp"
 								android:layout_alignParentRight="true"
-								android:layout_marginLeft="40dp"
+								android:layout_marginLeft="24dp"
 								android:gravity="right|center_vertical"
 								android:singleLine="true"
 								android:text="1 X"

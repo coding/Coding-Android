@@ -29,7 +29,7 @@
 	</LinearLayout>
 
 	<LinearLayout
-			android:background="@color/divide_line"
+			android:background="@drawable/divide_15_bottom"
 			android:layout_marginLeft="16dp"
 			android:layout_marginRight="16dp"
 			android:orientation="horizontal"
@@ -221,6 +221,7 @@
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
 				android:paddingTop="16dp"
+				android:paddingBottom="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">

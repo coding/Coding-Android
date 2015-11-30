@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:paddingTop="60dp"
               android:layout_width="match_parent"
+			android:background="@drawable/divide_15_bottom"
               android:layout_height="match_parent">
 
 	<TextView
-			android:background="@color/divide_line"
 			android:text="@string/mall_detail_footer_tips"
 			android:padding="16dp"
 			android:gravity="center"

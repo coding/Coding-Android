@@ -44,7 +44,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
     ArrayList<MallItemObject> mData = new ArrayList<>();
 
-    String mDataUrl = Global.HOST_API + "/gifts?";
+    String mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
 
     private MyRecyclerAdapter mAdapter;
 
@@ -60,9 +60,9 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         initRefreshLayout();
 
         if (mType.equals(Type.all_goods)) {
-            mDataUrl = Global.HOST_API + "/gifts?";
+            mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
         } else {
-            mDataUrl = Global.HOST_API + "/gifts?";
+            mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
         }
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2,
                 GridLayoutManager.VERTICAL, false);

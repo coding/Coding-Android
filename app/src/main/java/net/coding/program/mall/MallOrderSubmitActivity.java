@@ -128,6 +128,7 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
             return;
         }
         this.submitPassword = submitPassword;
+
         postSubmit();
 
     }
@@ -146,15 +147,19 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
         params.put("remark", note);
         params.put("receiverAddress",address);
         params.put("giftId", giftId);
+        showProgressBar(true,"正在提交订单...");
         postNetwork(host, params, host);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
             throws JSONException {
+        showProgressBar(false);
         if(tag.equals(host)){
             if (code == 0 ){
                 showButtomToast("恭喜您，订单提交成功！");
+                MallOrderDetailActivity_.intent(this).start();
+                finish();
             }else {
                 showButtomToast("很抱歉，订单提交失败！");
             }

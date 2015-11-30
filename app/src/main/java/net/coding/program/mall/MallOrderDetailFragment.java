@@ -46,6 +46,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     Type mType;
 
     private AtomicBoolean footerAdded = new AtomicBoolean(false);
+
     ArrayList<MallOrderObject> mData = new ArrayList<>();
 
     String mUrl;
@@ -128,7 +129,8 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     @AfterViews
     protected final void init() {
         initRefreshLayout();
-        mFootUpdate.init(listView, mInflater, this);
+//        mFootUpdate.init(listView, mInflater, this);
+        list_footer.setVisibility(View.GONE);
 
         listView.setAdapter(mAdapter);
         switch (mType) {
@@ -195,13 +197,15 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 //                            R.layout.mall_detail_list_footer, null);
 //                    listView.addFooterView(footerView);
 //                }
-                if (mData.size() == 0) {
-                    list_footer.setVisibility(View.GONE);
-                }else {
-                    list_footer.setVisibility(View.VISIBLE);
+
+                if (mData.size() != 0) {
+
+                    View footerView = LayoutInflater.from(getActivity()).inflate(
+                            R.layout.mall_detail_list_footer, null);
+                    listView.addFooterView(footerView);
                 }
 
-                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
+//                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
                 String tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK;
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
 
@@ -214,6 +218,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
     @Override
     public void loadMore() {
+        if (!isLoadingFirstPage(mUrl)) {
+            showDialogLoading();
+        }
         getNextPageNetwork(mUrl, mUrl);
 
     }
