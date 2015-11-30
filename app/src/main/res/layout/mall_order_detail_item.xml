@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:background="@color/white"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
 	<include layout="@layout/divide_15_bottom"/>
 
@@ -38,13 +38,14 @@
 
 		<ImageView
 				android:id="@+id/order_img"
-				android:layout_width="110dp"
-				android:layout_height="110dp"/>
+				android:layout_width="128dp"
+				android:layout_height="128dp"/>
 		<RelativeLayout
 				android:layout_gravity="center_vertical"
 				android:layout_width="match_parent"
-				android:layout_height="110dp">
+				android:layout_height="128dp">
 			<RelativeLayout
+					android:paddingTop="8dp"
 					android:gravity="center_vertical"
 					android:paddingLeft="8dp"
 					android:orientation="horizontal"
@@ -69,6 +70,8 @@
 				<TextView
 						android:gravity="right|center_vertical"
 						android:layout_alignParentRight="true"
+						android:paddingLeft="40dp"
+						android:paddingRight="11dp"
 						android:text="1 X"
 						android:textColor="@color/font_green"
 						android:id="@+id/mall_order_count"
@@ -100,6 +103,7 @@
 					android:gravity="left|bottom"
 					android:id="@+id/order_note"
 					android:text="备注：要XL的"
+					android:paddingBottom="8dp"
 					android:paddingLeft="8dp"
 					android:maxLines="1"
 					android:layout_width="match_parent"
@@ -116,17 +120,18 @@
 		<LinearLayout
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
-				android:paddingTop="8dp"
-				android:paddingBottom="8dp"
+				android:paddingTop="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 			<TextView
 					android:text="收货人："
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 			<TextView
 					android:id="@+id/order_receiver_name"
+					android:textColor="@color/font_black_6"
 					android:text="张三"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
@@ -135,17 +140,18 @@
 		<LinearLayout
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
-				android:paddingTop="8dp"
-				android:paddingBottom="8dp"
+				android:paddingTop="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 			<TextView
 					android:text="联系电话："
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 			<TextView
 					android:id="@+id/order_receiver_phone"
+					android:textColor="@color/font_black_6"
 					android:text="12345678901"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
@@ -154,18 +160,19 @@
 		<LinearLayout
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
-				android:paddingTop="8dp"
-				android:paddingBottom="8dp"
+				android:paddingTop="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 			<TextView
 					android:text="状态："
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 			<TextView
 					android:id="@+id/order_status"
 					android:text="已发货"
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 
@@ -173,18 +180,19 @@
 		<LinearLayout
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
-				android:paddingTop="8dp"
-				android:paddingBottom="8dp"
+				android:paddingTop="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 			<TextView
 					android:text="快递："
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 			<TextView
 					android:id="@+id/order_express"
 					android:text="中通 0000000"
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 
@@ -192,18 +200,19 @@
 		<LinearLayout
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
-				android:paddingTop="8dp"
-				android:paddingBottom="8dp"
+				android:paddingTop="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 			<TextView
 					android:text="时间："
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 			<TextView
 					android:id="@+id/order_time"
 					android:text="2015-11-11 11：:1"
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 
@@ -211,18 +220,19 @@
 		<LinearLayout
 				android:paddingLeft="16dp"
 				android:paddingRight="16dp"
-				android:paddingTop="8dp"
-				android:paddingBottom="8dp"
+				android:paddingTop="16dp"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 			<TextView
 					android:text="收货地址："
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 			<TextView
 					android:id="@+id/order_addr"
 					android:text="广东 深圳"
+					android:textColor="@color/font_black_6"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"/>
 

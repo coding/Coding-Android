@@ -54,6 +54,8 @@
 
         <!--add by libo material theme-->
         <!--<item name="alertDialogProTheme">@style/Theme.AlertDialogPro.Material.Light</item>-->
+        <item name="editTextStyle">@style/Base.V7.Widget.AppCompat.EditText</item>
+        <item name="editTextBackground">@drawable/abc_edit_text_material</item>
     </style>
 
     <!--没有icon的actionbar -->

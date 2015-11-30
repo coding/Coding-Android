@@ -13,7 +13,7 @@
 				android:padding="16dp"
 				android:orientation="vertical"
 				android:layout_width="match_parent"
-				android:layout_height="235dp">
+				android:layout_height="227dp">
 
 
 			<LinearLayout
@@ -25,8 +25,8 @@
 						android:src="@drawable/ic_lancher"
 						android:id="@+id/mall_order_img"
 						android:padding="10dp"
-						android:layout_width="135dp"
-						android:layout_height="135dp"/>
+						android:layout_width="108dp"
+						android:layout_height="108dp"/>
 
 				<LinearLayout
 						android:orientation="vertical"
@@ -34,7 +34,7 @@
 						android:layout_height="match_parent">
 
 					<RelativeLayout
-							android:paddingLeft="16dp"
+							android:paddingLeft="21dp"
 							android:layout_gravity="center_vertical"
 							android:gravity="center_vertical"
 							android:orientation="horizontal"
@@ -60,6 +60,7 @@
 						<TextView
 								android:paddingLeft="5dp"
 								android:layout_alignParentRight="true"
+								android:layout_marginLeft="40dp"
 								android:gravity="right|center_vertical"
 								android:singleLine="true"
 								android:text="1 X"
@@ -71,7 +72,7 @@
 					</RelativeLayout>
 
 					<LinearLayout
-							android:paddingLeft="16dp"
+							android:paddingLeft="21dp"
 							android:layout_gravity="center_vertical"
 							android:gravity="center_vertical"
 							android:layout_width="match_parent"
@@ -100,9 +101,10 @@
 					android:layout_width="match_parent"
 					android:layout_height="1dp"/>
 
-					<!--android:paddingTop="15dp"-->
-					<!--android:layout_gravity="center_vertical"-->
+			<!--android:paddingTop="15dp"-->
+			<!--android:layout_gravity="center_vertical"-->
 			<TextView
+					android:paddingTop="15dp"
 					android:id="@+id/mall_order_desc"
 					android:gravity="center|left"
 					android:text="@string/desc_mall_order_item_tip"
@@ -116,6 +118,7 @@
 		<TextView
 				android:padding="16dp"
 				android:textSize="16sp"
+				android:gravity="center_vertical"
 				android:text="填写并核对信息"
 				android:background="@drawable/divide_15_top_bottom"
 				android:layout_width="match_parent"
@@ -127,72 +130,90 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-					<!--android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
+			<!--android:textAppearance="@style/TextAppearance.AppCompat.Title"-->
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/font_black_2"
 					android:textSize="18sp"
 					android:paddingLeft="4dp"
+					android:paddingBottom="6dp"
 					android:text="收货人 *"
 					android:inputType="textPersonName"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
+
 			<EditText
 					android:id="@+id/mall_order_edit_username"
+					android:gravity="center_vertical"
 					android:hint="收货人姓名"
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
 					android:inputType=""
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
+					android:layout_height="40dp"/>
+
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/font_black_2"
+					android:paddingBottom="6dp"
+					android:paddingTop="6dp"
 					android:textSize="18sp"
 					android:paddingLeft="4dp"
 					android:text="详细地址 *"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
+
 			<EditText
 					android:id="@+id/mall_order_edit_address"
+					android:paddingBottom="6dp"
 					android:hint="省，市，县，镇，街道"
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
+					android:layout_height="40dp"/>
+
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:paddingBottom="6dp"
+					android:paddingTop="6dp"
 					android:textColor="@color/font_black_2"
 					android:textSize="18sp"
 					android:paddingLeft="4dp"
 					android:text="联系电话 *"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
+
 			<EditText
 					android:id="@+id/mall_order_edit_phone"
+					android:paddingBottom="6dp"
 					android:hint="电话"
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
 					android:inputType="phone"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
+					android:layout_height="40dp"/>
+
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:paddingBottom="6dp"
+					android:paddingTop="6dp"
 					android:textColor="@color/font_black_2"
 					android:textSize="18sp"
 					android:paddingLeft="4dp"
 					android:text="备注"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
+
 			<EditText
 					android:id="@+id/mall_order_edit_note"
 					android:hint="备注信息如：衣服码数 XXL"
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
+					android:layout_height="40dp"/>
 
 		</LinearLayout>
+
 		<Button
 				android:text="提交订单"
 				android:textColor="#ffffff"
