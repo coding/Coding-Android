@@ -14,7 +14,7 @@
 
 		<TextView
 				android:layout_marginLeft="16dp"
-				android:text="订单编号："
+				android:text="订单编号"
 				android:background="@drawable/round_rect_edge"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
@@ -29,7 +29,7 @@
 	</LinearLayout>
 
 	<LinearLayout
-			android:background="@drawable/divide_15_bottom"
+			android:background="@color/gray_dark"
 			android:layout_marginLeft="16dp"
 			android:layout_marginRight="16dp"
 			android:orientation="horizontal"
@@ -38,12 +38,12 @@
 
 		<ImageView
 				android:id="@+id/order_img"
-				android:layout_width="128dp"
-				android:layout_height="128dp"/>
+				android:layout_width="134dp"
+				android:layout_height="82dp"/>
 		<RelativeLayout
 				android:layout_gravity="center_vertical"
 				android:layout_width="match_parent"
-				android:layout_height="128dp">
+				android:layout_height="82dp">
 			<RelativeLayout
 					android:paddingTop="8dp"
 					android:gravity="center_vertical"
@@ -93,7 +93,7 @@
 						android:layout_height="wrap_content"/>
 
 				<TextView
-						android:paddingLeft="16dp"
+						android:paddingLeft="15dp"
 						android:text="0.0 码币"
 						android:id="@+id/order_point"
 						android:layout_width="match_parent"

@@ -13,7 +13,7 @@
 				android:padding="16dp"
 				android:orientation="vertical"
 				android:layout_width="match_parent"
-				android:layout_height="227dp">
+				android:layout_height="200dp">
 
 
 			<LinearLayout
@@ -25,8 +25,8 @@
 						android:src="@drawable/ic_lancher"
 						android:id="@+id/mall_order_img"
 						android:padding="10dp"
-						android:layout_width="108dp"
-						android:layout_height="108dp"/>
+						android:layout_width="134dp"
+						android:layout_height="82dp"/>
 
 				<LinearLayout
 						android:orientation="vertical"
@@ -150,7 +150,7 @@
 					android:textColor="@color/font_black_9"
 					android:inputType=""
 					android:layout_width="match_parent"
-					android:layout_height="40dp"/>
+					android:layout_height="45dp"/>
 
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
@@ -170,7 +170,7 @@
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
 					android:layout_width="match_parent"
-					android:layout_height="40dp"/>
+					android:layout_height="45dp"/>
 
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
@@ -191,7 +191,7 @@
 					android:textColor="@color/font_black_9"
 					android:inputType="phone"
 					android:layout_width="match_parent"
-					android:layout_height="40dp"/>
+					android:layout_height="45dp"/>
 
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
@@ -210,21 +210,27 @@
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
 					android:layout_width="match_parent"
-					android:layout_height="40dp"/>
+					android:layout_height="45dp"/>
 
 		</LinearLayout>
 
-		<Button
-				android:text="提交订单"
-				android:textColor="#ffffff"
-				android:id="@+id/mall_order_button_submit"
-				android:background="@drawable/edit_send_green"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginLeft="12dp"
-				android:layout_marginRight="12dp"
-				android:layout_marginTop="5dp"
-				android:layout_marginBottom="16dp"
+		<LinearLayout
+				android:background="@drawable/divide_15_bottom"
+				android:layout_gravity="center_vertical"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"/>
+				android:layout_height="90dp">
+
+
+			<Button
+					android:text="提交订单"
+					android:textColor="#ffffff"
+					android:id="@+id/mall_order_button_submit"
+					android:background="@drawable/edit_send_green"
+					android:layout_gravity="center"
+					android:layout_marginLeft="12dp"
+					android:layout_marginRight="12dp"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

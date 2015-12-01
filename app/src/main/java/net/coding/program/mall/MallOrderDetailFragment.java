@@ -192,13 +192,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 //
 //                mData.add(orderObject);
 
-//                if (footerAdded.compareAndSet(false,true)) {
-//                    View footerView = LayoutInflater.from(getActivity()).inflate(
-//                            R.layout.mall_detail_list_footer, null);
-//                    listView.addFooterView(footerView);
-//                }
-
-                if (mData.size() != 0) {
+                if (mData.size() != 0 && footerAdded.compareAndSet(false, true)) {
 
                     View footerView = LayoutInflater.from(getActivity()).inflate(
                             R.layout.mall_detail_list_footer, null);
@@ -218,7 +212,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
     @Override
     public void loadMore() {
-        if (!isLoadingFirstPage(mUrl)) {
+        if (!isLoadingFirstPage(mUrl) && !isLoadingLastPage(mUrl)) {
             showDialogLoading();
         }
         getNextPageNetwork(mUrl, mUrl);
