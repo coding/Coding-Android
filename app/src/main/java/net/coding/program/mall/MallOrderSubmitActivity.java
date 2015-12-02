@@ -1,11 +1,16 @@
 package net.coding.program.mall;
 
 import com.loopj.android.http.RequestParams;
+import com.tencent.connect.UserInfo;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.ui.BaseAppCompatActivity;
+import net.coding.program.model.AccountInfo;
+import net.coding.program.model.DynamicObject;
+import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -20,6 +25,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,6 +40,7 @@ import android.widget.TextView;
 public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     final String host = Global.HOST_API + "/gifts/exchange";
+
     @ViewById
     EditText mall_order_edit_username;
 
@@ -54,6 +61,7 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     @ViewById
     TextView mall_order_point;
+
     @ViewById
     TextView mall_order_desc;
 
@@ -67,6 +75,7 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     @Extra
     String desc;
+
     @Extra
     String title;
 
@@ -78,14 +87,32 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     String submitPassword = "";
 
+    private View.OnFocusChangeListener foucusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            Global.popSoftkeyboard(MallOrderSubmitActivity.this, v, hasFocus);
+        }
+    };
+
     @AfterViews
     void initView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        UserObject user = AccountInfo.loadAccount(this);
+        String userName = user.name;
+        mall_order_edit_username.setHint(userName);
+
         mall_order_title.setText(title);
         mall_order_point.setText(point + " 码币");
         mall_order_desc.setText(desc);
-        getImageLoad().loadImage(mall_order_img, imgUrl);
+        getImageLoad().loadImage(mall_order_img, imgUrl, ImageLoadTool.mallOptions);
+
+        mall_order_edit_username.setOnFocusChangeListener(foucusChangeListener);
+        mall_order_edit_address.setOnFocusChangeListener(foucusChangeListener);
+        mall_order_edit_phone.setOnFocusChangeListener(foucusChangeListener);
+        mall_order_edit_note.setOnFocusChangeListener(foucusChangeListener);
     }
+
 
     void showDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -105,22 +132,23 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
                 .show();
     }
 
-    private void parseParams(){
+    private void parseParams() {
         if (mall_order_edit_username.getText().toString().trim().length() == 0) {
             showMiddleToast("姓名不能为空");
             return;
         }
-        if (mall_order_edit_address.getText().toString().trim().length() == 0){
+        if (mall_order_edit_address.getText().toString().trim().length() == 0) {
             showMiddleToast("地址不能为空");
             return;
         }
         int phoneLength = mall_order_edit_phone.getText().toString().trim().length();
-        if (phoneLength<8 || phoneLength > 16 ){
+        if (phoneLength < 8 || phoneLength > 16) {
             showMiddleToast("电话号码格式不正确");
             return;
         }
         showDialog();
     }
+
     private void parsePassword(String submitPassword) {
         if (submitPassword.length() < 6 || submitPassword.length() > 64 || TextUtils
                 .isEmpty(submitPassword)) {
@@ -145,9 +173,9 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
         params.put("receiverName", userName);
         params.put("receiverPhone", phone);
         params.put("remark", note);
-        params.put("receiverAddress",address);
+        params.put("receiverAddress", address);
         params.put("giftId", giftId);
-        showProgressBar(true,"正在提交订单...");
+        showProgressBar(true, "正在提交订单...");
         postNetwork(host, params, host);
     }
 
@@ -155,12 +183,12 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
             throws JSONException {
         showProgressBar(false);
-        if(tag.equals(host)){
-            if (code == 0 ){
+        if (tag.equals(host)) {
+            if (code == 0) {
                 showButtomToast("恭喜您，订单提交成功！");
                 MallOrderDetailActivity_.intent(this).start();
                 finish();
-            }else {
+            } else {
                 showButtomToast("很抱歉，订单提交失败！");
             }
         }
@@ -169,5 +197,41 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
     @OptionsItem(android.R.id.home)
     protected final void annotaionClose() {
         onBackPressed();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+                Global.popSoftkeyboard(MallOrderSubmitActivity.this, v, false);
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        // 必不可少，否则所有的组件都不会有TouchEvent了
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
+
+    private boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = {0, 0};
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0];
+            int top = leftTop[1];
+            int bottom = top + v.getHeight();
+            int right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击的是输入框区域，保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }

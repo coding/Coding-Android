@@ -114,8 +114,26 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             holder.note.setText("备注：" + item.getRemark());
             holder.receiverName.setText(item.getReceiverName());
             holder.receiverPhone.setText(item.getReceiverPhone());
-            holder.status.setText(item.getStatus() == 0 ? "已发货" : "未发货");
-            holder.express.setText(item.getExpressNo());
+
+            int status = item.getStatus();
+            switch (status){
+                case 0:
+                    holder.status.setText("未发货");
+                    break;
+                case 1:
+                    holder.status.setText("已发货");
+                    break;
+                case 2:
+                    holder.status.setText("已完成");
+                    break;
+            }
+
+            String express = item.getExpressNo();
+            if (express.equals("")) {
+                holder.express.setText("暂无");
+            } else {
+                holder.express.setText(item.getExpressNo());
+            }
             holder.receiverAddress.setText(item.getReceiverAddress());
 
             if (position == (getCount() - 1)) {
@@ -145,6 +163,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 break;
         }
 
+
         loadMore();
     }
 
@@ -166,11 +185,11 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                     if (mType == Type.all_order) {
                         mData.add(orderObject);
                     } else if (mType == Type.already_send) {
-                        if (orderObject.getStatus() == 0) {
+                        if (orderObject.getStatus() == 1) {
                             mData.add(orderObject);
                         }
                     } else {
-                        if (orderObject.getStatus() != 0) {
+                        if (orderObject.getStatus() == 0) {
                             mData.add(orderObject);
                         }
                     }

@@ -19,12 +19,12 @@
 			<LinearLayout
 					android:orientation="horizontal"
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+					android:layout_height="82dp">
 
 				<ImageView
 						android:src="@drawable/ic_lancher"
 						android:id="@+id/mall_order_img"
-						android:padding="10dp"
+						android:scaleType="fitXY"
 						android:layout_width="134dp"
 						android:layout_height="82dp"/>
 
@@ -35,6 +35,7 @@
 
 					<RelativeLayout
 							android:paddingLeft="21dp"
+							android:paddingTop="8dp"
 							android:layout_gravity="center_vertical"
 							android:gravity="center_vertical"
 							android:orientation="horizontal"
@@ -46,7 +47,7 @@
 								android:text="titletitletitletitletitletitletitletitletitletitletitletitletitle"
 								android:textAppearance="?android:attr/textAppearanceMedium"
 								android:textColor="@color/font_black_2"
-								android:textSize="21sp"
+								android:textSize="16sp"
 								android:singleLine="true"
 								android:focusable="true"
 								android:marqueeRepeatLimit="marquee_forever"
@@ -63,8 +64,8 @@
 								android:layout_marginLeft="24dp"
 								android:gravity="right|center_vertical"
 								android:singleLine="true"
-								android:text="1 X"
-								android:textSize="21sp"
+								android:text="X 1"
+								android:textSize="16sp"
 								android:textColor="@color/font_green"
 								android:id="@+id/mall_order_count"
 								android:layout_width="wrap_content"
@@ -89,7 +90,7 @@
 								android:text="0.0 码币"
 								android:id="@+id/mall_order_point"
 								android:textAppearance="?android:attr/textAppearanceSmall"
-								android:textSize="18sp"
+								android:textSize="14sp"
 								android:textColor="@color/font_black_9"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"/>
@@ -98,27 +99,28 @@
 			</LinearLayout>
 
 			<include
-					layout="@layout/divide_1"
+					android:layout_marginTop="14dp"
+					android:layout_marginBottom="14dp"
+					layout="@layout/divide_dash_line"
 					android:layout_width="match_parent"
 					android:layout_height="1dp"/>
 
 			<!--android:paddingTop="15dp"-->
 			<!--android:layout_gravity="center_vertical"-->
-					<!--android:gravity="center|left"-->
+			<!--android:gravity="center|left"-->
 			<TextView
-					android:paddingTop="15dp"
 					android:id="@+id/mall_order_desc"
 					android:text="@string/desc_mall_order_item_tip"
 					android:textAppearance="?android:attr/textAppearanceSmall"
 					android:textColor="@color/font_black_9"
-					android:textSize="18sp"
+					android:textSize="15sp"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"/>
 		</LinearLayout>
 
 		<TextView
 				android:padding="16dp"
-				android:textSize="18sp"
+				android:textSize="16sp"
 				android:gravity="center_vertical"
 				android:text="填写并核对信息"
 				android:background="@drawable/divide_15_top_bottom"
@@ -136,127 +138,140 @@
 					android:text="收货人 *"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/font_black_2"
-					android:textSize="21sp"
-					android:paddingBottom="26dp"
+					android:textSize="16sp"
+					android:paddingBottom="18dp"
 					android:inputType="textPersonName"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					/>
 
 			<EditText
-					android:hint="miaodesign"
+					android:hint="收货人姓名"
+					android:textSize="15sp"
 					android:id="@+id/mall_order_edit_username"
 					android:gravity="center_vertical"
-					android:textSize="21sp"
 					android:background="@null"
-					android:paddingBottom="18dp"
+					android:paddingBottom="14dp"
 					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:textColor="@color/font_black_9"
+					android:textColor="#666666"
+					android:textColorHint="#cccccc"
 					android:inputType=""
 					android:layout_width="match_parent"
-			        android:layout_height="wrap_content"
+					android:layout_height="wrap_content"
 					/>
 
 			<include
 					layout="@layout/divide_1"
 					android:layout_width="match_parent"
-					android:layout_height="1dp"/>
+					android:layout_height="0.5dp"/>
 
 			<TextView
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/font_black_2"
-					android:textSize="21sp"
-					android:paddingBottom="26dp"
-					android:paddingTop="26dp"
+					android:textSize="16sp"
+					android:paddingBottom="18dp"
+					android:paddingTop="18dp"
 					android:text="详细地址 *"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
 			<EditText
 					android:id="@+id/mall_order_edit_address"
+					android:textSize="15sp"
 					android:hint="省，市，县，镇，街道"
 					android:gravity="center_vertical"
-					android:textSize="21sp"
 					android:background="@null"
-					android:paddingBottom="18dp"
+					android:paddingBottom="14dp"
 					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:textColor="@color/font_black_9"
+					android:textColor="#666666"
+					android:textColorHint="#cccccc"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
 			<include
 					layout="@layout/divide_1"
 					android:layout_width="match_parent"
-					android:layout_height="1dp"/>
+					android:layout_height="0.5dp"/>
 
 			<TextView
 					android:text="联系电话 *"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/font_black_2"
-					android:textSize="21sp"
-					android:paddingBottom="26dp"
-					android:paddingTop="26dp"
+					android:textSize="16sp"
+					android:paddingBottom="18dp"
+					android:paddingTop="18dp"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
 			<EditText
 					android:id="@+id/mall_order_edit_phone"
+					android:textSize="15sp"
+					android:textColor="#666666"
+					android:textColorHint="#cccccc"
 					android:hint="电话"
 					android:inputType="phone"
 					android:gravity="center_vertical"
-					android:textSize="21sp"
 					android:background="@null"
-					android:paddingBottom="18dp"
+					android:paddingBottom="14dp"
 					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:textColor="@color/font_black_9"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
 			<include
 					layout="@layout/divide_1"
 					android:layout_width="match_parent"
-					android:layout_height="1dp"/>
+					android:layout_height="0.5dp"/>
 
 			<TextView
 					android:text="备注"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:textColor="@color/font_black_2"
-					android:textSize="21sp"
-					android:paddingBottom="26dp"
-					android:paddingTop="26dp"
+					android:textSize="16sp"
+					android:paddingBottom="18dp"
+					android:paddingTop="18dp"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
 			<EditText
 					android:id="@+id/mall_order_edit_note"
+					android:textSize="15sp"
 					android:hint="备注信息如：衣服码数 XXL"
 					android:gravity="center_vertical"
-					android:textSize="21sp"
 					android:background="@null"
-					android:paddingBottom="18dp"
+					android:paddingBottom="14dp"
 					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:textColor="@color/font_black_9"
+					android:textColor="#666666"
+					android:textColorHint="#cccccc"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 
+			<include
+					layout="@layout/divide_1"
+					android:layout_width="match_parent"
+					android:layout_height="0.5dp"/>
 		</LinearLayout>
 
 		<LinearLayout
-				android:background="@drawable/divide_15_bottom"
+				android:orientation="vertical"
+				android:background="@drawable/divide_15_top_bottom"
 				android:layout_gravity="center_vertical"
 				android:layout_width="match_parent"
 				android:layout_height="90dp">
 
-
+			<TextView
+					android:padding="16dp"
+					android:gravity="center_vertical"
+					android:background="@drawable/divide_15_top_bottom"
+					android:layout_width="match_parent"
+					android:layout_height="20dp"/>
 			<Button
 					android:text="提交订单"
 					android:textColor="#ffffff"
 					android:id="@+id/mall_order_button_submit"
-					android:background="@drawable/edit_send_green"
-					android:layout_gravity="center"
+					android:background="@drawable/button_round_green"
+					android:layout_gravity="center_vertical"
 					android:layout_marginLeft="12dp"
 					android:layout_marginRight="12dp"
-					android:textSize="18sp"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"/>
 		</LinearLayout>
