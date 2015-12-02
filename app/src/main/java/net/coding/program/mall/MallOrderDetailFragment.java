@@ -111,12 +111,18 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             holder.goodTitle.setText(item.getName());
             getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
             holder.pointCost.setText(item.getPointsCost() + " 码币");
-            holder.note.setText("备注：" + item.getRemark());
+
+            if (item.getRemark().equals("")) {
+                holder.note.setText("暂无");
+            } else {
+                holder.note.setText(item.getRemark());
+            }
+
             holder.receiverName.setText(item.getReceiverName());
             holder.receiverPhone.setText(item.getReceiverPhone());
 
             int status = item.getStatus();
-            switch (status){
+            switch (status) {
                 case 0:
                     holder.status.setText("未发货");
                     break;
@@ -162,7 +168,6 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 mUrl = Global.HOST_API + "/gifts/orders?";
                 break;
         }
-
 
         loadMore();
     }
