@@ -18,8 +18,6 @@ import net.coding.program.model.Maopao;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class LikeUsersArea {
     Fragment fragment;
     Activity activity;
@@ -102,7 +100,7 @@ public class LikeUsersArea {
             }
 
             for (int i = 0; i < count; ++i) {
-                CircleImageView view = new CircleImageView(getActivity());
+                LikeUserImage view = new LikeUserImage(getActivity());
                 layout.addView(view);
 
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view.getLayoutParams();
@@ -134,36 +132,47 @@ public class LikeUsersArea {
     }
 
     public void displayLikeUser() {
-        Maopao.MaopaoObject data = (Maopao.MaopaoObject) likeUsersLayout.getTag(MaopaoListBaseFragment.TAG_MAOPAO);
+        Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) likeUsersLayout.getTag(MaopaoListBaseFragment.TAG_MAOPAO);
 
-        if (data.likes == 0) {
+
+        if ((maopaoData.likes + maopaoData.rewards) == 0) {
             likeUsersAllLayout.setVisibility(View.GONE);
         } else {
             likeUsersAllLayout.setVisibility(View.VISIBLE);
         }
 
         if (likeUsersLayout.getChildCount() == 0) {
-            likeUsersLayout.setTag(data);
+            likeUsersLayout.setTag(maopaoData);
             return;
         }
 
-        int likes = data.likes;
-        final ArrayList<Maopao.Like_user> likeUsers = data.like_users;
+        int likes = maopaoData.likes + maopaoData.rewards;
+        final ArrayList<Maopao.Like_user> likeUsers = new ArrayList<>(maopaoData.reward_users);
+        for (Maopao.Like_user like : maopaoData.like_users) {
+            boolean find = false;
+            for (Maopao.Like_user reward : likeUsers) {
+                if (like.global_key.equals(reward.global_key)) {
+                    find = true;
+                    break;
+                }
+            }
+
+            if (!find) {
+                likeUsers.add(like);
+            }
+        }
 
         int imageCount = likeUsersLayout.getChildCount() - 1;
 
         Log.d("", "ddd disgood " + imageCount + "," + likeUsers.size() + "," + likes);
 
-        likeUsersLayout.getChildAt(imageCount).setTag(data.id);
+        likeUsersLayout.getChildAt(imageCount).setTag(maopaoData.id);
 
         if (likeUsers.size() < imageCount) {
             if (likes <= imageCount) {
                 int i = 0;
                 for (; i < likeUsers.size(); ++i) {
-                    ImageView image = (ImageView) likeUsersLayout.getChildAt(i);
-                    image.setVisibility(View.VISIBLE);
-
-                    imageLoadTool.loadImage(image, likeUsers.get(i).avatar);
+                    updateImageDisplay(likeUsers, i);
                 }
 
                 for (; i < imageCount; ++i) {
@@ -175,10 +184,7 @@ public class LikeUsersArea {
             } else {
                 int i = 0;
                 for (; i < likeUsers.size(); ++i) {
-                    ImageView image = (ImageView) likeUsersLayout.getChildAt(i);
-                    image.setVisibility(View.VISIBLE);
-
-                    imageLoadTool.loadImage(image, likeUsers.get(i).avatar);
+                    updateImageDisplay(likeUsers, i);
                 }
 
                 for (; i < imageCount; ++i) {
@@ -193,9 +199,7 @@ public class LikeUsersArea {
         } else {
             --imageCount;
             for (int i = 0; i < imageCount; ++i) {
-                ImageView image = (ImageView) likeUsersLayout.getChildAt(i);
-                image.setVisibility(View.VISIBLE);
-                imageLoadTool.loadImage(image, likeUsers.get(i).avatar);
+                updateImageDisplay(likeUsers, i);
             }
 
             likeUsersLayout.getChildAt(imageCount).setVisibility(View.GONE);
@@ -213,6 +217,15 @@ public class LikeUsersArea {
                 break;
             }
         }
+    }
+
+    private void updateImageDisplay(ArrayList<Maopao.Like_user> likeUsers, int i) {
+        ImageView image = (ImageView) likeUsersLayout.getChildAt(i);
+        image.setVisibility(View.VISIBLE);
+
+        Maopao.Like_user like_user = likeUsers.get(i);
+        image.setTag(LikeUserImage.TAG, like_user);
+        imageLoadTool.loadImage(image, like_user.avatar);
     }
 
     View.OnClickListener onClickLikeUsrs = new View.OnClickListener() {

@@ -32,6 +32,9 @@ public class Maopao {
         public String location = "";
         public String coord = "";
         public String address = "";
+        public boolean rewarded;
+        public int rewards;
+        public ArrayList<Like_user> reward_users = new ArrayList<>();
 
         public MaopaoObject(JSONObject json) throws JSONException {
             activity_id = json.optString("activity_id");
@@ -53,6 +56,7 @@ public class Maopao {
                 JSONArray jsonLikeUsers = json.optJSONArray("like_users");
                 for (int i = 0; i < jsonLikeUsers.length(); ++i) {
                     Like_user user = new Like_user(jsonLikeUsers.getJSONObject(i));
+                    user.setType(Like_user.Type.Like);
                     like_users.add(user);
                 }
             }
@@ -68,6 +72,18 @@ public class Maopao {
             location = json.optString("location");
             coord = json.optString("coord");
             address = json.optString("address");
+
+            if (json.has("reward_users")) {
+                JSONArray jsonUsers = json.optJSONArray("reward_users");
+                for (int i = 0; i < jsonUsers.length(); ++i) {
+                    Like_user user = new Like_user(jsonUsers.getJSONObject(i));
+                    user.setType(Like_user.Type.Reward);
+                    reward_users.add(user);
+                }
+            }
+
+            rewarded = json.optBoolean("rewarded");
+            rewards = json.optInt("rewards");
         }
 
         public String getLink() {
@@ -115,6 +131,11 @@ public class Maopao {
         public String global_key = "";
         public String name = "";
         public String path = "";
+        public Type type = Type.Like; // 0表示点赞，1表示打赏
+
+        public enum Type {
+            Like, Reward
+        }
 
         public Like_user(JSONObject json) throws JSONException {
             if (json.has("avatar")) {
@@ -124,6 +145,14 @@ public class Maopao {
             global_key = json.optString("global_key");
             name = json.optString("name");
             path = json.optString("path");
+        }
+
+        public Type getType() {
+            return type;
+        }
+
+        public void setType(Type type) {
+            this.type = type;
         }
 
         public Like_user(UserObject user) {
