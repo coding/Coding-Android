@@ -225,6 +225,11 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
 //                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
                 String tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK;
+                if (mType == Type.already_send){
+                    tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
+                }else if (mType == Type.un_send){
+                    tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
+                }
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
 
                 mAdapter.notifyDataSetChanged();
