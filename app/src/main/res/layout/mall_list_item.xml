@@ -33,17 +33,20 @@
 
 	<LinearLayout
 			android:orientation="horizontal"
-			android:gravity="center_horizontal"
-			android:paddingLeft="16dp"
-			android:paddingRight="16dp"
+			android:layout_gravity="center_vertical"
+			android:gravity="center"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
 			android:paddingTop="5dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
 		<ImageView
 				android:layout_gravity="center_vertical"
-				android:paddingLeft="5dp"
-				android:paddingRight="10dp"
+				android:paddingLeft="3dp"
+				android:paddingStart="3dp"
+				android:paddingEnd="0dp"
+				android:paddingRight="0dp"
 				android:src="@drawable/ic_icon"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
@@ -51,6 +54,10 @@
 		<TextView
 				android:layout_gravity="center_vertical"
 				android:id="@+id/mall_list_item_cost"
+				android:paddingStart="8dp"
+				android:paddingLeft="8dp"
+				android:paddingRight="10dp"
+				android:paddingEnd="10                                                                                                                                                                                    dp"
 				android:text="5 码币"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
@@ -58,7 +65,6 @@
 		<ImageView
 				android:layout_gravity="center_vertical"
 				android:id="@+id/mall_list_item_exchange"
-				android:paddingLeft="15dp"
 				android:src="@drawable/ic_exchange"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>

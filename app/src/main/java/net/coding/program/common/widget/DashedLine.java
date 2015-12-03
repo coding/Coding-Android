@@ -34,7 +34,7 @@ public class DashedLine extends View {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(getContext().getResources().getColor(R.color.divide_line));
-        paint.setStrokeWidth(1);
+        paint.setStrokeWidth(3);
         Path path = new Path();
         PathEffect effects = new DashPathEffect(new float[]{3, 3, 3, 3}, 1);
         paint.setPathEffect(effects);

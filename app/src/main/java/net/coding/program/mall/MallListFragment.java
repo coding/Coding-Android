@@ -146,8 +146,8 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
                     }
                 }
 
-//                String tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK;
-//                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
+                String tip = BlankViewDisplay.OTHER_MALL_EXCHANGE_BLANK;
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
                 mAdapter.removeAll();
                 mAdapter.addAll(mData);
                 mAdapter.notifyDataSetChanged();
