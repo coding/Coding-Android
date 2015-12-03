@@ -43,10 +43,7 @@
 
 		<ImageView
 				android:layout_gravity="center_vertical"
-				android:paddingLeft="3dp"
-				android:paddingStart="3dp"
-				android:paddingEnd="0dp"
-				android:paddingRight="0dp"
+
 				android:src="@drawable/ic_icon"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
@@ -57,7 +54,7 @@
 				android:paddingStart="8dp"
 				android:paddingLeft="8dp"
 				android:paddingRight="10dp"
-				android:paddingEnd="10                                                                                                                                                                                    dp"
+				android:paddingEnd="10dp"
 				android:text="5 码币"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"/>
