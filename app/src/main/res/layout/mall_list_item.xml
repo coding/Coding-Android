@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-              <!--android:paddingLeft="16dp"-->
-              <!--android:paddingRight="16dp"-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/mall_list_item_container"
               android:orientation="vertical"
-              android:paddingBottom="10dp"
               android:addStatesFromChildren="true"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+              <!--android:paddingLeft="16dp"-->
+              <!--android:paddingRight="16dp"-->
 
 	<ImageView
 			android:id="@+id/mall_list_item_img"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
 			android:layout_width="match_parent"
 			android:layout_height="135dp"
 			/>
 
+			<!--android:paddingBottom="5dp"-->
 	<net.coding.program.common.widget.MarqueeView
 			android:id="@+id/mall_list_item_title"
 			android:text="title"
 			android:paddingLeft="16dp"
 			android:paddingRight="16dp"
+			android:layout_marginTop="-5dp"
 			android:singleLine="true"
 			android:focusable="true"
 			android:marqueeRepeatLimit="marquee_forever"
@@ -37,7 +36,7 @@
 			android:gravity="center_horizontal"
 			android:paddingLeft="16dp"
 			android:paddingRight="16dp"
-			android:paddingTop="10dp"
+			android:paddingTop="5dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
