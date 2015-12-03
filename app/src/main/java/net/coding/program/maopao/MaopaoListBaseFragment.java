@@ -493,7 +493,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
             final LinearLayout inputCode = (LinearLayout) root.findViewById(R.id.inputCode);
             final EditText password = (EditText) root.findViewById(R.id.password);
 
-            ((TextView) root.findViewById(R.id.buttonReward)).setOnClickListener(new View.OnClickListener() {
+            root.findViewById(R.id.buttonReward).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String passwordString = password.getText().toString();
@@ -502,10 +502,11 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                         return;
                     }
 
-                    String url = String.format("%s/tweet/%d/reward?encodedPassword=%s", Global.HOST_API,
-                            maopaoData.id, SimpleSHA1.sha1(passwordString));
+                    String url = String.format("%s/tweet/%d/reward", Global.HOST_API, maopaoData.id);
                     AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
-                    client.get(getActivity(), url, new JsonHttpResponseHandler() {
+                    RequestParams params = new RequestParams();
+                    params.put("encodedPassword", SimpleSHA1.sha1(passwordString));
+                    client.post(getActivity(), url, params, new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
