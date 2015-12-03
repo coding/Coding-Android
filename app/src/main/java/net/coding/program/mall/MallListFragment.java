@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Rect;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,6 +69,11 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
                 GridLayoutManager.VERTICAL, false);
         mallListHeaderGridView.setLayoutManager(layoutManager);
         mallListHeaderGridView.setItemAnimator(new DefaultItemAnimator());
+
+        //item间距 单列时可以使用
+//        int space = getContext().getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+//        mallListHeaderGridView.addItemDecoration(new SpaceItemDecoration(space));
+
         mAdapter = new MyRecyclerAdapter(mData, userPoint, getImageLoad(), getActivity());
         mallListHeaderGridView.setAdapter(mAdapter);
 
@@ -169,4 +175,19 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         can_change
     }
 
+    public class SpaceItemDecoration extends RecyclerView.ItemDecoration{
+
+        private int space;
+
+        public SpaceItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            if(parent.getChildPosition(view) != 0)
+                outRect.top = space;
+        }
+    }
 }

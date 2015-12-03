@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
+              <!--android:paddingLeft="16dp"-->
+              <!--android:paddingRight="16dp"-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/mall_list_item_container"
               android:orientation="vertical"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
-              android:paddingBottom="16dp"
+              android:paddingBottom="10dp"
               android:addStatesFromChildren="true"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <ImageView
-            android:id="@+id/mall_list_item_img"
-            android:layout_width="match_parent"
-            android:layout_height="135dp"
-            />
-    <net.coding.program.common.widget.MarqueeView
-            android:paddingTop="4dp"
-            android:id="@+id/mall_list_item_title"
-            android:text="title"
-            android:singleLine="true"
-            android:focusable="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    <LinearLayout
-            android:paddingTop="4dp"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <ImageView
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/mall_list_item_cost"
-                android:text="5 码币"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <ImageView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/mall_list_item_exchange"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:src="@drawable/ic_exchange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
+	<ImageView
+			android:id="@+id/mall_list_item_img"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_width="match_parent"
+			android:layout_height="135dp"
+			/>
+
+	<net.coding.program.common.widget.MarqueeView
+			android:id="@+id/mall_list_item_title"
+			android:text="title"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:singleLine="true"
+			android:focusable="true"
+			android:marqueeRepeatLimit="marquee_forever"
+			android:focusableInTouchMode="true"
+			android:scrollHorizontally="true"
+			android:ellipsize="end"
+			android:gravity="center_horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"/>
+
+	<LinearLayout
+			android:orientation="horizontal"
+			android:gravity="center_horizontal"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:paddingTop="10dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<ImageView
+				android:layout_gravity="center_vertical"
+				android:paddingLeft="5dp"
+				android:paddingRight="10dp"
+				android:src="@drawable/ic_icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<TextView
+				android:layout_gravity="center_vertical"
+				android:id="@+id/mall_list_item_cost"
+				android:text="5 码币"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<ImageView
+				android:layout_gravity="center_vertical"
+				android:id="@+id/mall_list_item_exchange"
+				android:paddingLeft="15dp"
+				android:src="@drawable/ic_exchange"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+	</LinearLayout>
 </LinearLayout>

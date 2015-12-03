@@ -53,7 +53,7 @@
 								android:marqueeRepeatLimit="marquee_forever"
 								android:focusableInTouchMode="true"
 								android:scrollHorizontally="true"
-								android:ellipsize="marquee"
+								android:ellipsize="end"
 								android:id="@+id/mall_order_title"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"/>

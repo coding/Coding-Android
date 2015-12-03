@@ -48,20 +48,20 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
     @ViewById
     WechatTab mallTab;
 
-    @ViewById
-    CollapsingToolbarLayout collapsing_toolbar;
+//    @ViewById
+//    CollapsingToolbarLayout collapsing_toolbar;
 
     @ViewById
     ViewPager viewpager;
 
-    @ViewById(R.id.bannerViewPager)
-    ConvenientBanner banner;
+//    @ViewById(R.id.bannerViewPager)
+//    ConvenientBanner banner;
 
     @ViewById
     View blankLayout;
 
-    @ViewById(R.id.indicatorView)
-    IndicatorView bannerIndicator;
+//    @ViewById(R.id.indicatorView)
+//    IndicatorView bannerIndicator;
 
     final String BANNER_URL = Global.HOST_API + "/gifts/sliders";
 
@@ -90,56 +90,56 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
         setupViewPager(viewpager);
         mallTab.setViewPager(viewpager);
 
-        if (mBannerData.isEmpty()) {
-            showDialogLoading();
-        } else {
-            setRefreshing(true);
-        }
+//        if (mBannerData.isEmpty()) {
+//            showDialogLoading();
+//        } else {
+//            setRefreshing(true);
+//        }
+//
+//        mBannerData.addAll(AccountInfo.getMallBanners(this));
+//        initBannerData();
+//        updateBannerData();
 
-        mBannerData.addAll(AccountInfo.getMallBanners(this));
-        initBannerData();
-        updateBannerData();
-
-        getNetwork(BANNER_URL, TAG_BANNER);
+//        getNetwork(BANNER_URL, TAG_BANNER);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         invalidateOptionsMenu();
-        if (banner != null) {
-            banner.startTurning(5000);
-        }
+//        if (banner != null) {
+//            banner.startTurning(5000);
+//        }
     }
 
-    @Override
-    public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws
-            JSONException {
-        hideProgressDialog();
-        setRefreshing(false);
-
-        if (tag.equals(TAG_BANNER)) {
-            if (code == 0) {
-                BlankViewDisplay
-                        .setBlank(mBannerData.size(), this, true, blankLayout, onClickRetry);
-
-                ArrayList<MallBannerObject> banners = new ArrayList<>();
-                JSONArray jsonArray = response.getJSONArray("data");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    banners.add(new MallBannerObject(jsonArray.getJSONObject(i)));
-                }
-                AccountInfo.saveMallBanners(this, banners);
-
-                mBannerData.clear();
-                mBannerData.addAll(banners);
-                updateBannerData();
-            } else {
-                BlankViewDisplay
-                        .setBlank(mBannerData.size(), this, false, blankLayout, onClickRetry);
-                super.parseJson(code, response, tag, pos, data);
-            }
-        }
-    }
+//    @Override
+//    public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws
+//            JSONException {
+//        hideProgressDialog();
+//        setRefreshing(false);
+//
+//        if (tag.equals(TAG_BANNER)) {
+//            if (code == 0) {
+//                BlankViewDisplay
+//                        .setBlank(mBannerData.size(), this, true, blankLayout, onClickRetry);
+//
+//                ArrayList<MallBannerObject> banners = new ArrayList<>();
+//                JSONArray jsonArray = response.getJSONArray("data");
+//                for (int i = 0; i < jsonArray.length(); ++i) {
+//                    banners.add(new MallBannerObject(jsonArray.getJSONObject(i)));
+//                }
+//                AccountInfo.saveMallBanners(this, banners);
+//
+//                mBannerData.clear();
+//                mBannerData.addAll(banners);
+//                updateBannerData();
+//            } else {
+//                BlankViewDisplay
+//                        .setBlank(mBannerData.size(), this, false, blankLayout, onClickRetry);
+//                super.parseJson(code, response, tag, pos, data);
+//            }
+//        }
+//    }
 
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
@@ -161,7 +161,7 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
 
     @Override
     public void onRefresh() {
-        getNetwork(BANNER_URL, TAG_BANNER);
+//        getNetwork(BANNER_URL, TAG_BANNER);
     }
 
     static class MyPagerAdapter extends SaveFragmentPagerAdapter {
@@ -195,61 +195,61 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
         }
     }
 
-    private void initBannerData() {
-        ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(
-                new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset,
-                            int positionOffsetPixels) {
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        bannerIndicator.setSelect(position);
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-
-                    }
-                });
-    }
-
-    private void updateBannerData() {
-        if (mBannerData.isEmpty()) {
-            mBannerData.add(new MallBannerObject());
-        }
-        banner.setPages(new CBViewHolderCreator() {
-            @Override
-            public Object createHolder() {
-                return new LocalImageHolder();
-            }
-        }, mBannerData);
-
-        int bannerStartPos = 0;
-        bannerIndicator.setCount(mBannerData.size(), bannerStartPos);
-    }
-
-    class LocalImageHolder implements CBPageAdapter.Holder<MallBannerObject> {
-
-        ImageView imageView;
-
-        @Override
-        public View createView(Context context) {
-            imageView = new ImageView(MallIndexActivity.this);
-            imageView.setLayoutParams(
-                    new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            return imageView;
-        }
-
-        @Override
-        public void UpdateUI(Context context, int position, MallBannerObject data) {
-            imageView.setTag(R.id.image, position);
-            getImageLoad().loadImage(imageView, mBannerData.get(position).getImage(),
-                    ImageLoadTool.bannerOptions);
-        }
-    }
+//    private void initBannerData() {
+//        ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(
+//                new ViewPager.OnPageChangeListener() {
+//                    @Override
+//                    public void onPageScrolled(int position, float positionOffset,
+//                            int positionOffsetPixels) {
+//                    }
+//
+//                    @Override
+//                    public void onPageSelected(int position) {
+//                        bannerIndicator.setSelect(position);
+//                    }
+//
+//                    @Override
+//                    public void onPageScrollStateChanged(int state) {
+//
+//                    }
+//                });
+//    }
+//
+//    private void updateBannerData() {
+//        if (mBannerData.isEmpty()) {
+//            mBannerData.add(new MallBannerObject());
+//        }
+//        banner.setPages(new CBViewHolderCreator() {
+//            @Override
+//            public Object createHolder() {
+//                return new LocalImageHolder();
+//            }
+//        }, mBannerData);
+//
+//        int bannerStartPos = 0;
+//        bannerIndicator.setCount(mBannerData.size(), bannerStartPos);
+//    }
+//
+//    class LocalImageHolder implements CBPageAdapter.Holder<MallBannerObject> {
+//
+//        ImageView imageView;
+//
+//        @Override
+//        public View createView(Context context) {
+//            imageView = new ImageView(MallIndexActivity.this);
+//            imageView.setLayoutParams(
+//                    new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.MATCH_PARENT));
+//            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//            return imageView;
+//        }
+//
+//        @Override
+//        public void UpdateUI(Context context, int position, MallBannerObject data) {
+//            imageView.setTag(R.id.image, position);
+//            getImageLoad().loadImage(imageView, mBannerData.get(position).getImage(),
+//                    ImageLoadTool.bannerOptions);
+//        }
+//    }
 
 }

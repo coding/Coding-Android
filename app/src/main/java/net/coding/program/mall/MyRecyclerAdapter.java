@@ -87,7 +87,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MallItemObject object = mDataList.get(position);
         holder.name.setText(object.getName());
-        holder.points_cost.setText(object.getPoints_cost() + "");
+        holder.points_cost.setText(object.getPoints_cost() + " 码币");
 
         String imgUrl = object.getImage();
         imageLoader.loadImage(holder.image, imgUrl);
@@ -96,6 +96,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         if (userPoint < cost) {
             holder.exchange
                     .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_unexchange));
+        }else {
+            holder.exchange
+                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_exchange));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +122,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     }
 
     @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        holder.container.clearAnimation();
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.mall_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
@@ -131,7 +141,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         if (position > lastPosition)
         {
             Animation animation = AnimationUtils
-                    .loadAnimation(context, R.anim.slide_in_right);
+                    .loadAnimation(context, R.anim.item_bottom_in);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
