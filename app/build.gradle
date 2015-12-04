@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 21
-//    useLibrary 'org.apache.http.legacy' // 因为 sdk23 去掉了 apache
-    buildToolsVersion "21.0.1"
+    compileSdkVersion 23
+    useLibrary 'org.apache.http.legacy' // 因为 sdk23 去掉了 apache
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "net.coding.program"
@@ -22,11 +22,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:21.0.+'
-    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:support-v4:23.0.+'
+    compile 'com.android.support:appcompat-v7:23.0.+'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
-    //    compile 'com.loopj.android:android-async-http:1.9.31'
+//    compile 'com.loopj.android:android-async-http:1.9.31'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
@@ -38,15 +38,17 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.1.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
-    compile 'com.android.support:support-v13:21.0.3'
+    compile 'com.android.support:support-v13:23.0.+'
     compile 'com.ms-square:etsyblur:0.1.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'com.android.support:cardview-v7:21.+'
+    compile 'com.android.support:cardview-v7:23.+'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.github.chrisbanes.photoview:library:1.2.2'
-    compile 'com.prolificinteractive:parallaxpager:2.2.0'
-    compile 'uk.co.chrisjenx:calligraphy:2.0.1'
+//    compile 'com.prolificinteractive:parallaxpager:2.2.0'
+    compile 'com.prolificinteractive:parallaxpager:2.2.1'// 高版本fix使用support库crash
+//    compile 'uk.co.chrisjenx:calligraphy:2.0.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile 'org.apmem.tools:layouts:1.9@aar'
     //flow_layout
@@ -56,6 +58,8 @@ dependencies {
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
+
+    compile 'com.android.support:design:23.+'
     compile project(':scrollanimationlibrary')
 }
 

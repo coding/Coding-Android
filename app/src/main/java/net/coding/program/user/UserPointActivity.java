@@ -10,6 +10,7 @@ import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.DataAdapter;
+import net.coding.program.mall.MallIndexActivity_;
 import net.coding.program.model.PointObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -29,7 +30,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class UserPointActivity extends BackActivity {
 
     private static final String TAG_HTTP_USER_POINT = "TAG_HTTP_USER_POINT";
+
     private static final String TAG_HTTP_ALL_POINTS = "TAG_HTTP_ALL_POINTS";
+
     @ViewById
     StickyListHeadersListView listView;
 
@@ -44,9 +47,10 @@ public class UserPointActivity extends BackActivity {
         head.findViewById(R.id.itemShop).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebActivity_.intent(UserPointActivity.this)
-                        .url(Global.HOST + "/shop")
-                        .start();
+//                WebActivity_.intent(UserPointActivity.this)
+//                        .url(Global.HOST + "/shop")
+//                        .start();
+                MallIndexActivity_.intent(UserPointActivity.this).start();
             }
         });
         listView.addHeaderView(head, null, false);
@@ -62,7 +66,8 @@ public class UserPointActivity extends BackActivity {
     }
 
     @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
+            throws JSONException {
         if (tag.equals(TAG_HTTP_USER_POINT)) {
             if (code == 0) {
                 JSONArray json = respanse.optJSONObject("data").optJSONArray("list");
@@ -85,9 +90,13 @@ public class UserPointActivity extends BackActivity {
     }
 
     static class ViewHold {
+
         private TextView usage;
+
         private TextView pointsChange;
+
         private TextView create;
+
         private TextView pointsLeft;
 
         public ViewHold(View v) {
@@ -116,13 +125,16 @@ public class UserPointActivity extends BackActivity {
         }
     }
 
-    private class PointRecordAdapter extends DataAdapter<PointObject> implements StickyListHeadersAdapter {
+    private class PointRecordAdapter extends DataAdapter<PointObject>
+            implements StickyListHeadersAdapter {
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHold hold;
             if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_point_list_item,
-                        null);
+                convertView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.user_point_list_item,
+                                null);
                 hold = new ViewHold(convertView);
                 convertView.setTag(hold);
             } else {

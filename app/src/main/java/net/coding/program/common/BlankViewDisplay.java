@@ -30,6 +30,10 @@ public class BlankViewDisplay {
     public static final String OTHER_PROJECT_BLANK = "这个人很懒，一个项目都木有～";
     public static final String MY_SUBJECT_BLANK = "您还没有话题呢～";
     public static final String OTHER_SUBJECT_BLANK = "这个人很懒，一个话题都木有~";
+    public static final String OTHER_MALL_ORDER_BLANK = "还木有订单呢，\n努力推代码，把猴带回家~";
+    public static final String OTHER_MALL_ORDER_BLANK_UNSEND = "您还木有未发货的订单呢~";
+    public static final String OTHER_MALL_ORDER_BLANK_ALREADYSEND = "您还木有已发货的订单呢~";
+    public static final String OTHER_MALL_EXCHANGE_BLANK = "您还木有可兑换商品呢，\n努力推代码，把洋葱猴带回家~";
 
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
         setBlank(itemSize, fragment, request, v, onClick, "");
@@ -124,7 +128,9 @@ public class BlankViewDisplay {
         }
 
         v.findViewById(R.id.icon).setBackgroundResource(iconId);
-        ((TextView) v.findViewById(R.id.message)).setText(text);
+        TextView textView = (TextView) v.findViewById(R.id.message);
+        textView.setText(text);
+        textView.setLineSpacing(3.0f,1.2f);
     }
 
 }

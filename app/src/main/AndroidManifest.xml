@@ -758,6 +758,27 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_all_tasks" >
         </activity>
+
+        <!--商城-->
+        <activity
+                android:name=".mall.MallIndexActivity_"
+                android:screenOrientation="portrait"
+                android:label="@string/title_activity_mall" >
+        </activity>
+                <!--android:theme="@style/ThemeMall"-->
+        <activity
+                android:name=".mall.MallOrderSubmitActivity_"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustPan|stateHidden"
+                android:configChanges="orientation|keyboardHidden"
+                android:label="@string/title_activity_mall_order" >
+        </activity>
+        <activity
+                android:name=".mall.MallOrderDetailActivity_"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                android:screenOrientation="portrait"
+                android:label="@string/title_activity_mall_order_detail" >
+        </activity>
     </application>
 
 </manifest>
