@@ -134,7 +134,6 @@ public class LikeUsersArea {
     public void displayLikeUser() {
         Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) likeUsersLayout.getTag(MaopaoListBaseFragment.TAG_MAOPAO);
 
-
         if ((maopaoData.likes + maopaoData.rewards) == 0) {
             likeUsersAllLayout.setVisibility(View.GONE);
         } else {
@@ -146,11 +145,11 @@ public class LikeUsersArea {
             return;
         }
 
-        int likes = maopaoData.likes + maopaoData.rewards;
-        final ArrayList<Maopao.Like_user> likeUsers = new ArrayList<>(maopaoData.reward_users);
+        int readUserCount = maopaoData.likes + maopaoData.rewards;
+        final ArrayList<Maopao.Like_user> displayUsers = new ArrayList<>(maopaoData.reward_users);
         for (Maopao.Like_user like : maopaoData.like_users) {
             boolean find = false;
-            for (Maopao.Like_user reward : likeUsers) {
+            for (Maopao.Like_user reward : displayUsers) {
                 if (like.global_key.equals(reward.global_key)) {
                     find = true;
                     break;
@@ -158,21 +157,21 @@ public class LikeUsersArea {
             }
 
             if (!find) {
-                likeUsers.add(like);
+                displayUsers.add(like);
             }
         }
 
         int imageCount = likeUsersLayout.getChildCount() - 1;
 
-        Log.d("", "ddd disgood " + imageCount + "," + likeUsers.size() + "," + likes);
+        Log.d("", "ddd disgood " + imageCount + "," + displayUsers.size() + "," + readUserCount);
 
         likeUsersLayout.getChildAt(imageCount).setTag(maopaoData.id);
 
-        if (likeUsers.size() < imageCount) {
-            if (likes <= imageCount) {
+        if (displayUsers.size() < imageCount) {
+            if (readUserCount <= imageCount) {
                 int i = 0;
-                for (; i < likeUsers.size(); ++i) {
-                    updateImageDisplay(likeUsers, i);
+                for (; i < displayUsers.size(); ++i) {
+                    updateImageDisplay(displayUsers, i);
                 }
 
                 for (; i < imageCount; ++i) {
@@ -183,8 +182,8 @@ public class LikeUsersArea {
 
             } else {
                 int i = 0;
-                for (; i < likeUsers.size(); ++i) {
-                    updateImageDisplay(likeUsers, i);
+                for (; i < displayUsers.size(); ++i) {
+                    updateImageDisplay(displayUsers, i);
                 }
 
                 for (; i < imageCount; ++i) {
@@ -193,26 +192,26 @@ public class LikeUsersArea {
 
                 TextView textV = (TextView) likeUsersLayout.getChildAt(imageCount);
                 textV.setVisibility(View.VISIBLE);
-                textV.setText(likes + "");
+                textV.setText(readUserCount + "");
             }
 
         } else {
             --imageCount;
             for (int i = 0; i < imageCount; ++i) {
-                updateImageDisplay(likeUsers, i);
+                updateImageDisplay(displayUsers, i);
             }
 
             likeUsersLayout.getChildAt(imageCount).setVisibility(View.GONE);
             TextView textView = (TextView) likeUsersLayout.getChildAt(imageCount + 1);
             textView.setVisibility(View.VISIBLE);
-            textView.setText(likes + "");
+            textView.setText(readUserCount + "");
         }
 
         imageCount = likeUsersLayout.getChildCount() - 1;
         for (int i = 0; i < imageCount; ++i) {
             View v = likeUsersLayout.getChildAt(i);
             if (v.getVisibility() == View.VISIBLE) {
-                v.setTag(likeUsers.get(i).global_key);
+                v.setTag(displayUsers.get(i).global_key);
             } else {
                 break;
             }

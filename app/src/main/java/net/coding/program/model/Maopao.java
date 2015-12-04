@@ -162,5 +162,4 @@ public class Maopao {
             path = user.path;
         }
     }
-
 }
