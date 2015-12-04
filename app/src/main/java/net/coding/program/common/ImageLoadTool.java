@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -70,6 +71,16 @@ public class ImageLoadTool {
             .cacheOnDisk(true)
             .considerExifParams(true)
             .build();
+    public static DisplayImageOptions mallOptions = new DisplayImageOptions
+            .Builder()
+            .showImageOnLoading(R.drawable.ic_default_image)
+            .showImageForEmptyUri(R.drawable.ic_default_image)
+            .showImageOnFail(R.drawable.ic_default_image)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+            .build();
+
     public ImageLoader imageLoader = ImageLoader.getInstance();
 
     public ImageLoadTool() {

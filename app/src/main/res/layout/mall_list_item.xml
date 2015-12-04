@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/mall_list_item_container"
+              android:orientation="vertical"
+              android:addStatesFromChildren="true"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              <!--android:paddingLeft="16dp"-->
+              <!--android:paddingRight="16dp"-->
+
+	<ImageView
+			android:id="@+id/mall_list_item_img"
+			android:layout_width="match_parent"
+			android:layout_height="135dp"
+			/>
+
+			<!--android:paddingBottom="5dp"-->
+	<net.coding.program.common.widget.MarqueeView
+			android:id="@+id/mall_list_item_title"
+			android:text="title"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:layout_marginTop="-5dp"
+			android:singleLine="true"
+			android:focusable="true"
+			android:marqueeRepeatLimit="marquee_forever"
+			android:focusableInTouchMode="true"
+			android:scrollHorizontally="true"
+			android:ellipsize="end"
+			android:gravity="center_horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"/>
+
+	<LinearLayout
+			android:orientation="horizontal"
+			android:layout_gravity="center_vertical"
+			android:gravity="center"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:paddingTop="5dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<ImageView
+				android:layout_gravity="center_vertical"
+
+				android:src="@drawable/ic_icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<TextView
+				android:layout_gravity="center_vertical"
+				android:id="@+id/mall_list_item_cost"
+				android:paddingStart="8dp"
+				android:paddingLeft="8dp"
+				android:paddingRight="10dp"
+				android:paddingEnd="10dp"
+				android:text="5 码币"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+
+		<ImageView
+				android:layout_gravity="center_vertical"
+				android:id="@+id/mall_list_item_exchange"
+				android:src="@drawable/ic_exchange"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+	</LinearLayout>
+</LinearLayout>

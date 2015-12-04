@@ -205,10 +205,22 @@
         <item>复制</item>
         <item>删除</item>
     </string-array>
-    
+
     <string-array name="comment_sort">
         <item>最旧评论</item>
         <item>最新评论</item>
+    </string-array>
+
+    <!--商城-->
+    <string-array name="mall_index_title">
+        <item>全部商品</item>
+        <item>可兑换商品</item>
+    </string-array>
+
+    <string-array name="mall_order_detail_tab">
+        <item>全部订单</item>
+        <item>未发货</item>
+        <item>已发货</item>
     </string-array>
 
     <!--<string-array name="commnet_my">-->
