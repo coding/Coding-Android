@@ -549,7 +549,6 @@
             android:enabled="true"
             android:exported="true" >
 
-            <!-- TODO exproted 设为 false 会被360拦截，有时间看看原因 -->
             <intent-filter>
                 <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
             </intent-filter>

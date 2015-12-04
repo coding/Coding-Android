@@ -174,8 +174,7 @@ public abstract class EnterLayout {
             }
             catch (Exception e)
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Global.errorLog(e);
             }
         }
         else

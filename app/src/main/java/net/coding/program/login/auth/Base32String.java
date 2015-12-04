@@ -27,7 +27,6 @@ import java.util.Locale;
  * taken into account. The result is that multiple strings decode to the same
  * byte array, for example, string of sixteen 7s ("7...7") and seventeen 7s both
  * decode to the same byte array.
- * TODO(sarvar): Revisit this encoding and whether this ambiguity needs fixing.
  *
  * @author sweis@google.com (Steve Weis)
  * @author Neal Gafter

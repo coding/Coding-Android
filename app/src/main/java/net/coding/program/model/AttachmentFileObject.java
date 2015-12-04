@@ -191,7 +191,6 @@ public class AttachmentFileObject implements Serializable {
                 name;
     }
 
-    // todo 服务器改完后 projectId 改为 path
     public PostRequest getHttpShareLinkOn(ProjectObject projectObject) {
         String url = Global.HOST_API + "/share/create";
         RequestParams params = new RequestParams();

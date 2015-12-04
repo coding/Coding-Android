@@ -233,7 +233,7 @@ public class ProjectListFragment extends RefreshBaseFragment {
                         Fragment parentFragment = getParentFragment();
                         FragmentActivity activity = getActivity();
                         if ((parentFragment instanceof UpdateData)
-                                && (activity != null)) { // TODO parentFragment 可能为null，因为parent被销毁了还没有恢复
+                                && (activity != null)) {
                             ((UpdateData) parentFragment).updateRead(projectId);
                             UnreadNotify.update(activity);
                         }

@@ -67,7 +67,6 @@ public class TopicEditFragment extends MDEditFragment {
             return false;
         }
 
-        //todo
         return !title.getText().toString().equals(mOldData.title) ||
                 !edit.getText().toString().equals(mOldData.content);
     }

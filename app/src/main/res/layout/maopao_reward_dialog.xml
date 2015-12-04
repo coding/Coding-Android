@@ -30,20 +30,36 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/inputCode">
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:layout_height="30dp"
+            android:inputType="textPassword"
+            android:hint="请输入密码"
+            android:background="@null"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp" />
 
+        <include layout="@layout/divide_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
         <TextView
             android:text="确认打赏"
             android:gravity="center"
             android:id="@+id/buttonReward"
             android:layout_width="180dp"
             android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"/>
+            android:background="@drawable/login_button"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp" />
     </LinearLayout>
 
     <TextView
@@ -62,14 +78,18 @@
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
         tools:text="我的码币余额：0.41 "
-        android:visibility="gone" />
+
+        tools:visibility="visible"
+        android:visibility="gone"
+        android:layout_marginTop="13dp" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loading"
         android:layout_gravity="center_horizontal"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        tools:visibility="gone"/>
 
 
 </LinearLayout>
