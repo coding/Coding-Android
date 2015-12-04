@@ -36,6 +36,7 @@
 	</RelativeLayout>
 
 	<include
+			android:layout_marginTop="-48dp"
 			android:id="@+id/blankLayout"
 			layout="@layout/view_exception"
 			android:layout_width="match_parent"
