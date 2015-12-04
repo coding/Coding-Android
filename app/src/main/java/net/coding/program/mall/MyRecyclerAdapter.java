@@ -1,9 +1,5 @@
 package net.coding.program.mall;
 
-import net.coding.program.R;
-import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.MallItemObject;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import net.coding.program.R;
+import net.coding.program.common.ImageLoadTool;
+import net.coding.program.model.MallItemObject;
 
 import java.util.ArrayList;
 
@@ -90,7 +90,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         holder.points_cost.setText(object.getPoints_cost() + " 码币");
 
         String imgUrl = object.getImage();
-        imageLoader.loadImage(holder.image, imgUrl);
+        imageLoader.loadImageDefaultCoding(holder.image, imgUrl);
 
         double cost = object.getPoints_cost();
         if (userPoint < cost) {

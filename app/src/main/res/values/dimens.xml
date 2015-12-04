@@ -105,5 +105,7 @@
 
     <dimen name="folder_list_item_height">70dp</dimen>
 
+    <dimen name="shop_list_item_vertical_space">0dp</dimen>
+
 
 </resources>

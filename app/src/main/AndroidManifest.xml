@@ -769,7 +769,7 @@
         <activity
                 android:name=".mall.MallOrderSubmitActivity_"
                 android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustPan|stateHidden"
+                android:windowSoftInputMode="adjustResize|stateHidden"
                 android:configChanges="orientation|keyboardHidden"
                 android:label="@string/title_activity_mall_order" >
         </activity>

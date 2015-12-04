@@ -4,14 +4,19 @@
               android:orientation="vertical"
               android:addStatesFromChildren="true"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+	android:paddingLeft="7dp"
+	android:paddingRight="7dp"
+	android:paddingTop="10dp"
+	android:paddingBottom="10dp">
               <!--android:paddingLeft="16dp"-->
               <!--android:paddingRight="16dp"-->
 
 	<ImageView
 			android:id="@+id/mall_list_item_img"
 			android:layout_width="match_parent"
-			android:layout_height="135dp"
+			android:layout_height="100dp"
+			android:scaleType="centerCrop"
 			/>
 
 			<!--android:paddingBottom="5dp"-->
@@ -20,7 +25,7 @@
 			android:text="title"
 			android:paddingLeft="16dp"
 			android:paddingRight="16dp"
-			android:layout_marginTop="-5dp"
+			android:layout_marginTop="10dp"
 			android:singleLine="true"
 			android:focusable="true"
 			android:marqueeRepeatLimit="marquee_forever"
@@ -33,10 +38,8 @@
 
 	<LinearLayout
 			android:orientation="horizontal"
-			android:layout_gravity="center_vertical"
+			android:layout_gravity="center"
 			android:gravity="center"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
 			android:paddingTop="5dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">

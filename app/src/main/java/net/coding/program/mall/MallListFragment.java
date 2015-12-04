@@ -1,5 +1,11 @@
 package net.coding.program.mall;
 
+import android.graphics.Rect;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -13,12 +19,6 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.graphics.Rect;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import java.util.ArrayList;
 
@@ -72,7 +72,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
         //item间距
         int space = getContext().getResources()
-                .getDimensionPixelSize(R.dimen.activity_vertical_margin);
+                .getDimensionPixelSize(R.dimen.shop_list_item_vertical_space);
         mallListHeaderGridView.addItemDecoration(new SpaceItemDecoration(space));
 
         mAdapter = new MyRecyclerAdapter(mData, userPoint, getImageLoad(), getActivity());

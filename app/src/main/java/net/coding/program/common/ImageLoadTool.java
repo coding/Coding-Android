@@ -90,6 +90,10 @@ public class ImageLoadTool {
         imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, options);
     }
 
+    public void loadImageDefaultCoding(ImageView imageView, String url) {
+        imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, optionsImage);
+    }
+
     public void loadImage(ImageView imageView, String url, SimpleImageLoadingListener animate) {
         imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, options, animate);
     }
