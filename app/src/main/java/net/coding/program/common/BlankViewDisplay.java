@@ -128,7 +128,9 @@ public class BlankViewDisplay {
         }
 
         v.findViewById(R.id.icon).setBackgroundResource(iconId);
-        ((TextView) v.findViewById(R.id.message)).setText(text);
+        TextView textView = (TextView) v.findViewById(R.id.message);
+        textView.setText(text);
+        textView.setLineSpacing(3.0f,1.2f);
     }
 
 }
