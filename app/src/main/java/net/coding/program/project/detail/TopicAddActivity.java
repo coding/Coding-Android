@@ -7,10 +7,11 @@ import android.support.v7.app.ActionBar;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
@@ -63,6 +64,15 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     protected void initTopicAddActivity() {
         ActionBar actionBar = getSupportActionBar();
 
+        if (isNewTopic()) {
+            ArrayList<TopicDraft> drafts = AccountInfo.loadTopicDraft(this, getProjectPath(), getTopicId());
+            if (!drafts.isEmpty()) {
+                TopicDraft draft = drafts.get(0);
+                modifyData.content = draft.mContent;
+                modifyData.title = draft.mTitle;
+            }
+        }
+
         editFragment = TopicEditFragment_.builder().build();
         previewFragment = TopicPreviewFragment_.builder().build();
 
@@ -80,12 +90,37 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     @Override
     public void onBackPressed() {
         if (labelsHasChanged || editFragment.isContentModify()) {
-            showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
+            if (isNewTopic()) {
+                showDialog("讨论", "保存为草稿？", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                TopicDraft draft = editFragment.generalDraft();
+                                AccountInfo.saveTopicDraft(TopicAddActivity.this, draft, getProjectPath(), getTopicId());
+                                finish();
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AccountInfo.deleteTopicDraft(TopicAddActivity.this, getProjectPath(), getTopicId());
+                                finish();
+                            }
+                        },
+                        "保存",
+                        "取消",
+                        "删除草稿");
+            } else {
+                showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+            }
         } else {
             finish();
         }
@@ -106,6 +141,8 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
                 } else if (tag.equals(HOST_TOPIC_EDIT)) {
                     umengEvent(UmengEvent.TOPIC, "修改讨论");
                 }
+
+                AccountInfo.deleteTopicDraft(TopicAddActivity.this, getProjectPath(), getTopicId());
 
                 Intent intent = new Intent();
                 TopicObject topic = new TopicObject(respanse.getJSONObject("data"));
@@ -265,6 +302,16 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         }
 
         public TopicData() {
+        }
+    }
+
+    public static class TopicDraft implements Serializable {
+        String mTitle;
+        String mContent;
+
+        public TopicDraft(String mTitle, String mContent) {
+            this.mTitle = mTitle;
+            this.mContent = mContent;
         }
     }
 }

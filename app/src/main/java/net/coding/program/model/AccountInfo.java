@@ -7,9 +7,11 @@ import android.net.Uri;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
+import net.coding.program.common.SimpleSHA1;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.message.MessageListActivity;
+import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.user.UsersListActivity;
 
 import org.json.JSONObject;
@@ -390,6 +392,21 @@ public class AccountInfo {
             new DataCache<MaopaoAddActivity.MaopaoDraft>().save(ctx, data, MAOPAO_DRAFT);
         }
     }
+
+    public static void saveTopicDraft(Context ctx, TopicAddActivity.TopicDraft draft, String projectPath, int topicId) {
+        ArrayList<TopicAddActivity.TopicDraft> data = new ArrayList<>();
+        data.add(draft);
+        new DataCache<TopicAddActivity.TopicDraft>().save(ctx, data, SimpleSHA1.sha1(projectPath + topicId));
+    }
+
+    public static ArrayList<TopicAddActivity.TopicDraft> loadTopicDraft(Context ctx, String projectPath, int topicId) {
+        return new DataCache<TopicAddActivity.TopicDraft>().load(ctx, SimpleSHA1.sha1(projectPath + topicId));
+    }
+
+    public static void deleteTopicDraft(Context ctx, String projectPath, int topicId) {
+        new DataCache<TopicAddActivity.TopicDraft>().delete(ctx, SimpleSHA1.sha1(projectPath + topicId));
+    }
+
 
     public static MaopaoAddActivity.MaopaoDraft loadMaopaoDraft(Context ctx) {
         ArrayList<MaopaoAddActivity.MaopaoDraft> data = new DataCache<MaopaoAddActivity.MaopaoDraft>().load(ctx, MAOPAO_DRAFT);

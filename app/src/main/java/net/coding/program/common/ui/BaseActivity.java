@@ -209,6 +209,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showDialog(title, msg, clickOk, null);
     }
 
+
 //    protected void showListDialog() {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        AlertDialog dialog = builder.setItems()
@@ -223,12 +224,25 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
                               DialogInterface.OnClickListener clickCancel,
                               String okButton,
                               String cannelButton) {
+        showDialog(title, msg, clickOk, clickCancel, null, okButton, cannelButton, "");
+    }
+
+    protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
+                              DialogInterface.OnClickListener clickCancel,
+                              DialogInterface.OnClickListener clickNeutral,
+                              String okButton,
+                              String cannelButton,
+                              String neutralButton) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog = builder.setTitle(title)
+        builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(okButton, clickOk)
-                .setNegativeButton(cannelButton, clickCancel)
-                .show();
+                .setNegativeButton(cannelButton, clickCancel);
+        if (clickNeutral != null && !neutralButton.isEmpty()) {
+            builder.setNeutralButton(neutralButton, clickNeutral);
+        }
+
+        AlertDialog dialog = builder.show();
         dialogTitleLineColor(dialog);
     }
 

@@ -71,6 +71,10 @@ public class TopicEditFragment extends MDEditFragment {
                 !edit.getText().toString().equals(mOldData.content);
     }
 
+    public TopicAddActivity.TopicDraft generalDraft() {
+        return new TopicAddActivity.TopicDraft(title.getText().toString(), edit.getText().toString());
+    }
+
     public interface SaveData {
         void saveData(TopicAddActivity.TopicData data);
 
