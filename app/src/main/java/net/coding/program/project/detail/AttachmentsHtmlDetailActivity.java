@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
+import net.coding.program.WebActivity;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
@@ -128,6 +129,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
                 webview.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.GONE);
                 webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
+                webview.setWebViewClient(new WebActivity.CustomWebViewClient(this));
             } else {
                 hideProgressDialog();
                 String content = TxtEditActivity.readPhoneNumber(mFile);
