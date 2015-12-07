@@ -77,6 +77,11 @@ public class HtmlContent {
         //      .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
     }
 
+    // 去除加粗字体样式
+    public static String parseReplacePhotoMonkeySpecifyTitle(String s) {
+        return parseReplacePhotoMonkey(s).replaceAll("</?h\\w>", "");
+    }
+
     public static String parseToText(String s) {
         return s.replaceAll(REGX_MONKEY, "[$1]")
                 .replaceAll(REGX_PHOTO, REPLACE_PHOTO)

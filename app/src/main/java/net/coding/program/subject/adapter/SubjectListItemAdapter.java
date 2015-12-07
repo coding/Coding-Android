@@ -70,7 +70,7 @@ public class SubjectListItemAdapter extends BaseAdapter {
                 viewHolder.title.setText("#" + subjectDescObject.name + "#");
                 if (subjectDescObject.hot_tweet != null) {
                     Global.MessageParse parse = HtmlContent.parseMessage(subjectDescObject.hot_tweet.content);
-                    viewHolder.desc.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(parse.text), mImageGetter, Global.tagHandler));
+                    viewHolder.desc.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkeySpecifyTitle(parse.text), mImageGetter, Global.tagHandler));
                 } else {
                     viewHolder.desc.setText("");
                 }
