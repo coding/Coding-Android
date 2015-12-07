@@ -36,6 +36,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.MyApp;
+import net.coding.program.WebActivity;
 import net.coding.program.common.enter.DrawableTool;
 import net.coding.program.common.enter.GifImageSpan;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
@@ -458,6 +459,7 @@ public class Global {
                 Global.errorLog(e);
             }
         }
+        webview.setWebViewClient(new WebActivity.CustomWebViewClient(webview.getContext()));
 
     }
 

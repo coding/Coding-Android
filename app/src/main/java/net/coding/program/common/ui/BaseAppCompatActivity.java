@@ -24,7 +24,7 @@ import net.coding.program.user.UserDetailActivity_;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;

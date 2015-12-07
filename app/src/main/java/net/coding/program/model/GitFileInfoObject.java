@@ -12,8 +12,8 @@ public class GitFileInfoObject implements Serializable {
     private final static String MODE_TREE = "tree";
     private final static String MODE_FILE = "file";
     public long lastCommitDate;
-    public String lastCommitId;
-    public String lastCommitMessage;
+    public String lastCommitId = "";
+    public String lastCommitMessage = "";
     public GitCommitterObject lastCommitter;
 
     public String mode = "";
@@ -28,6 +28,17 @@ public class GitFileInfoObject implements Serializable {
         mode = json.optString("mode");
         path = json.optString("path");
         name = json.optString("name");
+    }
+
+    public GitFileInfoObject(String pathParam) {
+        path = pathParam;
+        int pos = path.lastIndexOf("/");
+        if (pos != -1) {
+            name = path.substring(pos + 1, path.length());
+        } else {
+            name = pathParam;
+        }
+        lastCommitter = new GitCommitterObject();
     }
 
     /**

@@ -140,6 +140,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
                 showButtomToast(R.string.connect_service_fail);
             }
+            showProgressBar(false, "'");
         }
     }
 

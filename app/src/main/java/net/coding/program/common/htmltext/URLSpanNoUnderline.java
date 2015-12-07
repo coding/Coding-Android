@@ -18,12 +18,14 @@ import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.AttachmentsActivity_;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
+import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
@@ -68,10 +70,42 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
+        final String NAME = "([\\w.-]+)";
+
+        final String uriPath = uriString.replace(Global.HOST, "");
+
+        final String projectPattern = String.format("^/u/%s/p/%s(.*)", NAME, NAME);
+        Pattern pattern = Pattern.compile(projectPattern);
+        Matcher matcher = pattern.matcher(uriPath);
+        if (matcher.find()) {
+            String user = matcher.group(1);
+            String project = matcher.group(2);
+            String simplePath = matcher.group(3); // 去除了 /u/*/p/* 的路径
+            final String projectPath = String.format("/user/%s/project/%s", user, project);
+
+            // 代码中的文件 https://coding.net/u/8206503/p/TestPrivate/git/blob/master/jumpto
+            final String gitFile = String.format("^/git/blob/%s/(.*)$", NAME);
+             pattern = Pattern.compile(gitFile);
+             matcher = pattern.matcher(simplePath);
+            if (matcher.find()) {
+                String version = matcher.group(1);
+                String path = matcher.group(2);
+
+                intent.setClass(context, GitViewActivity_.class);
+                intent.putExtra("mProjectPath", projectPath);
+                intent.putExtra("mVersion", version);
+                intent.putExtra("mGitFileInfoObject", new GitFileInfoObject(path));
+                context.startActivity(intent);
+                return true;
+            }
+        }
+
+
+
         // 用户名
         final String atSomeOne = "^(?:https://[\\w.]*)?/u/([\\w.-]+)$";
-        Pattern pattern = Pattern.compile(atSomeOne);
-        Matcher matcher = pattern.matcher(uriString);
+        pattern = Pattern.compile(atSomeOne);
+        matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             String global = matcher.group(1);
             intent.setClass(context, UserDetailActivity_.class);
