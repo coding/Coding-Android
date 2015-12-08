@@ -12,7 +12,7 @@
         android:paddingRight="12dp">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <net.coding.program.maopao.LikeUserImage
             android:id="@+id/icon"
             android:layout_width="47dp"
             android:layout_height="47dp" />

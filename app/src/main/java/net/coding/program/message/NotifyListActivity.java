@@ -40,7 +40,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
     final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
     final String HOST_MARK_COMMENT = Global.HOST_API + "/notification/mark-read?all=1&type=1&type=2";
-    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4";
+    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4&type=6";
     private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
     @Extra
     int type;
@@ -374,6 +374,10 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         URI_NOTIFY = Global.HOST_API + "/notification?type=" + type;
         if (type == 1) {
             URI_NOTIFY += "&type=2";
+        }
+
+        if (type == 4) {
+            URI_NOTIFY += "&type=6";
         }
 
         setDefaultByType();

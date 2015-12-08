@@ -2,6 +2,7 @@ package net.coding.program.maopao;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -18,9 +19,19 @@ public class LikeUserImage extends CircleImageView {
 
     private int mWidth;
 
+    public LikeUserImage(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        init();
+    }
+
     public LikeUserImage(Context context) {
         super(context);
 
+        init();
+    }
+
+    private void init() {
         setBorderColor(0xFFFFAE03);
         setBorderWidth(0);
 
@@ -37,6 +48,7 @@ public class LikeUserImage extends CircleImageView {
                 setBorderWidth(mWidth);
             }
         }
+
         super.setImageDrawable(drawable);
     }
 }

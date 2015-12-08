@@ -126,11 +126,7 @@ public class Maopao {
         }
     }
 
-    public static class Like_user implements Serializable {
-        public String avatar = "";
-        public String global_key = "";
-        public String name = "";
-        public String path = "";
+    public static class Like_user extends DynamicObject.User implements Serializable {
         public Type type = Type.Like; // 0表示点赞，1表示打赏
 
         public enum Type {
@@ -138,13 +134,7 @@ public class Maopao {
         }
 
         public Like_user(JSONObject json) throws JSONException {
-            if (json.has("avatar")) {
-                avatar = Global.replaceAvatar(json);
-            }
-
-            global_key = json.optString("global_key");
-            name = json.optString("name");
-            path = json.optString("path");
+            super(json);
         }
 
         public Type getType() {

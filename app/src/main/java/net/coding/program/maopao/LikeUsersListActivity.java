@@ -17,6 +17,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.model.DynamicObject;
+import net.coding.program.model.Maopao;
 import net.coding.program.user.UserDetailActivity;
 import net.coding.program.user.UserDetailActivity_;
 
@@ -39,8 +40,8 @@ public class LikeUsersListActivity extends BackActivity {
     @ViewById
     ListView listView;
 
-    public static final String HOST_LIKES_USER = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
-    public String UriLikeUsers = Global.HOST_API + "/tweet/%s/likes?pageSize=500";
+    public static final String HOST_LIKES_USER = Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
+    public String UriLikeUsers = HOST_LIKES_USER;
 
     private ArrayList<DynamicObject.User> mData = new ArrayList<>();
     BaseAdapter baseAdapter = new BaseAdapter() {
@@ -75,6 +76,7 @@ public class LikeUsersListActivity extends BackActivity {
             final DynamicObject.User data = mData.get(position);
 
             holder.name.setText(data.name);
+            holder.icon.setTag(LikeUserImage.TAG, data);
             iconfromNetwork(holder.icon, data.avatar);
 
             if (MyApp.sUserObject.global_key.equals(data.global_key)) {
@@ -127,15 +129,31 @@ public class LikeUsersListActivity extends BackActivity {
         if (tag.equals(UriLikeUsers)) {
             if (code == 0) {
                 JSONObject jsonData = respanse.getJSONObject("data");
-                JSONArray jsonArray = jsonData.getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    DynamicObject.User user = new DynamicObject.User(jsonArray.getJSONObject(i));
-                    mData.add(user);
+                if (jsonData.has("list")) {
+                    JSONArray jsonArray = jsonData.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); ++i) {
+                        DynamicObject.User user = new DynamicObject.User(jsonArray.getJSONObject(i));
+                        mData.add(user);
+                    }
+                } else {
+                    parseUser(jsonData, "rewardUsers", Maopao.Like_user.Type.Reward);
+                    parseUser(jsonData, "likeUsers", Maopao.Like_user.Type.Like);
                 }
                 baseAdapter.notifyDataSetChanged();
 
             } else {
                 showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    private void parseUser(JSONObject jsonData, String KEY_REWARD, Maopao.Like_user.Type type) throws JSONException {
+        if (jsonData.has(KEY_REWARD)) {
+            JSONArray rewards = jsonData.optJSONArray(KEY_REWARD);
+            for (int i = 0; i < rewards.length(); ++i) {
+                Maopao.Like_user user = new Maopao.Like_user(rewards.optJSONObject(i));
+                user.setType(type);
+                mData.add(user);
             }
         }
     }

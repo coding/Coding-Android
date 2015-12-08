@@ -1,12 +1,13 @@
 package net.coding.program.maopao;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,8 +18,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -45,6 +44,7 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.third.EmojiFilter;
@@ -57,6 +57,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -476,8 +477,14 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
         Object data = v.getTag();
         if (data instanceof Maopao.MaopaoObject) {
             final Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) data;
+
             if (maopaoData.rewarded) {
-                showButtomToast("您已打赏过了");
+                showMiddleToast("您已给该用户打赏过");
+                return;
+            }
+
+            if (maopaoData.owner.isMe() || maopaoData.owner_id == MyApp.sUserObject.id) {
+                showMiddleToast("您不能给自己打赏");
                 return;
             }
 
@@ -487,25 +494,53 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     .setView(root)
                     .show();
 
-            final ProgressBar loading = (ProgressBar) root.findViewById(R.id.loading);
             final TextView myPoints = (TextView) root.findViewById(R.id.myPoints);
-            final TextView cannotReward = (TextView) root.findViewById(R.id.cannotReward);
-            final LinearLayout inputCode = (LinearLayout) root.findViewById(R.id.inputCode);
+            final String MY_POINT_FORMAT = "我的码币余额: <font color=\"#F5A623\">%.2f</font>";
+            myPoints.setText(String.format(MY_POINT_FORMAT, MyApp.sUserObject.points_left));
+
             final EditText password = (EditText) root.findViewById(R.id.password);
 
-            root.findViewById(R.id.buttonReward).setOnClickListener(new View.OnClickListener() {
+            ImageView userIcon = (ImageView) root.findViewById(R.id.userIcon);
+            getImageLoad().loadImageDefaultCoding(userIcon, maopaoData.owner.avatar);
+
+            TextView title = (TextView) root.findViewById(R.id.title);
+            title.setText(Html.fromHtml("打赏给该用户 <font color=\"#F5A623\">0.01</font> 码币"));
+
+            final View inputLayout = root.findViewById(R.id.inputLayout);
+            final View editLayout = root.findViewById(R.id.editLayout);
+            final View rewardButton = root.findViewById(R.id.buttonReward);
+            final TextView cannotRewardLayout = (TextView) root.findViewById(R.id.cannotReward);
+
+            inputLayout.setVisibility(View.VISIBLE);
+            editLayout.setVisibility(View.GONE);
+            rewardButton.setVisibility(View.VISIBLE);
+            cannotRewardLayout.setVisibility(View.GONE);
+
+            rewardButton.setOnClickListener(new View.OnClickListener() {
+
+                boolean mNeedPassword = false;
+
                 @Override
                 public void onClick(View v) {
-                    String passwordString = password.getText().toString();
-                    if (passwordString.isEmpty()) {
-                        showMiddleToast("请输入密码");
-                        return;
+                    String passwordString = "";
+                    if (mNeedPassword) {
+                        passwordString = password.getText().toString();
+                        if (passwordString.isEmpty()) {
+                            showMiddleToast("请输入密码");
+                            return;
+                        }
                     }
 
-                    String url = String.format("%s/tweet/%d/reward", Global.HOST_API, maopaoData.id);
-                    AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
+                    String format = "%s/tweet/%d/app_reward";
+                    if (mNeedPassword) {
+                        format = "%s/tweet/%d/reward";
+                    }
+                    String url = String.format(format, Global.HOST_API, maopaoData.id);
                     RequestParams params = new RequestParams();
-                    params.put("encodedPassword", SimpleSHA1.sha1(passwordString));
+                    if (mNeedPassword) {
+                        params.put("encodedPassword", SimpleSHA1.sha1(passwordString));
+                    }
+                    AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
                     client.post(getActivity(), url, params, new JsonHttpResponseHandler() {
 
                         @Override
@@ -520,13 +555,37 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                 maopaoData.rewarded = true;
                                 ++maopaoData.rewards;
                                 Maopao.Like_user me = new Maopao.Like_user(MyApp.sUserObject);
+                                MyApp.sUserObject.reward();
+                                AccountInfo.saveAccount(getActivity(), MyApp.sUserObject);
                                 me.setType(Maopao.Like_user.Type.Reward);
                                 maopaoData.reward_users.add(0, me);
                                 dialog.dismiss();
                                 mAdapter.notifyDataSetChanged();
+                            } else if (code == 2906) {
+                                mNeedPassword = true;
+                                editLayout.setVisibility(View.VISIBLE);
+                            } else if (2900 <= code && response.has("msg")) {
+                                inputLayout.setVisibility(View.GONE);
+                                cannotRewardLayout.setVisibility(View.VISIBLE);
+                                JSONObject jsonMsg = response.optJSONObject("msg");
+                                if (jsonMsg != null && jsonMsg.length() > 0) {
+                                    Iterator<String> iterator = jsonMsg.keys();
+                                    String key = iterator.next();
+                                    cannotRewardLayout.setText(jsonMsg.optString(key, "打赏失败"));
+                                }
                             } else {
                                 showErrorMsg(code, response);
                             }
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            if (!dialog.isShowing()) {
+                                return;
+                            }
+
+                            showMiddleToast("打赏失败");
                         }
 
                         @Override
@@ -537,14 +596,13 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
 
                             showMiddleToast("打赏失败");
                         }
+
                     });
-
-
                 }
             });
 
 
-            ((ImageView) root.findViewById(R.id.closeDialog)).setOnClickListener(new View.OnClickListener() {
+            root.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
@@ -565,7 +623,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     if (code == 0) {
                         double points = response.optJSONObject("data").optDouble("point_left");
                         myPoints.setVisibility(View.VISIBLE);
-                        myPoints.setText(String.format("我的码币余额: %.2f", points));
+                        myPoints.setText(String.format(MY_POINT_FORMAT, points));
                     } else {
                         showErrorMsg(code, response);
                     }
@@ -581,38 +639,38 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                 }
             });
 
-            AsyncHttpClient client1 = MyAsyncHttpClient.createClient(getActivity());
-            String url = String.format("%s/tweet/%d/preparereward", Global.HOST_API, maopaoData.id);
-            client1.get(getActivity(), url, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    if (!dialog.isShowing()) {
-                        return;
-                    }
-
-                    JSONArray array = response.optJSONArray("data");
-                    if (array == null || array.length() == 0) {
-                        inputCode.setVisibility(View.VISIBLE);
-                        loading.setVisibility(View.GONE);
-                        cannotReward.setVisibility(View.GONE);
-                    } else {
-                        cannotReward.setVisibility(View.VISIBLE);
-                        loading.setVisibility(View.GONE);
-                        inputCode.setVisibility(View.GONE);
-
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    if (!dialog.isShowing()) {
-                        return;
-                    }
-
-                    showMiddleToast("获取打赏信息失败");
-                    dialog.dismiss();
-                }
-            });
+//            AsyncHttpClient client1 = MyAsyncHttpClient.createClient(getActivity());
+//            String url = String.format("%s/tweet/%d/preparereward", Global.HOST_API, maopaoData.id);
+//            client1.get(getActivity(), url, new JsonHttpResponseHandler() {
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                    if (!dialog.isShowing()) {
+//                        return;
+//                    }
+//
+//                    JSONArray array = response.optJSONArray("data");
+//                    if (array == null || array.length() == 0) {
+//                        inputCode.setVisibility(View.VISIBLE);
+//                        loading.setVisibility(View.GONE);
+//                        cannotReward.setVisibility(View.GONE);
+//                    } else {
+//                        cannotReward.setVisibility(View.VISIBLE);
+//                        loading.setVisibility(View.GONE);
+//                        inputCode.setVisibility(View.GONE);
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                    if (!dialog.isShowing()) {
+//                        return;
+//                    }
+//
+//                    showMiddleToast("获取打赏信息失败");
+//                    dialog.dismiss();
+//                }
+//            });
 
         }
     }
