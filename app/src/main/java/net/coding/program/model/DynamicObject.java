@@ -268,25 +268,20 @@ public class DynamicObject {
     }
 
     public static class MergeRequestComment extends DynamicBaseObject implements Serializable {
-        String merge_request_title;
-        String merge_request_path;
         String comment_content;
-        Depot depot;
+        MergeRequestBaseDelegate mergeRequest;
 
         public MergeRequestComment(JSONObject json) throws JSONException {
             super(json);
-
-            merge_request_title = json.optString("merge_request_title");
-            merge_request_path = json.optString("merge_request_path");
+            mergeRequest = new MergeRequestBaseDelegate(json);
             comment_content = json.optString("comment_content");
-            depot = new Depot(json.optJSONObject("depot"));
         }
 
         @Override
         public Spanned title() {
             final String format = "%s %s 项目%s中的 Merge Request %s";
-            String mergeLink = createLink(merge_request_title, merge_request_path);
-            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml(), mergeLink);
+            String mergeLink = createLink(mergeRequest.merge_request_title, mergeRequest.merge_request_path);
+            String title = String.format(format, user.getHtml(), action_msg, mergeRequest.depot.getHtml(), mergeLink);
             return Global.changeHyperlinkColor(title);
         }
 
