@@ -241,28 +241,23 @@ public class DynamicObject {
     }
 
     public static class MergeRequestBean extends DynamicBaseObject implements Serializable {
-        Depot depot;
-        String merge_request_title;
-        String merge_request_path;
+        final MergeRequestBaseDelegate mergeRequestBaseDelegate;
 
         public MergeRequestBean(JSONObject json) throws JSONException {
             super(json);
-
-            depot = new Depot(json.optJSONObject("depot"));
-            merge_request_title = json.optString("merge_request_title");
-            merge_request_path = json.optString("merge_request_path");
+            mergeRequestBaseDelegate = new MergeRequestBaseDelegate(json);
         }
 
         @Override
         public Spanned title() {
             final String format = "%s %s 项目%s中的 Merge Request";
-            String title = String.format(format, user.getHtml(), action_msg, depot.getHtml());
+            String title = String.format(format, user.getHtml(), action_msg, mergeRequestBaseDelegate.depot.getHtml());
             return Global.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            String content = createLink(merge_request_title, merge_request_path);
+            String content = createLink(mergeRequestBaseDelegate.merge_request_title, mergeRequestBaseDelegate.merge_request_path);
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
 
@@ -727,6 +722,7 @@ public class DynamicObject {
         Task task;
         TaskObject.TaskComment taskComment;
 
+        MergeRequestBaseDelegate mergeRequest;
         String ref;
         Commit commit;
 
@@ -760,6 +756,10 @@ public class DynamicObject {
             if (json.has("taskComment")) {
                 taskComment = new TaskObject.TaskComment(json.optJSONObject("taskComment"));
                 taskComment.created_at = created_at;
+            }
+
+            if (MergeRequestBaseDelegate.has(json)) {
+                mergeRequest = new MergeRequestBaseDelegate(json);
             }
         }
 
@@ -808,6 +808,10 @@ public class DynamicObject {
                     format = "%s %s - %s";
                     title = String.format(format, userString, action_msg, time);
                     return Global.changeHyperlinkColor(title);
+                case "reassign":
+                    format = "%s %s任务给 %s - %s";
+                    title = String.format(format, userString, action_msg, task.owner.name, time);
+                    return Global.changeHyperlinkColor(title);
                 case "update_priority":
                 case "update_description":
                     format = "%s %s - %s";
@@ -828,6 +832,14 @@ public class DynamicObject {
                     return Global.changeHyperlinkColor(title);
 
                 default:
+                    if (target_type.equals("MergeRequestBean")) {
+
+                        String mergeInfo = String.format("<a href=\"%s\">#%d %s</a>", mergeRequest.merge_request_path,
+                                mergeRequest.merge_request_iid, mergeRequest.merge_request_title);
+                        format = "%s %s合并请求%s - %s";
+                        title = String.format(format, userString, action_msg, mergeInfo, time);
+                        return Global.changeHyperlinkColor(title);
+                    }
                     format = "%s %s任务 - %s";
                     title = String.format(format, userString, action_msg, time);
                     return Global.changeHyperlinkColor(title);
@@ -890,7 +902,7 @@ public class DynamicObject {
         public String name = "";
         public String path = "";
 
-        public Depot(JSONObject json) throws JSONException {
+        public Depot(JSONObject json) {
             name = json.optString("name");
             path = json.optString("path");
         }
@@ -1214,6 +1226,24 @@ public class DynamicObject {
 
         public String getTitle() {
             return title;
+        }
+    }
+
+    public static class MergeRequestBaseDelegate implements Serializable {
+        Depot depot;
+        String merge_request_title;
+        String merge_request_path;
+        int merge_request_iid;
+
+        public MergeRequestBaseDelegate(JSONObject json) {
+            depot = new Depot(json.optJSONObject("depot"));
+            merge_request_title = json.optString("merge_request_title", "");
+            merge_request_path = json.optString("merge_request_path", "");
+            merge_request_iid = json.optInt("merge_request_iid", 0);
+        }
+
+        public static boolean has(JSONObject json) {
+            return json.has("merge_request_path");
         }
     }
 }
