@@ -56,6 +56,10 @@ public class FileUtil {
         return new File(file.getAbsolutePath() + File.separator + fileName);
     }
 
+    public static File getCacheDir(Context context) {
+        return context.getCacheDir();
+    }
+
     public static String getDestinationInExternalPublicDir(String dirType) {
         File file = Environment.getExternalStoragePublicDirectory(dirType);
         if (file.exists()) {

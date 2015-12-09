@@ -30,7 +30,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     protected final void initAttachmentsPhotoDetailActivity() {
 //        urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
 //        if (mFile.exists()) {
-//            textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+//            textView.setText(TxtEditActivity.readFile(mFile));
 //        } else {
 //            showDialogLoading();
 //            getFileUrlFromNetwork();
