@@ -35,7 +35,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -288,25 +287,18 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     protected void initData() {
     }
 
-    // 如果不设延时的话会闪一下
-    @UiThread(delay = 1500)
-    void showFloatButton() {
-        floatButton.hide(false);
-        floatButton.setVisibility(View.VISIBLE);
-    }
-
-
     protected void hideSoftkeyboard() {
         super.hideSoftkeyboard();
 
-        floatButton.hide(false);
-        showFloatButton();
+        floatButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void popComment(View v) {
         super.popComment(v);
+        floatButton.hide(false);
         floatButton.setVisibility(View.INVISIBLE);
+
     }
 
     // user 某个用户，friend 好友圈，time 冒泡广场
@@ -324,16 +316,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             pos = posParam;
             needEdit = needEditParam;
         }
-
-//        public ClickImageParam(ArrayList<PhotoPickActivity.ImageInfo> urlsParam, int posParam) {
-//            urls = new ArrayList<>();
-//            for (PhotoPickActivity.ImageInfo item : urlsParam) {
-//                urls.add(item.path);
-//            }
-//
-//            pos = posParam;
-//            needEdit = true;
-//        }
 
         public ClickImageParam(String url) {
             urls = new ArrayList<>();
