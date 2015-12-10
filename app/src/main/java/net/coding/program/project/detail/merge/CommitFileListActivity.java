@@ -222,7 +222,7 @@ public class CommitFileListActivity extends BackActivity {
         }
     }
 
-    static class CommitCommentParam implements CommentActivity.CommentParam, Serializable {
+    static class CommitCommentParam extends CommentActivity.CommentParam implements Serializable {
 
         private String mProjectPath = "";
         private String mCommitId = "";
