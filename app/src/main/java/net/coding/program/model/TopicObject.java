@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-18.
@@ -29,7 +28,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public String project_id = "";
     public String title = "";
     public long updated_at;
-    public List<TopicLabelObject> labels = new ArrayList<>();
+    public ArrayList<TopicLabelObject> labels = new ArrayList<>();
     private int number;
     private int commentSort = SORT_OLD;
     public TopicObject(JSONObject json) throws JSONException {
