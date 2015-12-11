@@ -496,7 +496,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
 
             final TextView myPoints = (TextView) root.findViewById(R.id.myPoints);
             final String MY_POINT_FORMAT = "我的码币余额: <font color=\"#F5A623\">%.2f</font>";
-            myPoints.setText(String.format(MY_POINT_FORMAT, MyApp.sUserObject.points_left));
+            myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, MyApp.sUserObject.points_left)));
 
             final EditText password = (EditText) root.findViewById(R.id.password);
 
@@ -623,7 +623,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     if (code == 0) {
                         double points = response.optJSONObject("data").optDouble("point_left");
                         myPoints.setVisibility(View.VISIBLE);
-                        myPoints.setText(String.format(MY_POINT_FORMAT, points));
+                        myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, points)));
                     } else {
                         showErrorMsg(code, response);
                     }
