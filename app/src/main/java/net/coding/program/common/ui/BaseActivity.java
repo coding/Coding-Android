@@ -84,7 +84,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showProgressBar(true, message);
     }
 
-    protected void showErrorMsg(int code, JSONObject json) {
+    public void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
             showButtomToast(R.string.connect_service_fail);
         } else {

@@ -41,6 +41,7 @@ import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -473,24 +474,24 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
         }
     };
 
-    private void popReward(View v) {
+    public static void popReward(final BaseActivity activity, View v, final BaseAdapter adapter) {
         Object data = v.getTag();
         if (data instanceof Maopao.MaopaoObject) {
             final Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) data;
 
             if (maopaoData.rewarded) {
-                showMiddleToast("您已给该用户打赏过");
+                activity.showMiddleToast("您已给该用户打赏过");
                 return;
             }
 
             if (maopaoData.owner.isMe() || maopaoData.owner_id == MyApp.sUserObject.id) {
-                showMiddleToast("您不能给自己打赏");
+                activity.showMiddleToast("您不能给自己打赏");
                 return;
             }
 
             // show loading
-            View root = LayoutInflater.from(getActivity()).inflate(R.layout.maopao_reward_dialog, null);
-            final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+            View root = LayoutInflater.from(activity).inflate(R.layout.maopao_reward_dialog, null);
+            final AlertDialog dialog = new AlertDialog.Builder(activity)
                     .setView(root)
                     .show();
 
@@ -501,7 +502,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
             final EditText password = (EditText) root.findViewById(R.id.password);
 
             ImageView userIcon = (ImageView) root.findViewById(R.id.userIcon);
-            getImageLoad().loadImageDefaultCoding(userIcon, maopaoData.owner.avatar);
+            activity.getImageLoad().loadImageDefaultCoding(userIcon, maopaoData.owner.avatar);
 
             TextView title = (TextView) root.findViewById(R.id.title);
             title.setText(Html.fromHtml("打赏给该用户 <font color=\"#F5A623\">0.01</font> 码币"));
@@ -526,7 +527,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     if (mNeedPassword) {
                         passwordString = password.getText().toString();
                         if (passwordString.isEmpty()) {
-                            showMiddleToast("请输入密码");
+                            activity.showMiddleToast("请输入密码");
                             return;
                         }
                     }
@@ -540,8 +541,8 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     if (mNeedPassword) {
                         params.put("encodedPassword", SimpleSHA1.sha1(passwordString));
                     }
-                    AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
-                    client.post(getActivity(), url, params, new JsonHttpResponseHandler() {
+                    AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
+                    client.post(activity, url, params, new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -551,16 +552,18 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
 
                             int code = response.optInt("code");
                             if (code == 0) {
-                                showMiddleToast("打赏成功");
+                                activity.showMiddleToast("打赏成功");
                                 maopaoData.rewarded = true;
                                 ++maopaoData.rewards;
                                 Maopao.Like_user me = new Maopao.Like_user(MyApp.sUserObject);
                                 MyApp.sUserObject.reward();
-                                AccountInfo.saveAccount(getActivity(), MyApp.sUserObject);
+                                AccountInfo.saveAccount(activity, MyApp.sUserObject);
                                 me.setType(Maopao.Like_user.Type.Reward);
                                 maopaoData.reward_users.add(0, me);
                                 dialog.dismiss();
-                                mAdapter.notifyDataSetChanged();
+                                if (adapter != null) {
+                                    adapter.notifyDataSetChanged();
+                                }
                             } else if (code == 2906) {
                                 mNeedPassword = true;
                                 editLayout.setVisibility(View.VISIBLE);
@@ -574,7 +577,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                     cannotRewardLayout.setText(jsonMsg.optString(key, "打赏失败"));
                                 }
                             } else {
-                                showErrorMsg(code, response);
+                                activity.showErrorMsg(code, response);
                             }
 
                         }
@@ -585,7 +588,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                 return;
                             }
 
-                            showMiddleToast("打赏失败");
+                            activity.showMiddleToast("打赏失败");
                         }
 
                         @Override
@@ -594,7 +597,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                 return;
                             }
 
-                            showMiddleToast("打赏失败");
+                            activity.showMiddleToast("打赏失败");
                         }
 
                     });
@@ -609,9 +612,9 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                 }
             });
 
-            AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
+            AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
             String urlBalance = Global.HOST_API + "/point/balance";
-            client.get(getActivity(), urlBalance, new JsonHttpResponseHandler() {
+            client.get(activity, urlBalance, new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -625,7 +628,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                         myPoints.setVisibility(View.VISIBLE);
                         myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, points)));
                     } else {
-                        showErrorMsg(code, response);
+                        activity.showErrorMsg(code, response);
                     }
                 }
 
@@ -635,49 +638,14 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                         return;
                     }
 
-                    showMiddleToast("获取码币余额失败");
+                    activity.showMiddleToast("获取码币余额失败");
                 }
             });
-
-//            AsyncHttpClient client1 = MyAsyncHttpClient.createClient(getActivity());
-//            String url = String.format("%s/tweet/%d/preparereward", Global.HOST_API, maopaoData.id);
-//            client1.get(getActivity(), url, new JsonHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                    if (!dialog.isShowing()) {
-//                        return;
-//                    }
-//
-//                    JSONArray array = response.optJSONArray("data");
-//                    if (array == null || array.length() == 0) {
-//                        inputCode.setVisibility(View.VISIBLE);
-//                        loading.setVisibility(View.GONE);
-//                        cannotReward.setVisibility(View.GONE);
-//                    } else {
-//                        cannotReward.setVisibility(View.VISIBLE);
-//                        loading.setVisibility(View.GONE);
-//                        inputCode.setVisibility(View.GONE);
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                    if (!dialog.isShowing()) {
-//                        return;
-//                    }
-//
-//                    showMiddleToast("获取打赏信息失败");
-//                    dialog.dismiss();
-//                }
-//            });
-
         }
     }
 
     protected void popComment(View v) {
         EditText comment = mEnterLayout.content;
-
         Object data = v.getTag();
         Maopao.Comment commentObject = null;
         if (data instanceof Maopao.Comment) {
@@ -852,7 +820,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                 holder.reward.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        popReward(v);
+                        popReward((BaseActivity) getActivity(), v, mAdapter);
                     }
                 });
 

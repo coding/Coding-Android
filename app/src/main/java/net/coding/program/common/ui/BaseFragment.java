@@ -209,7 +209,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         networkImpl.getNextPageNetwork(url, tag);
     }
 
-    protected void showErrorMsg(int code, JSONObject json) {
+    public void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
             showButtomToast(R.string.connect_service_fail);
         } else {
