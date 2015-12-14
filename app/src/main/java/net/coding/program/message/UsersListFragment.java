@@ -53,7 +53,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     final String HOST_MESSAGE_USERS = Global.HOST_API + "/message/conversations?pageSize=10";
     final String HOST_UNREAD_AT = Global.HOST_API + "/notification/unread-count?type=0";
     final String HOST_UNREAD_COMMENT = Global.HOST_API + "/notification/unread-count?type=1&type=2";
-    final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count?type=4";
+    final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count?type=4&type=6";
     final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
     private final int RESULT_SELECT_USER = 2001;
     @ViewById

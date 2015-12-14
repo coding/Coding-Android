@@ -377,7 +377,7 @@ public class MergeDetailActivity extends BackActivity {
         finish();
     }
 
-    private static class MergeCommentParam implements CommentActivity.CommentParam, Serializable {
+    private static class MergeCommentParam extends CommentActivity.CommentParam implements Serializable {
         private Merge mMerge;
         private String atSomeOne;
 

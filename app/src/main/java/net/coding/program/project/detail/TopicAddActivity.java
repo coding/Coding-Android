@@ -285,7 +285,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     }
 
     public static class TopicData implements Serializable {
-        public List<TopicLabelObject> labels = new ArrayList<>();
+        public ArrayList<TopicLabelObject> labels = new ArrayList<>();
         public String title = "";
         public String content = "";
 
@@ -295,7 +295,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
             this.labels = topicObject.labels;
         }
 
-        public TopicData(String title, String content, List<TopicLabelObject> labels) {
+        public TopicData(String title, String content, ArrayList<TopicLabelObject> labels) {
             this.title = title;
             this.content = content;
             this.labels = labels;

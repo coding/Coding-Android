@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -37,6 +37,7 @@ import net.coding.program.common.comment.HtmlCommentHolder;
 import net.coding.program.common.enter.EnterEmojiLayout;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -121,6 +122,9 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     CheckBox likeBtn;
     LikeUsersArea likeUsersArea;
     View mListHead;
+    TextView commentBtn;
+    TextView reward;
+
     View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -239,14 +243,20 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 action_delete_maopao();
                 return true;
 
-            case R.id.action_inform:
-                InformMaopaoActivity_.intent(this)
-                        .maopaoId(mMaopaoObject.id)
-                        .start();
-                return true;
+//            case R.id.action_inform:
+//                InformMaopaoActivity_.intent(this)
+//                        .maopaoId(mMaopaoObject.id)
+//                        .start();
+//                return true;
+
             default:
                 return false;
         }
+    }
+
+    @OptionsItem
+    protected final void action_share() {
+        action_share_third();
     }
 
     protected final void action_copy() {
@@ -365,15 +375,35 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             }
         });
 
-        likeBtn = (CheckBox) mListHead.findViewById(R.id.likeBtn);
-        mListHead.findViewById(R.id.commentBtn).setOnClickListener(new View.OnClickListener() {
+        reward = (TextView) mListHead.findViewById(R.id.rewardCount);
+
+        reward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prepareAddComment(mMaopaoObject, true);
+                MaopaoListBaseFragment.popReward(MaopaoDetailActivity.this, v, null);
             }
         });
 
+        commentBtn = (TextView) mListHead.findViewById(R.id.commentBtn);
+        commentBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        prepareAddComment(mMaopaoObject, true);
+                    }
+                });
+
+        commentBtn.setText(String.valueOf(mMaopaoObject.comments));
+        reward.setText(String.valueOf(mMaopaoObject.rewards));
+        Drawable rewardIcon = getResources().getDrawable(mMaopaoObject.rewarded ?
+                R.drawable.maopao_extra_rewarded : R.drawable.maopao_extra_reward);
+        rewardIcon.setBounds(0, 0, rewardIcon.getIntrinsicWidth(), rewardIcon.getIntrinsicHeight());
+        reward.setCompoundDrawables(rewardIcon,
+                null, null, null);
+        reward.setTag(mMaopaoObject);
+
+        likeBtn = (CheckBox) mListHead.findViewById(R.id.likeBtn);
         likeBtn.setChecked(mMaopaoObject.liked);
+        likeBtn.setText(String.valueOf(mMaopaoObject.likes));
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -426,6 +456,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             deleteButton.setVisibility(View.INVISIBLE);
         }
     }
+
 
     @OnActivityResult(RESULT_REQUEST_AT)
     void onResultAt(int requestCode, Intent data) {
@@ -515,6 +546,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 }
 
                 likeUsersArea.displayLikeUser();
+                likeBtn.setText(String.valueOf(mMaopaoObject.likes));
 
                 Intent intent = new Intent();
                 intent.putExtra(ListModify.DATA, mMaopaoObject);

@@ -1,6 +1,6 @@
 package net.coding.program.project.init.setting;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;

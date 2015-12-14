@@ -29,9 +29,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.ImagePagerActivity_;
+import net.coding.program.ImagePagerFragment;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -43,9 +42,11 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.enter.EnterEmojiLayout;
+import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.message.EmojiFragment;
@@ -591,19 +592,57 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
             }
         } else if ("android.intent.action.SEND.net.coding.program".equals(action) && type != null) {
             if (type.startsWith("image/")) {
-                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+                String imageUri = intent.getStringExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
-                    File outputFile;
-                    try {
-                        outputFile = photoOperate.scal(imageUri);
-                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));
-                        adapter.notifyDataSetChanged();
-                    } catch (Exception e) {
-                        showMiddleToast("缩放图片失败");
-                        Global.errorLog(e);
+//                    File outputFile;
+//                    try {
+//                        outputFile = photoOperate.scal(imageUri);
+//                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));
+//                        adapter.notifyDataSetChanged();
+//                    } catch (Exception e) {
+//                        showMiddleToast("缩放图片失败");
+//                        Global.errorLog(e);
+//                    }
+
+                    ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+                    ImageLoader.getInstance().loadImage(imageUri, size, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            if (isFinishing()) {
+                                return;
+                            }
+
+                            try {
+                                File imageFile = ImageLoader.getInstance().getDiskCache().get(imageUri);
+                                String path = "file://" + imageFile.getPath();
+                                ImageInfo imageInfo = new ImageInfo(path);
+                                File outputFile = photoOperate.scal(Uri.parse(path));
+                                mData.add(new MaopaoAddActivity.PhotoData(outputFile, imageInfo));
+                                adapter.notifyDataSetChanged();
+
+                            } catch (Exception e) {
+                                showMiddleToast("缩放图片失败");
+                                Global.errorLog(e);
+                            }
+                        }
+                    });
+                }
+
+                // TODO 因为mart app那边的bug，项目链接有两个，这里做了一下去重处理
+               String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
+                String martHost = "https://mart.coding.net/";
+                int urlStart = stringExtra.lastIndexOf(martHost);
+                if (urlStart != -1) {
+                    String martUrl = stringExtra.substring(urlStart, stringExtra.length());
+                    String splitLastUrl = stringExtra.substring(0, urlStart);
+                    int urlStart2 = splitLastUrl.lastIndexOf(martUrl);
+                    if (urlStart2 != -1) {
+                        stringExtra = splitLastUrl;
                     }
                 }
-                mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+                mIntentExtraString = stringExtra;
             }
         }
     }

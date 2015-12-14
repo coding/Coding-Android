@@ -1,9 +1,9 @@
 package net.coding.program.project.detail;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,9 +14,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.CustomDialog;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.PostRequest;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -61,7 +60,7 @@ public class TopicLabelActivity extends BackActivity {
     @Extra
     int id = 0; // 必填
     @Extra
-    List<TopicLabelObject> checkedLabels; // 必填
+    ArrayList<TopicLabelObject> checkedLabels; // 必填
 
     TopicObject.LabelUrl labelUrl;
     @ViewById

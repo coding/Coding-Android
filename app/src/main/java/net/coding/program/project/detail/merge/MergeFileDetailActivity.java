@@ -323,7 +323,7 @@ public class MergeFileDetailActivity extends BackActivity {
 
     }
 
-    static class LineNoteParam implements CommentActivity.CommentParam, Serializable {
+    static class LineNoteParam extends CommentActivity.CommentParam implements Serializable {
 
         String mProjectPath;
         LineNoteBase mLineNote;

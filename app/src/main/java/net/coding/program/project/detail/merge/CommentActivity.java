@@ -4,8 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.PostRequest;
 import net.coding.program.project.detail.TopicAddActivity;
@@ -18,6 +18,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 @EActivity(R.layout.activity_comment)
 public class CommentActivity extends BackActivity implements TopicEditFragment.SaveData {
@@ -126,11 +128,11 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
         }
     }
 
-    public interface CommentParam {
-        PostRequest getSendCommentParam(String input);
-        String getAtSome();
-        String getAtSomeUrl();
-        String getProjectPath();
-        boolean isPublicProject();
+    public static abstract class CommentParam implements Serializable {
+        public abstract PostRequest getSendCommentParam(String input);
+        public abstract String getAtSome();
+        public abstract String getAtSomeUrl();
+        public abstract String getProjectPath();
+        public abstract boolean isPublicProject();
     }
 }

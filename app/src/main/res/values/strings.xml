@@ -33,7 +33,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test_activity2">TestActivity2</string>
     <string name="title_activity_friend">选择好友</string>
-    <string name="empty"></string>
+    <string name="empty"/>
+    <string name="title_activity_like_users_list">打赏和点赞的用户</string>
     <string name="title_activity_like_users_list">点赞的用户</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_maopao_detail">冒泡详情</string>
@@ -157,8 +158,6 @@
     <string name="title_activity_local_file_list">LocalFileListActivity</string>
     <string name="title_activity_project_transfer">项目转让</string>
     <string name="title_activity_all_tasks">我的任务</string>
-    <string name="maopao_reward_dialog_title">打赏给该用户 <font color="#F5A623">0.01</font> 码币</string>
-
     <!--商城-->
     <string name="title_activity_mall">商城</string>
     <string name="title_activity_mall_order">提交订单</string>

@@ -1,8 +1,7 @@
-<html>
-<head lang="zh-cn">
+<html><head lang="zh-cn">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
@@ -504,7 +503,30 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .webview-detail h5{
     line-height: 1.4rem;
 }
-</style>
+
+/* task list */
+.webview-detail .task-list {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.webview-detail .task-list-item {
+    padding-left: 20px;
+}
+
+.webview-detail .task-list-item label {
+    font-weight: normal;
+}
+
+.webview-detail .task-list-item + .task-list-item {
+    margin-top: 3px;
+}
+
+.webview-detail .task-list-item-checkbox {
+    float: left;
+    margin-left: -20px;
+    margin-top: 4px;
+}</style>
     <style type="text/css">html,body{
     font-family: '微软雅黑','Helvetica Neue',sans-serif,SimHei;
     -webkit-font-smoothing: antialiased;
@@ -543,6 +565,30 @@ body {
 .webview-detail h5{
     line-height: 1rem;
     font-size: 15px;
+}
+
+/* task list */
+.webview-detail .task-list {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.webview-detail .task-list-item {
+    padding-left: 20px;
+}
+
+.webview-detail .task-list-item label {
+    font-weight: normal;
+}
+
+.webview-detail .task-list-item + .task-list-item {
+    margin-top: 3px;
+}
+
+.webview-detail .task-list-item-checkbox {
+    float: left;
+    margin-left: -20px;
+    margin-top: 4px;
 }</style>
 </head>
 <body>
@@ -680,5 +726,6 @@ body {
     API.highlight($webview_detail);
 });
 </script>
-</body>
-</html>
+
+
+</body></html>

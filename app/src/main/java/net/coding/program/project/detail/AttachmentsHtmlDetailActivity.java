@@ -15,6 +15,7 @@ import net.coding.program.WebActivity;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.SimpleSHA1;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.MarkdownEditActivity_;
@@ -29,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -69,7 +71,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
         if (mExtraFile != null) {
             try {
-                requestMd2Html(TxtEditActivity.readPhoneNumber(mExtraFile));
+                requestMd2Html(TxtEditActivity.readFile(mExtraFile));
                 findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
             } catch (Exception e) {
                 showButtomToast("读取文件错误");
@@ -126,13 +128,18 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
             if (code == 0) {
                 hideProgressDialog();
                 String html = respanse.optString("data", "");
-                webview.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.GONE);
-                webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
-                webview.setWebViewClient(new WebActivity.CustomWebViewClient(this));
+
+                String htmlCacheName = SimpleSHA1.sha1(mFile.getPath());
+                File htmlCache = new File(FileUtil.getCacheDir(this), htmlCacheName);
+                if (htmlCache.exists()) {
+                    htmlCache.delete();
+                }
+                TxtEditActivity.writeFile(htmlCache, html);
+                showHtml(html);
+
             } else {
                 hideProgressDialog();
-                String content = TxtEditActivity.readPhoneNumber(mFile);
+                String content = TxtEditActivity.readFile(mFile);
                 webview.setVisibility(View.GONE);
                 textView.setVisibility(View.VISIBLE);
 //                webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", content), "text/html", "UTF-8", null);
@@ -140,7 +147,15 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
                 showButtomToast(R.string.connect_service_fail);
             }
+            showProgressBar(false, "");
         }
+    }
+
+    private void showHtml(String html) {
+        webview.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.GONE);
+        webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
+        webview.setWebViewClient(new WebActivity.CustomWebViewClient(this));
     }
 
     private void requestMd2Html(String content) {
@@ -193,8 +208,16 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         mFiles = mAttachmentFileObject;
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         if (mFile.exists()) {
-            String content = TxtEditActivity.readPhoneNumber(mFile);
-            requestMd2Html(content);
+            String htmlCacheName = SimpleSHA1.sha1(mFile.getPath());
+            File htmlCache = new File(FileUtil.getCacheDir(this), htmlCacheName);
+            if (!htmlCache.exists()) {
+                String content = TxtEditActivity.readFile(mFile);
+                requestMd2Html(content);
+            } else {
+                hideProgressDialog();
+                String html = TxtEditActivity.readFile(htmlCache);
+                showHtml(html);
+            }
         } else {
             getFileUrlFromNetwork();
         }

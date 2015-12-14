@@ -29,6 +29,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public String project_id = "";
     public String title = "";
     public long updated_at;
+    public ArrayList<TopicLabelObject> labels = new ArrayList<>();
     public int comment_count;
     public List<TopicLabelObject> labels = new ArrayList<>();
     private int number;

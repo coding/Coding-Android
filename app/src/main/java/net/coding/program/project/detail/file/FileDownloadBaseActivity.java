@@ -1,6 +1,6 @@
 package net.coding.program.project.detail.file;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;

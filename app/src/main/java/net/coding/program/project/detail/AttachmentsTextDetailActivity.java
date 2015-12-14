@@ -42,12 +42,12 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     @AfterViews
     protected final void initAttachmentsTextDetailActivity() {
         if (mExtraFile != null) {
-            textView.setText(TxtEditActivity.readPhoneNumber(mExtraFile));
+            textView.setText(TxtEditActivity.readFile(mExtraFile));
             findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
         } else {
             urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
             if (mFile.exists()) {
-                textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+                textView.setText(TxtEditActivity.readFile(mFile));
             } else {
                 showDialogLoading();
                 getFileUrlFromNetwork();
@@ -62,7 +62,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         if (mFile != null && mFile.exists()) {
-            textView.setText(TxtEditActivity.readPhoneNumber(mFile));
+            textView.setText(TxtEditActivity.readFile(mFile));
         }
     }
 

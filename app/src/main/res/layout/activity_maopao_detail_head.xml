@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:clipChildren="false"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -109,7 +111,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="14dp"
             android:layout_marginRight="12dp"
@@ -123,45 +125,71 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@null"
+                android:visibility="gone"
                 android:src="@drawable/maopao_item_share" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/commentBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:gravity="center"
-                android:src="@drawable/checkbox_comment" />
+                android:textSize="14sp"
+                android:textColor="@color/font_black_9"
+                android:drawablePadding="9dp"
+                android:drawableLeft="@drawable/maopao_extra_comment"
+                tools:text="17"
+                android:src="@drawable/checkbox_comment"
+                />
 
             <CheckBox
                 android:id="@+id/likeBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/commentBtn"
+                android:layout_marginRight="8dp"
                 android:background="@null"
-                android:button="@drawable/checkbox_good"
-                android:layout_marginRight="8dp" />
+                android:paddingLeft="9dp"
+
+                android:textSize="14sp"
+                android:textColor="@color/font_black_9"
+                android:text="0"
+                tools:text="55"
+                android:button="@drawable/checkbox_good" />
 
             <TextView
-                android:layout_width="60dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/maopao_extra_reward"
+                android:layout_toRightOf="@id/likeBtn"
+                android:drawablePadding="9dp"
+                android:id="@+id/rewardCount"
+                android:layout_marginLeft="8dp"
+                android:textSize="14sp"
+                android:textColor="@color/font_black_9"
                 android:gravity="center"
+                tools:text="2"/>
+
+            <TextView
                 android:id="@+id/deleteButton"
-                android:layout_toLeftOf="@id/likeBtn"
-                android:visibility="invisible"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/commentBtn"
+                android:gravity="center"
                 android:text="删除"
-                android:textColor="@color/font_green"
-                android:layout_centerVertical="true" />
+                android:textColor="@color/font_green" />
+
 
             <ImageView
                 android:id="@+id/maopaoGood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.0"
-                android:src="@drawable/maopao_extra_liked"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/maopao_extra_liked" />
 
         </RelativeLayout>
     </LinearLayout>

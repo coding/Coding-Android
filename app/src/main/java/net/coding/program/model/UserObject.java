@@ -45,9 +45,17 @@ public class UserObject implements Serializable, Comparable {
     public int tweets_count;
     public String email = "";
     private String pingYin = "";
+    public double points_left = 0;
 
     public boolean isMe() {
         return MyApp.sUserObject.id == id;
+    }
+
+    public void reward() {
+        double result = points_left - 0.01;
+        if (result > 0) {
+            points_left = result;
+        }
     }
 
     public UserObject(JSONObject json) {
@@ -82,6 +90,7 @@ public class UserObject implements Serializable, Comparable {
         status = json.optInt("status");
         tweets_count = json.optInt("tweets_count");
         email = json.optString("email");
+        points_left = json.optDouble("points_left", 0);
         pingYin = getFirstLetters(name).toUpperCase();
     }
 

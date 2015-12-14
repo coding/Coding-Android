@@ -41,7 +41,7 @@ public class TxtEditActivity extends BackActivity {
 
     private FileSaveHelp mFileSaveHelp;
 
-    public static String readPhoneNumber(File file) {
+    public static String readFile(File file) {
         byte Buffer[] = new byte[1024];
         //得到文件输入流
         FileInputStream in = null;
@@ -96,7 +96,7 @@ public class TxtEditActivity extends BackActivity {
 
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
         if (file != null && file.exists()) {
-            String content = readPhoneNumber(file);
+            String content = readFile(file);
             editText.setText(content);
         } else {
             showButtomToast("文件未保存到本地");

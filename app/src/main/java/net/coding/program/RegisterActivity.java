@@ -93,6 +93,7 @@ public class RegisterActivity extends BackActivity {
             }
 
             RequestParams params = new RequestParams();
+            params.put("channel", "coding-android");
             params.put("email", name);
             params.put("global_key", password);
             if (captchaLayout.getVisibility() == View.VISIBLE) {

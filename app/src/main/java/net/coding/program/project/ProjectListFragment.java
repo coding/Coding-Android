@@ -236,7 +236,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.getOwner().global_key,
                     item.name);
             ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
-         } else {
+        } else {
             Intent intent = new Intent();
             intent.putExtra("data", item);
             getActivity().setResult(Activity.RESULT_OK, intent);

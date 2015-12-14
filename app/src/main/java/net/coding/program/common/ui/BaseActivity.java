@@ -1,6 +1,6 @@
 package net.coding.program.common.ui;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -52,6 +52,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     };
     SingleToast mSingleToast;
+
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;
     private NetworkImpl networkImpl;
@@ -83,7 +84,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showProgressBar(true, message);
     }
 
-    protected void showErrorMsg(int code, JSONObject json) {
+    public void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
             showButtomToast(R.string.connect_service_fail);
         } else {

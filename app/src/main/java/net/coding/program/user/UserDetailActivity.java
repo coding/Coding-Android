@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -290,6 +291,11 @@ public class UserDetailActivity extends BackActivity {
             View parent = findViewById(items[i]);
             TextView first = (TextView) parent.findViewById(R.id.first);
             first.setText(user_detail_activity_list_first[i]);
+
+            TextView second = (TextView) parent.findViewById(R.id.second);
+            second.setEllipsize(null);
+            second.setMovementMethod(new ScrollingMovementMethod());
+
         }
     }
 

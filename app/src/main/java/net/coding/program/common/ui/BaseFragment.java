@@ -1,6 +1,6 @@
 package net.coding.program.common.ui;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -210,7 +210,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         networkImpl.getNextPageNetwork(url, tag);
     }
 
-    protected void showErrorMsg(int code, JSONObject json) {
+    public void showErrorMsg(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
             showButtomToast(R.string.connect_service_fail);
         } else {
