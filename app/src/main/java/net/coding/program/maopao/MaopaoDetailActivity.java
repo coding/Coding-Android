@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
@@ -631,7 +632,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         mEnterLayout.hideKeyboard();
         CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
         CustomShareBoard shareBoard = new CustomShareBoard(this, shareData);
-        shareBoard.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        Rect rect = new Rect();
+        View decorView = getWindow().getDecorView();
+        decorView.getWindowVisibleDisplayFrame(rect);
+        int winHeight = getWindow().getDecorView().getHeight();
+        // 在 5.0 的android手机上，如果是 noactionbar，显示会有问题
+        shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
     }
 
     public static class ClickParam implements Serializable {
