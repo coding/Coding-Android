@@ -532,10 +532,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                         }
                     }
 
-                    String format = "%s/tweet/%d/app_reward";
-                    if (mNeedPassword) {
-                        format = "%s/tweet/%d/reward";
-                    }
+                    final String format = "%s/tweet/%d/app_reward";
                     String url = String.format(format, Global.HOST_API, maopaoData.id);
                     RequestParams params = new RequestParams();
                     if (mNeedPassword) {
@@ -564,11 +561,12 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                 if (adapter != null) {
                                     adapter.notifyDataSetChanged();
                                 }
-                            } else if (code == 2906) {
+                            } else if (code == 1401) {
                                 mNeedPassword = true;
                                 editLayout.setVisibility(View.VISIBLE);
                             } else if (2900 <= code && response.has("msg")) {
-                                inputLayout.setVisibility(View.GONE);
+                                editLayout.setVisibility(View.GONE);
+                                rewardButton.setVisibility(View.GONE);
                                 cannotRewardLayout.setVisibility(View.VISIBLE);
                                 JSONObject jsonMsg = response.optJSONObject("msg");
                                 if (jsonMsg != null && jsonMsg.length() > 0) {

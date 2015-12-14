@@ -1,7 +1,16 @@
 package net.coding.program.mall;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.loopj.android.http.RequestParams;
-import com.tencent.connect.UserInfo;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -9,7 +18,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.ui.BaseAppCompatActivity;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.DynamicObject;
 import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -20,16 +28,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
 /**
@@ -104,7 +102,7 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
         mall_order_title.setText(title);
         mall_order_point.setText(point + " 码币");
-        mall_order_desc.setText(desc);
+        mall_order_desc.setText(desc.replaceAll(" ?<br> ?", ""));
         getImageLoad().loadImage(mall_order_img, imgUrl, ImageLoadTool.mallOptions);
 
         mall_order_edit_username.setOnFocusChangeListener(foucusChangeListener);
@@ -112,7 +110,6 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
         mall_order_edit_phone.setOnFocusChangeListener(foucusChangeListener);
         mall_order_edit_note.setOnFocusChangeListener(foucusChangeListener);
     }
-
 
     void showDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
