@@ -1,0 +1,54 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.maopao.TopicListFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/transparent"
+            android:clipToPadding="false"
+            android:divider="@color/color_DDDDDD"
+            android:footerDividersEnabled="false"
+            android:dividerHeight="0.5dp"
+            android:drawSelectorOnTop="true"
+            android:listSelector="@color/transparent"
+            android:overScrollMode="never"
+            android:scrollbarStyle="outsideOverlay" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="65.5dp"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="106.5dp"
+            android:layout_height="106.5dp"
+            android:background="@drawable/coding_emoji_44" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="22dp"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.1"
+            android:text="什么都没有搜到，换个词再试试？"
+            android:textSize="15sp"
+            android:textColor="@color/font_black_9" />
+    </LinearLayout>
+</FrameLayout>

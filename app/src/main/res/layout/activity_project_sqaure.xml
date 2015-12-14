@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/divide"
+            android:clipToPadding="false"
+            android:dividerHeight="0.5dp"
+            android:drawSelectorOnTop="true"
+            android:overScrollMode="never"
+            android:scrollbarStyle="outsideOverlay" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/project_create_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_F6F6F6"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_msg_tip"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:background="@color/font_black_e"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:text="全部项目"
+            android:textColor="@color/color_99999" />
+
+        <ImageView
+            android:layout_width="106dp"
+            android:layout_height="106dp"
+            android:layout_marginTop="80dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/coding_emoji_44" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="这里一个项目都没有赶快行动起来"
+            android:textColor="@color/color_99999"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_action"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="21dp"
+            android:background="@color/color_3BBD79"
+            android:text="+  创建项目"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

@@ -40,7 +40,7 @@ public class ProjectObject implements Serializable {
     public int watch_count;
     public boolean watched;
     private int id;
-    private boolean is_public;
+    public boolean is_public;
     private boolean pin;
     private int type;
     private String fork_path = "";
@@ -83,6 +83,14 @@ public class ProjectObject implements Serializable {
     }
 
     public ProjectObject() {
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public static String translatePath(String path) {
@@ -144,6 +152,38 @@ public class ProjectObject implements Serializable {
 
     private String getHttpUrl(String param) {
         return Global.HOST_API + backend_project_path + param;
+    }
+
+    public int getStar_count() {
+        return star_count;
+    }
+
+    public void setStar_count(int star_count) {
+        this.star_count = star_count;
+    }
+
+    public int getWatch_count() {
+        return watch_count;
+    }
+
+    public void setWatch_count(int watch_count) {
+        this.watch_count = watch_count;
+    }
+
+    public int getFork_count() {
+        return fork_count;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setFork_count(int fork_count) {
+        this.fork_count = fork_count;
     }
 
     public String getHttpProjectApi() {

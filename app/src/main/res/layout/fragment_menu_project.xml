@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RadioButton
+            android:id="@+id/rb_all_project"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center_vertical"
+            android:text="全部项目 "
+            android:textColor="@drawable/text_menu_selector"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_my_build"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:button="@null"
+            android:gravity="center_vertical"
+            android:text="我创建的 "
+            android:textColor="@drawable/text_menu_selector"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_join_project"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:button="@null"
+            android:text="我参与的 "
+            android:textColor="@drawable/text_menu_selector"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/divide_line" />
+
+        <RadioButton
+            android:id="@+id/rb_my_intrest"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:button="@null"
+            android:text="我关注的 "
+            android:textColor="@drawable/text_menu_selector"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_my_collected"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:button="@null"
+            android:gravity="center_vertical"
+            android:text="我收藏的 "
+            android:textColor="@drawable/text_menu_selector"
+            android:textSize="16sp" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/divide_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_square"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_project_square" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="项目广场"
+            android:textColor="#727F8D"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/divide_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/font_black_e" />
+</LinearLayout>

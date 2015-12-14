@@ -227,4 +227,9 @@
     <style name="ActionbarNoIcon.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="ActionbarNoIcon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/right_to_left</item>
+        <item name="android:windowExitAnimation">@anim/left_to_right</item>
+    </style>
+
 </resources>

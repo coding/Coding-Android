@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginLeft="@dimen/padding_15"
+    android:minHeight="60dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/subject_search_list_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/subject_search_history_time"
+        android:drawablePadding="12dp"
+        android:layout_marginLeft="15dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="一台一台"
+        android:textColor="@color/color_222222"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/subject_search_list_item_del"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
+        android:src="@drawable/subject_search_history_del" />
+</RelativeLayout>
+

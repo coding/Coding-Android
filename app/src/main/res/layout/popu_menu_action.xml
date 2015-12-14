@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="105dp"
+    android:text="设为常用"
+    android:minWidth="120dp"
+    android:minHeight="105dp"
+    android:gravity="center"
+    android:id="@+id/txtSetting"
+    android:textColor="@color/white"
+    android:textSize="16sp"
+    android:background="@color/color_3BBD79"
+    >
+</TextView>

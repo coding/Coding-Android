@@ -37,7 +37,7 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     private int minVoiceLayoutTop, minEmojikeyboardLayoutTop;
     private int minEnterLayoutBottomMargin;
     private ViewGroup voiceLayout, emojiKeyboardLayout,mInputBox;
-    private FrameLayout.LayoutParams lp_voice, lp_emoji;
+    private LayoutParams lp_voice, lp_emoji;
     private OnEnterLayoutBottomMarginChanagedCallBack mOnEnterLayoutBottomMarginChanagedCallBack;
     private Editable tempData;
     private Handler mHandler;

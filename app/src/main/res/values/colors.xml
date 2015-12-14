@@ -100,5 +100,20 @@
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="possible_result_points">#c0ffff00</color>
+    <color name="font_black_e" >#eeeeee</color>
+    <color name="color_99999">#999999</color>
+    <color name="color_F6F6F6">#f6f6f6</color>
+    <color name="color_3BBD79">#3BBD79</color>
+    <color name="color_E5E5E5">#e5e5e5</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_hint">#686D75</color>
+    <color name="color_222222">#222222</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_DDDDDD">#dddddd</color>
+    <color name="color_000000">#000000</color>
+    <color name="color_4E90BF">#4E90BF</color>
+    <color name="color_EEEEEE">#EEEEEE</color>
+    <color name="color_94989D">#94989D</color>
+    <color name="color_28303B">#28303B</color>
 
 </resources>

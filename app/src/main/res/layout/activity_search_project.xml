@@ -1,40 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_EEEEEE"
+    android:orientation="vertical"
     tools:context="net.coding.program.project.SearchProjectActivity">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <include layout="@layout/activity_search_project_actionbar" />
+
+    <net.coding.program.common.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/emptyView"
+    <ListView
+        android:id="@+id/emptyListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/divide"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingTop="35dp"
-        android:visibility="visible">
-
-        <View
-            android:layout_width="143dp"
-            android:layout_height="143dp"
-            android:background="@drawable/ic_search_project" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center"
-            android:lineSpacingExtra="1dp"
-            android:lineSpacingMultiplier="1.1"
-            android:text="搜索项目名称或创建人的个性后缀\n都可以进行项目搜索哦！"
-            android:textColor="@color/font_black_9" />
-
-    </LinearLayout>
-
-</FrameLayout>
+        android:cacheColorHint="@color/transparent"
+        android:clipToPadding="false"
+        android:divider="@color/color_DDDDDD"
+        android:dividerHeight="0.5dp"
+        android:drawSelectorOnTop="true"
+        android:listSelector="@color/transparent"
+        android:overScrollMode="never"
+        android:footerDividersEnabled="false"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"
+        android:visibility="gone" />
+</LinearLayout>

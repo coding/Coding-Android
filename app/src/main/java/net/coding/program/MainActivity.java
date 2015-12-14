@@ -214,8 +214,19 @@ public class MainActivity extends BaseActivity
         Fragment fragment = null;
 
         switch (position) {
-            case 0:
-                fragment = new ProjectFragment_();
+            case 0://防止重复加载数据
+//                fragment = new ProjectFragment_();
+                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+                boolean containFragment = false;
+                for (Fragment item : fragments) {
+                    if (item instanceof ProjectFragment_) {
+                        containFragment = true;
+                        break;
+                    }
+                }
+                if (!containFragment) {
+                    fragment = new ProjectFragment_();
+                }
                 break;
             case 1:
                 fragment = new TaskFragment_();
@@ -231,10 +242,6 @@ public class MainActivity extends BaseActivity
             case 4:
                 fragment = new SettingFragment_();
                 break;
-        }
-
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
 
         if (position == 2) {
@@ -257,6 +264,9 @@ public class MainActivity extends BaseActivity
                 int pos = spinner.getSelectedItemPosition();
                 spinner.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
             }
+        }
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
 

@@ -31,7 +31,7 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return projectFragment.program_title.length;
+        return projectFragment.program_title.length+1;
     }
 
     @Override
@@ -39,18 +39,35 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
         return PagerAdapter.POSITION_NONE;
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        ProjectListFragment fragment = (ProjectListFragment) super.instantiateItem(container, position);
-        fragment.setData(getChildData(position), projectFragment.requestOk);
-
-        return fragment;
-    }
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+//        ProjectListFragment fragment = (ProjectListFragment) super.instantiateItem(container, position);
+//        fragment.setData(getChildData(position), projectFragment.requestOk);
+//
+//        return fragment;
+//    }
 
     @Override
     public Fragment getItem(int position) {
         Log.d("", "all p " + position);
+
+        if(position==projectFragment.program_title.length){
+            MenuProjectFragment menuProjectFragment=new MenuProjectFragment_();
+            return menuProjectFragment;
+        }
+        if(position==3){
+            ProjectOtherFragment projectOtherFragment=new ProjectOtherFragment_();
+            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position],0);
+            return projectOtherFragment;
+        }
+        if(position==4){
+            ProjectOtherFragment projectOtherFragment=new ProjectOtherFragment_();
+            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position],1);
+            return projectOtherFragment;
+        }
         ProjectListFragment fragment = new ProjectListFragment_();
+        fragment.setPos(position);
+        fragment.setTitle(projectFragment.program_title[position]);
         Bundle bundle = new Bundle();
 
         bundle.putSerializable("mData", getChildData(position));

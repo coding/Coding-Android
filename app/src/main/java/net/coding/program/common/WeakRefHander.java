@@ -12,18 +12,18 @@ import java.lang.ref.WeakReference;
  */
 public class WeakRefHander extends Handler {
 
-    private final WeakReference<Handler.Callback> mRef;
+    private final WeakReference<Callback> mRef;
     private final int mLoopTime;
     private int NO_LOOP = -1;
 
-    public WeakRefHander(Handler.Callback loopAction, int loopTime) {
+    public WeakRefHander(Callback loopAction, int loopTime) {
         super();
         mRef = new WeakReference<>(loopAction);
         mLoopTime = loopTime;
     }
 
     // 不循环
-    public WeakRefHander(Handler.Callback loopAction) {
+    public WeakRefHander(Callback loopAction) {
         super();
         mRef = new WeakReference<>(loopAction);
         mLoopTime = NO_LOOP;
@@ -32,7 +32,7 @@ public class WeakRefHander extends Handler {
     @Override
     public void handleMessage(Message msg) {
         Log.d("", "loophandle");
-        Handler.Callback action = mRef.get();
+        Callback action = mRef.get();
         if (action != null) {
             action.handleMessage(msg);
             if (mLoopTime != NO_LOOP) {
