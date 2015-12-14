@@ -68,6 +68,98 @@ public class Merge implements Serializable {
         content = json.optString("content", "");
     }
 
+    public void setAuthor(UserObject author) {
+        this.author = author;
+    }
+
+    public void setAction_at(long action_at) {
+        this.action_at = action_at;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setSrcBranch(String srcBranch) {
+        this.srcBranch = srcBranch;
+    }
+
+    public String getDesBranch() {
+        return desBranch;
+    }
+
+    public void setDesBranch(String desBranch) {
+        this.desBranch = desBranch;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setIid(int iid) {
+        this.iid = iid;
+    }
+
+    public String getMerge_status() {
+        return merge_status;
+    }
+
+    public void setMerge_status(String merge_status) {
+        this.merge_status = merge_status;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getSrc_owner_name() {
+        return src_owner_name;
+    }
+
+    public void setSrc_owner_name(String src_owner_name) {
+        this.src_owner_name = src_owner_name;
+    }
+
+    public String getSrc_project_name() {
+        return src_project_name;
+    }
+
+    public void setSrc_project_name(String src_project_name) {
+        this.src_project_name = src_project_name;
+    }
+
+    public long getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
+
+    public ActionAuthor getAction_author() {
+        return action_author;
+    }
+
+    public void setAction_author(ActionAuthor action_author) {
+        this.action_author = action_author;
+    }
+
+    public SourceDepot getSource_depot() {
+        return source_depot;
+    }
+
+    public void setSource_depot(SourceDepot source_depot) {
+        this.source_depot = source_depot;
+    }
+
     public String getContent() {
         return content;
     }
@@ -111,6 +203,9 @@ public class Merge implements Serializable {
         } else {
             return src_owner_name + ":" + srcBranch;
         }
+    }
+
+    public Merge() {
     }
 
     public boolean isPull() {
@@ -253,6 +348,9 @@ public class Merge implements Serializable {
         private int tweets_count;
         private boolean followed;
         private boolean follow;
+
+        public ActionAuthor() {
+        }
 
         public ActionAuthor(JSONObject json) {
             super(json);

@@ -1,7 +1,6 @@
 package net.coding.program.common;
 
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -9,7 +8,7 @@ import java.io.IOException;
  * Created by Carlos2015 on 2015/8/14.
  */
 public class MyMediaPlayer extends MediaPlayer {
-    private MediaPlayer.OnCompletionListener onCompletionListener;
+    private OnCompletionListener onCompletionListener;
     private String path;
     private OnPreparedListener mOnPreparedListener;
     private int voiceId = -1;

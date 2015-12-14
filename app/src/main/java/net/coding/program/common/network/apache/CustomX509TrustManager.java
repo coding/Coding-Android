@@ -14,7 +14,7 @@ public class CustomX509TrustManager implements X509TrustManager {
     }
 
     @Override
-    public void checkServerTrusted(java.security.cert.X509Certificate[] certs,
+    public void checkServerTrusted(X509Certificate[] certs,
                                    String authType) throws CertificateException {
 
         // Here you can verify the servers certificate. (e.g. against one which is stored on mobile device)

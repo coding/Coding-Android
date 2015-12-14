@@ -222,7 +222,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
     }
 

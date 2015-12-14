@@ -1,0 +1,9 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/ic_filter_normal"
+        android:title="筛选"
+        app:showAsAction="always" />
+</menu>

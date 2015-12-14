@@ -24,14 +24,14 @@ import java.lang.reflect.Method;
  * <ul>
  * <strong>Operate download</strong>
  * <li>{@link #isExistPauseAndResumeMethod()} whether exist pauseDownload and resumeDownload method in
- * {@link android.app.DownloadManager}</li>
- * <li>{@link #pauseDownload(long...)} pause download. need pauseDownload(long...) method in {@link android.app.DownloadManager}</li>
- * <li>{@link #resumeDownload(long...)} resume download. need resumeDownload(long...) method in {@link android.app.DownloadManager}</li>
+ * {@link DownloadManager}</li>
+ * <li>{@link #pauseDownload(long...)} pause download. need pauseDownload(long...) method in {@link DownloadManager}</li>
+ * <li>{@link #resumeDownload(long...)} resume download. need resumeDownload(long...) method in {@link DownloadManager}</li>
  * </ul>
  * <ul>
  * <strong>RequestPro</strong>
- * <li>{@link net.coding.program.common.network.DownloadManagerPro.RequestPro#setNotiClass(String)} set noti class</li>
- * <li>{@link net.coding.program.common.network.DownloadManagerPro.RequestPro#setNotiExtras(String)} set noti extras</li>
+ * <li>{@link RequestPro#setNotiClass(String)} set noti class</li>
+ * <li>{@link RequestPro#setNotiExtras(String)} set noti extras</li>
  * </ul>
  *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-5-4
@@ -167,7 +167,7 @@ public class DownloadManagerPro {
     }
 
     /**
-     * whether exist pauseDownload and resumeDownload method in {@link android.app.DownloadManager}
+     * whether exist pauseDownload and resumeDownload method in {@link DownloadManager}
      *
      * @return
      */
@@ -231,11 +231,11 @@ public class DownloadManagerPro {
      *
      * @param downloadId
      * @return <ul>
-     * <li>if status of downloadId is {@link android.app.DownloadManager#STATUS_PAUSED}, return
+     * <li>if status of downloadId is {@link DownloadManager#STATUS_PAUSED}, return
      * {@link #getPausedReason(long)}</li>
-     * <li>if status of downloadId is {@link android.app.DownloadManager#STATUS_FAILED}, return {@link #getErrorCode(long)}</li>
-     * <li>if status of downloadId is neither {@link android.app.DownloadManager#STATUS_PAUSED} nor
-     * {@link android.app.DownloadManager#STATUS_FAILED}, return 0</li>
+     * <li>if status of downloadId is {@link DownloadManager#STATUS_FAILED}, return {@link #getErrorCode(long)}</li>
+     * <li>if status of downloadId is neither {@link DownloadManager#STATUS_PAUSED} nor
+     * {@link DownloadManager#STATUS_FAILED}, return 0</li>
      * </ul>
      */
     public int getReason(long downloadId) {
@@ -247,12 +247,12 @@ public class DownloadManagerPro {
      *
      * @param downloadId
      * @return <ul>
-     * <li>if status of downloadId is {@link android.app.DownloadManager#STATUS_PAUSED}, return one of
-     * {@link android.app.DownloadManager#PAUSED_WAITING_TO_RETRY}<br/>
-     * {@link android.app.DownloadManager#PAUSED_WAITING_FOR_NETWORK}<br/>
-     * {@link android.app.DownloadManager#PAUSED_QUEUED_FOR_WIFI}<br/>
-     * {@link android.app.DownloadManager#PAUSED_UNKNOWN}</li>
-     * <li>else return {@link android.app.DownloadManager#PAUSED_UNKNOWN}</li>
+     * <li>if status of downloadId is {@link DownloadManager#STATUS_PAUSED}, return one of
+     * {@link DownloadManager#PAUSED_WAITING_TO_RETRY}<br/>
+     * {@link DownloadManager#PAUSED_WAITING_FOR_NETWORK}<br/>
+     * {@link DownloadManager#PAUSED_QUEUED_FOR_WIFI}<br/>
+     * {@link DownloadManager#PAUSED_UNKNOWN}</li>
+     * <li>else return {@link DownloadManager#PAUSED_UNKNOWN}</li>
      * </ul>
      */
     public int getPausedReason(long downloadId) {
@@ -263,7 +263,7 @@ public class DownloadManagerPro {
      * get failed error code
      *
      * @param downloadId
-     * @return one of {@link android.app.DownloadManager#ERROR_*}
+     * @return one of {@link DownloadManager#ERROR_*}
      */
     public int getErrorCode(long downloadId) {
         return getInt(downloadId, DownloadManager.COLUMN_REASON);

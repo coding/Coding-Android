@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F6F6F6"
+    android:orientation="vertical">
+
+    <net.coding.program.common.widget.CircleImageView
+        android:id="@+id/iconTask"
+        android:layout_width="43.5dp"
+        android:layout_height="43.5dp"
+        android:layout_marginLeft="13.5dp"
+        android:layout_marginTop="17.5dp" />
+
+    <TextView
+        android:id="@+id/nameTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/iconTask"
+        android:lineSpacingExtra="2dp"
+        android:singleLine="true"
+        android:text="中秋首页改版"
+        android:textColor="@color/color_222222"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/descTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameTask"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/iconTask"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="1.5"
+        android:maxLines="2"
+        android:minLines="1"
+        android:text="wad"
+        android:textColor="@color/color_666666"
+        android:textSize="15sp" />
+
+    <include
+        android:id="@+id/bottom_layout"
+        layout="@layout/inlcude_search_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descTask"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="19dp" />
+</RelativeLayout>

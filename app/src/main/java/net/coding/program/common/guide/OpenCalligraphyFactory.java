@@ -13,7 +13,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * so in order to get access to the
  * {@linkplain #onViewCreated(View, Context, AttributeSet)}
  * we need to subclass this in the same package.
- * This also implements {@linkplain com.prolificinteractive.parallaxpager.OnViewCreatedListener} as
+ * This also implements {@linkplain OnViewCreatedListener} as
  * a convenience.
  */
 public class OpenCalligraphyFactory extends CalligraphyFactory implements OnViewCreatedListener {

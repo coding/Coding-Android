@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:orientation="vertical">
+
+    <net.coding.program.common.widget.CircleImageView
+        android:id="@+id/personImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/personImg"
+        android:singleLine="true"
+        android:text="222"
+        android:textColor="@color/color_000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtMergeName"
+        android:layout_width="103dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/txtTitle"
+        android:layout_below="@+id/txtTitle"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/shape_struts"
+        android:gravity="center"
+        android:text="merss"
+        android:singleLine="true"
+        android:textColor="@color/color_4E90BF"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/arrowLayout"
+        android:layout_width="15dp"
+        android:layout_height="5.5dp"
+        android:layout_below="@+id/txtTitle"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="22dp"
+        android:layout_toRightOf="@+id/txtMergeName"
+        android:background="@drawable/ic_blue_arrow" />
+
+    <TextView
+        android:id="@+id/txtMergeBranch"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/txtTitle"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="11dp"
+        android:layout_toRightOf="@+id/arrowLayout"
+        android:background="@drawable/shape_struts"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="merss"
+        android:textColor="@color/color_4E90BF"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtTitle"
+        android:layout_below="@+id/txtMergeName"
+        android:layout_marginTop="6.5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="1"
+        android:text="kshdkahsdkj"
+        android:textColor="@color/color_666666"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtTitle"
+        android:layout_below="@+id/txtContent"
+        android:layout_marginTop="19dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtBottomName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="asdj"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_clock" />
+
+        <TextView
+            android:id="@+id/bottomTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:text="2"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/bottomStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="拒绝"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
+    </LinearLayout>
+</RelativeLayout>

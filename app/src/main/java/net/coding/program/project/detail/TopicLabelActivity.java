@@ -134,7 +134,7 @@ public class TopicLabelActivity extends BackActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(net.coding.program.R.menu.topic_label, menu);
+        menuInflater.inflate(R.menu.topic_label, menu);
         menuActionSave = menu.findItem(R.id.action_save);
         menuActionSave.setEnabled(false);
 

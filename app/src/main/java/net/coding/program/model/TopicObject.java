@@ -29,6 +29,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public String project_id = "";
     public String title = "";
     public long updated_at;
+    public int comment_count;
     public List<TopicLabelObject> labels = new ArrayList<>();
     private int number;
     private int commentSort = SORT_OLD;
@@ -45,6 +46,7 @@ public class TopicObject extends BaseComment implements Serializable {
         title = json.optString("title");
         updated_at = json.optLong("updated_at");
         number = json.optInt("number");
+        comment_count=json.optInt("comment_count");
 
         {
             JSONArray array = json.optJSONArray("labels");

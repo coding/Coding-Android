@@ -104,7 +104,7 @@ public class Global {
             }
         }
     };
-    public static DecimalFormat df = new java.text.DecimalFormat("#.00");
+    public static DecimalFormat df = new DecimalFormat("#.00");
     private static SimpleDateFormat DayFormatTime = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String dayFromTime(long time) {
@@ -412,7 +412,7 @@ public class Global {
         webView.getSettings().setJavaScriptEnabled(true);
 
         // 防止webview滚动时背景变成黑色
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             webView.setBackgroundColor(0x00000000);
         } else {
             webView.setBackgroundColor(Color.argb(1, 0, 0, 0));

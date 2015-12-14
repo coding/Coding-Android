@@ -586,7 +586,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
      * 录音完成回调接口
      */
     public interface VoiceRecordCompleteCallback{
-        void recordFinished(long duration,String voicePath);
+        void recordFinished(long duration, String voicePath);
     }
 
 }

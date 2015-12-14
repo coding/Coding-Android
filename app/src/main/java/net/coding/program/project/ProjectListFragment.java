@@ -1,17 +1,17 @@
 package net.coding.program.project;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -19,34 +19,36 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.event.EventRefresh;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.init.create.ProjectCreateActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EFragment(R.layout.project_list_fragment)
-public class ProjectListFragment extends RefreshBaseFragment {
+public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
 
     private static final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
     private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
+    private static final String TAG = ProjectListFragment.class.getSimpleName();
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mDataBackup = new ArrayList<>();
@@ -57,13 +59,22 @@ public class ProjectListFragment extends RefreshBaseFragment {
     @ViewById
     ExpandableStickyListHeadersListView listView;
 
+    private ProjectActionUtil projectActionUtil;
+
+    private String title = "";
+    private int pos = 0;
+
     @ViewById
     View blankLayout;
-
+    @ViewById
+    Button btn_action;
     @ViewById
     SwipeRefreshLayout swipeRefreshLayout;
-
-    MyAdapter myAdapter = new MyAdapter();
+    @ViewById
+    RelativeLayout project_create_layout;
+    @ViewById
+    TextView tv_msg_tip;
+    MyAdapter myAdapter = null;
     int msectionId = 0;
     private View.OnClickListener mOnClickRetry = new View.OnClickListener() {
         @Override
@@ -78,6 +89,10 @@ public class ProjectListFragment extends RefreshBaseFragment {
         mRequestOk = requestOk;
     }
 
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
     public void setDataAndUpdate(ArrayList<ProjectObject> data) {
         mRequestOk = true;
         mData = data;
@@ -87,9 +102,20 @@ public class ProjectListFragment extends RefreshBaseFragment {
         BlankViewDisplay.setBlank(1, this, true, blankLayout, mOnClickRetry);
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @AfterViews
     protected final void init() {
+        projectActionUtil = new ProjectActionUtil(getActivity().getBaseContext());
+        projectActionUtil.setListener(this);
         initRefreshLayout();
+        btn_action.setOnClickListener(this);
         msectionId = 0;
         for (ProjectObject item : mData) {
             if (!item.isPin()) {
@@ -100,46 +126,41 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
         View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
         listView.addFooterView(listViewFooter);
+        if (myAdapter == null) {
+            myAdapter = new MyAdapter();
+        }
         listView.setAdapter(myAdapter);
-
         if (getParentFragment() == null) { // 搜索
             disableRefreshing();
         }
+    }
 
-        if (AccountInfo.isCacheProjects(getActivity())) {
-            BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, mOnClickRetry);
+    private void notifyEmputy() {
+        if (mData.size() == 0) {
+            tv_msg_tip.setText(getTitle());
+            project_create_layout.setVisibility(View.VISIBLE);
+            btn_action.setText("+  去创建");
+        } else {
+            project_create_layout.setVisibility(View.GONE);
         }
     }
 
-    @ItemLongClick
-    protected final void listView(int pos) {
-        final int projectId = mData.get(pos).getId();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(listView.getContext());
-        if (mData.get(pos).isPin()) {
-            builder.setItems(R.array.project_pin_cannel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        String pinDeleteUrl = String.format(URL_PIN_DELETE, projectId);
-                        deleteNetwork(pinDeleteUrl, URL_PIN_DELETE, -1, projectId);
-                    }
-                }
-            });
-        } else {
-            builder.setItems(R.array.project_pin, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == 0) {
-                        RequestParams params = new RequestParams();
-                        params.put("ids", projectId);
-                        postNetwork(URL_PIN_SET, params, URL_PIN_SET, -1, projectId);
-                    }
-                }
-            });
+    // 用于处理推送
+    public void onEventMainThread(EventRefresh event) {
+        if (event.refresh) {
+            notifyEmputy();
         }
-        AlertDialog dialog = builder.setCancelable(true).show();
-        CustomDialog.dialogTitleLineColor(listView.getContext(), dialog);
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -211,8 +232,11 @@ public class ProjectListFragment extends RefreshBaseFragment {
         }
 
         if (type == ProjectFragment.Type.Main) {
-            ProjectHomeActivity_.intent(fragment).mProjectObject(item).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
-        } else {
+            item.getOwner().global_key= item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
+            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.getOwner().global_key,
+                    item.name);
+            ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+         } else {
             Intent intent = new Intent();
             intent.putExtra("data", item);
             getActivity().setResult(Activity.RESULT_OK, intent);
@@ -244,6 +268,29 @@ public class ProjectListFragment extends RefreshBaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void doAction(int pos) {
+        final int projectId = mData.get(pos).getId();
+        if (mData.get(pos).isPin()) {
+            String pinDeleteUrl = String.format(URL_PIN_DELETE, projectId);
+            deleteNetwork(pinDeleteUrl, URL_PIN_DELETE, -1, projectId);
+        } else {
+            RequestParams params = new RequestParams();
+            params.put("ids", projectId);
+            postNetwork(URL_PIN_SET, params, URL_PIN_SET, -1, projectId);
+        }
+
+        projectActionUtil.close();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_action:
+                ProjectCreateActivity_.intent(this).start();
+                break;
+        }
+    }
 
     public interface UpdateData {
         void updateRead(int id);
@@ -258,18 +305,16 @@ public class ProjectListFragment extends RefreshBaseFragment {
     private static class ViewHolder {
         TextView name;
         ImageView image;
+        TextView name2;
         TextView content;
+        TextView desc;
         BadgeView badge;
         View privateIcon;
+        ImageView privatePin;
+        View fLayoutAction;
     }
 
-    class MyAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
-
-        final String[] titles = new String[]{
-                "常用项目",
-                "一般项目"
-        };
-
+    class MyAdapter extends BaseAdapter implements StickyListHeadersAdapter {
         @Override
         public int getCount() {
             return mData.size();
@@ -297,7 +342,10 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 holder.content = (TextView) view.findViewById(R.id.comment);
                 holder.badge = (BadgeView) view.findViewById(R.id.badge);
                 holder.privateIcon = view.findViewById(R.id.privateIcon);
-
+                holder.fLayoutAction = view.findViewById(R.id.flayoutAction);
+                holder.desc = (TextView) view.findViewById(R.id.txtDesc);
+                holder.privatePin = (ImageView) view.findViewById(R.id.privatePin);
+                holder.name2 = (TextView) view.findViewById(R.id.name2);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -305,12 +353,21 @@ public class ProjectListFragment extends RefreshBaseFragment {
 
             ProjectObject item = (ProjectObject) getItem(position);
 
-            holder.name.setText(item.name);
-
+            holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
             holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
-            String ownerName = item.isPublic() ? item.owner_user_name : ("      " + item.owner_user_name);
+            String ownerName = item.owner_user_name;
             holder.content.setText(ownerName);
-
+            if (!item.isPublic()) {
+                holder.name.setVisibility(View.VISIBLE);
+                holder.name.setText(item.name);
+                holder.name2.setVisibility(View.INVISIBLE);
+            } else {
+                holder.name2.setVisibility(View.VISIBLE);
+                holder.name2.setText(item.name);
+                holder.name.setVisibility(View.INVISIBLE);
+            }
+            holder.desc.setText(item.getDescription());
+            setClickEvent(holder.fLayoutAction, position);
             if (type == ProjectFragment.Type.Pick) {
                 holder.badge.setVisibility(View.INVISIBLE);
             } else {
@@ -318,10 +375,32 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 BadgeView badge = holder.badge;
                 Global.setBadgeView(badge, count);
             }
-
+            if (pos == 0) {
+                holder.fLayoutAction.setVisibility(View.VISIBLE);
+            } else {
+                holder.privatePin.setVisibility(View.INVISIBLE);
+            }
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
 
             return view;
+        }
+
+        private void setClickEvent(final View fLayoutAction, final int position) {
+            fLayoutAction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    projectActionUtil.show(fLayoutAction, position);
+                    if (!mData.get(position).isPin()) {
+                        projectActionUtil.getTxtSetting().setText("设为常用");
+                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.white));
+                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_3BBD79));
+                    } else {
+                        projectActionUtil.getTxtSetting().setText("取消常用");
+                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.color_3BBD79));
+                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_E5E5E5));
+                    }
+                }
+            });
         }
 
         @Override
@@ -336,36 +415,17 @@ public class ProjectListFragment extends RefreshBaseFragment {
                 holder = (HeaderViewHolder) convertView.getTag();
             }
 
-            int type = getSectionForPosition(position);
-            String title = titles[type];
-            holder.mHead.setText(title);
+//            int type = getSectionForPosition(position);
+//            String title =titles[type];
+            holder.mHead.setText(getTitle());
 
             return convertView;
         }
 
-
         @Override
-        public long getHeaderId(int i) {
-            return getSectionForPosition(i);
+        public long getHeaderId(int position) {
+            return 0;
         }
 
-        @Override
-        public Object[] getSections() {
-            return titles;
-        }
-
-        @Override
-        public int getPositionForSection(int sectionIndex) {
-            return sectionIndex;
-        }
-
-        @Override
-        public int getSectionForPosition(int position) {
-            if (position < msectionId) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
     }
 }
