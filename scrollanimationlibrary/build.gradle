@@ -5,9 +5,9 @@ android {
 //    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
 
-    compileSdkVersion 21
+    compileSdkVersion 23
 //    useLibrary 'org.apache.http.legacy' // 因为 sdk23 去掉了 apache
-    buildToolsVersion "21.0.1"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         minSdkVersion 15
@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:support-v4:23.1.1'
 }
 
 //apply from: '../gradle-bintray-push.gradle'
