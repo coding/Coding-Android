@@ -1,11 +1,11 @@
 package net.coding.program;
 
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -36,13 +36,15 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import cz.msebera.android.httpclient.Header;
 import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -63,7 +65,7 @@ public class ImagePagerFragment extends BaseFragment {
             .resetViewBeforeLoading(true)
             .cacheInMemory(false)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
+            .imageScaleType(ImageScaleType.NONE)
             .build();
     private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
         @Override
@@ -185,7 +187,7 @@ public class ImagePagerFragment extends BaseFragment {
             return;
         }
 
-        ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+        ImageSize size = new ImageSize(GL10.GL_MAX_TEXTURE_SIZE, GL10.GL_MAX_TEXTURE_SIZE);
         getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
 
                     @Override

@@ -25,6 +25,7 @@ import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -232,18 +233,27 @@ public class Global {
         }
     }
 
-    // TODO 之前用法有误，先不做缩略图了
     public static String makeSmallUrl(ImageView view, String url) {
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        int max = Math.max(lp.height, lp.width);
+        if (max > 0) {
+            return makeSmallUrlSquare(url, max);
+        }
+
         return url;
     }
 
     public static boolean canCrop(String url) {
-        return url.startsWith("http") && (!url.contains("/crop/"));
+        return url.startsWith("http") && (!url.contains("/thumbnail/"));
     }
 
     public static String makeSmallUrlSquare(String url, int widthPix) {
         if (canCrop(url)) {
-            return String.format("%s?imageView2/1/w/%d/h/%d", url, widthPix, widthPix);
+            String parma = "";
+            if (!url.contains("?imageMogr2/")) {
+                parma = "?imageMogr2/";
+            }
+            return String.format("%s%s/!%dx%d", url, parma, widthPix, widthPix);
         } else {
             return url;
         }
