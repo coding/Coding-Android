@@ -1,6 +1,5 @@
 package net.coding.program.project.detail.file;
 
-import android.support.v7.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,24 +13,25 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.DownloadManagerPro;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 
-import org.apache.http.cookie.Cookie;
-
 import java.io.File;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 /**
  * Created by chenchao on 15/8/24.

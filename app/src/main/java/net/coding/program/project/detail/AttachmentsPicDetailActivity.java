@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -22,13 +22,13 @@ import android.widget.ProgressBar;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.project.detail.file.FileSaveHelp;
@@ -38,13 +38,14 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 展示某一项目文档目录下面图片文件的Activity
@@ -300,10 +301,6 @@ public class AttachmentsPicDetailActivity extends BackActivity {
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(response)));
             }
 
-            @Override
-            public void onProgress(int bytesWritten, int totalSize) {
-                Log.v(TAG, String.format("Progress %d from %d (%2.0f%%)", bytesWritten, totalSize, (totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1));
-            }
         });
     }
 

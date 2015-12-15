@@ -10,11 +10,12 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.MyApp;
 import net.coding.program.common.network.MyAsyncHttpClient;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chaochen on 14-9-27.

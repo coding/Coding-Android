@@ -47,7 +47,6 @@ import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.GitFileObject;
 
-import org.apache.http.cookie.Cookie;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
@@ -66,6 +65,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import cz.msebera.android.httpclient.cookie.Cookie;
 import pl.droidsonroids.gif.GifDrawable;
 
 /**

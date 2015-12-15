@@ -1,10 +1,10 @@
 package net.coding.program.project.detail;
 
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -12,11 +12,11 @@ import android.view.View;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -31,11 +31,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 展示某一项目文档目录下面文件的BsseActivity
@@ -298,10 +299,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(response)));
             }
 
-            @Override
-            public void onProgress(int bytesWritten, int totalSize) {
-                Log.v(TAG, String.format("Progress %d from %d (%2.0f%%)", bytesWritten, totalSize, (totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1));
-            }
         });
     }
 

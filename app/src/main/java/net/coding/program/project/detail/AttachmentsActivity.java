@@ -1,13 +1,13 @@
 package net.coding.program.project.detail;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -58,7 +58,6 @@ import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,6 +67,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 展示某一项目文档目录下面文件的Activity
@@ -965,7 +966,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 }
 
                 @Override
-                public void onProgress(int bytesWritten, int totalSize) {
+                public void onProgress(long bytesWritten, long totalSize) {
                     Log.v(TAG, String.format("Progress %d from %d (%2.0f%%)", bytesWritten, totalSize, (totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1));
                     setUploadStatus(bytesWritten, totalSize);
                 }
@@ -1036,7 +1037,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         showUploadStatus(UploadStatus.Close);
     }
 
-    private void setUploadStatus(int bytesWritten, int totalSize) {
+    private void setUploadStatus(long bytesWritten, long totalSize) {
         long uploadCurTime = System.currentTimeMillis();
         int progress = (int) ((totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1);//bytesWritten * 100 /totalSize ;
         uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, progress));

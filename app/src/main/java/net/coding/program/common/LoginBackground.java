@@ -11,7 +11,7 @@ import net.coding.program.MyApp;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

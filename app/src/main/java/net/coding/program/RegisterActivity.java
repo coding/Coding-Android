@@ -28,9 +28,10 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BackActivity {

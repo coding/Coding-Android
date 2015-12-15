@@ -1,7 +1,6 @@
 package net.coding.program.project.detail;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +13,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -37,6 +36,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -52,11 +52,12 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 @EActivity(R.layout.activity_attachments_download)
 public class AttachmentsDownloadDetailActivity extends BackActivity {

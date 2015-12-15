@@ -29,13 +29,14 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_gitview)
 //@OptionsMenu(R.menu.users)
@@ -170,10 +171,6 @@ public class GitViewActivity extends CustomMoreActivity {
 
             }
 
-            @Override
-            public void onProgress(int bytesWritten, int totalSize) {
-                Log.v(TAG, String.format("Progress %d from %d (%2.0f%%)", bytesWritten, totalSize, (totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1));
-            }
         });
     }
 
