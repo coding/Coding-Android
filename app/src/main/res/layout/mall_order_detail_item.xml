@@ -1,292 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/white"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-	<include layout="@layout/divide_15_bottom"/>
+    <include layout="@layout/divide_15_bottom" />
 
-	<LinearLayout
-			android:orientation="horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-		<TextView
-				android:layout_marginLeft="16dp"
-				android:text="订单编号"
-				android:background="@drawable/round_rect_edge"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/round_rect_edge"
+            android:text="订单编号" />
 
-		<TextView
-				android:id="@+id/order_no"
-				android:text="11111111"
-				android:padding="16dp"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/order_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="11111111" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<LinearLayout
-			android:background="@color/gray_dark"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
-			android:orientation="horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/gray_dark"
+        android:orientation="horizontal">
 
-		<ImageView
-				android:id="@+id/order_img"
-				android:src="@drawable/ic_lancher"
-				android:scaleType="fitXY"
-				android:layout_width="134dp"
-				android:layout_height="82dp"/>
+        <ImageView
+            android:id="@+id/order_img"
+            android:layout_width="134dp"
+            android:layout_height="82dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_lancher" />
 
-		<LinearLayout
-				android:orientation="vertical"
-				android:layout_gravity="center_vertical"
-				android:layout_width="match_parent"
-				android:layout_height="82dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
 
-			<RelativeLayout
-					android:gravity="center_vertical"
-					android:paddingLeft="8dp"
-					android:paddingTop="8dp"
-					android:orientation="horizontal"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp">
 
-				<net.coding.program.common.widget.MarqueeView
-						android:text="title"
-						android:id="@+id/order_title"
-						android:layout_toLeftOf="@id/mall_order_count"
-						android:textAppearance="?android:attr/textAppearanceMedium"
-						android:textColor="@color/font_black_2"
-						android:textSize="16sp"
-						android:singleLine="true"
-						android:focusable="true"
-						android:marqueeRepeatLimit="marquee_forever"
-						android:focusableInTouchMode="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="end"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"/>
+                <net.coding.program.common.widget.MarqueeView
+                    android:id="@+id/order_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/mall_order_count"
+                    android:ellipsize="end"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:scrollHorizontally="true"
+                    android:text="title"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/font_black_2"
+                    android:textSize="16sp" />
 
-				<TextView
-						android:gravity="right|center_vertical"
-						android:layout_alignParentRight="true"
-						android:paddingLeft="10dp"
-						android:paddingRight="11dp"
-						android:textSize="16sp"
-						android:text="X 1"
-						android:textColor="@color/font_green"
-						android:id="@+id/mall_order_count"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"/>
-			</RelativeLayout>
+                <TextView
+                    android:id="@+id/mall_order_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="11dp"
+                    android:text="X 1"
+                    android:textColor="@color/font_green"
+                    android:textSize="16sp" />
+            </RelativeLayout>
 
-			<LinearLayout
-					android:paddingLeft="8dp"
-					android:layout_alignParentBottom="true"
-					android:layout_gravity="center_vertical"
-					android:gravity="center_vertical"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp">
 
-				<ImageView
-						android:gravity="center_vertical"
-						android:background="@drawable/ic_icon"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_icon"
+                    android:gravity="center_vertical" />
 
-				<TextView
-						android:paddingLeft="15dp"
-						android:text="0.0 码币"
-						android:id="@+id/order_point"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"/>
-			</LinearLayout>
-			<!--<TextView-->
-			<!--android:gravity="left|bottom"-->
-			<!--android:id="@+id/order_note"-->
-			<!--android:text="备注：要XL的"-->
-			<!--android:paddingBottom="8dp"-->
-			<!--android:paddingLeft="8dp"-->
-			<!--android:maxLines="1"-->
-			<!--android:layout_width="match_parent"-->
-			<!--android:layout_height="match_parent">-->
+                <TextView
+                    android:id="@+id/order_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="0.0 码币" />
+            </LinearLayout>
+            <!--<TextView-->
+            <!--android:gravity="left|bottom"-->
+            <!--android:id="@+id/order_note"-->
+            <!--android:text="备注：要XL的"-->
+            <!--android:paddingBottom="8dp"-->
+            <!--android:paddingLeft="8dp"-->
+            <!--android:maxLines="1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-			<!--</TextView>-->
+            <!--</TextView>-->
 
-		</LinearLayout>
-	</LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
-	<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="收货人："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货人："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_receiver_name"
-					android:textColor="@color/font_black_6"
-					android:text="张三"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_receiver_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张三"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="联系电话："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系电话："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_receiver_phone"
-					android:textColor="@color/font_black_6"
-					android:text="12345678901"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_receiver_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12345678901"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="状态："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="状态："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_status"
-					android:text="已发货"
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已发货"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="快递："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快递："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_express"
-					android:text="中通 0000000"
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_express"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中通 0000000"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="时间："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_time"
-					android:text="2015-11-11 11：:1"
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-11-11 11：:1"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="备注："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="备注："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_note"
-					android:text="要 XL 的"
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="要 XL 的"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-		<LinearLayout
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp"
-				android:paddingTop="16dp"
-				android:paddingBottom="16dp"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-			<TextView
-					android:text="收货地址："
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货地址："
+                android:textColor="@color/font_black_6" />
 
-			<TextView
-					android:id="@+id/order_addr"
-					android:text="广东 深圳"
-					android:textColor="@color/font_black_6"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/order_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="广东 深圳"
+                android:textColor="@color/font_black_6" />
 
-		</LinearLayout>
-	</LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
