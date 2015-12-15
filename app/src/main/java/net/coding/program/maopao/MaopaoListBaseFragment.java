@@ -52,13 +52,14 @@ import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -82,7 +83,6 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     protected View blankLayout;
     @ViewById
     protected View commonEnterRoot;
-
 
     protected boolean mIsToMaopaoTopic = false;
 

@@ -18,12 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SaveFragmentPagerAdapter;
+import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.maopao.MaopaoSearchActivity_;
 import net.coding.program.model.Subject;
 import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 import net.coding.program.third.WechatTab;
@@ -31,6 +32,7 @@ import net.coding.program.third.WechatTab;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +46,7 @@ import java.util.List;
  * 话题墙
  */
 @EActivity(R.layout.activity_subject_wall)
+@OptionsMenu(R.menu.subject_wall_activity)
 public class SubjectWallActivity extends BaseActivity {
 
     @ViewById
@@ -112,6 +115,11 @@ public class SubjectWallActivity extends BaseActivity {
     @OptionsItem(android.R.id.home)
     protected final void annotaionClose() {
         finish();
+    }
+
+    @OptionsItem
+    protected final void action_search() {
+        MaopaoSearchActivity_.intent(this).start();
     }
 
     private void initTitleBar() {

@@ -28,6 +28,7 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.subject.SubjectWallActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -78,9 +79,8 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     @OptionsItem
     void action_search() {
-        MaopaoSearchActivity_.intent(this).start();
+        SubjectWallActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
-
     }
 
     private IndicatorView bannerIndicator;
@@ -91,7 +91,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     @AfterViews
     protected void initMaopaoListFragment() {
         initMaopaoListBaseFragmen();
-
     }
 
     @Override

@@ -16,7 +16,6 @@
         android:scrollbarStyle="outsideOverlay"
         android:visibility="visible" />
 
-
     <include
         android:id="@+id/blankLayout"
         layout="@layout/view_exception"

@@ -40,11 +40,9 @@ public class SubjectSearchFragment extends BaseFragment {
     private String searchUrl = Global.HOST_API + "/search/quick?q=";
     private String searchTag = "search_tag";
 
-
     private TextView mSearchResultView;
 
     private MyImageGetter myImageGetter;
-
 
     // 当前的搜索条件
     private String mCondition = "";
@@ -82,7 +80,6 @@ public class SubjectSearchFragment extends BaseFragment {
         View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.subject_search_list_header, null);
         mSearchResultView = (TextView) headerView.findViewById(R.id.maopao_search_result);
         listView.addHeaderView(headerView);
-
     }
 
     private void searchMaopao() {

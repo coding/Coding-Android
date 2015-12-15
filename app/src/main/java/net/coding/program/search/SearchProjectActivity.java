@@ -19,14 +19,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
-
 import net.coding.program.DensityUtil;
 import net.coding.program.R;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -179,9 +176,6 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.subject_search_hot_header_title:
-
-                    break;
                 case R.id.subject_search_hot_footer_clear:
                     SearchProjectCache.getInstance(SearchProjectActivity.this).clearCache();
                     loadSearchCache();
