@@ -169,12 +169,15 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 JSONObject jsonData = respanse.optJSONObject("data");
                 if (jsonData == null) {
                     if (mDataVers[0].isEmpty()) {
-                        hideProgressDialog();
-                        getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
-                        BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
+                        branchNotExist();
                     }
                 } else {
-                    parseVersion(mDataVers[0], jsonData.optJSONArray("list"));
+                    JSONArray branchList = jsonData.optJSONArray("list");
+                    if (branchList.length() > 0) {
+                        parseVersion(mDataVers[0], branchList);
+                    } else {
+                        branchNotExist();
+                    }
                 }
             } else {
                 showErrorMsg(code, respanse);
@@ -190,6 +193,12 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         } else {
             super.parseJson(code, respanse, tag, pos, data);
         }
+    }
+
+    private void branchNotExist() {
+        hideProgressDialog();
+        getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
+        BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
     }
 
     private void switchVersion(String name) {
