@@ -28,6 +28,8 @@ import org.json.JSONObject;
 //@OptionsMenu(R.menu.menu_project_home)
 public class ProjectHomeActivity extends BaseActivity {
 
+    public static final String BROADCAST_CLOSE = ProjectHomeActivity.class.getName() + ".close";
+
     @Extra
     ProjectObject mProjectObject;
 
@@ -63,7 +65,7 @@ public class ProjectHomeActivity extends BaseActivity {
     private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT)) {
+            if (intent.getAction().equals(BROADCAST_CLOSE)) {
                 finish();
             }
         }
@@ -74,7 +76,7 @@ public class ProjectHomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
+        intentFilter.addAction(BROADCAST_CLOSE);
         registerReceiver(refreshReceiver, intentFilter);
     }
 

@@ -863,7 +863,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     null, null, null);
             holder.reward.setTag(data);
 
-            if (data.likes > 0 || data.rewards > 0) {
+            if (data.likes > 0 || data.rewards > 0 || data.comments > 0) {
                 holder.commentLikeArea.setVisibility(View.VISIBLE);
             } else {
                 holder.commentLikeArea.setVisibility(View.GONE);

@@ -4,7 +4,8 @@
     android:layout_height="@dimen/project_item_height"
     android:background="@drawable/list_item_selector"
     android:clickable="true"
-    android:padding="14dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp">
 
 
     <TextView

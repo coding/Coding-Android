@@ -29,6 +29,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.ProjectFragment;
+import net.coding.program.project.ProjectHomeActivity;
 import net.coding.program.user.AddFollowActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -398,6 +399,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 showButtomToast("成功退出项目");
                 Intent intent = new Intent();
                 intent.setAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
+                intent.setAction(ProjectHomeActivity.BROADCAST_CLOSE);
                 getActivity().sendBroadcast(intent);
                 getActivity().onBackPressed();
             } else {

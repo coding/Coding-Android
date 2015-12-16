@@ -58,13 +58,12 @@ public class SubjectNewActivity extends BackActivity {
 
     private String mTopicName;
 
-
     @AfterViews
     void init() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
 
-        actionBar.setCustomView(R.layout.activity_search_project_actionbar);
+        actionBar.setCustomView(R.layout.activity_search_subject_actionbar);
 
         editText = (SearchView) findViewById(R.id.editText);
         editText.onActionViewExpanded();
