@@ -1,12 +1,12 @@
 package net.coding.program.user;
 
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,10 +23,10 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
@@ -207,6 +207,10 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     }
 
     void search(String s) {
+        if (s == null || s.replaceAll(" ", "").replaceAll("　", "").isEmpty()) {
+            return;
+        }
+
         int flagHandler = ++flag;
         Message message = Message.obtain(mHandler, flagHandler, s);
         mHandler.sendMessageDelayed(message, 1000);

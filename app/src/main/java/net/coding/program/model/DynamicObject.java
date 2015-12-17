@@ -352,8 +352,29 @@ public class DynamicObject {
 
 
     public static class DynamicProject extends BaseProject {
+
+        User target_user;
+
         public DynamicProject(JSONObject json) throws JSONException {
             super(json);
+            if (json.has("target_user")) {
+                target_user = new User(json.optJSONObject("target_user"));
+            }
+        }
+
+        @Override
+        public Spanned title() {
+            if (action.equals("transfer")) {
+                String title = String.format("%s 将项目 %s 转让给了 %s", user.getHtml(), project.getHtml(), target_user.getHtml());
+                return Global.changeHyperlinkColor(title);
+            } else {
+                return super.title();
+            }
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return super.content(imageGetter);
         }
     }
 
