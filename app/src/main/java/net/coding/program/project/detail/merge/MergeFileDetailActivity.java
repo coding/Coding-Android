@@ -245,7 +245,7 @@ public class MergeFileDetailActivity extends BackActivity {
     }
 
     private void updateWebViewDisplay() {
-        Global.setWebViewContent(webView, "diff", "${diff-content}",
+        Global.setWebViewContent(webView, "diff", "'${diff-content}'",
                 mContent, "${comments}", mCommentsData.toString());
         webView.setWebViewClient(webViewClient);
     }
