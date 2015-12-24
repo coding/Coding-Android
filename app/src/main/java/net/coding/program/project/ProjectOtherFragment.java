@@ -15,17 +15,12 @@ import android.widget.TextView;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.event.EventPosition;
-import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
-import net.coding.program.project.init.create.ProjectCreateActivity;
-import net.coding.program.project.init.create.ProjectCreateActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -38,7 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -293,7 +287,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
             HeaderViewHolder holder;
             if (convertView == null) {
                 holder = new HeaderViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
+                convertView = mInflater.inflate(R.layout.fragment_project_list_head, parent, false);
                 holder.mHead = (TextView) convertView.findViewById(R.id.head);
                 convertView.setTag(holder);
             } else {
