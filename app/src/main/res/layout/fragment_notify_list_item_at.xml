@@ -17,19 +17,24 @@
         android:gravity="center"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/name"
+    <FrameLayout
+        android:id="@+id/nameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/list_item_space_width"
-        tools:text="A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了A栋飞等到了"
-        android:textColor="@color/font_black_2"
         android:layout_toRightOf="@id/badge"
-        android:layout_toLeftOf="@id/time"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:clickable="true"
-        android:textSize="18sp" />
+        android:layout_toLeftOf="@id/time">
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="A栋"
+            android:textColor="@color/font_black_2"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:clickable="true"
+            android:textSize="18sp" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"
@@ -39,8 +44,8 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:text="A栋飞等到了"
-        android:layout_below="@id/name"
-        android:layout_alignLeft="@id/name"
+        android:layout_below="@id/nameLayout"
+        android:layout_alignLeft="@id/nameLayout"
         android:layout_marginTop="12dp"
         android:textColor="@color/font_black_content"
         android:textSize="16sp" />
@@ -50,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/title"
-        android:layout_alignLeft="@id/name"
+        android:layout_alignLeft="@id/nameLayout"
         android:layout_marginTop="@dimen/list_item_space_height"
         android:layout_toRightOf="@id/icon"
         android:layout_alignTop="@id/icon"
@@ -94,7 +99,7 @@
         android:paddingBottom="9dp"
         android:paddingTop="0dp"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/name"
+        android:layout_alignTop="@id/nameLayout"
         android:text="2小时"
         android:textColor="@color/font_black_9" />
 
