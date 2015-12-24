@@ -140,7 +140,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             this.name = mMaopaoObject.owner.name + "的冒泡";
             this.link = mMaopaoObject.getMobileLink();
 
-            Global.MessageParse parse = HtmlContent.parseMaopao(mMaopaoObject.content);
+            Global.MessageParse parse = HtmlContent.parseMessage(mMaopaoObject.content);
             this.des = HtmlContent.parseToShareText(parse.text);
             if (parse.uris.size() > 0) {
                 this.img = parse.uris.get(0);
@@ -148,7 +148,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
 //            String des = HtmlContent.parseToShareText(mMaopaoObject.content);
 //            this.des = HtmlContent.parseToShareText(des);
-//            ArrayList<String> uris = HtmlContent.parseMaopao(mMaopaoObject).uris;
+//            ArrayList<String> uris = HtmlContent.parseMessage(mMaopaoObject).uris;
 //            if (uris.size() > 0) {
 //                this.img = uris.get(0);
 //            }

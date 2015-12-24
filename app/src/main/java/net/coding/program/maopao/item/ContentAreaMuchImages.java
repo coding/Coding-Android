@@ -52,7 +52,7 @@ public class ContentAreaMuchImages extends ContentAreaBase {
     public void setDataContent(String s, Object contentObject) {
         String data = s;
 
-        Global.MessageParse maopaoData = HtmlContent.parseMaopao(data);
+        Global.MessageParse maopaoData = HtmlContent.parseMessage(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);

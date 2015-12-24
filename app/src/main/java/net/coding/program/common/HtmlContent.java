@@ -10,6 +10,7 @@ public class HtmlContent {
 
     private static final String REGX_PHOTO = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" (?:alt=\"\" )?target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
     private static final String REGX_PHOTO_OLD = "<div class='message-image-box'><a href=\'(?:[^\\\']*)?\' target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
+    private static final String REGX_PHOTO_IOS = "<div class=\"message-image-box\">(?:\\n)? ?<a href=\"(?:.*)\" target=\"_blank\"(?: rel=\"nofollow\")?><img class=\"message-image\" src=\"(.*?)\"></a>(?:\\n)? ?</div>";
     private static final String REPLACE_PHOTO = "[图片]";
 
     private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";
@@ -23,17 +24,18 @@ public class HtmlContent {
 
     private static final String REGX_HTML = "<([A-Za-z][A-Za-z0-9]*)[^>]*>(.*?)</\\1>";
 
-    public static Global.MessageParse parseMaopao(String s) {
-        return createMessageParse(s, REGX_PHOTO);
-    }
-
     public static Global.MessageParse parseMessage(String s) {
         Global.MessageParse parse = createMessageParse(s, REGX_PHOTO_OLD);
         if (parse.uris.size() > 0) {
             return parse;
-        } else {
-            return parseMaopao(s);
         }
+
+        Global.MessageParse parseIOS = createMessageParse(s, REGX_PHOTO_IOS);
+        if (parseIOS.uris.size() > 0) {
+            return parseIOS;
+        }
+
+        return createMessageParse(s, REGX_PHOTO);
     }
 
     public static String parseDynamic(String s) {
@@ -61,20 +63,19 @@ public class HtmlContent {
     }
 
     public static String parseReplacePhotoEmoji(String s) {
-        String replaceImage = s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO);
-
-        return replaceImage.replaceAll(REGX_MONKEY, ":$1:")
+        return s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_IOS, REPLACE_PHOTO)
+                .replaceAll(REGX_MONKEY, ":$1:")
                 .replaceAll(REGX_EMOJI, ":$1:");
     }
 
     public static String parseReplacePhotoMonkey(String s) {
-        String replaceImage = s.replaceAll(REGX_MONKEY, REPLACE_PHOTO);
-        replaceImage = replaceImage.replaceAll(REGX_PHOTO, REPLACE_PHOTO);
-        replaceImage = replaceImage.replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
-        replaceImage = replaceImage.replaceAll(REGX_NET_PHOTO, REPLACE_PHOTO);
-        return replaceImage;
-        //return s.replaceAll(HtmlContent.REGX_MONKEY, REPLACE_PHOTO).replaceAll(REGX_PHOTO, REPLACE_PHOTO)
-        //      .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO);
+        return s.replaceAll(REGX_MONKEY, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_IOS, REPLACE_PHOTO)
+                .replaceAll(REGX_NET_PHOTO, REPLACE_PHOTO);
     }
 
     // 去除加粗字体样式
@@ -86,6 +87,7 @@ public class HtmlContent {
         return s.replaceAll(REGX_MONKEY, "[$1]")
                 .replaceAll(REGX_PHOTO, REPLACE_PHOTO)
                 .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_IOS, REPLACE_PHOTO)
                 .replaceAll(REGX_CODE, REPLACE_CODE)
                 .replaceAll(REGX_HTML, "$2")
                 .replace("<sup>", "");
@@ -95,6 +97,7 @@ public class HtmlContent {
         return s.replaceAll(REGX_MONKEY, "[$1]")
                 .replaceAll(REGX_PHOTO, REPLACE_PHOTO)
                 .replaceAll(REGX_PHOTO_OLD, REPLACE_PHOTO)
+                .replaceAll(REGX_PHOTO_IOS, REPLACE_PHOTO)
                 .replaceAll(REGX_CODE, REPLACE_CODE)
                 .replaceAll(REGX_HTML, "$2")
                 .replace("<sup>", "")

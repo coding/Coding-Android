@@ -657,7 +657,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
         public CustomWebViewClient(Context context, String content) {
             mContext = context;
-            mUris = HtmlContent.parseMaopao(content).uris;
+            mUris = HtmlContent.parseMessage(content).uris;
         }
 
         @Override

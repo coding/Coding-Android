@@ -134,7 +134,7 @@ public class ContentAreaImages extends ContentAreaBase {
     }
 
     private void setDataContent(String data, Object contentObject) {
-        Global.MessageParse maopaoData = HtmlContent.parseMaopao(data);
+        Global.MessageParse maopaoData = HtmlContent.parseMessage(data);
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
 
@@ -271,7 +271,7 @@ public class ContentAreaImages extends ContentAreaBase {
     private VoicePlayCallBack mVoicePlayCallBack;
     // 用来设置message的
     public void setData(String data) {
-        final Global.MessageParse maopaoData = data.startsWith("[voice]{")&&data.endsWith("}[voice]")?parseVoice(data):HtmlContent.parseMaopao(data);
+        final Global.MessageParse maopaoData = data.startsWith("[voice]{")&&data.endsWith("}[voice]")?parseVoice(data):HtmlContent.parseMessage(data);
         LinearLayout.LayoutParams lp_voiceLayout = (LinearLayout.LayoutParams) voiceLayout.getLayoutParams();
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
