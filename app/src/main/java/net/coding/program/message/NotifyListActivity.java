@@ -329,7 +329,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
 //          这种情况做特殊处理。  早上好，今天您有3个任务已超期
             String titleString = holder.title.getText().toString();
-            if (data.target_type.equals("Task") && data.type == 4) {
+            if (data.target_type.equals("Task")) {
                 Pattern pattern = Pattern.compile("早上好，今天您有.*");
                 Matcher matcher = pattern.matcher(titleString);
                 if (matcher.find()) {
@@ -344,7 +344,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                         holder.detail.setText(Global.changeHyperlinkColor(firstLink, 0xFF222222));
                     }
                 }
-            } else if (data.target_type.equals("Tweet") && data.type == 1) {
+            } else if (data.target_type.equals("Tweet")) {
                 if (titleString.endsWith("推荐到冒泡广场")) {
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText("冒泡提醒");
@@ -357,6 +357,9 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                         holder.detail.setText(Global.changeHyperlinkColor(firstLink, 0xFF222222));
                     }
                 }
+            } else if (data.target_type.equals("User") && titleString.endsWith("重置了你的账号密码。")) {
+                holder.name.setVisibility(View.VISIBLE);
+                holder.name.setText("账号提醒");
             }
 
             if (position == (mData.size() - 1)) {
