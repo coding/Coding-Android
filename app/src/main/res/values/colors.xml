@@ -116,4 +116,7 @@
     <color name="color_94989D">#94989D</color>
     <color name="color_28303B">#28303B</color>
 
+    <color name="addjob_radio_text_gray">#ffcccccc</color>
+    <color name="addjob_text_blue">#ff30A8E1</color>
+    <color name="addjob_radio_text_blue">#ff2FAEEA</color>
 </resources>

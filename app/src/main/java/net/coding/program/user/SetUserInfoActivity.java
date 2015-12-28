@@ -51,9 +51,9 @@ public class SetUserInfoActivity extends BaseActivity {
         setRowValue(value.getText().toString());
 
         try {
-            params.put("email", user.email);
-            params.put("lavatar", user.lavatar);
-            params.put("name", user.name);
+            params.put("phone", user.phone);
+            params.put("tags", user.tags);
+            params.put("job", user.job);
             params.put("sex", user.sex);
             params.put("phone", user.phone);
             params.put("birthday", user.birthday);
@@ -61,8 +61,11 @@ public class SetUserInfoActivity extends BaseActivity {
             params.put("company", user.company);
             params.put("slogan", user.slogan);
             params.put("introduction", user.introduction);
-            params.put("job", user.job);
-            params.put("tags", user.tags);
+            params.put("lavatar", user.lavatar);
+            params.put("global_key", user.global_key);
+            params.put("name", user.name);
+            params.put("email", user.email);
+            params.put("id", user.id);
 
             postNetwork(HOST_USERINFO, params, HOST_USERINFO);
         } catch (Exception e) {

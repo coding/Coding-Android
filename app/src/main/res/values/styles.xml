@@ -240,5 +240,35 @@
         <item name="android:windowEnterAnimation">@anim/right_to_left</item>
         <item name="android:windowExitAnimation">@anim/left_to_right</item>
     </style>
+    <style name="SendButton" parent="@android:style/Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/padding_15</item>
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:background">@drawable/login_button</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@drawable/font_login_button</item>
+    </style>
+    <style name="SingleLineEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/font_black_6</item>
+        <item name="android:textColorHint">@color/addjob_radio_text_gray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">@dimen/padding_15</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="EmailEdit" parent="SingleLineEditText">
+        <item name="android:layout_height">53dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginLeft">@dimen/padding_15</item>
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
+    </style>
 
 </resources>

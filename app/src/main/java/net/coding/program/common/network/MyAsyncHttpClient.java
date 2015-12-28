@@ -6,6 +6,8 @@ import android.os.Build;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
 
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
@@ -17,6 +19,16 @@ import java.util.HashMap;
  * 对 AsyncHttpClient 做了一些公共操作
  */
 public class MyAsyncHttpClient {
+
+    public static void post(Context context, String url, RequestParams params, ResponseHandlerInterface response) {
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+        client.post(context, url, params, response);
+    }
+
+    public static void get(Context context, String url, ResponseHandlerInterface response) {
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+        client.get(context, url, response);
+    }
 
     private static HashMap<String, String> mapHeaders = new HashMap<>();
 

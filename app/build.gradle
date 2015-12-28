@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -8,7 +9,8 @@ android {
     dexOptions {
         incremental true
     }
-        defaultConfig {
+
+    defaultConfig {
         applicationId "net.coding.program"
         renderscriptTargetApi 19
 //        multiDexEnabled true
@@ -19,6 +21,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -60,6 +72,22 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile project(':scrollanimationlibrary')
     compile files('libs/pinyin4j-2.5.0.jar')
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
 }
 
 buildscript {

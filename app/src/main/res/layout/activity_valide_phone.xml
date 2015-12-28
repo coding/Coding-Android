@@ -1,0 +1,95 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/divide">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="7.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="7.5dp"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:custom="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+
+                        <net.coding.program.common.widget.LoginEditText
+                            android:id="@+id/editPhone"
+                            style="@style/SingleLineEditText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_marginRight="@dimen/padding_15"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            app:hint="输入手机号码"
+                            app:loginInput="number"/>
+
+                        <TextView
+                            android:id="@+id/sendPhoneMessage"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/padding_15"
+                            android:background="@drawable/phone_message_bg"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="发送验证码"
+                            android:textColor="@color/phone_message" />
+
+                    </LinearLayout>
+
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/editCode"
+                        android:layout_height="53dp"
+                        android:inputType="phone"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        app:loginInput="number"
+                        style="@style/SingleLineEditText"
+                        android:layout_marginLeft="@dimen/padding_15"
+                        android:layout_marginRight="@dimen/padding_15"
+                        app:hint="输入短信中的验证码" />
+
+                </LinearLayout>
+
+                <include layout="@layout/divide_10_top_bottom" />
+
+                <Button
+                    android:id="@+id/loginButton"
+                    style="@style/SendButton"
+                    android:enabled="false"
+                    android:text="提交" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

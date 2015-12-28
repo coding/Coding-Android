@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/divide">
+    android:background="@color/divide"
+    android:orientation="vertical">
 
     <include layout="@layout/divide_15_bottom" />
 
@@ -16,24 +16,24 @@
         android:padding="12dp">
 
         <TextView
+            android:id="@+id/个性后缀"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="邮箱"
             android:textColor="#222222"
-            android:textSize="18sp"
-            android:id="@+id/个性后缀" />
+            android:textSize="18sp" />
 
 
         <TextView
+            android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:text="邮箱"
             android:textColor="@color/font_black_comment"
-            android:textSize="18sp"
-            android:id="@+id/email"
-            android:layout_alignParentRight="true" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
@@ -57,14 +57,45 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/suffix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:text="邮箱"
             android:textColor="@color/font_black_comment"
-            android:textSize="18sp"
-            android:id="@+id/suffix"
-            android:layout_alignParentRight="true" />
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divide_15_top_bottom" />
+
+    <RelativeLayout
+        android:id="@+id/phoneSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="手机号码"
+            android:textColor="#222222"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:text="未认证"
+            android:textColor="@color/font_black_comment"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
