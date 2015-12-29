@@ -55,7 +55,6 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
         return true;
     }
 
-
     @AfterViews
     final void initProjectTransferActivity() {
         mUser = new TaskObject.Members(MyApp.sUserObject);
@@ -64,7 +63,6 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
 
     @Override
     void actionDelete2FA(String code) {
-
         showProgressBar(true);
         RequestParams params = new RequestParams();
         params.put("two_factor_code", code);

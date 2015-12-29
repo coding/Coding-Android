@@ -3,11 +3,12 @@ package net.coding.program;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.coding.program.project.detail.file.LocalProjectFileActivity_;
+import net.coding.program.login.phone.InputAccountActivity_;
+import net.coding.program.login.phone.PhoneSetPasswordActivity;
+import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 
 
 public class TestActivity extends ActionBarActivity {
@@ -52,19 +53,24 @@ public class TestActivity extends ActionBarActivity {
             }
         });
 
-        onClick2(null);
+//        onClick2(null);
+        onClick3(null);
     }
 
     public void click1(View v) {
 //        finish();
-        int i = 0;
-        Log.d("", "yiui " + i);
-        Log.d("", "yiui " + i);
-        Log.d("", "yiuddddi " + i);
-        Log.d("", "yiuddddi " + i);
-        Log.d("", "yiuddddi " + i);
+//        test(0);
+        onClick3(null);
+    }
 
-        finish();
+    private void test(int which) {
+        PhoneSetPasswordActivity.Type type;
+        if (which == 0) {
+            type = PhoneSetPasswordActivity.Type.reset;
+        } else {
+            type = PhoneSetPasswordActivity.Type.activate;
+        }
+        InputAccountActivity_.intent(this).type(type).start();
     }
 
 //    @Override
@@ -84,10 +90,17 @@ public class TestActivity extends ActionBarActivity {
 //                .projectPath("/user/coding/project/Coding-Android")
 //                .start();
 
-        LocalProjectFileActivity_.intent(this)
-                .start();
+//        LocalProjectFileActivity_.intent(this)
+//                .start();
+        test(1);
     }
 
+    public void onClick3(View v) {
+        PhoneSetPasswordActivity.Type type = PhoneSetPasswordActivity.Type.register;
+        new PhoneSetPasswordActivity_.IntentBuilder_(this)
+                .type(type)
+                .start();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -104,5 +117,10 @@ public class TestActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

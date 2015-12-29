@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="25dp">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/TextTitle"
+        android:layout_width="match_parent"
+        android:id="@+id/titleTip"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="技术变现，让赚钱更简单"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/font_black_2"
+        android:textSize="18sp"
+        tools:showIn="@layout/activity_register" />
+</FrameLayout>

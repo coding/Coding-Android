@@ -34,6 +34,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.SendEmailActiveActivity_;
 import net.coding.program.login.SendEmailPasswordActivity_;
@@ -66,7 +67,8 @@ public class LoginActivity extends BaseActivity {
     private static String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
-    final String HOST_LOGIN = Global.HOST_API + "/login";
+//    final String HOST_LOGIN = Global.HOST_API + "/login";
+    private final String TAG_LOGIN = "TAG_LOGIN";
     final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
     final private int RESULT_CLOSE = 100;
@@ -313,14 +315,23 @@ public class LoginActivity extends BaseActivity {
             }
 
             RequestParams params = new RequestParams();
-            params.put("email", name);
+
             params.put("password", SimpleSHA1.sha1(password));
             if (captchaLayout.getVisibility() == View.VISIBLE) {
                 params.put("j_captcha", captcha);
             }
             params.put("remember_me", true);
 
-            postNetwork(HOST_LOGIN, params, HOST_LOGIN);
+            String HOST_LOGIN;
+            if (InputCheck.isPhone(name)) {
+                HOST_LOGIN = Global.HOST_API + "/account/login/phone";
+                params.put("phone", name);
+            } else {
+                HOST_LOGIN = Global.HOST_API + "/login";
+                params.put("email", name);
+            }
+
+            postNetwork(HOST_LOGIN, params, TAG_LOGIN);
             showProgressBar(true, R.string.logining);
 
         } catch (Exception e) {
@@ -378,7 +389,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_LOGIN)) {
+        if (tag.equals(TAG_LOGIN)) {
             if (code == 0) {
                 loginSuccess(respanse);
                 umengEvent(UmengEvent.USER, "普通登陆");

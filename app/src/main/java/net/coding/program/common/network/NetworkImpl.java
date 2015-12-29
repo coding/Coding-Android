@@ -29,7 +29,8 @@ public class NetworkImpl {
     public static final int NETWORK_ERROR = -1;
     public static final int NETWORK_ERROR_SERVICE = -2;
     private final NetworkCallback callback;
-    private final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
+    public static final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
+    public static final String ERROR_MSG_SERVICE_ERROR = "服务器内部错误，请稍后重试";
 
     public HashMap<String, PageInfo> mPages = new HashMap<>();
     Context appContext;
