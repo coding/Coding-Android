@@ -1,9 +1,9 @@
 package net.coding.program;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -32,7 +32,7 @@ import java.util.List;
  * 用来做一些初始化工作，比如设置 host，
  * 初始化图片库配置
  */
-public class MyApp extends Application {
+public class MyApp extends MultiDexApplication {
 
     public static float sScale;
     public static int sWidthDp;
