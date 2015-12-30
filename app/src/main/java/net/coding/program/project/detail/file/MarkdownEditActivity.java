@@ -51,7 +51,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
 
         FileSaveHelp mFileSaveHelp = new FileSaveHelp(this);
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
-        descriptionData.markdown = TxtEditActivity.readFile(file);
+        descriptionData.markdown = Global.readTextFile(file);
 
         String markdown = descriptionData.markdown;
         if (markdown.isEmpty()) {

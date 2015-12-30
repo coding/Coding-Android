@@ -132,23 +132,6 @@ public class GitViewActivity extends CustomMoreActivity {
         }
     }
 
-//    private String readTextFile(InputStream inputStream) {
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        byte buf[] = new byte[1024];
-//        int len;
-//        try {
-//            while ((len = inputStream.read(buf)) != -1) {
-//                outputStream.write(buf, 0, len);
-//            }
-//            outputStream.close();
-//            inputStream.close();
-//
-//        } catch (IOException e) {
-//            Global.errorLog(e);
-//        }
-//        return outputStream.toString();
-//    }
-
     private void download(String url) {
         //url = "https://coding.net/api/project/5166/files/58705/download";
         //File mFile = FileUtil.getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);

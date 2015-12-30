@@ -93,7 +93,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     ProjectObject mProject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-    ProjectObject mProjectObject;
+//    ProjectObject mProjectObject;
     String urlFiles = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
     String urlUpload = Global.HOST_API + "/project/%s/file/upload";
     ArrayList<AttachmentFileObject> mFilesArray = new ArrayList<>();
@@ -833,7 +833,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         } else if (tag.equals(HOST_PROJECT_ID)) {
             if (code == 0) {
-                mProjectObject = new ProjectObject(respanse.optJSONObject("data"));
+                mProject = new ProjectObject(respanse.optJSONObject("data"));
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -1601,13 +1601,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     protected String getLink() {
-        if (mProjectObject == null) {
+        if (mProject == null) {
             showButtomToast("获取项目信息失败，请稍后重试");
             getNetwork(String.format(HOST_PROJECT_ID, mProjectObjectId), HOST_PROJECT_ID);
             return "";
         }
 
-        return mProjectObject.getPath() + "/attachment/" + mAttachmentFolderObject.file_id;
+        return mProject.getPath() + "/attachment/" + mAttachmentFolderObject.file_id;
     }
 
     public void initRightTopPop() {

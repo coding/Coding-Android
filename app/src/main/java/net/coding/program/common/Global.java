@@ -401,6 +401,18 @@ public class Global {
         return s;
     }
 
+
+    static public String readTextFile(File file) {
+        try {
+            FileInputStream is = new FileInputStream(file);
+            return readTextFile(is);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+        return "";
+    }
+
     static public String readTextFile(InputStream inputStream) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte buf[] = new byte[1024];
@@ -453,7 +465,6 @@ public class Global {
         Context context = webview.getContext();
         if (gitFile.lang.equals("markdown")) {
             try {
-
                 String template = readTextFile(context.getAssets().open("markdown"));
                 webview.loadDataWithBaseURL(Global.HOST, template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
 

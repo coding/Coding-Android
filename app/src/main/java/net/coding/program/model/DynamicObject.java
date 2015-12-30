@@ -563,6 +563,7 @@ public class DynamicObject {
         Project project;
         String type = "";
         int mProjectId;
+        public String version = "";
 
         public DynamicProjectFile(JSONObject json) throws JSONException {
             super(json);
@@ -576,6 +577,8 @@ public class DynamicObject {
             if (json.has("project")) {
                 project = new Project(json.optJSONObject("project"));
             }
+
+            version = json.optString("version", "");
 
             type = json.optString("type");
         }

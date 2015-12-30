@@ -71,7 +71,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
         if (mExtraFile != null) {
             try {
-                requestMd2Html(TxtEditActivity.readFile(mExtraFile));
+                requestMd2Html(Global.readTextFile(mExtraFile));
                 findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
             } catch (Exception e) {
                 showButtomToast("读取文件错误");
@@ -139,7 +139,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
             } else {
                 hideProgressDialog();
-                String content = TxtEditActivity.readFile(mFile);
+                String content = Global.readTextFile(mFile);
                 webview.setVisibility(View.GONE);
                 textView.setVisibility(View.VISIBLE);
 //                webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", content), "text/html", "UTF-8", null);
@@ -154,7 +154,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     private void showHtml(String html) {
         webview.setVisibility(View.VISIBLE);
         textView.setVisibility(View.GONE);
-        webview.loadDataWithBaseURL("about:blank", markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
+        webview.loadDataWithBaseURL(null, markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
         webview.setWebViewClient(new WebActivity.CustomWebViewClient(this));
     }
 
@@ -168,7 +168,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     public void action_add() {
     }
 
-    private String readTextFile(InputStream inputStream) {
+    public static String readTextFile(InputStream inputStream) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte buf[] = new byte[1024];
         int len;
@@ -211,11 +211,11 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
             String htmlCacheName = SimpleSHA1.sha1(mFile.getPath());
             File htmlCache = new File(FileUtil.getCacheDir(this), htmlCacheName);
             if (!htmlCache.exists()) {
-                String content = TxtEditActivity.readFile(mFile);
+                String content = Global.readTextFile(mFile);
                 requestMd2Html(content);
             } else {
                 hideProgressDialog();
-                String html = TxtEditActivity.readFile(htmlCache);
+                String html = Global.readTextFile(htmlCache);
                 showHtml(html);
             }
         } else {

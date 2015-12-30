@@ -55,9 +55,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -207,7 +204,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
 
         try {
-            bubble = readTextFile(getAssets().open("bubble"));
+            bubble = Global.readTextFile(getAssets().open("bubble"));
         } catch (Exception e) {
             Global.errorLog(e);
         }
@@ -307,23 +304,6 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         getNetwork(URI_COMMENT, URI_COMMENT);
 
         prepareAddComment(mMaopaoObject, false);
-    }
-
-    private String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-            Global.errorLog(e);
-        }
-        return outputStream.toString();
     }
 
 //    @Override

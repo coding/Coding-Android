@@ -339,11 +339,19 @@ public class FileDynamicActivity extends BackActivity {
                         resId = R.drawable.project_file_dynamic_edit;
                         break;
                     case "upload_file":
-                        content = "上传了新版本";
+                        if (data.version.isEmpty()) {
+                            content = "上传了新版本";
+                        } else {
+                            content = "上传了新版本 V" + data.version;
+                        }
                         resId = R.drawable.project_file_dynamic_upload;
                         break;
                     case "delete_history":
-                        content = "删除了版本";
+                        if (data.version.isEmpty()) {
+                            content = "删除了版本";
+                        } else {
+                            content = "删除了版本 V" + data.version;
+                        }
                         resId = R.drawable.project_file_dynamic_delete;
                         break;
                     case "move_file":

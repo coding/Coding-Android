@@ -19,10 +19,6 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 @EFragment(R.layout.fragment_readme)
 public class ReadmeFragment extends BaseFragment {
 
@@ -71,7 +67,7 @@ public class ReadmeFragment extends BaseFragment {
 
                         String bubble = "${webview_content}";
                         try {
-                            bubble = readTextFile(getResources().getAssets().open("markdown"));
+                            bubble = Global.readTextFile(getResources().getAssets().open("markdown"));
                         } catch (Exception e) {
                             Global.errorLog(e);
                         }
@@ -102,21 +98,5 @@ public class ReadmeFragment extends BaseFragment {
         readme.setText("README.md");
         needReadme.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
-    }
-
-    private String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-        }
-        return outputStream.toString();
     }
 }

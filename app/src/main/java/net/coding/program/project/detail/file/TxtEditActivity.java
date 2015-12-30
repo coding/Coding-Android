@@ -3,12 +3,13 @@ package net.coding.program.project.detail.file;
 import android.content.Intent;
 import android.widget.EditText;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;
 import net.coding.program.project.detail.AttachmentsActivity;
+import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,12 +20,9 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 @EActivity(R.layout.activity_txt_edit)
 @OptionsMenu(R.menu.menu_txt_edit)
@@ -40,44 +38,6 @@ public class TxtEditActivity extends BackActivity {
     EditText editText;
 
     private FileSaveHelp mFileSaveHelp;
-
-    public static String readFile(File file) {
-        byte Buffer[] = new byte[1024];
-        //得到文件输入流
-        FileInputStream in = null;
-        ByteArrayOutputStream outputStream = null;
-        try {
-            in = new FileInputStream(file);
-            //读出来的数据首先放入缓冲区，满了之后再写到字符输出流中
-            int len = in.read(Buffer);
-            //创建一个字节数组输出流
-            outputStream = new ByteArrayOutputStream();
-            outputStream.write(Buffer, 0, len);
-            //把字节输出流转String
-            return new String(outputStream.toByteArray());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.flush();
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return "";
-    }
 
     public static void writeFile(File srcFile, String content) {
         try {
@@ -96,7 +56,13 @@ public class TxtEditActivity extends BackActivity {
 
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
         if (file != null && file.exists()) {
-            String content = readFile(file);
+            String content = "";
+            try {
+                FileInputStream is = new FileInputStream(file);
+                content = AttachmentsHtmlDetailActivity.readTextFile(is);
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
             editText.setText(content);
         } else {
             showButtomToast("文件未保存到本地");

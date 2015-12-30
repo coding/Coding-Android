@@ -12,7 +12,6 @@ import net.coding.program.common.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
-import net.coding.program.project.detail.file.TxtEditActivity;
 import net.coding.program.project.detail.file.TxtEditActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -42,12 +41,12 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     @AfterViews
     protected final void initAttachmentsTextDetailActivity() {
         if (mExtraFile != null) {
-            textView.setText(TxtEditActivity.readFile(mExtraFile));
+            textView.setText(Global.readTextFile(mExtraFile));
             findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
         } else {
             urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
             if (mFile.exists()) {
-                textView.setText(TxtEditActivity.readFile(mFile));
+                textView.setText(Global.readTextFile(mFile));
             } else {
                 showDialogLoading();
                 getFileUrlFromNetwork();
@@ -62,7 +61,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         if (mFile != null && mFile.exists()) {
-            textView.setText(TxtEditActivity.readFile(mFile));
+            textView.setText(Global.readTextFile(mFile));
         }
     }
 
