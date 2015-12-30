@@ -41,6 +41,7 @@
     <declare-styleable name="AutoComplete">
         <attr name="emailOnly" format="boolean" />
         <attr name="darkness" format="boolean" />
+        <attr name="closeAutoComplete" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ListItem1">

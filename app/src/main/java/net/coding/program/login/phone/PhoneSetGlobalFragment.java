@@ -4,8 +4,8 @@ package net.coding.program.login.phone;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.Html;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -35,7 +35,10 @@ import org.json.JSONObject;
 public class PhoneSetGlobalFragment extends BaseFragment {
 
     @FragmentArg
-    PhoneSetPasswordActivity.Type type;
+    boolean showFragmentTop = true;
+
+    @ViewById
+    View activityTitle;
 
     @ViewById
     LoginEditText email, globalKey;
@@ -45,10 +48,12 @@ public class PhoneSetGlobalFragment extends BaseFragment {
 
     @AfterViews
     final void initPhoneSetPasswordFragment() {
-        ViewStyleUtil.editTextBindButton(loginButton, email, globalKey);
-        if (type == PhoneSetPasswordActivity.Type.register) {
-            textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
+        if (!showFragmentTop) {
+            activityTitle.setVisibility(View.GONE);
         }
+
+        ViewStyleUtil.editTextBindButton(loginButton, email, globalKey);
+            textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
     }
 
     @Click
@@ -57,8 +62,21 @@ public class PhoneSetGlobalFragment extends BaseFragment {
         String globalKeyString = globalKey.getText().toString();
 
         if (!InputCheck.checkEmail(getContext(), emailString)) {
+            showMiddleToast("请填写正确的邮箱");
             return;
         }
+
+        if (globalKeyString.length() < 3) {
+            showMiddleToast("个性后缀至少为3个字符");
+            return;
+        }
+
+//        // TODO
+//        if (1 == 1) {
+//            showMiddleToast("激活成功");
+//            return;
+//        }
+
 
         String url = Global.HOST_API + "/account/activate/phone";
         RequestParams params = ((ParentActivity) getActivity()).getRequestParmas();
@@ -80,8 +98,9 @@ public class PhoneSetGlobalFragment extends BaseFragment {
                 AccountInfo.saveLastLoginName(getActivity(), user.name);
 
                 getActivity().sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+                getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
-                startActivity(new Intent(getActivity(), MainActivity_.class));
+//                startActivity(new Intent(getActivity(), MainActivity_.class));
             }
 
             @Override
@@ -172,10 +191,4 @@ public class PhoneSetGlobalFragment extends BaseFragment {
 //            }
 //        });
 //    }
-
-    private void closeActivity() {
-        Toast.makeText(getActivity(), type.getSetPasswordSuccess(), Toast.LENGTH_SHORT).show();
-        getActivity().setResult(Activity.RESULT_OK);
-        getActivity().finish();
-    }
 }

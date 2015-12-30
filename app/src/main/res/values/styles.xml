@@ -230,16 +230,20 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@android:color/secondary_text_light</item>
     </style>
+
     <style name="ActionbarNoIcon.NoActionBar">
         <item name="windowActionBar">false</item>
     </style>
+
     <style name="ActionbarNoIcon.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="ActionbarNoIcon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="popwin_anim_style">
         <item name="android:windowEnterAnimation">@anim/right_to_left</item>
         <item name="android:windowExitAnimation">@anim/left_to_right</item>
     </style>
+
     <style name="SendButton" parent="@android:style/Widget.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -251,6 +255,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@drawable/font_login_button</item>
     </style>
+
     <style name="SingleLineEditText" parent="@android:style/Widget.EditText">
         <item name="android:textCursorDrawable">@drawable/edittext_cursor</item>
         <item name="android:background">@null</item>
@@ -263,6 +268,7 @@
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:singleLine">true</item>
     </style>
+
     <style name="EmailEdit" parent="SingleLineEditText">
         <item name="android:layout_height">53dp</item>
         <item name="android:layout_marginTop">0dp</item>
@@ -277,4 +283,18 @@
         <item name="android:textColor">@color/font_black_2</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="RegisterTitle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/font_green</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <!--正则替换工具-->
+    <!--android:(.*)="(.*)"-->
+    <!--<item name="android:$1">$2</item>-->
 </resources>

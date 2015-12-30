@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.RegisterActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.TermsActivity;
 import net.coding.program.common.base.MyJsonResponse;
@@ -21,10 +22,13 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_phone_set_password)
+@OptionsMenu(R.menu.menu_register_phone)
 public class PhoneVerifyFragment extends BaseFragment {
 
     @FragmentArg
@@ -40,23 +44,11 @@ public class PhoneVerifyFragment extends BaseFragment {
     View loginButton;
 
     @ViewById
-    TextView titleTip, sendCode, textClause;
+    TextView sendCode, textClause;
 
     @AfterViews
     void initPhoneVerifyFragment() {
         emailEdit.setText(account);
-        titleTip.setVisibility(View.VISIBLE);
-
-        if (type == PhoneSetPasswordActivity.Type.register) {
-//            titleTip.setVisibility(View.GONE);
-        } else {
-            titleTip.setVisibility(View.VISIBLE);
-            if (type == PhoneSetPasswordActivity.Type.reset) {
-                titleTip.setText("为了重置密码，请先验证您的注册手机");
-            } else {
-                titleTip.setText("为了设置密码，请先验证您的注册手机");
-            }
-        }
 
         ViewStyleUtil.editTextBindButton(loginButton, emailEdit, captchaEdit);
 
@@ -139,5 +131,11 @@ public class PhoneVerifyFragment extends BaseFragment {
     void textClause() {
         Intent intent = new Intent(getActivity(), TermsActivity.class);
         startActivity(intent);
+    }
+
+    @OptionsItem
+    void action_email() {
+        RegisterActivity_.intent(getActivity())
+                .startForResult(PhoneSetPasswordActivity.RESULT_REGISTER_EMAIL);
     }
 }

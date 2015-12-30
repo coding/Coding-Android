@@ -13,9 +13,12 @@ import net.coding.program.common.ui.BackActivity;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 
 @EActivity(R.layout.activity_phone_set_password)
 public class PhoneSetPasswordActivity extends BackActivity implements ParentActivity {
+
+    public static final int RESULT_REGISTER_EMAIL = 1;
 
     public static String REGIST_TIP = "注册 Coding 账号表示您已同意<font color=\"#3bbd79\">《coding服务条款》</font>";
 
@@ -117,7 +120,12 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
     @AfterViews
     final void initPhoneSetPasswordActivity() {
         setTitle(type.getInputAccountTitle());
-        Fragment fragment = PhoneVerifyFragment_.builder().type(type).account(account).build();
+        Fragment fragment;
+        if (type == Type.register) {
+             fragment = PhoneVerifyFragment_.builder().type(type).account(account).build();
+        } else {
+            fragment = PhoneSetPasswordFragment2_.builder().type(type).account(account).build();
+        }
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)
                 .addToBackStack(null)
@@ -133,7 +141,7 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
     public void next() {
         Fragment fragment;
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            fragment = PhoneSetGlobalFragment_.builder().type(type).build();
+            fragment = PhoneSetGlobalFragment_.builder().build();
         } else {
             fragment = PhoneSetPasswordFragment_.builder().type(type).build();
         }
@@ -162,4 +170,13 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
             finish();
         }
     }
+
+    @OnActivityResult(RESULT_REGISTER_EMAIL)
+    void resultEmailRegister(int result) {
+        if (result == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
 }

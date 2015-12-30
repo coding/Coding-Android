@@ -800,6 +800,9 @@
             android:name=".login.phone.PhoneSetPasswordActivity_"
             android:label="@string/title_activity_valide_phone"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".login.phone.SetGlobalKeyActivity_"
+            android:label="@string/set_global_activity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

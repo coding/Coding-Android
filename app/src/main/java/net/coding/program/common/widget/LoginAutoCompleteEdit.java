@@ -50,10 +50,12 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
 
         boolean emailOnly = false;
         boolean useDark = false;
+        boolean closeAutoComplete = false;
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AutoComplete, 0, 0);
         try {
             emailOnly = a.getBoolean(R.styleable.AutoComplete_emailOnly, false);
             useDark = a.getBoolean(R.styleable.AutoComplete_darkness, false);
+            closeAutoComplete = a.getBoolean(R.styleable.AutoComplete_closeAutoComplete, true);
         } finally {
             a.recycle();
         }
@@ -78,9 +80,10 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
             emailSufixs = email;
         }
 
-        this.setAdapter(new EmailAutoCompleteAdapter(context, R.layout.login_auto_complete_item, emailSufixs));
-
-        this.setThreshold(1);
+        if (closeAutoComplete) {
+            this.setAdapter(new EmailAutoCompleteAdapter(context, R.layout.login_auto_complete_item, emailSufixs));
+            this.setThreshold(1);
+        }
     }
 
     private Drawable drawable;

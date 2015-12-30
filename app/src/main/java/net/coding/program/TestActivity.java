@@ -54,7 +54,8 @@ public class TestActivity extends ActionBarActivity {
         });
 
 //        onClick2(null);
-        onClick3(null);
+//        onClick3(null);
+        click1(null);
     }
 
     public void click1(View v) {

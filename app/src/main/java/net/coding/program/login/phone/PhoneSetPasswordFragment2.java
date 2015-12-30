@@ -3,6 +3,7 @@ package net.coding.program.login.phone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -39,13 +40,27 @@ import org.json.JSONObject;
 public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     @FragmentArg
+    String account = "";
+
+    @FragmentArg
     PhoneSetPasswordActivity.Type type;
 
     @ViewById
-    LoginEditText passwordEdit, repasswordEdit, captchaEdit;
+    LoginEditText phoneCaptchaEdit, passwordEdit, repasswordEdit, captchaEdit;
 
     @ViewById
-    TextView loginButton, textClause;
+    TextView sendCode, loginButton, textClause;
+    private CountDownTimer countDownTimer  = new CountDownTimer(60000, 1000) {
+
+        public void onTick(long millisUntilFinished) {
+            sendCode.setText(millisUntilFinished / 1000 + "秒");
+        }
+
+        public void onFinish() {
+            sendCode.setEnabled(true);
+            sendCode.setText("发送验证码");
+        }
+    };
 
     @AfterViews
     final void initPhoneSetPasswordFragment() {
@@ -57,6 +72,8 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         if (type == PhoneSetPasswordActivity.Type.register) {
             textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
         }
+
+        startTimer();
     }
 
     private void needShowCaptch() {
@@ -83,6 +100,31 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             }
         });
     }
+
+    @Click
+    void sendCode() {
+        String phone = account;
+        if (!InputCheck.checkPhone(getActivity(), phone)) return;
+
+        String url = type.getSendPhoneMessageUrl();
+        RequestParams params = new RequestParams();
+        params.put("phone", phone);
+        MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(getActivity()) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                showMiddleToast("已发送短信");
+            }
+        });
+
+        startTimer();
+    }
+
+    private void startTimer() {
+        sendCode.setEnabled(false);
+        countDownTimer.start();
+    }
+
 
     @Click
     void loginButton() {
