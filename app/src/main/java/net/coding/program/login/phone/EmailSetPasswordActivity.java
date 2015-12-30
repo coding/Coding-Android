@@ -1,6 +1,6 @@
 package net.coding.program.login.phone;
 
-import android.view.View;
+import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.base.MyJsonResponse;
@@ -29,7 +29,7 @@ public class EmailSetPasswordActivity extends BackActivity {
     LoginEditText emailEdit, captchaEdit;
 
     @ViewById
-    View loginButton;
+    TextView loginButton;
 
     @AfterViews
     void initEmailSetPasswordActivity() {
@@ -38,6 +38,12 @@ public class EmailSetPasswordActivity extends BackActivity {
         captchaEdit.requestFocus();
 
         ViewStyleUtil.editTextBindButton(loginButton, emailEdit, captchaEdit);
+
+        if (type == PhoneSetPasswordActivity.Type.activate) {
+            loginButton.setText("重发激活邮件");
+        } else {
+            loginButton.setText("发送重置邮件");
+        }
     }
 
     @Click

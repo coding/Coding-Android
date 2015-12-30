@@ -36,11 +36,12 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
-import net.coding.program.login.SendEmailActiveActivity_;
-import net.coding.program.login.SendEmailPasswordActivity_;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
+import net.coding.program.login.phone.InputAccountActivity_;
+import net.coding.program.login.phone.PhoneSetPasswordActivity;
+import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -67,7 +68,7 @@ public class LoginActivity extends BaseActivity {
     private static String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
-//    final String HOST_LOGIN = Global.HOST_API + "/login";
+    //    final String HOST_LOGIN = Global.HOST_API + "/login";
     private final String TAG_LOGIN = "TAG_LOGIN";
     final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
@@ -243,7 +244,10 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     void register() {
-        RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
+//        RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
+        PhoneSetPasswordActivity_.intent(this)
+                .type(PhoneSetPasswordActivity.Type.register)
+                .startForResult(RESULT_CLOSE);
     }
 
     @OnActivityResult(RESULT_CLOSE)
@@ -345,22 +349,30 @@ public class LoginActivity extends BaseActivity {
         new AlertDialog.Builder(this).setItems(listTitles, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+//                if (which == 0) {
+//                    SendEmailPasswordActivity_
+//                            .intent(LoginActivity.this)
+//                            .start();
+////                    ResetPasswordActivity_
+////                            .intent(LoginActivity.this)
+////                            .start();
+//
+//                } else if (which == 1) {
+//                    SendEmailActiveActivity_
+//                            .intent(LoginActivity.this)
+//                            .start();
+////                    UserActiveActivity_
+////                            .intent(LoginActivity.this)
+////                            .start();
+//                }
+                PhoneSetPasswordActivity.Type type;
                 if (which == 0) {
-                    SendEmailPasswordActivity_
-                            .intent(LoginActivity.this)
-                            .start();
-//                    ResetPasswordActivity_
-//                            .intent(LoginActivity.this)
-//                            .start();
-
-                } else if (which == 1) {
-                    SendEmailActiveActivity_
-                            .intent(LoginActivity.this)
-                            .start();
-//                    UserActiveActivity_
-//                            .intent(LoginActivity.this)
-//                            .start();
+                    type = PhoneSetPasswordActivity.Type.reset;
+                } else {
+                    type = PhoneSetPasswordActivity.Type.activate;
                 }
+                String account = editName.getText().toString();
+                InputAccountActivity_.intent(LoginActivity.this).account(account).type(type).start();
             }
         }).show();
     }

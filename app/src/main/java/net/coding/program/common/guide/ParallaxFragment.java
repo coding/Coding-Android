@@ -14,7 +14,8 @@ import com.prolificinteractive.parallaxpager.ParallaxContainer;
 import net.coding.program.LoginActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
-import net.coding.program.RegisterActivity_;
+import net.coding.program.login.phone.PhoneSetPasswordActivity;
+import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 
 public class ParallaxFragment extends Fragment implements ViewPager.OnPageChangeListener {
 
@@ -46,7 +47,10 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
         view.findViewById(R.id.register_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisterActivity_.intent(ParallaxFragment.this).start();
+//                RegisterActivity_.intent(ParallaxFragment.this).start();
+                PhoneSetPasswordActivity_.intent(ParallaxFragment.this)
+                        .type(PhoneSetPasswordActivity.Type.register)
+                        .start();
             }
         });
 

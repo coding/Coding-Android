@@ -109,8 +109,8 @@
     </string-array>
 
     <string-array name="dialog_login_fail_help">
-        <item>找回密码</item>
-        <item>重发激活邮件</item>
+        <item>忘记密码？</item>
+        <item>已注册，未设置密码？</item>
     </string-array>
 
     <string-array name="strings_priority_inverse">

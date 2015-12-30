@@ -165,13 +165,7 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+   </activity>
 
         <activity
             android:name=".MainActivity_"
@@ -183,6 +177,7 @@
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity
@@ -195,6 +190,12 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <intent-filter>
                 <data

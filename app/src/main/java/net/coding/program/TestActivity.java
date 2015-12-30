@@ -60,8 +60,8 @@ public class TestActivity extends ActionBarActivity {
 
     public void click1(View v) {
 //        finish();
-//        test(0);
-        onClick3(null);
+        test(0);
+//        onClick3(null);
     }
 
     private void test(int which) {

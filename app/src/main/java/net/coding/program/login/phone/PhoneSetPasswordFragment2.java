@@ -49,7 +49,8 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     LoginEditText phoneCaptchaEdit, passwordEdit, repasswordEdit, captchaEdit;
 
     @ViewById
-    TextView sendCode, loginButton, textClause;
+    TextView fragmentTitle, sendCode, loginButton, textClause;
+
     private CountDownTimer countDownTimer  = new CountDownTimer(60000, 1000) {
 
         public void onTick(long millisUntilFinished) {
@@ -64,9 +65,11 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     @AfterViews
     final void initPhoneSetPasswordFragment() {
+        String title = String.format("我们已经发送了验证码到手机<br/><font color=\"#3BBD79\">%s</font>", account);
+        fragmentTitle.setText(Html.fromHtml(title));
         loginButton.setText(type.getSetPasswordButtonText());
 
-        ViewStyleUtil.editTextBindButton(loginButton, passwordEdit, repasswordEdit, captchaEdit);
+        ViewStyleUtil.editTextBindButton(loginButton, phoneCaptchaEdit, passwordEdit, repasswordEdit, captchaEdit);
         needShowCaptch();
 
         if (type == PhoneSetPasswordActivity.Type.register) {
@@ -128,9 +131,11 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     @Click
     void loginButton() {
-        String password = passwordEdit.getText().toString();
-        String repassword = repasswordEdit.getText().toString();
-        String captcha = captchaEdit.getText().toString();
+        String phoneCode = phoneCaptchaEdit.getTextString();
+        String password = passwordEdit.getTextString();
+        String repassword = repasswordEdit.getTextString();
+        String captcha = captchaEdit.getTextString();
+
         if (password.length() < 6) {
             SingleToast.showMiddleToast(getActivity(), "密码至少为6位");
             return;
@@ -146,6 +151,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         String url = type.getSetPasswordPhoneUrl(params);
         params.put("password", SimpleSHA1.sha1(password));
         params.put("j_captcha", captcha);
+        params.put("code", phoneCode);
 
 //        // TODO
 //        if (1 == 1) {

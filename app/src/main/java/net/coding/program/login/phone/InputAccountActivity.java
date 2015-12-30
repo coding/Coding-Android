@@ -28,6 +28,9 @@ public class InputAccountActivity extends BackActivity {
     @Extra
     PhoneSetPasswordActivity.Type type;
 
+    @Extra
+    String account = "";
+
     @ViewById
     LoginEditText accountEdit;
 
@@ -39,6 +42,11 @@ public class InputAccountActivity extends BackActivity {
     @AfterViews
     void initInputAccountActivity() {
         setTitle(type.getInputAccountTitle());
+        accountEdit.setText(account);
+        if (inputRequest.isCurrectFormat(account)) {
+            loginButton.setEnabled(true);
+        }
+
         ViewStyleUtil.editTextBindButton(loginButton, inputRequest, accountEdit);
     }
 
