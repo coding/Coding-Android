@@ -45,7 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 /**
  * 展示某一项目文档目录下面图片文件的Activity

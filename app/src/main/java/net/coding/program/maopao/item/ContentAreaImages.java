@@ -30,7 +30,7 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Maopao;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 

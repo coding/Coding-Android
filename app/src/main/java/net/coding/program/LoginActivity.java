@@ -58,7 +58,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {

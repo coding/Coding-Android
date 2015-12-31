@@ -36,7 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 @EActivity(R.layout.activity_gitview)
 //@OptionsMenu(R.menu.users)

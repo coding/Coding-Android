@@ -44,7 +44,7 @@ import java.util.HashMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;

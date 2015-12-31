@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 /**
  * Created by chaochen on 14-9-27.

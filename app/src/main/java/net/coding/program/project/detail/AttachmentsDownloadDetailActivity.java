@@ -57,7 +57,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import cz.msebera.android.httpclient.cookie.Cookie;
+import org.apache.http.cookie.Cookie;
 
 @EActivity(R.layout.activity_attachments_download)
 public class AttachmentsDownloadDetailActivity extends BackActivity {

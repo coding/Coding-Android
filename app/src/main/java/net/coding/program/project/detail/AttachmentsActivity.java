@@ -58,6 +58,7 @@ import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,8 +68,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
-
-import cz.msebera.android.httpclient.Header;
 
 /**
  * 展示某一项目文档目录下面文件的Activity
@@ -965,8 +964,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     isUploading = false;
                 }
 
+
                 @Override
-                public void onProgress(long bytesWritten, long totalSize) {
+                public void onProgress(int bytesWritten, int totalSize) {
                     Log.v(TAG, String.format("Progress %d from %d (%2.0f%%)", bytesWritten, totalSize, (totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1));
                     setUploadStatus(bytesWritten, totalSize);
                 }

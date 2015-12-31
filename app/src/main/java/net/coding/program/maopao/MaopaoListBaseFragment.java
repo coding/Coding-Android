@@ -59,7 +59,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 /**
  * Created by chenchao on 15/9/22.

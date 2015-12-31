@@ -11,6 +11,7 @@ android {
     }
 
     defaultConfig {
+        useLibrary 'org.apache.http.legacy'
         applicationId "net.coding.program"
         renderscriptTargetApi 19
         multiDexEnabled true
@@ -40,7 +41,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.loopj.android:android-async-http:1.4.6'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'

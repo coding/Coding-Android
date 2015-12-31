@@ -18,7 +18,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

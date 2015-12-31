@@ -31,7 +31,7 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BackActivity {

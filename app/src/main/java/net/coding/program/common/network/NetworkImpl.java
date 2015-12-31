@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 public class NetworkImpl {
     public static final int NETWORK_ERROR = -1;

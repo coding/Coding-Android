@@ -31,7 +31,7 @@ import net.coding.program.project.detail.AttachmentsActivity;
 import java.io.File;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.cookie.Cookie;
+import org.apache.http.cookie.Cookie;
 
 /**
  * Created by chenchao on 15/8/24.

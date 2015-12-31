@@ -13,7 +13,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.UserObject;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
