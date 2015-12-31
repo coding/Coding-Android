@@ -15,6 +15,7 @@ import net.coding.program.common.TermsActivity;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 

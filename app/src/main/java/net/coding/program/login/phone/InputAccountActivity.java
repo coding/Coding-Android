@@ -8,6 +8,7 @@ import net.coding.program.R;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.InputRequest;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;

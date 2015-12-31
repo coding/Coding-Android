@@ -775,6 +775,9 @@ public class DynamicObject {
             if (json.has("taskComment")) {
                 taskComment = new TaskObject.TaskComment(json.optJSONObject("taskComment"));
                 taskComment.created_at = created_at;
+                if (task != null) {
+                    taskComment.taskId = task.id;
+                }
             }
 
             if (MergeRequestBaseDelegate.has(json)) {
@@ -1032,6 +1035,7 @@ public class DynamicObject {
         public String deadline = "";
         public String description = "";
         public int priority = 0;
+        public int id = 0;
 
         public Task(JSONObject json) throws JSONException {
             if (json.has("owner")) {
@@ -1043,6 +1047,7 @@ public class DynamicObject {
             deadline = json.optString("deadline");
             priority = json.optInt("priority");
             description = json.optString("description");
+            id = json.optInt("id", 0);
         }
 
         public String getHtml() {

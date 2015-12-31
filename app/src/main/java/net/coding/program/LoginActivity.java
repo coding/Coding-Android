@@ -53,12 +53,11 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-
-import org.apache.http.Header;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -372,6 +371,9 @@ public class LoginActivity extends BaseActivity {
                     type = PhoneSetPasswordActivity.Type.activate;
                 }
                 String account = editName.getText().toString();
+                if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
+                    account = "";
+                }
                 InputAccountActivity_.intent(LoginActivity.this).account(account).type(type).start();
             }
         }).show();

@@ -23,6 +23,7 @@ import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
