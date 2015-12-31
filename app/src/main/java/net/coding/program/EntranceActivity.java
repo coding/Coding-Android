@@ -223,7 +223,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
-                AccountInfo.saveReloginInfo(this, user.email, user.global_key);
+                AccountInfo.saveReloginInfo(this, user);
                 next();
             } else {
                 AlertDialog dialog = new AlertDialog.Builder(this).setTitle("更新")

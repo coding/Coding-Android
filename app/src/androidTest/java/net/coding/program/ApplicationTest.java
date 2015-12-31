@@ -54,7 +54,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         String c2 = "785";
 
-        AccountInfo.saveReloginInfo(mContext, a1, a2);
+//        AccountInfo.saveReloginInfo(mContext, a1, a2);
 
         assertEquals(AccountInfo.loadRelogininfo(mContext, a1), a2);
         assertEquals(AccountInfo.loadRelogininfo(mContext, a2), a2);

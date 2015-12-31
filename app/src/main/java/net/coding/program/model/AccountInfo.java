@@ -43,7 +43,7 @@ public class AccountInfo {
     private static final String GLOBAL_SETTING_BACKGROUND = "GLOBAL_SETTING_BACKGROUND";
     private static final String USER_MAOPAO = "USER_MAOPAO";
     private static final String MAOPAO_DRAFT = "MAOPAO_DRAFT";
-    private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO";
+    private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO2"; // 修改了数据类型，由Pair改为UserObject
     // 上次成功登录时用户输入的用户名，可能是邮箱或个性后缀
     private static final String GLOBAL_LAST_LOGIN_NAME = "GLOBAL_LAST_LOGIN_NAME";
     private static final String USER_TASK_PROJECTS = "USER_TASK_PROJECTS";
@@ -417,19 +417,21 @@ public class AccountInfo {
         }
     }
 
-    public static void saveReloginInfo(Context ctx, String email, String globayKey) {
-        DataCache<Pair> dateCache = new DataCache<>();
-        ArrayList<Pair> listData = dateCache.loadGlobal(ctx, USER_RELOGIN_INFO);
+    public static void saveReloginInfo(Context ctx, UserObject user) {
+        DataCache<UserObject> dateCache = new DataCache<>();
+        ArrayList<UserObject> listData = dateCache.loadGlobal(ctx, USER_RELOGIN_INFO);
         for (int i = 0; i < listData.size(); ++i) {
-            if (listData.get(i).second.equals(globayKey)) {
+            if (listData.get(i).global_key.equals(user.global_key)) {
                 listData.remove(i);
                 --i;
             }
         }
 
-        listData.add(new Pair(email, globayKey));
+        listData.add(user);
         dateCache.saveGlobal(ctx, listData, USER_RELOGIN_INFO);
     }
+
+
 
     public static void saveLastLoginName(Context context, String name) {
         new DataCache<String>().saveGlobal(context, name, GLOBAL_LAST_LOGIN_NAME);
@@ -529,35 +531,27 @@ public class AccountInfo {
     }
 
     public static String loadRelogininfo(Context ctx, String key) {
-        ArrayList<Pair> listData = new DataCache<Pair>().loadGlobal(ctx, USER_RELOGIN_INFO);
-        if (key.contains("@")) {
-            for (Pair item : listData) {
-                if (item.first.equals(key)) {
-                    return item.second;
-                }
-            }
-
-        } else {
-            for (Pair item : listData) {
-                if (item.second.equals(key)) {
-                    return item.second;
-                }
+        ArrayList<UserObject> listData = new DataCache<UserObject>().loadGlobal(ctx, USER_RELOGIN_INFO);
+        for (UserObject item : listData) {
+            if (item.email.equals(key)
+                    || item.phone.equals(key)
+                    || item.global_key.equals(key)) {
+                return item.global_key;
             }
         }
-
         return "";
     }
 
     public static String[] loadAllRelogininfo(Context ctx) {
-        ArrayList<Pair> listData = new DataCache<Pair>().loadGlobal(ctx, USER_RELOGIN_INFO);
-        String[] s = new String[listData.size() * 2];
-        for (int i = 0; i < listData.size(); ++i) {
-            Pair item = listData.get(i);
-            s[i * 2] = item.first;
-            s[i * 2 + 1] = item.second;
+        ArrayList<UserObject> listData = new DataCache<UserObject>().loadGlobal(ctx, USER_RELOGIN_INFO);
+        ArrayList<String> array = new ArrayList<>();
+        for (UserObject item : listData) {
+            array.add(item.email);
+            array.add(item.phone);
+            array.add(item.global_key);
         }
-
-        return s;
+        String[] data = new String[array.size()];
+        return array.toArray(data);
     }
 
     public static void saveBackgrounds(Context ctx, ArrayList<LoginBackground.PhotoItem> data) {

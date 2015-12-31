@@ -154,7 +154,7 @@ public class PhoneSetPasswordFragment extends BaseFragment {
                 UserObject user = new UserObject(respanse.optJSONObject("data"));
                 AccountInfo.saveAccount(getActivity(), user);
                 MyApp.sUserObject = user;
-                AccountInfo.saveReloginInfo(getActivity(), user.email, user.global_key);
+                AccountInfo.saveReloginInfo(getActivity(), user);
 
                 Global.syncCookie(getActivity());
 

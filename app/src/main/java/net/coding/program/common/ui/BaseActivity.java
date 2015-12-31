@@ -259,6 +259,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         mSingleToast.showMiddleToast(msg);
     }
 
+    public void showMiddleToastLong(String msg) {
+        mSingleToast.showMiddleToastLong(msg);
+    }
+
     public void showButtomToast(int messageId) {
         mSingleToast.showButtomToast(messageId);
     }

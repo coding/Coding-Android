@@ -149,7 +149,7 @@ public class RegisterActivity extends BackActivity {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
-                AccountInfo.saveReloginInfo(this, user.email, user.global_key);
+                AccountInfo.saveReloginInfo(this, user);
 
                 Global.syncCookie(this);
 

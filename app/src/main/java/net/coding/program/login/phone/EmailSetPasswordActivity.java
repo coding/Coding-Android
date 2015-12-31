@@ -58,6 +58,13 @@ public class EmailSetPasswordActivity extends BackActivity {
                 super.onMySuccess(response);
                 setResult(RESULT_OK);
                 showMiddleToast("邮件已发送");
+
+                if (type == PhoneSetPasswordActivity.Type.activate) {
+                    showMiddleToastLong("激活邮件已经发送，请尽快去邮箱查看");
+                } else {
+                    showMiddleToastLong("重置密码邮件已经发送，请尽快去邮箱查看");
+                }
+
                 finish();
             }
 
