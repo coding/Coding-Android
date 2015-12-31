@@ -17,12 +17,12 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.common.TermsActivity;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
@@ -187,8 +187,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     @Click
     void textClause() {
-        Intent intent = new Intent(getActivity(), TermsActivity.class);
-        startActivity(intent);
+        ActivityNavigate.startTermActivity(this);
     }
 
     protected void loadCurrentUser() {

@@ -536,7 +536,7 @@
             android:label="@string/title_activity_base_annotation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.TermsActivity"
+            android:name=".common.TermsActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_terms"
             android:screenOrientation="portrait" />

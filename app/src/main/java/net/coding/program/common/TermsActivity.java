@@ -1,41 +1,27 @@
 package net.coding.program.common;
 
-import android.os.Bundle;
-import android.view.MenuItem;
 import android.webkit.WebView;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 
-public class TermsActivity extends BaseActivity {
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+@EActivity(R.layout.activity_terms)
+public class TermsActivity extends BackActivity {
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @ViewById
+    WebView webView;
 
-        setContentView(R.layout.activity_terms);
-
-        WebView webView = (WebView) findViewById(R.id.webview);
+    @AfterViews
+    protected void initTermsActivity() {
         Global.initWebView(webView);
-
         try {
             webView.loadDataWithBaseURL(null, Global.readTextFile(getAssets().open("terms")), "text/html", "UTF-8", null);
         } catch (Exception e) {
+            Global.errorLog(e);
         }
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

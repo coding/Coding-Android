@@ -16,11 +16,11 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.TermsActivity;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -28,10 +28,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import org.apache.http.Header;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BackActivity {
@@ -124,8 +123,7 @@ public class RegisterActivity extends BackActivity {
 
     @Click
     void textClause() {
-        Intent intent = new Intent(this, TermsActivity.class);
-        startActivity(intent);
+        ActivityNavigate.startTermActivity(this);
     }
 
     @Override
