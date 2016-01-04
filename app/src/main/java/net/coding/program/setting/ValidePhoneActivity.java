@@ -118,20 +118,20 @@ public class ValidePhoneActivity extends BackActivity {
             if (code == 0) {
                 showMiddleToast("验证码已发送");
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsgMiddle(code, respanse);
                 countDownTimer.cancel();
                 countDownTimer.onFinish();
             }
         } else if (tag.equals(TAG_SET_USER_INFO)) {
             showProgressBar(false, "");
             if (code == 0) {
-                showButtomToast("修改成功");
+                showMiddleToast("修改成功");
                 setResult(Activity.RESULT_OK);
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
                 finish();
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsgMiddle(code, respanse);
             }
         }
     }

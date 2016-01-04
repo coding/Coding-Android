@@ -60,6 +60,9 @@ public class MyAsyncHttpClient {
             client.addHeader(item, mapHeaders.get(item));
         }
 
+        client.setTimeout(30 * 1000);
+
+
         return client;
     }
 

@@ -95,6 +95,17 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
+    public void showErrorMsgMiddle(int code, JSONObject json) {
+        if (code == NetworkImpl.NETWORK_ERROR) {
+            showMiddleToast(R.string.connect_service_fail);
+        } else {
+            String msg = Global.getErrorMsg(json);
+            if (!msg.isEmpty()) {
+                showMiddleToast(msg);
+            }
+        }
+    }
+
     public ImageLoadTool getImageLoad() {
         return imageLoadTool;
     }

@@ -48,18 +48,18 @@ import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
+import net.coding.program.setting.ValidePhoneActivity_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.apache.http.Header;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -573,6 +573,13 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                     Iterator<String> iterator = jsonMsg.keys();
                                     String key = iterator.next();
                                     cannotRewardLayout.setText(jsonMsg.optString(key, "打赏失败"));
+                                }
+
+                                if (code == 2906) { // 自己的手机未验证
+                                    cannotRewardLayout.setOnClickListener(v1 -> {
+                                        ValidePhoneActivity_.intent(activity).start();
+                                        dialog.dismiss();
+                                    });
                                 }
                             } else {
                                 activity.showErrorMsg(code, response);

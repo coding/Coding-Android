@@ -18,7 +18,6 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -44,8 +43,12 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-@EFragment(R.layout.fragment_users_list)
-@OptionsMenu(R.menu.message_users_list)
+import static net.coding.program.R.id;
+import static net.coding.program.R.layout;
+import static net.coding.program.R.menu;
+
+@EFragment(layout.fragment_users_list)
+@OptionsMenu(menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     public static final String HOST_MARK_MESSAGE = Global.HOST_API + "/message/conversations/%s/read";
@@ -56,6 +59,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count?type=4&type=6";
     final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
     private final int RESULT_SELECT_USER = 2001;
+
     @ViewById
     ListView listView;
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
@@ -95,15 +99,15 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_message_user_list_item, parent, false);
+                convertView = mInflater.inflate(layout.fragment_message_user_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.icon =
-                        (ImageView) convertView.findViewById(R.id.icon);
+                        (ImageView) convertView.findViewById(id.icon);
                 holder.icon.setFocusable(false);
-                holder.title = (TextView) convertView.findViewById(R.id.title);
-                holder.content = (TextView) convertView.findViewById(R.id.comment);
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-                holder.badge = (BadgeView) convertView.findViewById(R.id.badge);
+                holder.title = (TextView) convertView.findViewById(id.title);
+                holder.content = (TextView) convertView.findViewById(id.comment);
+                holder.time = (TextView) convertView.findViewById(id.time);
+                holder.badge = (BadgeView) convertView.findViewById(id.badge);
                 holder.badge.setFocusable(false);
                 convertView.setTag(holder);
             } else {
@@ -255,34 +259,17 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     }
 
     private void initHead() {
-        View v = mInflater.inflate(R.layout.fragment_message_user_list_head, null, false);
+        View v = mInflater.inflate(layout.fragment_message_user_list_head, null, false);
 
-        v.findViewById(R.id.atLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startNotifyListActivity(0);
-            }
-        });
+        v.findViewById(id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
+        v.findViewById(id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
+        v.findViewById(id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity(4));
 
-        v.findViewById(R.id.commentLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startNotifyListActivity(1);
-            }
-        });
-
-        v.findViewById(R.id.systemLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startNotifyListActivity(4);
-            }
-        });
-
-        badgeAt = (BadgeView) v.findViewById(R.id.badgeAt);
+        badgeAt = (BadgeView) v.findViewById(id.badgeAt);
         badgeAt.setVisibility(View.INVISIBLE);
-        badgeComment = (BadgeView) v.findViewById(R.id.badgeComment);
+        badgeComment = (BadgeView) v.findViewById(id.badgeComment);
         badgeComment.setVisibility(View.INVISIBLE);
-        badgeSystem = (BadgeView) v.findViewById(R.id.badgeSystem);
+        badgeSystem = (BadgeView) v.findViewById(id.badgeSystem);
         badgeSystem.setVisibility(View.INVISIBLE);
 
         listView.addHeaderView(v);
@@ -342,23 +329,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 AccountInfo.saveMessageUsers(getActivity(), mData);
 
                 adapter.notifyDataSetChanged();
-
-//                if (isLoadingLastPage(tag)) {
-//                    mFootUpdate.dismiss();
-//                } else {
-//                    mFootUpdate.showLoading();
-//                }
-//                BlankViewDisplay.setBlank(mData.size(), UsersListFragment.this, true, blankLayout);
-
-
             } else {
                 showErrorMsg(code, respanse);
-//                if (mData.size() > 0) {
-//                    mFootUpdate.showFail();
-//                } else {
-//                    mFootUpdate.dismiss(); // 显示猴子照片
-//                }
-//                BlankViewDisplay.setBlank(mData.size(), UsersListFragment.this, false, blankLayout, onClickRetry);
             }
             mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
@@ -455,7 +427,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     public static class ReadedUserId {
 
-        private static String sReadedUser = "";
+        private static String sUserGlobalKey = "";
 
         private static Message.MessageObject mData = null;
 
@@ -465,12 +437,12 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 mData = null;
             }
 
-            sReadedUser = id;
+            sUserGlobalKey = id;
             mData = data;
         }
 
         public static String getReadedUser() {
-            return sReadedUser;
+            return sUserGlobalKey;
         }
 
         public static Message.MessageObject getUserLastMessage() {
@@ -478,7 +450,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         }
 
         public static void remove() {
-            sReadedUser = "";
+            sUserGlobalKey = "";
             mData = null;
         }
     }
