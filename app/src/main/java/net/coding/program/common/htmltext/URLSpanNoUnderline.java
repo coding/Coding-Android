@@ -64,7 +64,12 @@ public class URLSpanNoUnderline extends URLSpan {
         openActivityByUri(context, uriString, newTask, true);
     }
 
+
     public static boolean openActivityByUri(Context context, String uriString, boolean newTask, boolean defaultIntent) {
+        return openActivityByUri(context, uriString, newTask, defaultIntent, false);
+    }
+
+    public static boolean openActivityByUri(Context context, String uriString, boolean newTask, boolean defaultIntent, boolean share) {
         Intent intent = new Intent();
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -393,6 +398,10 @@ public class URLSpanNoUnderline extends URLSpan {
                 }
                 if (uriString.startsWith("/u/")) {
                     uriString = Global.HOST + uriString;
+                }
+
+                if (share) {
+                    intent.putExtra("share", true);
                 }
 
                 intent.putExtra("url", uriString);

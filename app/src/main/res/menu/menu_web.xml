@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.WebActivity">
 
+
     <item
         android:id="@+id/action_more"
         android:icon="@drawable/ic_action_overflow"
@@ -11,17 +12,23 @@
         <menu>
             <item
                 android:id="@+id/action_browser"
+                android:icon="@drawable/ic_menu_brower"
                 android:orderInCategory="100"
                 android:title="用浏览器打开"
-                android:icon="@drawable/ic_menu_brower"
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_copy"
+                android:icon="@drawable/ic_menu_link"
                 android:orderInCategory="100"
                 android:title="复制链接"
-                android:icon="@drawable/ic_menu_link"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/action_share"
+                android:icon="@drawable/ic_menu_share_light"
+                android:title="分享"
                 app:showAsAction="always" />
         </menu>
+
     </item>
 
 </menu>

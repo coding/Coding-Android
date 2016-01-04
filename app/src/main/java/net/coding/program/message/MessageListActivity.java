@@ -556,7 +556,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         if (mData.size() > 0) {
             item = mData.get(mData.size() - 1);
         }
-        UsersListFragment.ReadedUserId.setReadedUser(mGlobalKey, item);
+//        UsersListFragment.ReadedUserId.setReadedUser(mGlobalKey, item);
     }
 
     @Override

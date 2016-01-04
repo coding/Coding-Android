@@ -61,8 +61,6 @@ public class MyAsyncHttpClient {
         }
 
         client.setTimeout(30 * 1000);
-
-
         return client;
     }
 

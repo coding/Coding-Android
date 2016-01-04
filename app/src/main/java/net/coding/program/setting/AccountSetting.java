@@ -42,8 +42,11 @@ public class AccountSetting extends BackActivity {
         String phoneString = MyApp.sUserObject.phone;
         if (phoneString.isEmpty()) {
             phone.setText("未认证");
+            phone.setTextColor(0xFFF34A4A);
         } else {
             phone.setText(phoneString);
+            phone.setTextColor(0xFF666666);
+
         }
     }
 

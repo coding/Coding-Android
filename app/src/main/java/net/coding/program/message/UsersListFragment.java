@@ -216,6 +216,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         getNetwork(HOST_UNREAD_SYSTEM, HOST_UNREAD_SYSTEM);
 
         mInstance = new WeakReference<>(this);
+
+        onRefresh();
     }
 
     @Override
@@ -228,13 +230,13 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     public void onResume() {
         super.onResume();
 
-        String userGlobal = ReadedUserId.getReadedUser();
-        if (!userGlobal.isEmpty()) {
-            markUserReaded(userGlobal, ReadedUserId.getUserLastMessage());
-
-            postMarkReaded(userGlobal);
-            ReadedUserId.remove();
-        }
+//        String userGlobal = ReadedUserId.getReadedUser();
+//        if (!userGlobal.isEmpty()) {
+//            markUserReaded(userGlobal, ReadedUserId.getUserLastMessage());
+//
+//            postMarkReaded(userGlobal);
+//            ReadedUserId.remove();
+//        }
     }
 
     @Override
@@ -425,33 +427,32 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         BadgeView badge;
     }
 
-    public static class ReadedUserId {
-
-        private static String sUserGlobalKey = "";
-
-        private static Message.MessageObject mData = null;
-
-        public static void setReadedUser(String id, Message.MessageObject data) {
-            if (id == null) {
-                id = "";
-                mData = null;
-            }
-
-            sUserGlobalKey = id;
-            mData = data;
-        }
-
-        public static String getReadedUser() {
-            return sUserGlobalKey;
-        }
-
-        public static Message.MessageObject getUserLastMessage() {
-            return mData;
-        }
-
-        public static void remove() {
-            sUserGlobalKey = "";
-            mData = null;
-        }
-    }
+//    public static class ReadedUserId {
+//
+////        private static String sUserGlobalKey = "";
+////        private static Message.MessageObject mData = null;
+//
+//        private static ArrayList<Pair<String, Message.MessageObject>> arrayData = new ArrayList<>();
+//
+//        public static void setReadedUser(String id, Message.MessageObject data) {
+//            if (id == null) {
+//                return;
+//            }
+//
+//            arrayData.add(new Pair<>(id, data));
+//        }
+//
+//        public static String getReadedUser() {
+//            return sUserGlobalKey;
+//        }
+//
+//        public static Message.MessageObject getUserLastMessage() {
+//            return mData;
+//        }
+//
+//        public static void remove() {
+//            sUserGlobalKey = "";
+//            mData = null;
+//        }
+//    }
 }

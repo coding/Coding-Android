@@ -180,13 +180,33 @@
                 android:textColor="@color/font_black_2"
                 android:textSize="16sp" />
 
+
+            <EditText
+                android:id="@+id/mall_order_edit_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:editable="false"
+                android:gravity="center_vertical"
+                android:hint="省，市，县，镇"
+                android:paddingBottom="14dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#666666"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+
+            <include
+                layout="@layout/divide_1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp" />
+
             <EditText
                 android:id="@+id/mall_order_edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="省，市，县，镇，街道"
+                android:hint="街道地址"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#666666"

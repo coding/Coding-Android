@@ -243,7 +243,7 @@
                 android:drawableLeft="@drawable/maopao_extra_comment"
                 tools:text="17"
                 android:src="@drawable/checkbox_comment"
-                />
+                android:layout_marginRight="3dp" />
 
             <CheckBox
                 android:id="@+id/likeBtn"
@@ -258,7 +258,8 @@
                 android:textColor="@color/font_black_9"
                 android:text="0"
                 tools:text="55"
-                android:button="@drawable/checkbox_good" />
+                android:button="@drawable/checkbox_good"
+                android:layout_marginLeft="3dp" />
 
             <TextView
                 android:layout_width="wrap_content"

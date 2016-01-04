@@ -20,16 +20,14 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
-import net.coding.program.common.HtmlContent;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.message.MessageListActivity;
-import net.coding.program.message.UsersListFragment;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
@@ -372,8 +370,8 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         } else if (tag.equals(TAG_RELAY_MESSAGE)) {
             showProgressBar(false);
             if (code == 0) {
-                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
-                UsersListFragment.ReadedUserId.setReadedUser(item.friend.global_key, item);
+//                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
+//                UsersListFragment.ReadedUserId.setReadedUser(item.friend.global_key, item);
                 showMiddleToast("发送成功");
                 finish();
             } else {

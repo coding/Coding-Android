@@ -2,9 +2,13 @@ package net.coding.program;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -16,24 +20,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.socialize.sso.UMSsoHandler;
+
 import net.coding.program.common.Global;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.maopao.share.CustomShareBoard;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_web)
-@OptionsMenu(R.menu.menu_web)
 public class WebActivity extends UmengActivity {
 
     @Extra
     String url = Global.HOST;
+
+    @Extra
+    boolean share = false; // 可以弹出显示分享 Dialog
 
     @ViewById
     WebView webView;
@@ -117,6 +125,18 @@ public class WebActivity extends UmengActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(net.coding.program.R.menu.menu_web, menu);
+
+        if (!share) {
+            menu.findItem(R.id.action_share).setVisible(false);
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack();
@@ -155,6 +175,28 @@ public class WebActivity extends UmengActivity {
         Toast.makeText(WebActivity.this, urlString + " 已复制", Toast.LENGTH_SHORT).show();
     }
 
+    @OptionsItem
+    protected final void action_share() {
+        String urlString = webView.getUrl();
+        if (urlString == null) {
+            Toast.makeText(WebActivity.this, "获取链接失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        action_share_third();
+    }
+
+    void action_share_third() {
+        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData("Coding", webView.getTitle(), url);
+        CustomShareBoard shareBoard = new CustomShareBoard(this, shareData);
+        Rect rect = new Rect();
+        View decorView = getWindow().getDecorView();
+        decorView.getWindowVisibleDisplayFrame(rect);
+        int winHeight = getWindow().getDecorView().getHeight();
+        // 在 5.0 的android手机上，如果是 noactionbar，显示会有问题
+        shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
+    }
+
     public static class CustomWebViewClient extends WebViewClient {
 
         Context mContext;
@@ -169,4 +211,13 @@ public class WebActivity extends UmengActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
+                requestCode);
+        if (ssoHandler != null) {
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
 }

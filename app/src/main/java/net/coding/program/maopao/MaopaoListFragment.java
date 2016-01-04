@@ -1,6 +1,5 @@
 package net.coding.program.maopao;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
@@ -60,6 +59,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     @FragmentArg
     Type mType;
+
     @FragmentArg
     int userId;
 
@@ -356,7 +356,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
                 public void onClick(View v) {
                     int position = (int) v.getTag(R.id.image);
                     BannerObject bannerObject = mBannerDatas.get(position);
-                    URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false);
+                    URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false, true, true);
                 }
             });
             return imageView;

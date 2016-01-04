@@ -136,6 +136,12 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         }
 
 
+        public ShareData(String name, String des, String link) {
+            this.name = name;
+            this.des = des;
+            this.link = link;
+        }
+
         public ShareData(Maopao.MaopaoObject mMaopaoObject) {
             this.name = mMaopaoObject.owner.name + "的冒泡";
             this.link = mMaopaoObject.getMobileLink();
