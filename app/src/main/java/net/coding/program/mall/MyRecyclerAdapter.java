@@ -12,9 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.util.SingleToast;
 import net.coding.program.model.MallItemObject;
+import net.coding.program.setting.ValidePhoneActivity_;
 
 import java.util.ArrayList;
 
@@ -107,13 +110,18 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 if (object.getPoints_cost() > userPoint) {
                     Toast.makeText(context, "您的码币不足！", Toast.LENGTH_SHORT).show();
                 } else {
-                    MallOrderSubmitActivity_.intent(context)
-                            .giftId(object.getId())
-                            .desc(object.getDescription())
-                            .imgUrl(object.getImage())
-                            .point(object.getPoints_cost())
-                            .title(object.getName())
-                            .start();
+                    if (!MyApp.sUserObject.phone.isEmpty()) {
+                        MallOrderSubmitActivity_.intent(context)
+                                .giftId(object.getId())
+                                .desc(object.getDescription())
+                                .imgUrl(object.getImage())
+                                .point(object.getPoints_cost())
+                                .title(object.getName())
+                                .start();
+                    } else {
+                        SingleToast.showMiddleToast(context, "验证手机号才能下单");
+                        ValidePhoneActivity_.intent(context).start();
+                    }
                 }
             }
         });

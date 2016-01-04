@@ -51,6 +51,8 @@
     <string name="action_save">保存</string>
     <string name="action_move">移动</string>
     <string name="action_add">添加</string>
+
+    <string name="title_activity_pick_local">选择地区</string>
     <string name="action_delete">删除</string>
     <string name="action_new_folder">创建文件夹</string>
     <string name="action_cancel">取消</string>

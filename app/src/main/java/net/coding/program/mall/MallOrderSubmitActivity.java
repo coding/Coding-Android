@@ -1,6 +1,7 @@
 package net.coding.program.mall;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,12 +11,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseAppCompatActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -24,10 +28,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 
 /**
@@ -36,6 +44,8 @@ import org.json.JSONObject;
 
 @EActivity(R.layout.activity_mall_order_submit)
 public class MallOrderSubmitActivity extends BaseAppCompatActivity {
+
+    private static final int RESULT_LOCAL = 1;
 
     final String host = Global.HOST_API + "/gifts/exchange";
 
@@ -63,6 +73,9 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
     @ViewById
     TextView mall_order_desc;
 
+    @ViewById
+    TextView mall_order_edit_city;
+
     @Click
     void mall_order_button_submit() {
         parseParams();
@@ -84,6 +97,8 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
     String imgUrl;
 
     String submitPassword = "";
+
+    Local local = new Local("", 0, "", 0, "", 0);
 
     private View.OnFocusChangeListener foucusChangeListener = new View.OnFocusChangeListener() {
         @Override
@@ -129,15 +144,29 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
                 .show();
     }
 
+    @OnActivityResult(RESULT_LOCAL)
+    void onResultLocal(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            local = (Local) data.getSerializableExtra("result");
+            mall_order_edit_city.setText(local.getLocalString());
+        }
+    }
+
     private void parseParams() {
         if (mall_order_edit_username.getText().toString().trim().length() == 0) {
             showMiddleToast("姓名不能为空");
             return;
         }
         if (mall_order_edit_address.getText().toString().trim().length() == 0) {
-            showMiddleToast("地址不能为空");
+            showMiddleToast("街道地址不能为空");
             return;
         }
+
+        if (mall_order_edit_city.getText().length() == 0) {
+            showMiddleToast("省，市，县不能为空");
+            return;
+        }
+
         int phoneLength = mall_order_edit_phone.getText().toString().trim().length();
         if (phoneLength < 8 || phoneLength > 16) {
             showMiddleToast("电话号码格式不正确");
@@ -172,8 +201,53 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
         params.put("remark", note);
         params.put("receiverAddress", address);
         params.put("giftId", giftId);
+
+        int priovicen = local.getProvicen().getId();
+        if (priovicen != 0) {
+            params.put("province", priovicen);
+
+            int city = local.getCity().getId();
+            if (city != 0) {
+                params.put("city", city);
+
+                int district = local.getDistrict().getId();
+                if (district != 0) {
+                    params.put("district", district);
+                }
+            }
+        }
+
         showProgressBar(true, "正在提交订单...");
         postNetwork(host, params, host);
+    }
+
+    @Click
+    void mall_order_edit_city() {
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(MallOrderSubmitActivity.this);
+        String host = Global.HOST_API + "/region?parent=0&level=1";
+        client.get(host, new MyJsonResponse(MallOrderSubmitActivity.this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                ArrayList<City> citys = PickLocalActivity.citysFromJson(response);
+
+                Intent intent = new Intent(MallOrderSubmitActivity.this, PickLocalActivity_.class);
+                intent.putExtra(PickLocalActivity.EXTRA_LOCAL_POS, 1);
+                intent.putExtra(PickLocalActivity.EXTRA_LIST_DATA, citys);
+                intent.putExtra(PickLocalActivity.EXTRA_LOCAL, local);
+                startActivityForResult(intent, RESULT_LOCAL);
+
+                showProgressBar(false, "");
+            }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+                showProgressBar(false, "");
+            }
+        });
+
+        showProgressBar(true, "");
     }
 
     @Override
@@ -186,7 +260,8 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
                 MallOrderDetailActivity_.intent(this).start();
                 finish();
             } else {
-                showButtomToast("很抱歉，订单提交失败！");
+                showErrorMsg(code, respanse);
+//                showButtomToast("很抱歉，订单提交失败！");
             }
         }
     }
@@ -231,4 +306,101 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
         }
         return false;
     }
+
+    static public class City implements Serializable {
+        int id;
+        String name;
+
+        public City(JSONObject json) {
+            id = json.optInt("id");
+            name = json.optString("name");
+        }
+
+        public City(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void clear() {
+            id = 0;
+            name = "";
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof City)) return false;
+
+            City city = (City) o;
+
+            if (id != city.id) return false;
+            return name.equals(city.name);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = id;
+            result = 31 * result + name.hashCode();
+            return result;
+        }
+    }
+
+    static public class Local implements Serializable {
+        City provicen;
+        City city;
+        City district;
+
+        public String getLocalString() {
+            return String.format("%s %s %s", provicen.getName(), city.getName(), district.getName());
+        }
+
+        public Local(String provicen, int proviceId, String city, int cityId, String district, int districtId) {
+            this.provicen = new City(proviceId, provicen);
+            this.city = new City(cityId, city);
+            this.district = new City(districtId, district);
+        }
+
+        public City getProvicen() {
+            return provicen;
+        }
+
+        public City getCity() {
+            return city;
+        }
+
+        public City getDistrict() {
+            return district;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Local)) return false;
+
+            Local local = (Local) o;
+
+            if (!provicen.equals(local.provicen)) return false;
+            if (!city.equals(local.city)) return false;
+            return district.equals(local.district);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = provicen.hashCode();
+            result = 31 * result + city.hashCode();
+            result = 31 * result + district.hashCode();
+            return result;
+        }
+    }
+
 }

@@ -1,30 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="10dp"
-            android:gravity="left"
-            android:text="输入用户密码以确认订单"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-             />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:text="输入用户密码以确认订单"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <EditText
-            android:id="@+id/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="7dp"
-            android:autoText="false"
-            android:capitalize="none"
-            android:gravity="fill_horizontal"
-            android:inputType="textPassword"
-            android:scrollHorizontally="true"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="7dp"
+        android:autoText="false"
+        android:background="@null"
+        android:capitalize="none"
+        android:gravity="fill_horizontal"
+        android:inputType="textPassword"
+        android:scrollHorizontally="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <View
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        layout="@layout/divide_1"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:background="@color/font_green" />
+
+    />
+
 </LinearLayout>

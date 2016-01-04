@@ -140,6 +140,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             this.name = name;
             this.des = des;
             this.link = link;
+            this.img = "";
         }
 
         public ShareData(Maopao.MaopaoObject mMaopaoObject) {
@@ -373,6 +374,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             QZoneShareContent qzone = new QZoneShareContent();
             qzone.setShareContent(mShareData.des);
             qzone.setTitle(mShareData.name);
+            qzone.setTargetUrl(mShareData.link);
             qzone.setShareImage(umImage);
             mController.setShareMedia(qzone);
         }

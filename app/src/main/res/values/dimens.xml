@@ -107,5 +107,7 @@
 
     <dimen name="shop_list_item_vertical_space">0dp</dimen>
 
+    <dimen name="list_item_icon_left">20dp</dimen>
+    <dimen name="list_item_icon_right">18dp</dimen>
 
 </resources>

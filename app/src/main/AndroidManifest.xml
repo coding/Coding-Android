@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="103"
+    android:versionCode="105"
     android:versionName="3.6">
 
     <uses-sdk
@@ -68,7 +68,6 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
-
 
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
@@ -773,6 +772,10 @@
             android:name=".mall.MallIndexActivity_"
             android:label="@string/title_activity_mall"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".mall.PickLocalActivity_"
+            android:label="@string/title_activity_pick_local"
+            android:screenOrientation="portrait"></activity>
         <!--android:theme="@style/ThemeMall"-->
         <activity
             android:name=".mall.MallOrderSubmitActivity_"
@@ -805,6 +808,8 @@
         <activity android:name=".login.phone.SetGlobalKeyActivity_"
             android:label="@string/set_global_activity"
             android:screenOrientation="portrait"/>
+
+
     </application>
 
 </manifest>

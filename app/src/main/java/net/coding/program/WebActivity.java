@@ -183,11 +183,18 @@ public class WebActivity extends UmengActivity {
             return;
         }
 
+        String title = actionbarTitle.getText().toString();
+        if (title.isEmpty()) {
+            Toast.makeText(WebActivity.this, "获取标题失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         action_share_third();
     }
 
     void action_share_third() {
-        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData("Coding", webView.getTitle(), url);
+        String title = actionbarTitle.getText().toString();
+        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData("Coding", title, url);
         CustomShareBoard shareBoard = new CustomShareBoard(this, shareData);
         Rect rect = new Rect();
         View decorView = getWindow().getDecorView();
