@@ -1,6 +1,6 @@
 package net.coding.program.common.base;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -8,9 +8,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.util.SingleToast;
 
-import org.json.JSONObject;
-
 import org.apache.http.Header;
+import org.json.JSONObject;
 
 /**
  * Created by chenchao on 15/10/11.
@@ -39,9 +38,9 @@ public abstract class MyJsonResponse extends JsonHttpResponseHandler {
         }
     }
 
-    private Activity mActivity;
+    private Context mActivity;
 
-    public MyJsonResponse(Activity activity) {
+    public MyJsonResponse(Context activity) {
         super();
         mActivity = activity;
     }

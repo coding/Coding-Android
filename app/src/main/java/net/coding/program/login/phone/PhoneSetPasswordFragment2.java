@@ -3,7 +3,6 @@ package net.coding.program.login.phone;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -23,10 +22,10 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.ActivityNavigate;
-import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -50,19 +49,11 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     LoginEditText phoneCaptchaEdit, passwordEdit, repasswordEdit, captchaEdit;
 
     @ViewById
-    TextView fragmentTitle, sendCode, loginButton, textClause;
+    TextView fragmentTitle, loginButton, textClause;
 
-    private CountDownTimer countDownTimer  = new CountDownTimer(60000, 1000) {
+    @ViewById
+    ValidePhoneView sendCode;
 
-        public void onTick(long millisUntilFinished) {
-            sendCode.setText(millisUntilFinished / 1000 + "秒");
-        }
-
-        public void onFinish() {
-            sendCode.setEnabled(true);
-            sendCode.setText("发送验证码");
-        }
-    };
 
     @AfterViews
     final void initPhoneSetPasswordFragment() {
@@ -77,7 +68,15 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
         }
 
-        startTimer();
+        sendCode.setUrl(type.getSendPhoneMessageUrl());
+        sendCode.setPhoneString(account);
+        sendCode.startTimer();
+    }
+
+    @Override
+    public void onStop() {
+        sendCode.onStop();
+        super.onStop();
     }
 
     private void needShowCaptch() {
@@ -104,31 +103,6 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             }
         });
     }
-
-    @Click
-    void sendCode() {
-        String phone = account;
-        if (!InputCheck.checkPhone(getActivity(), phone)) return;
-
-        String url = type.getSendPhoneMessageUrl();
-        RequestParams params = new RequestParams();
-        params.put("phone", phone);
-        MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(getActivity()) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                showMiddleToast("已发送短信");
-            }
-        });
-
-        startTimer();
-    }
-
-    private void startTimer() {
-        sendCode.setEnabled(false);
-        countDownTimer.start();
-    }
-
 
     @Click
     void loginButton() {

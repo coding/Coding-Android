@@ -294,6 +294,19 @@
     </style>
 
 
+    <style name="ValidePhoneView" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
+        <item name="android:background">@drawable/phone_message_bg</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:text">发送验证码</item>
+        <item name="android:textColor">@color/phone_message</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

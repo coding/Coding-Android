@@ -1,6 +1,5 @@
 package net.coding.program.login.phone;
 
-import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -14,9 +13,9 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.ActivityNavigate;
-import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.common.widget.ValidePhoneView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -44,7 +43,10 @@ public class PhoneVerifyFragment extends BaseFragment {
     View loginButton;
 
     @ViewById
-    TextView sendCode, textClause;
+    TextView textClause;
+
+    @ViewById
+    ValidePhoneView sendCode;
 
     @AfterViews
     void initPhoneVerifyFragment() {
@@ -55,17 +57,19 @@ public class PhoneVerifyFragment extends BaseFragment {
         if (type == PhoneSetPasswordActivity.Type.register) {
             textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
         }
+
+        sendCode.setEditPhone(emailEdit);
+        sendCode.setUrl(type.getSendPhoneMessageUrl());
+    }
+
+    @Override
+    public void onStop() {
+        sendCode.onStop();
+        super.onStop();
     }
 
     @Click
     void loginButton() {
-        // TODO
-//        if (1 == 1) {
-//            ParentActivity parent = (ParentActivity) getActivity();
-//            parent.next();
-//            return;
-//        }
-
         String phone = emailEdit.getTextString();
         String code = captchaEdit.getTextString();
 
@@ -93,38 +97,6 @@ public class PhoneVerifyFragment extends BaseFragment {
         });
 
         showProgressBar(true, "");
-    }
-
-    @Click
-    void sendCode() {
-        String phone = emailEdit.getTextString();
-        if (!InputCheck.checkPhone(getActivity(), phone)) return;
-
-        String url = type.getSendPhoneMessageUrl();
-        RequestParams params = new RequestParams();
-        params.put("phone", phone);
-        MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(getActivity()) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                showMiddleToast("已发送短信");
-            }
-        });
-
-        sendCode.setEnabled(false);
-        new CountDownTimer(60000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                sendCode.setText(millisUntilFinished / 1000 + "秒");
-            }
-
-            public void onFinish() {
-                sendCode.setEnabled(true);
-                sendCode.setText("发送验证码");
-            }
-        }.start();
-
-        captchaEdit.requestFocus();
     }
 
     @Click
