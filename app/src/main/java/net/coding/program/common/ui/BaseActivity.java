@@ -1,5 +1,6 @@
 package net.coding.program.common.ui;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -92,6 +93,13 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
             if (!msg.isEmpty()) {
                 showButtomToast(msg);
             }
+        }
+    }
+
+    protected void setActionBarTitle(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
         }
     }
 

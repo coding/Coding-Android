@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/divide"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="net.coding.program.task.add.TaskAddActivity">
 
@@ -70,240 +71,56 @@
         android:id="@+id/line1"
         layout="@layout/divide_15_top_bottom" />
 
-    <LinearLayout
-        android:id="@+id/linearlayout0"
+    <net.coding.program.task.add.TaskAttrItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/line1"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        app:taskIcon="@drawable/ic_task_project"
+        android:id="@+id/layoutProjectName"
+        app:taskTopLine="false"
+        app:taskText1="项目名"
+        app:taskText2="未指定"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/projectIcon"
-            android:layout_width="@dimen/task_add_user_icon_width"
-            android:layout_height="@dimen/task_add_user_icon_width"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_task_project" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_weight="1"
-            android:text="项目名"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/projectName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/no_pick"
-            android:textColor="@color/font_black_9"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_list_right_arr" />
-    </LinearLayout>
-
-    <include
-        android:id="@+id/linePickProject"
-        layout="@layout/divide_1" />
-
-    <LinearLayout
-        android:id="@+id/linearlayout1"
+    <net.coding.program.task.add.TaskAttrItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/line1"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleIcon"
-            android:layout_width="@dimen/task_add_user_icon_width"
-            android:layout_height="@dimen/task_add_user_icon_width"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_task_user" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_weight="1"
-            android:text="执行者"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="chenchao陈超"
-            android:textColor="@color/font_black_9"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_list_right_arr" />
-    </LinearLayout>
-
-    <include layout="@layout/divide_1" />
+        app:taskIcon="@drawable/ic_task_user"
+        android:id="@+id/layoutName"
+        app:taskText1="执行者"
+        app:taskText2="cc"/>
 
 
-    <LinearLayout
-        android:id="@+id/layout3"
+    <net.coding.program.task.add.TaskAttrItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearlayout2"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        app:taskIcon="@drawable/ic_task_priovity"
+        android:id="@+id/layoutPriovity"
+        app:taskText1="优先级"
+        app:taskText2="正常处理"/>
 
-        <ImageView
-            android:layout_width="@dimen/task_add_user_icon_width"
-            android:layout_height="@dimen/task_add_user_icon_width"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_task_priovity" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_weight="1"
-            android:text="优先级"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/priority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="正常处理"
-            android:textColor="@color/font_black_9"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_list_right_arr" />
-    </LinearLayout>
-
-    <include layout="@layout/divide_1" />
-
-    <LinearLayout
-        android:id="@+id/linearlayout3"
+    <net.coding.program.task.add.TaskAttrItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/grayline1"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="visible">
+        app:taskIcon="@drawable/ic_task_deadline"
+        android:id="@+id/layoutDeadline"
+        app:taskText1="截止日期"
+        app:taskText2="未指定"/>
 
-        <ImageView
-            android:layout_width="@dimen/task_add_user_icon_width"
-            android:layout_height="@dimen/task_add_user_icon_width"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_task_deadline" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_weight="1"
-            android:text="截止日期"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="未指定"
-            android:textColor="@color/font_black_9"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_list_right_arr" />
-    </LinearLayout>
-
-    <include layout="@layout/divide_1" />
-
-    <LinearLayout
-        android:id="@+id/linearlayout2"
+    <net.coding.program.task.add.TaskAttrItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/grayline1"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        app:taskIcon="@drawable/ic_task_phase"
+        android:id="@+id/layoutPhase"
+        app:taskText1="阶段"
+        app:taskText2="未指定"/>
 
-        <ImageView
-            android:layout_width="@dimen/task_add_user_icon_width"
-            android:layout_height="@dimen/task_add_user_icon_width"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_task_phase" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_weight="1"
-            android:text="阶段"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="阶段"
-            android:textColor="@color/font_black_9"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_list_right_arr" />
-
-    </LinearLayout>
+    <net.coding.program.task.add.TaskAttrItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:taskIcon="@drawable/ic_task_phase"
+        android:id="@+id/layoutWatch"
+        app:taskText1="关注者"
+        app:taskText2="未添加"/>
 
     <!--<View-->
     <!--android:layout_width="match_parent"-->

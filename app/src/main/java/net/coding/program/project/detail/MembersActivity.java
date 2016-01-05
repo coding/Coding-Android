@@ -10,11 +10,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.TaskObject;
+import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -32,6 +33,12 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
 
     @Extra
     int mProjectObjectId;
+
+    @Extra
+    ArrayList<UserObject> mWatchUsers = new ArrayList<>();
+
+    @Extra
+    boolean mPickWatch = false;
 
     String getProjectMembers = "getProjectMembers";
     String urlMembers = "";
@@ -59,10 +66,12 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.fragment_members_list_item, parent, false);
+                convertView = mInflater.inflate(R.layout.activity_members_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.watchCheck = convertView.findViewById(R.id.watchCheck);
+
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -71,11 +80,28 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
             holder.name.setText(data.user.name);
             iconfromNetwork(holder.icon, data.user.avatar);
 
+            updateChecked(holder, data);
+
             if (position == mMembersArray.size() - 1) {
                 loadMore();
             }
 
             return convertView;
+        }
+
+        private void updateChecked(ViewHolder holder, TaskObject.Members data) {
+            if (!mPickWatch) {
+                return;
+            }
+
+            for (UserObject item : mWatchUsers) {
+                if (data.user.id == item.id) {
+                    holder.watchCheck.setVisibility(View.VISIBLE);
+                    return;
+                }
+            }
+
+            holder.watchCheck.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -89,15 +115,41 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                TaskObject.Members members = mMembersArray.get(position);
-                intent.putExtra("members", members);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                if (!mPickWatch) {
+                    Intent intent = new Intent();
+                    TaskObject.Members members = mMembersArray.get(position);
+                    intent.putExtra("members", members);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                } else {
+                    TaskObject.Members members = mMembersArray.get(position);
+                    for (int i = 0; i < mWatchUsers.size(); ++i) {
+                        UserObject item = mWatchUsers.get(i);
+                        if (members.user.id == item.id) {
+                            mWatchUsers.remove(i);
+                            adapter.notifyDataSetChanged();
+                            return;
+                        }
+                    }
+
+                    mWatchUsers.add(members.user);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
 
         loadMore();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mPickWatch) {
+            Intent intent = new Intent();
+            intent.putExtra("data", mWatchUsers);
+            setResult(Activity.RESULT_OK, intent);
+        }
+
+        super.onBackPressed();
     }
 
     @Override
@@ -132,5 +184,6 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
     static class ViewHolder {
         ImageView icon;
         TextView name;
+        View watchCheck;
     }
 }

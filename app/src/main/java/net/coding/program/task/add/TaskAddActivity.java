@@ -1,12 +1,12 @@
 package net.coding.program.task.add;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
 import android.view.Menu;
@@ -16,15 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -37,10 +34,13 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
@@ -65,7 +65,6 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringArrayRes;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,14 +86,19 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
     public static final int RESULT_REQUEST_PICK_PROJECT = 6;
     public static final int RESULT_LABEL = 7;
+
+    public static final int RESULT_REQUEST_PICK_WATCH_USER = 8;
+
     private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
     final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
+
     final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
             R.drawable.ic_task_priority_1,
             R.drawable.ic_task_priority_2,
             R.drawable.ic_task_priority_3
     };
+
     final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
     final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=9999999";
     final String HOST_TASK_UPDATE = Global.HOST_API + "/task/%s/update";
@@ -114,37 +118,33 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     TaskJumpParams mJumpParams;
     @ViewById
     ListView listView;
+
     View mHeadView;
     EditText title;
     TopicLabelBar labelBar;
-    ImageView circleIcon;
-    TextView name;
-    TextView status;
-    LinearLayout linearlayout2;
-    LinearLayout linearlayout3;
-    TextView priority;
-    TextView deadline;
+
+    TaskAttrItem layoutProjectName;
+    TaskAttrItem layoutName;
+    TaskAttrItem layoutPriovity;
+    TaskAttrItem layoutDeadline;
+    TaskAttrItem layoutPhase;
+    TaskAttrItem layoutWatch;
+
     TextView description;
     ViewGroup descriptionLayout;
     TextView descriptionButton;
-    TextView projectName;
-    ImageView projectIcon;
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
     TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
-    @StringArrayRes
-    String strings_priority[];
+
     TaskParams mNewParam;
     TaskParams mOldParam;
     ImageCommentLayout mEnterComment;
     String HOST_DESCRIPTER = Global.HOST_API + "/task/%s/description";
     MenuItem mMenuSave;
     String urlComments = "";
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            requestTaskFromNetwork();
-        }
-    };
+
+    private ArrayList<UserObject> watchUsers = new ArrayList<>();
+
     @Bean
     PriorityAdapter mPriorityAdapter;
     @Bean
@@ -152,14 +152,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     ArrayList<DynamicObject.DynamicTask> mData = new ArrayList<>();
     HashMap<String, String> mSendedImages = new HashMap<>();
     String tagUrlCommentPhoto = "";
-    // 发评论
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            sendCommentAll();
-        }
-    };
+
     boolean mTaskNoFound = false;
+
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -184,6 +179,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             }
         }
     };
+
     BaseAdapter commentAdpter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -264,6 +260,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             }
         }
     };
+
     private View.OnClickListener onClickCreateDescription = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -308,28 +305,28 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void initControl() {
-        mEnterComment = new ImageCommentLayout(this, mOnClickSendText, getImageLoad());
+        mEnterComment = new ImageCommentLayout(this, v -> sendCommentAll(), getImageLoad());
 
         // 单独提出来是因为弹出软键盘时，由于head太长，导致 title 会被顶到消失，现在的解决方法是 edit作为一个单独的head加载
         View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, null);
         title = (EditText) headEdit.findViewById(R.id.title);
         labelBar = (TopicLabelBar) headEdit.findViewById(R.id.labelBar);
 
-        listView.addHeaderView(headEdit);
+        listView.addHeaderView(headEdit, null, false);
 
         mHeadView = mInflater.inflate(R.layout.activity_task_add_head, null);
 
-        circleIcon = (ImageView) mHeadView.findViewById(R.id.circleIcon);
-        name = (TextView) mHeadView.findViewById(R.id.name);
-        status = (TextView) mHeadView.findViewById(R.id.status);
-        priority = (TextView) mHeadView.findViewById(R.id.priority);
-        linearlayout2 = (LinearLayout) mHeadView.findViewById(R.id.linearlayout2);
-        linearlayout3 = (LinearLayout) mHeadView.findViewById(R.id.linearlayout3);
-        deadline = (TextView) mHeadView.findViewById(R.id.deadline);
+        layoutProjectName = (TaskAttrItem) mHeadView.findViewById(R.id.layoutProjectName);
+        layoutName = (TaskAttrItem) mHeadView.findViewById(R.id.layoutName);
+        layoutPriovity = (TaskAttrItem) mHeadView.findViewById(R.id.layoutPriovity);
+        layoutDeadline = (TaskAttrItem) mHeadView.findViewById(R.id.layoutDeadline);
+        layoutPhase = (TaskAttrItem) mHeadView.findViewById(R.id.layoutPhase);
+        layoutWatch = (TaskAttrItem) mHeadView.findViewById(R.id.layoutWatch);
+
         descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
         description = (TextView) mHeadView.findViewById(R.id.description);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
-        listView.addHeaderView(mHeadView);
+        listView.addHeaderView(mHeadView, null, false);
     }
 
     private void updateLabels(List<TopicLabelObject> labels) {
@@ -426,8 +423,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
         if (mSingleTask.isEmpty()) {
             getSupportActionBar().setTitle("新建任务");
-            status.setText("未完成");
-            linearlayout2.setVisibility(View.GONE);
+            layoutPhase.setText2("未完成");
+            layoutPhase.setVisibility(View.GONE);
             mEnterComment.hide();
 
             findViewById(R.id.line2_comment_off).setVisibility(View.VISIBLE);
@@ -439,7 +436,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
             setStatus();
             setPriority();
-            linearlayout2.setVisibility(View.VISIBLE);
+            layoutPhase.setVisibility(View.VISIBLE);
 
             findViewById(R.id.line2_comment_off).setVisibility(View.GONE);
             findViewById(R.id.line2_comment_on).setVisibility(View.VISIBLE);
@@ -480,6 +477,38 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             refrenceId.setVisibility(View.VISIBLE);
             refrenceId.setText(mSingleTask.getNumber());
         }
+
+
+        // 设置任务的关注者
+        watchUserUpdateFromNetwork();
+    }
+
+    private void watchUserUpdateFromNetwork() {
+        ProjectObject project = mSingleTask.project;
+        if (project.isEmpty()) {
+            return;
+        }
+
+        String url = String.format(project.getHttpProjectApi() + "/task/%d/watchers?pageSize=1000", mSingleTask.getId());
+        MyAsyncHttpClient.get(this, url, new MyJsonResponse(TaskAddActivity.this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                watchUsers.clear();
+                JSONArray jsonList = response.optJSONObject("data").optJSONArray("list");
+                if (jsonList != null && jsonList.length() > 0) {
+                    for (int i = 0; i < jsonList.length(); ++i) {
+                        watchUsers.add(new UserObject(jsonList.optJSONObject(i)));
+                    }
+                }
+
+                uiBindDataWatch();
+            }
+        });
+    }
+
+    private void uiBindDataWatch() {
+        layoutWatch.setText2(String.valueOf(watchUsers.size()));
     }
 
     private void updateDynamicFromNetwork() {
@@ -533,14 +562,11 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void deleteTask() {
-        showDialog("任务", "删除任务？", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                TaskObject.SingleTask task = mSingleTask;
-                String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
-                deleteNetwork(url, TaskListFragment.hostTaskDelete);
-                showProgressBar(true, "删除任务中...");
-            }
+        showDialog("任务", "删除任务？", (dialog, which) -> {
+            TaskObject.SingleTask task = mSingleTask;
+            String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
+            deleteNetwork(url, TaskListFragment.hostTaskDelete);
+            showProgressBar(true, "删除任务中...");
         });
     }
 
@@ -554,27 +580,15 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         });
         title.setText("");
 
-        View projectLayout = mHeadView.findViewById(R.id.linearlayout0);
-        View projectLine = mHeadView.findViewById(R.id.linePickProject);
         if (mSingleTask.isEmpty() && mSingleTask.project.isEmpty()) {
-            projectLayout.setVisibility(View.VISIBLE);
-            projectLine.setVisibility(View.VISIBLE);
-
-            projectLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PickProjectActivity_.intent(TaskAddActivity.this)
-                            .startForResult(RESULT_REQUEST_PICK_PROJECT);
-                }
-            });
-            projectName = (TextView) projectLayout.findViewById(R.id.projectName);
-            projectIcon = (ImageView) projectLayout.findViewById(R.id.projectIcon);
+            layoutProjectName.setVisibility(View.VISIBLE);
+            layoutProjectName.setOnClickListener(v -> PickProjectActivity_.intent(TaskAddActivity.this)
+                    .startForResult(RESULT_REQUEST_PICK_PROJECT));
         } else {
-            projectLayout.setVisibility(View.GONE);
-            projectLine.setVisibility(View.GONE);
+            layoutProjectName.setVisibility(View.GONE);
         }
 
-        mHeadView.findViewById(R.id.linearlayout1).setOnClickListener(new View.OnClickListener() {
+        layoutName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (noSelectProject()) {
@@ -588,7 +602,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             }
         });
 
-        linearlayout2.setOnClickListener(new View.OnClickListener() {
+        layoutPhase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popListSelectDialog(
@@ -610,7 +624,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             }
         });
 
-        linearlayout3.setOnClickListener(new View.OnClickListener() {
+        layoutDeadline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new DatePickerFragment();
@@ -627,8 +641,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             }
         });
 
-        ViewGroup layout3 = (ViewGroup) mHeadView.findViewById(R.id.layout3);
-        layout3.setOnClickListener(new View.OnClickListener() {
+        layoutPriovity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popListSelectDialog("优先级",
@@ -643,6 +656,19 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                         });
             }
         });
+
+        layoutWatch.setOnClickListener(v -> {
+            if (noSelectProject()) {
+                showMiddleToast(R.string.pick_project_first);
+                return;
+            }
+
+            MembersActivity_.intent(TaskAddActivity.this)
+                    .mProjectObjectId(mSingleTask.project_id)
+                    .mPickWatch(true)
+                    .mWatchUsers(watchUsers)
+                    .startForResult(RESULT_REQUEST_PICK_WATCH_USER);
+        });
     }
 
     private boolean noSelectProject() {
@@ -650,11 +676,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void setStatus() {
-        if (mNewParam.status == 1) {
-            status.setText("未完成");
-        } else {
-            status.setText("已完成");
-        }
+        layoutPhase.setText2(mNewParam.status == 1 ? "未完成" : "已完成");
     }
 
     public void dateSetResult(String date, boolean clear) {
@@ -669,7 +691,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void setPriority() {
-        priority.setText(strings_priority[mNewParam.priority]);
+        String[] strings_priority = getResources().getStringArray(R.array.strings_priority);
+        layoutPriovity.setText2(strings_priority[mNewParam.priority]);
     }
 
     private void setDeadline() {
@@ -678,7 +701,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             s = "未指定";
         }
 
-        deadline.setText(s);
+        layoutDeadline.setText2(s);
     }
 
     private void setDescription() {
@@ -757,12 +780,12 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
     void selectMember() {
         if (noSelectProject()) {
-            name.setText(R.string.no_pick);
-            circleIcon.setImageResource(R.drawable.ic_task_user);
+            layoutName.setText2(R.string.no_pick);
+            layoutName.getImage().setImageResource(R.drawable.ic_task_user);
 
         } else {
-            name.setText(mNewParam.owner.name);
-            ImageLoader.getInstance().displayImage(Global.makeSmallUrlSquare(mNewParam.owner.avatar, getResources().getDimensionPixelSize(R.dimen.task_add_user_icon_width)), circleIcon);
+            layoutName.setText2(mNewParam.owner.name);
+            ImageLoader.getInstance().displayImage(Global.makeSmallUrlSquare(mNewParam.owner.avatar, getResources().getDimensionPixelSize(R.dimen.task_add_user_icon_width)), layoutName.getImage());
         }
     }
 
@@ -860,6 +883,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(tagTaskDetail)) {
+            final View.OnClickListener onClickRetry = v -> requestTaskFromNetwork();
             if (code == 0) {
                 mSingleTask = new TaskObject.SingleTask(respanse.getJSONObject("data"));
                 initData();
@@ -953,8 +977,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             mSingleTask.project = project;
             mSingleTask.project_id = project.getId();
 
-            iconfromNetwork(projectIcon, mSingleTask.project.icon);
-            projectName.setText(mSingleTask.project.name);
+            iconfromNetwork(layoutProjectName.getImage(), mSingleTask.project.icon);
+            layoutProjectName.setText2(mSingleTask.project.name);
 
             TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
             setPickUser(member);
@@ -1005,6 +1029,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             updateLabels(labels);
         }
     }
+
+
 
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");

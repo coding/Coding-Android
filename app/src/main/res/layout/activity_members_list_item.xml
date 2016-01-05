@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="center_vertical">
 
@@ -60,11 +61,16 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_send_message"
-        android:id="@+id/btn"
-        android:layout_margin="10dp"
-        android:visibility="invisible" />
+        android:src="@drawable/ic_watchuser_check"
+        android:scaleType="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:id="@+id/watchCheck"
+        android:layout_toRightOf="@id/name"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        android:layout_height="50dp" />
 
 </LinearLayout>
