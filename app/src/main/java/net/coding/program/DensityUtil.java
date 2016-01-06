@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 /**
  * @ClassName: DensityUtil
  * @Title:
- * @Description:TODO(尺寸工具)
+ * @Description:(尺寸工具)
  * @Author:HouMingWei
  * @Since:2014-3-19下午5:16:19
  * @Version:1.0
@@ -44,7 +44,7 @@ public class DensityUtil {
 
     /**
      * @Title: screenWidth
-     * @Description: TODO(获取屏幕宽度)
+     * @Description: (获取屏幕宽度)
      * @Author: houmingwei
      * @Since: 2014年8月31日下午3:02:35
      * @param context
@@ -58,7 +58,7 @@ public class DensityUtil {
 
     /**
      * @Title: screenWidth
-     * @Description: TODO(获取屏幕高度)
+     * @Description: (获取屏幕高度)
      * @Author: houmingwei
      * @Since: 2014年8月31日下午3:02:35
      * @param context

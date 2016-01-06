@@ -72,13 +72,6 @@ public class PhoneSetGlobalFragment extends BaseFragment {
             return;
         }
 
-//        // TODO
-//        if (1 == 1) {
-//            showMiddleToast("激活成功");
-//            return;
-//        }
-
-
         String url = Global.HOST_API + "/account/activate/phone";
         RequestParams params = ((ParentActivity) getActivity()).getRequestParmas();
         params.put("email", emailString);
@@ -111,29 +104,7 @@ public class PhoneSetGlobalFragment extends BaseFragment {
                 showProgressBar(false, "");
             }
         });
-//        RequestParams params = ((ParentActivity) getActivity()).getRequestParmas();
-//        String url = type.getSetPasswordPhoneUrl(params);
-//        params.put("password", SimpleSHA1.sha1(emailString));
-//
-//        MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(((BaseActivity) getActivity())) {
-//            @Override
-//            public void onMySuccess(JSONObject response) {
-//                super.onMySuccess(response);
-//
-//                if (type == PhoneSetPasswordActivity.Type.register) {
-//                    loadCurrentUser();
-//                } else {
-//                    closeActivity();
-//                }
-//            }
-//
-//            @Override
-//            public void onMyFailure(JSONObject response) {
-//                super.onMyFailure(response);
-//                showProgressBar(false, "");
-//            }
-//        });
-//
+
         showProgressBar(true, "");
     }
 

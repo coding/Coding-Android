@@ -3,12 +3,12 @@ package net.coding.program.message;
 import android.media.AudioRecord;
 import android.util.Log;
 
+import net.coding.program.common.Global;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Carlos2015 on 2015/8/28.
@@ -53,8 +53,7 @@ public class AmrAudioRecorder {
 	        }
 			initAudioRecoder(audioSource, channelConfig, audioFormat);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Global.errorLog(e);
 		}
 	}
 
@@ -221,27 +220,8 @@ public class AmrAudioRecorder {
 //								}
 
 							}
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NoSuchMethodException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InstantiationException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						} catch (Exception e) {
+							Global.errorLog(e);
 						}finally {
 							synchronized (mLock) {
 								mLock.notify();

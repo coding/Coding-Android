@@ -106,9 +106,10 @@
             <!--layout="@layout/divide_dash_line"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="1.5dp"/>-->
-            <net.coding.program.common.widget.DashedLine
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
+                android:background="@color/divide_line"
                 android:layout_marginBottom="14dp"
                 android:layout_marginTop="14dp" />
 

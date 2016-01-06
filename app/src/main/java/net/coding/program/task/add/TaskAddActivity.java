@@ -1014,6 +1014,20 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         }
     }
 
+    @OnActivityResult(RESULT_REQUEST_SELECT_USER)
+    void resultSelectUser(int resultCode, @OnActivityResult.Extra TaskObject.Members members) {
+        if (resultCode == Activity.RESULT_OK) {
+            setPickUser(members);
+        }
+    }
+
+    @OnActivityResult(RESULT_REQUEST_FOLLOW)
+    void resultRequestFollow(int resultCode, @OnActivityResult.Extra String name) {
+        if (resultCode == RESULT_OK) {
+            mEnterComment.getEnterLayout().insertText(name);
+        }
+    }
+
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");
 
@@ -1022,24 +1036,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         postNetwork(HOST_PREVIEW, params, HOST_PREVIEW);
 
         descriptionButtonUpdate(false);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_REQUEST_SELECT_USER) {
-            if (resultCode == Activity.RESULT_OK) {
-                TaskObject.Members member = (TaskObject.Members) data.getSerializableExtra("members");
-                setPickUser(member);
-            }
-        } else if (requestCode == RESULT_REQUEST_FOLLOW) {
-            if (resultCode == RESULT_OK) {
-                String name = data.getStringExtra("name");
-                mEnterComment.getEnterLayout().insertText(name);
-            }
-
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     private void setPickUser(TaskObject.Members member) {

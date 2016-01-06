@@ -105,12 +105,6 @@ public class PhoneSetPasswordFragment extends BaseFragment {
         params.put("password", SimpleSHA1.sha1(password));
         params.put("j_captcha", captcha);
 
-//        // TODO
-//        if (1 == 1) {
-//            ((ParentActivity) getActivity()).next();
-//            return;
-//        }
-
         MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(((BaseActivity) getActivity())) {
             @Override
             public void onMySuccess(JSONObject response) {
