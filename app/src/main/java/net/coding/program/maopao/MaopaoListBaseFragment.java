@@ -569,13 +569,15 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                 rewardButton.setVisibility(View.GONE);
                                 cannotRewardLayout.setVisibility(View.VISIBLE);
                                 JSONObject jsonMsg = response.optJSONObject("msg");
+                                String rewardFailString = "";
                                 if (jsonMsg != null && jsonMsg.length() > 0) {
                                     Iterator<String> iterator = jsonMsg.keys();
                                     String key = iterator.next();
-                                    cannotRewardLayout.setText(jsonMsg.optString(key, "打赏失败"));
+                                    rewardFailString = jsonMsg.optString(key, "打赏失败");
+                                    cannotRewardLayout.setText(rewardFailString);
                                 }
 
-                                if (code == 2906) { // 自己的手机未验证
+                                if (rewardFailString.contains("验证了手机才能打赏") ) { // 自己的手机未验证
                                     cannotRewardLayout.setOnClickListener(v1 -> {
                                         ValidePhoneActivity_.intent(activity).start();
                                         dialog.dismiss();
