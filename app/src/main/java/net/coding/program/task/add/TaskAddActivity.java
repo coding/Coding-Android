@@ -160,12 +160,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         public void onClick(View v) {
             final TaskObject.TaskComment comment = (TaskObject.TaskComment) v.getTag();
             if (comment.isMy()) {
-                showDialog("任务", "删除评论？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = String.format(hostDeleteComment, comment.taskId, comment.id);
-                        deleteNetwork(url, hostDeleteComment, comment.id);
-                    }
+                showDialog("任务", "删除评论？", (dialog, which) -> {
+                    String url = String.format(hostDeleteComment, comment.taskId, comment.id);
+                    deleteNetwork(url, hostDeleteComment, comment.id);
                 });
             } else {
                 EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
@@ -308,13 +305,13 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         mEnterComment = new ImageCommentLayout(this, v -> sendCommentAll(), getImageLoad());
 
         // 单独提出来是因为弹出软键盘时，由于head太长，导致 title 会被顶到消失，现在的解决方法是 edit作为一个单独的head加载
-        View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, null);
+        View headEdit = mInflater.inflate(R.layout.activity_task_add_head_edit, listView, false);
         title = (EditText) headEdit.findViewById(R.id.title);
         labelBar = (TopicLabelBar) headEdit.findViewById(R.id.labelBar);
 
         listView.addHeaderView(headEdit, null, false);
 
-        mHeadView = mInflater.inflate(R.layout.activity_task_add_head, null);
+        mHeadView = mInflater.inflate(R.layout.activity_task_add_head, listView, false);
 
         layoutProjectName = (TaskAttrItem) mHeadView.findViewById(R.id.layoutProjectName);
         layoutName = (TaskAttrItem) mHeadView.findViewById(R.id.layoutName);
@@ -422,7 +419,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         selectMember();
 
         if (mSingleTask.isEmpty()) {
-            getSupportActionBar().setTitle("新建任务");
+            setActionBarTitle("新建任务");
             layoutPhase.setText2("未完成");
             layoutPhase.setVisibility(View.GONE);
             mEnterComment.hide();
@@ -431,7 +428,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             findViewById(R.id.line2_comment_on).setVisibility(View.GONE);
 
         } else {
-            getSupportActionBar().setTitle(mSingleTask.project.name);
+            setActionBarTitle(mSingleTask.project.name);
             title.setText(mSingleTask.content);
 
             setStatus();
@@ -508,7 +505,14 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void uiBindDataWatch() {
-        layoutWatch.setText2(String.valueOf(watchUsers.size()));
+        int watchUserCount = watchUsers.size();
+        String countString;
+        if (watchUserCount == 0) {
+            countString = "添加";
+        } else {
+            countString = String.format("%d人关注", watchUserCount);
+        }
+        layoutWatch.setText2(countString);
     }
 
     private void updateDynamicFromNetwork() {
@@ -588,74 +592,50 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             layoutProjectName.setVisibility(View.GONE);
         }
 
-        layoutName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (noSelectProject()) {
-                    showMiddleToast(R.string.pick_project_first);
-                    return;
-                }
-                MembersActivity_
-                        .intent(TaskAddActivity.this)
-                        .mProjectObjectId(mSingleTask.project_id)
-                        .startForResult(RESULT_REQUEST_SELECT_USER);
+        layoutName.setOnClickListener(v -> {
+            if (noSelectProject()) {
+                showMiddleToast(R.string.pick_project_first);
+                return;
             }
+            MembersActivity_
+                    .intent(TaskAddActivity.this)
+                    .mProjectObjectId(mSingleTask.project_id)
+                    .startForResult(RESULT_REQUEST_SELECT_USER);
         });
 
-        layoutPhase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popListSelectDialog(
-                        "阶段",
-                        mStatusAdapter,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    mNewParam.status = TaskObject.STATUS_PRECESS; // "未完成"
-                                } else {
-                                    mNewParam.status = TaskObject.STATUS_FINISH;
-                                }
+        layoutPhase.setOnClickListener(v -> popListSelectDialog("阶段", mStatusAdapter,
+                (dialog, which) -> {
+                    if (which == 0) {
+                        mNewParam.status = TaskObject.STATUS_PRECESS; // "未完成"
+                    } else {
+                        mNewParam.status = TaskObject.STATUS_FINISH;
+                    }
 
-                                setStatus();
-                                updateSendButton();
-                            }
-                        });
-            }
+                    setStatus();
+                    updateSendButton();
+                }));
+
+        layoutDeadline.setOnClickListener(v -> {
+            DialogFragment newFragment = new DatePickerFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("date", mNewParam.deadline);
+            bundle.putBoolean("clear", true);
+            newFragment.setArguments(bundle);
+
+            newFragment.setCancelable(true);
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+            getSupportFragmentManager().executePendingTransactions();
+            dialogTitleLineColor(newFragment.getDialog());
         });
 
-        layoutDeadline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("date", mNewParam.deadline);
-                bundle.putBoolean("clear", true);
-                newFragment.setArguments(bundle);
-
-                newFragment.setCancelable(true);
-                newFragment.show(getSupportFragmentManager(), "datePicker");
-                getSupportFragmentManager().executePendingTransactions();
-                dialogTitleLineColor(newFragment.getDialog());
-            }
-        });
-
-        layoutPriovity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popListSelectDialog("优先级",
-                        mPriorityAdapter,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mNewParam.priority = priorityDrawable.length - 1 - which;
-                                setPriority();
-                                updateSendButton();
-                            }
-                        });
-            }
-        });
+        layoutPriovity.setOnClickListener(v -> popListSelectDialog("优先级",
+                mPriorityAdapter,
+                (dialog, which) -> {
+                    mNewParam.priority = priorityDrawable.length - 1 - which;
+                    setPriority();
+                    updateSendButton();
+                }));
 
         layoutWatch.setOnClickListener(v -> {
             if (noSelectProject()) {
@@ -666,6 +646,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             MembersActivity_.intent(TaskAddActivity.this)
                     .mProjectObjectId(mSingleTask.project_id)
                     .mPickWatch(true)
+                    .mTaskId(mSingleTask.getId())
                     .mWatchUsers(watchUsers)
                     .startForResult(RESULT_REQUEST_PICK_WATCH_USER);
         });
@@ -909,17 +890,12 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 setDescription();
 
                 descriptionButtonUpdate(false);
-                descriptionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TaskDescriptionActivity_
-                                .intent(TaskAddActivity.this)
-                                .descriptionData(descriptionDataNew)
-                                .taskId(mSingleTask.getId())
-                                .projectPath(mSingleTask.project.getProjectPath())
-                                .startForResult(RESULT_REQUEST_DESCRIPTION);
-                    }
-                });
+                descriptionButton.setOnClickListener(v -> TaskDescriptionActivity_
+                        .intent(TaskAddActivity.this)
+                        .descriptionData(descriptionDataNew)
+                        .taskId(mSingleTask.getId())
+                        .projectPath(mSingleTask.project.getProjectPath())
+                        .startForResult(RESULT_REQUEST_DESCRIPTION));
 
             } else {
                 showErrorMsg(code, respanse);
@@ -1030,7 +1006,13 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         }
     }
 
-
+    @OnActivityResult(RESULT_REQUEST_PICK_WATCH_USER)
+    void resultWatchUser(int result, @OnActivityResult.Extra ArrayList<UserObject> resultData) {
+        if (result == RESULT_OK) {
+            watchUsers = resultData;
+            uiBindDataWatch();
+        }
+    }
 
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");
@@ -1070,12 +1052,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     @Override
     public void onBackPressed() {
         if (!isContentUnmodify()) {
-            showDialog("任务", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    closeActivity("");
-                }
-            });
+            showDialog("任务", "确定放弃此次编辑？", (dialog, which) -> closeActivity(""));
         } else {
             closeActivity("");
         }

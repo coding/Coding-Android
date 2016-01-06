@@ -25,9 +25,18 @@ public class MyAsyncHttpClient {
         client.post(context, url, params, response);
     }
 
+    public static void post(Context context, String url, ResponseHandlerInterface response) {
+        post(context, url, new RequestParams(), response);
+    }
+
     public static void get(Context context, String url, ResponseHandlerInterface response) {
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
         client.get(context, url, response);
+    }
+
+    public static void delete(Context context, String url, ResponseHandlerInterface response) {
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+        client.delete(context, url, response);
     }
 
     private static HashMap<String, String> mapHeaders = new HashMap<>();

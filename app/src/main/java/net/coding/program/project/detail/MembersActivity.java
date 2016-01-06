@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,6 +12,8 @@ import android.widget.TextView;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
@@ -35,7 +36,10 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
     int mProjectObjectId;
 
     @Extra
-    ArrayList<UserObject> mWatchUsers = new ArrayList<>();
+    ArrayList<UserObject> mWatchUsers = new ArrayList<>(); // 任务的关注者
+
+    @Extra
+    int mTaskId = 0; // 任务的 id 号，0 表示新建任务
 
     @Extra
     boolean mPickWatch = false;
@@ -107,45 +111,91 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
 
     @AfterViews
     protected final void initMembersActivity() {
+        if (mPickWatch) {
+            setActionBarTitle("关注者列表");
+        }
+
         final String format = Global.HOST_API + "/project/%d/members?";
         urlMembers = String.format(format, mProjectObjectId);
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!mPickWatch) {
-                    Intent intent = new Intent();
-                    TaskObject.Members members = mMembersArray.get(position);
-                    intent.putExtra("members", members);
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                } else {
-                    TaskObject.Members members = mMembersArray.get(position);
-                    for (int i = 0; i < mWatchUsers.size(); ++i) {
-                        UserObject item = mWatchUsers.get(i);
-                        if (members.user.id == item.id) {
-                            mWatchUsers.remove(i);
-                            adapter.notifyDataSetChanged();
-                            return;
-                        }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (!mPickWatch) {
+                Intent intent = new Intent();
+                TaskObject.Members members = mMembersArray.get(position);
+                intent.putExtra("members", members);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            } else {
+                TaskObject.Members members = mMembersArray.get(position);
+                for (int i = 0; i < mWatchUsers.size(); ++i) {
+                    UserObject item = mWatchUsers.get(i);
+                    if (members.user.id == item.id) {
+                        UserObject deleteUser = mWatchUsers.remove(i);
+                        removeWatchUser(deleteUser);
+                        adapter.notifyDataSetChanged();
+                        return;
                     }
-
-                    mWatchUsers.add(members.user);
-                    adapter.notifyDataSetChanged();
                 }
+
+                addWatchUser(members.user);
+                mWatchUsers.add(members.user);
+                adapter.notifyDataSetChanged();
             }
         });
 
         loadMore();
     }
 
+    private void removeWatchUser(UserObject user) {
+        if (mTaskId == 0) {
+            return;
+        }
+
+        String url = String.format(Global.HOST_API + "/task/%d/user/%s/watch", mTaskId, user.global_key);
+        MyAsyncHttpClient.delete(this, url, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+            }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+                mWatchUsers.add(user);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void addWatchUser(UserObject user) {
+        if (mTaskId == 0) {
+            return;
+        }
+
+        String url = String.format(Global.HOST_API + "/task/%d/user/%s/watch", mTaskId, user.global_key);
+        MyAsyncHttpClient.post(this, url, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+            }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+                mWatchUsers.remove(user);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
     @Override
     public void onBackPressed() {
         if (mPickWatch) {
             Intent intent = new Intent();
-            intent.putExtra("data", mWatchUsers);
+            intent.putExtra("resultData", mWatchUsers);
             setResult(Activity.RESULT_OK, intent);
         }
 

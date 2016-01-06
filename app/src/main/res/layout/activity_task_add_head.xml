@@ -105,6 +105,13 @@
         app:taskText1="截止日期"
         app:taskText2="未指定"/>
 
+    <net.coding.program.task.add.TaskAttrItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:taskIcon="@drawable/ic_task_watch_user"
+        android:id="@+id/layoutWatch"
+        app:taskText1="关注者"
+        app:taskText2=""/>
 
     <net.coding.program.task.add.TaskAttrItem
         android:layout_width="match_parent"
@@ -113,14 +120,6 @@
         android:id="@+id/layoutPhase"
         app:taskText1="阶段"
         app:taskText2="未指定"/>
-
-    <net.coding.program.task.add.TaskAttrItem
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:taskIcon="@drawable/ic_task_phase"
-        android:id="@+id/layoutWatch"
-        app:taskText1="关注者"
-        app:taskText2="未添加"/>
 
     <!--<View-->
     <!--android:layout_width="match_parent"-->
