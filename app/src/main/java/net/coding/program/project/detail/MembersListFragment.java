@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +24,8 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.ProjectObject;
@@ -61,9 +65,11 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @ViewById
     ListView listView;
 
-    // TaskObject.Members
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Object> mData = new ArrayList<>();
+
+    TaskObject.Members mMySelf = new TaskObject.Members();
+
     BaseAdapter adapter = new BaseAdapter() {
 
         private View.OnClickListener sendMessage = new View.OnClickListener() {
@@ -83,13 +89,9 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 AlertDialog dialog = builder.setTitle("退出项目")
                         .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                RequestParams params = new RequestParams();
-                                postNetwork(urlQuit, params, urlQuit);
-                            }
+                        .setPositiveButton("确定", (dialog1, which) -> {
+                            RequestParams params = new RequestParams();
+                            postNetwork(urlQuit, params, urlQuit);
                         })
                         .setNegativeButton("取消", null)
                         .show();
@@ -235,36 +237,59 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        if (projectCreateByMe()) {
+        if (!mSelect) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
-                    final UserObject user = getUser(mSearchData.get((int) id));
-                    if (user.global_key.equals(MyApp.sUserObject.global_key)) {
+                    TaskObject.Members member = (TaskObject.Members) mSearchData.get((int) id);
+                    if (member.user.isMe()) {
                         return false;
                     }
 
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    AlertDialog dialog = builder.setItems(new String[]{"移除成员"}, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                    if (mMySelf.getType() != TaskObject.Members.Type.ower
+                            && mMySelf.getType() != TaskObject.Members.Type.manager) {
+                        return false;
+                    }
 
-                            builder1.setMessage(String.format("确定移除 %s ?", user.name))
-                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String url = String.format(urlDeleteUser, mProjectObject.getId(), user.id);
-                                            postNetwork(url, new RequestParams(), urlDeleteUser, (int) id, null);
-                                            showProgressBar(true);
-                                        }
-                                    })
-                                    .setNegativeButton("取消", null)
-                                    .create().show();
+                    String[] items;
+                    DialogInterface.OnClickListener clicks;
+                    switch (mMySelf.getType()) {
+                        case ower:
+                            items = new String[]{
+                                    "修改备注",
+                                    "设置权限",
+                                    "移除成员"
+                            };
+                            clicks = (dialog1, which) -> {
+                                if (which == 0) {
+                                    modifyMemberAlias(member);
+                                } else if (which == 1) {
 
-                        }
-                    }).show();
+                                } else {
+                                    removeMember(member);
+                                }
+                            };
+                            break;
+                        case manager:
+                            items = new String[]{
+                                    "修改备注",
+                                    "移除成员"
+                            };
+                            clicks = (dialog1, which) -> {
+                                if (which == 0) {
+                                    modifyMemberAlias(member);
+                                } else {
+                                    removeMember(member);
+                                }
+                            };
+                            break;
+                        default:
+                            return false;
+                    }
 
+                    new AlertDialog.Builder(getActivity())
+                            .setItems(items, clicks)
+                            .show();
                     return true;
                 }
             });
@@ -282,12 +307,52 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         setHasOptionsMenu(true);
     }
 
-    private UserObject getUser(Object object) {
-        if (object instanceof UserObject) {
-            return (UserObject) object;
-        } else {
-            return ((TaskObject.Members) object).user;
-        }
+    private void modifyMemberAlias(TaskObject.Members member) {
+        UserObject user = member.user;
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_input_alias, null);
+        EditText input = (EditText) v.findViewById(R.id.edit1);
+        input.setText(member.alias);
+        new AlertDialog.Builder(getActivity())
+                .setMessage("修改备注")
+                .setView(v)
+                .setPositiveButton("确定", (dialog2, which1) -> {
+                    String inputString = input.getText().toString();
+                    String url = String.format(Global.HOST_API + "/project/%s/members/update_alias/%s",
+                            mProjectObject.getId(), user.id);
+                    RequestParams params = new RequestParams();
+                    params.put("alias", inputString);
+                    MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(getActivity()) {
+                        @Override
+                        public void onMySuccess(JSONObject response) {
+                            super.onMySuccess(response);
+                            member.alias = inputString;
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            showProgressBar(false);
+                        }
+                    });
+
+                    showProgressBar(true);
+                })
+                .setNegativeButton("取消", null)
+                .show();
+
+    }
+
+    private void removeMember(TaskObject.Members member) {
+        UserObject user = member.user;
+        new AlertDialog.Builder(getActivity())
+                .setMessage(String.format("确定移除 %s ?", user.name))
+                .setPositiveButton("确定", (dialog2, which1) -> {
+                    String url = String.format(urlDeleteUser, mProjectObject.getId(), user.id);
+                    postNetwork(url, new RequestParams(), urlDeleteUser, -1, member);
+                    showProgressBar(true);
+                })
+                .setNegativeButton("取消", null)
+                .create().show();
     }
 
     public void search(String input) {
@@ -382,6 +447,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
                         if (member.isOwner()) {
                             mData.add(0, member);
+                            mMySelf = member;
                         } else {
                             mData.add(member);
                         }
@@ -421,7 +487,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             showProgressBar(false);
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "移除成员");
-                mSearchData.remove(pos);
+                mSearchData.remove(data);
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
