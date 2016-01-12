@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.FileUtil;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
@@ -239,7 +238,6 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
                     }
                 }).show();
 
-        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     private void remarkFileHistory(String editStr1, AttachmentFileHistoryObject item) {

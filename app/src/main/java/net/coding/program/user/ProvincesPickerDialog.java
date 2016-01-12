@@ -253,11 +253,4 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
             }
         }
     }
-
-    /*public static final void dialogTitleLineColor(Dialog dialog, int color) {
-        Context context = dialog.getContext();
-        int divierId = context.getResources().getIdentifier("android:id/titleDivider", null, null);
-        View divider = dialog.findViewById(divierId);
-        divider.setBackgroundColor(color);
-    }*/
 }

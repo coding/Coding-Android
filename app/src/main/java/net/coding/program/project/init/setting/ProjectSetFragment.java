@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
@@ -99,8 +98,8 @@ public class ProjectSetFragment extends BaseFragment {
 
     @Click
     void projectIcon() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("选择图片")
+        new AlertDialog.Builder(getActivity())
+                .setTitle("选择图片")
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                     @Override
@@ -111,10 +110,8 @@ public class ProjectSetFragment extends BaseFragment {
                             photo();
                         }
                     }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        CustomDialog.dialogTitleLineColor(getActivity(), dialog);
+                })
+                .show();
     }
 
     private void camera() {

@@ -626,7 +626,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             newFragment.setCancelable(true);
             newFragment.show(getSupportFragmentManager(), "datePicker");
             getSupportFragmentManager().executePendingTransactions();
-            dialogTitleLineColor(newFragment.getDialog());
         });
 
         layoutPriovity.setOnClickListener(v -> popListSelectDialog("优先级",
@@ -1055,12 +1054,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void popListSelectDialog(String title, BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(TaskAddActivity.this);
-        builder.setTitle(title)
-                .setAdapter(selectsAdapter, clickList);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setAdapter(selectsAdapter, clickList)
+                .show();
     }
 
     private void sendComment(String input) {

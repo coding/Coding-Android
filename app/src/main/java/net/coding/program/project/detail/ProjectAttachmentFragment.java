@@ -1,10 +1,10 @@
 package net.coding.program.project.detail;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.DialogUtil;
@@ -399,42 +398,34 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             showButtomToast("默认文件夹无法重命名");
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //final EditText input = new EditText(getActivity());
         LayoutInflater li = LayoutInflater.from(getActivity());
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.name);
-        builder.setTitle("重命名")
-                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newName = input.getText().toString();
-                //从网页版扒来的正则
-                String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
-                Pattern namePattern = Pattern.compile(namePatternStr);
-                if (newName.equals("")) {
-                    showButtomToast("名字不能为空");
-                } else if (namePattern.matcher(newName).find()) {
-                    showButtomToast("文件夹名：" + newName + " 不能采用");
-                    // if(folder.name.match(/[,`~!@#$%^&*:;()''""><|.\ /=]/g))
-                } else {
-                    if (!newName.equals(folderObject.name)) {
-                        HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObject.getId(), folderObject.file_id, newName);
-                        putNetwork(HOST_FOLDER_NAME, HOST_FOLDER_NAME, position, newName);
+        new AlertDialog.Builder(getActivity())
+                .setTitle("重命名")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    //从网页版扒来的正则
+                    String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
+                    Pattern namePattern = Pattern.compile(namePatternStr);
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else if (namePattern.matcher(newName).find()) {
+                        showButtomToast("文件夹名：" + newName + " 不能采用");
+                        // if(folder.name.match(/[,`~!@#$%^&*:;()''""><|.\ /=]/g))
+                    } else {
+                        if (!newName.equals(folderObject.name)) {
+                            HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObject.getId(), folderObject.file_id, newName);
+                            putNetwork(HOST_FOLDER_NAME, HOST_FOLDER_NAME, position, newName);
+                        }
                     }
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                })
+                .setNegativeButton("取消", null)
+                .show();
 
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
@@ -465,16 +456,8 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
                     postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
                 }
             }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
+        }).setNegativeButton("取消", null)
+                .show();
         input.requestFocus();
     }
 
@@ -507,21 +490,9 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         String messageFormat = "确定要删除%s个文件夹么？";
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("删除文件夹").setMessage(String.format(messageFormat, selectFolder.size()))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteFolders();
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        ((BaseActivity) getActivity()).dialogTitleLineColor(dialog);
+                .setPositiveButton("确定", (dialog, which) -> deleteFolders())
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     void action_delete_single(AttachmentFolderObject selectedFolderObject) {

@@ -32,7 +32,6 @@ import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
@@ -396,8 +395,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                     });
                 }
 
-                AlertDialog dialog = builder.show();
-                CustomDialog.dialogTitleLineColor(MessageListActivity.this, dialog);
+                builder.show();
 
                 return true;
             }

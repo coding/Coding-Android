@@ -1,12 +1,11 @@
 package net.coding.program;
 
-import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -226,22 +225,11 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 AccountInfo.saveReloginInfo(this, user);
                 next();
             } else {
-                AlertDialog dialog = new AlertDialog.Builder(this).setTitle("更新")
+                new AlertDialog.Builder(this).setTitle("更新")
                         .setMessage("刷新账户信息失败")
-                        .setPositiveButton("重试", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getNetwork(HOST_CURRENT, HOST_CURRENT);
-                            }
-                        })
-                        .setNegativeButton("关闭程序", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
+                        .setPositiveButton("重试", (dialog, which) -> getNetwork(HOST_CURRENT, HOST_CURRENT))
+                        .setNegativeButton("关闭程序", (dialog, which) -> finish())
                         .show();
-                dialogTitleLineColor(dialog);
 
             }
         }
@@ -260,7 +248,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 //            if (AccountInfo.needDisplayGuide(this)) {
 //                intent = new Intent(this, FeatureActivity_.class);
 //            } else {
-                intent = new Intent(this, MainActivity_.class);
+            intent = new Intent(this, MainActivity_.class);
 //            }
         }
 

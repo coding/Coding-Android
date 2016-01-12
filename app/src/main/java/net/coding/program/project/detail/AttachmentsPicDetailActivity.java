@@ -1,7 +1,6 @@
 package net.coding.program.project.detail;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -38,14 +37,13 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.apache.http.Header;
 
 /**
  * 展示某一项目文档目录下面图片文件的Activity
@@ -116,8 +114,8 @@ public class AttachmentsPicDetailActivity extends BackActivity {
 
     @OptionsItem
     void action_info() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog = builder.setTitle("文件信息")
+        new AlertDialog.Builder(this)
+                .setTitle("文件信息")
                 .setMessage(String.format(fileInfoFormat,
                         mAttachmentFileObject.fileType,
                         Global.HumanReadableFilesize(mAttachmentFileObject.getSize()),
@@ -126,7 +124,6 @@ public class AttachmentsPicDetailActivity extends BackActivity {
                         mAttachmentFileObject.owner.name))
                 .setPositiveButton("确定", null)
                 .show();
-        dialogTitleLineColor(dialog);
     }
 
     @AfterViews
@@ -200,25 +197,15 @@ public class AttachmentsPicDetailActivity extends BackActivity {
     @OptionsItem
     protected void action_delete() {
         String messageFormat = "确定要删除图片 \"%s\" 么？";
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsPicDetailActivity.this);
-        builder.setTitle("删除图片").setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showDialogLoading("正在删除");
-                        deleteNetwork(String.format(HOST_FILE_DELETE, mProjectObjectId, mAttachmentFileObject.file_id), HOST_FILE_DELETE);
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
-
+        new AlertDialog.Builder(this)
+                .setTitle("删除图片")
+                .setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
+                .setPositiveButton("确定", (dialog, which) -> {
+                    showDialogLoading("正在删除");
+                    deleteNetwork(String.format(HOST_FILE_DELETE, mProjectObjectId, mAttachmentFileObject.file_id), HOST_FILE_DELETE);
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     //@Click(R.id.btnRight)
@@ -236,18 +223,11 @@ public class AttachmentsPicDetailActivity extends BackActivity {
         if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
             String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsPicDetailActivity.this);
-            builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    download(urlDownload);
-                }
-            });
-            //builder.create().show();
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialogTitleLineColor(dialog);
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(String.format(msgFormat, defaultPath))
+                    .setPositiveButton("确定", (dialog, which) -> download(urlDownload))
+                    .show();
 
             SharedPreferences.Editor editor = share.edit();
             editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);

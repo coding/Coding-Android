@@ -17,7 +17,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
@@ -263,7 +262,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
 
         AlertDialog dialog = builder.show();
-        dialogTitleLineColor(dialog);
     }
 
     public void showButtomToast(String msg) {
@@ -300,10 +298,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     protected void imagefromNetwork(ImageView view, String url, DisplayImageOptions options) {
         imageLoadTool.loadImageFromUrl(view, url, options);
-    }
-
-    public final void dialogTitleLineColor(Dialog dialog) {
-        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     public void initDialogLoading() {

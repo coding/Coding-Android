@@ -1,7 +1,6 @@
 package net.coding.program.user;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -91,18 +90,15 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     final UserObject data = mData.get((int) id);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddFollowActivity.this);
-                    AlertDialog dialog = builder.setMessage(String.format("添加项目成员 %s ?", data.name))
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    RequestParams params = new RequestParams();
-                                    params.put("users", data.id);
-                                    postNetwork(urlAddUser, params, urlAddUser, -1, data);
-                                }
+                    new AlertDialog.Builder(AddFollowActivity.this)
+                            .setMessage(String.format("添加项目成员 %s ?", data.name))
+                            .setPositiveButton("确定", (dialog, which) -> {
+                                RequestParams params = new RequestParams();
+                                params.put("users", data.id);
+                                postNetwork(urlAddUser, params, urlAddUser, -1, data);
                             })
-                            .setNegativeButton("取消", null).show();
-                    dialogTitleLineColor(dialog);
+                            .setNegativeButton("取消", null)
+                            .show();
                 }
             });
         }

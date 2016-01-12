@@ -1,8 +1,7 @@
 package net.coding.program.project.detail;
 
-import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -216,44 +215,36 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsFolderSelectorActivity.this);
         //final EditText input = new EditText(getActivity());
         LayoutInflater li = LayoutInflater.from(AttachmentsFolderSelectorActivity.this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setHint("请输入文件夹名称");
-        builder.setTitle("新建文件夹")
-                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newName = input.getText().toString();
-                String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
-                Pattern namePattern = Pattern.compile(namePatternStr);
-                if (newName.equals("")) {
-                    showButtomToast("名字不能为空");
-                } else if (namePattern.matcher(newName).find()) {
-                    showButtomToast("文件夹名：" + newName + " 不能采用");
-                    // if(folder.name.match(/[,`~!@#$%^&*:;()''""><|.\ /=]/g))
-                } else {
-                    HOST_FOLDER_NEW = String.format(HOST_FOLDER_NEW, mProjectObjectId);
-                    RequestParams params = new RequestParams();
-                    params.put("name", newName);
-                    if (mAttachmentFolderObject != null) {
-                        params.put("parentId", mAttachmentFolderObject.file_id);
+        new AlertDialog.Builder(this)
+                .setTitle("新建文件夹")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
+                    Pattern namePattern = Pattern.compile(namePatternStr);
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else if (namePattern.matcher(newName).find()) {
+                        showButtomToast("文件夹名：" + newName + " 不能采用");
+                        // if(folder.name.match(/[,`~!@#$%^&*:;()''""><|.\ /=]/g))
+                    } else {
+                        HOST_FOLDER_NEW = String.format(HOST_FOLDER_NEW, mProjectObjectId);
+                        RequestParams params = new RequestParams();
+                        params.put("name", newName);
+                        if (mAttachmentFolderObject != null) {
+                            params.put("parentId", mAttachmentFolderObject.file_id);
+                        }
+                        postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
                     }
-                    postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                })
+                .setNegativeButton("取消", null)
+                .show();
 
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 

@@ -145,7 +145,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                     newFragment.setCancelable(true);
                     newFragment.show(getSupportFragmentManager(), "datePicker");
                     getSupportFragmentManager().executePendingTransactions();
-                    dialogTitleLineColor(newFragment.getDialog());
                     break;
 
                 case USERINFO_LOCATION:
@@ -167,7 +166,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                     //provincesDialogFragment.setCancelable(true);
                     provincesDialogFragment.show(getSupportFragmentManager(), "provincesPicker");
                     getSupportFragmentManager().executePendingTransactions();
-                    dialogTitleLineColor(provincesDialogFragment.getDialog());
                     break;
 
                 case USERINFO_SLOGAN:
@@ -208,7 +206,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
-        dialogTitleLineColor(dialog);
     }
 
     private void camera() {
@@ -397,7 +394,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         //builder.create().show();
         AlertDialog dialog = builder.create();
         dialog.show();
-        dialogTitleLineColor(dialog);
     }
 
     @Override
@@ -438,7 +434,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         p.height = (int) (outSize.y * 0.6); // 高度设置为屏幕的0.6
         //p.width = (int) (d.getWidth() * 0.8);
         dialog.getWindow().setAttributes(p);
-        dialogTitleLineColor(dialog);
     }
 
     static class ViewHolder {

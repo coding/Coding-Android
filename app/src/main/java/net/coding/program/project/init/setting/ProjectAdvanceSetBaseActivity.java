@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
@@ -89,27 +88,20 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project, null);
         final EditText edit1 = (EditText) textEntryView.findViewById(R.id.edit1);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog = builder
+        new AlertDialog.Builder(this)
                 .setTitle("需要验证密码")
                 .setView(textEntryView)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String editStr1 = edit1.getText().toString().trim();
-                        if (TextUtils.isEmpty(editStr1)) {
-                            Toast.makeText(ProjectAdvanceSetBaseActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        actionDelete2FA(SimpleSHA1.sha1(editStr1));
+                .setPositiveButton("确定", (dialog1, whichButton) -> {
+                    String editStr1 = edit1.getText().toString().trim();
+                    if (TextUtils.isEmpty(editStr1)) {
+                        Toast.makeText(ProjectAdvanceSetBaseActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
+                        return;
                     }
+
+                    actionDelete2FA(SimpleSHA1.sha1(editStr1));
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                }).show();
-        CustomDialog.dialogTitleLineColor(this, dialog);
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void showDeleteDialog2fa() {
@@ -136,13 +128,9 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
                     }
                 }).show();
 
-        CustomDialog.dialogTitleLineColor(this, dialog);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                hander2fa.removeMessages(0);
-                edit2fa = null;
-            }
+        dialog.setOnDismissListener(dialog1 -> {
+            hander2fa.removeMessages(0);
+            edit2fa = null;
         });
     }
 

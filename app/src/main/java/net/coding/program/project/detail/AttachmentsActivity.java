@@ -92,7 +92,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     ProjectObject mProject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-//    ProjectObject mProjectObject;
+    //    ProjectObject mProjectObject;
     String urlFiles = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
     String urlUpload = Global.HOST_API + "/project/%s/file/upload";
     ArrayList<AttachmentFileObject> mFilesArray = new ArrayList<>();
@@ -1136,23 +1136,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             return;
         }
         String messageFormat = "确定要删除%s个文件么？";
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
-        builder.setTitle("删除文件").setMessage(String.format(messageFormat, selectFile.size()))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteFiles();
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
+        new AlertDialog.Builder(this)
+                .setTitle("删除文件")
+                .setMessage(String.format(messageFormat, selectFile.size()))
+                .setPositiveButton("确定", (dialog, which) -> deleteFiles())
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     /**
@@ -1168,24 +1157,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         selectFile = new ArrayList<>();
         selectFile.add(selectedFile);
 
-        String messageFormat = "确定要删除文件 \"%s\" 么？";
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
-        builder.setTitle("删除文件").setMessage(String.format(messageFormat, selectedFile.getName()))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteFiles();
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
+        final String messageFormat = "确定要删除文件 \"%s\" 么？";
+        new AlertDialog.Builder(this)
+                .setTitle("删除文件")
+                .setMessage(String.format(messageFormat, selectedFile.getName()))
+                .setPositiveButton("确定", (dialog, which) -> deleteFiles())
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     void deleteFiles() {
@@ -1426,77 +1404,61 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             showButtomToast("默认文件夹无法重命名");
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
         LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.name);
-        builder.setTitle("重命名")
-                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newName = input.getText().toString();
-                //从网页版扒来的正则
-                String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
-                Pattern namePattern = Pattern.compile(namePatternStr);
-                if (newName.equals("")) {
-                    showButtomToast("名字不能为空");
-                } else if (namePattern.matcher(newName).find()) {
-                    showButtomToast("文件夹名：" + newName + " 不能采用");
-                } else {
-                    if (!newName.equals(folderObject.name)) {
-                        HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObjectId, folderObject.file_id, newName);
-                        putNetwork(HOST_FOLDER_NAME, HOST_FOLDER_NAME, position, newName);
+        new AlertDialog.Builder(this)
+                .setTitle("重命名")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    //从网页版扒来的正则
+                    String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
+                    Pattern namePattern = Pattern.compile(namePatternStr);
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else if (namePattern.matcher(newName).find()) {
+                        showButtomToast("文件夹名：" + newName + " 不能采用");
+                    } else {
+                        if (!newName.equals(folderObject.name)) {
+                            HOST_FOLDER_NAME = String.format(HOST_FOLDER_NAME, mProjectObjectId, folderObject.file_id, newName);
+                            putNetwork(HOST_FOLDER_NAME, HOST_FOLDER_NAME, position, newName);
+                        }
                     }
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                })
+                .setNegativeButton("取消", null)
+                .show();
 
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
 
     private void fileRename(final int postion, final AttachmentFileObject folderObject) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
         LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.getName());
-        builder.setTitle("重命名")
-                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newName = input.getText().toString();
-                if (newName.equals("")) {
-                    showButtomToast("名字不能为空");
-                } else {
-                    if (!newName.equals(folderObject.getName())) {
-                        String urlTemplate = Global.HOST_API + "/project/%d/files/%s/rename";
-                        String url = String.format(urlTemplate, mProjectObjectId, folderObject.file_id);
-                        RequestParams params = new RequestParams();
-                        params.put("name", newName);
-                        putNetwork(url, params, HOST_HTTP_FILE_RENAME, postion, newName);
+        new AlertDialog.Builder(this)
+                .setTitle("重命名")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else {
+                        if (!newName.equals(folderObject.getName())) {
+                            String urlTemplate = Global.HOST_API + "/project/%d/files/%s/rename";
+                            String url = String.format(urlTemplate, mProjectObjectId, folderObject.file_id);
+                            RequestParams params = new RequestParams();
+                            params.put("name", newName);
+                            putNetwork(url, params, HOST_HTTP_FILE_RENAME, postion, newName);
+                        }
                     }
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                })
+                .setNegativeButton("取消", null)
+                .show();
 
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 
@@ -1507,12 +1469,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         selectFolder = new ArrayList<>();
         selectFolder.add(selectedFolderObject);
         String messageFormat = "确定删除文件夹 \"%s\" ？";
-        showDialog("删除文件夹", String.format(messageFormat, selectedFolderObject.name), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteFolders();
-            }
-        });
+        showDialog("删除文件夹", String.format(messageFormat, selectedFolderObject.name),
+                (dialog, which) -> deleteFolders());
     }
 
     void deleteFolders() {
@@ -1529,40 +1487,31 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsActivity.this);
         LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setHint("请输入文件夹名称");
-        builder.setTitle("新建文件夹")
-                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newName = input.getText().toString();
-                String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
-                Pattern namePattern = Pattern.compile(namePatternStr);
-                if (newName.equals("")) {
-                    showButtomToast("名字不能为空");
-                } else if (namePattern.matcher(newName).find()) {
-                    showButtomToast("文件夹名：" + newName + " 不能采用");
-                } else {
-                    HOST_FOLDER_NEW = String.format(HOST_FOLDER_NEW, mProjectObjectId);
-                    RequestParams params = new RequestParams();
-                    params.put("name", newName);
-                    params.put("parentId", mAttachmentFolderObject.file_id);
-                    postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
-                }
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        new AlertDialog.Builder(this)
+                .setTitle("新建文件夹")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
+                    Pattern namePattern = Pattern.compile(namePatternStr);
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else if (namePattern.matcher(newName).find()) {
+                        showButtomToast("文件夹名：" + newName + " 不能采用");
+                    } else {
+                        HOST_FOLDER_NEW = String.format(HOST_FOLDER_NEW, mProjectObjectId);
+                        RequestParams params = new RequestParams();
+                        params.put("name", newName);
+                        params.put("parentId", mAttachmentFolderObject.file_id);
+                        postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
+                    }
+                }).setNegativeButton("取消", null)
+                .show();
 
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
         input.requestFocus();
     }
 

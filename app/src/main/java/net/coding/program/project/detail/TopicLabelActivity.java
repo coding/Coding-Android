@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.PostRequest;
 import net.coding.program.model.TopicLabelObject;
@@ -352,20 +351,18 @@ public class TopicLabelActivity extends BackActivity {
                         }
                     }
                 }).show();
-        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     private void doDelete() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle("删除标签").setMessage(String.format("确定要删除标签“%s”么？", currentLabelName))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (lockViews()) beginRemoveLabel();
+                .setPositiveButton("确定", (dialog1, which) -> {
+                    if (lockViews()) {
+                        beginRemoveLabel();
                     }
-                }).setNegativeButton("取消", null).create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void doRename() {
@@ -373,25 +370,23 @@ public class TopicLabelActivity extends BackActivity {
         View view = inflater.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) view.findViewById(R.id.value);
         input.setText(currentLabelName);
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle("重命名")
                 .setView(view)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newName = input.getText().toString().trim();
-                        if (TextUtils.isEmpty(newName)) {
-                            showButtomToast("名字不能为空");
-                            return;
-                        }
-                        if (lockViews()) beginRenameLabel(newName);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                .setPositiveButton("确定", (dialog1, which) -> {
+                    String newName = input.getText().toString().trim();
+                    if (TextUtils.isEmpty(newName)) {
+                        showButtomToast("名字不能为空");
+                        return;
                     }
+
+                    if (lockViews()) {
+                        beginRenameLabel(newName);
+                    }
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 })
                 .setNegativeButton("取消", null)
-                .create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
+                .show();
         input.requestFocus();
     }
 

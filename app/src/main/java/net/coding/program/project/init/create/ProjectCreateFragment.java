@@ -23,7 +23,6 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
@@ -125,19 +124,14 @@ public class ProjectCreateFragment extends BaseFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("选择图片")
                 .setCancelable(true)
-                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            camera();
-                        } else {
-                            photo();
-                        }
+                .setItems(R.array.camera_gallery, (dialog, which) -> {
+                    if (which == 0) {
+                        camera();
+                    } else {
+                        photo();
                     }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        CustomDialog.dialogTitleLineColor(getActivity(), dialog);
+                })
+                .show();
     }
 
     private void camera() {
@@ -324,7 +318,6 @@ public class ProjectCreateFragment extends BaseFragment {
                     }
                 })
                 .show();
-        CustomDialog.dialogTitleLineColor(getActivity(), dialog);
     }
 
     public static class IconRandom {

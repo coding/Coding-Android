@@ -37,7 +37,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -209,7 +208,6 @@ public class ImagePagerActivity extends BackActivity {
                     }
                 })
                 .show();
-        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
     class ImagePager extends FragmentStatePagerAdapter {

@@ -1,5 +1,14 @@
 package net.coding.program.common.ui;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -8,7 +17,6 @@ import com.umeng.analytics.MobclickAgent;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
@@ -23,17 +31,6 @@ import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.support.v7.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 
 /**
  * Created by libo on 2015/11/25.
@@ -199,7 +196,7 @@ public class BaseAppCompatActivity extends AppCompatActivity implements NetworkC
     }
 
     protected void postNetwork(String url, RequestParams params, final String tag, int dataPos,
-            Object data) {
+                               Object data) {
         networkImpl.loadData(url, params, tag, dataPos, data, NetworkImpl.Request.Post);
     }
 
@@ -217,7 +214,7 @@ public class BaseAppCompatActivity extends AppCompatActivity implements NetworkC
     }
 
     protected void putNetwork(String url, RequestParams params, String tag, int pos,
-            Object object) {
+                              Object object) {
         networkImpl.loadData(url, params, tag, pos, object, NetworkImpl.Request.Put);
     }
 
@@ -245,27 +242,21 @@ public class BaseAppCompatActivity extends AppCompatActivity implements NetworkC
         showDialog(title, msg, clickOk, null);
     }
 
-//    protected void showListDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        AlertDialog dialog = builder.setItems()
-//    }
-
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
-            DialogInterface.OnClickListener clickCancel) {
+                              DialogInterface.OnClickListener clickCancel) {
         showDialog(title, msg, clickOk, clickCancel, "确定", "取消");
     }
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
-            DialogInterface.OnClickListener clickCancel,
-            String okButton,
-            String cannelButton) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog = builder.setTitle(title)
+                              DialogInterface.OnClickListener clickCancel,
+                              String okButton,
+                              String cannelButton) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(okButton, clickOk)
                 .setNegativeButton(cannelButton, clickCancel)
                 .show();
-        dialogTitleLineColor(dialog);
     }
 
     public void showButtomToast(String msg) {
@@ -300,19 +291,9 @@ public class BaseAppCompatActivity extends AppCompatActivity implements NetworkC
         imageLoadTool.loadImageFromUrl(view, url, options);
     }
 
-    public final void dialogTitleLineColor(Dialog dialog) {
-        CustomDialog.dialogTitleLineColor(this, dialog);
-    }
-
     public void initDialogLoading() {
         if (mDialogProgressPopWindow == null) {
-            PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
-                public void onDismiss() {
-                    hideProgressDialog();
-                }
-            };
-
-            mDialogProgressPopWindow = DialogUtil.initProgressDialog(this, onDismissListener);
+            mDialogProgressPopWindow = DialogUtil.initProgressDialog(this, () -> hideProgressDialog());
         }
     }
 

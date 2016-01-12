@@ -11,7 +11,6 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.umeng.UmengEvent;
@@ -106,8 +105,6 @@ public class SetPasswordActivity extends BackActivity {
                 })
                 .setCancelable(false)
                 .show();
-
-        CustomDialog.dialogTitleLineColor(this, dialog);
     }
 
 }

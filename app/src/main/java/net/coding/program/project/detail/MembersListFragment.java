@@ -20,7 +20,6 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.umeng.UmengEvent;
@@ -95,7 +94,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         .setNegativeButton("取消", null)
                         .show();
 
-                CustomDialog.dialogTitleLineColor(getActivity(), dialog);
             }
         };
 
@@ -266,7 +264,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
                         }
                     }).show();
-                    CustomDialog.dialogTitleLineColor(getActivity(), dialog);
 
                     return true;
                 }

@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,12 +30,11 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-
-import org.apache.http.Header;
 
 /**
  * 展示某一项目文档目录下面文件的BsseActivity
@@ -133,22 +131,11 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         String messageFormat = "确定要删除文件 \"%s\" 么？";
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDetailBaseActivity.this);
         builder.setTitle("删除文件").setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showDialogLoading("正在删除");
-                        deleteNetwork(String.format(HOST_FILE_DELETE, mProjectObjectId, mAttachmentFileObject.file_id), HOST_FILE_DELETE);
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        //builder.create().show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialogTitleLineColor(dialog);
+                .setPositiveButton("确定", (dialog, which) -> {
+                    showDialogLoading("正在删除");
+                    deleteNetwork(String.format(HOST_FILE_DELETE, mProjectObjectId, mAttachmentFileObject.file_id), HOST_FILE_DELETE);
+                }).setNegativeButton("取消", null)
+                .show();
 
     }
 
@@ -166,18 +153,11 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         if (mFileSaveHelp.needShowHint()) {
             String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDetailBaseActivity.this);
-            builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, mFileSaveHelp.getDefaultPath())).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    download(urlDownload);
-                }
-            });
-            //builder.create().show();
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialogTitleLineColor(dialog);
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(String.format(msgFormat, mFileSaveHelp.getDefaultPath()))
+                    .setPositiveButton("确定", (dialog, which) -> download(urlDownload))
+                    .show();
 
             mFileSaveHelp.alwaysHideHint();
         } else {
@@ -234,8 +214,8 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     @OptionsItem
     void action_info() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog dialog = builder.setTitle("文件信息")
+        new AlertDialog.Builder(this)
+                .setTitle("文件信息")
                 .setMessage(String.format(fileInfoFormat,
                         mAttachmentFileObject.fileType,
                         Global.HumanReadableFilesize(mAttachmentFileObject.getSize()),
@@ -244,7 +224,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                         mAttachmentFileObject.owner.name))
                 .setPositiveButton("确定", null)
                 .show();
-        dialogTitleLineColor(dialog);
     }
 
     @Override

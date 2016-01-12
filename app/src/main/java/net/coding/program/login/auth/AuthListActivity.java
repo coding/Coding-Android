@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.umeng.UmengEvent;
@@ -96,10 +95,8 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
                                     });
                         }
                     }
-                });
+                }).show();
 
-                AlertDialog dialog = builder.show();
-                CustomDialog.dialogTitleLineColor(view.getContext(), dialog);
                 return true;
             }
         });

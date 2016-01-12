@@ -3,7 +3,6 @@ package net.coding.program.project.detail.file;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -28,10 +27,10 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 
+import org.apache.http.cookie.Cookie;
+
 import java.io.File;
 import java.util.ArrayList;
-
-import org.apache.http.cookie.Cookie;
 
 /**
  * Created by chenchao on 15/8/24.
@@ -178,17 +177,11 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
         if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
             String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    download(downloadFiles);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialogTitleLineColor(dialog);
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(String.format(msgFormat, defaultPath))
+                    .setPositiveButton("确定", (dialog, which) -> download(downloadFiles))
+                    .show();
 
             SharedPreferences.Editor editor = share.edit();
             editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);
@@ -218,15 +211,9 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示")
-                    .setMessage(String.format(msgFormat, defaultPath)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    download(selectedFile);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-            dialogTitleLineColor(dialog);
+                    .setMessage(String.format(msgFormat, defaultPath))
+                    .setPositiveButton("确定", (dialog, which) -> download(selectedFile))
+                    .show();
 
             SharedPreferences.Editor editor = share.edit();
             editor.putBoolean(FileUtil.DOWNLOAD_SETTING_HINT, true);

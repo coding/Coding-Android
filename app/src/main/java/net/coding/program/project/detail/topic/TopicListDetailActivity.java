@@ -25,7 +25,6 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
@@ -117,7 +116,6 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                         })
                         .setNegativeButton("取消", null)
                         .show();
-                CustomDialog.dialogTitleLineColor(TopicListDetailActivity.this, dialog);
 
             } else {
                 EnterLayout enterLayout = mEnterComment.getEnterLayout();

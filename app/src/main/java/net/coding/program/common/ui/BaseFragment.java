@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.CustomDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.StartActivity;
@@ -178,7 +176,6 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
                 .setPositiveButton("确定", clickOk)
                 .setNegativeButton("取消", null)
                 .show();
-        CustomDialog.dialogTitleLineColor(getActivity(), dialog);
     }
 
     protected void showDialog(String[] titles, DialogInterface.OnClickListener clickOk) {

@@ -40,10 +40,8 @@ public class DialogCopy {
                                 Toast.makeText(context, "已复制", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
+                    }).show();
 
-                    AlertDialog dialog = builder.show();
-                    CustomDialog.dialogTitleLineColor(v.getContext(), dialog);
                     return true;
                 }
             };
