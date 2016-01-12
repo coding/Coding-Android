@@ -2,6 +2,8 @@ package net.coding.program.model;
 
 import android.text.Html;
 
+import net.coding.program.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,14 +21,40 @@ public class TaskObject {
     public static int STATUS_FINISH = 2;
 
     public static class Members implements Serializable {
-        public static final int MEMBER_TYPE_OWNER = 100;
-        public static final int MEMBER_TYPE_MEMBER = 80;
+
+        public enum Type {
+            ower(100),
+            member(80),
+            manager(90),
+            limited(75);
+
+            Type(int type) {
+                this.type = type;
+            }
+
+            public int getIcon() {
+                switch (this) {
+                    case ower:
+                        return R.drawable.ic_project_member_create;
+                    case manager:
+                        return R.drawable.ic_project_member_manager;
+                    case limited:
+                        return R.drawable.ic_project_member_limited;
+                    default: // member
+                        return 0;
+                }
+            }
+
+            private int type;
+        }
+
         public long created_at;
         public int id;
         public long last_visit_at;
         public int project_id;
-        public int type;
+        private int type;
         public int user_id;
+        public String alias = "";
         public UserObject user = new UserObject();
 
         public Members(JSONObject json) throws JSONException {
@@ -36,10 +64,25 @@ public class TaskObject {
             project_id = json.optInt("project_id");
             type = json.optInt("type");
             user_id = json.optInt("user_id");
+            alias = json.optString("alias");
 
             if (json.has("user")) {
                 user = new UserObject(json.optJSONObject("user"));
             }
+        }
+
+        public Type getType() {
+            for (Type item : Type.values()) {
+                if (item.type == type) {
+                    return item;
+                }
+            }
+
+            return Type.member;
+        }
+
+        public boolean isOwner() {
+            return getType() == Type.ower;
         }
 
         public Members(UserObject data) {

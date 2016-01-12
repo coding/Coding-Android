@@ -2,9 +2,9 @@ package net.coding.program.project.detail;
 
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -51,6 +51,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     final String urlDeleteUser = Global.HOST_API + "/project/%d/kickout/%d";
     String urlMembers = Global.HOST_API + "/project/%d/members?pagesize=1000";
     String urlQuit = Global.HOST_API + "/project/%d/quit";
+
     @FragmentArg
     ProjectObject mProjectObject;
     @FragmentArg
@@ -120,6 +121,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 convertView = mInflater.inflate(R.layout.fragment_members_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
+                holder.alias = (TextView) convertView.findViewById(R.id.alias);
                 //holder.desc = (TextView) convertView.findViewById(R.id.desc);
                 holder.ic = (ImageView) convertView.findViewById(R.id.ic);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -138,9 +140,21 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             if (object instanceof TaskObject.Members) {
                 TaskObject.Members data = (TaskObject.Members) object;
                 user = data.user;
-                if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
-                    //holder.desc.setText("(创建者)");
+
+                TaskObject.Members.Type memberType = data.getType();
+                int iconRes = memberType.getIcon();
+                if (iconRes == 0) {
+                    holder.ic.setVisibility(View.GONE);
+                } else {
                     holder.ic.setVisibility(View.VISIBLE);
+                    holder.ic.setImageResource(iconRes);
+                }
+
+                if (!data.alias.isEmpty()) {
+                    holder.alias.setText(data.alias);
+                    holder.alias.setVisibility(View.VISIBLE);
+                } else {
+                    holder.alias.setVisibility(View.GONE);
                 }
             } else { //  (object instanceof UserObject)
                 user = (UserObject) object;
@@ -161,7 +175,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 holder.btn.setOnClickListener(quitProject);
                 if (object instanceof TaskObject.Members) {
                     TaskObject.Members data = (TaskObject.Members) object;
-                    if (data.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                    if (data.isOwner()) {
                         holder.btn.setVisibility(View.GONE);
                     } else {
                         holder.btn.setVisibility(View.VISIBLE);
@@ -309,7 +323,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     private boolean projectCreateByMe() {
         return mProjectObject != null &&
-             mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
+                mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
     }
 
     @OptionsItem
@@ -369,7 +383,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
                     for (int i = 0; i < members.length(); ++i) {
                         TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
-                        if (member.type == TaskObject.Members.MEMBER_TYPE_OWNER) {
+                        if (member.isOwner()) {
                             mData.add(0, member);
                         } else {
                             mData.add(member);
@@ -426,6 +440,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     static class ViewHolder {
         ImageView icon;
         TextView name;
+        TextView alias;
         ImageView ic;
         ImageView btn;
     }
