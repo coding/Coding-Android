@@ -38,6 +38,7 @@ import net.coding.program.user.AddFollowActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -51,6 +52,8 @@ import java.util.ArrayList;
 public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     static final int RESULT_ADD_USER = 111;
+    static final int RESULT_MODIFY_AUTHORITY = 112;
+
     final String urlDeleteUser = Global.HOST_API + "/project/%d/kickout/%d";
     String urlMembers = Global.HOST_API + "/project/%d/members?pagesize=1000";
     String urlQuit = Global.HOST_API + "/project/%d/quit";
@@ -264,7 +267,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                                 if (which == 0) {
                                     modifyMemberAlias(member);
                                 } else if (which == 1) {
-
+                                    modifyMemberAuthority(member);
                                 } else {
                                     removeMember(member);
                                 }
@@ -305,6 +308,13 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         loadMore();
 
         setHasOptionsMenu(true);
+    }
+
+    private void modifyMemberAuthority(TaskObject.Members member) {
+        MemberAuthorityActivity_.intent(this)
+                .member(member)
+                .projectId(mProjectObject.getId())
+                .startForResult(RESULT_MODIFY_AUTHORITY);
     }
 
     private void modifyMemberAlias(TaskObject.Members member) {
@@ -395,15 +405,17 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         startActivityForResult(intent, RESULT_ADD_USER);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_ADD_USER) {
-            if (resultCode == Activity.RESULT_OK) {
-                initSetting();
-                loadMore();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+    @OnActivityResult(RESULT_ADD_USER)
+    void onResultAddUser(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            onRefresh();
+        }
+    }
+
+    @OnActivityResult(RESULT_MODIFY_AUTHORITY)
+    void onResultModifyAuthority(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            onRefresh();
         }
     }
 

@@ -164,9 +164,7 @@
 
         <activity
             android:name=".TestActivity"
-            android:label="@string/title_activity_test">
-   </activity>
-
+            android:label="@string/title_activity_test"></activity>
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
@@ -177,9 +175,9 @@
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar" />
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -190,13 +188,11 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -310,13 +306,13 @@
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND.net.coding.program" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -495,9 +491,7 @@
             android:name=".setting.AccountSetting_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_account_setting"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".project.ProjectSquareActivity_"
             android:icon="@drawable/ic_lancher"
@@ -560,7 +554,6 @@
             android:name=".MyPushReceiver"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
             </intent-filter>
@@ -753,62 +746,65 @@
         <activity
             android:name=".project.detail.file.LocalProjectFileActivity_"
             android:label="@string/title_activity_local_project_file"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.file.LocalFileListActivity_"
             android:label="@string/title_activity_local_file_list"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.init.setting.ProjectTransferActivity_"
             android:label="@string/title_activity_project_transfer"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".task.AllTasksActivity_"
             android:label="@string/title_activity_all_tasks"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
-        <!--商城-->
+        <!-- 商城 -->
         <activity
             android:name=".mall.MallIndexActivity_"
             android:label="@string/title_activity_mall"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mall.PickLocalActivity_"
             android:label="@string/title_activity_pick_local"
-            android:screenOrientation="portrait"></activity>
-        <!--android:theme="@style/ThemeMall"-->
+            android:screenOrientation="portrait" />
+        <!-- android:theme="@style/ThemeMall" -->
         <activity
             android:name=".mall.MallOrderSubmitActivity_"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_mall_order"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".mall.MallOrderDetailActivity_"
             android:label="@string/title_activity_mall_order_detail"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".setting.ValidePhoneActivity_"
             android:label="@string/title_activity_valide_phone"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.EmailSetPasswordActivity_"
             android:label="@string/title_activity_valide_phone"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.InputAccountActivity_"
             android:label="@string/title_activity_valide_phone"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.PhoneSetPasswordActivity_"
             android:label="@string/title_activity_valide_phone"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".login.phone.SetGlobalKeyActivity_"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.phone.SetGlobalKeyActivity_"
             android:label="@string/set_global_activity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.MemberAuthorityActivity_"
+            android:label="@string/title_activity_member_authority"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -46,6 +46,10 @@ public class TaskObject {
             }
 
             private int type;
+
+            public int getType() {
+                return type;
+            }
         }
 
         public long created_at;

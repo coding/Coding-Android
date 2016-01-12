@@ -29,6 +29,10 @@ public class DropdownListItemView extends TextView {
 
     public void bind(CharSequence text, boolean checked) {
         setText(text);
+        setChecked(checked);
+    }
+
+    public void setChecked(boolean checked) {
         if (checked) {
             Drawable icon = getResources().getDrawable(R.drawable.ic_task_status_list_check);
             setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);
@@ -36,4 +40,6 @@ public class DropdownListItemView extends TextView {
             setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         }
     }
+
+
 }

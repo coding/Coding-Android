@@ -33,7 +33,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test_activity2">TestActivity2</string>
     <string name="title_activity_friend">选择好友</string>
-    <string name="empty"/>
+    <string name="empty" />
     <string name="title_activity_like_users_list">打赏和点赞的用户</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_maopao_detail">冒泡详情</string>
@@ -169,5 +169,6 @@
     <string name="mall_detail_footer_tips">温馨提示：\n所有兑换商品都定于每周五发货，请耐心等待哦！</string>
     <string name="mall_exchange_title">确认订单</string>
     <string name="title_activity_project_sqaure">项目广场</string>
+    <string name="title_activity_member_authority">设置成员权限</string>
 
 </resources>

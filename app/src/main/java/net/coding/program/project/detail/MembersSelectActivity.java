@@ -36,7 +36,7 @@ public class MembersSelectActivity extends BackActivity {
                     .mSelect(true)
                     .build();
         } else if (mMergeUrl != null) {
-            getSupportActionBar().setTitle("选择@对象");
+            setActionBarTitle("选择@对象");
             fragment = new MembersListFragment_
                     .FragmentBuilder_()
                     .mMergeUrl(mMergeUrl)

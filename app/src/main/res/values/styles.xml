@@ -25,6 +25,11 @@
         <item name="android:popupBackground">@drawable/white</item>
     </style>
 
+
+    <style name="MyDialog" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/popDialogBg</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
