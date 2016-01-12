@@ -14,7 +14,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
-import net.coding.program.common.FileUtil;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.model.AttachmentFileObject;

@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
+import net.coding.program.common.util.FileUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,7 +38,7 @@ public class PhotoOperate {
     }
 
     public File scal(Uri fileUri) throws Exception {
-        String path = Global.getPath(context, fileUri);
+        String path = FileUtil.getPath(context, fileUri);
         File outputFile = new File(path);
         if (Global.isGif(path)) {
             return outputFile;

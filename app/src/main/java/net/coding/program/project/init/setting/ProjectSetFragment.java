@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
@@ -239,7 +240,7 @@ public class ProjectSetFragment extends BaseFragment {
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    iconPath = Global.getPath(getActivity(), fileCropUri);
+                    iconPath = FileUtil.getPath(getActivity(), fileCropUri);
                     projectIcon.setImageURI(fileCropUri);
                     showProgressBar(true, "正在上传图片...");
                     String uploadUrl = host + "/" + mProjectObject.getId() + "/project_icon";

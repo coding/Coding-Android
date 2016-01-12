@@ -34,6 +34,7 @@ import net.coding.program.ImagePagerFragment;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhoneType;
@@ -457,7 +458,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     void uploadImage(Uri uri) {
         RequestParams requestParams = new RequestParams();
         try {
-            File file = new File(Global.getPath(this, uri));
+            File file = new File(FileUtil.getPath(this, uri));
             requestParams.put("tweetImg", file);
             postNetwork(HOST_IMAGE, requestParams, HOST_IMAGE, -1, uri.toString());
 

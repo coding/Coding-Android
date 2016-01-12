@@ -30,7 +30,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.FileUtil;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.network.DownloadManagerPro;

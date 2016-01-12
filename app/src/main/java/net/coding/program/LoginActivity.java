@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tencent.android.tpush.XGPushManager;
 
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
@@ -214,7 +215,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private BitmapDrawable createBlur(Uri uri) {
-        String path = Global.getPath(this, uri);
+        String path = FileUtil.getPath(this, uri);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, options);

@@ -13,7 +13,7 @@ import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.WebActivity;
 import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.FileUtil;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.model.AttachmentFileObject;

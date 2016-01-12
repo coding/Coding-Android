@@ -1,4 +1,4 @@
-package net.coding.program.common;
+package net.coding.program.common.util;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;
@@ -157,6 +157,10 @@ public class FileUtil {
         }
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
             return getDataColumn(context, uri, null, null);
         }
         // File
@@ -165,6 +169,14 @@ public class FileUtil {
         }
 
         return "";
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is Google Photos.
+     */
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
     /**

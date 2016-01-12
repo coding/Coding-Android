@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 
-import net.coding.program.common.FileUtil;
+import net.coding.program.common.util.FileUtil;
 
 import java.io.File;
 

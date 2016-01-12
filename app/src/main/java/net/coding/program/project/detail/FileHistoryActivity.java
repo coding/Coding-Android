@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
-import net.coding.program.common.FileUtil;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;

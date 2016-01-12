@@ -1,7 +1,6 @@
 package net.coding.program;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
@@ -9,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.photopick.CameraPhotoUtil;
@@ -356,7 +357,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    String filePath = Global.getPath(this, fileCropUri);
+                    String filePath = FileUtil.getPath(this, fileCropUri);
                     RequestParams params = new RequestParams();
                     params.put("file", new File(filePath));
                     postNetwork(HOST_USER_AVATAR, params, HOST_USER_AVATAR);
