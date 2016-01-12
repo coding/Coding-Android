@@ -1,7 +1,7 @@
 package net.coding.program.common.umeng;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -10,7 +10,7 @@ import net.coding.program.MyApp;
 /**
  * Created by chaochen on 14-10-9.
  */
-public class UmengActivity extends ActionBarActivity {
+public class UmengActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

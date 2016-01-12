@@ -1,11 +1,10 @@
 package net.coding.program.common.ui;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +25,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
-import net.coding.program.common.widget.SingleToast;
+import net.coding.program.common.util.SingleToast;
 import net.coding.program.model.PostRequest;
 import net.coding.program.user.UserDetailActivity_;
 

@@ -10,7 +10,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Gravity;
@@ -53,7 +54,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     private RelativeLayout arrowLayout;
     private Button btn_emoji;
     private CheckBox arrow, popVoice;
-    private ActionBarActivity activity;
+    private AppCompatActivity activity;
     private ImageButton voiceRecordButton;
     private SoundWaveView soundWaveLeft, soundWaveRight;
     private TextView recordTime, tips_hold_to_talk;
@@ -113,12 +114,12 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         }
     };
 
-    public EnterVoiceLayout(ActionBarActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
+    public EnterVoiceLayout(AppCompatActivity activity, View.OnClickListener sendTextOnClick, Type type, EmojiType emojiType) {
         super(activity, sendTextOnClick, type, emojiType);
         init(activity);
     }
 
-    public EnterVoiceLayout(ActionBarActivity activity, View.OnClickListener sendTextOnClick) {
+    public EnterVoiceLayout(AppCompatActivity activity, View.OnClickListener sendTextOnClick) {
         super(activity, sendTextOnClick);
         init(activity);
     }
@@ -139,7 +140,7 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
         toast.show();
     }
 
-    private void init(final ActionBarActivity activity) {
+    private void init(final AppCompatActivity activity) {
         this.activity = activity;
 
         mInputLayout = (LinearLayout) activity.findViewById(R.id.mInputLayout);

@@ -3,7 +3,7 @@ package net.coding.program.login.auth;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +16,7 @@ import com.umeng.analytics.MobclickAgent;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengEvent;
 
-public class QRScanActivity extends ActionBarActivity implements QRCodeReaderView.OnQRCodeReadListener {
+public class QRScanActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
     // 说明是由tip界面跳转过来的
     public static final String EXTRA_TIP = "EXTRA_TIP";

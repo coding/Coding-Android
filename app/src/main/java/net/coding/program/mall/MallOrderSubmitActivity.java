@@ -20,7 +20,8 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BaseAppCompatActivity;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -29,7 +30,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
  */
 
 @EActivity(R.layout.activity_mall_order_submit)
-public class MallOrderSubmitActivity extends BaseAppCompatActivity {
+public class MallOrderSubmitActivity extends BackActivity {
 
     private static final int RESULT_LOCAL = 1;
 
@@ -109,8 +109,6 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 
     @AfterViews
     void initView() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         UserObject user = AccountInfo.loadAccount(this);
         String userName = user.name;
         mall_order_edit_username.setHint(userName);
@@ -264,11 +262,6 @@ public class MallOrderSubmitActivity extends BaseAppCompatActivity {
 //                showButtomToast("很抱歉，订单提交失败！");
             }
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    protected final void annotaionClose() {
-        onBackPressed();
     }
 
     @Override

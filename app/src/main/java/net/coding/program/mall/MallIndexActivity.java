@@ -1,17 +1,15 @@
 package net.coding.program.mall;
 
-import com.bigkoo.convenientbanner.CBPageAdapter;
-import com.bigkoo.convenientbanner.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.ConvenientBanner;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.guide.IndicatorView;
-import net.coding.program.common.widget.RefreshBaseAppCompatActivity;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.widget.RefreshBaseActivity;
 import net.coding.program.model.MallBannerObject;
 import net.coding.program.third.WechatTab;
 
@@ -20,27 +18,13 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Context;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_mall)
 @OptionsMenu(R.menu.menu_mall_index)
-public class MallIndexActivity extends RefreshBaseAppCompatActivity {
+public class MallIndexActivity extends RefreshBaseActivity {
 
     @ViewById
     Toolbar toolbar;
@@ -48,20 +32,11 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
     @ViewById
     WechatTab mallTab;
 
-//    @ViewById
-//    CollapsingToolbarLayout collapsing_toolbar;
-
     @ViewById
     ViewPager viewpager;
 
-//    @ViewById(R.id.bannerViewPager)
-//    ConvenientBanner banner;
-
     @ViewById
     View blankLayout;
-
-//    @ViewById(R.id.indicatorView)
-//    IndicatorView bannerIndicator;
 
     final String BANNER_URL = Global.HOST_API + "/gifts/sliders";
 
@@ -74,79 +49,19 @@ public class MallIndexActivity extends RefreshBaseAppCompatActivity {
         MallOrderDetailActivity_.intent(this).start();
     }
 
-    @OptionsItem(android.R.id.home)
-    protected final void annotaionClose() {
-        onBackPressed();
-    }
-
     @AfterViews
     void initView() {
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeButtonEnabled(true);
-        actionbar.setTitle("商城");
+        setActionBarTitle("商城");
 
         setupViewPager(viewpager);
         mallTab.setViewPager(viewpager);
-
-//        if (mBannerData.isEmpty()) {
-//            showDialogLoading();
-//        } else {
-//            setRefreshing(true);
-//        }
-//
-//        mBannerData.addAll(AccountInfo.getMallBanners(this));
-//        initBannerData();
-//        updateBannerData();
-
-//        getNetwork(BANNER_URL, TAG_BANNER);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         invalidateOptionsMenu();
-//        if (banner != null) {
-//            banner.startTurning(5000);
-//        }
     }
-
-//    @Override
-//    public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws
-//            JSONException {
-//        hideProgressDialog();
-//        setRefreshing(false);
-//
-//        if (tag.equals(TAG_BANNER)) {
-//            if (code == 0) {
-//                BlankViewDisplay
-//                        .setBlank(mBannerData.size(), this, true, blankLayout, onClickRetry);
-//
-//                ArrayList<MallBannerObject> banners = new ArrayList<>();
-//                JSONArray jsonArray = response.getJSONArray("data");
-//                for (int i = 0; i < jsonArray.length(); ++i) {
-//                    banners.add(new MallBannerObject(jsonArray.getJSONObject(i)));
-//                }
-//                AccountInfo.saveMallBanners(this, banners);
-//
-//                mBannerData.clear();
-//                mBannerData.addAll(banners);
-//                updateBannerData();
-//            } else {
-//                BlankViewDisplay
-//                        .setBlank(mBannerData.size(), this, false, blankLayout, onClickRetry);
-//                super.parseJson(code, response, tag, pos, data);
-//            }
-//        }
-//    }
-
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
 
     private void setupViewPager(ViewPager mViewPager) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());

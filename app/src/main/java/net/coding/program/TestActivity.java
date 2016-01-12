@@ -2,7 +2,7 @@ package net.coding.program;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -11,7 +11,7 @@ import net.coding.program.login.phone.PhoneSetPasswordActivity;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 
 
-public class TestActivity extends ActionBarActivity {
+public class TestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

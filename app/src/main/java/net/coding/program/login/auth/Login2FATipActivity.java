@@ -2,13 +2,13 @@ package net.coding.program.login.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import net.coding.program.R;
 
-public class Login2FATipActivity extends ActionBarActivity {
+public class Login2FATipActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +22,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.network.UmengFragment;
-import net.coding.program.common.widget.SingleToast;
+import net.coding.program.common.util.SingleToast;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
@@ -77,8 +77,8 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         }
     }
 
-    public ActionBarActivity getActionBarActivity() {
-        return (ActionBarActivity) getActivity();
+    public AppCompatActivity getActionBarActivity() {
+        return (AppCompatActivity) getActivity();
     }
 
     protected void showProgressBar(int messageId) {
@@ -250,14 +250,9 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         mSingleToast.showButtomToast(messageId);
     }
 
-
     protected void iconfromNetwork(ImageView view, String url) {
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url));
     }
-
-//    protected void iconfromNetwork(ImageView view, String url, int minWitdh) {
-//        imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url, minWitdh));
-//    }
 
     protected void iconfromNetwork(ImageView view, String url, DisplayImageOptions options) {
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url), options);
@@ -266,16 +261,12 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     protected void showDialogLoading() {
         if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).showDialogLoading();
-        }else if (getActivity() instanceof BaseAppCompatActivity){
-            ((BaseAppCompatActivity) getActivity()).showDialogLoading();
         }
     }
 
     protected void hideProgressDialog() {
         if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).hideProgressDialog();
-        }else if (getActivity() instanceof BaseAppCompatActivity){
-            ((BaseAppCompatActivity) getActivity()).hideProgressDialog();
         }
     }
 }
