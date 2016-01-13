@@ -176,7 +176,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         for (WeakReference<Fragment> ref : fragmentArray) {
             Fragment item = ref.get();
             if (item instanceof TaskListUpdate) {
-                ((TaskListUpdate) item).taskListUpdate();
+                ((TaskListUpdate) item).taskListUpdate(true);
             }
         }
     }

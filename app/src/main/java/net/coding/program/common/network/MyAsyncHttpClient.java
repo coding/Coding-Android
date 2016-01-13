@@ -10,9 +10,11 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.util.LogUtils;
 import net.coding.program.model.AccountInfo;
 
 import java.util.HashMap;
+import static net.coding.program.common.util.LogUtils.makeLogTag;
 
 /**
  * Created by chaochen on 14-10-8.
@@ -20,21 +22,27 @@ import java.util.HashMap;
  */
 public class MyAsyncHttpClient {
 
+private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
+
     public static void post(Context context, String url, RequestParams params, ResponseHandlerInterface response) {
+        LogUtils.LOGD(TAG, "post " + url);
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
         client.post(context, url, params, response);
     }
 
     public static void post(Context context, String url, ResponseHandlerInterface response) {
+        LogUtils.LOGD(TAG, "post " + url);
         post(context, url, new RequestParams(), response);
     }
 
     public static void get(Context context, String url, ResponseHandlerInterface response) {
+        LogUtils.LOGD(TAG, "get " + url);
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
         client.get(context, url, response);
     }
 
     public static void delete(Context context, String url, ResponseHandlerInterface response) {
+        LogUtils.LOGD(TAG, "delete " + url);
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
         client.delete(context, url, response);
     }

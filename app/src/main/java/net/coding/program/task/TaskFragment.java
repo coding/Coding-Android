@@ -1,7 +1,6 @@
 package net.coding.program.task;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -26,6 +25,7 @@ import net.coding.program.third.MyPagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -57,7 +57,7 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
     void init() {
 //        mData = AccountInfo.loadTaskProjects(getActivity());
 //        if (mData.isEmpty()) {
-            showDialogLoading();
+        showDialogLoading();
 //        }
 
         pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
@@ -119,15 +119,11 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ListModify.RESULT_EDIT_LIST) {
-            if (resultCode == Activity.RESULT_OK) {
-                taskListParentUpdate();
-            }
+    @OnActivityResult(ListModify.RESULT_EDIT_LIST)
+    void onResultEditList(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            taskListParentUpdate();
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -136,14 +132,18 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
         for (WeakReference<Fragment> item : array) {
             Fragment fragment = item.get();
             if (fragment instanceof TaskListUpdate) {
-                ((TaskListUpdate) fragment).taskListUpdate();
+                ((TaskListUpdate) fragment).taskListUpdate(true);
             }
         }
     }
 
     @OptionsItem
     protected final void action_add() {
-        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
+        ProjectObject projectObject = mData.get(pager.getCurrentItem());
+        TaskAddActivity_.intent(this)
+                .mUserOwner(MyApp.sUserObject)
+                .mProjectObject(projectObject)
+                .startForResult(ListModify.RESULT_EDIT_LIST);
     }
 
     public static class TaskCount {

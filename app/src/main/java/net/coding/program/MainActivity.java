@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity
     }
 
     @AfterViews
-    void init() {
+    final void initMainActivity() {
         Intent intent = new Intent(this, UpdateService.class);
         intent.putExtra(UpdateService.EXTRA_BACKGROUND, true);
         intent.putExtra(UpdateService.EXTRA_WIFI, true);

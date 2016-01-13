@@ -2,14 +2,12 @@ package net.coding.program.project.detail;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -106,7 +104,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     @Override
-    public void taskListUpdate() {
+    public void taskListUpdate(boolean must) {
+        if (must) {
+            mNeedUpdate = true;
+        }
+
         if (mNeedUpdate) {
             mNeedUpdate = false;
             initSetting();
@@ -163,8 +165,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     protected void init() {
         initRefreshLayout();
 
-//        mData = AccountInfo.loadTasks(getActivity(), mProjectObject.getId(), mMembers.id);
-
         Calendar calendar = Calendar.getInstance();
         mToday = mDateFormat.format(calendar.getTimeInMillis());
         mTomorrow = mDateFormat.format(calendar.getTimeInMillis() + 1000 * 60 * 60 * 24);
@@ -174,106 +174,23 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         fab.attachToListView(listView.getWrappedList());
         fab.setVisibility(View.GONE);
-//        listView.setAnimExecutor(new AnimationExecutor());
         View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
         listView.addFooterView(footer, null, false);
         listView.setAdapter(mAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
-//                if (singleTask.status == 1) {
-                mNeedUpdate = true;
-                Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
-                intent.putExtra("mSingleTask", singleTask);
-                getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
-//                }
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
+            mNeedUpdate = true;
+            Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
+            intent.putExtra("mSingleTask", singleTask);
+            getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                String content = mData.get(position).content;
-                showDialog("删除任务", content, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteTask(position);
-                    }
-                });
-
-                return true;
-            }
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            String content = mData.get(position).content;
+            showDialog("删除任务", content, (dialog, which) -> deleteTask(position));
+            return true;
         });
-
-//        if (getParentFragment() instanceof FloatButton) {
-//            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//                private int mLastScrollY;
-//                private int mPreviousFirstVisibleItem;
-//                private int mScrollThreshold;
-//
-//                @Override
-//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                    if(totalItemCount == 0) return;
-//                    if (isSameRow(firstVisibleItem)) {
-//                        int newScrollY = getTopItemScrollY(view);
-//                        boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
-//                        if (isSignificantDelta) {
-//                            if (mLastScrollY > newScrollY) {
-//                                onScrollUp();
-//                            } else {
-//                                onScrollDown();
-//                            }
-//                        }
-//                        mLastScrollY = newScrollY;
-//                    } else {
-//                        if (firstVisibleItem > mPreviousFirstVisibleItem) {
-//                            onScrollUp();
-//                        } else {
-//                            onScrollDown();
-//                        }
-//
-//                        mLastScrollY = getTopItemScrollY(view);
-//                        mPreviousFirstVisibleItem = firstVisibleItem;
-//                    }
-//                }
-//
-//                private boolean isSameRow(int firstVisibleItem) {
-//                    return firstVisibleItem == mPreviousFirstVisibleItem;
-//                }
-//
-//                private int getTopItemScrollY(AbsListView mListView) {
-//                    if (mListView == null || mListView.getChildAt(0) == null) return 0;
-//                    View topChild = mListView.getChildAt(0);
-//                    return topChild.getTop();
-//                }
-//
-////                private ScrollDirectionListener mScrollDirectionListener;
-////                private AbsListView.OnScrollListener mOnScrollListener;
-////
-////                private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
-////                    mScrollDirectionListener = scrollDirectionListener;
-////                }
-////
-////                public void setOnScrollListener(AbsListView.OnScrollListener onScrollListener) {
-////                    mOnScrollListener = onScrollListener;
-////                }
-//
-//
-//                @Override
-//                public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                }
-//
-//                private void onScrollDown() {
-//                    ((FloatButton) getParentFragment()).showFloatButton(true);
-//                }
-//
-//                private void onScrollUp() {
-//                    ((FloatButton) getParentFragment()).showFloatButton(false);
-//                }
-//            });
-//        }
 
         urlAll = createHost(mMembers.user.global_key, "/all");
 

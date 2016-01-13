@@ -75,8 +75,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static net.coding.program.common.util.LogUtils.makeLogTag;
+
 @EActivity(R.layout.activity_task_add)
 public class TaskAddActivity extends BackActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
+
+    private static final String TAG = makeLogTag(TaskAddActivity.class);
 
     public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
 
@@ -112,6 +116,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     protected View blankLayout;
     @Extra
     TaskObject.SingleTask mSingleTask;
+
+    @Extra
+    ProjectObject mProjectObject = new ProjectObject();
+
     @Extra
     UserObject mUserOwner;
     @Extra
@@ -290,6 +298,12 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             requestTaskFromNetwork();
         } else {
             mSingleTask = new TaskObject.SingleTask();
+
+            if (!mProjectObject.isEmpty()) {
+                mSingleTask.project = mProjectObject;
+                mSingleTask.priority = mProjectObject.getId();
+            }
+
             initData();
         }
     }
@@ -475,17 +489,19 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             refrenceId.setText(mSingleTask.getNumber());
         }
 
-
         // 设置任务的关注者
         watchUserUpdateFromNetwork();
+        uiBindDataWatch();
+
+        uiBindDataProject();
     }
 
     private void watchUserUpdateFromNetwork() {
-        ProjectObject project = mSingleTask.project;
-        if (project.isEmpty()) {
+        if (mSingleTask.isEmpty()) {
             return;
         }
 
+        ProjectObject project = mSingleTask.project;
         String url = String.format(project.getHttpProjectApi() + "/task/%d/watchers?pageSize=1000", mSingleTask.getId());
         MyAsyncHttpClient.get(this, url, new MyJsonResponse(TaskAddActivity.this) {
             @Override
@@ -584,13 +600,13 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         });
         title.setText("");
 
-        if (mSingleTask.isEmpty() && mSingleTask.project.isEmpty()) {
-            layoutProjectName.setVisibility(View.VISIBLE);
+//        if (mSingleTask.isEmpty() && mSingleTask.project.isEmpty() && mProjectObject.isEmpty()) {
+//            layoutProjectName.setVisibility(View.VISIBLE);
             layoutProjectName.setOnClickListener(v -> PickProjectActivity_.intent(TaskAddActivity.this)
                     .startForResult(RESULT_REQUEST_PICK_PROJECT));
-        } else {
-            layoutProjectName.setVisibility(View.GONE);
-        }
+//        } else {
+//            layoutProjectName.setVisibility(View.GONE);
+//        }
 
         layoutName.setOnClickListener(v -> {
             if (noSelectProject()) {
@@ -945,6 +961,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         }
     }
 
+
+
     @OnActivityResult(RESULT_REQUEST_PICK_PROJECT)
     final void pickProject(int result, Intent data) {
         if (result == RESULT_OK) {
@@ -952,15 +970,23 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             mSingleTask.project = project;
             mSingleTask.project_id = project.getId();
 
-            iconfromNetwork(layoutProjectName.getImage(), mSingleTask.project.icon);
-            layoutProjectName.setText2(mSingleTask.project.name);
-
-            TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
-            setPickUser(member);
-
-            mSingleTask.labels.clear();
-            updateLabels(mSingleTask.labels);
+            uiBindDataProject();
         }
+    }
+
+    private void uiBindDataProject() {
+        if (mSingleTask.project.isEmpty()) {
+            return;
+        }
+
+        iconfromNetwork(layoutProjectName.getImage(), mSingleTask.project.icon);
+        layoutProjectName.setText2(mSingleTask.project.name);
+
+        TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
+        setPickUser(member);
+
+        mSingleTask.labels.clear();
+        updateLabels(mSingleTask.labels);
     }
 
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
