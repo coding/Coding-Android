@@ -63,9 +63,36 @@
         android:id="@+id/item"
         layout="@layout/init_common_item" />
 
-    <View
+    <include layout="@layout/divide_1" />
+
+    <RelativeLayout
+        android:id="@+id/pushSetting"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divide_15_top" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:minHeight="48dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="启用README.md文件初始化项目"
+            android:textSize="@dimen/project_icon_text"
+            android:textColor="@color/font_black_2" />
+
+        <CheckBox
+            android:id="@+id/generateReadme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/push_checkbox"
+            android:button="@null" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divide_15_top" />
 
 </LinearLayout>

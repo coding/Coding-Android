@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
@@ -67,6 +69,8 @@ public class ProjectCreateFragment extends BaseFragment {
     EditText projectName;
     @ViewById
     EditText description;
+    @ViewById
+    CheckBox generateReadme;
     @ViewById
     View item;
     @ViewById
@@ -244,19 +248,17 @@ public class ProjectCreateFragment extends BaseFragment {
             return;
         }
         projectInfo.description = description.getText().toString().trim();
-        projectInfo.type = "2";//默认私有
         if (currentType.equals(ProjectTypeActivity.TYPE_PUBLIC)) {
-            projectInfo.type = "1";
+            projectInfo.type = 1;
         }
-        projectInfo.gitEnable = "true";
-        projectInfo.gitReadmeEnabled = "false";
-        projectInfo.gitIgnore = "no";
-        projectInfo.gitLicense = "no";
-        projectInfo.importFrom = "";
-        projectInfo.vcsType = "git";
         /*projectInfo.icon="";*/
         showProgressBar(true, "正在创建项目...");
         createProject();
+    }
+
+    @CheckedChange
+    void generateReadme(boolean checked) {
+        projectInfo.gitReadmeEnabled = checked;
     }
 
     private void createProject() {
@@ -360,14 +362,14 @@ public class ProjectCreateFragment extends BaseFragment {
     public final class ProjectInfo {
         String name;
         String description;
-        String type;
-        String gitEnable;
-        String gitReadmeEnabled;
-        String gitIgnore;
-        String gitLicense;
-        String importFrom;
-        String vcsType;
-        String icon;
+        int type = 2; // 默认私有
+        boolean gitEnable = true;
+        boolean gitReadmeEnabled = false;
+        String gitIgnore = "no";
+        String gitLicense = "no";
+        String importFrom = "";
+        String vcsType = "git";
+        String icon = "";
     }
 
 

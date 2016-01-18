@@ -7,6 +7,8 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicLabelObject;
@@ -17,7 +19,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -26,7 +27,6 @@ import java.util.List;
 @OptionsMenu(R.menu.topic_detail_edit_preview)
 public class TopicPreviewFragment extends BaseFragment {
 
-    private static final String TAG_HTTP_MD_PREVIEW = "TAG_HTTP_MD_PREVIEW";
     @ViewById
     protected TextView title;
     @ViewById
@@ -35,6 +35,8 @@ public class TopicPreviewFragment extends BaseFragment {
     protected WebView content;
     private SaveData saveData;
 
+    protected MyJsonResponse myJsonResponse;
+
     @AfterViews
     protected void init() {
         saveData = ((SaveData) getActivity());
@@ -42,7 +44,18 @@ public class TopicPreviewFragment extends BaseFragment {
         TopicAddActivity.TopicData data = saveData.loadData();
         title.setText(data.title);
         updateLabels(data.labels);
+
+        myJsonResponse = new MyJsonResponse(getActivity()) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                String html = response.optString("data", "");
+                Global.setWebViewContent(content, "markdown", html);
+            }
+        };
+
         mdToHtml(data.content);
+
     }
 
     public void updateLabels(List<TopicLabelObject> labels) {
@@ -66,23 +79,11 @@ public class TopicPreviewFragment extends BaseFragment {
         saveData.exit();
     }
 
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(TAG_HTTP_MD_PREVIEW)) {
-            if (code == 0) {
-                String html = respanse.optString("data", "");
-                Global.setWebViewContent(content, "topic-android", html);
-
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        }
-    }
-
-    private void mdToHtml(String contentMd) {
+    // 重载此函数，修改预览方法
+    protected void mdToHtml(String contentMd) {
+        String uri = ProjectObject.getMdPreview(saveData.getProjectPath());
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
-        String uri = ProjectObject.getMdPreview(saveData.getProjectPath());
-        postNetwork(uri, params, TAG_HTTP_MD_PREVIEW);
+        MyAsyncHttpClient.post(getActivity(), uri, params, myJsonResponse);
     }
 }

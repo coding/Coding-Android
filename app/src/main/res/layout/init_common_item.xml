@@ -15,7 +15,6 @@
         android:layout_centerVertical="true"
         android:text="项目类型"
         android:textSize="@dimen/project_icon_text"
-
         android:textColor="@color/font_black_2" />
 
     <LinearLayout

@@ -1,12 +1,11 @@
 package net.coding.program.project.detail.file;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.PostRequest;
 import net.coding.program.model.TaskObject;
@@ -65,13 +64,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
     @Override
     public void onBackPressed() {
         if (editFragment.isContentModify()) {
-            showDialog(mParam.getFileObject().getName(), "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-
+            showDialog(mParam.getFileObject().getName(), "确定放弃此次编辑？", (dialog, which) -> finish());
         } else {
             finish();
         }

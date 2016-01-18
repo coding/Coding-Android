@@ -157,8 +157,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
         Fragment fragment = TaskDescripMdFragment_.builder().contentMd(contentMd).build();
         FragmentManager manager = getActivity().getSupportFragmentManager();
         manager.popBackStack();
-        manager
-                .beginTransaction()
+        manager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack("name")
                 .commit();

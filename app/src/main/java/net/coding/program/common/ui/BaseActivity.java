@@ -101,6 +101,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
+    protected void setActionBarTitle(int title) {
+        String titleString = getString(title);
+        setActionBarTitle(titleString);
+    }
+
     public void showErrorMsgMiddle(int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
             showMiddleToast(R.string.connect_service_fail);

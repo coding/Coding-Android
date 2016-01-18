@@ -142,6 +142,15 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path + "/git/tree/" + version;
     }
 
+    public String getHttpReadme(String version, String readmeName) {
+        return Global.HOST_API + backend_project_path + "/git/edit/" + version + "%252F" + readmeName;
+    }
+
+    public String getHttpReadmePreview(String version, String readmeName) {
+//        "https://coding.net/api/user/gggg/project/aa66/git/blob-preview/master%252FREADME.md"
+        return Global.HOST_API + backend_project_path + "/git/blob-preview/" + version + "%252F" + readmeName;
+    }
+
     public String getProjectGit() {
         return Global.HOST_API + backend_project_path + "/git";
     }

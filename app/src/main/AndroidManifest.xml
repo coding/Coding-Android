@@ -164,7 +164,7 @@
 
         <activity
             android:name=".TestActivity"
-            android:label="@string/title_activity_test"></activity>
+            android:label="@string/title_activity_test" />
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
@@ -491,7 +491,7 @@
             android:name=".setting.AccountSetting_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_account_setting"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.ProjectSquareActivity_"
             android:icon="@drawable/ic_lancher"
@@ -805,7 +805,11 @@
             android:name=".project.detail.MemberAuthorityActivity_"
             android:label="@string/title_activity_member_authority"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".project.detail.merge.ReadmeEditActivity_"
+            android:label="@string/title_activity_readme_edit"
+            android:windowSoftInputMode="adjustResize|stateUnspecified"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
