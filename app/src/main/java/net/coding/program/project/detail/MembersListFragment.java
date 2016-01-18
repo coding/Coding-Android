@@ -245,24 +245,30 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
                     TaskObject.Members member = (TaskObject.Members) mSearchData.get((int) id);
-                    if (member.user.isMe()) {
-                        return false;
-                    }
+//                    if (member.user.isMe()) {
+//                        return true;
+//                    }
 
                     if (mMySelf.getType() != TaskObject.Members.Type.ower
                             && mMySelf.getType() != TaskObject.Members.Type.manager) {
-                        return false;
+                        return true;
                     }
 
                     String[] items;
                     DialogInterface.OnClickListener clicks;
                     switch (mMySelf.getType()) {
                         case ower:
-                            items = new String[]{
-                                    "修改备注",
-                                    "设置权限",
-                                    "移除成员"
-                            };
+                            if (member.isMe()) {
+                                items = new String[]{
+                                        "修改备注"
+                                };
+                            } else {
+                                items = new String[]{
+                                        "修改备注",
+                                        "设置权限",
+                                        "移除成员"
+                                };
+                            }
                             clicks = (dialog1, which) -> {
                                 if (which == 0) {
                                     modifyMemberAlias(member);
@@ -274,20 +280,32 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                             };
                             break;
                         case manager:
-                            items = new String[]{
-                                    "修改备注",
-                                    "移除成员"
-                            };
-                            clicks = (dialog1, which) -> {
-                                if (which == 0) {
-                                    modifyMemberAlias(member);
-                                } else {
-                                    removeMember(member);
-                                }
-                            };
+                            if (member.getType() == TaskObject.Members.Type.manager
+                                    || member.getType() == TaskObject.Members.Type.ower) {
+                                items = new String[]{
+                                        "修改备注"
+                                };
+                                clicks = (dialog1, which) -> {
+                                    if (which == 0) {
+                                        modifyMemberAlias(member);
+                                    }
+                                };
+                            } else {
+                                items = new String[]{
+                                        "修改备注",
+                                        "移除成员"
+                                };
+                                clicks = (dialog1, which) -> {
+                                    if (which == 0) {
+                                        modifyMemberAlias(member);
+                                    } else {
+                                        removeMember(member);
+                                    }
+                                };
+                            }
                             break;
                         default:
-                            return false;
+                            return true;
                     }
 
                     new AlertDialog.Builder(getActivity())
@@ -459,10 +477,14 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
                         if (member.isOwner()) {
                             mData.add(0, member);
-                            mMySelf = member;
                         } else {
                             mData.add(member);
                         }
+
+                        if (member.isMe()) {
+                            mMySelf = member;
+                        }
+
                     }
 
 //                    AccountInfo.saveProjectMembers(getActivity(), (ArrayList) mData, mProjectObject.getId());

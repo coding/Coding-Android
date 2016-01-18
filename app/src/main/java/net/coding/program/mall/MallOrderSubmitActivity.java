@@ -1,6 +1,5 @@
 package net.coding.program.mall;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -21,8 +20,8 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.MallItemObject;
 import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -31,7 +30,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -46,8 +44,6 @@ import java.util.ArrayList;
 public class MallOrderSubmitActivity extends BackActivity {
 
     private static final int RESULT_LOCAL = 1;
-
-    final String host = Global.HOST_API + "/gifts/exchange";
 
     @ViewById
     EditText mall_order_edit_username;
@@ -76,25 +72,22 @@ public class MallOrderSubmitActivity extends BackActivity {
     @ViewById
     TextView mall_order_edit_city;
 
+    @ViewById
+    View mall_order_title_options, mall_order_divide_options;
+
+    @ViewById
+    TextView mall_order_edit_options;
+
+
     @Click
     void mall_order_button_submit() {
         parseParams();
     }
 
     @Extra
-    int giftId;
+    static MallItemObject mallItemObject = new MallItemObject();
 
-    @Extra
-    String desc;
-
-    @Extra
-    String title;
-
-    @Extra
-    double point;
-
-    @Extra
-    String imgUrl;
+    MallItemObject.Option option;
 
     String submitPassword = "";
 
@@ -113,15 +106,44 @@ public class MallOrderSubmitActivity extends BackActivity {
         String userName = user.name;
         mall_order_edit_username.setHint(userName);
 
-        mall_order_title.setText(title);
-        mall_order_point.setText(point + " 码币");
-        mall_order_desc.setText(desc.replaceAll(" ?<br> ?", ""));
-        getImageLoad().loadImage(mall_order_img, imgUrl, ImageLoadTool.mallOptions);
+        mall_order_title.setText(mallItemObject.getName());
+        mall_order_point.setText(mallItemObject.getPoints_cost() + " 码币");
+        mall_order_desc.setText(mallItemObject.getDescription().replaceAll(" ?<br> ?", ""));
+        getImageLoad().loadImage(mall_order_img, mallItemObject.getImage(), ImageLoadTool.mallOptions);
 
         mall_order_edit_username.setOnFocusChangeListener(foucusChangeListener);
         mall_order_edit_address.setOnFocusChangeListener(foucusChangeListener);
         mall_order_edit_phone.setOnFocusChangeListener(foucusChangeListener);
         mall_order_edit_note.setOnFocusChangeListener(foucusChangeListener);
+
+        if (mallItemObject.getOptions().isEmpty()) {
+            mall_order_title_options.setVisibility(View.GONE);
+            mall_order_edit_options.setVisibility(View.GONE);
+            mall_order_divide_options.setVisibility(View.GONE);
+        } else {
+            option = mallItemObject.getOptions().get(0);
+            uiBindData();
+        }
+    }
+
+    @Click
+    void mall_order_edit_options() {
+        ArrayList<MallItemObject.Option> options = mallItemObject.getOptions();
+        String[] optionNames = new String[options.size()];
+        for (int i = 0; i < options.size(); ++i) {
+            optionNames[i] = options.get(i).getName();
+        }
+
+        new AlertDialog.Builder(this)
+                .setItems(optionNames, (dialog, which) -> {
+                    option = options.get(which);
+                    uiBindData();
+                })
+                .show();
+    }
+
+    private void uiBindData() {
+        mall_order_edit_options.setText(option.getName());
     }
 
     void showDialog() {
@@ -132,11 +154,8 @@ public class MallOrderSubmitActivity extends BackActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(entryView)
                 .setTitle("确认订单")
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        parsePassword(editText.getText().toString().trim());
-                    }
+                .setPositiveButton("确认", (dialog, which) -> {
+                    parsePassword(editText.getText().toString().trim());
                 })
                 .setNegativeButton("取消", null)
                 .show();
@@ -198,7 +217,10 @@ public class MallOrderSubmitActivity extends BackActivity {
         params.put("receiverPhone", phone);
         params.put("remark", note);
         params.put("receiverAddress", address);
-        params.put("giftId", giftId);
+        params.put("giftId", mallItemObject.getId());
+        if (option != null) {
+            params.put("option_id", option.getId());
+        }
 
         int priovicen = local.getProvicen().getId();
         if (priovicen != 0) {
@@ -216,7 +238,23 @@ public class MallOrderSubmitActivity extends BackActivity {
         }
 
         showProgressBar(true, "正在提交订单...");
-        postNetwork(host, params, host);
+
+        String url = Global.HOST_API + "/gifts/exchange";
+        MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(MallOrderSubmitActivity.this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                showButtomToast("恭喜您，订单提交成功！");
+                MallOrderDetailActivity_.intent(MallOrderSubmitActivity.this).start();
+                finish();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                showProgressBar(false);
+            }
+        });
     }
 
     @Click
@@ -246,22 +284,6 @@ public class MallOrderSubmitActivity extends BackActivity {
         });
 
         showProgressBar(true, "");
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
-            throws JSONException {
-        showProgressBar(false);
-        if (tag.equals(host)) {
-            if (code == 0) {
-                showButtomToast("恭喜您，订单提交成功！");
-                MallOrderDetailActivity_.intent(this).start();
-                finish();
-            } else {
-                showErrorMsg(code, respanse);
-//                showButtomToast("很抱歉，订单提交失败！");
-            }
-        }
     }
 
     @Override

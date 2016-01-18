@@ -265,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="备注信息如：衣服码数 XXL"
+                android:hint="备注信息"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#666666"
@@ -276,6 +276,40 @@
                 layout="@layout/divide_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
+
+
+            <TextView
+                android:id="@+id/mall_order_title_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="18dp"
+                android:paddingTop="18dp"
+                android:text="选项 *"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/font_black_2"
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/mall_order_edit_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:editable="false"
+                android:gravity="center_vertical"
+                android:hint=""
+                android:paddingBottom="14dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#666666"
+                android:textColorHint="#cccccc"
+                android:textSize="15sp" />
+
+            <include
+                android:id="@+id/mall_order_divide_options"
+                layout="@layout/divide_1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp" />
+
         </LinearLayout>
 
         <LinearLayout

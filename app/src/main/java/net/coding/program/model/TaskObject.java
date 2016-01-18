@@ -89,6 +89,10 @@ public class TaskObject {
             return getType() == Type.ower;
         }
 
+        public boolean isMe() {
+            return user.isMe();
+        }
+
         public Members(UserObject data) {
             created_at = data.created_at;
             id = data.id;

@@ -112,11 +112,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 } else {
                     if (!MyApp.sUserObject.phone.isEmpty()) {
                         MallOrderSubmitActivity_.intent(context)
-                                .giftId(object.getId())
-                                .desc(object.getDescription())
-                                .imgUrl(object.getImage())
-                                .point(object.getPoints_cost())
-                                .title(object.getName())
+                                .mallItemObject(object)
                                 .start();
                     } else {
                         SingleToast.showMiddleToast(context, "验证手机号才能下单");
