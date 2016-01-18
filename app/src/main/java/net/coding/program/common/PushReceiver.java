@@ -14,9 +14,11 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
+import net.coding.program.MyApp;
 import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.push.PushUrl;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.model.AccountInfo;
 
@@ -58,7 +60,15 @@ public class PushReceiver extends XGPushBaseReceiver {
                 return;
             }
 
-            JSONObject jsonCustom = new JSONObject(message.getCustomContent());
+            // 这个写法是为了方便调试，因为信鸽的后台不能输入 customContent
+            JSONObject jsonCustom = null;
+            try {
+                jsonCustom = new JSONObject(message.getCustomContent());
+            } catch (Exception e) {
+            }
+            if (jsonCustom == null) {
+                jsonCustom = new JSONObject(message.getContent());
+            }
 
             if (jsonCustom.has("cancel")) {
                 String cancelString = jsonCustom.optString("cancel");
@@ -73,6 +83,14 @@ public class PushReceiver extends XGPushBaseReceiver {
 
             String id = jsonCustom.optString("notification_id", "");
             String url = jsonCustom.optString("param_url", "");
+
+            // 如果本地没有 2FA，就不显示这个推送
+            if (url.equals(PushUrl.URL_2FA)) {
+                String authUri = AccountInfo.loadAuth(context, MyApp.sUserObject.global_key);
+                if (authUri.isEmpty()) {
+                    return;
+                }
+            }
 
             if (url.isEmpty()) {
                 Log.e("", "收到空消息");
@@ -118,12 +136,12 @@ public class PushReceiver extends XGPushBaseReceiver {
     }
 
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
-        Log.d("", xgPushClickedResult + " || cccccccc || " + xgPushClickedResult.getCustomContent()  );
+        Log.d("", xgPushClickedResult + " || cccccccc || " + xgPushClickedResult.getCustomContent());
 
     }
 
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
-        Log.d("", xgPushShowedResult + " || sssssssss || " + xgPushShowedResult.getCustomContent()  );
+        Log.d("", xgPushShowedResult + " || sssssssss || " + xgPushShowedResult.getCustomContent());
 
     }
 

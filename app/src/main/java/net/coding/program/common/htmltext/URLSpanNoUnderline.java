@@ -13,6 +13,8 @@ import net.coding.program.FileUrlActivity_;
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.push.PushUrl;
+import net.coding.program.login.auth.AuthListActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.message.MessageListActivity_;
@@ -104,8 +106,6 @@ public class URLSpanNoUnderline extends URLSpan {
                 return true;
             }
         }
-
-
 
         // 用户名
         final String atSomeOne = "^(?:https://[\\w.]*)?/u/([\\w.-]+)$";
@@ -385,6 +385,14 @@ public class URLSpanNoUnderline extends URLSpan {
 
             intent.putExtra("mProjectPath", projectPath);
             intent.putExtra("mVersion", version);
+            context.startActivity(intent);
+            return true;
+        }
+
+        String s = PushUrl.URL_2FA;
+        if (uriString.equals(s)) {
+            intent.setClass(context, AuthListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
             return true;
         }
