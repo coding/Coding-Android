@@ -29,6 +29,7 @@ import com.tencent.android.tpush.service.XGPushService;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
@@ -106,6 +107,8 @@ public class MainActivity extends BaseActivity
             mPushUrl = null;
             getIntent().getExtras().remove("mPushUrl");
         }
+
+        MarketingHelp.showMarketing(this);
     }
 
     @Override

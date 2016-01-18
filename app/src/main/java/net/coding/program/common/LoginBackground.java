@@ -151,6 +151,10 @@ public class LoginBackground {
         public PhotoItem() {
         }
 
+        public Group getGroup() {
+            return group;
+        }
+
         public String getUrl() {
             return url;
         }
@@ -204,7 +208,7 @@ public class LoginBackground {
             return dir;
         }
 
-        class Group implements Serializable {
+        public class Group implements Serializable {
             String name = "";
             String author = "";
             String link = "";
@@ -220,6 +224,10 @@ public class LoginBackground {
             }
 
             Group() {
+            }
+
+            public String getLink() {
+                return link;
             }
         }
     }

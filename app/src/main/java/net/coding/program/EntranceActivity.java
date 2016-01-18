@@ -22,6 +22,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.login.ZhongQiuGuideActivity;
@@ -192,6 +193,8 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
             ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
         }
+
+        MarketingHelp.setUrl(photoItem.getGroup().getLink());
     }
 
     @Override

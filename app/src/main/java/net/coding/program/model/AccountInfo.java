@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.message.MessageListActivity;
@@ -41,6 +43,9 @@ public class AccountInfo {
     private static final String MESSAGE_DRAFT = "MESSAGE_DRAFT";
     private static final String GLOBAL_SETTING = "GLOBAL_SETTING";
     private static final String GLOBAL_SETTING_BACKGROUND = "GLOBAL_SETTING_BACKGROUND";
+
+    private static final String GLOBAL_MARKED_MARKETING = "GLOBAL_MARKED_MARKETING";
+
     private static final String USER_MAOPAO = "USER_MAOPAO";
     private static final String MAOPAO_DRAFT = "MAOPAO_DRAFT";
     private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO2"; // 修改了数据类型，由Pair改为UserObject
@@ -62,7 +67,6 @@ public class AccountInfo {
     // 每添加一个
     private static final String MARK_GUIDE_32 = "MARK_GUIDE_32"; // 标记3.2中的引导页面
     private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_325"; // 修改这个值就可以了
-
 
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
@@ -552,6 +556,38 @@ public class AccountInfo {
         }
         String[] data = new String[array.size()];
         return array.toArray(data);
+    }
+
+    public static MarketingHelp.MarkedMarketingData loadGlobalMarkedMarketing(Context context) {
+        String global_key = MyApp.sUserObject.global_key;
+
+        ArrayList<MarketingHelp.MarkedMarketingData> allUser = new DataCache<MarketingHelp.MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
+        for (MarketingHelp.MarkedMarketingData item : allUser) {
+            if (item.mGlobalKey.equals(global_key)) {
+                return item;
+            }
+        }
+
+        return new MarketingHelp.MarkedMarketingData(global_key);
+    }
+
+    public static void saveGlobalMarkedMarketing(Context context, MarketingHelp.MarkedMarketingData data) {
+        ArrayList<MarketingHelp.MarkedMarketingData> allUser = new DataCache<MarketingHelp.MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
+        boolean find = false;
+        for (int i = 0; i < allUser.size(); ++i) {
+            MarketingHelp.MarkedMarketingData item = allUser.get(i);
+            if (data.mGlobalKey.equals(item.mGlobalKey)) {
+                find = true;
+                data.mReadData = data.mReadData;
+                break;
+            }
+        }
+
+        if (!find) {
+            allUser.add(data);
+        }
+
+        new DataCache<MarketingHelp.MarkedMarketingData>().save(context, allUser, GLOBAL_MARKED_MARKETING);
     }
 
     public static void saveBackgrounds(Context ctx, ArrayList<LoginBackground.PhotoItem> data) {

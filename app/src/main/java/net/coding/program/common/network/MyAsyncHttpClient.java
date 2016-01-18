@@ -62,6 +62,7 @@ private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
         }
         String userAgentValue = String.format("android %d %s coding_android", Build.VERSION.SDK_INT, versionName);
         mapHeaders.put("User-Agent", userAgentValue);
+        mapHeaders.put("Accept", "*/*");
     }
 
     public static AsyncHttpClient createClient(Context context) {

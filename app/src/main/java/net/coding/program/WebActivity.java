@@ -38,16 +38,17 @@ import org.androidannotations.annotations.ViewById;
 public class WebActivity extends UmengActivity {
 
     @Extra
-    String url = Global.HOST;
+    protected String url = Global.HOST;
 
     @Extra
-    boolean share = false; // 可以弹出显示分享 Dialog
+    protected boolean share = false; // 可以弹出显示分享 Dialog
 
     @ViewById
-    WebView webView;
+    protected WebView webView;
 
     @ViewById
-    ProgressBar progressBar;
+    protected ProgressBar progressBar;
+
     String loading = "";
     private TextView actionbarTitle;
 
@@ -201,7 +202,7 @@ public class WebActivity extends UmengActivity {
         decorView.getWindowVisibleDisplayFrame(rect);
         int winHeight = getWindow().getDecorView().getHeight();
         // 在 5.0 的android手机上，如果是 noactionbar，显示会有问题
-        shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
+        shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight - rect.bottom);
     }
 
     public static class CustomWebViewClient extends WebViewClient {
