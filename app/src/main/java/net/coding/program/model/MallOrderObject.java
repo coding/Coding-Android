@@ -53,24 +53,31 @@ public class MallOrderObject implements Serializable {
 
     private String remark = "";
 
+    private String optionName = "";
+
     public MallOrderObject() {
     }
 
     public MallOrderObject(JSONObject object) {
-        orderNo = object.optString("orderNo");
+        orderNo = object.optString("orderNo", "");
         id = object.optInt("id");
         giftId = object.optInt("giftId");
-        name = object.optString("giftName");
+        name = object.optString("giftName", "");
         pointsCost = object.optDouble("pointsCost");
-        receiverName = object.optString("receiverName");
-        receiverPhone = object.optString("receiverPhone");
+        receiverName = object.optString("receiverName", "");
+        receiverPhone = object.optString("receiverPhone", "");
         status = object.optInt("status");
         createdAt = object.optLong("createdAt");
-        receiverAddress = object.optString("receiverAddress");
+        receiverAddress = object.optString("receiverAddress", "");
         userId = object.optLong("userId");
-        giftImage = object.optString("giftImage");
-        remark = object.optString("remark");
-        expressNo = object.optString("expressNo");
+        giftImage = object.optString("giftImage", "");
+        remark = object.optString("remark", "");
+        expressNo = object.optString("expressNo", "");
+        optionName = object.optString("optionName", "");
+    }
+
+    public String getOptionName() {
+        return optionName;
     }
 
     public String getExpressNo() {

@@ -1,5 +1,14 @@
 package net.coding.program.mall;
 
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -13,14 +22,6 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,8 +109,16 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = format.format(new Date(timeLong));
             holder.time.setText(time);
-            holder.goodTitle.setText(item.getName());
-            getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
+
+            String titleString;
+            if (item.getOptionName().isEmpty()) {
+                titleString = item.getName();
+            } else {
+                String titleFormat = "%s <font color=#666666><small>%s</small></font>";
+                titleString = String.format(titleFormat, item.getName(), item.getOptionName());
+            }
+            holder.goodTitle.setText(Html.fromHtml(titleString));
+                    getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
             holder.pointCost.setText(item.getPointsCost() + " 码币");
 
             if (item.getRemark().equals("")) {

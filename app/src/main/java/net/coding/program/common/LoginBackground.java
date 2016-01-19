@@ -44,7 +44,6 @@ public class LoginBackground {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Log.d("", "getDataFail1");
                     if (response.optInt("code", -1) == 0) {
                         ArrayList<PhotoItem> photoItems = new ArrayList<>();
                         JSONArray data = response.optJSONArray("data");
@@ -172,6 +171,7 @@ public class LoginBackground {
             try {
                 return SimpleSHA1.sha1(url);
             } catch (Exception e) {
+                Global.errorLog(e);
             }
 
             return "noname";

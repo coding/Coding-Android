@@ -578,7 +578,7 @@ public class AccountInfo {
             MarketingHelp.MarkedMarketingData item = allUser.get(i);
             if (data.mGlobalKey.equals(item.mGlobalKey)) {
                 find = true;
-                data.mReadData = data.mReadData;
+                item.mReadData = data.mReadData;
                 break;
             }
         }

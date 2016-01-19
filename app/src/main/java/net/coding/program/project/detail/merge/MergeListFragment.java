@@ -62,7 +62,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         listView.setAdapter(mMergeAdapter);
         loadMore();
 
-        showDialogLoading();
+//        showDialogLoading();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MERGE)) {
-            hideProgressDialog();
+//            hideProgressDialog();
             if (code == 0) {
                 if (isLoadingFirstPage(HOST_MERGE)) {
                     mMergeAdapter.clearData();

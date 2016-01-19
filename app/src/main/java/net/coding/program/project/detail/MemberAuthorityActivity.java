@@ -31,13 +31,24 @@ public class MemberAuthorityActivity extends BackActivity {
     TaskObject.Members member;
 
     @Extra
+    TaskObject.Members me;
+
+    @Extra
     int projectId;
 
     @ViewById
     DropdownListItemView projectManager, projectMember, projectMemberLimited;
 
+    @ViewById
+    View managerDivide;
+
     @AfterViews
     void initMemberAuthorityActivity() {
+        if (me.getType() == TaskObject.Members.Type.manager) {
+            projectManager.setVisibility(View.GONE);
+            managerDivide.setVisibility(View.GONE);
+        }
+
         projectManager.setText("项目管理员");
         projectMember.setText("项目成员");
         projectMemberLimited.setText("受限成员");
@@ -47,7 +58,7 @@ public class MemberAuthorityActivity extends BackActivity {
         projectMemberLimited.setChecked(false);
 
         switch (member.getType()) {
-            case ower:
+            case manager:
                 projectManager.setChecked(true);
                 break;
             case member:

@@ -2,6 +2,7 @@ package net.coding.program.login;
 
 import android.content.Context;
 
+import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.model.AccountInfo;
 
@@ -20,13 +21,13 @@ public class MarketingHelp {
     }
 
     public static void showMarketing(Context context) {
-        if (url == null || !url.startsWith(Global.HOST)) {
+        if (url == null || !url.startsWith(Global.DEFAULT_HOST)) {
             return;
         }
 
          MarkedMarketingData data = AccountInfo.loadGlobalMarkedMarketing(context);
         if (!data.marked(url)) {
-            MarketingActivity_.intent(context).start();
+            WebActivity_.intent(context).url(url).start();
             data.add(url);
             AccountInfo.saveGlobalMarkedMarketing(context, data);
         } else {

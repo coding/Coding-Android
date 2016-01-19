@@ -3,7 +3,6 @@ package net.coding.program.project;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
@@ -14,6 +13,7 @@ import net.coding.program.event.EventPosition;
 import net.coding.program.model.MenuCount;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
@@ -25,20 +25,22 @@ import de.greenrobot.event.EventBus;
  * Created by Vernon on 15/11/14.
  */
 @EFragment(R.layout.fragment_menu_project)
-public class MenuProjectFragment extends BaseFragment implements View.OnClickListener {
+public class MenuProjectFragment extends BaseFragment {
+
     private static final String URL_PROJECT_COUNT = Global.HOST_API + "/project_count";
 
-    @ViewById(R.id.rb_all_project)
+    @ViewById
     RadioButton rb_all_project;
-    @ViewById(R.id.rb_my_build)
+    @ViewById
     RadioButton rb_my_build;
-    @ViewById(R.id.rb_join_project)
+    @ViewById
     RadioButton rb_join_project;
-    @ViewById(R.id.rb_my_intrest)
+    @ViewById
     RadioButton rb_my_intrest;
-    @ViewById(R.id.rb_my_collected)
+    @ViewById
     RadioButton rb_my_collected;
-    @ViewById(R.id.ll_square)
+
+    @ViewById
     LinearLayout ll_square;
 
     public MenuProjectFragment() {
@@ -47,13 +49,6 @@ public class MenuProjectFragment extends BaseFragment implements View.OnClickLis
     @AfterViews
     protected void init() {
         setHasOptionsMenu(true);
-        rb_all_project.setOnClickListener(this);
-        rb_join_project.setOnClickListener(this);
-        rb_my_build.setOnClickListener(this);
-        rb_my_collected.setOnClickListener(this);
-        rb_my_intrest.setOnClickListener(this);
-        ll_square.setOnClickListener(this);
-
     }
 
     @Override
@@ -62,30 +57,35 @@ public class MenuProjectFragment extends BaseFragment implements View.OnClickLis
         getNetwork(URL_PROJECT_COUNT, URL_PROJECT_COUNT);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.rb_join_project://我参与的项目
-                EventBus.getDefault().post(new EventPosition(1));
-                break;
-            case R.id.rb_my_intrest://我关注的
-                EventBus.getDefault().post(new EventPosition(3));
-                break;
-            case R.id.rb_my_collected://我收藏的
-                EventBus.getDefault().post(new EventPosition(4));
-                break;
-            case R.id.rb_all_project://全部项目
-                EventBus.getDefault().post(new EventPosition(0));
-                break;
-            case R.id.rb_my_build://我创建的
-                EventBus.getDefault().post(new EventPosition(2));
-                break;
-            case R.id.ll_square://项目广场
-//                EventBus.getDefault().post(new EventPosition(6));
-                ProjectSquareActivity_.intent(this).start();
-                break;
-        }
+    @Click
+    void rb_join_project() {//我参与的项目
+        EventBus.getDefault().post(new EventPosition(1));
+    }
 
+    @Click
+    void rb_my_intrest() {//我关注的
+        EventBus.getDefault().post(new EventPosition(3));
+    }
+
+    @Click
+    void rb_my_collected() {//我收藏的
+        EventBus.getDefault().post(new EventPosition(4));
+    }
+
+    @Click
+    void rb_all_project() {//全部项目
+        EventBus.getDefault().post(new EventPosition(0));
+    }
+
+    @Click
+    void rb_my_build() {//我创建的
+        EventBus.getDefault().post(new EventPosition(2));
+    }
+
+    @Click
+    void ll_square() {//项目广场
+//                EventBus.getDefault().post(new EventPosition(6));
+        ProjectSquareActivity_.intent(this).start();
     }
 
     @Override

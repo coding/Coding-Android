@@ -970,6 +970,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             mSingleTask.project = project;
             mSingleTask.project_id = project.getId();
 
+            TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
+            setPickUser(member);
+
             uiBindDataProject();
         }
     }
@@ -982,8 +985,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         iconfromNetwork(layoutProjectName.getImage(), mSingleTask.project.icon);
         layoutProjectName.setText2(mSingleTask.project.name);
 
-        TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
-        setPickUser(member);
 
         mSingleTask.labels.clear();
         updateLabels(mSingleTask.labels);

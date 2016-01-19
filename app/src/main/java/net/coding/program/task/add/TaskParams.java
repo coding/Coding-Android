@@ -37,7 +37,7 @@ class TaskParams {
         if (status != that.status) return false;
         if (!content.equals(that.content)) return false;
         if (!deadline.equals(that.deadline)) return false;
-        return owner.equals(that.owner);
+        return owner.global_key.equals(that.owner.global_key);
 
     }
 

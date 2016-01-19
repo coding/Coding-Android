@@ -75,31 +75,23 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     BaseAdapter adapter = new BaseAdapter() {
 
-        private View.OnClickListener sendMessage = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserObject user = (UserObject) v.getTag();
-                Intent intent = new Intent(getActivity(), MessageListActivity_.class);
-                intent.putExtra("mUserObject", user);
-                startActivity(intent);
-            }
+        private View.OnClickListener sendMessage = v -> {
+            UserObject user = (UserObject) v.getTag();
+            Intent intent = new Intent(getActivity(), MessageListActivity_.class);
+            intent.putExtra("mUserObject", user);
+            startActivity(intent);
         };
-        private View.OnClickListener quitProject = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //showButtomToast("quit");
-//                String.format(urlMembers, mProjectObject.getId());
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                AlertDialog dialog = builder.setTitle("退出项目")
-                        .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
-                        .setPositiveButton("确定", (dialog1, which) -> {
-                            RequestParams params = new RequestParams();
-                            postNetwork(urlQuit, params, urlQuit);
-                        })
-                        .setNegativeButton("取消", null)
-                        .show();
+        private View.OnClickListener quitProject = v -> {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("退出项目")
+                    .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
+                    .setPositiveButton("确定", (dialog1, which) -> {
+                        RequestParams params = new RequestParams();
+                        postNetwork(urlQuit, params, urlQuit);
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
 
-            }
         };
 
         @Override
@@ -293,11 +285,14 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                             } else {
                                 items = new String[]{
                                         "修改备注",
+                                        "设置权限",
                                         "移除成员"
                                 };
                                 clicks = (dialog1, which) -> {
                                     if (which == 0) {
                                         modifyMemberAlias(member);
+                                    } else if (which == 1) {
+                                        modifyMemberAuthority(member);
                                     } else {
                                         removeMember(member);
                                     }
@@ -331,6 +326,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     private void modifyMemberAuthority(TaskObject.Members member) {
         MemberAuthorityActivity_.intent(this)
                 .member(member)
+                .me(mMySelf)
                 .projectId(mProjectObject.getId())
                 .startForResult(RESULT_MODIFY_AUTHORITY);
     }

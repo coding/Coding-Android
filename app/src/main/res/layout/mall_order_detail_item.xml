@@ -40,7 +40,7 @@
             android:id="@+id/order_img"
             android:layout_width="134dp"
             android:layout_height="82dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_lancher" />
 
         <LinearLayout
@@ -73,17 +73,17 @@
                     android:textColor="@color/font_black_2"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/mall_order_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="11dp"
-                    android:text="X 1"
-                    android:textColor="@color/font_green"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/mall_order_count"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:gravity="right|center_vertical"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:paddingRight="11dp"-->
+                    <!--android:text="X 1"-->
+                    <!--android:textColor="@color/font_green"-->
+                    <!--android:textSize="16sp" />-->
             </RelativeLayout>
 
             <LinearLayout
