@@ -230,14 +230,14 @@ public class MergeObject implements Serializable {
         return getHostPublicHead("/commits");
     }
 
-    public PostRequest getHttpMerge(String message, boolean delSource) {
+    public RequestData getHttpMerge(String message, boolean delSource) {
         String url = getHostPublicHead("/merge");
 
         RequestParams params = new RequestParams();
         params.put("del_source_branch", delSource);
         params.put("message", message);
 
-        return new PostRequest(url, params);
+        return new RequestData(url, params);
     }
 
     private String getHttpHostComment() {

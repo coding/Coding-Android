@@ -20,7 +20,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.DynamicObject;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.merge.CommentActivity;
 import net.coding.program.project.detail.merge.CommentActivity_;
@@ -128,11 +128,11 @@ public class FileDynamicActivity extends BackActivity {
         }
 
         @Override
-        public PostRequest getSendCommentParam(String input) {
+        public RequestData getSendCommentParam(String input) {
             String url = String.format(Global.HOST_API +
                     mProjectObject.getProjectPath() +
                     "/files/%d/comment", fileId);
-            PostRequest request = new PostRequest(url, new RequestParams());
+            RequestData request = new RequestData(url, new RequestParams());
             request.setContent(input);
             return request;
         }
@@ -192,13 +192,13 @@ public class FileDynamicActivity extends BackActivity {
             return String.format(url, mFileObject.file_id, commmentId);
         }
 
-        public PostRequest getHttpEditFile(String content) {
+        public RequestData getHttpEditFile(String content) {
             final String template = Global.HOST_API + getProjectPath() + "/files/%s/edit";
             String url = String.format(template, mFileObject.file_id);
             RequestParams params = new RequestParams();
             params.put("name", mFileObject.getName());
             params.put("content", content);
-            return new PostRequest(url, params);
+            return new RequestData(url, params);
         }
 
         public String getHtttpFileView() {

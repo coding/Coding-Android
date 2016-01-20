@@ -17,7 +17,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.DiffFile;
 import net.coding.program.model.Merge;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -336,10 +336,10 @@ public class MergeFileDetailActivity extends BackActivity {
         }
 
         @Override
-        public PostRequest getSendCommentParam(String input) {
+        public RequestData getSendCommentParam(String input) {
             String url = Global.HOST_API + mProjectPath + "/git/line_notes";
             RequestParams params = mLineNote.getPostParam(input);
-            return new PostRequest(url, params);
+            return new RequestData(url, params);
         }
 
         @Override

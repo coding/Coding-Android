@@ -24,7 +24,7 @@ import net.coding.program.R;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.util.FileRequestHelp;
 import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity;
@@ -246,7 +246,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             return;
         }
 
-        PostRequest request = mFileRequest.getHttpHistoryRemark(item.getHistory_id(), editStr1);
+        RequestData request = mFileRequest.getHttpHistoryRemark(item.getHistory_id(), editStr1);
         postNetwork(request, TAG_FILE_HISTORY_REMARK, new FileHistoryRemarkRequest(item, editStr1));
     }
 

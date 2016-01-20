@@ -268,14 +268,14 @@ public class Merge implements Serializable {
         return getHostPublicHead("/commits");
     }
 
-    public PostRequest getHttpMerge(String message, boolean delSource) {
+    public RequestData getHttpMerge(String message, boolean delSource) {
         String url = getHostPublicHead("/merge");
 
         RequestParams params = new RequestParams();
         params.put("del_source_branch", delSource);
         params.put("message", message);
 
-        return new PostRequest(url, params);
+        return new RequestData(url, params);
 
 //        :
 //        :Accept Merge Request #12 : (master1 -> master)
@@ -297,14 +297,14 @@ public class Merge implements Serializable {
         return getHostPublicHead("/cancel");
     }
 
-    public PostRequest getHttpSendComment() {
+    public RequestData getHttpSendComment() {
         String url = getHttpHostComment();
         RequestParams params = new RequestParams();
         String mergeType = isPull() ? "PullRequestBean" : "MergeRequestBean";
         params.put("noteable_type", mergeType);
         params.put("noteable_id", id);
 
-        return new PostRequest(url, params);
+        return new RequestData(url, params);
     }
 
     public String getHttpDeleteComment(BaseComment comment) {

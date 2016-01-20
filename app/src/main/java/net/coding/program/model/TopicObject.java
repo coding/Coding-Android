@@ -74,13 +74,13 @@ public class TopicObject extends BaseComment implements Serializable {
     public interface LabelUrl {
         String getLabels();
 
-        PostRequest addLabel(String name, String color);
+        RequestData addLabel(String name, String color);
 
         String removeLabel(int labelId);
 
-        PostRequest renameLabel(int labelId, String name, String color);
+        RequestData renameLabel(int labelId, String name, String color);
 
-        PostRequest saveTopic(Collection<Integer> ids);
+        RequestData saveTopic(Collection<Integer> ids);
     }
 
     public static class TopicLabelUrl implements LabelUrl {
@@ -105,12 +105,12 @@ public class TopicObject extends BaseComment implements Serializable {
         }
 
         @Override
-        public PostRequest addLabel(String name, String color) {
+        public RequestData addLabel(String name, String color) {
             String url = String.format("%s%s/topics/label", Global.HOST_API, projectPath);
             RequestParams body = new RequestParams();
             body.put("name", name);
             body.put("color", color);
-            return new PostRequest(url, body);
+            return new RequestData(url, body);
         }
 
         @Override
@@ -119,20 +119,20 @@ public class TopicObject extends BaseComment implements Serializable {
         }
 
         @Override
-        public PostRequest renameLabel(int labelId, String name, String color) {
+        public RequestData renameLabel(int labelId, String name, String color) {
             String url = removeLabel(labelId);
             RequestParams body = new RequestParams();
             body.put("name", name);
             body.put("color", color);
-            return new PostRequest(url, body);
+            return new RequestData(url, body);
         }
 
         @Override
-        public PostRequest saveTopic(Collection<Integer> ids) {
+        public RequestData saveTopic(Collection<Integer> ids) {
             String url = String.format("%s%s/topics/%d/labels", Global.HOST_API, projectPath, id);
             RequestParams body = new RequestParams();
             body.put("label_id", TextUtils.join(",", ids));
-            return new PostRequest(url, body);
+            return new RequestData(url, body);
         }
     }
 
@@ -153,7 +153,7 @@ public class TopicObject extends BaseComment implements Serializable {
         }
 
         @Override
-        public PostRequest addLabel(String name, String color) {
+        public RequestData addLabel(String name, String color) {
             return topicLabelUrl.addLabel(name, color);
         }
 
@@ -163,16 +163,16 @@ public class TopicObject extends BaseComment implements Serializable {
         }
 
         @Override
-        public PostRequest renameLabel(int labelId, String name, String color) {
+        public RequestData renameLabel(int labelId, String name, String color) {
             return topicLabelUrl.renameLabel(labelId, name, color);
         }
 
         @Override
-        public PostRequest saveTopic(Collection<Integer> ids) {
+        public RequestData saveTopic(Collection<Integer> ids) {
             String url = String.format("%s%s/task/%d/labels", Global.HOST_API, projectPath, id);
             RequestParams body = new RequestParams();
             body.put("label_id", TextUtils.join(",", ids));
-            return new PostRequest(url, body);
+            return new RequestData(url, body);
         }
     }
 }

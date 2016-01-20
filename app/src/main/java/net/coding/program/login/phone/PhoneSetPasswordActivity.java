@@ -9,6 +9,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -54,7 +55,7 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
             }
         }
 
-        public String getResetPasswordEmailUrl() {
+        public RequestData getResetPasswordEmailUrl(String email, String captcha) {
             String type = "";
             switch (this) {
                 case reset:
@@ -66,7 +67,12 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
                 default: // register
                     throw new AssertionError("new type " + this.name());
             }
-            return Global.HOST_API + "/" + type + "?email=%s&j_captcha=%s";
+
+            String url = Global.HOST_API + "/" + type;
+            RequestParams params = new RequestParams();
+            params.put("email", email);
+            params.put("j_captcha", captcha);
+            return new RequestData(url, params);
         }
 
         public String getInputAccountTitle() {

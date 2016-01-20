@@ -19,7 +19,7 @@ import net.coding.program.common.widget.ListItem1;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.CommitListActivity_;
 
@@ -387,8 +387,8 @@ public class MergeDetailActivity extends BackActivity {
         }
 
         @Override
-        public PostRequest getSendCommentParam(String input) {
-            PostRequest request = mMerge.getHttpSendComment();
+        public RequestData getSendCommentParam(String input) {
+            RequestData request = mMerge.getHttpSendComment();
             request.setContent(input);
             return request;
         }

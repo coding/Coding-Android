@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.BaseComment;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.task.TaskDespPreviewFragment_;
@@ -89,7 +89,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
             return;
         }
 
-        PostRequest request = mParam.getSendCommentParam(contentString);
+        RequestData request = mParam.getSendCommentParam(contentString);
         postNetwork(request.url, request.params, HOST_SEND_COMMENT);
         showProgressBar(true, "发送中");
     }
@@ -129,7 +129,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     }
 
     public static abstract class CommentParam implements Serializable {
-        public abstract PostRequest getSendCommentParam(String input);
+        public abstract RequestData getSendCommentParam(String input);
         public abstract String getAtSome();
         public abstract String getAtSomeUrl();
         public abstract String getProjectPath();

@@ -8,6 +8,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -50,9 +51,8 @@ public class EmailSetPasswordActivity extends BackActivity {
     void loginButton() {
         String emailString = emailEdit.getTextString();
         String captchaString = captchaEdit.getTextString();
-        String format = type.getResetPasswordEmailUrl();
-        String url = String.format(format, emailString, captchaString);
-        MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+        RequestData data = type.getResetPasswordEmailUrl(emailString, captchaString);
+        MyAsyncHttpClient.get(this, data, new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);

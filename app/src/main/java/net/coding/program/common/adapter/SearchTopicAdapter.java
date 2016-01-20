@@ -1,11 +1,7 @@
 package net.coding.program.common.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,13 +11,10 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.PostRequest;
-import net.coding.program.model.TaskObject;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.TopicObject;
 import net.coding.program.project.detail.merge.CommentActivity;
-import net.coding.program.project.detail.merge.CommentActivity_;
 import net.coding.program.search.HoloUtils;
 
 import java.text.SimpleDateFormat;
@@ -102,7 +95,7 @@ public class SearchTopicAdapter extends BaseAdapter {
     private CommentActivity.CommentParam createCommentParam(final TopicObject bean){
         CommentActivity.CommentParam param=new CommentActivity.CommentParam() {
             @Override
-            public PostRequest getSendCommentParam(String input) {
+            public RequestData getSendCommentParam(String input) {
 
                 return null;
             }

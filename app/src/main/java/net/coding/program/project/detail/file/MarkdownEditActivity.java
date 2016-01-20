@@ -7,7 +7,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.TopicAddActivity;
@@ -155,7 +155,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
 
     @Override
     public void exit() {
-        PostRequest request = mParam.getHttpEditFile(modifyData.content);
+        RequestData request = mParam.getHttpEditFile(modifyData.content);
         postNetwork(request, TAG_SAVE_CONTENT);
         showProgressBar(true, "正在保存到服务器");
     }

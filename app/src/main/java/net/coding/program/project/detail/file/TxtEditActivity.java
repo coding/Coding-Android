@@ -7,7 +7,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
 
@@ -72,7 +72,7 @@ public class TxtEditActivity extends BackActivity {
 
     @OptionsItem
     void action_save() {
-        PostRequest request = mParam.getHttpEditFile(editText.getText().toString());
+        RequestData request = mParam.getHttpEditFile(editText.getText().toString());
         postNetwork(request, TAG_SAVE_CONTENT);
         showProgressBar(true, "正在保存");
     }

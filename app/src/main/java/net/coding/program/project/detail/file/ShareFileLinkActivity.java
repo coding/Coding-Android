@@ -11,7 +11,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -47,7 +47,7 @@ public class ShareFileLinkActivity extends BackActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (clickSettingShare.isChecked()) {
-                PostRequest request = mAttachmentFileObject.getHttpShareLinkOn(mProject);
+                RequestData request = mAttachmentFileObject.getHttpShareLinkOn(mProject);
                 postNetwork(request, TAG_SHARE_LINK_ON);
             } else {
                 String url = mAttachmentFileObject.getHttpShareLinkOff();

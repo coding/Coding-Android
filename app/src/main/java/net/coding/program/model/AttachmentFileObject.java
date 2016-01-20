@@ -191,14 +191,14 @@ public class AttachmentFileObject implements Serializable {
                 name;
     }
 
-    public PostRequest getHttpShareLinkOn(ProjectObject projectObject) {
+    public RequestData getHttpShareLinkOn(ProjectObject projectObject) {
         String url = Global.HOST_API + "/share/create";
         RequestParams params = new RequestParams();
         params.put("resourceId", file_id);
         params.put("resourceType", 0);
         params.put("projectId", projectObject.getId());
         params.put("accessType", 0);
-        return new PostRequest(url, params);
+        return new RequestData(url, params);
     }
 
     public String getHttpShareLinkOff() {

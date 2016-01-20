@@ -10,7 +10,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -56,7 +56,7 @@ public class InformMaopaoActivity extends BackActivity {
                 params.put("user", MyApp.sUserObject.global_key);
                 params.put("content", maopaoId);
                 params.put("reason", item);
-                postNetwork(new PostRequest(url, params), TAG_INFORM_MAOPAO);
+                postNetwork(new RequestData(url, params), TAG_INFORM_MAOPAO);
             }
         });
     }

@@ -26,7 +26,7 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
@@ -171,11 +171,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         networkImpl.getNextPageNetwork(url, tag);
     }
 
-    protected void postNetwork(PostRequest request, String tag) {
+    protected void postNetwork(RequestData request, String tag) {
         postNetwork(request.url, request.params, tag);
     }
 
-    protected void postNetwork(PostRequest request, String tag, Object data) {
+    protected void postNetwork(RequestData request, String tag, Object data) {
         postNetwork(request.url, request.params, tag, -1, data);
     }
 

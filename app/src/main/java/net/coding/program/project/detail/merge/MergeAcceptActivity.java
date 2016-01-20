@@ -7,7 +7,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.MergeDetail;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -49,7 +49,7 @@ public class MergeAcceptActivity extends BackActivity {
             return;
         }
 
-        PostRequest request = mMergeDetail.getHttpMerge(text, delSrc.getVisibility() == View.VISIBLE);
+        RequestData request = mMergeDetail.getHttpMerge(text, delSrc.getVisibility() == View.VISIBLE);
         postNetwork(request, HOST_ACCEPT_MEREGE);
     }
 

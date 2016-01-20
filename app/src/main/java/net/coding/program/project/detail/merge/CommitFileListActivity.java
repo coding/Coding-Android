@@ -18,7 +18,7 @@ import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.DiffFile;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -233,7 +233,7 @@ public class CommitFileListActivity extends BackActivity {
         }
 
         @Override
-        public PostRequest getSendCommentParam(String input) {
+        public RequestData getSendCommentParam(String input) {
             String url = Commit.getHttpSendComment(mProjectPath);
             RequestParams params = new RequestParams();
             params.put("commitId", mCommitId);
@@ -241,7 +241,7 @@ public class CommitFileListActivity extends BackActivity {
             params.put("content", input);
             params.put("position", 0);
             params.put("line", 0);
-            return new PostRequest(url, params);
+            return new RequestData(url, params);
         }
 
         @Override

@@ -6,7 +6,7 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,12 +55,12 @@ public class FileRequestHelp {
         }
     }
 
-    public PostRequest getHttpHistoryRemark(int historyId, String input) {
+    public RequestData getHttpHistoryRemark(int historyId, String input) {
         String url = String.format(Global.HOST_API + mProjectPath + "/files/%s/histories/%s/remark",
                 mFileId, historyId);
         RequestParams paraams = new RequestParams();
         paraams.put("remark", input);
-        return new PostRequest(url, paraams);
+        return new RequestData(url, paraams);
     }
 
     public String getHttpHistoryDelete(int historyId) {

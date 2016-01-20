@@ -12,6 +12,7 @@ import com.loopj.android.http.ResponseHandlerInterface;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.LogUtils;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.RequestData;
 
 import java.util.HashMap;
 import static net.coding.program.common.util.LogUtils.makeLogTag;
@@ -39,6 +40,13 @@ private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
         LogUtils.LOGD(TAG, "get " + url);
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
         client.get(context, url, response);
+    }
+
+    public static void get(Context context, RequestData requestData, ResponseHandlerInterface response) {
+
+        LogUtils.LOGD(TAG, "get " + requestData.url);
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+        client.get(context, requestData.url, requestData.params, response);
     }
 
     public static void delete(Context context, String url, ResponseHandlerInterface response) {

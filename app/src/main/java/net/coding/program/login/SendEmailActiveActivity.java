@@ -1,18 +1,20 @@
 package net.coding.program.login;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_base_send_email)
 public class SendEmailActiveActivity extends SendEmailBaseActivity {
-
-    private final String hostResendEmail = Global.HOST_API + "/activate?email=%s&j_captcha=%s";
 
     @AfterViews
     protected final void initResetPassword() {
@@ -25,19 +27,23 @@ public class SendEmailActiveActivity extends SendEmailBaseActivity {
             return;
         }
 
-        String hostReset = String.format(hostResendEmail, getEmail(), getValify());
-        getNetwork(hostReset, hostResendEmail);
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(hostResendEmail)) {
-            if (code == 0) {
+        String url = Global.HOST_API + "/activate";
+        RequestParams params = new RequestParams();
+        params.put("email", getEmail());
+        params.put("j_captcha", getValify());
+        MyAsyncHttpClient.get(this, new RequestData(url, params), new MyJsonResponse(SendEmailActiveActivity.this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
                 showMiddleToast("重置密码邮件已经发送，请尽快去邮箱查收");
-            } else {
-                downloadValifyPhoto();
-                showErrorMsg(code, respanse);
             }
-        }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+
+                downloadValifyPhoto();
+            }
+        });
     }
 }

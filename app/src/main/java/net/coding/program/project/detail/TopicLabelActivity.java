@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.PostRequest;
+import net.coding.program.model.RequestData;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
 
@@ -209,7 +209,7 @@ public class TopicLabelActivity extends BackActivity {
     private void beginAddLebel(String name) {
         currentLabelName = name.trim();
         COLOR = String.format("#%06X", new Random().nextInt(0xffffff));
-        PostRequest post = labelUrl.addLabel(currentLabelName, COLOR);
+        RequestData post = labelUrl.addLabel(currentLabelName, COLOR);
         postNetwork(post.url, post.params, "URI_ADD_LABEL");
     }
 
@@ -242,7 +242,7 @@ public class TopicLabelActivity extends BackActivity {
 
     private void beginRenameLabel(String newName) {
         currentLabelName = newName;
-        PostRequest postRename = labelUrl.renameLabel(currentLabelId, newName, COLOR);
+        RequestData postRename = labelUrl.renameLabel(currentLabelId, newName, COLOR);
         putNetwork(postRename.url, postRename.params, "URI_RENAME_LABEL");
     }
 
@@ -263,7 +263,7 @@ public class TopicLabelActivity extends BackActivity {
             endSaveTopicLabels();
         } else {
             if (lockViews()) {
-                PostRequest postSave = labelUrl.saveTopic(checkedIds);
+                RequestData postSave = labelUrl.saveTopic(checkedIds);
                 postNetwork(postSave.url, postSave.params, "URI_SAVE_TOPIC_LABELS");
             }
         }
