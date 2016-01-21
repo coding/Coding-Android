@@ -36,7 +36,7 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     private int minEnterHeight;
     private int minVoiceLayoutTop, minEmojikeyboardLayoutTop;
     private int minEnterLayoutBottomMargin;
-    private ViewGroup voiceLayout, emojiKeyboardLayout,mInputBox;
+    private ViewGroup voiceLayout, mInputBox;
     private LayoutParams lp_voice, lp_emoji;
     private OnEnterLayoutBottomMarginChanagedCallBack mOnEnterLayoutBottomMarginChanagedCallBack;
     private Editable tempData;
@@ -179,6 +179,10 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right,
                             int bottom) {
+        if (1 == 1) {
+            super.onLayout(changed, left, top, right, bottom);
+            return;
+        }
 
         if (isFirstLayout && getVisibility() != View.GONE) {
             mContent = (ViewGroup) getChildAt(0);
@@ -192,9 +196,8 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
             comment = (EditText) mEnter.findViewById(R.id.comment);
             mInputBox = (ViewGroup) mEnter.findViewById(R.id.mInputBox);
             voiceLayout = (ViewGroup) mEnter.findViewById(R.id.voiceLayout);
-            emojiKeyboardLayout = (ViewGroup) mEnter.findViewById(R.id.emojiKeyboardLayout);
             lp_voice = (LayoutParams) voiceLayout.getLayoutParams();
-            lp_emoji = (LayoutParams) emojiKeyboardLayout.getLayoutParams();
+            lp_emoji = (LayoutParams) mEnter.findViewById(R.id.emojiKeyboardLayout).getLayoutParams();
             isFirstLayout = false;
             orignalHeight = bottom - top;
             inputboxHeight = mInputBox.getMeasuredHeight();

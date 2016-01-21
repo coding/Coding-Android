@@ -9,6 +9,7 @@ import android.view.View;
 import net.coding.program.login.phone.InputAccountActivity_;
 import net.coding.program.login.phone.PhoneSetPasswordActivity;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
+import net.coding.program.message.MessageListActivity_;
 
 
 public class TestActivity extends AppCompatActivity {
@@ -55,7 +56,13 @@ public class TestActivity extends AppCompatActivity {
 
 //        onClick2(null);
 //        onClick3(null);
-        click1(null);
+//        click1(null);
+
+
+    }
+
+    void ff() {
+        MessageListActivity_.intent(this).mGlobalKey("8206503").start();
     }
 
     public void click1(View v) {

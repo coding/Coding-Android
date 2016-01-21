@@ -660,7 +660,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                     }
                 }
 
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
 
                 if (array.length() > 0) {
                     if (oldSize == listView.getLastVisiblePosition()) {

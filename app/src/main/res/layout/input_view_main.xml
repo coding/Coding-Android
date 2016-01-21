@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <net.coding.program.common.widget.input.TopBar_
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <net.coding.program.common.widget.input.VoiceView_
+        android:id="@+id/voiceView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <net.coding.program.common.widget.input.EmojiKeyboard_
+        android:id="@+id/emojiKeyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

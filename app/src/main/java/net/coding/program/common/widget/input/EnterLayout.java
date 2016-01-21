@@ -1,4 +1,4 @@
-package net.coding.program.common.enter;
+package net.coding.program.common.widget.input;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -19,8 +19,8 @@ import net.coding.program.R;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
-import net.coding.program.common.widget.input.InputAction;
 
 import java.lang.reflect.Method;
 

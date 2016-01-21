@@ -13,6 +13,7 @@ import android.widget.GridView;
 import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.widget.input.InputAction;
 
 import java.util.HashMap;
 
@@ -29,7 +30,7 @@ public class EmojiFragment extends Fragment {
     private String[] mEmojiData;
     private MyImageGetter myImageGetter;
     private int deletePos;
-    private EnterLayout mEnterLayout;
+    private InputAction mEnterLayout;
 
     private Type mType;
     private int mItemLayout = R.layout.gridview_emotion_emoji;
@@ -149,7 +150,7 @@ public class EmojiFragment extends Fragment {
         super();
     }
 
-    public void init(String[] emojis, MyImageGetter imageGetter, EnterLayout enterLayout, Type type) {
+    public void init(String[] emojis, MyImageGetter imageGetter, InputAction enterLayout, Type type) {
         mEmojiData = emojis;
         myImageGetter = imageGetter;
         deletePos = emojis.length - 1;
@@ -270,7 +271,7 @@ public class EmojiFragment extends Fragment {
     };
 
     public interface EnterEmojiLayout {
-        public EnterLayout getEnterLayout();
+        EnterLayout getEnterLayout();
     }
 
 }
