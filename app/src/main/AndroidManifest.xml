@@ -164,6 +164,7 @@
 
         <activity
             android:name=".TestActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:label="@string/title_activity_test">
 
             <intent-filter>
