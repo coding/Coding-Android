@@ -49,7 +49,6 @@ public class EmojiKeyboard extends FrameLayout {
     @ViewById
     View emojiButton, monkeyButton, zhongqiuButton;
 
-
     PageChangeListener pageChange = new PageChangeListener();
 
     private CheckBox checkBoxEmoji;
@@ -82,6 +81,8 @@ public class EmojiKeyboard extends FrameLayout {
 //        }
 
         emojiButton();
+
+
     }
 
     public void setInputAction(InputAction action) {
@@ -90,7 +91,6 @@ public class EmojiKeyboard extends FrameLayout {
 
     @Click
     void emojiButton() {
-
         setIndicatorCount(emojiIcons.length);
 
         if (viewPager.getAdapter() != mEmojiPagerAdapter) {

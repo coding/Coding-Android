@@ -42,24 +42,34 @@ public class MainInputView extends FrameLayout implements KeyboardControl {
     void initMainInputView() {
         emojiKeyboard.setInputAction(topBar);
         topBar.setKeyboardControl(this);
+
+        showSystemInput(false);
     }
 
     @Override
-    public void showSystemInput() {
-        Global.popSoftkeyboard(activity, topBar.getEditText(), true);
+    public void showSystemInput(boolean show) {
+        Global.popSoftkeyboard(activity, topBar.getEditText(), show);
         voiceView.setVisibility(GONE);
         emojiKeyboard.setVisibility(GONE);
+
+        topBar.showSystemInput(show);
     }
 
     @Override
     public void showVoiceInput() {
+        Global.popSoftkeyboard(activity, topBar.getEditText(), false);
         voiceView.setVisibility(VISIBLE);
         emojiKeyboard.setVisibility(View.GONE);
+
+        topBar.showVoiceInput();
     }
 
     @Override
     public void showEmojiInput() {
+        Global.popSoftkeyboard(activity, topBar.getEditText(), false);
         voiceView.setVisibility(View.GONE);
         emojiKeyboard.setVisibility(View.VISIBLE);
+
+        topBar.showEmojiInput();
     }
 }

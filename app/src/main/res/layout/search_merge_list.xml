@@ -40,7 +40,7 @@
         android:textSize="14sp" />
 
     <View
-        android:id="@+id/arrowLayout"
+        android:id="@+id/voiceLayout"
         android:layout_width="15dp"
         android:layout_height="5.5dp"
         android:layout_below="@+id/txtTitle"
@@ -56,7 +56,7 @@
         android:layout_below="@+id/txtTitle"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="11dp"
-        android:layout_toRightOf="@+id/arrowLayout"
+        android:layout_toRightOf="@+id/voiceLayout"
         android:background="@drawable/shape_struts"
         android:gravity="center"
         android:singleLine="true"

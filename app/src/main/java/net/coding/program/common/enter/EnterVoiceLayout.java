@@ -142,10 +142,10 @@ public class EnterVoiceLayout extends EnterEmojiLayout {
     private void init(final AppCompatActivity activity) {
         this.activity = activity;
 
-        mInputLayout = (LinearLayout) activity.findViewById(R.id.mInputLayout);
+//        mInputLayout = (LinearLayout) activity.findViewById(R.id.mInputLayout);
         voiceRecordButton = (ImageButton) voiceLayout.findViewById(R.id.voiceRecordButton);
-        arrowLayout = (RelativeLayout) activity.findViewById(R.id.arrowLayout);
-        btn_emoji = (Button) activity.findViewById(R.id.btn_emoji);
+        arrowLayout = (RelativeLayout) activity.findViewById(R.id.voiceLayout);
+//        btn_emoji = (Button) activity.findViewById(R.id.btn_emoji);
         arrow = (CheckBox) activity.findViewById(R.id.arrow);
         popVoice = (CheckBox) activity.findViewById(R.id.popVoice);
 

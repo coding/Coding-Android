@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
 import net.coding.program.login.phone.InputAccountActivity_;
 import net.coding.program.login.phone.PhoneSetPasswordActivity;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 import net.coding.program.message.MessageListActivity_;
 
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity implements VoiceRecordCompleteCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,11 @@ public class TestActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void recordFinished(long duration, String voicePath) {
+        Toast.makeText(TestActivity.this, duration + " " + voicePath, Toast.LENGTH_LONG).show();
     }
 
     @Override

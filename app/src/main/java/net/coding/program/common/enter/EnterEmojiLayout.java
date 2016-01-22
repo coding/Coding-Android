@@ -599,14 +599,14 @@ public class EnterEmojiLayout extends EnterLayout {
         }
     }
 
-    @Override
-    public void animEnterLayoutStatusChanaged(boolean isOpen) {
-        super.animEnterLayoutStatusChanaged(isOpen);
-        if (!isOpen) {
-            ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
-            ViewHelper.setTranslationY(voiceLayout, 0);
-        }
-    }
+//    @Override
+//    public void animEnterLayoutStatusChanaged(boolean isOpen) {
+//        super.animEnterLayoutStatusChanaged(isOpen);
+//        if (!isOpen) {
+//            ViewHelper.setTranslationY(emojiKeyboardLayout, 0);
+//            ViewHelper.setTranslationY(voiceLayout, 0);
+//        }
+//    }
 
     @Override
     protected void onEnterLayoutDropDown(int bottom) {
