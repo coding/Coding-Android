@@ -94,8 +94,7 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
 
     @Override
     public void closeCustomKeyboard() {
-        voiceView.setVisibility(View.GONE);
-        emojiKeyboard.setVisibility(View.GONE);
+        showSystemInput(false);
     }
 
     @Override
@@ -115,8 +114,8 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
 
     @Override
     public boolean isPopCustomKeyboard() {
-        return voiceView.getVisibility() == GONE
-                && emojiKeyboard.getVisibility() == GONE;
+        return voiceView.getVisibility() == VISIBLE
+                || emojiKeyboard.getVisibility() == VISIBLE;
     }
 
     @Override

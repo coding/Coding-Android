@@ -3,18 +3,15 @@ package net.coding.program.common.widget.input;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
 import net.coding.program.common.enter.SimpleTextWatcher;
 
@@ -30,17 +27,15 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EViewGroup(R.layout.input_view_top_bar)
-public class TopBar extends FrameLayout implements InputAction, KeyboardControl, InputOperate {
+public class TopBar extends FrameLayout implements InputAction, KeyboardControl, InputOperate, InputBaseCallback {
 
     FragmentActivity mActivity;
 
-    View rootView;
-    int rootViewHigh;
 
     KeyboardControl keyboardControl;
 
     @ViewById
-    EditText editText;
+    EmojiEditText editText;
 
     @ViewById
     View voiceLayout, editTextLayout;
@@ -52,7 +47,10 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     CheckBox popEmoji;
 
     @ViewById
-    View sendText, send;
+    View send;
+
+    @ViewById
+    TextView sendText;
 
     private boolean disableCheckedChange = false;
 
@@ -70,7 +68,6 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         super(context, attrs);
         mActivity = (FragmentActivity) getContext();
 
-        rootView = mActivity.findViewById(android.R.id.content);
     }
 
     public EditText getEditText() {
@@ -83,16 +80,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
 
     @AfterViews
     void initTopBar() {
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            int high = rootView.getHeight();
-            Log.d("", "topbar hhh2 " + high);
-
-            int lastHeight = rootViewHigh;
-            rootViewHigh = rootView.getHeight();
-            if (rootViewHigh < lastHeight) {
-                keyboardControl.hideCustomInput();
-            }
-        });
+        editText.setCallback(this);
 
         if (mActivity instanceof CameraAndPhoto) {
             sendText.setVisibility(INVISIBLE);
@@ -124,51 +112,16 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
                         sendText.setEnabled(false);
                     }
                 }
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count == 1 || count == 2) {
-                    String newString = s.subSequence(start, start + count).toString();
-                    String imgName = EmojiTranslate.sEmojiMap.get(newString);
-                    if (imgName != null) {
-                        final String format = ":%s:";
-                        String replaced = String.format(format, imgName);
-
-                        Editable editable = editText.getText();
-                        editable.replace(start, start + count, replaced);
-                        editable.setSpan(new EmojiconSpan(mActivity, imgName), start, start + replaced.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
+                if (s.length() > 0) {
+                    sendText.setBackgroundResource(R.drawable.edit_send_green);
+                    sendText.setTextColor(0xffffffff);
                 } else {
-                    int emojiStart = 0;
-                    int emojiEnd;
-                    boolean startFinded = false;
-                    int end = start + count;
-                    for (int i = start; i < end; ++i) {
-                        if (s.charAt(i) == ':') {
-                            if (!startFinded) {
-                                emojiStart = i;
-                                startFinded = true;
-                            } else {
-                                emojiEnd = i;
-                                if (emojiEnd - emojiStart < 2) { // 指示的是两个：的位置，如果是表情的话，间距肯定大于1
-                                    emojiStart = emojiEnd;
-                                } else {
-                                    String newString = s.subSequence(emojiStart + 1, emojiEnd).toString();
-                                    EmojiconSpan emojiSpan = new EmojiconSpan(mActivity, newString);
-                                    if (emojiSpan.getDrawable() != null) {
-                                        Editable editable = editText.getText();
-                                        editable.setSpan(emojiSpan, emojiStart, emojiEnd + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        startFinded = false;
-                                    } else {
-                                        emojiStart = emojiEnd;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    sendText.setBackgroundResource(R.drawable.edit_send);
+                    sendText.setTextColor(0xff999999);
                 }
             }
+
         });
     }
 
@@ -190,22 +143,10 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
      showEmoji 为 true 表示弹出 emoji 键盘, 为 false 弹出 voice 键盘
      */
     private void slowlyPop(boolean showEmoji) {
-        rootViewHigh = rootView.getHeight();
-
-        final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
-        int rootParentHigh = rootView.getRootView().getHeight();
-        if (rootParentHigh - rootViewHigh > bottomHigh) {
-            // 说明键盘已经弹出来了，等键盘消失后再设置 emoji keyboard 可见
-            Global.popSoftkeyboard(mActivity, editText, false);
-
-            // 魅族手机的 rootView 无论输入法是否弹出高度都是不变的，只好搞个延时做这个事
-            rootView.postDelayed(() -> {
-                rootView.setLayoutParams(rootView.getLayoutParams());
-                showCustomKeyboard(showEmoji);
-            }, 200);
+        if (editText.isPopSystemInput()) {
+            editText.postAfterSystemInputHide(() -> showCustomKeyboard(showEmoji));
 
         } else {
-            rootViewHigh = 0;
             showCustomKeyboard(showEmoji);
         }
     }
@@ -287,19 +228,12 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
 
     @Override
     public void deleteOneChar() {
-        KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-        editText.dispatchKeyEvent(event);
+        editText.deleteOneChar();
     }
 
     @Override
     public void insertEmoji(String s) {
-        int insertPos = editText.getSelectionStart();
-        final String format = ":%s:";
-        String replaced = String.format(format, s);
-
-        Editable editable = editText.getText();
-        editable.insert(insertPos, String.format(format, s));
-        editable.setSpan(new EmojiconSpan(mActivity, s), insertPos, insertPos + replaced.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        editText.insertEmoji(s);
     }
 
     @Override
@@ -338,6 +272,11 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         String insertString = s + " ";
         Editable editable = edit.getText();
         editable.insert(insertPos, insertString);
+    }
+
+    @Override
+    public void popSystemInput() {
+        keyboardControl.hideCustomInput();
     }
 
     @Override

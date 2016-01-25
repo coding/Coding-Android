@@ -167,11 +167,6 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:label="@string/title_activity_test">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity_"
@@ -196,6 +191,13 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <intent-filter>
                 <data
                     android:host="coding.net"

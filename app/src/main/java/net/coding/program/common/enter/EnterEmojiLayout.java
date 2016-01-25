@@ -42,6 +42,8 @@ import net.coding.program.message.EmojiFragment;
  * Created by chaochen on 14-10-31.
  * 输入框
  */
+
+// // FIXME: delete this class
 public class EnterEmojiLayout extends EnterLayout {
 
     static String emojiIcons[][] = {{
