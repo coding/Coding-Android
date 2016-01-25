@@ -1,36 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/blankLayout"
-        layout="@layout/view_exception"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <net.coding.program.common.widget.EnterLayoutAnimSupportContainer xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:isAdjustResize="true"
-        tools:context="net.coding.program.message.MessageListActivity">
-
-        <!--<android.support.v4.widget.SwipeRefreshLayout-->
-        <!--android:id="@+id/swipeRefreshLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1">-->
+        <include
+            android:id="@+id/blankLayout"
+            layout="@layout/view_exception"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp" />
 
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:divider="@null" />
-        <include layout="@layout/common_enter_emoji" />
-    </net.coding.program.common.widget.EnterLayoutAnimSupportContainer>
 
-</FrameLayout>
+    </FrameLayout>
+
+    <net.coding.program.common.widget.input.MainInputView_
+        android:id="@+id/mEnterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!--</net.coding.program.common.widget.EnterLayoutAnimSupportContainer>-->
+
+</LinearLayout>

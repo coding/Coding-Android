@@ -1,7 +1,6 @@
 package net.coding.program.message;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.MyPushReceiver;
@@ -41,13 +40,14 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.common.enter.EnterVoiceLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
+import net.coding.program.common.widget.input.CameraAndPhoto;
+import net.coding.program.common.widget.input.MainInputView;
+import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.model.AccountInfo;
@@ -60,7 +60,6 @@ import net.coding.program.user.UsersListActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,11 +71,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
-//@OptionsMenu(R.menu.message_list)
 public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
-        StartActivity, EnterLayout.CameraAndPhoto, Handler.Callback,EnterVoiceLayout.VoiceRecordCompleteCallback,
-        ContentAreaImages.VoicePlayCallBack, EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack,
-        EmojiFragment.EnterEmojiLayout {
+        StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback,
+        ContentAreaImages.VoicePlayCallBack {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -91,19 +88,30 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
     final String HOST_MARK_VOICE_PLAYED = Global.HOST_API + "/message/conversations/%s/play";
     private final int REFRUSH_TIME = 3 * 1000;
+
     @Extra
     UserObject mUserObject;
+
+    @ViewById
+    MainInputView mEnterLayout;
+
     // 从push条转过来只会带有这个参数
     @Extra
     String mGlobalKey;
+
+//    @ViewById
+//    MainInputView inputView;
+
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
     String url = "";
     ClickSmallImage clickImage = new ClickSmallImage(this);
+
     @ViewById
     ListView listView;
     @ViewById
     View blankLayout;
-    EnterVoiceLayout mEnterLayout;
+
+//    EnterVoiceLayout mEnterLayout;
 
     WeakRefHander mWeakRefHandler;
 
@@ -311,7 +319,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @AfterViews
     protected final void initMessageListActivity() {
-        mEnterLayout = new EnterVoiceLayout(this, mOnClickSendText);
+        mEnterLayout.setClickSend(mOnClickSendText);
 
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
@@ -331,7 +339,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         GlobalSetting.getInstance().setMessageNoNotify(mGlobalKey);
 
         String lastInput = AccountInfo.loadMessageDraft(this, mGlobalKey);
-        mEnterLayout.setText(lastInput);
+        mEnterLayout.setContent(lastInput);
 
     }
 
@@ -341,11 +349,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             showDialogLoading();
         }
 
-        mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
+        mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
         url = String.format(Global.HOST_API + "/message/conversations/%s?pageSize="+PAGESIZE, mUserObject.global_key);
 
-        getSupportActionBar().setTitle(mUserObject.name);
+        setActionBarTitle(mUserObject.name);
 
         mFootUpdate.initToHead(listView, mInflater, this);
         listView.setAdapter(adapter);
@@ -448,13 +456,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
-    @OptionsItem
-    void action_refresh() {
-        showProgressBar(true);
-        initSetting();
-        loadMore();
-    }
-
     @Override
     public void loadMore() {
         onRefresh();
@@ -533,8 +534,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void onBackPressed() {
-        if (mEnterLayout != null && mEnterLayout.isEnterPanelShowing()) {
-            mEnterLayout.closeEnterPanel();
+        if (mEnterLayout.isPopCustomKeyboard()) {
+            mEnterLayout.closeCustomKeyboard();
             return;
         }
 
@@ -543,7 +544,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void onPause() {
-        mEnterLayout.removeTempWindow();
         super.onPause();
         if(mMyMediaPlayer!=null){
             onStopPlay();
@@ -941,24 +941,24 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     private int minBottom = Global.dpToPx(200);
-    @Override
-    public void onChanage(int lastBottomMargin,int newBottomMargin) {
-//        if(!mEnterLayout.isKeyboardOpen){
+//    @Override
+//    public void onChanage(int lastBottomMargin,int newBottomMargin) {
+////        if(!mEnterLayout.isKeyboardOpen){
+////            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
+////        }
+//        EnterLayoutAnimSupportContainer.SoftKeyBordState  mSoftKeyBordState = mEnterLayout.getEnterLayoutAnimSupportContainer().getSoftKeyBordState();
+//        if(mSoftKeyBordState == EnterLayoutAnimSupportContainer.SoftKeyBordState.Hide){
 //            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
 //        }
-        EnterLayoutAnimSupportContainer.SoftKeyBordState  mSoftKeyBordState = mEnterLayout.getEnterLayoutAnimSupportContainer().getSoftKeyBordState();
-        if(mSoftKeyBordState == EnterLayoutAnimSupportContainer.SoftKeyBordState.Hide){
-            listView.smoothScrollBy(-(newBottomMargin - lastBottomMargin) ,0);
-        }
-        if(newBottomMargin==minBottom || newBottomMargin == 0){
-            listView.setSelection(mData.size());
-        }
-    }
+//        if(newBottomMargin==minBottom || newBottomMargin == 0){
+//            listView.setSelection(mData.size());
+//        }
+//    }
 
-    @Override
-    public EnterLayout getEnterLayout() {
-        return mEnterLayout;
-    }
+//    @Override
+//    public EnterLayout getEnterLayout() {
+//        return mEnterLayout;
+//    }
 
     public static class MyMessage extends Message.MessageObject implements Serializable {
 

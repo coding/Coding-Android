@@ -2,6 +2,7 @@ package net.coding.program.common.widget.input;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,7 +20,7 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EViewGroup(R.layout.input_view_main)
-public class MainInputView extends FrameLayout implements KeyboardControl {
+public class MainInputView extends FrameLayout implements KeyboardControl, InputOperate {
     
     AppCompatActivity activity;
 
@@ -36,6 +37,11 @@ public class MainInputView extends FrameLayout implements KeyboardControl {
         super(context, attrs);
         
         this.activity = (AppCompatActivity) getContext();
+    }
+
+    @Override
+    public void setClickSend(OnClickListener click) {
+        topBar.setClickSend(click);
     }
 
     @AfterViews
@@ -71,5 +77,55 @@ public class MainInputView extends FrameLayout implements KeyboardControl {
         emojiKeyboard.setVisibility(View.VISIBLE);
 
         topBar.showEmojiInput();
+    }
+
+    @Override
+    public void hideCustomInput() {
+        voiceView.setVisibility(GONE);
+        emojiKeyboard.setVisibility(GONE);
+
+        topBar.showSystemInput(false);
+    }
+
+    @Override
+    public void clearContent() {
+        topBar.clearContent();
+    }
+
+    @Override
+    public void closeCustomKeyboard() {
+        voiceView.setVisibility(View.GONE);
+        emojiKeyboard.setVisibility(View.GONE);
+    }
+
+    @Override
+    public String getContent() {
+        return topBar.getContent();
+    }
+
+    @Override
+    public void hideKeyboard() {
+        topBar.hideKeyboard();
+    }
+
+    @Override
+    public void insertText(String s) {
+        topBar.insertText(s);
+    }
+
+    @Override
+    public boolean isPopCustomKeyboard() {
+        return voiceView.getVisibility() == GONE
+                && emojiKeyboard.getVisibility() == GONE;
+    }
+
+    @Override
+    public void addTextWatcher(TextWatcher textWatcher) {
+        topBar.addTextWatcher(textWatcher);
+    }
+
+    @Override
+    public void setContent(String s) {
+        topBar.setContent(s);
     }
 }

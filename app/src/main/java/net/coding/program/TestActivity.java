@@ -59,6 +59,7 @@ public class TestActivity extends AppCompatActivity implements VoiceRecordComple
 //        onClick2(null);
 //        onClick3(null);
 //        click1(null);
+        ff();
 
 
     }

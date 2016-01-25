@@ -20,6 +20,7 @@ import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
+import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.InputAction;
 
 import java.lang.reflect.Method;
@@ -373,9 +374,5 @@ public abstract class EnterLayout implements InputAction {
         Text,Voice,Emoji
     }
 
-
-    public interface CameraAndPhoto {
-        void photo();
-    }
 
 }

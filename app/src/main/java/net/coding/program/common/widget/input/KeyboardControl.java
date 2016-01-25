@@ -8,4 +8,5 @@ public interface KeyboardControl {
     void showSystemInput(boolean show);
     void showVoiceInput();
     void showEmojiInput();
+    void hideCustomInput();
 }
