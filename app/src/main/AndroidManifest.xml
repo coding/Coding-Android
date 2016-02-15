@@ -19,7 +19,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <!--信鸽需要的权限 begin ————————————————————————————————————————————————————————————-->
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -35,19 +34,26 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--信鸽需要的权限 end ——————————————————————————————————————————————————————————————-->
 
-    <!-- 友盟,腾讯push需要 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 友盟分析需要 begin  ——————————————————————————————————————————————————————————————-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />>
+    <!-- 友盟分析需要 end    ——————————————————————————————————————————————————————————————-->
+
+    <!-- 友盟社会化分享需要 begin  ——————————————————————————————————————————————————————————————-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取mac地址作为用户的备用唯一标识 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取用户手机的IMEI，用来唯一的标识用户 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 缓存资源优先存入SDcard -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 允许应用程序联网，以便向我们的服务器端发送数据 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- QQ、QQ空间所需权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <!-- 友盟社会化分享需要 end    ——————————————————————————————————————————————————————————————-->
 
     <!-- 百度LBS检索 -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -61,7 +67,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- <uses-pexrmission android:name="android.permission.BROADCAST_STICKY" /> -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!-- 百度LBS定位 -->
@@ -85,6 +90,7 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
+        <!--友盟社会化分享需要的组件 begin————————————————————————————————————————————————————————————————————————————-->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity
@@ -113,6 +119,7 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--友盟社会化分享需要的组件  end  ————————————————————————————————————————————————————————————————————————————-->
 
         <!--信鸽需要的组件 begin————————————————————————————————————————————————————————————————————————————-->
         <!-- 【必须】 信鸽receiver广播接收 -->
