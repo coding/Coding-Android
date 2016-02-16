@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -187,7 +188,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         int px = (int) getResources().getDimension(R.dimen.image_add_maopao_width);
         mSize = new ImageSize(px, px);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         mEnterLayout = new EnterEmojiLayout(this, null);
         message = mEnterLayout.content;

@@ -29,14 +29,12 @@ public class CommentEditFragment extends TopicEditFragment implements StartActiv
         return Global.isEmptyContainSpace(title);
     }
 
-    // TODO 会调用多次，因为在观察者模式里面注册了多个，以后再看吧
     @AfterViews
     protected final void initCommentEditFragment() {
         if (watcher == null) {
             watcher = new TextWatcherAt(getActivity(), this, RESULT_REQUEST_AT, mMergeUrl);
+            edit.addTextChangedListener(watcher);
         }
-        edit.removeTextChangedListener(watcher);
-        edit.addTextChangedListener(watcher);
     }
 
     @OnActivityResult(RESULT_REQUEST_AT)

@@ -275,8 +275,7 @@ public class EmojiKeyboard extends FrameLayout {
         }
     }
 
-    // TODO move out
-    static String emojiIcons[][] = {{
+    private static String emojiIcons[][] = {{
             "smiley",
             "heart_eyes",
             "pensive",
@@ -366,7 +365,8 @@ public class EmojiKeyboard extends FrameLayout {
             "book",
             "ic_keyboard_delete"}
     };
-    static String monkeyIcons[][] = new String[][]{{
+
+    private  static String monkeyIcons[][] = new String[][]{{
             "coding_emoji_01",
             "coding_emoji_02",
             "coding_emoji_03",
@@ -416,7 +416,7 @@ public class EmojiKeyboard extends FrameLayout {
             "coding_emoji_43",
     }};
 
-    static String zhongqiuIcons[][] = new String[][]{{
+    private static String zhongqiuIcons[][] = new String[][]{{
             "festival_emoji_01",
             "festival_emoji_02",
             "festival_emoji_03",
