@@ -86,7 +86,7 @@ private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
             client.addHeader(item, mapHeaders.get(item));
         }
 
-        client.setTimeout(30 * 1000);
+        client.setTimeout(60 * 1000);
         return client;
     }
 

@@ -35,11 +35,10 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.HtmlCommentHolder;
-import net.coding.program.common.enter.EnterEmojiLayout;
-import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.Maopao;
@@ -75,6 +74,9 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     ListView listView;
     @ViewById
     SwipeRefreshLayout swipeRefreshLayout;
+    @ViewById
+    MainInputView mEnterLayout;
+
     String maopaoUrl;
     String maopaoOwnerGlobal = "";
     String maopaoId = "";
@@ -83,7 +85,6 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
     String ADD_COMMENT = Global.HOST_API + "/tweet/%s/comment";
     String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
-    EnterEmojiLayout mEnterLayout;
     String bubble;
     View.OnClickListener onClickSend = new View.OnClickListener() {
         @Override
@@ -93,7 +94,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 return;
             }
 
-            EditText content = mEnterLayout.content;
+            EditText content = mEnterLayout.getEditText();
             String input = content.getText().toString();
 
             if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
@@ -200,8 +201,8 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     protected final void initMaopaoDetailActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mEnterLayout = new EnterEmojiLayout(this, onClickSend, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
-        mEnterLayout.content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
+        mEnterLayout.setClickSend(onClickSend);
+        mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
 
         try {
             bubble = Global.readTextFile(getAssets().open("bubble"));
@@ -454,8 +455,8 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     @Override
     public void onBackPressed() {
-        if (mEnterLayout.isEnterPanelShowing()) {
-            mEnterLayout.closeEnterPanel();
+        if (mEnterLayout.isPopCustomKeyboard()) {
+            mEnterLayout.closeCustomKeyboard();
             return;
         }
 
@@ -581,7 +582,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     void prepareAddComment(Object data, boolean popKeyboard) {
         Maopao.Comment comment = null;
-        EditText content = mEnterLayout.content;
+        EditText content = mEnterLayout.getEditText();
         if (data instanceof Maopao.Comment) {
             comment = (Maopao.Comment) data;
             content.setHint("回复 " + comment.owner.name);

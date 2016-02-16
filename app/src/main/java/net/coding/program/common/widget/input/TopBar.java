@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CommentBackup;
 import net.coding.program.common.Global;
 import net.coding.program.common.enter.SimpleTextWatcher;
 
@@ -30,7 +31,6 @@ import org.androidannotations.annotations.ViewById;
 public class TopBar extends FrameLayout implements InputAction, KeyboardControl, InputOperate, InputBaseCallback {
 
     FragmentActivity mActivity;
-
 
     KeyboardControl keyboardControl;
 
@@ -67,7 +67,6 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         mActivity = (FragmentActivity) getContext();
-
     }
 
     public EditText getEditText() {
@@ -92,6 +91,12 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
             send.setVisibility(INVISIBLE);
         }
 
+        if (mActivity instanceof VoiceRecordCompleteCallback) {
+            popVoice.setVisibility(VISIBLE);
+        } else {
+            popVoice.setVisibility(View.GONE);
+        }
+
         editText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -111,6 +116,12 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
                     } else {
                         sendText.setEnabled(false);
                     }
+                }
+
+                if (mActivity instanceof VoiceRecordCompleteCallback) {
+                    popVoice.setVisibility(VISIBLE);
+                } else {
+                    popVoice.setVisibility(View.GONE);
                 }
 
                 if (s.length() > 0) {
@@ -297,4 +308,40 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     public void addTextWatcher(TextWatcher textWatcher) {
         editText.addTextChangedListener(textWatcher);
     }
+
+    private void restoreSaveStart() {
+        editText.addTextChangedListener(restoreWatcher);
+    }
+
+    public void restoreSaveStop() {
+        editText.removeTextChangedListener(restoreWatcher);
+    }
+
+    public void restoreDelete(Object comment) {
+        CommentBackup.getInstance().delete(CommentBackup.BackupParam.create(comment));
+    }
+
+    public void restoreLoad(final Object object) {
+        if (object == null) {
+            return;
+        }
+
+        restoreSaveStop();
+        clearContent();
+        String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
+        editText.getText().append(lastInput);
+        restoreSaveStart();
+    }
+
+    private TextWatcher restoreWatcher = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            Object tag = editText.getTag();
+            if (tag == null) {
+                return;
+            }
+
+            CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
+        }
+    };
 }

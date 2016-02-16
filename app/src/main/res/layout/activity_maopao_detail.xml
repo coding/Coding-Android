@@ -1,15 +1,14 @@
-<net.coding.program.common.widget.EnterLayoutAnimSupportContainer
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:isAdjustResize="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="net.coding.program.maopao.MaopaoDetailActivity">
+    tools:context="net.coding.program.maopao.MaopaoListFragment">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -24,8 +23,10 @@
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
+    <net.coding.program.common.widget.input.MainInputView_
+        android:id="@+id/mEnterLayout"
+        app:showEmojiOnly="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />>
 
-
-    <include layout="@layout/common_enter_emoji" />
-
-</net.coding.program.common.widget.EnterLayoutAnimSupportContainer>
+</LinearLayout>

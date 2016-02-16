@@ -77,12 +77,14 @@ public abstract class EnterLayout implements InputAction {
 
 
         sendText = (TextView) activity.findViewById(R.id.sendText);
-        sendText.setOnClickListener(sendTextOnClick);
+        if (sendText != null) {
+            sendText.setOnClickListener(sendTextOnClick);
 
-
-        if (mType == Type.TextOnly) {
-            sendText.setVisibility(View.VISIBLE);
+            if (mType == Type.TextOnly) {
+                sendText.setVisibility(View.VISIBLE);
+            }
         }
+
 
         send = (ImageButton) activity.findViewById(R.id.send);
         if (mType == Type.Default) {
@@ -293,7 +295,8 @@ public abstract class EnterLayout implements InputAction {
 
         Editable editable = content.getText();
         editable.insert(insertPos, String.format(format, s));
-        editable.setSpan(new EmojiconSpan(mActivity, s), insertPos, insertPos + replaced.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        editable.setSpan(new EmojiconSpan(mActivity, s), insertPos, insertPos + replaced.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     public void deleteOneChar() {
@@ -327,13 +330,6 @@ public abstract class EnterLayout implements InputAction {
         return commonEnterRoot!=null && commonEnterRoot.getVisibility() == View.VISIBLE;
     }
 
-    public void restoreSaveStart() {
-        content.addTextChangedListener(restoreWatcher);
-    }
-
-    public void restoreSaveStop() {
-        content.removeTextChangedListener(restoreWatcher);
-    }
 
     public void restoreDelete(Object comment) {
         CommentBackup.getInstance().delete(CommentBackup.BackupParam.create(comment));
@@ -343,25 +339,22 @@ public abstract class EnterLayout implements InputAction {
         if (object == null) {
             return;
         }
-        if(commonEnterRoot!=null && mEnterLayoutAnimSupportContainer!=null && !mEnterLayoutAnimSupportContainer.isAdjustResize()){
-            //common_enter_emoji控件由于在某些情况下第一次进入activity恢复数据时会出现显示不正常现象，因此先让控件以空文本形式正常显示出来
-            //之后再恢复数据
+        if(commonEnterRoot!=null && mEnterLayoutAnimSupportContainer!=null
+                && !mEnterLayoutAnimSupportContainer.isAdjustResize()){
+            //common_enter_emoji控件由于在某些情况下第一次进入activity恢复数据时会出现显示不正常现象，
+            // 因此先让控件以空文本形式正常显示出来之后再恢复数据
             clearContent();
             content.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    restoreSaveStop();
                     String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
                     content.getText().append(lastInput);
-                    restoreSaveStart();
                 }
             }, 100);
         }else{
-            restoreSaveStop();
             clearContent();
             String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
             content.getText().append(lastInput);
-            restoreSaveStart();
         }
 
     }

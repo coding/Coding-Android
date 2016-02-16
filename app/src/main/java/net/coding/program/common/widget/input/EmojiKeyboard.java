@@ -67,22 +67,19 @@ public class EmojiKeyboard extends FrameLayout {
         mZhongqiuPagerAdapter = new ZhongqiuPagerAdapter(fragmentManager);
     }
 
+    public void showEmojiOnly() {
+        monkeyButton.setVisibility(View.INVISIBLE);
+        findViewById(R.id.selectMonkeyDivideLine1).setVisibility(View.INVISIBLE);
+
+        zhongqiuButton.setVisibility(View.INVISIBLE);
+        findViewById(R.id.selectMonkeyDivideLine2).setVisibility(View.INVISIBLE);
+
+    }
+
     @AfterViews
     void initEmojiKeyboard() {
-
         viewPager.setOnPageChangeListener(pageChange);
-//      TODO 设置键盘类型
-//        if (emojiType == EmojiType.SmallOnly) {
-//            selectMonkey.setVisibility(View.INVISIBLE);
-//            mActivity.findViewById(R.id.selectMonkeyDivideLine).setVisibility(View.INVISIBLE);
-//
-//            selectZhongqiu.setVisibility(View.INVISIBLE);
-//            mActivity.findViewById(R.id.selectMonkeyDivideLine1).setVisibility(View.INVISIBLE);
-//        }
-
         emojiButton();
-
-
     }
 
     public void setInputAction(InputAction action) {

@@ -63,7 +63,7 @@
             android:scaleType="centerInside" />
 
         <View
-            android:id="@+id/selectMonkeyDivideLine"
+            android:id="@+id/selectMonkeyDivideLine1"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />
@@ -77,7 +77,7 @@
             android:scaleType="centerInside" />
 
         <View
-            android:id="@+id/selectMonkeyDivideLine1"
+            android:id="@+id/selectMonkeyDivideLine2"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />

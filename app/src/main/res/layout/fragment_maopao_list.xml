@@ -1,14 +1,15 @@
-<net.coding.program.common.widget.EnterLayoutAnimSupportContainer
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="net.coding.program.maopao.MaopaoListFragment">
 
     <FrameLayout xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_weight="1"
+        android:layout_height="0dp">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -17,13 +18,13 @@
 
             <com.twotoasters.jazzylistview.JazzyListView
                 android:id="@+id/listView"
-                android:scrollingCache="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/divide"
                 android:divider="@null"
                 android:dividerHeight="6dp"
-                android:footerDividersEnabled="false" />
+                android:footerDividersEnabled="false"
+                android:scrollingCache="false" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -47,6 +48,10 @@
 
     </FrameLayout>
 
-    <include layout="@layout/common_enter_emoji" />
+    <net.coding.program.common.widget.input.MainInputView_
+        android:id="@+id/mEnterLayout"
+        app:showEmojiOnly="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</net.coding.program.common.widget.EnterLayoutAnimSupportContainer>
+</LinearLayout>

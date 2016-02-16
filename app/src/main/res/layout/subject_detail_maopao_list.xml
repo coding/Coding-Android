@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="net.coding.program.maopao.MaopaoListFragment">
 
@@ -34,6 +35,10 @@
 
     </FrameLayout>
 
-    <include layout="@layout/common_enter_emoji" />
+    <net.coding.program.common.widget.input.MainInputView_
+        android:id="@+id/mEnterLayout"
+        android:layout_width="match_parent"
+        app:showEmojiOnly="true"
+        android:layout_height="wrap_content" />>
 
 </LinearLayout>

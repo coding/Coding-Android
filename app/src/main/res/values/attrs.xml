@@ -107,6 +107,10 @@
             <enum name="message" value="0" />
             <enum name="comment" value="1" />
         </attr>
+
     </declare-styleable>
 
+    <declare-styleable name="MainInputView">
+        <attr name="showEmojiOnly" format="boolean" />
+    </declare-styleable>
 </resources>

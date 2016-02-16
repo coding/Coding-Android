@@ -1,10 +1,12 @@
 package net.coding.program.common.widget.input;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import net.coding.program.R;
@@ -32,10 +34,16 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
 
     @ViewById
     EmojiKeyboard_ emojiKeyboard;
+    private final boolean showEmojiOnly;
 
     public MainInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        
+
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MainInputView);
+
+        showEmojiOnly = array.getBoolean(R.styleable.MainInputView_showEmojiOnly, false);
+        array.recycle();
+
         this.activity = (AppCompatActivity) getContext();
     }
 
@@ -48,6 +56,10 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
     void initMainInputView() {
         emojiKeyboard.setInputAction(topBar);
         topBar.setKeyboardControl(this);
+
+        if (showEmojiOnly) {
+            emojiKeyboard.showEmojiOnly();
+        }
 
         showSystemInput(false);
     }
@@ -126,5 +138,33 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
     @Override
     public void setContent(String s) {
         topBar.setContent(s);
+    }
+
+    public void restoreLoad(Object object) {
+        topBar.restoreLoad(object);
+    }
+
+    public void hide() {
+        setVisibility(GONE);
+    }
+
+    public void show() {
+        setVisibility(VISIBLE);
+    }
+
+    public boolean isShow() {
+        return getVisibility() == VISIBLE;
+    }
+
+    public void restoreSaveStop() {
+        topBar.restoreSaveStop();
+    }
+
+    public void restoreDelete(Object comment) {
+        topBar.restoreDelete(comment);
+    }
+
+    public EditText getEditText() {
+        return topBar.getEditText();
     }
 }

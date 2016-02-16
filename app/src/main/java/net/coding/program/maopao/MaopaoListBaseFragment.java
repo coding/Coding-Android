@@ -37,11 +37,10 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.enter.EnterEmojiLayout;
-import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -84,6 +83,9 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     @ViewById
     protected View commonEnterRoot;
 
+    @ViewById
+    protected MainInputView mEnterLayout;
+
     protected boolean mIsToMaopaoTopic = false;
 
     protected int id = UPDATE_ALL_INT;
@@ -110,7 +112,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     private int mPxImageWidth;
 
     boolean mNoMore = false;
-    EnterEmojiLayout mEnterLayout;
+
 
     protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
 
@@ -197,8 +199,9 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
             }
         });
 
-        mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
-        mEnterLayout.content.addTextChangedListener(new TextWatcherAt(getActivity(), this, RESULT_AT));
+//        mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
+        mEnterLayout.setClickSend(onClickSendText);
+        mEnterLayout.addTextWatcher(new TextWatcherAt(getActivity(), this, RESULT_AT));
         mEnterLayout.hide();
 
         initData();
@@ -441,7 +444,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                 return;
             }
 
-            Maopao.Comment commentObject = (Maopao.Comment) mEnterLayout.content.getTag();
+            Maopao.Comment commentObject = (Maopao.Comment) mEnterLayout.getEditText().getTag();
             String uri = String.format(URI_COMMENT, commentObject.tweet_id);
 
             RequestParams params = new RequestParams();
@@ -652,7 +655,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     }
 
     protected void popComment(View v) {
-        EditText comment = mEnterLayout.content;
+        EditText comment = mEnterLayout.getEditText();
         Object data = v.getTag();
         Maopao.Comment commentObject = null;
         if (data instanceof Maopao.Comment) {
@@ -672,7 +675,6 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
             }
         }
 
-        mEnterLayout.closeEnterPanel();
         mEnterLayout.show();
 
         mEnterLayout.restoreLoad(commentObject);
@@ -697,7 +699,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
         cal1 = 0;
 
         comment.requestFocus();
-        Global.popSoftkeyboard(getActivity(), comment, true);
+        mEnterLayout.showSystemInput(true);
     }
 
     protected BaseAdapter mAdapter = new BaseAdapter() {
