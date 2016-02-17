@@ -172,7 +172,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.onActionViewExpanded();
         searchView.setIconified(false);
-        searchView.setQueryHint("用户名，email，个性后缀");
+        searchView.setQueryHint("用户名，邮箱，昵称");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

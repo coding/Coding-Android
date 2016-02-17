@@ -68,7 +68,7 @@ public class PhoneSetGlobalFragment extends BaseFragment {
         }
 
         if (globalKeyString.length() < 3) {
-            showMiddleToast("个性后缀至少为3个字符");
+            showMiddleToast("用户名（个性后缀）至少为3个字符");
             return;
         }
 

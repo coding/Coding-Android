@@ -83,7 +83,7 @@ public class RegisterActivity extends BackActivity {
             String captcha = editValify.getText().toString();
 
             if (name.isEmpty()) {
-                showMiddleToast("邮箱或个性后缀不能为空");
+                showMiddleToast("邮箱或用户名不能为空");
                 return;
             }
 

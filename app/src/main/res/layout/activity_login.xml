@@ -89,7 +89,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/login_edit"
-                            android:hint="手机/邮箱/个性后缀"
+                            android:hint="用户名/手机/邮箱"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:singleLine="true"

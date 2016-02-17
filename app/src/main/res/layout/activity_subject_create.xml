@@ -74,7 +74,7 @@
             android:gravity="center"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="搜索项目名称或创建人的个性后缀\n都可以进行项目搜索哦！"
+            android:text="搜索项目名称或创建人的用户名\n都可以进行项目搜索哦！"
             android:textColor="@color/font_black_9" />
 
     </LinearLayout>
