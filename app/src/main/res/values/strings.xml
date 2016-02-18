@@ -171,5 +171,7 @@
     <string name="title_activity_project_sqaure">项目广场</string>
     <string name="title_activity_member_authority">设置成员权限</string>
     <string name="title_activity_readme_edit">编辑 README</string>
+    <string name="title_activity_phone_register">注册</string>
+    <string name="title_activity_email_register">注册</string>
 
 </resources>

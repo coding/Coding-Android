@@ -17,6 +17,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.common.util.InputCheck;
@@ -94,7 +95,7 @@ public class PhoneSetGlobalFragment extends BaseFragment {
                 getActivity().sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
-//                startActivity(new Intent(getActivity(), MainActivity_.class));
+                startActivity(new Intent(getActivity(), MainActivity_.class));
             }
 
             @Override
@@ -113,39 +114,39 @@ public class PhoneSetGlobalFragment extends BaseFragment {
         ActivityNavigate.startTermActivity(this);
     }
 
-    protected void loadCurrentUser() {
-        AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
+    public static void loadCurrentUser(BaseActivity activity) {
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
         String url = Global.HOST_API + "/current_user";
-        client.get(getActivity(), url, new MyJsonResponse(getActivity()) {
+        client.get(activity, url, new MyJsonResponse(activity) {
 
             @Override
             public void onMySuccess(JSONObject respanse) {
                 super.onMySuccess(respanse);
 //                showProgressBar(false);
                 UserObject user = new UserObject(respanse.optJSONObject("data"));
-                AccountInfo.saveAccount(getActivity(), user);
+                AccountInfo.saveAccount(activity, user);
                 MyApp.sUserObject = user;
-                AccountInfo.saveReloginInfo(getActivity(), user);
+                AccountInfo.saveReloginInfo(activity, user);
 
-                Global.syncCookie(getActivity());
+                Global.syncCookie(activity);
 
-                AccountInfo.saveLastLoginName(getActivity(), user.name);
+                AccountInfo.saveLastLoginName(activity, user.name);
 
-                getActivity().sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), MainActivity_.class));
+                activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+                activity.finish();
+                activity.startActivity(new Intent(activity, MainActivity_.class));
             }
 
             @Override
             public void onMyFailure(JSONObject response) {
                 super.onMyFailure(response);
-                showProgressBar(false, "");
+                activity.showProgressBar(false, "");
             }
         });
     }
 
 //    protected void loadUserinfo() {
-//        AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
+//        AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
 //        String url = Global.HOST_API + "/userinfo";
 //        client.get(getActivity(), url, new MyJsonResponse(getActivity()) {
 //            @Override

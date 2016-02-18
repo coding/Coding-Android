@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,6 +33,7 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
     private EditText editText;
     private View topLine;
     private ImageView imageValidfy;
+    private boolean showPassword = false;
 
     public LoginEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -60,6 +63,13 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
                 requestCaptcha();
             }
 
+            boolean showPassword = a.getBoolean(R.styleable.LoginEditText_showPassword, false);
+            if (showPassword) {
+                imageValidfy = (ImageView) findViewById(R.id.imageValify);
+                imageValidfy.setVisibility(VISIBLE);
+                imageValidfy.setOnClickListener(v -> togglePassword());
+            }
+
             int inputType = a.getInt(R.styleable.LoginEditText_loginInput, 0);
             if (inputType == 1) {
                 editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -67,6 +77,13 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
             } else if (inputType == 2) {
                 editText.setInputType(InputType.TYPE_CLASS_PHONE);
             }
+
+            String digits = a.getString(R.styleable.LoginEditText_digits);
+            if (digits != null && !digits.isEmpty()) {
+                editText.setKeyListener(DigitsKeyListener.getInstance(digits));
+            }
+
+
 
         } finally {
             a.recycle();
@@ -80,6 +97,19 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
 
         editText.setText(text);
     }
+
+    private void togglePassword() {
+        showPassword = !showPassword;
+
+        if (showPassword) {
+            editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+
+        editText.setSelection(editText.length());
+    }
+
     public ImageView getCaptcha() {
         return imageValidfy;
     }

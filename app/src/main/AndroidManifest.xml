@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
     android:versionCode="107"
     android:versionName="3.8">
@@ -20,7 +19,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <!--信鸽需要的权限 begin ————————————————————————————————————————————————————————————-->
+    <!-- 信鸽需要的权限 begin ———————————————————————————————————————————————————————————— -->
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -33,16 +32,19 @@
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--信鸽需要的权限 end ——————————————————————————————————————————————————————————————-->
+    <!-- 信鸽需要的权限 end —————————————————————————————————————————————————————————————— -->
 
-    <!-- 友盟分析需要 begin  ——————————————————————————————————————————————————————————————-->
+
+    <!-- 友盟分析需要 begin  —————————————————————————————————————————————————————————————— -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />>
-    <!-- 友盟分析需要 end    ——————————————————————————————————————————————————————————————-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    >
+    <!-- 友盟分析需要 end    —————————————————————————————————————————————————————————————— -->
 
-    <!-- 友盟社会化分享需要 begin  ——————————————————————————————————————————————————————————————-->
+
+    <!-- 友盟社会化分享需要 begin  —————————————————————————————————————————————————————————————— -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 获取mac地址作为用户的备用唯一标识 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -54,7 +56,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- QQ、QQ空间所需权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!-- 友盟社会化分享需要 end    ——————————————————————————————————————————————————————————————-->
+    <!-- 友盟社会化分享需要 end    —————————————————————————————————————————————————————————————— -->
+
 
     <!-- 百度LBS检索 -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -91,7 +94,7 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
-        <!--友盟社会化分享需要的组件 begin————————————————————————————————————————————————————————————————————————————-->
+        <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
         <activity
@@ -120,14 +123,15 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--友盟社会化分享需要的组件  end  ————————————————————————————————————————————————————————————————————————————-->
+        <!-- 友盟社会化分享需要的组件  end  ———————————————————————————————————————————————————————————————————————————— -->
 
-        <!--信鸽需要的组件 begin————————————————————————————————————————————————————————————————————————————-->
+
+        <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2" >
-            <intent-filter android:priority="0x7fffffff" >
+            android:process=":xg_service_v2">
+            <intent-filter android:priority="0x7fffffff">
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
@@ -144,7 +148,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
             <!-- 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 -->
-            <intent-filter android:priority="0x7fffffff" >
+            <intent-filter android:priority="0x7fffffff">
                 <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
                 <action android:name="android.intent.action.MEDIA_REMOVED" />
                 <action android:name="android.intent.action.MEDIA_CHECKING" />
@@ -154,10 +158,10 @@
             </intent-filter>
         </receiver>
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
-        <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理-->
+        <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action" />
             </intent-filter>
@@ -169,6 +173,7 @@
             android:exported="true"
             android:persistent="true"
             android:process=":xg_service_v2" />
+
         <receiver android:name=".common.PushReceiver">
             <intent-filter>
 
@@ -182,12 +187,12 @@
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="net.coding.program.PUSH_ACTION" />
             </intent-filter>
         </service>
-        <!--信鸽需要的组件 end ————————————————————————————————————————————————————————————————————————————-->
+        <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->
 
         <service
             android:name="com.baidu.location.f"
@@ -200,10 +205,8 @@
 
         <activity
             android:name=".TestActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:label="@string/title_activity_test">
-
-        </activity>
+            android:label="@string/title_activity_test"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name"
@@ -227,13 +230,11 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -851,6 +852,17 @@
             android:label="@string/title_activity_readme_edit"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateUnspecified" />
+        <activity
+            android:name=".login.PhoneRegisterActivity_"
+            android:label="@string/title_activity_phone_register"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".login.EmailRegisterActivity_"
+            android:label="@string/title_activity_email_register"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

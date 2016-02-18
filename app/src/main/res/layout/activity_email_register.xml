@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.login.EmailRegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/login_baselayout_title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/globalKeyEdit"
+                        style="@style/EmailEdit"
+                        app:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+                        app:hint="用户名(个性后缀)"
+                        app:topLine="false" />
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/emailEdit"
+                        style="@style/EmailEdit"
+                        app:hint="邮箱" />
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/passwordEdit"
+                        style="@style/EmailEdit"
+                        app:hint="设置密码"
+                        app:loginInput="password"
+                        app:showPassword="true" />
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/captchaEdit"
+                        style="@style/EmailEdit"
+                        android:visibility="gone"
+                        app:captcha="true"
+                        app:hint="验证码" />
+
+                </LinearLayout>
+
+                <include layout="@layout/divide_10_top_bottom" />
+
+                <Button
+                    android:id="@+id/loginButton"
+                    style="@style/SendButton"
+                    android:enabled="true"
+                    android:text="注册" />
+
+                <TextView
+                    android:id="@+id/textClause"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_15"
+                    android:layout_marginRight="@dimen/padding_15"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/font_black_6"
+                    android:textSize="16sp"
+                    tools:text="码市用户" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/otherRegister"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="21dp"
+                android:gravity="center"
+                android:text="手机号注册"
+                android:textColor="@color/font_green"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -64,7 +64,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showProgressBar(show, "");
     }
 
-    protected void showProgressBar(boolean show, String message) {
+    public void showProgressBar(boolean show, String message) {
         if (show) {
             mProgressDialog.setMessage(message);
             mProgressDialog.show();

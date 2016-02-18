@@ -32,6 +32,13 @@ public class ViewStyleUtil {
 
     private static void updateStyle(View button, InputRequest request, OnTextChange[] edits) {
         for (OnTextChange item : edits) {
+            if (item instanceof View) {
+                View v = (View) item;
+                if (v.getVisibility() != View.VISIBLE) {
+                    continue;
+                }
+            }
+
             String input = item.getText().toString();
             if (!request.isCurrectFormat(input)) {
                 button.setEnabled(false);

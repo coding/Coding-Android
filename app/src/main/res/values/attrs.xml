@@ -95,11 +95,14 @@
         <attr name="topLine" format="boolean" />
         <attr name="hint" format="string" />
         <attr name="captcha" format="boolean" />
+        <attr name="showPassword" format="boolean" />
         <attr name="loginInput" format="enum">
             <enum name="text" value="0" />
             <enum name="password" value="1" />
             <enum name="number" value="2" />
+            <enum name="globalKey" value="3" />
         </attr>
+        <attr name="digits" format="string" />
     </declare-styleable>
 
     <declare-styleable name="VoiceView">
