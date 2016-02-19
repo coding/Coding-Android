@@ -9,6 +9,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
@@ -30,10 +31,11 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
 
         public String getSendPhoneMessageUrl() {
             switch (this) {
+                // // TODO 是否 api 都要改
                 case register:
-                    return Global.HOST_API + "/account/register/generate_phone_code";
+                    return ValidePhoneView.REGISTER_SEND_MESSAGE_URL;
                 case reset:
-                    return Global.HOST_API + "/account/reset_password/generate_phone_code";
+                    return ValidePhoneView.RESET_SEND_MESSAGE_URL;
                 case activate:
                     return Global.HOST_API + "/account/activate/generate_phone_code";
                 default:
@@ -43,11 +45,12 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
 
         public String getSetPasswordPhoneUrl(RequestParams params) {
             switch (this) {
+                // // TODO 是否 api 都要改
                 case register:
                     params.put("channel", "coding-android");
                     return Global.HOST_API + "/account/register/phone";
                 case reset:
-                    return Global.HOST_API + "/phone/resetPassword";
+                    return Global.HOST_API + "/account/password/reset";
                 case activate:
                     return Global.HOST_API + "/account/activate/phone/set_password";
                 default:

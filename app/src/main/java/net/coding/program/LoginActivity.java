@@ -1,14 +1,12 @@
 package net.coding.program;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -25,7 +23,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tencent.android.tpush.XGPushManager;
 
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
@@ -35,14 +32,15 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
+import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.InputAccountActivity_;
 import net.coding.program.login.phone.PhoneSetPasswordActivity;
-import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -245,8 +243,12 @@ public class LoginActivity extends BaseActivity {
     @Click
     void register() {
 //        RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
-        PhoneSetPasswordActivity_.intent(this)
-                .type(PhoneSetPasswordActivity.Type.register)
+//        PhoneSetPasswordActivity_.intent(this)
+//                .type(PhoneSetPasswordActivity.Type.register)
+//                .startForResult(RESULT_CLOSE);
+
+        Global.popSoftkeyboard(this, editName, false);
+        PhoneRegisterActivity_.intent(this)
                 .startForResult(RESULT_CLOSE);
     }
 
@@ -326,17 +328,13 @@ public class LoginActivity extends BaseActivity {
             }
             params.put("remember_me", true);
 
-            String HOST_LOGIN;
-            if (InputCheck.isPhone(name)) {
-                HOST_LOGIN = Global.HOST_API + "/account/login/phone";
-                params.put("phone", name);
-            } else {
-                HOST_LOGIN = Global.HOST_API + "/login";
-                params.put("email", name);
-            }
+            String HOST_LOGIN = Global.HOST_API + "/v2/account/login";
+            params.put("account", name);
 
             postNetwork(HOST_LOGIN, params, TAG_LOGIN);
             showProgressBar(true, R.string.logining);
+
+            Global.popSoftkeyboard(this, editName, false);
 
         } catch (Exception e) {
             Global.errorLog(e);
@@ -345,39 +343,12 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void loginFail() {
-        String[] listTitles = getResources().getStringArray(R.array.dialog_login_fail_help);
-        new AlertDialog.Builder(this).setItems(listTitles, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                if (which == 0) {
-//                    SendEmailPasswordActivity_
-//                            .intent(LoginActivity.this)
-//                            .start();
-////                    ResetPasswordActivity_
-////                            .intent(LoginActivity.this)
-////                            .start();
-//
-//                } else if (which == 1) {
-//                    SendEmailActiveActivity_
-//                            .intent(LoginActivity.this)
-//                            .start();
-////                    UserActiveActivity_
-////                            .intent(LoginActivity.this)
-////                            .start();
-//                }
-                PhoneSetPasswordActivity.Type type;
-                if (which == 0) {
-                    type = PhoneSetPasswordActivity.Type.reset;
-                } else {
-                    type = PhoneSetPasswordActivity.Type.activate;
-                }
-                String account = editName.getText().toString();
-                if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
-                    account = "";
-                }
-                InputAccountActivity_.intent(LoginActivity.this).account(account).type(type).start();
-            }
-        }).show();
+        PhoneSetPasswordActivity.Type type = PhoneSetPasswordActivity.Type.reset;
+        String account = editName.getText().toString();
+        if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
+            account = "";
+        }
+        InputAccountActivity_.intent(LoginActivity.this).account(account).type(type).start();
     }
 
     @Click

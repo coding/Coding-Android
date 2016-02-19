@@ -2,7 +2,6 @@ package net.coding.program.common;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -31,7 +30,6 @@ public class WeakRefHander extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
-        Log.d("", "loophandle");
         Callback action = mRef.get();
         if (action != null) {
             action.handleMessage(msg);
@@ -48,6 +46,7 @@ public class WeakRefHander extends Handler {
 
     public void start(int what, long delay) {
         removeMessages(0);
+        removeMessages(what);
         sendEmptyMessageDelayed(what, delay);
     }
 

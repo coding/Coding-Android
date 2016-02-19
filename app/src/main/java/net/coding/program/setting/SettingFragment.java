@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 public class SettingFragment extends BaseFragment {
 
     private static final int RESULT_ABOUT_ACTIVITY = 1;
+
     @ViewById
     CheckBox allNotify;
 

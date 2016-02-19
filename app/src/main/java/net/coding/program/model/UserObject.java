@@ -46,6 +46,7 @@ public class UserObject implements Serializable, Comparable {
     public String email = "";
     private String pingYin = "";
     public double points_left = 0;
+    private int email_validation = 0;
 
     public boolean isMe() {
         return MyApp.sUserObject.id == id;
@@ -60,21 +61,21 @@ public class UserObject implements Serializable, Comparable {
 
     public UserObject(JSONObject json) {
         avatar = Global.replaceAvatar(json);
-        slogan = json.optString("slogan");
-        tags = json.optString("tags");
-        tags_str = json.optString("tags_str");
-        company = json.optString("company");
-        global_key = json.optString("global_key");
+        slogan = json.optString("slogan", "");
+        tags = json.optString("tags", "");
+        tags_str = json.optString("tags_str", "");
+        company = json.optString("company", "");
+        global_key = json.optString("global_key", "");
         id = json.optInt("id");
-        introduction = json.optString("introduction");
-        job_str = json.optString("job_str");
-        lavatar = json.optString("lavatar");
-        location = json.optString("location");
-        name = json.optString("name");
-        path = json.optString("path");
-        phone = json.optString("phone");
+        introduction = json.optString("introduction", "");
+        job_str = json.optString("job_str", "");
+        lavatar = json.optString("lavatar", "");
+        location = json.optString("location", "");
+        name = json.optString("name", "");
+        path = json.optString("path", "");
+        phone = json.optString("phone", "");
 
-        birthday = json.optString("birthday");
+        birthday = json.optString("birthday", "");
 
         created_at = json.optLong("created_at");
         last_activity_at = json.optLong("last_activity_at");
@@ -89,9 +90,10 @@ public class UserObject implements Serializable, Comparable {
         sex = json.optInt("sex");
         status = json.optInt("status");
         tweets_count = json.optInt("tweets_count");
-        email = json.optString("email");
+        email = json.optString("email", "");
         points_left = json.optDouble("points_left", 0);
         pingYin = getFirstLetters(name).toUpperCase();
+        email_validation = json.optInt("email_validation", 0);
     }
 
     public UserObject() {
@@ -109,6 +111,10 @@ public class UserObject implements Serializable, Comparable {
     @Override
     public int compareTo(Object another) {
         return pingYin.compareTo(((UserObject) another).pingYin);
+    }
+
+    public boolean isEmailValidation() {
+        return email_validation != 0;
     }
 
     @Override

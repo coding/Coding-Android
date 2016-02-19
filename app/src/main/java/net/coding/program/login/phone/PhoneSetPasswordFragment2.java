@@ -3,8 +3,7 @@ package net.coding.program.login.phone;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.Html;
-import android.view.View;
+import android.text.Editable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
@@ -46,10 +46,10 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     PhoneSetPasswordActivity.Type type;
 
     @ViewById
-    LoginEditText phoneCaptchaEdit, passwordEdit, repasswordEdit, captchaEdit;
+    LoginEditText phoneEdit, phoneCaptchaEdit, passwordEdit, repasswordEdit;
 
     @ViewById
-    TextView fragmentTitle, loginButton, textClause;
+    TextView loginButton;
 
     @ViewById
     ValidePhoneView sendCode;
@@ -57,20 +57,23 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     @AfterViews
     final void initPhoneSetPasswordFragment() {
-        String title = String.format("我们已经发送了验证码到手机<br/><font color=\"#3BBD79\">%s</font>", account);
-        fragmentTitle.setText(Html.fromHtml(title));
+        phoneEdit.setText(account);
         loginButton.setText(type.getSetPasswordButtonText());
 
-        ViewStyleUtil.editTextBindButton(loginButton, phoneCaptchaEdit, passwordEdit, repasswordEdit, captchaEdit);
-        needShowCaptch();
-
-        if (type == PhoneSetPasswordActivity.Type.register) {
-            textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
-        }
+        ViewStyleUtil.editTextBindButton(loginButton, phoneEdit, phoneCaptchaEdit, passwordEdit,
+                repasswordEdit);
 
         sendCode.setUrl(type.getSendPhoneMessageUrl());
         sendCode.setPhoneString(account);
         sendCode.startTimer();
+
+        phoneEdit.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                account = s.toString();
+                sendCode.setPhoneString(account);
+            }
+        });
     }
 
     @Override
@@ -79,37 +82,11 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         super.onStop();
     }
 
-    private void needShowCaptch() {
-        if (type != PhoneSetPasswordActivity.Type.register) {
-            captchaEdit.setVisibility(View.VISIBLE);
-            captchaEdit.requestCaptcha();
-            return;
-        }
-
-        if (captchaEdit.getVisibility() == View.VISIBLE) {
-            captchaEdit.requestCaptcha();
-            return;
-        }
-
-        String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/register";
-        MyAsyncHttpClient.get(getActivity(), HOST_NEED_CAPTCHA, new MyJsonResponse(getActivity()) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                if (response.optBoolean("data")) {
-                    captchaEdit.setVisibility(View.VISIBLE);
-                    captchaEdit.requestCaptcha();
-                }
-            }
-        });
-    }
-
     @Click
     void loginButton() {
         String phoneCode = phoneCaptchaEdit.getTextString();
         String password = passwordEdit.getTextString();
         String repassword = repasswordEdit.getTextString();
-        String captcha = captchaEdit.getTextString();
 
         if (password.length() < 6) {
             SingleToast.showMiddleToast(getActivity(), "密码至少为6位");
@@ -124,9 +101,12 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
         RequestParams params = ((ParentActivity) getActivity()).getRequestParmas();
         String url = type.getSetPasswordPhoneUrl(params);
-        params.put("password", SimpleSHA1.sha1(password));
-        params.put("j_captcha", captcha);
+        String sha1Password = SimpleSHA1.sha1(password);
+        params.put("password", sha1Password);
+        params.put("confirm", sha1Password);
         params.put("code", phoneCode);
+        params.put("account", account);
+
 
         MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(((BaseActivity) getActivity())) {
             @Override
@@ -145,7 +125,6 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             @Override
             public void onMyFailure(JSONObject response) {
                 super.onMyFailure(response);
-                needShowCaptch();
                 showProgressBar(false, "");
             }
         });

@@ -77,7 +77,7 @@ public class InputAccountActivity extends BackActivity {
 
         String url = type.getSendPhoneMessageUrl();
         RequestParams params = new RequestParams();
-        params.put("phone", phone);
+        params.put("account", phone);
         MyAsyncHttpClient.post(InputAccountActivity.this, url, params, new MyJsonResponse(InputAccountActivity.this) {
             @Override
             public void onMySuccess(JSONObject response) {

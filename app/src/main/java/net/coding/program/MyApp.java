@@ -1,9 +1,9 @@
 package net.coding.program;
 
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -12,12 +12,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.MyImageDownloader;
@@ -32,7 +32,7 @@ import java.util.List;
  * 用来做一些初始化工作，比如设置 host，
  * 初始化图片库配置
  */
-public class MyApp extends MultiDexApplication {
+public class MyApp extends Application {
 
     public static float sScale;
     public static int sWidthDp;

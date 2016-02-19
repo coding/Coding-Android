@@ -11,6 +11,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -68,6 +69,12 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
                 imageValidfy = (ImageView) findViewById(R.id.imageValify);
                 imageValidfy.setVisibility(VISIBLE);
                 imageValidfy.setOnClickListener(v -> togglePassword());
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) imageValidfy.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                params.setMargins(Global.dpToPx(15), 0, 0, 0);
+                imageValidfy.setLayoutParams(params);
+                imageValidfy.setImageResource(R.drawable.ic_password_normal);
             }
 
             int inputType = a.getInt(R.styleable.LoginEditText_loginInput, 0);
@@ -102,8 +109,10 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         showPassword = !showPassword;
 
         if (showPassword) {
+            imageValidfy.setImageResource(R.drawable.ic_password_show);
             editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
         } else {
+            imageValidfy.setImageResource(R.drawable.ic_password_normal);
             editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
 

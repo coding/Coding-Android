@@ -1,42 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/divide"
     android:orientation="vertical">
 
     <include layout="@layout/divide_15_bottom" />
-
-    <RelativeLayout
-        android:id="@+id/feedback"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:minHeight="48dp"
-        android:padding="12dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:text="邮箱"
-            android:textColor="#222222"
-            android:textSize="18sp" />
-
-
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
-            android:text="邮箱"
-            android:textColor="@color/font_black_comment"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
-
-    <include layout="@layout/list_divider_small" />
 
     <RelativeLayout
         android:id="@+id/aboutCoding"
@@ -61,13 +30,58 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
-            android:text="邮箱"
+            tools:text="邮箱"
             android:textColor="@color/font_black_comment"
             android:textSize="18sp" />
 
     </RelativeLayout>
 
     <include layout="@layout/divide_15_top_bottom" />
+
+    <RelativeLayout
+        android:id="@+id/emailLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:minHeight="48dp"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="邮箱"
+            android:textColor="#222222"
+            android:id="@+id/emailTitle"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/emailTitle"
+            android:background="@drawable/round_rect_red"
+            android:textColor="@color/red_f75"
+            android:id="@+id/invalidEmail"
+            android:textSize="12sp"
+            android:text="未验证"/>
+
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="邮箱"
+            android:textColor="@color/font_black_comment"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_list_right_arr"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/list_divider_small" />
 
     <RelativeLayout
         android:id="@+id/phoneSetting"
@@ -83,16 +97,29 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="手机号码"
+
             android:textColor="#222222"
+            android:id="@+id/phoneTitle"
             android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/invalidPhone"
+            android:background="@drawable/round_rect_red"
+            android:textColor="@color/red_f75"
+            android:textSize="12sp"
+            android:layout_toRightOf="@id/phoneTitle"
+            android:text="未绑定"/>
 
         <TextView
             android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
-            android:text="未认证"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_list_right_arr"
             android:textColor="@color/font_black_comment"
             android:textSize="18sp" />
 
@@ -115,7 +142,15 @@
             android:layout_marginRight="12dp"
             android:text="修改密码"
             android:textColor="#222222"
+            android:drawablePadding="5dp"
             android:textSize="18sp" />
+
+        <ImageView
+            android:src="@drawable/ic_list_right_arr"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

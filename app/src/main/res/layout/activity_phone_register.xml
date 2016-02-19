@@ -91,6 +91,11 @@
                             app:loginInput="number"
                             app:topLine="false" />
 
+                        <View
+                            android:layout_width="0.7dp"
+                            android:layout_height="15dp"
+                            android:background="@color/divide_line" />
+
                         <net.coding.program.common.widget.ValidePhoneView
                             android:id="@+id/sendCode"
                             style="@style/ValidePhoneView" />

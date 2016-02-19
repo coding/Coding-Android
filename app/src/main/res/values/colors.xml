@@ -96,6 +96,8 @@
 
     <color name="merge_id">#ff4e90bf</color>
 
+    <color name="red_f75">#FFF75388</color>
+
     <!--二维码扫描界面-->
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>

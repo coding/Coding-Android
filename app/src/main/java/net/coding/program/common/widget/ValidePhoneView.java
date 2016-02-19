@@ -22,6 +22,9 @@ import org.json.JSONObject;
  */
 public class ValidePhoneView extends TextView {
 
+    public static final String REGISTER_SEND_MESSAGE_URL = Global.HOST_API + "/account/register/generate_phone_code";
+    public static final String RESET_SEND_MESSAGE_URL = Global.HOST_API + "/account/password/forget";
+
     OnTextChange editPhone;
     String inputPhone = "";
 
@@ -88,7 +91,13 @@ public class ValidePhoneView extends TextView {
         if (!InputCheck.checkPhone(getContext(), phoneString)) return;
 
         RequestParams params = new RequestParams();
-        params.put("phone", phoneString);
+
+        if (url.equals(RESET_SEND_MESSAGE_URL)) {
+            params.put("account", phoneString);
+        } else {
+            params.put("phone", phoneString);
+        }
+
         AsyncHttpClient client = MyAsyncHttpClient.createClient(getContext());
         client.post(getContext(), url, params, new MyJsonResponse(getContext()) {
             @Override

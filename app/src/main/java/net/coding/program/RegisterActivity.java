@@ -155,7 +155,7 @@ public class RegisterActivity extends BackActivity {
                 sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
                 startActivity(new Intent(this, MainActivity_.class));
-                Toast.makeText(this, "欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.alert_activity_email, Toast.LENGTH_LONG).show();
             } else {
                 showProgressBar(false);
                 showErrorMsg(code, respanse);

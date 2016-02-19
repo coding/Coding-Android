@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/rootScrollView"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -212,7 +213,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:text="无法登录？"
+                        android:text="找回密码"
                         android:textColor="@color/font_white"
                         android:textSize="16sp" />
 
