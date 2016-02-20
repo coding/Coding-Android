@@ -83,6 +83,8 @@ public class PhoneRegisterActivity extends BackActivity {
 
     @Click
     void loginButton() {
+        Global.popSoftkeyboard(this, phoneEdit, false);
+
         String phone = phoneEdit.getTextString();
         String code = phoneCodeEdit.getTextString();
         String globalKeyString = globalKeyEdit.getText().toString();

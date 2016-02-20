@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
@@ -65,6 +67,18 @@ public class MainActivity extends BaseActivity
     String maopao_action_types[];
     @ViewById
     ViewGroup drawer_layout;
+
+    private static boolean sNeedWarnEmailNoValidLogin = false;
+
+    public static void setNeedWarnEmailNoValidLogin() {
+        sNeedWarnEmailNoValidLogin = true;
+    }
+
+    private static boolean sNeedWarnEmailNoValidRegister = false;
+
+    public static void setNeedWarnEmailNoValidRegister() {
+        sNeedWarnEmailNoValidRegister = true;
+    }
 
     boolean mFirstEnter = true;
     BroadcastReceiver mUpdatePushReceiver = new BroadcastReceiver() {
@@ -109,6 +123,38 @@ public class MainActivity extends BaseActivity
         }
 
         MarketingHelp.showMarketing(this);
+
+        warnMailNoValidLogin();
+        warnMailNoValidRegister();
+    }
+
+    private void warnMailNoValidLogin() {
+        if (!sNeedWarnEmailNoValidLogin) {
+            return;
+        }
+
+        String emailString = MyApp.sUserObject.email;
+        boolean emailValid = MyApp.sUserObject.isEmailValidation();
+        if (!emailString.isEmpty() && !emailValid) {
+            new AlertDialog.Builder(this)
+                    .setTitle("激活邮件")
+                    .setMessage(R.string.alert_activity_email)
+                    .setPositiveButton("重发激活邮件", (dialog, which) -> {
+                        Login.resendActivityEmail(MainActivity.this);
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
+
+        }
+    }
+
+    private void warnMailNoValidRegister() {
+        if (sNeedWarnEmailNoValidRegister) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.alert_activity_email)
+                    .setPositiveButton("确定", null)
+                    .show();
+        }
     }
 
     @Override

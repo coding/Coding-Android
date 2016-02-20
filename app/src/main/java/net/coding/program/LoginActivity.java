@@ -377,9 +377,11 @@ public class LoginActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_LOGIN)) {
             if (code == 0) {
+                MainActivity.setNeedWarnEmailNoValidLogin();
                 loginSuccess(respanse);
                 umengEvent(UmengEvent.USER, "普通登陆");
             } else if (code == 3205) {
+                MainActivity.setNeedWarnEmailNoValidLogin();
                 umengEvent(UmengEvent.USER, "2fa登陆");
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
                 show2FA(true);
@@ -410,6 +412,7 @@ public class LoginActivity extends BaseActivity {
 
                 sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
+;
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
             } else {
                 showProgressBar(false);

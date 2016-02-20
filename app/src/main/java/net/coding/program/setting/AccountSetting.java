@@ -4,13 +4,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
-import com.loopj.android.http.RequestParams;
-
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.Global;
-import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.UserObject;
 
@@ -19,7 +15,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONObject;
 
 @EActivity(R.layout.activity_account_setting)
 public class AccountSetting extends BackActivity {
@@ -88,33 +83,11 @@ public class AccountSetting extends BackActivity {
                     .setTitle("激活邮件")
                     .setMessage(R.string.alert_activity_email)
                     .setPositiveButton("重发激活邮件", (dialog, which) -> {
-                        resendActivityEmail();
+                        Login.resendActivityEmail(AccountSetting.this);
                     })
                     .setNegativeButton("取消", null)
                     .show();
-
         }
-    }
-
-    private void resendActivityEmail() {
-        String url = Global.HOST_API + "/account/register/email/send";
-        RequestParams params = new RequestParams();
-        params.put("email", MyApp.sUserObject.email);
-        MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                showMiddleToast("发送激活邮件成功");
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                showProgressBar(false);
-            }
-        });
-
-        showProgressBar(true, "");
     }
 
 

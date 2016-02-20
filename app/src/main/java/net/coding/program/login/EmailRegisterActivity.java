@@ -2,7 +2,6 @@ package net.coding.program.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.MainActivity;
 import net.coding.program.MainActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -82,6 +82,7 @@ public class EmailRegisterActivity extends BackActivity {
 
     @Click
     void loginButton() {
+        Global.popSoftkeyboard(this, emailEdit, false);
         String email = emailEdit.getTextString();
         String globalKeyString = globalKeyEdit.getText().toString();
         String password = passwordEdit.getText().toString();
@@ -117,6 +118,7 @@ public class EmailRegisterActivity extends BackActivity {
             @Override
             public void onMySuccess(JSONObject respanse) {
                 super.onMySuccess(respanse);
+                MainActivity.setNeedWarnEmailNoValidRegister();
                 parseRegisterSuccess(EmailRegisterActivity.this, respanse);
             }
 
@@ -135,9 +137,11 @@ public class EmailRegisterActivity extends BackActivity {
 
 
         showProgressBar(true, "");
+
+
     }
 
-     static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
+    static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
         UserObject user = new UserObject(respanse.optJSONObject("data"));
         AccountInfo.saveAccount(activity, user);
         MyApp.sUserObject = user;
@@ -148,11 +152,6 @@ public class EmailRegisterActivity extends BackActivity {
         AccountInfo.saveLastLoginName(activity, user.name);
 
         activity.startActivity(new Intent(activity, MainActivity_.class));
-        String message = "欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。";
-        new AlertDialog.Builder(activity)
-                .setMessage(message)
-                .setPositiveButton("确定", null)
-                .show();
 
         activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
         activity.setResult(Activity.RESULT_OK);
