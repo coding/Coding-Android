@@ -32,6 +32,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public int comment_count;
     private int number;
     private int commentSort = SORT_OLD;
+
     public TopicObject(JSONObject json) throws JSONException {
         super(json);
 
@@ -45,7 +46,7 @@ public class TopicObject extends BaseComment implements Serializable {
         title = json.optString("title");
         updated_at = json.optLong("updated_at");
         number = json.optInt("number");
-        comment_count=json.optInt("comment_count");
+        comment_count = json.optInt("comment_count");
 
         {
             JSONArray array = json.optJSONArray("labels");

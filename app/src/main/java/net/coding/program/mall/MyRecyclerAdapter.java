@@ -53,7 +53,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     }
 
     public MyRecyclerAdapter(ArrayList<MallItemObject> mData, double userPoint,
-            ImageLoadTool imageLoader, Context context) {
+                             ImageLoadTool imageLoader, Context context) {
         this.mDataList.addAll(mData);
         this.userPoint = userPoint;
         this.imageLoader = imageLoader;
@@ -71,13 +71,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         ImageView exchange;
 
         LinearLayout container;
+
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.mall_list_item_title);
             points_cost = (TextView) itemView.findViewById(R.id.mall_list_item_cost);
             image = (ImageView) itemView.findViewById(R.id.mall_list_item_img);
             exchange = (ImageView) itemView.findViewById(R.id.mall_list_item_exchange);
-            container = (LinearLayout)itemView.findViewById(R.id.mall_list_item_container);
+            container = (LinearLayout) itemView.findViewById(R.id.mall_list_item_container);
         }
     }
 
@@ -99,7 +100,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         if (userPoint < cost) {
             holder.exchange
                     .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_unexchange));
-        }else {
+        } else {
             holder.exchange
                     .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_exchange));
         }
@@ -122,7 +123,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
         });
 
-        setAnimation(holder.container,position);
+        setAnimation(holder.container, position);
     }
 
     @Override
@@ -139,11 +140,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return holder;
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils
                     .loadAnimation(context, R.anim.item_bottom_in);
             viewToAnimate.startAnimation(animation);

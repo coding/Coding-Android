@@ -1,6 +1,5 @@
 package net.coding.program.search;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
@@ -10,7 +9,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchUserAdapter;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
 import net.coding.program.user.UserDetailActivity_;
 
@@ -38,7 +36,7 @@ public class SearchUserFragment extends RefreshBaseFragment {
     ArrayList<UserObject> mData = new ArrayList<>();
     private String keyword = "";
     private String tabPrams;
-    private boolean hasMore=true;
+    private boolean hasMore = true;
     @ViewById
     ListView listView;
     @ViewById(R.id.emptyView)
@@ -59,7 +57,7 @@ public class SearchUserFragment extends RefreshBaseFragment {
 
     @ItemClick
     final void listView(UserObject itemData) {
-        UserDetailActivity_.intent(this).globalKey(itemData.global_key.replace("<em>","").replace("</em>","")).start();
+        UserDetailActivity_.intent(this).globalKey(itemData.global_key.replace("<em>", "").replace("</em>", "")).start();
     }
 
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
@@ -128,15 +126,15 @@ public class SearchUserFragment extends RefreshBaseFragment {
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);
                 if (array.length() > 0) {
                     mFootUpdate.updateState(code, false, mData.size());
-                    hasMore=true;
+                    hasMore = true;
                 } else {
-                    hasMore=false;
+                    hasMore = false;
                     mFootUpdate.updateState(code, true, mData.size());
                 }
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
-                hasMore=false;
+                hasMore = false;
             }
         }
     }

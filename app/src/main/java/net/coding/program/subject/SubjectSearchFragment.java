@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * Created by david on 15-7-21.
- * <p/>
+ * <p>
  * 搜索冒泡的数据
  */
 @EFragment(R.layout.subject_search_fragment)

@@ -9,10 +9,10 @@ import java.util.List;
 
 /**
  * Created by david on 15-7-22.
- * <p/>
+ * <p>
  * 搜索的缓存数据类
  */
-public class SearchProjectCache{
+public class SearchProjectCache {
 
     private static final String SEARCH_CACHE = SearchCache.class.getName() + "_search_project_cache";
     private static final String SEARCH_CACHE_KEY = SearchCache.class.getName() + "_search_cache_key";

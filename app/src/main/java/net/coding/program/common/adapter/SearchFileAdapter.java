@@ -1,10 +1,6 @@
 package net.coding.program.common.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -67,13 +63,15 @@ public class SearchFileAdapter extends BaseAdapter {
         HoloUtils.setHoloText(txtTitle, key, bean.getName());
         txtFileSize.setText(getDataSize(bean.getSize()));
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
-        txtContent.setText(bean.owner.name+" 创建于 "+format.format(bean.created_at));
-        ImageLoader.getInstance().displayImage(bean.owner.avatar,fileImg, ImageLoadTool.optionsRounded2);
+        txtContent.setText(bean.owner.name + " 创建于 " + format.format(bean.created_at));
+        ImageLoader.getInstance().displayImage(bean.owner.avatar, fileImg, ImageLoadTool.optionsRounded2);
 
         return convertView;
     }
+
     /**
      * 返回byte的数据大小对应的文本
+     *
      * @param size
      * @return
      */

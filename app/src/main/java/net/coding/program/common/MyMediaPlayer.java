@@ -31,15 +31,15 @@ public class MyMediaPlayer extends MediaPlayer {
         this.path = path;
     }
 
-    public String getDataSource(){
+    public String getDataSource() {
         return path;
     }
 
-    public void setVoiceId(int id){
+    public void setVoiceId(int id) {
         voiceId = id;
     }
 
-    public int getVoiceId(){
+    public int getVoiceId() {
         return voiceId;
     }
 

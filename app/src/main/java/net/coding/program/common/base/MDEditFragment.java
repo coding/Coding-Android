@@ -2,11 +2,11 @@ package net.coding.program.common.base;
 
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
@@ -16,8 +16,8 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.TopicEditFragment;
 

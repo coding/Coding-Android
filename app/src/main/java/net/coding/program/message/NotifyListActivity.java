@@ -256,7 +256,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
             holder.title.setText(Global.changeHyperlinkColor(title));
 
 
-
 //            if (urlSpan.length >= 2) {
 //                StringBuffer sb = new StringBuffer(ttt);
 //
@@ -324,7 +323,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 //            holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);
 
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
-
 
 
 //          这种情况做特殊处理。  早上好，今天您有3个任务已超期

@@ -162,8 +162,8 @@ public class EmojiFragment extends Fragment {
             mGridViewColumns = 4;
         } else {
 //            if (type == Type.Small) {
-                mItemLayout = R.layout.gridview_emotion_emoji;
-                mGridViewColumns = 7;
+            mItemLayout = R.layout.gridview_emotion_emoji;
+            mGridViewColumns = 7;
         }
     }
 

@@ -175,22 +175,22 @@ public class MergeObject implements Serializable {
     public String getMergeStatus() {
         switch (merge_status) {
             case STYLE_ACCEPT:
-                color="#EB7A19";
+                color = "#EB7A19";
                 return "已合并";
             case STYLE_REFUSE:
-                color="#E84D60";
+                color = "#E84D60";
                 return "已拒绝";
             case STYLE_CANMERGE:
-                color="#3BBD79";
+                color = "#3BBD79";
                 return "可合并";
             case STYLE_CANNOTMERGE:
-                color="#B17EDD";
+                color = "#B17EDD";
                 return "不可自动合并";
             case STYLE_CANNEL:
-                color="#999999";
+                color = "#999999";
                 return "已取消";
             default:
-                color="#999999";
+                color = "#999999";
                 return "已取消";
         }
     }

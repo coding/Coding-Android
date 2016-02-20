@@ -5,12 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.SearchCache;
-import net.coding.program.model.Subject;
 import net.coding.program.subject.service.ISubjectRecommendObject;
 
 import java.util.List;

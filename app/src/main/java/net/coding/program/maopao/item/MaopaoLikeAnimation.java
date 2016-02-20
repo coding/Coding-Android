@@ -15,7 +15,7 @@ public class MaopaoLikeAnimation {
     public static void playAnimation(final View viewSelf, View startView) {
         ValueAnimator valueAnimator = new ValueAnimator();
         valueAnimator.setDuration(2000);
-        float pivotX = (startView.getLeft() + startView.getRight()) / 2 -  viewSelf.getWidth() / 2;
+        float pivotX = (startView.getLeft() + startView.getRight()) / 2 - viewSelf.getWidth() / 2;
         float pivotY = (startView.getTop() + startView.getBottom()) / 2 - viewSelf.getHeight() / 2;
 
         valueAnimator.setObjectValues(
@@ -31,17 +31,15 @@ public class MaopaoLikeAnimation {
                 PointF pointStart = start.mPoint;
                 PointF point = new PointF();
                 point.x = 33 * (fraction * 3) * (fraction * 3) + pointStart.x;
-                point.y = - 200 * (fraction * 3) + pointStart.y;
+                point.y = -200 * (fraction * 3) + pointStart.y;
                 return new PointScal(point, fraction);
             }
         });
 
         valueAnimator.start();
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
-        {
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation)
-            {
+            public void onAnimationUpdate(ValueAnimator animation) {
                 PointScal pointScal = (PointScal) animation.getAnimatedValue();
 
                 PointF point = pointScal.mPoint;

@@ -1,7 +1,7 @@
 package net.coding.program.common.base;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BaseActivity;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;

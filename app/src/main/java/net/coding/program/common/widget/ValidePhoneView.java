@@ -83,7 +83,7 @@ public class ValidePhoneView extends TextView {
 
         String phoneString;
         if (editPhone != null) {
-           phoneString = editPhone.getText().toString();
+            phoneString = editPhone.getText().toString();
         } else {
             phoneString = inputPhone;
         }

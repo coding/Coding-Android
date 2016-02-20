@@ -22,11 +22,11 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity;
 import net.coding.program.project.detail.file.FileSaveHelp;
@@ -36,6 +36,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +45,6 @@ import java.util.HashMap;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.apache.http.Header;
 import pl.droidsonroids.gif.GifImageView;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;

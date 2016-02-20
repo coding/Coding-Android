@@ -37,40 +37,41 @@ public class SoundWaveView extends View {
     //存储声音的队列
     private ArrayList<Float> queen = new ArrayList<Float>(waveCout);
     private Paint mPaint;
+
     public SoundWaveView(Context context) {
         super(context);
-        init(context,null);
+        init(context, null);
     }
 
     public SoundWaveView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context,attrs);
+        init(context, attrs);
     }
 
     public SoundWaveView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context,attrs);
+        init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SoundWaveView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context,attrs);
+        init(context, attrs);
     }
 
-    private void init(Context context,AttributeSet attrs){
+    private void init(Context context, AttributeSet attrs) {
         this.context = context;
-        if(attrs!=null){
+        if (attrs != null) {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.SoundWaveView);
             waveColor = array.getColor(R.styleable.SoundWaveView_waveColor, 0xfffb8638);
             soundOriginOrientation = array.getInt(R.styleable.SoundWaveView_soundOriginOrientation, Orientation_Right);
             //array.getInteger(R.styleable.SoundWaveView_soundOriginOrientation,Orientation_Right);
             array.recycle();
         }
-        for(int i=0;i<waveCout;i++){
+        for (int i = 0; i < waveCout; i++) {
             queen.add(minDecibel);
         }
-        mPaint =  new Paint();
+        mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(waveColor);
     }
@@ -84,11 +85,12 @@ public class SoundWaveView extends View {
 
     /**
      * 设置当前音量
+     *
      * @param volume
      */
-    public synchronized void setVolume(float volume){
-        queen.remove(queen.size()-1);
-        queen.add(0,volume);
+    public synchronized void setVolume(float volume) {
+        queen.remove(queen.size() - 1);
+        queen.add(0, volume);
         invalidate();
     }
 
@@ -97,52 +99,53 @@ public class SoundWaveView extends View {
         super.onDraw(canvas);
         float scope = maxDecibel - minDecibel;
         int height = getMeasuredHeight();
-        for(int i = 0;i<queen.size();i++){
+        for (int i = 0; i < queen.size(); i++) {
             float v = queen.get(i);
-            if( v>= maxDecibel){
+            if (v >= maxDecibel) {
                 v = maxDecibel;
-            }else if(v <= minDecibel){
+            } else if (v <= minDecibel) {
                 v = minDecibel;
             }
-            drawWave(canvas,i,(int)(height*(v-minDecibel)/scope));
+            drawWave(canvas, i, (int) (height * (v - minDecibel) / scope));
         }
     }
 
-    public void reSet(){
-        for(int i=0;i<waveCout;i++){
-            queen.set(0,minDecibel);
+    public void reSet() {
+        for (int i = 0; i < waveCout; i++) {
+            queen.set(0, minDecibel);
         }
         postInvalidate();
     }
 
     /**
      * 绘制单个音波
+     *
      * @param canvas
      * @param position
      * @param waveHeight
      */
-    private void drawWave(Canvas canvas,int position,int waveHeight){
+    private void drawWave(Canvas canvas, int position, int waveHeight) {
         int minWaveHeight = Global.dpToPx(3);
-        if(waveHeight <= minWaveHeight){
+        if (waveHeight <= minWaveHeight) {
             waveHeight = minWaveHeight;
         }
-        int waveWidth = getMeasuredWidth()/(queen.size()*2-1);
+        int waveWidth = getMeasuredWidth() / (queen.size() * 2 - 1);
         int left = 0;
         int top = 0;
         int right = 0;
         int bottom = 0;
-        switch (soundOriginOrientation){
+        switch (soundOriginOrientation) {
             case Orientation_Left:
-                left = ((position+1)*2-1)*waveWidth-waveWidth;
+                left = ((position + 1) * 2 - 1) * waveWidth - waveWidth;
                 break;
             case Orientation_Right:
-                left = ((queen.size()-1-position+1)*2-1)*waveWidth-waveWidth;
+                left = ((queen.size() - 1 - position + 1) * 2 - 1) * waveWidth - waveWidth;
                 break;
         }
         right = left + waveWidth;
-        top = (getMeasuredHeight()-waveHeight)/2;
+        top = (getMeasuredHeight() - waveHeight) / 2;
         bottom = top + waveHeight;
         int angle = Global.dpToPx(1);
-        canvas.drawRoundRect(new RectF(left,top,right,bottom),angle,angle,mPaint);
+        canvas.drawRoundRect(new RectF(left, top, right, bottom), angle, angle, mPaint);
     }
 }

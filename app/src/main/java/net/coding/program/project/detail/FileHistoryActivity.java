@@ -1,11 +1,11 @@
 package net.coding.program.project.detail;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;

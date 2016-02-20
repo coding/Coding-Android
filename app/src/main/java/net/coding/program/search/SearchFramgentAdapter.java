@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 /**
  * Created by Vernon on 15/11/21.
  */
-public class SearchFramgentAdapter extends FragmentStatePagerAdapter{
+public class SearchFramgentAdapter extends FragmentStatePagerAdapter {
 
 
     private static final String[] TITLES = {"项目", "任务", "讨论", "冒泡", "文档", "用户", "合并请求", "pull请求"};
@@ -56,17 +56,17 @@ public class SearchFramgentAdapter extends FragmentStatePagerAdapter{
                 searchFileFragment.setKeyword(key);
                 return searchFileFragment;
             case 5:
-                SearchUserFragment searchUserFragment=new SearchUserFragment_();
+                SearchUserFragment searchUserFragment = new SearchUserFragment_();
                 searchUserFragment.setKeyword(key);
                 searchUserFragment.setTabPrams(tab[position]);
                 return searchUserFragment;
             case 6:
-                SearchMergeRequestsFragment searchMergeRequestsFragment=new SearchMergeRequestsFragment_();
+                SearchMergeRequestsFragment searchMergeRequestsFragment = new SearchMergeRequestsFragment_();
                 searchMergeRequestsFragment.setKeyword(key);
                 searchMergeRequestsFragment.setTabPrams(tab[position]);
                 return searchMergeRequestsFragment;
             default:
-                SearchMergeRequestsFragment searchMergeRequestsFragment2=new SearchMergeRequestsFragment_();
+                SearchMergeRequestsFragment searchMergeRequestsFragment2 = new SearchMergeRequestsFragment_();
                 searchMergeRequestsFragment2.setKeyword(key);
                 searchMergeRequestsFragment2.setTabPrams(tab[position]);
                 return searchMergeRequestsFragment2;

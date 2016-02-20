@@ -13,6 +13,7 @@ public class LocationObject implements Serializable {
     public String id, name, address, city;
     public double latitude, longitude;
     public int distance;
+
     public LocationObject(JSONObject json) throws JSONException {
         type = Type.Normal;
         name = json.getString("name");

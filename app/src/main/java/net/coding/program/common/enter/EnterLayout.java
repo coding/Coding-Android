@@ -27,8 +27,8 @@ import java.lang.reflect.Method;
 
 /**
  * Created by chaochen on 14-10-28.
- * @notice common_enter_emoji必须以EnterLayoutAnimSupportContainer作父容器,且该容器只有两个子布局
  *
+ * @notice common_enter_emoji必须以EnterLayoutAnimSupportContainer作父容器, 且该容器只有两个子布局
  */
 public abstract class EnterLayout implements InputAction {
 
@@ -55,22 +55,23 @@ public abstract class EnterLayout implements InputAction {
         }
     };
 
-    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer(){
+    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer() {
         return mEnterLayoutAnimSupportContainer;
     }
+
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type) {
         mType = type;
 
         mActivity = activity;
 
-        panelHeight =  Global.dpToPx(200);
+        panelHeight = Global.dpToPx(200);
         inputBoxHeight = Global.dpToPx(48);
         screenHeight = MyApp.sHeightPix;
 
-        commonEnterRoot = (ViewGroup)mActivity.findViewById(R.id.commonEnterRoot);
-        if(commonEnterRoot!=null && commonEnterRoot.getParent() instanceof EnterLayoutAnimSupportContainer){
+        commonEnterRoot = (ViewGroup) mActivity.findViewById(R.id.commonEnterRoot);
+        if (commonEnterRoot != null && commonEnterRoot.getParent() instanceof EnterLayoutAnimSupportContainer) {
             mEnterLayoutAnimSupportContainer = (EnterLayoutAnimSupportContainer) commonEnterRoot.getParent();
-            if(activity instanceof EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack){
+            if (activity instanceof EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack) {
                 mEnterLayoutAnimSupportContainer.setOnEnterLayoutBottomMarginChanagedCallBack((EnterLayoutAnimSupportContainer.OnEnterLayoutBottomMarginChanagedCallBack) activity);
             }
         }
@@ -162,27 +163,21 @@ public abstract class EnterLayout implements InputAction {
         });
     }
 
-    private void interceptInputMethod(EditText et){
+    private void interceptInputMethod(EditText et) {
         // Android.edittext点击时,隐藏系统弹出的键盘,显示出光标
         // 3.0以下版本可以用editText.setInputType(InputType.TYPE_NULL)来实现。
         // 3.0以上版本除了调用隐藏方法:setShowSoftInputOnFocus(false)
         int sdkInt = Build.VERSION.SDK_INT;// 16 -- 4.1系统
-        if (sdkInt >= 11)
-        {
+        if (sdkInt >= 11) {
             Class<EditText> cls = EditText.class;
-            try
-            {
+            try {
                 Method setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
                 setShowSoftInputOnFocus.setAccessible(true);
                 setShowSoftInputOnFocus.invoke(et, false);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Global.errorLog(e);
             }
-        }
-        else
-        {
+        } else {
             et.setInputType(EditorInfo.TYPE_NULL);
         }
     }
@@ -200,13 +195,13 @@ public abstract class EnterLayout implements InputAction {
         editable.insert(insertPos, insertString);
     }
 
-    public void animEnterLayoutStatusChanaged(final boolean isOpen){
-        if(mEnterLayoutStatus == isOpen){
+    public void animEnterLayoutStatusChanaged(final boolean isOpen) {
+        if (mEnterLayoutStatus == isOpen) {
             return;
         }
         mEnterLayoutStatus = isOpen;
-        if(commonEnterRoot!=null && mEnterLayoutAnimSupportContainer!=null){
-            ValueAnimator va = ValueAnimator.ofInt(isOpen?new int[]{-panelHeight,0}:new int[]{0,-panelHeight});
+        if (commonEnterRoot != null && mEnterLayoutAnimSupportContainer != null) {
+            ValueAnimator va = ValueAnimator.ofInt(isOpen ? new int[]{-panelHeight, 0} : new int[]{0, -panelHeight});
             va.setDuration(300);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -224,21 +219,21 @@ public abstract class EnterLayout implements InputAction {
         }
     }
 
-    protected void onEnterLayoutPopUp(int bottom){
+    protected void onEnterLayoutPopUp(int bottom) {
 
     }
 
-    protected void onEnterLayoutDropDown(int bottom){
+    protected void onEnterLayoutDropDown(int bottom) {
 
     }
 
-    protected void updateEnterLayoutBottom(int bottom){
-        if(bottom == 0){
+    protected void updateEnterLayoutBottom(int bottom) {
+        if (bottom == 0) {
             mEnterLayoutStatus = true;
-        }else if(bottom == -panelHeight){
+        } else if (bottom == -panelHeight) {
             mEnterLayoutStatus = false;
         }
-        if(mEnterLayoutAnimSupportContainer!=null){
+        if (mEnterLayoutAnimSupportContainer != null) {
             mEnterLayoutAnimSupportContainer.setEnterLayoutBottomMargin(bottom);
         }
     }
@@ -313,21 +308,21 @@ public abstract class EnterLayout implements InputAction {
     }
 
     public void hide() {
-        if(commonEnterRoot!=null){
+        if (commonEnterRoot != null) {
             commonEnterRoot.setVisibility(View.GONE);
         }
 
     }
 
     public void show() {
-        if(commonEnterRoot!=null){
+        if (commonEnterRoot != null) {
             commonEnterRoot.setVisibility(View.VISIBLE);
         }
 
     }
 
     public boolean isShow() {
-        return commonEnterRoot!=null && commonEnterRoot.getVisibility() == View.VISIBLE;
+        return commonEnterRoot != null && commonEnterRoot.getVisibility() == View.VISIBLE;
     }
 
 
@@ -339,8 +334,8 @@ public abstract class EnterLayout implements InputAction {
         if (object == null) {
             return;
         }
-        if(commonEnterRoot!=null && mEnterLayoutAnimSupportContainer!=null
-                && !mEnterLayoutAnimSupportContainer.isAdjustResize()){
+        if (commonEnterRoot != null && mEnterLayoutAnimSupportContainer != null
+                && !mEnterLayoutAnimSupportContainer.isAdjustResize()) {
             //common_enter_emoji控件由于在某些情况下第一次进入activity恢复数据时会出现显示不正常现象，
             // 因此先让控件以空文本形式正常显示出来之后再恢复数据
             clearContent();
@@ -351,7 +346,7 @@ public abstract class EnterLayout implements InputAction {
                     content.getText().append(lastInput);
                 }
             }, 100);
-        }else{
+        } else {
             clearContent();
             String lastInput = CommentBackup.getInstance().load(CommentBackup.BackupParam.create(object));
             content.getText().append(lastInput);
@@ -363,8 +358,8 @@ public abstract class EnterLayout implements InputAction {
         Default, TextOnly
     }
 
-    public enum InputType{
-        Text,Voice,Emoji
+    public enum InputType {
+        Text, Voice, Emoji
     }
 
 

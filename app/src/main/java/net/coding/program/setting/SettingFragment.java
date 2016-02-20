@@ -16,9 +16,9 @@ import com.tencent.android.tpush.XGPushManager;
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.project.detail.file.FileSaveHelp;
 

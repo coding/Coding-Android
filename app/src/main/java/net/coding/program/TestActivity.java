@@ -112,6 +112,7 @@ public class TestActivity extends AppCompatActivity implements VoiceRecordComple
                 .type(type)
                 .start();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

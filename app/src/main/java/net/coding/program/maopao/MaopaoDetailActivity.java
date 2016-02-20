@@ -368,11 +368,11 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
         commentBtn = (TextView) mListHead.findViewById(R.id.commentBtn);
         commentBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        prepareAddComment(mMaopaoObject, true);
-                    }
-                });
+            @Override
+            public void onClick(View v) {
+                prepareAddComment(mMaopaoObject, true);
+            }
+        });
 
         commentBtn.setText(String.valueOf(mMaopaoObject.comments));
         reward.setText(String.valueOf(mMaopaoObject.rewards));
@@ -618,7 +618,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         decorView.getWindowVisibleDisplayFrame(rect);
         int winHeight = getWindow().getDecorView().getHeight();
         // 在 5.0 的android手机上，如果是 noactionbar，显示会有问题
-        shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
+        shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight - rect.bottom);
     }
 
     public static class ClickParam implements Serializable {

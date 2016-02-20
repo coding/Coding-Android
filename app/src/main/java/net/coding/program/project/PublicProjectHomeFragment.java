@@ -130,16 +130,16 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 new int[]{R.drawable.project_home_button_public_fork, R.drawable.project_home_button_public_fork},
         };
 
-        int[][] backgroundLeft = new int[][] {
-                new int[] {R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
-                new int[] {R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
-                new int[] {R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left0},
+        int[][] backgroundLeft = new int[][]{
+                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
+                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
+                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left0},
         };
 
-        int[][] backgroundRight = new int[][] {
-                new int[] {R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
-                new int[] {R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
-                new int[] {R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right0},
+        int[][] backgroundRight = new int[][]{
+                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
+                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
+                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right0},
         };
 
         mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], backgroundRight[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
@@ -317,7 +317,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         String[] title;
         int[] titleColor;
         int[] icon;
-        int [] leftBackground;
+        int[] leftBackground;
         int[] rightBackground;
 
         boolean mCheck = false;

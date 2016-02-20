@@ -23,7 +23,7 @@ import org.androidannotations.annotations.ViewById;
 
 @EViewGroup(R.layout.input_view_main)
 public class MainInputView extends FrameLayout implements KeyboardControl, InputOperate {
-    
+
     AppCompatActivity activity;
 
     @ViewById

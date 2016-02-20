@@ -186,7 +186,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                RecyclerView.State state) {
+                                   RecyclerView.State state) {
 
             outRect.left = space;
             outRect.right = space;

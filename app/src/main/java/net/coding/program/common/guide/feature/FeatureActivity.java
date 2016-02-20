@@ -1,8 +1,8 @@
 package net.coding.program.common.guide.feature;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.MainActivity_;
 import net.coding.program.R;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 
 import org.androidannotations.annotations.AfterViews;

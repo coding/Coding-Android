@@ -51,7 +51,7 @@ public class FileSaveHelp {
             return Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
         }
 
-        return  new FileSaveHelp(context).getFileDownloadPath();
+        return new FileSaveHelp(context).getFileDownloadPath();
     }
 
     public static String getFileDownloadAbsolutePath(Context context) {

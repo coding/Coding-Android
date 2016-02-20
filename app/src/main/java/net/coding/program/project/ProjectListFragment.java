@@ -150,6 +150,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             notifyEmputy();
         }
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -231,7 +232,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
 
         if (type == ProjectFragment.Type.Main) {
-            item.getOwner().global_key= item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
+            item.getOwner().global_key = item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
             ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.getOwner().global_key,
                     item.name);
             ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);

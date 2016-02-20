@@ -7,20 +7,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
-import net.coding.program.model.RequestData;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.RequestData;
 import net.coding.program.project.git.CommitListActivity_;
 
 import org.androidannotations.annotations.AfterViews;

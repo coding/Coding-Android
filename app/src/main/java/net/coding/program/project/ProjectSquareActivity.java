@@ -104,11 +104,13 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
                 break;
         }
     }
+
     @OptionsItem
     void action_search_pick() {
         SearchProjectActivity_.intent(this).start();
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
+
     private static class ViewHolder {
         TextView name2;
         TextView tv_star_count;

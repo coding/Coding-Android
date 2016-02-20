@@ -2,14 +2,9 @@ package net.coding.program.common.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +14,6 @@ import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
 import net.coding.program.common.widget.CircleImageView;
-import net.coding.program.message.MessageListActivity;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
 import net.coding.program.search.HoloUtils;
@@ -64,24 +58,24 @@ public class SearchUserAdapter extends BaseAdapter {
         TextView txtTitle = ViewHolder.get(convertView, R.id.txtTitle);
         CircleImageView personImg = ViewHolder.get(convertView, R.id.personImg);
         TextView txtContent = ViewHolder.get(convertView, R.id.txtContent);
-        RelativeLayout btn_action=ViewHolder.get(convertView,R.id.btn_action);
+        RelativeLayout btn_action = ViewHolder.get(convertView, R.id.btn_action);
 
         UserObject bean = mData.get(position);
 
         HoloUtils.setHoloText(txtTitle, key, bean.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
-        txtContent.setText(format.format(bean.created_at)+"    加入coding");
+        txtContent.setText(format.format(bean.created_at) + "    加入coding");
         ImageLoader.getInstance().displayImage(bean.avatar, personImg, ImageLoadTool.options);
-        setClickEvent(btn_action,bean);
+        setClickEvent(btn_action, bean);
         return convertView;
     }
 
-    private void setClickEvent(View view, final UserObject bean){
+    private void setClickEvent(View view, final UserObject bean) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessageListActivity_.class);
-                bean.global_key=bean.global_key.replace("<em>","").replace("</em>","");
+                bean.global_key = bean.global_key.replace("<em>", "").replace("</em>", "");
                 intent.putExtra("mUserObject", bean);
                 context.startActivity(intent);
             }

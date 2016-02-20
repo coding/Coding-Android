@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.model.ProjectObject;
@@ -31,7 +30,7 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return projectFragment.program_title.length+1;
+        return projectFragment.program_title.length + 1;
     }
 
     @Override
@@ -51,18 +50,18 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
     public Fragment getItem(int position) {
         Log.d("", "all p " + position);
 
-        if(position==projectFragment.program_title.length){
-            MenuProjectFragment menuProjectFragment=new MenuProjectFragment_();
+        if (position == projectFragment.program_title.length) {
+            MenuProjectFragment menuProjectFragment = new MenuProjectFragment_();
             return menuProjectFragment;
         }
-        if(position==3){
-            ProjectOtherFragment projectOtherFragment=new ProjectOtherFragment_();
-            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position],0);
+        if (position == 3) {
+            ProjectOtherFragment projectOtherFragment = new ProjectOtherFragment_();
+            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position], 0);
             return projectOtherFragment;
         }
-        if(position==4){
-            ProjectOtherFragment projectOtherFragment=new ProjectOtherFragment_();
-            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position],1);
+        if (position == 4) {
+            ProjectOtherFragment projectOtherFragment = new ProjectOtherFragment_();
+            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position], 1);
             return projectOtherFragment;
         }
         ProjectListFragment fragment = new ProjectListFragment_();

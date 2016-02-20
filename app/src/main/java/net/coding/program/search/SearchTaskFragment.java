@@ -1,6 +1,5 @@
 package net.coding.program.search;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
@@ -10,9 +9,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchReslutAdapter;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -75,7 +72,7 @@ public class SearchTaskFragment extends RefreshBaseFragment {
             if (firstVisibleItem + visibleItemCount == totalItemCount) {
                 if (hasMore && !isLoading) {
                     pos++;
-                    isLoading=true;
+                    isLoading = true;
                     loadMore();
                 }
             }
@@ -140,7 +137,7 @@ public class SearchTaskFragment extends RefreshBaseFragment {
                     mFootUpdate.updateState(code, true, mData.size());
                 }
                 adapter.notifyDataSetChanged();
-                isLoading=false;
+                isLoading = false;
             } else {
                 showErrorMsg(code, respanse);
                 hasMore = false;

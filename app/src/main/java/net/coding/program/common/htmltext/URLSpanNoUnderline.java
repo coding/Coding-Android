@@ -92,8 +92,8 @@ public class URLSpanNoUnderline extends URLSpan {
 
             // 代码中的文件 https://coding.net/u/8206503/p/TestPrivate/git/blob/master/jumpto
             final String gitFile = String.format("^/git/blob/%s/(.*)$", NAME);
-             pattern = Pattern.compile(gitFile);
-             matcher = pattern.matcher(simplePath);
+            pattern = Pattern.compile(gitFile);
+            matcher = pattern.matcher(simplePath);
             if (matcher.find()) {
                 String version = matcher.group(1);
                 String path = matcher.group(2);

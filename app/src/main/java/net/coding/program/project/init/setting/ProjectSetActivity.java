@@ -2,8 +2,8 @@ package net.coding.program.project.init.setting;
 
 import android.os.Bundle;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;

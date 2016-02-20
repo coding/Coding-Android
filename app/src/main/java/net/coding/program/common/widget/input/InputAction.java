@@ -6,5 +6,6 @@ package net.coding.program.common.widget.input;
 public interface InputAction {
 
     void deleteOneChar();
+
     void insertEmoji(String s);
 }

@@ -17,7 +17,6 @@ import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Neutra on 2015/4/25.
- *
  */
 @EViewGroup(R.layout.activity_topic_label_item)
 public class TopicLabelItemView extends RelativeLayout implements Checkable {

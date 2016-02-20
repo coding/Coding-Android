@@ -279,6 +279,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
         View icon;
         TextView title;
+
         public ViewGroupHolder(View parent) {
             icon = parent.findViewById(R.id.icon);
             title = (TextView) parent.findViewById(R.id.title);

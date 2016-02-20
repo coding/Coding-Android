@@ -186,4 +186,5 @@ public class PhoneRegisterActivity extends BackActivity {
             setResult(RESULT_OK);
             finish();
         }
-    }}
+    }
+}

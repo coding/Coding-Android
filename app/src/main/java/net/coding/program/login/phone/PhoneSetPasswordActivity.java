@@ -131,7 +131,7 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
         setTitle(type.getInputAccountTitle());
         Fragment fragment;
         if (type == Type.register) {
-             fragment = PhoneVerifyFragment_.builder().type(type).account(account).build();
+            fragment = PhoneVerifyFragment_.builder().type(type).account(account).build();
         } else {
             requestParams.put("phone", account);
             fragment = PhoneSetPasswordFragment2_.builder().type(type).account(account).build();

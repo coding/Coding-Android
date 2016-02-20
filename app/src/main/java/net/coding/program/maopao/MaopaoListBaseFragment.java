@@ -580,7 +580,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                                     cannotRewardLayout.setText(rewardFailString);
                                 }
 
-                                if (rewardFailString.contains("验证了手机才能打赏") ) { // 自己的手机未验证
+                                if (rewardFailString.contains("验证了手机才能打赏")) { // 自己的手机未验证
                                     cannotRewardLayout.setOnClickListener(v1 -> {
                                         ValidePhoneActivity_.intent(activity).start();
                                         dialog.dismiss();

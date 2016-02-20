@@ -2,8 +2,8 @@ package net.coding.program.model.util;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.RequestData;

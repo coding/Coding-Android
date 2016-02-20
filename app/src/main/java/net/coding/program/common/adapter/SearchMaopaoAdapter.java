@@ -1,22 +1,12 @@
 package net.coding.program.common.adapter;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.method.ScrollingMovementMethod;
-import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -28,11 +18,8 @@ import net.coding.program.common.ViewHolder;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.model.Maopao;
 
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Vernon on 15/11/28.

@@ -129,7 +129,7 @@ public class MallItemObject implements Serializable {
     }
 
     public MallItemObject(int id, String name, String image, String description, double points_cost,
-            long updated_at) {
+                          long updated_at) {
         this.id = id;
         this.name = name;
         this.image = image;

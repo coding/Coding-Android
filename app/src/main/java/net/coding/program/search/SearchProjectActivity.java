@@ -108,6 +108,7 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         // 取消点击Tab时的背景色
         tabs.setTabBackground(0);
     }
+
     private void initSearchFooterView() {
         View footerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_footer, null);
         mSearchFooterClearAllView = (TextView) footerView.findViewById(R.id.subject_search_hot_footer_clear);

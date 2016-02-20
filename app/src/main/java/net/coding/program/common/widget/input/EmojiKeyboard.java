@@ -366,7 +366,7 @@ public class EmojiKeyboard extends FrameLayout {
             "ic_keyboard_delete"}
     };
 
-    private  static String monkeyIcons[][] = new String[][]{{
+    private static String monkeyIcons[][] = new String[][]{{
             "coding_emoji_01",
             "coding_emoji_02",
             "coding_emoji_03",

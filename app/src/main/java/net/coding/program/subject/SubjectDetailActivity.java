@@ -2,8 +2,8 @@ package net.coding.program.subject;
 
 import android.support.v4.app.Fragment;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.Subject;
 
 import org.androidannotations.annotations.AfterViews;

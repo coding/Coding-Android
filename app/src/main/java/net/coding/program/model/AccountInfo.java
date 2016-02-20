@@ -436,7 +436,6 @@ public class AccountInfo {
     }
 
 
-
     public static void saveLastLoginName(Context context, String name) {
         new DataCache<String>().saveGlobal(context, name, GLOBAL_LAST_LOGIN_NAME);
     }

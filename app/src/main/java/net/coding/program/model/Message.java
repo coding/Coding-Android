@@ -43,18 +43,18 @@ public class Message {
                 sender = new UserObject(json.optJSONObject("sender"));
             }
 
-            if(json.has("type")){
+            if (json.has("type")) {
                 type = json.getInt("type");
             }
-            if(json.has("played")){
+            if (json.has("played")) {
                 played = json.getInt("played");
             }
 
-            if(json.has("file")){
+            if (json.has("file")) {
                 file = json.getString("file");
             }
 
-            if(json.has("duration")){
+            if (json.has("duration")) {
                 duration = json.optInt("duration");
             }
 

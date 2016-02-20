@@ -168,7 +168,8 @@ public class TaskObject {
         public ArrayList<TopicLabelObject> labels = new ArrayList<>();
         private int number;
         private int id;
-        public String description="";
+        public String description = "";
+
         public SingleTask(JSONObject json) throws JSONException {
             comments = json.optInt("comments");
             content = Html.fromHtml(json.optString("content")).toString();
@@ -177,10 +178,10 @@ public class TaskObject {
             if (json.has("creator")) {
                 creator = new UserObject(json.optJSONObject("creator"));
             }
-            if(json.has("description")){
-                JSONArray jsonArray=json.optJSONArray("description");
-                if(jsonArray.length()>0){
-                    description=jsonArray.getString(0).toString();
+            if (json.has("description")) {
+                JSONArray jsonArray = json.optJSONArray("description");
+                if (jsonArray.length() > 0) {
+                    description = jsonArray.getString(0).toString();
                 }
             }
             creator_id = json.optString("creator_id");
@@ -215,6 +216,7 @@ public class TaskObject {
                 }
             }
         }
+
         public SingleTask() {
         }
 

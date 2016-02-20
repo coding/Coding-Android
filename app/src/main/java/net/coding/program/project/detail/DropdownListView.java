@@ -128,7 +128,9 @@ public class DropdownListView extends ScrollView {
 
     public interface Container {
         void show(DropdownListView listView);
+
         void hide();
+
         void onSelectionChanged(DropdownListView view);
     }
 }

@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 /**
  * A PagerAdapter wrapper responsible for providing a proper page to
  * LoopViewPager
- * <p/>
+ * <p>
  * This class shouldn't be used directly
  */
 public class LoopPagerAdapterWrapper extends PagerAdapter {

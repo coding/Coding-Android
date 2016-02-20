@@ -21,7 +21,7 @@ import java.util.Locale;
 
 /**
  * Encodes arbitrary byte arrays as case-insensitive base-32 strings.
- * <p/>
+ * <p>
  * The implementation is slightly different than in RFC 4648. During encoding,
  * padding is not added, and during decoding the last incomplete chunk is not
  * taken into account. The result is that multiple strings decode to the same

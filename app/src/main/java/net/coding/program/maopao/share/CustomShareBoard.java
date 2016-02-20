@@ -206,15 +206,15 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             rootView.findViewById(id).setOnClickListener(this);
         }
 
-        final IconTextView.Data[] datas = new IconTextView.Data[] {
-            new IconTextView.Data(R.id.wechat, "微信好友", R.drawable.icon_share_weixin),
-            new IconTextView.Data(R.id.wechat_circle, "朋友圈", R.drawable.icon_share_weixin_friend),
-            new IconTextView.Data(R.id.qq, "QQ", R.drawable.icon_share_qq),
-            new IconTextView.Data(R.id.qzone, "QQ空间", R.drawable.icon_share_qq_zone),
-            new IconTextView.Data(R.id.sinaWeibo, "微博", R.drawable.icon_share_sina),
-            new IconTextView.Data(R.id.evernote, "印象笔记", R.drawable.icon_share_evernote),
-            new IconTextView.Data(R.id.codingFriend, "Coding好友", R.drawable.icon_share_coding_friend),
-            new IconTextView.Data(R.id.linkCopy, "复制链接", R.drawable.icon_share_copy_link)
+        final IconTextView.Data[] datas = new IconTextView.Data[]{
+                new IconTextView.Data(R.id.wechat, "微信好友", R.drawable.icon_share_weixin),
+                new IconTextView.Data(R.id.wechat_circle, "朋友圈", R.drawable.icon_share_weixin_friend),
+                new IconTextView.Data(R.id.qq, "QQ", R.drawable.icon_share_qq),
+                new IconTextView.Data(R.id.qzone, "QQ空间", R.drawable.icon_share_qq_zone),
+                new IconTextView.Data(R.id.sinaWeibo, "微博", R.drawable.icon_share_sina),
+                new IconTextView.Data(R.id.evernote, "印象笔记", R.drawable.icon_share_evernote),
+                new IconTextView.Data(R.id.codingFriend, "Coding好友", R.drawable.icon_share_coding_friend),
+                new IconTextView.Data(R.id.linkCopy, "复制链接", R.drawable.icon_share_copy_link)
         };
 
         allButtonsLayout = (ViewGroup) rootView.findViewById(R.id.allButtonsLayout);
@@ -238,7 +238,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
         mSinaSsoHandler = new SinaSsoHandler();
 //        if (mSinaSsoHandler.isClientInstalled()) {
-            addButton(datas[4]);
+        addButton(datas[4]);
 //        }
 
         mEvernoteHandler = new UMEvernoteHandler(mActivity);
@@ -357,9 +357,9 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
         UMImage umImage;
         if (!mShareData.getImg().isEmpty()) {
-             umImage = new UMImage(mActivity, mShareData.getImg());
+            umImage = new UMImage(mActivity, mShareData.getImg());
         } else {
-             umImage = new UMImage(mActivity, R.drawable.share_default_icon);
+            umImage = new UMImage(mActivity, R.drawable.share_default_icon);
         }
         mController.setShareImage(umImage);
 

@@ -35,7 +35,6 @@ import net.coding.program.ImagePagerFragment;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhoneType;
@@ -50,6 +49,7 @@ import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.message.EmojiFragment;
 import net.coding.program.model.AccountInfo;
@@ -635,7 +635,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                 }
 
                 // TODO 因为mart app那边的bug，项目链接有两个，这里做了一下去重处理
-               String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
+                String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
                 String martHost = "https://mart.coding.net/";
                 int urlStart = stringExtra.lastIndexOf(martHost);
                 if (urlStart != -1) {

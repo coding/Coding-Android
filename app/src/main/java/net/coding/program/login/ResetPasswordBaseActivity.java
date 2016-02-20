@@ -7,11 +7,11 @@ import android.widget.EditText;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.LoginActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.ui.BaseActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

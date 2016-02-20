@@ -10,13 +10,14 @@ import android.text.TextWatcher;
 /**
  * Created by chenchao on 15/9/15.
  */
-public class GifSpanChangeWatcher  implements SpanWatcher, TextWatcher {
+public class GifSpanChangeWatcher implements SpanWatcher, TextWatcher {
 
     private Drawable.Callback mCallback;
 
     public GifSpanChangeWatcher(Drawable.Callback callback) {
         mCallback = callback;
     }
+
     public void onSpanChanged(Spannable buf, Object what, int s, int e, int st, int en) {
         //do nothing
     }
@@ -24,14 +25,14 @@ public class GifSpanChangeWatcher  implements SpanWatcher, TextWatcher {
     public void onSpanAdded(Spannable buf, Object what, int s, int e) {
         //设置callback
         if (what instanceof GifImageSpan) {
-            ((GifImageSpan)what).getDrawable().setCallback(mCallback);
+            ((GifImageSpan) what).getDrawable().setCallback(mCallback);
         }
     }
 
     public void onSpanRemoved(Spannable buf, Object what, int s, int e) {
         //清空callback
         if (what instanceof GifImageSpan) {
-            ((GifImageSpan)what).getDrawable().setCallback(null);
+            ((GifImageSpan) what).getDrawable().setCallback(null);
         }
     }
 
@@ -41,9 +42,11 @@ public class GifSpanChangeWatcher  implements SpanWatcher, TextWatcher {
             s.setSpan(this, 0, s.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE | (100 << Spanned.SPAN_PRIORITY_SHIFT));
         }
     }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }

@@ -88,7 +88,7 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
 
             String digits = a.getString(R.styleable.LoginEditText_digits);
             if (digits != null && !digits.isEmpty()) {
-                editText.setFilters(new InputFilter[] {
+                editText.setFilters(new InputFilter[]{
                         DigitsKeyListener.getInstance(digits)
                 });
             }

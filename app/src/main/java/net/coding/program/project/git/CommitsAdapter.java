@@ -20,7 +20,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by chenchao on 15/5/29.
- *
  */
 public class CommitsAdapter extends SimpleData1Adaper<Commit> implements StickyListHeadersAdapter, SectionIndexer {
 
@@ -28,6 +27,7 @@ public class CommitsAdapter extends SimpleData1Adaper<Commit> implements StickyL
     String sYesterday = "";
     private ArrayList<Long> mSectionTitle = new ArrayList<>();
     private ArrayList<Integer> mSectionId = new ArrayList<>();
+
     public CommitsAdapter(BaseCommentParam param) {
         super(param);
 

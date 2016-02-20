@@ -135,16 +135,16 @@ public class VoiceView extends FrameLayout {
         out = null;
     }
 
-    private void pause(){
+    private void pause() {
 
-        try{
-            if(mAmrAudioRecorder!=null){
+        try {
+            if (mAmrAudioRecorder != null) {
                 isRecoding = false;
                 mAmrAudioRecorder.pause();
 
             }
-        }catch (Exception e){
-            if(out!=null){
+        } catch (Exception e) {
+            if (out != null) {
                 File f = new File(out);
                 if (f.exists()) {
                     f.delete();
@@ -155,13 +155,13 @@ public class VoiceView extends FrameLayout {
         }
     }
 
-    private boolean isTouchInside(int x,int y){
+    private boolean isTouchInside(int x, int y) {
         int w = voiceRecordButton.getMeasuredWidth();
         int h = voiceRecordButton.getMeasuredHeight();
-        if(x>= 0 && x<=w && y>= 0 && y<=h){
-            int centX = w/2;
-            int centY = h/2;
-            return Math.sqrt((x-centX)*(x-centX) + (y - centY)*(y - centY))<=w/2;
+        if (x >= 0 && x <= w && y >= 0 && y <= h) {
+            int centX = w / 2;
+            int centY = h / 2;
+            return Math.sqrt((x - centX) * (x - centX) + (y - centY) * (y - centY)) <= w / 2;
         }
         return false;
     }
@@ -282,9 +282,9 @@ public class VoiceView extends FrameLayout {
         mAmrAudioRecorder.setVoiceRecordingCallBack(mVoiceRecordingCallBack);
         mAmrAudioRecorder.prepare();
         mAmrAudioRecorder.start();
-        if(AmrAudioRecorder.State.ERROR == mAmrAudioRecorder.getState()){
+        if (AmrAudioRecorder.State.ERROR == mAmrAudioRecorder.getState()) {
             showToast(R.string.record_failed);
-        }else{
+        } else {
             isRecoding = true;
         }
     }
@@ -303,7 +303,7 @@ public class VoiceView extends FrameLayout {
     };
 
 
-    private void showToast(int rid){
+    private void showToast(int rid) {
         TextView tv = new TextView(activity);
         tv.setText(rid);
         tv.setTextSize(16);

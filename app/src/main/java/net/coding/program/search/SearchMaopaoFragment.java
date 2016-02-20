@@ -1,6 +1,5 @@
 package net.coding.program.search;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
@@ -69,7 +68,7 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
             if (firstVisibleItem + visibleItemCount == totalItemCount) {
                 if (hasMore && !isLoading) {
                     pos++;
-                    isLoading=true;
+                    isLoading = true;
                     loadMore();
                 }
             }
@@ -134,7 +133,7 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
                     mFootUpdate.updateState(code, true, mData.size());
                 }
                 adapter.notifyDataSetChanged();
-                isLoading=false;
+                isLoading = false;
             } else {
                 showErrorMsg(code, respanse);
                 hasMore = false;

@@ -1,7 +1,7 @@
 package net.coding.program.project.git;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.project.detail.ProjectGitFragmentMain;
 import net.coding.program.project.detail.ProjectGitFragmentMain_;
 

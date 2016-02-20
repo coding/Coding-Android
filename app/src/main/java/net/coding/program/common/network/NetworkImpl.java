@@ -21,12 +21,11 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.user.UserDetailActivity;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-
-import org.apache.http.Header;
 
 public class NetworkImpl {
     public static final int NETWORK_ERROR = -1;

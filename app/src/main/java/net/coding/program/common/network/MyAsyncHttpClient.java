@@ -15,6 +15,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.RequestData;
 
 import java.util.HashMap;
+
 import static net.coding.program.common.util.LogUtils.makeLogTag;
 
 /**
@@ -23,7 +24,7 @@ import static net.coding.program.common.util.LogUtils.makeLogTag;
  */
 public class MyAsyncHttpClient {
 
-private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
+    private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
 
     public static void post(Context context, String url, RequestParams params, ResponseHandlerInterface response) {
         LogUtils.LOGD(TAG, "post " + url);

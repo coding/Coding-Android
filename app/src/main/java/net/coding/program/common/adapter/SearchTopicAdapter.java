@@ -64,7 +64,7 @@ public class SearchTopicAdapter extends BaseAdapter {
             holder.bottomTime = (TextView) convertView.findViewById(R.id.bottomTime);
             holder.bottomHeartCount = (TextView) convertView.findViewById(R.id.bottomHeartCount);
             holder.bottomCommentCount = (TextView) convertView.findViewById(R.id.bottomCommentCount);
-            holder.bottomHeartImg= (ImageView) convertView.findViewById(R.id.bottomHeartImg);
+            holder.bottomHeartImg = (ImageView) convertView.findViewById(R.id.bottomHeartImg);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -81,19 +81,21 @@ public class SearchTopicAdapter extends BaseAdapter {
         ImageLoader.getInstance().displayImage(bean.owner.avatar, holder.iconTask, ImageLoadTool.optionsImage);
         return convertView;
     }
-   private void setClickEvent(View view,TopicObject bean){
-       view.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+
+    private void setClickEvent(View view, TopicObject bean) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 //               CommentActivity_.intent(context).mParam(param);
 
-           }
-       });
+            }
+        });
 
-   }
-    private CommentActivity.CommentParam createCommentParam(final TopicObject bean){
-        CommentActivity.CommentParam param=new CommentActivity.CommentParam() {
+    }
+
+    private CommentActivity.CommentParam createCommentParam(final TopicObject bean) {
+        CommentActivity.CommentParam param = new CommentActivity.CommentParam() {
             @Override
             public RequestData getSendCommentParam(String input) {
 

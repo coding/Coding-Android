@@ -17,7 +17,6 @@ import net.coding.program.common.photopick.PhotoPickActivity.GridViewCheckTag;
 
 /**
  * Created by chenchao on 15/5/6.
- *
  */
 class GridPhotoAdapter extends CursorAdapter {
 

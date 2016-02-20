@@ -44,7 +44,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     View mListHeaderView;
 
     @Override
-    protected void setActionTitle() {}
+    protected void setActionTitle() {
+    }
 
     private TextView mSubjectNameTv;
     private TextView mSubjectDescTv;
@@ -241,7 +242,6 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
             super.parseJson(code, respanse, tag, pos, data);
         }
     }
-
 
 
 }

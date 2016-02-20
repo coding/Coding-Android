@@ -19,11 +19,11 @@ import android.widget.Toast;
 import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.R;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 

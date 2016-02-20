@@ -8,23 +8,23 @@ import java.io.Serializable;
 /**
  * Created by Vernon on 15/11/16.
  */
-public class MenuCount implements Serializable{
+public class MenuCount implements Serializable {
 
     private int deploy;
     private int joined;
     private int stared;
     private int created;
-    private  int all;
+    private int all;
     private int watched;
 
 
     public MenuCount(JSONObject jsonObject) throws JSONException {
-        deploy=jsonObject.optInt("deploy");
-        joined=jsonObject.optInt("joined");
-        stared=jsonObject.optInt("stared");
-        created=jsonObject.optInt("created");
-        all=jsonObject.optInt("all");
-        watched=jsonObject.optInt("watched");
+        deploy = jsonObject.optInt("deploy");
+        joined = jsonObject.optInt("joined");
+        stared = jsonObject.optInt("stared");
+        created = jsonObject.optInt("created");
+        all = jsonObject.optInt("all");
+        watched = jsonObject.optInt("watched");
     }
 
     public int getDeploy() {

@@ -118,7 +118,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 titleString = String.format(titleFormat, item.getName(), item.getOptionName());
             }
             holder.goodTitle.setText(Html.fromHtml(titleString));
-                    getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
+            getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
             holder.pointCost.setText(item.getPointsCost() + " 码币");
 
             if (item.getRemark().equals("")) {
@@ -234,9 +234,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
 //                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
                 String tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK;
-                if (mType == Type.already_send){
+                if (mType == Type.already_send) {
                     tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
-                }else if (mType == Type.un_send){
+                } else if (mType == Type.un_send) {
                     tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
                 }
                 BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);

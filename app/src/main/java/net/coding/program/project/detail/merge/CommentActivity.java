@@ -130,9 +130,13 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
 
     public static abstract class CommentParam implements Serializable {
         public abstract RequestData getSendCommentParam(String input);
+
         public abstract String getAtSome();
+
         public abstract String getAtSomeUrl();
+
         public abstract String getProjectPath();
+
         public abstract boolean isPublicProject();
     }
 }

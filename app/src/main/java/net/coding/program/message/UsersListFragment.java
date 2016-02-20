@@ -117,8 +117,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             Message.MessageObject user = (Message.MessageObject) getItem(position);
             iconfromNetwork(holder.icon, user.friend.avatar);
             holder.title.setText(user.friend.name);
-            boolean isUnPlayedVoiceMessage = !user.sender.isMe() && user.played == 0 && user.file!=null && user.file.endsWith(".amr");
-            holder.content.setText(isUnPlayedVoiceMessage? Html.fromHtml("<font color='#3bbd79'>"+user.content+"</font>"):Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
+            boolean isUnPlayedVoiceMessage = !user.sender.isMe() && user.played == 0 && user.file != null && user.file.endsWith(".amr");
+            holder.content.setText(isUnPlayedVoiceMessage ? Html.fromHtml("<font color='#3bbd79'>" + user.content + "</font>") : Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
             holder.time.setText(Global.dayToNow(user.created_at, false));
 
             if (user.unreadCount > 0) {
@@ -304,11 +304,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     private void handleVoiceMessage(Message.MessageObject item) {
         //语音消息重新设置extra
-        if(item.file!=null && item.file.endsWith(".amr") && item.duration>0){
+        if (item.file != null && item.file.endsWith(".amr") && item.duration > 0) {
             Log.w("test", "recordDuration1=" + item.duration);
-            int dur = item.duration/1000;
+            int dur = item.duration / 1000;
             item.content = "[语音]";
-            item.extra = "[voice]{'id':"+item.getId()+",'voiceUrl':'"+item.file+"','voiceDuration':"+dur+",'played':"+item.played+"}[voice]";
+            item.extra = "[voice]{'id':" + item.getId() + ",'voiceUrl':'" + item.file + "','voiceDuration':" + dur + ",'played':" + item.played + "}[voice]";
         }
     }
 

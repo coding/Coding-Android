@@ -1,9 +1,9 @@
 package net.coding.program.common.network;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
-
-import android.support.v4.widget.SwipeRefreshLayout;
 
 /**
  * Created by libo on 2015/11/25.

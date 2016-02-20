@@ -111,7 +111,7 @@ public class EmojiEditText extends EditText {
         int rootViewHigh = rootView.getHeight();
         final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
         int rootParentHigh = rootView.getRootView().getHeight();
-        return  rootParentHigh - rootViewHigh > bottomHigh;
+        return rootParentHigh - rootViewHigh > bottomHigh;
     }
 
     InputBaseCallback callback;

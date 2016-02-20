@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 /**
  * Created by cc191954 on 14-8-8.
- *
  */
 
 public class ProjectObject implements Serializable {
@@ -240,7 +239,6 @@ public class ProjectObject implements Serializable {
         String type = open ? "open" : "closed";
         return Global.HOST_API + backend_project_path + "/git/merges/list/" + mineType + "?&status=" + type;
     }
-
 
 
     public String getHttpDeleteProject2fa(String code) {

@@ -612,8 +612,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
 //        if (mSingleTask.isEmpty() && mSingleTask.project.isEmpty() && mProjectObject.isEmpty()) {
 //            layoutProjectName.setVisibility(View.VISIBLE);
-            layoutProjectName.setOnClickListener(v -> PickProjectActivity_.intent(TaskAddActivity.this)
-                    .startForResult(RESULT_REQUEST_PICK_PROJECT));
+        layoutProjectName.setOnClickListener(v -> PickProjectActivity_.intent(TaskAddActivity.this)
+                .startForResult(RESULT_REQUEST_PICK_PROJECT));
 //        } else {
 //            layoutProjectName.setVisibility(View.GONE);
 //        }
@@ -970,7 +970,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             descriptionButton.setTextColor(getResources().getColor(R.color.font_green));
         }
     }
-
 
 
     @OnActivityResult(RESULT_REQUEST_PICK_PROJECT)

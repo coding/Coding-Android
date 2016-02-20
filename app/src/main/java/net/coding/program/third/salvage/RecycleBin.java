@@ -10,7 +10,7 @@ import android.view.View;
  * start of a layout. By construction, they are displaying current information. At the end of
  * layout, all views in ActiveViews are demoted to ScrapViews. ScrapViews are old views that
  * could potentially be used by the adapter to avoid allocating views unnecessarily.
- * <p/>
+ * <p>
  * This class was taken from Android's implementation of {@link android.widget.AbsListView} which
  * is copyrighted 2006 The Android Open Source Project.
  */

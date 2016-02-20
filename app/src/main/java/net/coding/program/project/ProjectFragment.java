@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,7 +49,7 @@ import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_project)
 @OptionsMenu(R.menu.menu_project_item)
-public class ProjectFragment extends BaseFragment implements ViewPager.OnPageChangeListener,ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
+public class ProjectFragment extends BaseFragment implements ViewPager.OnPageChangeListener, ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
     static final int RESULT_PROJECT_SEARCH_PICK = 88;
@@ -62,7 +61,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     @FragmentArg
     Type type = Type.Main;
     boolean requestOk = true;
-    private int pageIndex=0;
+    private int pageIndex = 0;
     boolean needRefresh = true;
     ArrayList<ProjectObject> mData = new ArrayList<>();
     private MyProjectPagerAdapter adapter;
@@ -74,6 +73,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
             }
         }
     };
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -96,7 +96,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     protected void init() {
         hideProgressDialog();
         mData = AccountInfo.loadProjects(getActivity());
-         pager.setOnPageChangeListener(this);
+        pager.setOnPageChangeListener(this);
         setHasOptionsMenu(true);
         if (type == Type.Main) {
             program_title = getResources().getStringArray(R.array.program_title);
@@ -156,10 +156,10 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @OptionsItem
     void action_filter() {
-        if(pageIndex!=program_title.length) {
+        if (pageIndex != program_title.length) {
             pager.setCurrentItem(program_title.length, false);
-        }else {
-            pager.setCurrentItem(program_title.length-pageIndex, false);
+        } else {
+            pager.setCurrentItem(program_title.length - pageIndex, false);
         }
 
     }
@@ -204,6 +204,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         umengEvent(UmengEvent.LOCAL, "快捷创建任务");
         TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
     }
+
     @OptionsItem
     final void action_create_maopao() {
         umengEvent(UmengEvent.LOCAL, "快捷创建冒泡");
@@ -294,14 +295,17 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
+
     @Override
     public void onPageSelected(int position) {
-        pageIndex=position;
+        pageIndex = position;
 
     }
+
     @Override
     public void onPageScrollStateChanged(int state) {
     }
+
     public enum Type {
         Main, Pick, Filter
     }

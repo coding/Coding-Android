@@ -5,12 +5,11 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
  * Created by david on 15-7-22.
- * <p/>
+ * <p>
  * 冒泡搜索的缓存数据类
  */
 public class SearchCache {
@@ -29,7 +28,7 @@ public class SearchCache {
     private SearchCache(Context context) {
         mContext = context;
         if (searchCacheList == null) {
-           loadCache();
+            loadCache();
         }
     }
 

@@ -19,22 +19,22 @@ package net.coding.program.login.auth;
 /**
  * Counter whose value is a deterministic function of time as described in RFC 6238
  * "TOTP: Time-Based One-Time Password Algorithm".
- * <p/>
+ * <p>
  * <p>The 64-bit counter assumes the value {@code 0} at a predefined point in time and periodically
  * increments its value by one periodically.
- * <p/>
+ * <p>
  * <p>The value {@code V} of the counter at time instant {@code T} is:
  * <pre>
  * V = (T - T0) / TimeStep
  * </pre>
  * where {@code T0} is the earliest time instant at which the counter assumes the value {@code 0},
  * and {@code TimeStep} is the duration of time for which the values of the counter remain constant.
- * <p/>
+ * <p>
  * <p><em>Note: All time instants are in seconds since UNIX epoch, and all time durations are
  * in seconds.</em>
- * <p/>
+ * <p>
  * <p><em>Note: All time instants must be non-negative.</em>
- * <p/>
+ * <p>
  * <p>Thread-safety: Instances of this class are immutable and are thus thread-safe.
  *
  * @author klyubin@google.com (Alex Klyubin)

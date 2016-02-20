@@ -25,7 +25,7 @@ public class MarketingHelp {
             return;
         }
 
-         MarkedMarketingData data = AccountInfo.loadGlobalMarkedMarketing(context);
+        MarkedMarketingData data = AccountInfo.loadGlobalMarkedMarketing(context);
         if (!data.marked(url)) {
             WebActivity_.intent(context).url(url).start();
             data.add(url);

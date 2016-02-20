@@ -122,10 +122,10 @@ public class MyApp extends Application {
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
 
-        try{
-            Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(this, Environment.DIRECTORY_MUSIC,FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
-            Log.w("VoiceDir",Global.sVoiceDir);
-        }catch (Exception e){
+        try {
+            Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(this, Environment.DIRECTORY_MUSIC, FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
+            Log.w("VoiceDir", Global.sVoiceDir);
+        } catch (Exception e) {
             Global.errorLog(e);
         }
 

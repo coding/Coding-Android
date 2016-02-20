@@ -2,9 +2,9 @@ package net.coding.program.project.detail.merge;
 
 import android.webkit.WebView;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.GitFileObject;
 
 import org.androidannotations.annotations.AfterViews;

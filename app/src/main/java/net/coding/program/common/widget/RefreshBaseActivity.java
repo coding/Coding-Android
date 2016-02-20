@@ -2,8 +2,8 @@ package net.coding.program.common.widget;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

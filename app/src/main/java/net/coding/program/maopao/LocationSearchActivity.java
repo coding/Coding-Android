@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.item.LocationItem;
 import net.coding.program.model.LocationObject;
 

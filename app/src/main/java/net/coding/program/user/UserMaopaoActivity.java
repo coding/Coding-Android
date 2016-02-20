@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 

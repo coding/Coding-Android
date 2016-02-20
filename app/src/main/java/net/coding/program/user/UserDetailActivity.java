@@ -20,12 +20,12 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
@@ -189,8 +189,6 @@ public class UserDetailActivity extends BackActivity {
 
         findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
         findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
-
-
 
 
         invalidateOptionsMenu();
@@ -421,7 +419,7 @@ public class UserDetailActivity extends BackActivity {
         if (!dataIsLoaded()) {
             return;
         }
-       UserTopicActivity_.intent(this).mUserObject(mUserObject).start();
+        UserTopicActivity_.intent(this).mUserObject(mUserObject).start();
 
     }
 

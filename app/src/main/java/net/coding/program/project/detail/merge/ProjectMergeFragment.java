@@ -71,13 +71,13 @@ public class ProjectMergeFragment extends BaseFragment {
         private ProjectObject mProjectObject;
         private int mStatus = 0;
 
-        ProjectObject.MergeExamine[] mine = new ProjectObject.MergeExamine[] {
+        ProjectObject.MergeExamine[] mine = new ProjectObject.MergeExamine[]{
                 ProjectObject.MergeExamine.review,
                 ProjectObject.MergeExamine.mine,
                 ProjectObject.MergeExamine.other
         };
 
-        String[] titles = new String[] {
+        String[] titles = new String[]{
                 "我评审的",
                 "我发布的",
                 "其他的"

@@ -32,7 +32,7 @@ public class MallBannerObject implements Serializable {
     public MallBannerObject() {
     }
 
-    public MallBannerObject(JSONObject json){
+    public MallBannerObject(JSONObject json) {
         id = json.optInt("id");
         title = json.optString("title");
         description = json.optString("description");

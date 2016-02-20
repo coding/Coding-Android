@@ -174,7 +174,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), TopicListDetailActivity_.class);
-                intent.putExtra("topicObject", ((TopicObject) baseAdapter.getItem((int)id)));
+                intent.putExtra("topicObject", ((TopicObject) baseAdapter.getItem((int) id)));
                 getParentFragment().startActivityForResult(intent, RESULT_DETAIL);
             }
         });

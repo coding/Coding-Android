@@ -3,9 +3,9 @@ package net.coding.program.setting;
 import android.content.Intent;
 import android.widget.CheckBox;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MainActivity;
 import net.coding.program.R;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AccountInfo;
 
 import org.androidannotations.annotations.AfterViews;

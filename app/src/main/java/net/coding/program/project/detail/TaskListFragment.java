@@ -355,7 +355,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         @Override
         public void notifyDataSetChanged() {
             mSectionId = 0;
-            for (TaskObject.SingleTask item  : mData) {
+            for (TaskObject.SingleTask item : mData) {
                 if (item.status == TaskObject.STATUS_PRECESS) {
                     ++mSectionId;
                 } else {

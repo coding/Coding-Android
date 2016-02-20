@@ -17,6 +17,7 @@ import pl.droidsonroids.gif.GifTextView;
 public class GifSpanTextView extends GifTextView {
 
     private GifSpanChangeWatcher mGifSpanChangeWatcher;
+
     public GifSpanTextView(Context context) {
         super(context);
         initGifSpanChangeWatcher();
@@ -71,7 +72,8 @@ public class GifSpanTextView extends GifTextView {
             }
 
             if (mGifSpanChangeWatcher == null) {
-                mGifSpanChangeWatcher = new GifSpanChangeWatcher(this);;
+                mGifSpanChangeWatcher = new GifSpanChangeWatcher(this);
+                ;
             }
 
             sp.setSpan(mGifSpanChangeWatcher, 0, text.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE | (100 << Spanned.SPAN_PRIORITY_SHIFT));
@@ -108,7 +110,7 @@ public class GifSpanTextView extends GifTextView {
             CharSequence text = getText();
             if (!TextUtils.isEmpty(text)) {
                 if (text instanceof Editable) {
-                    Editable editable = (Editable)text;
+                    Editable editable = (Editable) text;
                     int start = editable.getSpanStart(imageSpan);
                     int end = editable.getSpanEnd(imageSpan);
                     int flags = editable.getSpanFlags(imageSpan);

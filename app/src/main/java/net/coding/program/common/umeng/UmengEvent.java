@@ -7,9 +7,9 @@ package net.coding.program.common.umeng;
 public class UmengEvent {
 
     public static String MAOPAO = "maopao";
-    public static String PROJECT= "project";
-    public static String FILE= "projectFile";
-    public static String TOPIC= "topic";
+    public static String PROJECT = "project";
+    public static String FILE = "projectFile";
+    public static String TOPIC = "topic";
     public static String TASK = "task";
     public static String CODE = "code";
     public static String NOTIFY = "notify";

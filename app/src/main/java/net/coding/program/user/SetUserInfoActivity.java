@@ -5,10 +5,10 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 

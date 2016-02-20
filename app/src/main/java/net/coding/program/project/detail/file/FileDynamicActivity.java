@@ -10,18 +10,18 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.DynamicObject;
-import net.coding.program.model.RequestData;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.merge.CommentActivity;
 import net.coding.program.project.detail.merge.CommentActivity_;
 import net.coding.program.task.add.CommentHolder;

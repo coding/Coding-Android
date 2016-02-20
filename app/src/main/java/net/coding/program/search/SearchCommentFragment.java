@@ -9,15 +9,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchTopicAdapter;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.TaskObject;
 import net.coding.program.model.TopicObject;
-import net.coding.program.project.detail.TopicAddActivity_;
-import net.coding.program.project.detail.TopicLabelActivity_;
-import net.coding.program.project.detail.merge.CommentActivity;
-import net.coding.program.project.detail.merge.CommentActivity_;
-import net.coding.program.project.detail.topic.TopicListDetailActivity;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
-import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -43,8 +36,8 @@ public class SearchCommentFragment extends RefreshBaseFragment {
     ArrayList<TopicObject> mData = new ArrayList<>();
     private String keyword = "";
     private String tabPrams;
-    private boolean hasMore=true;
-    private boolean isLoading=true;
+    private boolean hasMore = true;
+    private boolean isLoading = true;
 
     @ViewById
     ListView listView;
@@ -72,8 +65,8 @@ public class SearchCommentFragment extends RefreshBaseFragment {
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                if (hasMore&&!isLoading) {
-                    isLoading=true;
+                if (hasMore && !isLoading) {
+                    isLoading = true;
                     pos++;
                     loadMore();
                 }
@@ -102,6 +95,7 @@ public class SearchCommentFragment extends RefreshBaseFragment {
         tag = String.format(url, getKeyword()) + String.format(tmp, getTabPrams()) + String.format(page, pos + "");
         return tag;
     }
+
     @ItemClick
     final void listView(TopicObject itemData) {
         TopicListDetailActivity_.intent(this).topicObject(itemData).start();
@@ -134,17 +128,17 @@ public class SearchCommentFragment extends RefreshBaseFragment {
                 }
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);
                 if (array.length() > 0) {
-                    mFootUpdate.updateState(code,false, mData.size());
-                    hasMore=true;
+                    mFootUpdate.updateState(code, false, mData.size());
+                    hasMore = true;
                 } else {
-                    hasMore=false;
-                    mFootUpdate.updateState(code,true, mData.size());
+                    hasMore = false;
+                    mFootUpdate.updateState(code, true, mData.size());
                 }
                 adapter.notifyDataSetChanged();
-                isLoading=false;
+                isLoading = false;
             } else {
                 showErrorMsg(code, respanse);
-                hasMore=false;
+                hasMore = false;
             }
         }
     }

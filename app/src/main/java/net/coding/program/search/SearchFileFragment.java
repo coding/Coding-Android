@@ -36,14 +36,15 @@ public class SearchFileFragment extends RefreshBaseFragment {
     int pos = 1;
     private String keyword = "";
     private String tabPrams;
-    private boolean hasMore=true;
-    private boolean isLoading=true;
+    private boolean hasMore = true;
+    private boolean isLoading = true;
     @ViewById
     ListView listView;
     @ViewById(R.id.emptyView)
     LinearLayout emptyView;
 
     SearchFileAdapter adapter;
+
     @AfterViews
     protected void init() {
         initRefreshLayout();
@@ -68,8 +69,8 @@ public class SearchFileFragment extends RefreshBaseFragment {
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                if (hasMore&&!isLoading) {
-                    isLoading=true;
+                if (hasMore && !isLoading) {
+                    isLoading = true;
                     pos++;
                     loadMore();
                 }
@@ -129,16 +130,16 @@ public class SearchFileFragment extends RefreshBaseFragment {
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);
                 if (array.length() > 0) {
                     mFootUpdate.updateState(code, false, mData.size());
-                    hasMore=true;
+                    hasMore = true;
                 } else {
-                    hasMore=false;
+                    hasMore = false;
                     mFootUpdate.updateState(code, true, mData.size());
                 }
                 adapter.notifyDataSetChanged();
-                isLoading=false;
+                isLoading = false;
             } else {
                 showErrorMsg(code, respanse);
-                hasMore=false;
+                hasMore = false;
             }
         }
     }

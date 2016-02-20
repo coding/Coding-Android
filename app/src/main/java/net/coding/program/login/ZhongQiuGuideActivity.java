@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 
 import java.util.Calendar;

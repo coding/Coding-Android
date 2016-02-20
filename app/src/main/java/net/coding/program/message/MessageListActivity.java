@@ -241,9 +241,9 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                         public void onClick(View v) {
                             if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
                                 postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
-                            } else if(myMessage.myRequestType == MyMessage.REQUEST_IMAGE){
+                            } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
                                 postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
-                            } else if(myMessage.myRequestType == MyMessage.REQUEST_VOICE){
+                            } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
                                 Global.MessageParse mp = ContentArea.parseVoice(myMessage.extra);
                                 postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
                             }
@@ -261,20 +261,20 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 holder.resend.setVisibility(View.INVISIBLE);
                 holder.sending.setVisibility(View.INVISIBLE);
             }
-            boolean isVoice = item.extra!=null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
-            String data = isVoice?item.extra:item.content;
+            boolean isVoice = item.extra != null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
+            String data = isVoice ? item.extra : item.content;
             holder.contentArea.setData(data);
-            if(holder.contentArea.getVocicePath()!=null){
+            if (holder.contentArea.getVocicePath() != null) {
                 holder.contentArea.setVoicePlayCallBack(MessageListActivity.this);
                 //与最新的消息相差3天的超过一个页面的语音消息不下载
-                if(mData.size()>PAGESIZE && position <=mData.size()-1-PAGESIZE && lastTime!=0 && lastTime - selfTime >=3*24*60*60*1000){
+                if (mData.size() > PAGESIZE && position <= mData.size() - 1 - PAGESIZE && lastTime != 0 && lastTime - selfTime >= 3 * 24 * 60 * 60 * 1000) {
                     holder.contentArea.setVoiceNeedDownload(false);
-                }else{
+                } else {
                     holder.contentArea.setVoiceNeedDownload(true);
                 }
             }
-            if(isLeft && isVoice){
-                if(item.played==0){
+            if (isLeft && isVoice) {
+                if (item.played == 0) {
                     holder.resend.setVisibility(View.VISIBLE);
                     holder.sending.setVisibility(View.INVISIBLE);
                 }
@@ -351,7 +351,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
         mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_FOLLOW));
 
-        url = String.format(Global.HOST_API + "/message/conversations/%s?pageSize="+PAGESIZE, mUserObject.global_key);
+        url = String.format(Global.HOST_API + "/message/conversations/%s?pageSize=" + PAGESIZE, mUserObject.global_key);
 
         setActionBarTitle(mUserObject.name);
 
@@ -442,10 +442,10 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             String url = String.format(hostDeleteMessage, msg.getId());
             deleteNetwork(url, hostDeleteMessage, msg.getId());
         }
-        if(msg.extra!=null && msg.extra.startsWith("[voice]{") && msg.extra.endsWith("}[voice]")){
+        if (msg.extra != null && msg.extra.startsWith("[voice]{") && msg.extra.endsWith("}[voice]")) {
             Global.MessageParse mp = ContentArea.parseVoice(msg.extra);
-            if(mp.voiceUrl!=null){
-                File f = new File(Global.sVoiceDir + File.separator + mp.voiceUrl.substring(mp.voiceUrl.lastIndexOf('/')+1));
+            if (mp.voiceUrl != null) {
+                File f = new File(Global.sVoiceDir + File.separator + mp.voiceUrl.substring(mp.voiceUrl.lastIndexOf('/') + 1));
                 f.delete();
             }
         }
@@ -545,7 +545,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     @Override
     public void onPause() {
         super.onPause();
-        if(mMyMediaPlayer!=null){
+        if (mMyMediaPlayer != null) {
             onStopPlay();
             mMyMediaPlayer.release();
             mMyMediaPlayer = null;
@@ -560,7 +560,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     @Override
     protected void onStop() {
 
-        if(mMyMediaPlayer!=null){
+        if (mMyMediaPlayer != null) {
             onStopPlay();
             mMyMediaPlayer.release();
             mMyMediaPlayer = null;
@@ -746,16 +746,16 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             }
         } else if (tag.indexOf(TAG_SEND_VOICE) == 0) {
             long sendId = (Long) data;
-            if(code == 0){
+            if (code == 0) {
                 umengEvent(UmengEvent.NOTIFY, "发语音私信");
                 Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
                 String voiceUrl = item.file;
                 //将发送到服务器的本地录音文件的名字改成与其在服务器的文件名一致
-                File oldfile = new File(tag.replace(TAG_SEND_VOICE,""));
-                File newFile = new File(String.format(Global.sVoiceDir + File.separator + voiceUrl.substring(voiceUrl.lastIndexOf('/')+1)));
+                File oldfile = new File(tag.replace(TAG_SEND_VOICE, ""));
+                File newFile = new File(String.format(Global.sVoiceDir + File.separator + voiceUrl.substring(voiceUrl.lastIndexOf('/') + 1)));
                 oldfile.renameTo(newFile);
                 //设置content内容,方便气泡获取录音时长与链接
-                item.extra = "[voice]{'voiceUrl':'"+voiceUrl+"',voiceDuration:"+item.duration/1000+"}[voice]";
+                item.extra = "[voice]{'voiceUrl':'" + voiceUrl + "',voiceDuration:" + item.duration / 1000 + "}[voice]";
                 item.content = "[语音]";
                 //替换本地消息为获取到的远程消息
                 for (int i = mData.size() - 1; i >= 0; --i) {
@@ -778,7 +778,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 }
                 listView.setSelection(mData.size());
                 AccountInfo.saveMessages(MessageListActivity.this, mUserObject.global_key, mData);
-            }else{
+            } else {
                 for (int i = mData.size() - 1; i >= 0; --i) {
                     Object singleItem = mData.get(i);
                     if (singleItem instanceof MyMessage) {
@@ -793,7 +793,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(mData.size());
-        }else if (tag.equals(hostDeleteMessage)) {
+        } else if (tag.equals(hostDeleteMessage)) {
             if (code == 0) {
                 umengEvent(UmengEvent.NOTIFY, "删除私信");
                 deleteItem((int) data);
@@ -801,21 +801,21 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             } else {
                 showErrorMsg(code, respanse);
             }
-        }else if(tag.startsWith(TAG_MARK_VOICE_PLAYED)){
-            if(code == 0){
-                int id = Integer.valueOf(tag.replace(TAG_MARK_VOICE_PLAYED,""));
-                
+        } else if (tag.startsWith(TAG_MARK_VOICE_PLAYED)) {
+            if (code == 0) {
+                int id = Integer.valueOf(tag.replace(TAG_MARK_VOICE_PLAYED, ""));
+
             }
         }
     }
 
     private void handleVoiceMessage(Message.MessageObject item) {
         //语音消息重新设置extra
-        if(item.file!=null && item.file.endsWith(".amr") && item.duration>0){
+        if (item.file != null && item.file.endsWith(".amr") && item.duration > 0) {
             Log.w("test", "recordDuration1=" + item.duration);
-            int dur = item.duration/1000;
+            int dur = item.duration / 1000;
             item.content = "[语音]";
-            item.extra = "[voice]{'id':"+item.getId()+",'voiceUrl':'"+item.file+"','voiceDuration':"+dur+",'played':"+item.played+"}[voice]";
+            item.extra = "[voice]{'id':" + item.getId() + ",'voiceUrl':'" + item.file + "','voiceDuration':" + dur + ",'played':" + item.played + "}[voice]";
         }
     }
 
@@ -851,10 +851,10 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             //开始发送语音文件
             RequestParams params = new RequestParams();
             params.put("receiver_global_key", mUserObject.global_key);
-            params.put("file",new File(voicePath));
+            params.put("file", new File(voicePath));
             MyMessage myMessage = new MyMessage(MyMessage.REQUEST_VOICE, params, mUserObject);
             //[voice]{'voiceUrl':'/sd/voice/a.amr',voiceDuration:10}[voice]
-            myMessage.extra = "[voice]{'voiceUrl':'"+voicePath+"',voiceDuration:"+duration/1000+"}[voice]";
+            myMessage.extra = "[voice]{'voiceUrl':'" + voicePath + "',voiceDuration:" + duration / 1000 + "}[voice]";
             mData.add(myMessage);
             adapter.notifyDataSetChanged();
             listView.setSelection(mData.size());
@@ -865,16 +865,15 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
 
-
     private MyMediaPlayer mMyMediaPlayer;
 
 
     @Override
-    public void onStartPlay(String path,int id,MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
+    public void onStartPlay(String path, int id, MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
         try {
-            if(mMyMediaPlayer == null){
+            if (mMyMediaPlayer == null) {
                 mMyMediaPlayer = new MyMediaPlayer();
-            }else{
+            } else {
                 mMyMediaPlayer.reset();
             }
             mMyMediaPlayer.setVoiceId(id);
@@ -897,11 +896,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public String getPlayingVoicePath() {
-        try{
-            if(mMyMediaPlayer!=null && mMyMediaPlayer.isPlaying()){
+        try {
+            if (mMyMediaPlayer != null && mMyMediaPlayer.isPlaying()) {
                 return mMyMediaPlayer.getDataSource();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -909,11 +908,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     @Override
     public void onStopPlay() {
-        try{
-            if(mMyMediaPlayer!=null && mMyMediaPlayer.isPlaying()){
+        try {
+            if (mMyMediaPlayer != null && mMyMediaPlayer.isPlaying()) {
                 mMyMediaPlayer.stop();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -923,21 +922,21 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     public void markVoicePlayed(int id) {
         Log.w("VoiceMessage", "markVoicePlayed:id=" + id);
         postNetwork(String.format(HOST_MARK_VOICE_PLAYED, id), null, TAG_MARK_VOICE_PLAYED + id, -1, id);
-        for(int i = 0;i<mData.size();i++){
-                    Message.MessageObject item = mData.get(i);
-                    if(item.getId() == id){
-                        item.played = 1;
-                        handleVoiceMessage(item);
-                        break;
-                    }
-                }
+        for (int i = 0; i < mData.size(); i++) {
+            Message.MessageObject item = mData.get(i);
+            if (item.getId() == id) {
+                item.played = 1;
+                handleVoiceMessage(item);
+                break;
+            }
+        }
         adapter.notifyDataSetChanged();
         AccountInfo.saveMessages(MessageListActivity.this, mUserObject.global_key, mData);
     }
 
     @Override
     public int getPlayingVoiceId() {
-        return mMyMediaPlayer==null?-1:mMyMediaPlayer.getVoiceId();
+        return mMyMediaPlayer == null ? -1 : mMyMediaPlayer.getVoiceId();
     }
 
     private int minBottom = Global.dpToPx(200);

@@ -732,7 +732,8 @@ public class EnterEmojiLayout extends EnterLayout {
         }
 
         @Override
-        public void restoreState(Parcelable state, ClassLoader loader) {}
+        public void restoreState(Parcelable state, ClassLoader loader) {
+        }
     }
 
     class MonkeyPagerAdapter extends FragmentStatePagerAdapter {
@@ -759,7 +760,8 @@ public class EnterEmojiLayout extends EnterLayout {
         }
 
         @Override
-        public void restoreState(Parcelable state, ClassLoader loader) {}
+        public void restoreState(Parcelable state, ClassLoader loader) {
+        }
     }
 
     class ZhongqiuPagerAdapter extends FragmentStatePagerAdapter {
@@ -786,7 +788,8 @@ public class EnterEmojiLayout extends EnterLayout {
         }
 
         @Override
-        public void restoreState(Parcelable state, ClassLoader loader) {}
+        public void restoreState(Parcelable state, ClassLoader loader) {
+        }
     }
 
 }

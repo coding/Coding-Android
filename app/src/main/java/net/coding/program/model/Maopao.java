@@ -96,8 +96,8 @@ public class Maopao {
 
         @Override
         public boolean equals(Object o) {
-            if( o instanceof MaopaoObject){
-                if(this.id == ((MaopaoObject) o).id){
+            if (o instanceof MaopaoObject) {
+                if (this.id == ((MaopaoObject) o).id) {
                     return true;
                 }
             }

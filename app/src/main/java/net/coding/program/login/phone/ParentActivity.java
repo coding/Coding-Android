@@ -7,5 +7,6 @@ import com.loopj.android.http.RequestParams;
  */
 public interface ParentActivity {
     public void next();
+
     public RequestParams getRequestParmas();
 }

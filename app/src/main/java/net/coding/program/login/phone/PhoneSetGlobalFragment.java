@@ -55,7 +55,7 @@ public class PhoneSetGlobalFragment extends BaseFragment {
         }
 
         ViewStyleUtil.editTextBindButton(loginButton, email, globalKey);
-            textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
+        textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
     }
 
     @Click

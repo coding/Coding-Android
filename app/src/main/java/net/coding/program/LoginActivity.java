@@ -242,11 +242,6 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     void register() {
-//        RegisterActivity_.intent(this).startForResult(RESULT_CLOSE);
-//        PhoneSetPasswordActivity_.intent(this)
-//                .type(PhoneSetPasswordActivity.Type.register)
-//                .startForResult(RESULT_CLOSE);
-
         Global.popSoftkeyboard(this, editName, false);
         PhoneRegisterActivity_.intent(this)
                 .startForResult(RESULT_CLOSE);
@@ -412,7 +407,7 @@ public class LoginActivity extends BaseActivity {
 
                 sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
-;
+                ;
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
             } else {
                 showProgressBar(false);

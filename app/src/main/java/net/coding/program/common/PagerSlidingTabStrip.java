@@ -41,7 +41,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import net.coding.program.R;
 
 import java.util.Locale;

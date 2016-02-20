@@ -8,6 +8,8 @@ import android.text.TextWatcher;
  */
 public interface OnTextChange {
     public void addTextChangedListener(TextWatcher watcher);
+
     public boolean isEmpty();
+
     public Editable getText();
 }

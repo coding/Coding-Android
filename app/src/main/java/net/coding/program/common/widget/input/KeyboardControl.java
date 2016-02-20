@@ -6,7 +6,10 @@ package net.coding.program.common.widget.input;
  */
 public interface KeyboardControl {
     void showSystemInput(boolean show);
+
     void showVoiceInput();
+
     void showEmojiInput();
+
     void hideCustomInput();
 }

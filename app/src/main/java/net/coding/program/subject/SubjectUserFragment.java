@@ -34,7 +34,7 @@ import java.util.List;
  * Created by david on 15-7-28.
  */
 @EFragment(R.layout.fragment_subject_list)
-public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore{
+public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
     public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
     final String subjectUserListUrlFormat = Global.HOST_API + "/tweet_topic/%s/joined?pageSize=10";
@@ -77,7 +77,7 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if(firstVisibleItem + visibleItemCount >= totalItemCount){
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                 loadMore();
             }
         }

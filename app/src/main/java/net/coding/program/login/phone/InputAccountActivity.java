@@ -66,7 +66,7 @@ public class InputAccountActivity extends BackActivity {
     }
 
     private void validePhone(String account) {
-       sendCode(account);
+        sendCode(account);
     }
 
     void sendCode(String phone) {
