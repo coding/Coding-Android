@@ -32,6 +32,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
     @FragmentArg
     ProjectObject mProjectObject;
+
     @ViewById
     MyPagerSlidingTabStrip tabs;
     @ViewById(R.id.pagerProjectTask)
@@ -55,21 +57,18 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     View blankLayout;
     @ViewById
     FloatingActionButton floatButton;
+
     ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<>();
     ArrayList<TaskObject.Members> mMembersAll = new ArrayList<>();
     ArrayList<TaskObject.Members> mMembersAllAll = new ArrayList<>();
     String HOST_TASK_MEMBER = Global.HOST_API + "/project/%d/task/user/count";
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            refresh();
-        }
-    };
+    View.OnClickListener onClickRetry = v -> refresh();
+
     MemberTaskCount mMemberTask = new MemberTaskCount();
     private MyPagerAdapter adapter;
 
     @AfterViews
-    protected final void init() {
+    protected final void initProjectTaskFragment() {
         showDialogLoading();
         tabs.setLayoutInflater(mInflater);
 
@@ -142,32 +141,28 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ListModify.RESULT_EDIT_LIST) {
-            if (resultCode == Activity.RESULT_OK) {
-                taskListParentUpdate();
-                String globarKey = data.getStringExtra(TaskAddActivity.RESULT_GLOBARKEY);
+    @OnActivityResult(ListModify.RESULT_EDIT_LIST)
+    void onResultEditList(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            taskListParentUpdate();
+            String globarKey = data.getStringExtra(TaskAddActivity.RESULT_GLOBARKEY);
 
-                TaskObject.Members modifyMember = null;
-                for (int i = 0; i < mMembersAllAll.size(); ++i) {
-                    if (mMembersAllAll.get(i).user.global_key.equals(globarKey)) {
-                        modifyMember = mMembersAllAll.get(i);
-                        break;
-                    }
+            TaskObject.Members modifyMember = null;
+            for (int i = 0; i < mMembersAllAll.size(); ++i) {
+                if (mMembersAllAll.get(i).user.global_key.equals(globarKey)) {
+                    modifyMember = mMembersAllAll.get(i);
+                    break;
                 }
+            }
 
-                if (modifyMember != null) {
-                    if (!mMembersAll.contains(modifyMember)) {
-                        mMembersAll.add(modifyMember);
-                        adapter.notifyDataSetChanged();
-                        tabs.setViewPager(pager);
-                    }
+            if (modifyMember != null) {
+                if (!mMembersAll.contains(modifyMember)) {
+                    mMembersAll.add(modifyMember);
+                    adapter.notifyDataSetChanged();
+                    tabs.setViewPager(pager);
                 }
             }
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -185,17 +180,17 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     public final void floatButton() {
         TaskObject.Members member = adapter.getItemData(pager.getCurrentItem());
 
-        Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
+//        Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
         TaskObject.SingleTask task = new TaskObject.SingleTask();
         task.project = mProjectObject;
         task.project_id = mProjectObject.getId();
         task.owner = AccountInfo.loadAccount(getActivity());
         task.owner_id = task.owner.id;
 
-        intent.putExtra("mSingleTask", task);
-        intent.putExtra("mUserOwner", member.user);
-
-        startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
+        TaskAddActivity_.intent(getActivity())
+                .mSingleTask(task)
+                .mUserOwner(member.user)
+                .startForResult(ListModify.RESULT_EDIT_LIST);
     }
 
     @Override

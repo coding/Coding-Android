@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.widget.FrameLayout;
 
 import net.coding.program.FileUrlActivity;
@@ -50,8 +51,12 @@ public class ProjectHomeActivity extends BaseActivity {
     private Fragment mCurrentFragment;
 
     @AfterViews
-    protected void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    protected void initProjectHomeActivity() {
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         if (mProjectObject != null) {
             initFragment();
         } else if (mJumpParam != null) {

@@ -61,32 +61,32 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     final String urlTaskCountProject = Global.HOST_API + "/project/%d/task/user/count";
     final String urlTaskCountMy = Global.HOST_API + "/tasks/projects/count";
     final String URL_TASK_SATUS = Global.HOST_API + "/task/%s/status";
+
     @FragmentArg
     boolean mShowAdd = false;
     @FragmentArg
     TaskObject.Members mMembers;
     @FragmentArg
     ProjectObject mProjectObject;
+
     @ViewById
     View blankLayout;
     @ViewById
     FloatingActionButton fab;
+    @ViewById
+    StickyListHeadersListView listView;
+
+    @StringArrayRes
+    String[] task_titles;
+
     boolean mNeedUpdate = true;
     ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
     int mSectionId;
-    @StringArrayRes
-    String[] task_titles;
-    @ViewById
-    StickyListHeadersListView listView;
+
     int mTaskCount[] = new int[2];
     boolean mUpdateAll = true;
     String urlAll = "";
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+    View.OnClickListener onClickRetry = v -> onRefresh();
     TestBaseAdapter mAdapter;
     String mToday = "";
     String mTomorrow = "";
@@ -181,9 +181,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         listView.setOnItemClickListener((parent, view, position, id) -> {
             TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
             mNeedUpdate = true;
-            Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
-            intent.putExtra("mSingleTask", singleTask);
-            getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
+
+            TaskAddActivity_.intent(getParentFragment())
+                    .mSingleTask(singleTask)
+                    .canPickProject(false)
+                    .startForResult(ListModify.RESULT_EDIT_LIST);
         });
 
         listView.setOnItemLongClickListener((parent, view, position, id) -> {

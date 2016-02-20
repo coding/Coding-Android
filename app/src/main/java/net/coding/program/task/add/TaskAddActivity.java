@@ -96,6 +96,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
     final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
 
+    private final MyImageGetter myImageGetter = new MyImageGetter(this);
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
+
     final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
             R.drawable.ic_task_priority_1,
@@ -110,20 +113,21 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     final String hostDeleteComment = Global.HOST_API + "/task/%s/comment/%s";
     final String tagTaskDetail = "tagTaskDetail";
     final String HOST_PREVIEW = Global.HOST_API + "/markdown/preview";
-    private final MyImageGetter myImageGetter = new MyImageGetter(TaskAddActivity.this);
-    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
+
     @ViewById
     protected View blankLayout;
+
     @Extra
     TaskObject.SingleTask mSingleTask;
-
     @Extra
     ProjectObject mProjectObject = new ProjectObject();
-
     @Extra
     UserObject mUserOwner;
     @Extra
     TaskJumpParams mJumpParams;
+    @Extra
+    boolean canPickProject = true;
+
     @ViewById
     ListView listView;
 
@@ -157,6 +161,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     PriorityAdapter mPriorityAdapter;
     @Bean
     StatusAdapter mStatusAdapter;
+
     ArrayList<DynamicObject.DynamicTask> mData = new ArrayList<>();
     HashMap<String, String> mSendedImages = new HashMap<>();
     String tagUrlCommentPhoto = "";
@@ -301,6 +306,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
             if (!mProjectObject.isEmpty()) {
                 mSingleTask.project = mProjectObject;
+                mSingleTask.project_id = mProjectObject.getId();
                 mSingleTask.priority = mProjectObject.getId();
             }
 
@@ -494,6 +500,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         uiBindDataWatch();
 
         uiBindDataProject();
+
+        if (!canPickProject) {
+            layoutProjectName.setVisibility(View.GONE);
+        }
     }
 
     private void watchUserUpdateFromNetwork() {
@@ -619,7 +629,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                     .startForResult(RESULT_REQUEST_SELECT_USER);
         });
 
-        layoutPhase.setOnClickListener(v -> popListSelectDialog("阶段", mStatusAdapter,
+        layoutPhase.setOnClickListener(v -> popListSelectDialog(mStatusAdapter,
                 (dialog, which) -> {
                     if (which == 0) {
                         mNewParam.status = TaskObject.STATUS_PRECESS; // "未完成"
@@ -644,7 +654,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             getSupportFragmentManager().executePendingTransactions();
         });
 
-        layoutPriovity.setOnClickListener(v -> popListSelectDialog("优先级",
+        layoutPriovity.setOnClickListener(v -> popListSelectDialog(
                 mPriorityAdapter,
                 (dialog, which) -> {
                     mNewParam.priority = priorityDrawable.length - 1 - which;
@@ -1080,9 +1090,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         }
     }
 
-    private void popListSelectDialog(String title, BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
+    private void popListSelectDialog(BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
         new AlertDialog.Builder(this)
-                .setTitle(title)
                 .setAdapter(selectsAdapter, clickList)
                 .show();
     }
