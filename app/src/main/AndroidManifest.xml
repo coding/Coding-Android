@@ -219,7 +219,7 @@
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -829,7 +829,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.EmailSetPasswordActivity_"
-            android:label="@string/title_activity_valide_phone"
+            android:label="@string/title_activity_email_set_password"
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.InputAccountActivity_"

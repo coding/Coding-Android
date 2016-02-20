@@ -2,13 +2,16 @@ package net.coding.program.login.phone;
 
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
-import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -21,9 +24,6 @@ import org.json.JSONObject;
 public class EmailSetPasswordActivity extends BackActivity {
 
     @Extra
-    PhoneSetPasswordActivity.Type type;
-
-    @Extra
     String account = "";
 
     @ViewById
@@ -34,37 +34,32 @@ public class EmailSetPasswordActivity extends BackActivity {
 
     @AfterViews
     void initEmailSetPasswordActivity() {
-        setTitle(type.getInputAccountTitle());
         emailEdit.setText(account);
         captchaEdit.requestFocus();
 
         ViewStyleUtil.editTextBindButton(loginButton, emailEdit, captchaEdit);
-
-        if (type == PhoneSetPasswordActivity.Type.activate) {
-            loginButton.setText("重发激活邮件");
-        } else {
-            loginButton.setText("发送重置邮件");
-        }
     }
 
     @Click
     void loginButton() {
         String emailString = emailEdit.getTextString();
         String captchaString = captchaEdit.getTextString();
-        RequestData data = type.getResetPasswordEmailUrl(emailString, captchaString);
-        MyAsyncHttpClient.get(this, data, new MyJsonResponse(this) {
+        if (!InputCheck.checkEmail(this, emailString)) {
+            return;
+        }
+
+        String url = Global.HOST_API + "/account/password/forget";
+        RequestParams params = new RequestParams();
+        params.put("account", emailString);
+        params.put("j_captcha", captchaString);
+        MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
                 setResult(RESULT_OK);
                 showMiddleToast("邮件已发送");
 
-                if (type == PhoneSetPasswordActivity.Type.activate) {
-                    showMiddleToastLong("激活邮件已经发送，请尽快去邮箱查看");
-                } else {
-                    showMiddleToastLong("重置密码邮件已经发送，请尽快去邮箱查看");
-                }
-
+                showMiddleToastLong("重置密码邮件已经发送，请尽快去邮箱查看");
                 finish();
             }
 

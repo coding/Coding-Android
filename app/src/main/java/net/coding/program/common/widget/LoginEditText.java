@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
@@ -87,10 +88,10 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
 
             String digits = a.getString(R.styleable.LoginEditText_digits);
             if (digits != null && !digits.isEmpty()) {
-                editText.setKeyListener(DigitsKeyListener.getInstance(digits));
+                editText.setFilters(new InputFilter[] {
+                        DigitsKeyListener.getInstance(digits)
+                });
             }
-
-
 
         } finally {
             a.recycle();

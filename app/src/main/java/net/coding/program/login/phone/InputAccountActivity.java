@@ -56,13 +56,10 @@ public class InputAccountActivity extends BackActivity {
         String account = accountEdit.getTextString();
         if (InputCheck.isEmail(account)) {
             EmailSetPasswordActivity_.intent(this)
-                    .type(type)
                     .account(account)
                     .startForResult(RESULT_SET_PASSWORD);
         } else if (InputCheck.isPhone(account)) {
-
             validePhone(account);
-
         } else {
             showMiddleToast("输入格式有误");
         }
