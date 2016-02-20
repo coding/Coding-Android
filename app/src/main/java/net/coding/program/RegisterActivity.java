@@ -62,7 +62,7 @@ public class RegisterActivity extends BackActivity {
 
     @AfterViews
     void init() {
-        textClause.setText(Html.fromHtml("点击立即体验，即表示同意<font color=\"#3bbd79\">《coding服务条款》</font>"));
+        textClause.setText(Html.fromHtml("点击立即体验，即表示同意<font color=\"#3bbd79\">《Coding 服务条款》</font>"));
         editName.addTextChangedListener(textWatcher);
         editGlobal.addTextChangedListener(textWatcher);
         editValify.addTextChangedListener(textWatcher);

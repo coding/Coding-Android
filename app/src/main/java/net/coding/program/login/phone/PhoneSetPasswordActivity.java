@@ -22,7 +22,7 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
 
     public static final int RESULT_REGISTER_EMAIL = 1;
 
-    public static String REGIST_TIP = "注册 Coding 账号表示您已同意<font color=\"#3bbd79\">《coding服务条款》</font>";
+    public static String REGIST_TIP = "注册 Coding 账号表示您已同意<font color=\"#3bbd79\">《Coding 服务条款》</font>";
 
     public static enum Type {
         register,

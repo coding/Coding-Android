@@ -128,29 +128,33 @@ public class MainActivity extends BaseActivity
         warnMailNoValidRegister();
     }
 
+
     private void warnMailNoValidLogin() {
-        if (!sNeedWarnEmailNoValidLogin) {
-            return;
-        }
+        if (sNeedWarnEmailNoValidLogin) {
+            sNeedWarnEmailNoValidLogin = false;
 
-        String emailString = MyApp.sUserObject.email;
-        boolean emailValid = MyApp.sUserObject.isEmailValidation();
-        if (!emailString.isEmpty() && !emailValid) {
-            new AlertDialog.Builder(this)
-                    .setTitle("激活邮件")
-                    .setMessage(R.string.alert_activity_email)
-                    .setPositiveButton("重发激活邮件", (dialog, which) -> {
-                        Login.resendActivityEmail(MainActivity.this);
-                    })
-                    .setNegativeButton("取消", null)
-                    .show();
+            String emailString = MyApp.sUserObject.email;
+            boolean emailValid = MyApp.sUserObject.isEmailValidation();
+            if (!emailString.isEmpty() && !emailValid) {
+                new AlertDialog.Builder(this)
+                        .setTitle("激活邮件")
+                        .setMessage(R.string.alert_activity_email)
+                        .setPositiveButton("重发激活邮件", (dialog, which) -> {
+                            Login.resendActivityEmail(MainActivity.this);
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
 
+            }
         }
     }
 
     private void warnMailNoValidRegister() {
         if (sNeedWarnEmailNoValidRegister) {
+            sNeedWarnEmailNoValidRegister = false;
+
             new AlertDialog.Builder(this)
+                    .setTitle("提示")
                     .setMessage(R.string.alert_activity_email)
                     .setPositiveButton("确定", null)
                     .show();
