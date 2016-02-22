@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 
+// // FIXME: 16/2/22 delete
 @EActivity(R.layout.activity_phone_set_password)
 public class PhoneSetPasswordActivity extends BackActivity implements ParentActivity {
 
@@ -145,17 +146,6 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
 
     @Override
     public void next() {
-        Fragment fragment;
-        // // FIXME: 16/2/22
-//        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-//            fragment = PhoneSetGlobalFragment_.builder().build();
-//        } else {
-            fragment = PhoneSetPasswordFragment_.builder().type(type).build();
-//        }
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override
