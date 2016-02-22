@@ -130,12 +130,8 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
     final void initPhoneSetPasswordActivity() {
         setTitle(type.getInputAccountTitle());
         Fragment fragment;
-        if (type == Type.register) {
-            fragment = PhoneVerifyFragment_.builder().type(type).account(account).build();
-        } else {
-            requestParams.put("phone", account);
-            fragment = PhoneSetPasswordFragment2_.builder().type(type).account(account).build();
-        }
+        requestParams.put("phone", account);
+        fragment = PhoneSetPasswordFragment2_.builder().type(type).account(account).build();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)
                 .addToBackStack(null)
@@ -150,11 +146,12 @@ public class PhoneSetPasswordActivity extends BackActivity implements ParentActi
     @Override
     public void next() {
         Fragment fragment;
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            fragment = PhoneSetGlobalFragment_.builder().build();
-        } else {
+        // // FIXME: 16/2/22
+//        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+//            fragment = PhoneSetGlobalFragment_.builder().build();
+//        } else {
             fragment = PhoneSetPasswordFragment_.builder().type(type).build();
-        }
+//        }
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)
                 .addToBackStack(null)

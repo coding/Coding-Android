@@ -1,7 +1,5 @@
 package net.coding.program.login.phone;
 
-import android.support.v4.app.Fragment;
-
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
@@ -28,10 +26,11 @@ public class SetGlobalKeyActivity extends BackActivity implements ParentActivity
     @AfterViews
     final void initPhoneSetPasswordActivity() {
         requestParams.put("phone", phone);
-        Fragment fragment = PhoneSetGlobalFragment_.builder().showFragmentTop(false).build();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, fragment)
-                .commit();
+        // // FIXME: 16/2/22
+//        Fragment fragment = PhoneSetGlobalFragment_.builder().showFragmentTop(false).build();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.container, fragment)
+//                .commit();
     }
 
     @Override
