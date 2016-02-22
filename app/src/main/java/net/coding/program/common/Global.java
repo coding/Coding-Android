@@ -228,6 +228,14 @@ public class Global {
         }
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
     public static String makeSmallUrl(ImageView view, String url) {
         ViewGroup.LayoutParams lp = view.getLayoutParams();
         int max = Math.max(lp.height, lp.width);

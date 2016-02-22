@@ -248,6 +248,8 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
             return;
         }
 
+        Global.hideSoftKeyboard(this);
+
         StringBuilder pickLabels = getLabelsParam(modifyData.labels);
         RequestParams params = new RequestParams();
         params.put("title", titleString);

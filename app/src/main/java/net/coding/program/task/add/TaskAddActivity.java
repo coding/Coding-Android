@@ -722,6 +722,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             return;
         }
 
+        Global.popSoftkeyboard(this, title, false);
+
         if (mSingleTask.isEmpty()) {
             String url = String.format(HOST_TASK_ADD, mSingleTask.project.backend_project_path);
             RequestParams params = new RequestParams();
@@ -971,7 +973,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         }
     }
 
-
     @OnActivityResult(RESULT_REQUEST_PICK_PROJECT)
     final void pickProject(int result, Intent data) {
         if (result == RESULT_OK) {
@@ -994,8 +995,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         iconfromNetwork(layoutProjectName.getImage(), mSingleTask.project.icon);
         layoutProjectName.setText2(mSingleTask.project.name);
 
-
-        mSingleTask.labels.clear();
         updateLabels(mSingleTask.labels);
     }
 
@@ -1096,6 +1095,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void sendComment(String input) {
+        mEnterComment.getEnterLayout().hideKeyboard();
+
         if (mSingleTask == null) {
             showButtomToast("发送评论失败");
             return;
