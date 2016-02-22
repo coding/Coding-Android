@@ -43,7 +43,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     String account = "";
 
     @FragmentArg
-    PhoneSetPasswordActivity.Type type;
+    Type type;
 
     @ViewById
     LoginEditText phoneEdit, phoneCaptchaEdit, passwordEdit, repasswordEdit;
@@ -113,7 +113,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
 
-                if (type == PhoneSetPasswordActivity.Type.register) {
+                if (type == Type.register) {
 //                    loadCurrentUser();
                     ((ParentActivity) getActivity()).next();
                     showProgressBar(false, "");

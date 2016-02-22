@@ -20,6 +20,7 @@ import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.login.phone.PhoneSetPasswordActivity;
+import net.coding.program.login.phone.Type;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_phone_register)
 public class PhoneRegisterActivity extends BackActivity {
 
-    PhoneSetPasswordActivity.Type type = PhoneSetPasswordActivity.Type.register;
+    Type type = Type.register;
 
     @ViewById
     LoginEditText globalKeyEdit, phoneEdit, passwordEdit, phoneCodeEdit, captchaEdit;
@@ -65,7 +66,7 @@ public class PhoneRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, phoneEdit,
                 passwordEdit, phoneCodeEdit, captchaEdit);
 
-        if (type == PhoneSetPasswordActivity.Type.register) {
+        if (type == Type.register) {
             textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
         }
 
@@ -145,7 +146,7 @@ public class PhoneRegisterActivity extends BackActivity {
     }
 
     private void needShowCaptch() {
-        if (type != PhoneSetPasswordActivity.Type.register) {
+        if (type != Type.register) {
             captchaEdit.setVisibility(View.VISIBLE);
             captchaEdit.requestCaptcha();
             return;

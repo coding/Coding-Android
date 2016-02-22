@@ -40,7 +40,7 @@ import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.InputAccountActivity_;
-import net.coding.program.login.phone.PhoneSetPasswordActivity;
+import net.coding.program.login.phone.Type;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
@@ -338,7 +338,7 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void loginFail() {
-        PhoneSetPasswordActivity.Type type = PhoneSetPasswordActivity.Type.reset;
+        Type type = Type.reset;
         String account = editName.getText().toString();
         if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
             account = "";

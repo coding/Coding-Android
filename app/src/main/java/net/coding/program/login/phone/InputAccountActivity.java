@@ -27,7 +27,7 @@ public class InputAccountActivity extends BackActivity {
     private static final int RESULT_SET_PASSWORD = 1;
 
     @Extra
-    PhoneSetPasswordActivity.Type type;
+    Type type;
 
     @Extra
     String account = "";

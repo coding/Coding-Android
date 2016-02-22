@@ -835,10 +835,6 @@
             android:label="@string/title_activity_valide_phone"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".login.phone.SetGlobalKeyActivity_"
-            android:label="@string/set_global_activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".project.detail.MemberAuthorityActivity_"
             android:label="@string/title_activity_member_authority"
             android:screenOrientation="portrait" />

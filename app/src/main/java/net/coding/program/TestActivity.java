@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
 import net.coding.program.login.phone.InputAccountActivity_;
-import net.coding.program.login.phone.PhoneSetPasswordActivity;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
+import net.coding.program.login.phone.Type;
 import net.coding.program.message.MessageListActivity_;
 
 
@@ -75,11 +75,11 @@ public class TestActivity extends AppCompatActivity implements VoiceRecordComple
     }
 
     private void test(int which) {
-        PhoneSetPasswordActivity.Type type;
+        Type type;
         if (which == 0) {
-            type = PhoneSetPasswordActivity.Type.reset;
+            type = Type.reset;
         } else {
-            type = PhoneSetPasswordActivity.Type.activate;
+            type = Type.activate;
         }
         InputAccountActivity_.intent(this).type(type).start();
     }
@@ -107,7 +107,7 @@ public class TestActivity extends AppCompatActivity implements VoiceRecordComple
     }
 
     public void onClick3(View v) {
-        PhoneSetPasswordActivity.Type type = PhoneSetPasswordActivity.Type.register;
+        Type type = Type.register;
         new PhoneSetPasswordActivity_.IntentBuilder_(this)
                 .type(type)
                 .start();

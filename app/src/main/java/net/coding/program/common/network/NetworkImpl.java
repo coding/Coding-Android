@@ -11,11 +11,8 @@ import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.LoginActivity_;
-import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.login.phone.SetGlobalKeyActivity;
-import net.coding.program.login.phone.SetGlobalKeyActivity_;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
@@ -77,7 +74,6 @@ public class NetworkImpl {
 
             private final int HTTP_CODE_RELOGIN = 1000;
             private final int HTTP_CODE_RELOGIN_2FA = 3207;
-            private final int HTTP_CODE_NEED_ACTIVITY = 1035;
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -86,12 +82,6 @@ public class NetworkImpl {
 
                     if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {
                         appContext.startActivity(new Intent(appContext, LoginActivity_.class));
-                    } else if (code == HTTP_CODE_NEED_ACTIVITY) {
-                        if (!SetGlobalKeyActivity.isShowing()) {
-                            Intent activityIntent = new Intent(appContext, SetGlobalKeyActivity_.class);
-                            activityIntent.putExtra("phone", MyApp.sUserObject.phone);
-                            appContext.startActivity(activityIntent);
-                        }
                     }
 
                     try {
