@@ -19,8 +19,6 @@ import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
-import net.coding.program.login.phone.PhoneSetPasswordActivity;
-import net.coding.program.login.phone.Type;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -32,7 +30,7 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_phone_register)
 public class PhoneRegisterActivity extends BackActivity {
 
-    Type type = Type.register;
+    public static String REGIST_TIP = "注册 Coding 账号表示您已同意<font color=\"#3bbd79\">《Coding 服务条款》</font>";
 
     @ViewById
     LoginEditText globalKeyEdit, phoneEdit, passwordEdit, phoneCodeEdit, captchaEdit;
@@ -66,12 +64,10 @@ public class PhoneRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, phoneEdit,
                 passwordEdit, phoneCodeEdit, captchaEdit);
 
-        if (type == Type.register) {
-            textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
-        }
+            textClause.setText(Html.fromHtml(REGIST_TIP));
 
         sendCode.setEditPhone(phoneEdit);
-        sendCode.setUrl(type.getSendPhoneMessageUrl());
+        sendCode.setUrl(ValidePhoneView.REGISTER_SEND_MESSAGE_URL);
 
         needShowCaptch();
     }
@@ -146,12 +142,6 @@ public class PhoneRegisterActivity extends BackActivity {
     }
 
     private void needShowCaptch() {
-        if (type != Type.register) {
-            captchaEdit.setVisibility(View.VISIBLE);
-            captchaEdit.requestCaptcha();
-            return;
-        }
-
         if (captchaEdit.getVisibility() == View.VISIBLE) {
             captchaEdit.requestCaptcha();
             return;
@@ -173,7 +163,7 @@ public class PhoneRegisterActivity extends BackActivity {
     @Click
     void otherRegister() {
         EmailRegisterActivity_.intent(this)
-                .startForResult(PhoneSetPasswordActivity.RESULT_REGISTER_EMAIL);
+                .startForResult(EmailRegisterActivity.RESULT_REGISTER_EMAIL);
     }
 
     @Click
@@ -181,7 +171,7 @@ public class PhoneRegisterActivity extends BackActivity {
         ActivityNavigate.startTermActivity(this);
     }
 
-    @OnActivityResult(PhoneSetPasswordActivity.RESULT_REGISTER_EMAIL)
+    @OnActivityResult(EmailRegisterActivity.RESULT_REGISTER_EMAIL)
     void resultEmailRegister(int result) {
         if (result == RESULT_OK) {
             setResult(RESULT_OK);

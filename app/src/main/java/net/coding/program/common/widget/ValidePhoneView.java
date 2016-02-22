@@ -25,6 +25,8 @@ public class ValidePhoneView extends TextView {
     public static final String REGISTER_SEND_MESSAGE_URL = Global.HOST_API + "/account/register/generate_phone_code";
     public static final String RESET_SEND_MESSAGE_URL = Global.HOST_API + "/account/password/forget";
 
+    public static final String URL_RESET_PASSWORD = Global.HOST_API + "/account/password/reset";
+
     OnTextChange editPhone;
     String inputPhone = "";
 

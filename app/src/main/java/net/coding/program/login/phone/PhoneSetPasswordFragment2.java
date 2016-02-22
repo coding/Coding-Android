@@ -42,9 +42,6 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     @FragmentArg
     String account = "";
 
-    @FragmentArg
-    Type type;
-
     @ViewById
     LoginEditText phoneEdit, phoneCaptchaEdit, passwordEdit, repasswordEdit;
 
@@ -54,16 +51,14 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     @ViewById
     ValidePhoneView sendCode;
 
-
     @AfterViews
     final void initPhoneSetPasswordFragment() {
         phoneEdit.setText(account);
-        loginButton.setText(type.getSetPasswordButtonText());
 
         ViewStyleUtil.editTextBindButton(loginButton, phoneEdit, phoneCaptchaEdit, passwordEdit,
                 repasswordEdit);
 
-        sendCode.setUrl(type.getSendPhoneMessageUrl());
+        sendCode.setUrl(ValidePhoneView.RESET_SEND_MESSAGE_URL);
         sendCode.setPhoneString(account);
         sendCode.startTimer();
 
@@ -99,8 +94,8 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             return;
         }
 
-        RequestParams params = ((ParentActivity) getActivity()).getRequestParmas();
-        String url = type.getSetPasswordPhoneUrl(params);
+        RequestParams params = new RequestParams();
+        String url = ValidePhoneView.URL_RESET_PASSWORD;
         String sha1Password = SimpleSHA1.sha1(password);
         params.put("password", sha1Password);
         params.put("confirm", sha1Password);
@@ -112,14 +107,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
-
-                if (type == Type.register) {
-//                    loadCurrentUser();
-                    ((ParentActivity) getActivity()).next();
-                    showProgressBar(false, "");
-                } else {
-                    closeActivity();
-                }
+                closeActivity();
             }
 
             @Override
@@ -168,27 +156,8 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         });
     }
 
-//    protected void loadUserinfo() {
-//        AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
-//        String url = Global.HOST_API + "/userinfo";
-//        client.get(getActivity(), url, new MyJsonResponse(getActivity()) {
-//            @Override
-//            public void onMySuccess(JSONObject response) {
-//                super.onMySuccess(response);
-//                MyData.getInstance().update(getActivity(), response.optJSONObject("data"));
-//                closeActivity();
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                super.onFinish();
-//                ((BaseActivity) getActivity()).showProgressBar(false, "");
-//            }
-//        });
-//    }
-
     private void closeActivity() {
-        Toast.makeText(getActivity(), type.getSetPasswordSuccess(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "重置密码成功", Toast.LENGTH_SHORT).show();
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
     }

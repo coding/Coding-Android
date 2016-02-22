@@ -24,8 +24,6 @@ import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
-import net.coding.program.login.phone.PhoneSetPasswordActivity;
-import net.coding.program.login.phone.Type;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -38,7 +36,7 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_email_register)
 public class EmailRegisterActivity extends BackActivity {
 
-    Type type = Type.register;
+    public static final int RESULT_REGISTER_EMAIL = 1;
 
     @ViewById
     LoginEditText globalKeyEdit, emailEdit, passwordEdit, captchaEdit;
@@ -69,9 +67,7 @@ public class EmailRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, emailEdit,
                 passwordEdit, captchaEdit);
 
-        if (type == Type.register) {
-            textClause.setText(Html.fromHtml(PhoneSetPasswordActivity.REGIST_TIP));
-        }
+        textClause.setText(Html.fromHtml(PhoneRegisterActivity.REGIST_TIP));
 
         needShowCaptch();
     }
@@ -160,12 +156,6 @@ public class EmailRegisterActivity extends BackActivity {
     }
 
     private void needShowCaptch() {
-        if (type != Type.register) {
-            captchaEdit.setVisibility(View.VISIBLE);
-            captchaEdit.requestCaptcha();
-            return;
-        }
-
         if (captchaEdit.getVisibility() == View.VISIBLE) {
             captchaEdit.requestCaptcha();
             return;

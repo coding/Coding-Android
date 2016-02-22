@@ -12,6 +12,7 @@ import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.InputRequest;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.common.widget.ValidePhoneView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -27,9 +28,6 @@ public class InputAccountActivity extends BackActivity {
     private static final int RESULT_SET_PASSWORD = 1;
 
     @Extra
-    Type type;
-
-    @Extra
     String account = "";
 
     @ViewById
@@ -42,7 +40,6 @@ public class InputAccountActivity extends BackActivity {
 
     @AfterViews
     void initInputAccountActivity() {
-        setTitle(type.getInputAccountTitle());
         accountEdit.setText(account);
         if (inputRequest.isCurrectFormat(account)) {
             loginButton.setEnabled(true);
@@ -72,7 +69,7 @@ public class InputAccountActivity extends BackActivity {
     void sendCode(String phone) {
         if (!InputCheck.checkPhone(InputAccountActivity.this, phone)) return;
 
-        String url = type.getSendPhoneMessageUrl();
+        String url = ValidePhoneView.RESET_SEND_MESSAGE_URL;
         RequestParams params = new RequestParams();
         params.put("account", phone);
         MyAsyncHttpClient.post(InputAccountActivity.this, url, params, new MyJsonResponse(InputAccountActivity.this) {
@@ -81,7 +78,6 @@ public class InputAccountActivity extends BackActivity {
                 super.onMySuccess(response);
                 showMiddleToast("已发送短信");
                 PhoneSetPasswordActivity_.intent(InputAccountActivity.this)
-                        .type(type)
                         .account(phone)
                         .startForResult(RESULT_SET_PASSWORD);
             }
