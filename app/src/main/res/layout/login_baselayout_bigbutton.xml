@@ -13,5 +13,4 @@
     android:text="立即体验"
     android:textColor="@drawable/font_login_button"
     android:textSize="18sp"
-    android:textStyle="bold"
-    tools:showIn="@layout/activity_register" />
+    android:textStyle="bold" />

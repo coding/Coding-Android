@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.RegisterActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -106,7 +105,7 @@ public class PhoneVerifyFragment extends BaseFragment {
 
     @OptionsItem
     void action_email() {
-        RegisterActivity_.intent(getActivity())
-                .startForResult(PhoneSetPasswordActivity.RESULT_REGISTER_EMAIL);
+//        RegisterActivity_.intent(getActivity())
+//                .startForResult(PhoneSetPasswordActivity.RESULT_REGISTER_EMAIL);
     }
 }

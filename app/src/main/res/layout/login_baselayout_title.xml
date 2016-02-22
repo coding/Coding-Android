@@ -9,4 +9,4 @@
     android:text="加入Coding，体验云端开发之美！"
     android:gravity="center_vertical|center_horizontal"
     android:textSize="18sp"
-    tools:showIn="@layout/activity_register" />
+/>

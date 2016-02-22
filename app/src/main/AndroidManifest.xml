@@ -562,11 +562,6 @@
             android:label="@string/title_activity_update_dialog"
             android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity
-            android:name=".RegisterActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_register"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".common.ui.BackActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_base_annotation"
