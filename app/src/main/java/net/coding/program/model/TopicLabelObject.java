@@ -15,7 +15,7 @@ public class TopicLabelObject implements Serializable {
     public int id;
     public int count;
     public String name;
-    private int color;
+    public int color;
 
     public TopicLabelObject(JSONObject json) throws JSONException {
         id = json.optInt("id");

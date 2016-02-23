@@ -187,7 +187,7 @@
     </string-array>
 
     <string-array name="topic_label_action">
-        <item>重命名</item>
+        <item>修改</item>
         <item>删除</item>
     </string-array>
     <string-array name="project_pin">

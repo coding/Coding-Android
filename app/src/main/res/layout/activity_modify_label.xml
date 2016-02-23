@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    android:paddingTop="5dp"
+    tools:context="net.coding.program.project.detail.ModifyLabelActivity">
+
+    <include layout="@layout/divide_15_bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+
+        <ImageView
+            android:id="@+id/colorPreview"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/round_color_preview"
+            android:scaleType="center"
+            android:src="@drawable/ic_custom_color" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/transparent"
+            android:ellipsize="end"
+            android:hint="标签名"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/font_black_content"
+            android:textColorHint="#a3a3a3"
+            android:textSize="16sp" />
+
+        <!--<ImageView-->
+        <!--android:id="@+id/action_add"-->
+        <!--android:src="@drawable/ic_label_color_add"-->
+        <!--android:scaleType="center"-->
+        <!--android:layout_width="55.7dp"-->
+        <!--android:layout_height="30.7dp"-->
+        <!--android:background="@drawable/topic_label_add_btn_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:textColor="@color/green"-->
+        <!--android:textSize="12sp" />-->
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_15_top" />
+
+</LinearLayout>

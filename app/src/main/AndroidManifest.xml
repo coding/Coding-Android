@@ -206,12 +206,14 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity_"
@@ -237,9 +239,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <data
@@ -852,7 +854,7 @@
         <activity
             android:name=".login.PhoneRegisterActivity_"
             android:label="@string/title_activity_phone_register"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.EmailRegisterActivity_"
             android:label="@string/title_activity_email_register"
@@ -864,12 +866,18 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.main" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.main" /> -->
 
-                <!--<category android:name="android.intent.category.launcher" />-->
-            <!--</intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.launcher" /> -->
+            <!-- </intent-filter> -->
         </activity>
+        <activity
+            android:name=".project.detail.ModifyLabelActivity_"
+            android:label="@string/title_activity_modify_label"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
     </application>
 
 </manifest>

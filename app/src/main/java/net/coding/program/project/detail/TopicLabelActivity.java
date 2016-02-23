@@ -48,6 +48,7 @@ import java.util.Random;
 public class TopicLabelActivity extends BackActivity {
 
     private static final int RESULT_PICK_COLOR = 1;
+    private static final int RESULT_MODIFY = 2;
 
     private static String COLOR = "#701035";
 
@@ -118,14 +119,12 @@ public class TopicLabelActivity extends BackActivity {
         }
     }
 
-
     @Click
     void colorPreview() {
         PickLabelColorActivity_.intent(this)
                 .generateColor(generateColor)
                 .startForResult(RESULT_PICK_COLOR);
     }
-
 
     @Click
     void action_add() {
@@ -149,6 +148,20 @@ public class TopicLabelActivity extends BackActivity {
             generateColor = resultData;
             updateColorPreview();
         }
+    }
+
+    @OnActivityResult(RESULT_MODIFY)
+    void onResultModify(int result, @OnActivityResult.Extra TopicLabelObject resultData) {
+        if (result == RESULT_OK) {
+            if (allLabels.containsKey(currentLabelId)) {
+                TopicLabelObject topicLabelObject = allLabels.get(currentLabelId);
+                topicLabelObject.name = resultData.name;
+                topicLabelObject.color = resultData.color;
+            }
+            updateList();
+        }
+
+        unlockViews();
     }
 
     @OptionsItem
@@ -382,7 +395,15 @@ public class TopicLabelActivity extends BackActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                doRename();
+//                                doRename();
+                                for (TopicLabelObject item : allLabels.values()) {
+                                    if (item.id == currentLabelId) {
+                                        ModifyLabelActivity_.intent(TopicLabelActivity.this)
+                                                .labelObject(item)
+                                                .projectPath(projectPath)
+                                                .startForResult(RESULT_MODIFY);
+                                    }
+                                }
                                 break;
                             case 1:
                                 doDelete();

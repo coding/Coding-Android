@@ -26,6 +26,12 @@ public class MyAsyncHttpClient {
 
     private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
 
+    public static void put(Context context, String url, RequestParams params, ResponseHandlerInterface response) {
+        LogUtils.LOGD(TAG, "put " + url);
+        AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+        client.put(context, url, params, response);
+    }
+
     public static void post(Context context, String url, RequestParams params, ResponseHandlerInterface response) {
         LogUtils.LOGD(TAG, "post " + url);
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
