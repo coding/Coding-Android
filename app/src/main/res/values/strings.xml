@@ -178,5 +178,6 @@
     <string name="title_activity_readme_edit">编辑 README</string>
     <string name="title_activity_phone_register">注册</string>
     <string name="title_activity_email_register">注册</string>
+    <string name="title_activity_pick_label_color">标签颜色</string>
 
 </resources>

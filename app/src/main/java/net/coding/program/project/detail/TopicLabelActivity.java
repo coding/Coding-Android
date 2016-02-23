@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.coding.program.R;
@@ -25,6 +27,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -44,13 +47,9 @@ import java.util.Random;
 @EActivity(R.layout.activity_topic_label)
 public class TopicLabelActivity extends BackActivity {
 
+    private static final int RESULT_PICK_COLOR = 1;
+
     private static String COLOR = "#701035";
-//    @Extra
-//    String ownerUser;
-//    @Extra
-//    String projectName;
-//    @Extra
-//    Integer topicId;
 
     @Extra
     LabelType labelType = LabelType.Topic;
@@ -68,6 +67,11 @@ public class TopicLabelActivity extends BackActivity {
     EditText editText;
     @ViewById
     View action_add, container;
+    @ViewById
+    ImageView colorPreview;
+
+    int generateColor = 0;
+
     @InstanceState
     String currentLabelName;
     @InstanceState
@@ -89,6 +93,9 @@ public class TopicLabelActivity extends BackActivity {
 
     @AfterViews
     protected final void initTopicLabelActivity() {
+        generateColor = getRandomColor();
+        updateColorPreview();
+
         if (labelType == LabelType.Topic) {
             labelUrl = new TopicObject.TopicLabelUrl(projectPath, id);
         } else {
@@ -104,6 +111,22 @@ public class TopicLabelActivity extends BackActivity {
         beginLoadLabels();
     }
 
+    private void updateColorPreview() {
+        GradientDrawable bgDrawable = (GradientDrawable) colorPreview.getBackground();
+        if (bgDrawable != null) {
+            bgDrawable.setColor(generateColor);
+        }
+    }
+
+
+    @Click
+    void colorPreview() {
+        PickLabelColorActivity_.intent(this)
+                .generateColor(generateColor)
+                .startForResult(RESULT_PICK_COLOR);
+    }
+
+
     @Click
     void action_add() {
         if (lockViews()) {
@@ -116,6 +139,15 @@ public class TopicLabelActivity extends BackActivity {
             action_add.setEnabled(false);
             editText.setEnabled(false);
             beginAddLebel(name);
+        }
+    }
+
+
+    @OnActivityResult(RESULT_PICK_COLOR)
+    void onResultPickColor(int result, @OnActivityResult.Extra int resultData) {
+        if (result == RESULT_OK) {
+            generateColor = resultData;
+            updateColorPreview();
         }
     }
 
@@ -208,9 +240,13 @@ public class TopicLabelActivity extends BackActivity {
 
     private void beginAddLebel(String name) {
         currentLabelName = name.trim();
-        COLOR = String.format("#%06X", new Random().nextInt(0xffffff));
+        COLOR = String.format("#%06X", generateColor & 0x00FFFFFF);
         RequestData post = labelUrl.addLabel(currentLabelName, COLOR);
         postNetwork(post.url, post.params, "URI_ADD_LABEL");
+    }
+
+    public static int getRandomColor() {
+        return 0xFF000000 | new Random().nextInt(0xFFFFFF);
     }
 
     private void endAddLabel(int code, JSONObject json) throws JSONException {
@@ -220,6 +256,10 @@ public class TopicLabelActivity extends BackActivity {
             allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName, Color.parseColor(COLOR)));
             updateList();
             showButtomToast("添加标签成功^^");
+
+            endAddTopicLabel();
+            updateMenuActionSave();
+
         } else {
             showErrorMsg(code, json);
         }

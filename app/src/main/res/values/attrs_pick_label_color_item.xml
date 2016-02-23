@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="PickLabelColorItem">
+        <attr name="labelColor" format="color|reference"/>
+        <attr name="labelColorString" format="string" />
+        <attr name="labelColorPicked" format="boolean" />
+        <attr name="labelColorTopLine" format="boolean" />
+    </declare-styleable>
+</resources>

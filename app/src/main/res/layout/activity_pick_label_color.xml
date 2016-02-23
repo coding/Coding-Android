@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/padding_15"
+    tools:context="net.coding.program.project.detail.PickLabelColorActivity">
+
+    <include layout="@layout/divide_15_bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/stand_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+        <View
+            android:id="@+id/colorPreview"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/round_color_preview" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:text="#"
+            android:textColor="#FF222222" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:digits="1234567890abedefABCDEF"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:textColor="#FF222222"
+            android:textSize="16sp"
+            android:id="@+id/inputColor"
+            tools:text="3BBD79" />
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:background="@drawable/round_label_add"
+            android:scaleType="center"
+            android:id="@+id/clickGenerateColor"
+            android:src="@drawable/ic_generate_color" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_15_top" />
+
+    <include layout="@layout/divide_15_bottom" />
+
+    <net.coding.program.common.widget.PickLabelColorItem
+        android:id="@+id/color0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelColor="#FF90A4AE"
+        app:labelColorString="灰色"
+        app:labelColorTopLine="false" />
+
+    <net.coding.program.common.widget.PickLabelColorItem
+        android:id="@+id/color1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelColor="#FFFFC107"
+        app:labelColorString="黄色" />
+
+    <net.coding.program.common.widget.PickLabelColorItem
+        android:id="@+id/color2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelColor="#FFFF5722"
+        app:labelColorString="红色" />
+
+    <net.coding.program.common.widget.PickLabelColorItem
+        android:id="@+id/color3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelColor="#FF4CAF50"
+        app:labelColorString="绿色" />
+
+    <net.coding.program.common.widget.PickLabelColorItem
+        android:id="@+id/color4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelColor="#FF03A9F4"
+        app:labelColorString="蓝色" />
+
+    <net.coding.program.common.widget.PickLabelColorItem
+        android:id="@+id/color5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelColor="#FFAB44BC"
+        app:labelColorString="紫色" />
+
+    <include layout="@layout/divide_15_top" />
+</LinearLayout>

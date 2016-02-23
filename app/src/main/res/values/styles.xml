@@ -312,6 +312,11 @@
         <item name="android:textColor">@color/phone_message</item>
     </style>
 
+    <style name="BaseListItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

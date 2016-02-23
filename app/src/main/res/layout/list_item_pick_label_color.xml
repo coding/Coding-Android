@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clickProject"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/list_item_selector"
+    android:paddingLeft="15sp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingRight="15sp">
+
+    <net.coding.program.common.widget.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="20dp"
+        android:layout_centerVertical="true"
+        android:layout_height="20dp"
+        android:layout_marginRight="12dp"
+        android:src="@color/red_f75" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#222222"
+        tools:text="红色"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_task_status_list_check"
+        android:id="@+id/picked"/>
+
+    <include layout="@layout/divide_1" android:id="@+id/topLine" />
+
+</RelativeLayout>
