@@ -2,6 +2,7 @@ package net.coding.program.login.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +16,10 @@ public class Login2FATipActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2_fatip);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public void onClick2faScan(View v) {

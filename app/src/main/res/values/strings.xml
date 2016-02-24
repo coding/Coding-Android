@@ -127,7 +127,7 @@
     <string name="title_activity_branch_main">branch</string>
     <string name="title_activity_guide">guide</string>
     <string name="title_activity_source">文件详情</string>
-    <string name="title_activity_login2_fatip">两步验证</string>
+    <string name="title_activity_login2_fatip">两步认证</string>
     <string name="title_activity_valide_phone">手机验证</string>
     <string name="title_activity_email_set_password">忘记密码</string>
     <string name="title_activity_phone_set_password">忘记密码</string>

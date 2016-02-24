@@ -22,6 +22,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.NoHorizontalScrollViewPager;
 import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventRefresh;
+import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -209,6 +210,13 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     final void action_create_maopao() {
         umengEvent(UmengEvent.LOCAL, "快捷创建冒泡");
         MaopaoAddActivity_.intent(this).start();
+    }
+
+    @OptionsItem
+    final void action_scan() {
+        Intent intent = new Intent(getActivity(), QRScanActivity.class);
+        intent.putExtra(QRScanActivity.EXTRA_OPEN_URL, true);
+        startActivity(intent);
     }
 
     @OptionsItem

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.project.detail.PickLabelColorActivity_;
 
 
@@ -30,7 +31,9 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void click2(View v) {
-
+        Intent intent = new Intent(this, QRScanActivity.class);
+        intent.putExtra(QRScanActivity.EXTRA_OPEN_URL, "true");
+        startActivity(intent);
     }
 
     public void click3(View v) {
