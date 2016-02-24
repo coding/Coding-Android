@@ -245,6 +245,10 @@ public class TaskObject {
             return String.format("%s/task/%d/label/%d", project.getHttpProjectApi(), id, labelId);
         }
 
+        public int getNumberValue() {
+            return number;
+        }
+
         public String getNumber() {
             return "#" + number;
         }

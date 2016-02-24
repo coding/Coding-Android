@@ -207,13 +207,11 @@
             android:name=".TestActivity"
             android:label="@string/title_activity_test"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".MainActivity_"
@@ -238,11 +236,13 @@
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
             <intent-filter>
                 <data
                     android:host="coding.net"
@@ -878,6 +878,10 @@
             android:label="@string/title_activity_modify_label"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".task.add.RefResourceActivity_"
+            android:label="@string/title_activity_ref_resource"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

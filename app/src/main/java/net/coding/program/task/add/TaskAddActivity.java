@@ -46,6 +46,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
@@ -73,6 +74,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static net.coding.program.common.util.LogUtils.makeLogTag;
@@ -90,8 +92,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     public static final int RESULT_REQUEST_DESCRIPTION_CREATE = 5;
     public static final int RESULT_REQUEST_PICK_PROJECT = 6;
     public static final int RESULT_LABEL = 7;
-
     public static final int RESULT_REQUEST_PICK_WATCH_USER = 8;
+    public static final int RESULT_RESUSE_REFRESOURCE = 9;
 
     private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
     final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
@@ -141,6 +143,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     TaskAttrItem layoutDeadline;
     TaskAttrItem layoutPhase;
     TaskAttrItem layoutWatch;
+    ViewGroup layoutRefResourceParent;
 
     TextView description;
     ViewGroup descriptionLayout;
@@ -339,6 +342,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         layoutDeadline = (TaskAttrItem) mHeadView.findViewById(R.id.layoutDeadline);
         layoutPhase = (TaskAttrItem) mHeadView.findViewById(R.id.layoutPhase);
         layoutWatch = (TaskAttrItem) mHeadView.findViewById(R.id.layoutWatch);
+        layoutRefResourceParent = (ViewGroup) mHeadView.findViewById(R.id.layoutRefResourceParent);
+        layoutRefResourceParent.setOnClickListener(clickRefResource);
 
         descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
         description = (TextView) mHeadView.findViewById(R.id.description);
@@ -504,6 +509,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         if (!canPickProject) {
             layoutProjectName.setVisibility(View.GONE);
         }
+
+        updateRefResourceNetwork();
     }
 
     private void watchUserUpdateFromNetwork() {
@@ -1021,6 +1028,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         if (result == RESULT_OK) {
             updateDescriptionFromResult(data);
             updateSendButton();
+
+            updateRefResourceNetwork();
         }
     }
 
@@ -1029,6 +1038,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         if (result == RESULT_OK) {
             updateDescriptionFromResult(data);
             updateSendButton();
+
+            updateRefResourceNetwork();
         }
     }
 
@@ -1061,6 +1072,74 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             mEnterComment.getEnterLayout().insertText(name);
         }
     }
+
+    @OnActivityResult(RESULT_RESUSE_REFRESOURCE)
+    void resultRefResource(int resultCode, @OnActivityResult.Extra ArrayList<RefResourceObject> resultData) {
+       if (resultCode == RESULT_OK) {
+           refResourceList = resultData;
+           updateRefResourceUI();
+       }
+    }
+
+    private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
+
+    private void updateRefResourceNetwork() {
+        if (mSingleTask.isEmpty()) {
+            return;
+        }
+
+        String url = mSingleTask.project.getHttpProjectApi() +
+                "/resource_reference/" + mSingleTask.getNumberValue();
+        MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+
+                refResourceList.clear();
+                JSONObject jsonData = response.optJSONObject("data");
+                Iterator<String> iter = jsonData.keys();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    JSONArray array = jsonData.optJSONArray(key);
+                    for (int i = 0; i < array.length(); ++i) {
+                        JSONObject item = array.optJSONObject(i);
+                        try {
+                            refResourceList.add(new RefResourceObject(item));
+                        } catch (Exception e) {
+                            Global.errorLog(e);
+                        }
+                    }
+                }
+
+                updateRefResourceUI();
+            }
+        });
+
+    }
+
+    private void updateRefResourceUI() {
+        if (mSingleTask.isEmpty()) {
+            return;
+        }
+
+        if (refResourceList.isEmpty()) {
+            layoutRefResourceParent.setVisibility(View.GONE);
+        } else {
+            layoutRefResourceParent.setVisibility(View.VISIBLE);
+            TaskAttrItem item = (TaskAttrItem) layoutRefResourceParent.findViewById(R.id.layoutRefResource);
+            item.setText2(refResourceList.size() + "个资源");
+        }
+    }
+
+    View.OnClickListener clickRefResource = v -> {
+        RefResourceActivity.Param param = new RefResourceActivity.Param(mSingleTask.project.getProjectPath(),
+                mSingleTask.getNumberValue());
+
+        RefResourceActivity_.intent(TaskAddActivity.this)
+                .mData(refResourceList)
+                .mParam(param)
+                .startForResult(RESULT_RESUSE_REFRESOURCE);
+    };
 
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");

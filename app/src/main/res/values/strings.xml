@@ -180,5 +180,6 @@
     <string name="title_activity_email_register">注册</string>
     <string name="title_activity_pick_label_color">标签颜色</string>
     <string name="title_activity_modify_label">修改标签</string>
+    <string name="title_activity_ref_resource">关联资源</string>
 
 </resources>
