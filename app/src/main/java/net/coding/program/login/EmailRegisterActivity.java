@@ -181,7 +181,12 @@ public class EmailRegisterActivity extends BackActivity {
 
     @Click
     void otherRegister() {
-        finish();
+        onBackPressed();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.left_to_right);
+    }
 }

@@ -164,6 +164,7 @@ public class PhoneRegisterActivity extends BackActivity {
     void otherRegister() {
         EmailRegisterActivity_.intent(this)
                 .startForResult(EmailRegisterActivity.RESULT_REGISTER_EMAIL);
+        overridePendingTransition(R.anim.right_to_left, R.anim.hold);
     }
 
     @Click
