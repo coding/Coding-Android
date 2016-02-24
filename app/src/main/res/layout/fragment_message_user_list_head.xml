@@ -40,11 +40,7 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@android:drawable/divider_horizontal_textfield" />
-
+    <include layout="@layout/divide_1" />
 
     <LinearLayout
         android:id="@+id/commentLayout"
@@ -84,11 +80,7 @@
 
     </LinearLayout>
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@android:drawable/divider_horizontal_textfield" />
+    <include layout="@layout/divide_1" />
 
     <LinearLayout
         android:id="@+id/systemLayout"
@@ -125,4 +117,7 @@
             android:visibility="invisible" />
 
     </LinearLayout>
+
+    <include layout="@layout/divide_1" />
+
 </LinearLayout>

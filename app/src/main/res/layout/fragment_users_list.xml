@@ -13,8 +13,10 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@color/divide_line"
+            android:headerDividersEnabled="false"
+            android:dividerHeight="@dimen/divide_height"
             android:footerDividersEnabled="false" />
-
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

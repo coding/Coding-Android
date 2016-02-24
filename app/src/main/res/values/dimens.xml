@@ -110,4 +110,5 @@
     <dimen name="list_item_icon_left">20dp</dimen>
     <dimen name="list_item_icon_right">18dp</dimen>
 
+    <dimen name="divide_height">0.5dp</dimen>
 </resources>

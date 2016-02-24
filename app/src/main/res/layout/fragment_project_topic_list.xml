@@ -41,10 +41,7 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divide_line" />
+    <include layout="@layout/divide_1" />
 
     <FrameLayout
         android:layout_width="match_parent"

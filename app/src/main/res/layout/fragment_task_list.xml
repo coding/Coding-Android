@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:background="@color/divide"
             android:clipToPadding="false"
+            android:dividerHeight="@dimen/divide_height"
+            android:divider="@color/divide_line"
             android:drawSelectorOnTop="true"
             android:fastScrollEnabled="true"
             android:overScrollMode="never"
