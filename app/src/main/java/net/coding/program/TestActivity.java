@@ -17,13 +17,6 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-//        findViewById(R.id.clickMain).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(TestActivity.this, EntranceActivity_.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     public void click1(View v) {
@@ -37,7 +30,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void click3(View v) {
-        EntranceActivity_.intent(this).start();
+//        EntranceActivity_.intent(this).start();
+        MainActivity_.intent(this).start();
     }
 
     int mColor = 0xffff5722;

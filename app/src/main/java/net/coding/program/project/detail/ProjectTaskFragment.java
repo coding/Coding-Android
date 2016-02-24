@@ -187,7 +187,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         task.owner = AccountInfo.loadAccount(getActivity());
         task.owner_id = task.owner.id;
 
-        TaskAddActivity_.intent(getActivity())
+        TaskAddActivity_.intent(this)
                 .mSingleTask(task)
                 .mUserOwner(member.user)
                 .startForResult(ListModify.RESULT_EDIT_LIST);
