@@ -17,11 +17,4 @@
         android:layout_height="match_parent"
         scan:scan_width="@dimen/scanview_width" />
 
-    <Button
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:visibility="invisible"
-        android:id="@+id/pickPhoto"/>
-
-
 </RelativeLayout>

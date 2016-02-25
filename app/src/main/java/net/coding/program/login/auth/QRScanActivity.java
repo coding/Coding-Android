@@ -1,17 +1,21 @@
 package net.coding.program.login.auth;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +27,9 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
-import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.R;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.common.umeng.UmengEvent;
 
 import java.io.InputStream;
 
@@ -57,10 +59,23 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (getIntent().getBooleanExtra(EXTRA_OPEN_URL, false)) {
+            getMenuInflater().inflate(R.menu.qrscan, menu);
+        }
+        
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+
+            case R.id.action_photo:
+                photo();
                 return true;
         }
 
@@ -79,14 +94,8 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         qrCodeView.setOnQRCodeReadListener(this);
 
         qrCodeView.getCameraManager().startPreview();
-
-        findViewById(R.id.pickPhoto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                photo();
-            }
-        });
     }
+
     private void photo() {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_REQUEST_PHOTO);
@@ -119,13 +128,22 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             String host = uri.getHost();
             if (host.toLowerCase().endsWith("coding.net")) { // coding.net 结尾的使用内部浏览器打开, 比如 mart.coding.net
                 URLSpanNoUnderline.openActivityByUri(this, s, false, true, true);
+                finish();
             } else {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toast.makeText(QRScanActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
-                }
+                new AlertDialog.Builder(QRScanActivity.this)
+                        .setTitle("打开外部链接")
+                        .setMessage(s)
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
+                                startActivity(intent);
+                                finish();
+                            } catch (Exception e) {
+                                Toast.makeText(QRScanActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
             }
 
         } else {
@@ -146,11 +164,12 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
                 intent.putExtra("data", s);
                 setResult(RESULT_OK, intent);
             }
-        }
-        MobclickAgent.onEvent(this, UmengEvent.LOCAL, "扫描2fa成功");
 
-        finish();
+            finish();
+        }
     }
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -158,6 +177,11 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     Uri fileUri = data.getData();
+                    if (mProgressDialog == null) {
+                        mProgressDialog = new ProgressDialog(this);
+                        mProgressDialog.setMessage("扫描中...");
+                    }
+                    mProgressDialog.show();
                     new ScanPhotoTask().execute(fileUri);
                 }
             }
@@ -165,7 +189,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         }
     }
 
-        @Override
+    @Override
     public void cameraNotFound() {
     }
 
@@ -185,17 +209,32 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 
             try {
                 InputStream inputStream = QRScanActivity.this.getContentResolver().openInputStream(params[0]);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                Rect padding = new Rect(0, 0, 0, 0);
+                BitmapFactory.decodeStream(inputStream, null, options);
+                inputStream.close();
+                int minLength = Math.min(options.outWidth, options.outHeight);
+                int MAX = 512; // 图片短边不超过 512
+                if (minLength > MAX) {
+                    options.inSampleSize = minLength / MAX;
+                }
+                options.inJustDecodeBounds = false;
+                // 流打开后只能用一次, 需要重新获取
+                inputStream = QRScanActivity.this.getContentResolver().openInputStream(params[0]);
+                // 对图片裁剪后再扫码, 否则花的时间太长
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
                 if (bitmap == null) {
                     return null;
                 }
+
                 int width = bitmap.getWidth(), height = bitmap.getHeight();
                 int[] pixels = new int[width * height];
                 bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
                 bitmap.recycle();
+
                 RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
                 BinaryBitmap bBitmap = new BinaryBitmap(new HybridBinarizer(source));
-//                MultiFormatReader reader = new MultiFormatReader();
                 QRCodeReader reader = new QRCodeReader();
                 Result result = reader.decode(bBitmap);
                 return result;
@@ -208,13 +247,20 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         @Override
         protected void onPostExecute(Result result) {
             super.onPostExecute(result);
+            if (mProgressDialog != null) {
+                mProgressDialog.hide();
+            }
+
             if (result == null) {
-                Toast.makeText(QRScanActivity.this, "识别失败", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(QRScanActivity.this)
+                        .setTitle("提示")
+                        .setMessage("未发现二维码")
+                        .setPositiveButton("确定", null)
+                        .show();
                 return;
             }
 
             onQRCodeRead(result.getText(), null);
         }
-    };
-
+    }
 }
