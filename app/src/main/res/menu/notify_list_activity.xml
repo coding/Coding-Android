@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/showNoRead"
+        android:title="查看未读"
+        android:icon="@drawable/ic_menu_notify_read_all"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/showAll"
+        android:title="查看全部"
+        android:icon="@drawable/ic_menu_notify_read_all"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/markRead"

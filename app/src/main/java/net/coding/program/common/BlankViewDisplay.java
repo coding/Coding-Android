@@ -113,7 +113,6 @@ public class BlankViewDisplay {
                     iconId = R.drawable.ic_exception_no_network;
                     text = "晚了一步\n文件已经被人删除了";
                 }
-
             } else {
                 iconId = R.drawable.ic_exception_no_network;
                 text = "获取数据失败\n请检查下网络是否通畅";

@@ -2,6 +2,9 @@ package net.coding.program.message;
 
 
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,6 +16,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.ui.BackActivity;
@@ -23,7 +27,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,8 +37,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@EActivity(R.layout.activity_notify_list)
-@OptionsMenu(R.menu.notify_list_activity)
+@EActivity(R.layout.activity_notify_list1)
 public class NotifyListActivity extends BackActivity implements FootUpdate.LoadMore {
 
     final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
@@ -43,10 +45,13 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
     final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4&type=6";
     private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
     @Extra
-    int type;
+    int type; // 1 和 2 为一类, 4 和 6 为一类
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    View blankLayout;
 
     private static HashMap<String, Pair<Integer, Integer>> sHashMap = new HashMap<>();
 
@@ -84,6 +89,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
     int defaultIcon = R.drawable.ic_notify_at;
 
     ArrayList<NotifyObject> mData = new ArrayList<>();
+    final String TAG_NOTIFY = "TAG_NOTIFY";
     String URI_NOTIFY;
     View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override
@@ -145,64 +151,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
             String itemType = data.target_type;
 
-//            if (itemType.equals("ProjectMember")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_user);
-//
-//            } else if (itemType.equals("Depot")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_code);
-//
-//            } else if (itemType.equals("Task")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-//
-//            } else if (itemType.equals("ProjectFile")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_file);
-//
-//            } else if (itemType.equals("QcTask")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-//
-//            } else if (itemType.equals("ProjectTopic")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_projecttopic);
-//
-//            } else if (itemType.equals("Project")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_project);
-//
-//            } else if (itemType.equals("ProjectStar")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_unfollow);
-//
-//            } else if (itemType.equals("ProjectWatcher")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_unfollow);
-//
-//            } else if (itemType.equals("PullRequestComment")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
-//
-//            } else if (itemType.equals("PullRequestBean")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_pull_request);
-//
-//            } else if (itemType.equals("Tweet")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tweet);
-//
-//            } else if (itemType.equals("TweetComment")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
-//
-//            } else if (itemType.equals("TweetLike")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tweetlike);
-//
-//            } else if (itemType.equals("MergeRequestBean")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_merge_request);
-//
-//            } else if (itemType.equals("UserFollow")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_follow);
-//
-//            } else if (itemType.equals("TaskComment")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tasts);
-//
-//            } else if (itemType.equals("CommitLineNote")) {
-//                holder.icon.setImageResource(R.drawable.ic_notify_tweetcomment);
-//
-//            } else {
-//                holder.icon.setImageResource(R.drawable.ic_notify_unknown);
-//            }
-
             Pair<Integer, Integer> iconItem = sHashMap.get(itemType);
             if (iconItem == null) {
                 iconItem = new Pair<>(R.drawable.ic_notify_unknown, 0xFF14A9DA);
@@ -251,79 +199,10 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                 holder.name.setText(" ");
             }
 
-
             holder.title.setVisibility(View.VISIBLE);
             holder.title.setText(Global.changeHyperlinkColor(title));
 
-
-//            if (urlSpan.length >= 2) {
-//                StringBuffer sb = new StringBuffer(ttt);
-//
-//                URLSpan spanLast = urlSpan[urlSpan.length - 1];
-//                int spanLastStart = text.getSpanStart(spanLast);
-//                int spanLastEnd = text.getSpanEnd(spanLast);
-//                String nameString = title.substring(spanLastStart, spanLastEnd);
-//                Spannable spanName = (Spannable) Html.fromHtml(nameString);
-//                spanName.setSpan(spanLast, 0, spanName.length(), 0);
-//
-//                StringBuffer detalBuffer = sb.delete(spanLastStart, spanLastEnd);
-//
-//                URLSpan spanFirst = urlSpan[0];
-//                int spanFirstStart = text.getSpanStart(spanFirst);
-//                int spanFirstEnd = text.getSpanEnd(spanFirst);
-//                StringBuffer nameBuffer = sb.delete(spanFirstStart, spanFirstEnd);
-//
-//                holder.title.setText(Global.changeHyperlinkColor(sb.toString()));
-//                holder.detail.setText(Global.changeHyperlinkColor(detalBuffer.toString()));
-//            } else if (urlSpan.length == 1) {
-//
-//            } else {
-//
-//            }
-//
-//            if (urlSpan.length >= 2) {
-//
-//
-//                StringBuffer sb = new StringBuffer(ttt);
-//
-//                URLSpan spanLast = urlSpan[urlSpan.length - 1];
-//                int spanLastStart = text.getSpanStart(spanLast);
-//                int spanLastEnd = text.getSpanEnd(spanLast);
-//
-//
-//                URLSpan spanFirst = urlSpan[0];
-//                int spanFirstStart = text.getSpanStart(spanFirst);
-//                int spanFirstEnd = text.getSpanEnd(spanFirst);
-//                String nameString = tttString.substring(spanFirstStart, spanFirstEnd);
-//                Spannable nameSpan = new SpannableString(nameString);
-//                nameSpan.setSpan(spanFirst, 0, nameSpan.length(), 0);
-//                holder.name.setText(nameSpan);
-//
-//                holder.title.setText(Global.changeHyperlinkColor(sb.toString()));
-////                holder.detail.setText(Global.changeHyperlinkColor(detalBuffer.toString()));
-//            } else if (urlSpan.length == 1) {
-//
-//            } else {
-//
-//            }
-
-//
-//
-//            out.append("<a href=\"");
-//            out.append(((URLSpan) style[j]).getURL());
-//            out.append("\">");
-//            title.
-
-
-//            URLSpan[] urlSpans = text.getSpans(0, text.length(), URLSpan.class);
-//            for (URLSpan item : urlSpans) {
-//                text.removeSpan(item);
-//            }
-//            holder.title.setText(text);
-//            holder.title.setTextColor(data.isUnRead() ? 0xff222222 : 0xff999999);
-
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
-
 
 //          这种情况做特殊处理。  早上好，今天您有3个任务已超期
             String titleString = holder.title.getText().toString();
@@ -368,24 +247,90 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         }
     };
 
+    private boolean isShowNoRead = false;
+
+    private void setUrl(boolean showNoRead) {
+        isShowNoRead = showNoRead;
+
+        String type = "/notification?type=";
+        if (showNoRead) {
+            type = "/notification/unread-list?type=";
+        }
+
+        URI_NOTIFY = Global.HOST_API + type + this.type;
+        if (this.type == 1) {
+            URI_NOTIFY += "&type=2";
+        }
+
+        if (this.type == 4) {
+            URI_NOTIFY += "&type=6";
+        }
+    }
+
 
     @AfterViews
     protected final void initNotifyListActivity() {
         showDialogLoading();
-        URI_NOTIFY = Global.HOST_API + "/notification?type=" + type;
-        if (type == 1) {
-            URI_NOTIFY += "&type=2";
-        }
 
-        if (type == 4) {
-            URI_NOTIFY += "&type=6";
-        }
+        setUrl(false);
 
         setDefaultByType();
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);
+
         loadMore();
+    }
+
+    private MenuItem menuItemShowNoRead;
+    private MenuItem menuItemShowAll;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(net.coding.program.R.menu.notify_list_activity, menu);
+        menuItemShowNoRead = menu.findItem(R.id.showNoRead);
+        menuItemShowAll = menu.findItem(R.id.showAll);
+        menuItemShowAll.setVisible(false);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int itemId_ = item.getItemId();
+//        if (itemId_ == android.R.id.home) {
+//            annotaionClose();
+//            return true;
+//        }
+//        if (itemId_ == net.coding.program.R.id.markRead) {
+//            markRead();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+    @OptionsItem
+    void showNoRead() {
+        menuItemShowAll.setVisible(true);
+        menuItemShowNoRead.setVisible(false);
+
+        setUrl(true);
+        initSetting();
+        loadMore();
+
+        showDialogLoading();
+    }
+
+    @OptionsItem
+    void showAll() {
+        menuItemShowAll.setVisible(false);
+        menuItemShowNoRead.setVisible(true);
+
+        setUrl(false);
+        initSetting();
+        loadMore();
+        showDialogLoading();
     }
 
     @OptionsItem
@@ -401,36 +346,65 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
     @Override
     public void loadMore() {
-        getNextPageNetwork(URI_NOTIFY, URI_NOTIFY);
+        getNextPageNetwork(URI_NOTIFY, TAG_NOTIFY);
     }
 
     private void setDefaultByType() {
         if (type == 0) {
-            getSupportActionBar().setTitle("@我的");
+            setActionBarTitle("@我的");
             defaultIcon = R.drawable.ic_notify_at;
         } else if (type == 1) {
-            getSupportActionBar().setTitle("评论");
+            setActionBarTitle("评论");
             defaultIcon = R.drawable.ic_notify_comment;
         } else {
-            getSupportActionBar().setTitle("系统通知");
+            setActionBarTitle("系统通知");
             defaultIcon = R.drawable.ic_notify_comment;
         }
     }
 
+    View.OnClickListener onClickRetry = v -> loadMore();
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(URI_NOTIFY)) {
+        if (tag.equals(TAG_NOTIFY)) {
             hideProgressDialog();
             if (code == 0) {
+                if (isLoadingFirstPage(TAG_NOTIFY)) {
+                    mData.clear();
+                }
+
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     NotifyObject notifyObject = new NotifyObject(jsonArray.getJSONObject(i));
-                    mData.add(notifyObject);
+                    if (isShowNoRead) {
+                        if (type == 1 || type == 2) {
+                            if (notifyObject.type == 1 || notifyObject.type == 2) {
+                                mData.add(notifyObject);
+                            }
+                        } else if (type == 4 || type == 6) {
+                            if (notifyObject.type == 4 || notifyObject.type == 6) {
+                                mData.add(notifyObject);
+                            }
+                        } else if (notifyObject.type == type) {
+                            mData.add(notifyObject);
+                        }
+                    } else {
+                        mData.add(notifyObject);
+                    }
                 }
 
                 baseAdapter.notifyDataSetChanged();
+
+                String blankTip;
+                if (isShowNoRead) {
+                    blankTip = "没有未读的消息";
+                } else {
+                    blankTip = "消息列表为空";
+                }
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, blankTip);
             } else {
                 showErrorMsg(code, respanse);
+                BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
             }
         } else if (tag.equals(HOST_MARK_READ)) {
             umengEvent(UmengEvent.NOTIFY, "标记已读");
