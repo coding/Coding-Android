@@ -440,7 +440,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                     R.drawable.task_mark_3,
             };
 
-            holder.mTaskPriority.setBackgroundResource(priorityIcons[data.priority]);
+            int priority = data.priority;
+            if (priorityIcons.length <= priority) {
+                priority = priorityIcons.length - 1;
+            }
+            holder.mTaskPriority.setBackgroundResource(priorityIcons[priority]);
 
             if (data.deadline.isEmpty() && data.labels.isEmpty()) {
                 holder.mLayoutDeadline.setVisibility(View.GONE);
