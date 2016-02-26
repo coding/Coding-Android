@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 /**
  * Created by chaochen on 15/1/30.
+ * 代码页面的主入口页面
  */
 
 @EFragment(R.layout.project_git_fragment_main)
@@ -35,6 +36,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     private final String HOST_LIST_BRANCHES = Global.HOST_API + "%s/git/branches?pageSize=1000";
     private final String HOST_LIST_TAG = Global.HOST_API + "%s/git/list_tags";
+
     @ViewById
     TextView versionButton;
     @ViewById
@@ -43,6 +45,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     ExpandableListView versionList;
     @ViewById
     View expandableIndicator;
+
     private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList<>(), new ArrayList<>()};
     ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
         @Override
@@ -276,7 +279,6 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     }
 
     private static class ViewGroupHolder {
-
         View icon;
         TextView title;
 

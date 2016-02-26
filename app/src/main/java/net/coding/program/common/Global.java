@@ -477,8 +477,8 @@ public class Global {
         } else {
             try {
                 String template = readTextFile(context.getAssets().open("code"));
-                gitFile.data = gitFile.data.replace("<", "&lt;").replace(">", "&gt;");
-                webview.loadDataWithBaseURL(Global.HOST, template.replace("${file_code}", gitFile.data).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
+                String replaceData = gitFile.data.replace("<", "&lt;").replace(">", "&gt;");
+                webview.loadDataWithBaseURL(Global.HOST, template.replace("${file_code}", replaceData).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
             } catch (Exception e) {
                 Global.errorLog(e);
             }

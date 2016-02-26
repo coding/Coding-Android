@@ -1,6 +1,5 @@
 package net.coding.program.model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -14,7 +13,7 @@ public class GitCommitterObject implements Serializable {
     public String link = "";
     public String name = "";
 
-    public GitCommitterObject(JSONObject json) throws JSONException {
+    public GitCommitterObject(JSONObject json) {
         if (json != null) {
             avatar = json.optString("avatar");
             email = json.optString("email");

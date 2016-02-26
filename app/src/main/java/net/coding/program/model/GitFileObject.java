@@ -1,6 +1,5 @@
 package net.coding.program.model;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -24,7 +23,7 @@ public class GitFileObject implements Serializable {
     public long size;
 
 
-    public GitFileObject(JSONObject json) throws JSONException {
+    public GitFileObject(JSONObject json) {
         data = json.optString("data");
         lang = json.optString("lang");
         lastCommitDate = json.optLong("lastCommitDate");

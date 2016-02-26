@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_menu_history"
+        android:title="提交历史"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_edit"
+        android:title="编辑代码"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_commit"
+        android:title="查看提交记录"
+        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/action_exit"-->
+        <!--android:title="退出代码查看"-->
+        <!--app:showAsAction="never" />-->
+
+</menu>

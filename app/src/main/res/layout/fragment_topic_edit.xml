@@ -41,7 +41,7 @@
         android:layout_weight="1"
         android:background="@color/transparent"
         android:gravity="start"
-        android:hint="讨论内容…"
+        android:hint="讨论内容"
         android:textSize="16sp"
         android:textColorHint="#a3a3a3"
         android:minHeight="600dp"

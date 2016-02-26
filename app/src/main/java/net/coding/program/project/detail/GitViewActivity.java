@@ -17,15 +17,19 @@ import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.base.CustomMoreActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.url.UrlCreate;
+import net.coding.program.model.GitFileBlobObject;
 import net.coding.program.model.GitFileInfoObject;
-import net.coding.program.model.GitFileObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.git.BranchCommitListActivity_;
+import net.coding.program.project.git.EditCodeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -38,14 +42,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_gitview)
-//@OptionsMenu(R.menu.users)
-@OptionsMenu(R.menu.common_more)
-public class GitViewActivity extends CustomMoreActivity {
+@OptionsMenu(R.menu.git_view)
+public class GitViewActivity extends BackActivity {
     private static String TAG = GitViewActivity.class.getSimpleName();
+
+    private static final int RESULT_EDIT = 1;
 
     @Extra
     String mProjectPath;
-//    ProjectObject mProjectObject;
 
     @Extra
     GitFileInfoObject mGitFileInfoObject;
@@ -69,12 +73,11 @@ public class GitViewActivity extends CustomMoreActivity {
     String urlBlob = Global.HOST_API + "%s/git/blob/%s/%s";
     String urlImage = Global.HOST + "%s/git/raw/%s/%s";
 
-    GitFileObject mFile;
+    GitFileBlobObject mFile;
 
     @AfterViews
     protected final void initGitViewActivity() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mGitFileInfoObject.name);
+        setActionBarTitle(mGitFileInfoObject.name);
 
         client = MyAsyncHttpClient.createClient(GitViewActivity.this);
 
@@ -86,14 +89,46 @@ public class GitViewActivity extends CustomMoreActivity {
         adapter = new ImagePager(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
-        webview.getSettings().setDefaultTextEncodingName("UTF-8");
         showDialogLoading();
         getNetwork(urlBlob, urlBlob);
     }
 
-    @OptionsItem(android.R.id.home)
-    protected final void annotaionClose() {
-        onBackPressed();
+    @OptionsItem
+    void action_edit() {
+        EditCodeActivity_.intent(this)
+                .mProjectPath(mProjectPath)
+                .mGitFileInfoObject(mGitFileInfoObject)
+                .mVersion(mVersion)
+                .mGitAll(mFile)
+                .startForResult(RESULT_EDIT);
+    }
+
+
+    @OptionsItem
+    void action_history() {
+
+        String peek = mGitFileInfoObject.path;
+        if (peek.isEmpty() && mVersion.isEmpty()) {
+            showButtomToast("没有Commit记录");
+            return;
+        }
+
+        String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, peek);
+        BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
+//        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
+    }
+
+    @OptionsItem
+    void action_commit() {
+
+    }
+
+    @OnActivityResult(RESULT_EDIT)
+    void onResultEdit(int resultCode, @OnActivityResult.Extra GitFileBlobObject resultData) {
+        if (resultCode == RESULT_OK) {
+            mFile = resultData;
+            bindUIByData();
+        }
     }
 
     @Override
@@ -102,27 +137,8 @@ public class GitViewActivity extends CustomMoreActivity {
             hideProgressDialog();
 
             if (code == 0) {
-
-                JSONObject file = respanse.getJSONObject("data").getJSONObject("file");
-                mFile = new GitFileObject(file);
-
-                if (mFile.mode.equals("image")) {
-
-                    try {
-
-                        mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
-                        mTempPicFile.deleteOnExit();
-                        String s = ProjectObject.translatePathToOld(mProjectPath);
-                        download(String.format(urlImage, s, mVersion, mFile.path));
-                    } catch (IOException e) {
-                        showButtomToast("图片无法下载");
-                    }
-
-
-                } else {
-                    pager.setVisibility(View.GONE);
-                    Global.setWebViewContent(webview, mFile);
-                }
+                mFile = new GitFileBlobObject(respanse.getJSONObject("data"));
+                bindUIByData();
 
             } else {
                 hideProgressDialog();
@@ -130,6 +146,24 @@ public class GitViewActivity extends CustomMoreActivity {
             }
         }
     }
+
+    public void bindUIByData() {
+        if (mFile.getGitFileObject().mode.equals("image")) {
+            try {
+                mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
+                mTempPicFile.deleteOnExit();
+                String s = ProjectObject.translatePathToOld(mProjectPath);
+                download(String.format(urlImage, s, mVersion, mFile.getGitFileObject().path));
+            } catch (IOException e) {
+                showButtomToast("图片无法下载");
+            }
+
+        } else {
+            pager.setVisibility(View.GONE);
+            Global.setWebViewContent(webview, mFile.getGitFileObject());
+        }
+    }
+
 
     private void download(String url) {
         //url = "https://coding.net/api/project/5166/files/58705/download";
@@ -156,11 +190,11 @@ public class GitViewActivity extends CustomMoreActivity {
         });
     }
 
-    @Override
-    protected String getLink() {
-        String s = ProjectObject.translatePathToOld(mProjectPath);
-        return Global.HOST + s + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
-    }
+//    @Override
+//    protected String getLink() {
+//        String s = ProjectObject.translatePathToOld(mProjectPath);
+//        return Global.HOST + s + "/git/blob/" + mVersion + "/" + mGitFileInfoObject.path;
+//    }
 
     class ImagePager extends FragmentPagerAdapter {
 
