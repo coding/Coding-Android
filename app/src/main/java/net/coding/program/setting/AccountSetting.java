@@ -1,7 +1,6 @@
 package net.coding.program.setting;
 
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.MyApp;
@@ -22,9 +21,6 @@ public class AccountSetting extends BackActivity {
     private static final int RESULT_PHONE_SETTING = 1;
     @ViewById
     TextView email, suffix, phone;
-
-    @ViewById
-    TextView invalidEmail, invalidPhone;
 
     @AfterViews
     final void initAccountSetting() {
@@ -48,25 +44,24 @@ public class AccountSetting extends BackActivity {
         String phoneString = MyApp.sUserObject.phone;
         if (!phoneString.isEmpty()) {
             phone.setText(phoneString);
-            invalidPhone.setVisibility(View.INVISIBLE);
+//            phone.setCompoundDrawables(null, null, null, null);
         } else {
-            invalidPhone.setVisibility(View.VISIBLE);
+            phone.setText("未绑定");
         }
 
         String emailString = MyApp.sUserObject.email;
         if (!emailString.isEmpty()) {
             boolean emailValid = MyApp.sUserObject.isEmailValidation();
             if (emailValid) {
-                invalidEmail.setVisibility(View.INVISIBLE);
                 email.setText(emailString);
+                email.setCompoundDrawables(null, null, null, null);
             } else {
-                invalidEmail.setVisibility(View.VISIBLE);
-                invalidEmail.setText("未验证");
+                emailString += " " + "未验证";
             }
         } else {
-            invalidEmail.setVisibility(View.VISIBLE);
-            invalidEmail.setText("未绑定");
+            emailString += " " + "未绑定";
         }
+        email.setText(emailString);
     }
 
     @Click

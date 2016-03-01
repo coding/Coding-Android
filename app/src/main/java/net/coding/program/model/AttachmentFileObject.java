@@ -1,7 +1,5 @@
 package net.coding.program.model;
 
-import android.graphics.Color;
-
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
@@ -36,44 +34,30 @@ public class AttachmentFileObject implements Serializable {
     static Pattern imagePattern = Pattern.compile(imagePatternStr);
     static String docPatternStr = "(doc|docx)";
     static Pattern docPattern = Pattern.compile(docPatternStr);
-    static int docIconBgColor = Color.parseColor("#4a83dc");
     static String pptPatternStr = "(ppt|pptx)";
     static Pattern pptPattern = Pattern.compile(pptPatternStr);
-    static int pptIconBgColor = Color.parseColor("#fcba17");
     static String pdfPatternStr = "(pdf)";
     static Pattern pdfPattern = Pattern.compile(pdfPatternStr);
-    static int pdfIconBgColor = Color.parseColor("#ff0034");
     static String xlsPatternStr = "(xls|xlsx)";
     static Pattern xlsPattern = Pattern.compile(xlsPatternStr);
-    static int xlsIconBgColor = Color.parseColor("#00c075");
     static String txtPatternStr = "(sh|txt)";
     static Pattern txtPattern = Pattern.compile(txtPatternStr);
-    static int txtIconBgColor = Color.parseColor("#b5bbc4");
     static String zipPatternStr = "(rar|zip|7z)";
     static Pattern zipPattern = Pattern.compile(zipPatternStr);
-    static int zipIconBgColor = Color.parseColor("#8e6dd2");
     static String htmlPatternStr = "(html|htm)";
     static Pattern htmlPattern = Pattern.compile(htmlPatternStr);
-    static int htmlIconBgColor = Color.parseColor("#c5f0e9");
     static String mdPatternStr = "(markd|markdown|md|mdown)";
     static Pattern mdPattern = Pattern.compile(mdPatternStr);
-    static int mdIconBgColor = Color.parseColor("#c5f0e9");
     static String aiPatternStr = "(ai)";
     static Pattern aiPattern = Pattern.compile(aiPatternStr);
-    static int aiIconBgColor = Color.parseColor("#000000");
     static String apkPatternStr = "(apk)";
     static Pattern apkPattern = Pattern.compile(apkPatternStr);
-    static int apkIconBgColor = Color.parseColor("#000000");
     static String psdPatternStr = "(psd)";
     static Pattern psdPattern = Pattern.compile(psdPatternStr);
-    static int psdIconBgColor = Color.parseColor("#000000");
     static String soundPatternStr = "(mp3|aac|m4a|wma|flac|ape|wav|ogg)";
     static Pattern soundPattern = Pattern.compile(soundPatternStr);
-    static int soundIconBgColor = Color.parseColor("#000000");
     static String videoPatternStr = "(3gp|mp4|rmvb|avi|wmv|flv|rm|mkv)";
     static Pattern videoPattern = Pattern.compile(videoPatternStr);
-    static int videoIconBgColor = Color.parseColor("#000000");
-    static int defaultIconBgColor = Color.parseColor("#000000");
     public long created_at;
     public int current_user_role_id;
     public String fileType = "";// "xlsx"
@@ -225,117 +209,103 @@ public class AttachmentFileObject implements Serializable {
     }
 
     public boolean isImage() {
-        return imagePattern.matcher(this.fileType).find();
+        return isImage(fileType);
+    }
+
+    public static boolean isImage(String suffix) {
+        return imagePattern.matcher(suffix).find();
     }
 
     public boolean isGif() {
         return this.fileType.toLowerCase().equals("gif");
     }
 
-    public boolean isDoc() {
-        return docPattern.matcher(this.fileType).find();
+    public static boolean isDoc(String fileName) {
+        return docPattern.matcher(fileName).find();
     }
 
-    public boolean isPpt() {
-        return pptPattern.matcher(this.fileType).find();
+    public static boolean isPpt(String fileName) {
+        return pptPattern.matcher(fileName).find();
     }
 
-    public boolean isPdf() {
-        return pdfPattern.matcher(this.fileType).find();
+    public static boolean isPdf(String fileName) {
+        return pdfPattern.matcher(fileName).find();
     }
 
-    public boolean isXls() {
-        return xlsPattern.matcher(this.fileType).find();
+    public static boolean isXls(String fileName) {
+        return xlsPattern.matcher(fileName).find();
     }
 
-    public boolean isTxt() {
-        return txtPattern.matcher(this.fileType).find();
+    public static boolean isTxt(String fileName) {
+        return txtPattern.matcher(fileName).find();
     }
 
     public boolean needJump() {
-        return isTxt() || isMd() || isImage();
+        return isTxt(fileType) || isMd(fileType) || isImage();
     }
 
-    public boolean isZip() {
-        return zipPattern.matcher(this.fileType).find();
+    public static boolean isZip(String fileName) {
+        return zipPattern.matcher(fileName).find();
     }
 
-    public boolean isHtml() {
-        return htmlPattern.matcher(this.fileType).find();
+    public static boolean isHtml(String fileName) {
+        return htmlPattern.matcher(fileName).find();
     }
 
-    public boolean isMd() {
-        return mdPattern.matcher(this.fileType).find();
+    public static boolean isMd(String fileName) {
+        return mdPattern.matcher(fileName).find();
     }
 
-    public boolean isAi() {
-        return aiPattern.matcher(this.fileType).find();
+    public static boolean isAi(String fileName) {
+        return aiPattern.matcher(fileName).find();
     }
 
-    public boolean isApk() {
-        return apkPattern.matcher(this.fileType).find();
+    public static boolean isApk(String fileName) {
+        return apkPattern.matcher(fileName).find();
     }
 
-    public boolean isPsd() {
-        return psdPattern.matcher(this.fileType).find();
+    public static boolean isPsd(String fileName) {
+        return psdPattern.matcher(fileName).find();
     }
 
-    public boolean isSound() {
-        return soundPattern.matcher(this.fileType).find();
+    public static boolean isSound(String fileName) {
+        return soundPattern.matcher(fileName).find();
     }
 
-    public boolean isVideo() {
-        return videoPattern.matcher(this.fileType).find();
-    }
-
-    public int getBackgroundColor() {
-        if (this.isDoc()) {
-            return docIconBgColor;
-        } else if (this.isPpt()) {
-            return pptIconBgColor;
-        } else if (this.isPdf()) {
-            return pdfIconBgColor;
-        } else if (this.isXls()) {
-            return xlsIconBgColor;
-        } else if (this.isTxt()) {
-            return txtIconBgColor;
-        } else if (this.isZip()) {
-            return zipIconBgColor;
-        } else if (this.isHtml()) {
-            return htmlIconBgColor;
-        } else if (this.isMd()) {
-            return mdIconBgColor;
-        } else {
-            return defaultIconBgColor;
-        }
+    public static boolean isVideo(String fileName) {
+        return videoPattern.matcher(fileName).find();
     }
 
     public int getIconResourceId() {
-        if (this.isAi()) {
+       return getIconResourceId(fileType);
+    }
+
+    public static int getIconResourceId(String fileName) {
+        if (AttachmentFileObject.isAi(fileName)) {
             return R.drawable.ic_file_ai;
-        } else if (this.isApk()) {
+        } else if (AttachmentFileObject.isApk(fileName)) {
             return R.drawable.ic_file_apk;
-        } else if (this.isDoc()) {
+        } else if (AttachmentFileObject.isDoc(fileName)) {
             return R.drawable.ic_file_docx;
-        } else if (this.isHtml()) {
+        } else if (AttachmentFileObject.isHtml(fileName)) {
             return R.drawable.ic_file_html;
-        } else if (this.isMd()) {
+        } else if (AttachmentFileObject.isMd(fileName)) {
             return R.drawable.ic_file_md;
-        } else if (this.isPdf()) {
+        } else if (AttachmentFileObject.isPdf(fileName)) {
             return R.drawable.ic_file_pdf;
-        } else if (this.isPpt()) {
+        } else if (AttachmentFileObject.isPpt(fileName)) {
             return R.drawable.ic_file_ppt;
-        } else if (this.isPsd()) {
+        } else if (AttachmentFileObject.isPsd(fileName)) {
             return R.drawable.ic_file_psd;
-        } else if (this.isSound()) {
+        } else if (AttachmentFileObject.isSound(fileName)) {
             return R.drawable.ic_file_sound;
-        } else if (this.isTxt()) {
+        } else if (AttachmentFileObject.isTxt(fileName)) {
             return R.drawable.ic_file_txt;
-        } else if (this.isVideo()) {
+        } else if (AttachmentFileObject.isVideo(fileName)) {
             return R.drawable.ic_file_video;
-        } else if (this.isXls()) {
+        } else if (AttachmentFileObject.isXls(fileName)) {
             return R.drawable.ic_file_x;
-        } else if (this.isZip()) {
+        } else if (AttachmentFileObject.isZip(fileName)) {
             return R.drawable.ic_file_zip;
         } else {
             return R.drawable.ic_file_unknown;

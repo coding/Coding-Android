@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/list_item_selector">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:paddingRight="0dp">
+
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/icon_layout"-->
+        <!--android:layout_width="44dp"-->
+        <!--android:layout_height="44dp"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginLeft="12dp"-->
+        <!--android:layout_marginRight="12dp">-->
+
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/icon"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="@dimen/folder_icon_width"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="@dimen/folder_icon_width"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@drawable/shape_image_icon_bg"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:padding="0.3dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:src="@drawable/ic_project_git_folder2" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/icon_txt"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="55dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="55dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:background="@color/font_black"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:text="apk"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/white"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textSize="20dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentTop="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentStart="true" />&ndash;&gt;-->
+
+        <!--</RelativeLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:padding="0.3dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_file_unknown" />
+
+            <TextView
+                android:id="@+id/file_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Medium Text"
+                android:textColor="@color/font_black_content"
+                android:textSize="17sp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/retryUpload"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/stopUpload"
+                android:layout_toStartOf="@+id/stopUpload"
+                android:scaleType="center"
+                android:src="@drawable/btn_file_reload" />
+
+            <ImageView
+                android:id="@+id/stopUpload"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:scaleType="center"
+                android:src="@drawable/btn_file_canceld" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/bottomLine"
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/font_black_content_disabled" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="30"
+            android:progressDrawable="@drawable/progressbg" />
+    </RelativeLayout>
+
+
+</FrameLayout>

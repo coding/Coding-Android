@@ -13,6 +13,7 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
@@ -75,7 +76,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     @AfterViews
     protected final void initAttachmentsDetailBaseActivity() {
-        getSupportActionBar().setTitle(mAttachmentFileObject.getName());
+        setActionBarTitle(mAttachmentFileObject.getName());
 
         mFileSaveHelp = new FileSaveHelp(this);
         client = MyAsyncHttpClient.createClient(AttachmentsDetailBaseActivity.this);
@@ -86,7 +87,25 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         }
 
-        findViewById(R.id.layout_dynamic_history).setVisibility(mHideHistory ? View.GONE : View.VISIBLE);
+        View dynamicLayout = findViewById(R.id.layout_dynamic_history);
+        dynamicLayout.setVisibility(mHideHistory ? View.GONE : View.VISIBLE);
+
+        if (mProject == null) {
+            dynamicLayout.setEnabled(false);
+            String url = Global.HOST_API + "/project/" + mProjectObjectId;
+            MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    super.onMySuccess(response);
+                    try {
+                        mProject = new ProjectObject(response.optJSONObject("data"));
+                        dynamicLayout.setEnabled(true);
+                    } catch (Exception e) {
+                        Global.errorLog(e);
+                    }
+                }
+            });
+        }
     }
 
     @Override

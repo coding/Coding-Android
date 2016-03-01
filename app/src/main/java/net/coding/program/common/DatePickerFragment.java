@@ -3,9 +3,12 @@ package net.coding.program.common;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -39,6 +42,17 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         super.onAttach(activity);
     }
 
+    private static boolean isBrokenSamsungDevice() {
+        return (Build.MANUFACTURER.equalsIgnoreCase("samsung")
+                && isBetweenAndroidVersions(
+                Build.VERSION_CODES.LOLLIPOP,
+                Build.VERSION_CODES.LOLLIPOP_MR1));
+    }
+
+    private static boolean isBetweenAndroidVersions(int min, int max) {
+        return Build.VERSION.SDK_INT >= min && Build.VERSION.SDK_INT <= max;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String dateString = getArguments().getString(PARAM_DATA);
@@ -53,7 +67,12 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int month = Integer.valueOf(date[1]) - 1;
         int day = Integer.valueOf(date[2]);
 
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        Context context = getActivity();
+        if (isBrokenSamsungDevice()) {
+            context = new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Light_Dialog);
+        }
+
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(context, this, year, month, day);
         if (maxToday) {
             datePickerDialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
         }

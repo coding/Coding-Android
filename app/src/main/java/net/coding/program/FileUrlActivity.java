@@ -27,6 +27,7 @@ public class FileUrlActivity extends BaseActivity {
     public static final String PATTERN_DIR = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)$";
     public static final String PATTERN_DIR_FILE = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)$";
     final String HOST_FILE = Global.HOST_API + "/project/%s/files/%s/view";
+
     @Extra
     String url;
 
@@ -107,13 +108,13 @@ public class FileUrlActivity extends BaseActivity {
                             .mAttachmentFileObject(folderFile)
                             .start();
 
-                } else if (fileObject.isMd()) {
+                } else if (AttachmentFileObject.isMd(fileObject.fileType)) {
                     AttachmentsHtmlDetailActivity_.intent(this)
                             .mProjectObjectId(projectId)
                             .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .start();
-                } else if (fileObject.isTxt()) {
+                } else if (AttachmentFileObject.isTxt(fileObject.fileType)) {
                     AttachmentsTextDetailActivity_.intent(this)
                             .mProjectObjectId(projectId)
                             .mAttachmentFolderObject(folder)

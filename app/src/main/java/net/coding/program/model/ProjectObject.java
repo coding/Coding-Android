@@ -46,20 +46,20 @@ public class ProjectObject implements Serializable {
     private DynamicObject.Owner owner;
 
     public ProjectObject(JSONObject json) throws JSONException {
-        backend_project_path = json.optString("backend_project_path");
-        name = json.optString("name");
+        backend_project_path = json.optString("backend_project_path", "");
+        name = json.optString("name", "");
         owner_id = json.optInt("owner_id");
-        owner_user_home = json.optString("owner_user_home");
-        owner_user_name = json.optString("owner_user_name");
-        owner_user_picture = json.optString("owner_user_picture");
-        project_path = json.optString("project_path");
-        ssh_url = json.optString("ssh_url");
-        current_user_role = json.optString("current_user_role");
-        current_user_role_id = json.optString("current_user_role_id");
-        depot_path = json.optString("depot_path");
-        description = json.optString("description");
-        git_url = json.optString("git_url");
-        https_url = json.optString("https_url");
+        owner_user_home = json.optString("owner_user_home", "");
+        owner_user_name = json.optString("owner_user_name", "");
+        owner_user_picture = json.optString("owner_user_picture", "");
+        project_path = json.optString("project_path", "");
+        ssh_url = json.optString("ssh_url", "");
+        current_user_role = json.optString("current_user_role", "");
+        current_user_role_id = json.optString("current_user_role_id", "");
+        depot_path = json.optString("depot_path", "");
+        description = json.optString("description", "");
+        git_url = json.optString("git_url", "");
+        https_url = json.optString("https_url", "");
         icon = Global.replaceHeadUrl(json, "icon");
         id = json.optInt("id");
         created_at = json.optLong("created_at");
@@ -75,7 +75,7 @@ public class ProjectObject implements Serializable {
         is_public = json.optBoolean("is_public");
         stared = json.optBoolean("stared");
         pin = json.optBoolean("pin");
-        fork_path = json.optString("path");
+        fork_path = json.optString("path", "");
         if (json.has("owner")) {
             owner = new DynamicObject.Owner(json.optJSONObject("owner"));
         }

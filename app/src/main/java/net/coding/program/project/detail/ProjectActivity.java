@@ -102,7 +102,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
         if (mJumpParam != null) {
             urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
-            actionBar.setTitle(mJumpParam.mProject);
+            setActionBarTitle(mJumpParam.mProject);
 
             networkImpl = new NetworkImpl(this, this);
             networkImpl.initSetting();
@@ -110,7 +110,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             getNetwork(urlProject, urlProject);
 
         } else if (mProjectObject != null) {
-            actionBar.setTitle(mProjectObject.name);
+            setActionBarTitle(mProjectObject.name);
             initData();
 
         } else {

@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity
             if (!emailString.isEmpty() && !emailValid) {
                 new AlertDialog.Builder(this)
                         .setTitle("激活邮件")
-                        .setMessage(R.string.alert_activity_email)
+                        .setMessage(R.string.alert_activity_email2)
                         .setPositiveButton("重发激活邮件", (dialog, which) -> {
                             Login.resendActivityEmail(MainActivity.this);
                         })

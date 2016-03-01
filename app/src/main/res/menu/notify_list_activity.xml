@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/showNoRead"
-        android:title="查看未读"
-        android:icon="@drawable/ic_menu_notify_read_all"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/showAll"
-        android:title="查看全部"
-        android:icon="@drawable/ic_menu_notify_read_all"
-        app:showAsAction="never" />
+
 
     <item
-        android:id="@+id/markRead"
-        android:title="全部标注已读"
-        android:icon="@drawable/ic_menu_notify_read_all"
-        app:showAsAction="never" />
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_action_overflow"
+        android:title="@string/action_more"
+        app:showAsAction="always">
+        <menu>
 
+            <item
+                android:id="@+id/showNoRead"
+                android:icon="@drawable/ic_menu_notify_no_read"
+                android:title="查看未读"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/showAll"
+                android:icon="@drawable/ic_menu_notify_no_read"
+                android:title="查看全部"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/markRead"
+                android:icon="@drawable/ic_menu_notify_read_all"
+                android:title="全部标注已读"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 </menu>

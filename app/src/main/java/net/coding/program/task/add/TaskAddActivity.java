@@ -860,6 +860,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
                 commentAdpter.notifyDataSetChanged();
                 updateDynamicFromNetwork();
+                updateRefResourceNetwork();
             } else {
                 showErrorMsg(code, respanse);
             }

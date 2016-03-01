@@ -75,7 +75,7 @@
                     android:layout_marginRight="@dimen/padding_15"
                     android:gravity="center_horizontal"
                     android:textColor="@color/font_black_6"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     tools:text="码市用户" />
 
             </LinearLayout>

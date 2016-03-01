@@ -118,10 +118,10 @@ public class GitViewActivity extends BackActivity {
 //        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
     }
 
-    @OptionsItem
-    void action_commit() {
-
-    }
+//    @OptionsItem
+//    void action_commit() {
+//
+//    }
 
     @OnActivityResult(RESULT_EDIT)
     void onResultEdit(int resultCode, @OnActivityResult.Extra GitFileBlobObject resultData) {

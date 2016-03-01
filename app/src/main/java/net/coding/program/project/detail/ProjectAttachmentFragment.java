@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,7 +25,6 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.umeng.UmengEvent;
@@ -133,15 +131,9 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         }
     };
 
-    //@OptionsItem
-    //void action_edit_folder(){
-    //    doEdit();
-    //}
     /**
      * 弹出框
      */
-    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;
-    //private AttachmentFolderObject selectedFolderObject = null;
     private int selectedPosition;
     BaseAdapter adapter = new BaseAdapter() {
         private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
@@ -154,7 +146,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         private View.OnClickListener onMoreClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPop(view, (Integer) view.getTag());
+                showPop((Integer) view.getTag());
             }
         };
 
@@ -221,41 +213,25 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             return convertView;
         }
     };
-    private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            switch (position) {
-                case 0:
-                    //showButtomToast("rename");
-                    doRename(selectedPosition, mData.get(selectedPosition));
-                    break;
-                case 1:
-                    //showButtomToast("delete");
-                    AttachmentFolderObject selectedFolderObject = mData.get(selectedPosition);
-                    if (selectedFolderObject.isDeleteable()) {
-                        action_delete_single(selectedFolderObject);
-                    } else {
-                        showButtomToast("请先清空文件夹");
-                        return;
-                    }
-                    break;
-            }
-            mAttachmentPopupWindow.dismiss();
-        }
-    };
 
     @AfterViews
     protected void init() {
         // 根目录下不能上传文件
-        getView().findViewById(R.id.common_folder_bottom_upload).setEnabled(false);
-        Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_upload_disable);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        ((TextView) getView().findViewById(R.id.textUploadFile)).setCompoundDrawables(
-                drawable,
-                null,
-                null,
-                null
-        );
+        View rootLayout = getView();
+        if (rootLayout != null) {
+            rootLayout.findViewById(R.id.common_folder_bottom_upload).setEnabled(false);
+            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_upload_disable);
+
+            if (drawable != null) {
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                ((TextView) rootLayout.findViewById(R.id.textUploadFile)).setCompoundDrawables(
+                        drawable,
+                        null,
+                        null,
+                        null
+                );
+            }
+        }
 
         initRefreshLayout();
 
@@ -280,7 +256,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
 
     @ItemLongClick
     public void listViewItemLongClicked(int position) {
-        showPop(listView, position);
+        showPop(position);
     }
 
     @OnActivityResult(RESULT_REQUEST_FILES)
@@ -461,17 +437,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         input.requestFocus();
     }
 
-    private void doEdit() {
-        if (mActionMode != null) {
-            return;
-        }
-
-        // Start the CAB using the ActionMode.Callback defined above
-        mActionMode = getActivity().startActionMode(mActionModeCallback);
-        setListEditMode(true);
-        //view.setSelected(true);
-    }
-
     private void setListEditMode(boolean isEditMode) {
         this.isEditMode = isEditMode;
         adapter.notifyDataSetChanged();
@@ -534,18 +499,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         adapter.notifyDataSetChanged();
     }
 
-//    public void initBottomPop() {
-//        if (mAttachmentPopupWindow == null) {
-//            ArrayList<DialogUtil.BottomPopupItem> popupItemArrayList = new ArrayList<>();
-//            DialogUtil.BottomPopupItem renameItem = new DialogUtil.BottomPopupItem("重命名", R.drawable.ic_popup_attachment_rename);
-//            popupItemArrayList.add(renameItem);
-//            DialogUtil.BottomPopupItem deleteItem = new DialogUtil.BottomPopupItem("删除", R.drawable.ic_popup_attachment_delete_selector);
-//            popupItemArrayList.add(deleteItem);
-//            mAttachmentPopupWindow = DialogUtil.initBottomPopupWindow(getActivity(), "", popupItemArrayList, onPopupItemClickListener);
-//        }
-//    }
-
-    public void showPop(View view, final int position) {
+    public void showPop(final int position) {
         if (position == 0) {
             return;
         }
@@ -554,22 +508,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
 //        }
         selectedPosition = position;
         AttachmentFolderObject selectedFolderObject = mData.get(selectedPosition);
-//        DialogUtil.BottomPopupItem renameItem = mAttachmentPopupWindow.adapter.getItem(0);
-//        DialogUtil.BottomPopupItem deleteItem = mAttachmentPopupWindow.adapter.getItem(1);
-//        if (selectedFolderObject.file_id.equals("0")) {
-//            renameItem.enabled = false;
-//            deleteItem.enabled = false;
-//        } else if (selectedFolderObject.count != 0) {
-//            renameItem.enabled = true;
-//            deleteItem.enabled = false;
-//        } else {
-//            renameItem.enabled = true;
-//            deleteItem.enabled = true;
-//        }
-//        mAttachmentPopupWindow.adapter.notifyDataSetChanged();
-//        mAttachmentPopupWindow.tvTitle.setText(selectedFolderObject.name);
-//
-//        mAttachmentPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 
         String[] itemTitles;
@@ -581,23 +519,21 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             itemTitles = new String[]{"重命名", "删除"};
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setItems(itemTitles, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                AttachmentFolderObject itemData = mData.get(position);
-                if (which == 0) {
-                    doRename(selectedPosition, mData.get(selectedPosition));
-                } else {
-                    AttachmentFolderObject selectedFolderObject = mData.get(selectedPosition);
-                    if (selectedFolderObject.isDeleteable()) {
-                        action_delete_single(selectedFolderObject);
+        new AlertDialog.Builder(getActivity())
+                .setItems(itemTitles, (dialog, which) -> {
+                    AttachmentFolderObject itemData = mData.get(position);
+                    if (which == 0) {
+                        doRename(selectedPosition, mData.get(selectedPosition));
                     } else {
-                        showButtomToast("请先清空文件夹");
+                        AttachmentFolderObject selectedFolderObject1 = mData.get(selectedPosition);
+                        if (selectedFolderObject1.isDeleteable()) {
+                            action_delete_single(selectedFolderObject1);
+                        } else {
+                            showButtomToast("请先清空文件夹");
+                        }
                     }
-                }
-            }
-        });
-        builder.show();
+                })
+                .show();
     }
 
     @Override

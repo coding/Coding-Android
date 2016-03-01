@@ -32,6 +32,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
@@ -297,10 +298,27 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         if (mHideHistoryLayout) {
             layout_dynamic_history.setVisibility(View.INVISIBLE);
         }
+
+        if (mProject == null) {
+            layout_dynamic_history.setEnabled(false);
+            String url = Global.HOST_API + "/project/" + mProjectObjectId;
+            MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    super.onMySuccess(response);
+                    try {
+                        mProject = new ProjectObject(response.optJSONObject("data"));
+                        layout_dynamic_history.setEnabled(true);
+                    } catch (Exception e) {
+                        Global.errorLog(e);
+                    }
+                }
+            });
+        }
     }
 
     private void jumpTextHtmlActivity() {
-        if (mAttachmentFileObject.isMd()) {
+        if (AttachmentFileObject.isMd(mAttachmentFileObject.fileType)) {
             AttachmentsHtmlDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
@@ -309,7 +327,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                     .mHideHistory(mHideHistoryLayout)
                     .mProject(mProject)
                     .startForResult(RESULT_EDIT_FILE);
-        } else if (mAttachmentFileObject.isTxt()) {
+        } else if (AttachmentFileObject.isTxt(mAttachmentFileObject.fileType)) {
             AttachmentsTextDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)

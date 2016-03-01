@@ -115,13 +115,21 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 
     }
 
+    boolean enableScan = true;
+
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
         Log.d("", "scan " + s);
+        if (!enableScan) {
+            return;
+        }
+
         // 可能调用多次，所以做个检测
         if (isFinishing()) {
             return;
         }
+
+        enableScan = false;
 
         if (getIntent().getBooleanExtra(EXTRA_OPEN_URL, false)) {
             Uri uri = Uri.parse(s);
@@ -143,6 +151,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
                             }
                         })
                         .setNegativeButton("取消", null)
+                        .setOnDismissListener(dialog -> enableScan = true)
                         .show();
             }
 
@@ -152,6 +161,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
                     mToast = Toast.makeText(this, "不符合要求的二维码", Toast.LENGTH_SHORT);
                 }
                 mToast.show();
+                enableScan = true;
                 return;
             }
 

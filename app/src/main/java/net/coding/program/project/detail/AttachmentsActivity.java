@@ -22,27 +22,23 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
-import net.coding.program.LoginActivity_;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.widget.FileListHeadItem;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -64,7 +60,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -77,7 +72,7 @@ import java.util.regex.Pattern;
  */
 @EActivity(R.layout.activity_attachments)
 //@OptionsMenu(R.menu.project_attachment_file)
-public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore {
+public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
     public static final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
@@ -106,8 +101,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     boolean mNoMore = false;
     @ViewById
     ListView listView;
-    @ViewById
-    RelativeLayout uploadLayout;
+//    @ViewById
+//    RelativeLayout uploadLayout;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
     @ViewById
@@ -116,28 +111,28 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     View folder_actions_layout;
     @ViewById
     View files_actions_layout;
-    @ViewById
-    ImageView uploadCloseBtn;
-    @ViewById
-    TextView uploadDoneHint;
-    @ViewById
-    TextView uploadLeftHint;
-    @ViewById
-    TextView uploadRightHint;
-    @ViewById
-    TextView uploadMiddleHint;
-    @ViewById
-    RelativeLayout uploadDoneLayout;
-    @ViewById
-    RelativeLayout uploadStatusLayout;
-    @ViewById
-    ImageView uploadStatusProgress;
-    @ViewById
-    ImageView uploadStatusProgressRemain;
-    @ViewById
-    RelativeLayout uploadFailureLayout;
-    @ViewById
-    ImageView uploadFailureCloseBtn;
+//    @ViewById
+//    ImageView uploadCloseBtn;
+//    @ViewById
+//    TextView uploadDoneHint;
+//    @ViewById
+//    TextView uploadLeftHint;
+//    @ViewById
+//    TextView uploadRightHint;
+//    @ViewById
+//    TextView uploadMiddleHint;
+//    @ViewById
+//    RelativeLayout uploadDoneLayout;
+//    @ViewById
+//    RelativeLayout uploadStatusLayout;
+//    @ViewById
+//    ImageView uploadStatusProgress;
+//    @ViewById
+//    ImageView uploadStatusProgressRemain;
+//    @ViewById
+//    RelativeLayout uploadFailureLayout;
+//    @ViewById
+//    ImageView uploadFailureCloseBtn;
     LinearLayout.LayoutParams barParams;
     LinearLayout.LayoutParams barParamsRemain;
     ActionMode mActionMode;
@@ -157,7 +152,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
     private HashMap<String, Integer> fileCountMap = new HashMap<>();
-    private boolean isUploading = false;
     private String uploadHitMiddleFormat = "%s%%";
     //    private String uploadHitCompleteFormat = "上传完成，本次共上传%s个文件";
 //    private String uploadHitLeftFormat = "正在上传%s项";
@@ -169,22 +163,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         public int getCount() {
             return mFilesArray.size();
         }
-
-        /*private View.OnClickListener btnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AttachmentFileObject data = (AttachmentFileObject) v.getTag();
-                if (data.isImage()) {
-                    AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                } else if (data.isHtml() || data.isMd()) {
-                    AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                } else if (data.isTxt()) {
-                    AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                } else {
-                    AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-                }
-            }
-        };*/
 
         @Override
         public Object getItem(int position) {
@@ -456,33 +434,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
-                /*case R.id.action_delete:
-                    action_delete();
-                    return true;*/
                 case R.id.action_all:
                     action_all();
                     return true;
                 case R.id.action_inverse:
                     action_inverse();
                     return true;
-//                case R.id.action_move:
-//                    action_move();
-//                    return true;
-//
-//                case R.id.action_download:
-//                    action_download();
-//                    return true;
-//
-//                case R.id.action_delete:
-//                    if (isChooseOthers()) {
-//                        showButtomToast("不要选择别人上传的文件");
-//                    } else {
-//                        action_delete();
-//                    }
-//                    return true;
-                /*case R.id.action_move:
-                    action_move();
-                    return true;*/
                 case R.id.action_more:
                     showRightTopPop();
                     return true;
@@ -538,20 +495,23 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         return true;
     }
 
+    ViewGroup listHead;
+
     @AfterViews
     final void initAttachmentsActivity() {
-        uploadLayout.setVisibility(View.GONE);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mAttachmentFolderObject.name);
+//        uploadLayout.setVisibility(View.GONE);
+        setActionBarTitle(mAttachmentFolderObject.name);
 
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFolderObject.file_id);
         urlUpload = String.format(urlUpload, mProjectObjectId);
-        barParams = (LinearLayout.LayoutParams) uploadStatusProgress.getLayoutParams();
-        barParamsRemain = (LinearLayout.LayoutParams) uploadStatusProgressRemain.getLayoutParams();
+//        barParams = (LinearLayout.LayoutParams) uploadStatusProgress.getLayoutParams();
+//        barParamsRemain = (LinearLayout.LayoutParams) uploadStatusProgressRemain.getLayoutParams();
 
         HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObjectId);
 
         mFootUpdate.init(listView, mInflater, this);
+        listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
+        listView.addHeaderView(listHead, null, false);
         listView.setAdapter(adapter);
 
         initBottomPop();
@@ -582,7 +542,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     @ItemClick
-    void listViewItemClicked(int position) {
+    void listViewItemClicked(int pos) {
+        int position = pos - 1; // 由于 addHeader 后, pos 是以 header 开始计算
         AttachmentFileObject data = mFilesArray.get(position);
 
         if (isEditMode) {
@@ -627,7 +588,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     private void jumpToDetail(AttachmentFileObject data) {
-        if (data.isTxt()) {
+        if (AttachmentFileObject.isTxt(data.fileType)) {
             AttachmentsTextDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
@@ -636,7 +597,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     .mProject(mProject)
                     .startForResult(FILE_DELETE_CODE);
 
-        } else if (data.isMd()) {
+        } else if (AttachmentFileObject.isMd(data.fileType)) {
             AttachmentsHtmlDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
@@ -666,9 +627,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     @ItemLongClick
     void listViewItemLongClicked(int position) {
-        showPop(null, position);
+        showPop(null, position - 1);
     }
-
 
     /**
      * 获取当前文档列表中的所有图片文档，提供给AttachmentsPicDetailActivity
@@ -859,9 +819,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     @Click
     protected final void common_folder_bottom_upload() {
-        if (isUploading) {
-            return;
-        }
+//        if (isUploading) {
+//            return;
+//        }
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -889,96 +849,71 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     private void uploadFile(File selectedFile) {
+//        showUploadStatus(UploadStatus.Uploading);
 
-        try {
-            RequestParams params = new RequestParams();
-            params.put("dir", mAttachmentFolderObject.file_id);
-            params.put("file", selectedFile);
+        FileListHeadItem uploadItemView = new FileListHeadItem(AttachmentsActivity.this);
+        listHead.addView(uploadItemView);
 
-            isUploading = true;
-
-            showUploadStatus(UploadStatus.Uploading);
-
-            AsyncHttpClient client = MyAsyncHttpClient.createClient(AttachmentsActivity.this);
-
-            JsonHttpResponseHandler jsonHttpResponseHandler = new JsonHttpResponseHandler() {
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    if (AttachmentsActivity.this.isFinishing()) {
-                        return;
-                    }
-                    Log.v(TAG, "onSuccess");
-                    try {
-                        int code = response.getInt("code");
-
-                        if (code == 1000) {
-                            AttachmentsActivity.this.startActivity(new Intent(AttachmentsActivity.this, LoginActivity_.class));
-                        }
-                        if (code == 0) {
-                            umengEvent(UmengEvent.FILE, "上传文件");
-                            AttachmentFileObject newFile = new AttachmentFileObject(response.getJSONObject("data"));
-                            setDownloadStatus(newFile);
-
-                            int i = 0;
-                            for (; i < mFilesArray.size(); ++i) {
-                                AttachmentFileObject item = mFilesArray.get(i);
-                                String itemName = item.getName();
-                                if (!item.isFolder && itemName.equals(newFile.getName())) {
-                                    mFilesArray.set(i, newFile);
-                                    break;
-                                }
-                            }
-                            if (i == mFilesArray.size()) {
-                                mFilesArray.add(mAttachmentFolderObject.sub_folders.size(), newFile);
-                            }
-
-                            adapter.notifyDataSetChanged();
-                            setResult(Activity.RESULT_OK);
-                            showUploadStatus(UploadStatus.Finish);
-                        } else {
-                            showErrorMsg(code, response);
-                        }
-
-                        BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
-
-                    } catch (Exception e) {
-                        Global.errorLog(e);
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    Log.v(TAG, "onFailure");
-                    try {
-                        showErrorMsg(NetworkImpl.NETWORK_ERROR, errorResponse);
-                        showUploadStatus(UploadStatus.Failure);
-                    } catch (Exception e) {
-                        Global.errorLog(e);
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                    Log.v(TAG, "onFinish");
-                    isUploading = false;
-                }
-
-
-                @Override
-                public void onProgress(int bytesWritten, int totalSize) {
-                    Log.v(TAG, String.format("Progress %d from %d (%2.0f%%)", bytesWritten, totalSize, (totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1));
-                    setUploadStatus(bytesWritten, totalSize);
-                }
-            };
-            client.post(urlUpload, params, jsonHttpResponseHandler);
+        FileListHeadItem.Param param = new FileListHeadItem.Param(urlUpload,
+                mAttachmentFolderObject.file_id, selectedFile);
+        uploadItemView.setData(param, this, getImageLoad());
 
 //            client.setTimeout(60 * 60 * 1000); // 超时设为60分钟
 
-        } catch (FileNotFoundException e) {
-            showButtomToast("文件未找到");
-        }
 
+    }
+
+    @Override
+    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+        if (AttachmentsActivity.this.isFinishing()) {
+            return;
+        }
+        Log.v(TAG, "onSuccess");
+        try {
+            int code = response.getInt("code");
+
+            if (code == 0) {
+                umengEvent(UmengEvent.FILE, "上传文件");
+                AttachmentFileObject newFile = new AttachmentFileObject(response.getJSONObject("data"));
+                setDownloadStatus(newFile);
+
+                int i = 0;
+                for (; i < mFilesArray.size(); ++i) {
+                    AttachmentFileObject item = mFilesArray.get(i);
+                    String itemName = item.getName();
+                    if (!item.isFolder && itemName.equals(newFile.getName())) {
+                        mFilesArray.set(i, newFile);
+                        break;
+                    }
+                }
+                if (i == mFilesArray.size()) {
+                    mFilesArray.add(mAttachmentFolderObject.sub_folders.size(), newFile);
+                }
+
+                adapter.notifyDataSetChanged();
+                setResult(Activity.RESULT_OK);
+//                showUploadStatus(UploadStatus.Finish);
+
+            } else {
+                showErrorMsg(code, response);
+            }
+
+            BlankViewDisplay.setBlank(mFilesArray.size(), this, code == 0, blankLayout, mClickReload);
+
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
+    @Override
+    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+        Log.v(TAG, "onFailure");
+        try {
+            showErrorMsg(NetworkImpl.NETWORK_ERROR, errorResponse);
+//            showUploadStatus(UploadStatus.Failure);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
     }
 
     private String getHttpFileExist(String name, AttachmentFolderObject folder) {
@@ -991,63 +926,63 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 encodeName;
     }
 
-    private void showUploadStatus(UploadStatus status) {
-        switch (status) {
-            case Uploading:
-                uploadFailureLayout.setVisibility(View.GONE);
-                barParams.weight = 0;
-                uploadStatusProgress.requestLayout();
-                uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, 0));
-                barParamsRemain.weight = 100;
-                uploadStatusProgressRemain.requestLayout();
-                uploadDoneLayout.setVisibility(View.GONE);
-                uploadStatusLayout.setVisibility(View.VISIBLE);
-                uploadLayout.setVisibility(View.VISIBLE);
-                uploadStartTime = System.currentTimeMillis();
-                break;
-            case Finish:
-                uploadFailureLayout.setVisibility(View.GONE);
-                uploadDoneLayout.setVisibility(View.VISIBLE);
-                uploadStatusLayout.setVisibility(View.GONE);
-                uploadLayout.setVisibility(View.VISIBLE);
-                barParams.weight = 100;
-                uploadStatusProgress.requestLayout();
-                barParamsRemain.weight = 0;
-                uploadStatusProgressRemain.requestLayout();
-                break;
-            case Failure:
-                uploadFailureLayout.setVisibility(View.VISIBLE);
-                uploadDoneLayout.setVisibility(View.GONE);
-                uploadStatusLayout.setVisibility(View.GONE);
-                uploadLayout.setVisibility(View.VISIBLE);
-                barParams.weight = 100;
-                uploadStatusProgress.requestLayout();
-                barParamsRemain.weight = 0;
-                uploadStatusProgressRemain.requestLayout();
-                break;
-            case Close:
-                uploadLayout.setVisibility(View.GONE);
-                break;
+//    private void showUploadStatus(UploadStatus status) {
+//        switch (status) {
+//            case Uploading:
+//                uploadFailureLayout.setVisibility(View.GONE);
+//                barParams.weight = 0;
+//                uploadStatusProgress.requestLayout();
+//                uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, 0));
+//                barParamsRemain.weight = 100;
+//                uploadStatusProgressRemain.requestLayout();
+//                uploadDoneLayout.setVisibility(View.GONE);
+//                uploadStatusLayout.setVisibility(View.VISIBLE);
+//                uploadLayout.setVisibility(View.VISIBLE);
+//                uploadStartTime = System.currentTimeMillis();
+//                break;
+//            case Finish:
+//                uploadFailureLayout.setVisibility(View.GONE);
+//                uploadDoneLayout.setVisibility(View.VISIBLE);
+//                uploadStatusLayout.setVisibility(View.GONE);
+//                uploadLayout.setVisibility(View.VISIBLE);
+//                barParams.weight = 100;
+//                uploadStatusProgress.requestLayout();
+//                barParamsRemain.weight = 0;
+//                uploadStatusProgressRemain.requestLayout();
+//                break;
+//            case Failure:
+//                uploadFailureLayout.setVisibility(View.VISIBLE);
+//                uploadDoneLayout.setVisibility(View.GONE);
+//                uploadStatusLayout.setVisibility(View.GONE);
+//                uploadLayout.setVisibility(View.VISIBLE);
+//                barParams.weight = 100;
+//                uploadStatusProgress.requestLayout();
+//                barParamsRemain.weight = 0;
+//                uploadStatusProgressRemain.requestLayout();
+//                break;
+//            case Close:
+//                uploadLayout.setVisibility(View.GONE);
+//                break;
+//
+//        }
+//    }
 
-        }
-    }
+//    @Click({R.id.uploadCloseBtn, R.id.uploadFailureCloseBtn})
+//    void closeUploadBar() {
+//        showUploadStatus(UploadStatus.Close);
+//    }
 
-    @Click({R.id.uploadCloseBtn, R.id.uploadFailureCloseBtn})
-    void closeUploadBar() {
-        showUploadStatus(UploadStatus.Close);
-    }
-
-    private void setUploadStatus(long bytesWritten, long totalSize) {
-        long uploadCurTime = System.currentTimeMillis();
-        int progress = (int) ((totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1);//bytesWritten * 100 /totalSize ;
-        uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, progress));
-        barParams.weight = progress;
-        uploadStatusProgress.requestLayout();
-        barParamsRemain.weight = 100 - progress;
-        uploadStatusProgressRemain.requestLayout();
-        uploadRightHint.setText(String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
-        Log.d(TAG, barParams.weight + " " + barParamsRemain.weight + " " + (bytesWritten / (uploadCurTime - uploadStartTime) * 1000) + " " + String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
-    }
+//    private void setUploadStatus(long bytesWritten, long totalSize) {
+//        long uploadCurTime = System.currentTimeMillis();
+//        int progress = (int) ((totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1);//bytesWritten * 100 /totalSize ;
+//        uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, progress));
+//        barParams.weight = progress;
+//        uploadStatusProgress.requestLayout();
+//        barParamsRemain.weight = 100 - progress;
+//        uploadStatusProgressRemain.requestLayout();
+//        uploadRightHint.setText(String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
+//        Log.d(TAG, barParams.weight + " " + barParamsRemain.weight + " " + (bytesWritten / (uploadCurTime - uploadStartTime) * 1000) + " " + String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
+//    }
 
     @OnActivityResult(FILE_DELETE_CODE)
     void onFileResult(int resultCode, Intent data) {

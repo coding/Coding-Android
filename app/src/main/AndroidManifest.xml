@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="107"
+    android:versionCode="108"
     android:versionName="3.8">
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -885,6 +885,10 @@
         <activity
             android:name=".project.git.EditCodeActivity_"
             android:label="@string/title_activity_edit_code"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.SetGlobalKeyActivity_"
+            android:label="@string/title_activity_set_global_key"
             android:screenOrientation="portrait" />
     </application>
 

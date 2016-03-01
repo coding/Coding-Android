@@ -2,17 +2,12 @@ package net.coding.program.login.phone;
 
 import android.view.View;
 
-import com.loopj.android.http.RequestParams;
-
 import net.coding.program.R;
-import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.InputRequest;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
-import net.coding.program.common.widget.ValidePhoneView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -20,7 +15,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONObject;
 
 @EActivity(R.layout.activity_input_account)
 public class InputAccountActivity extends BackActivity {
@@ -56,40 +50,39 @@ public class InputAccountActivity extends BackActivity {
                     .account(account)
                     .startForResult(RESULT_SET_PASSWORD);
         } else if (InputCheck.isPhone(account)) {
-            validePhone(account);
+            sendCode(account);
         } else {
             showMiddleToast("输入格式有误");
         }
     }
 
-    private void validePhone(String account) {
-        sendCode(account);
-    }
-
     void sendCode(String phone) {
         if (!InputCheck.checkPhone(InputAccountActivity.this, phone)) return;
 
-        String url = ValidePhoneView.RESET_SEND_MESSAGE_URL;
-        RequestParams params = new RequestParams();
-        params.put("account", phone);
-        MyAsyncHttpClient.post(InputAccountActivity.this, url, params, new MyJsonResponse(InputAccountActivity.this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                showMiddleToast("已发送短信");
-                PhoneSetPasswordActivity_.intent(InputAccountActivity.this)
-                        .account(phone)
-                        .startForResult(RESULT_SET_PASSWORD);
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                showProgressBar(false, "");
-            }
-        });
-
-        showProgressBar(true, "");
+//        String url = ValidePhoneView.RESET_SEND_MESSAGE_URL;
+//        RequestParams params = new RequestParams();
+//        params.put("account", phone);
+//        MyAsyncHttpClient.post(InputAccountActivity.this, url, params, new MyJsonResponse(InputAccountActivity.this) {
+//            @Override
+//            public void onMySuccess(JSONObject response) {
+//                super.onMySuccess(response);
+//                showMiddleToast("已发送短信");
+//                PhoneSetPasswordActivity_.intent(InputAccountActivity.this)
+//                        .account(phone)
+//                        .startForResult(RESULT_SET_PASSWORD);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                super.onFinish();
+//                showProgressBar(false, "");
+//            }
+//        });
+//
+//        showProgressBar(true, "");
+        PhoneSetPasswordActivity_.intent(InputAccountActivity.this)
+                .account(phone)
+                .startForResult(RESULT_SET_PASSWORD);
     }
 
 

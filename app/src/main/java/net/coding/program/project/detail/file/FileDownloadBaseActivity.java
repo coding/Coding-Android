@@ -1,10 +1,7 @@
 package net.coding.program.project.detail.file;
 
 import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -45,13 +42,11 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
     private DownloadManager downloadManager;
     private DownloadManagerPro downloadManagerPro;
     private DownloadChangeObserver downloadObserver;
-    private CompleteReceiver completeReceiver;
     private MyHandler handler;
     private WeakRefHander mUpdateDownloadHandler;
     private ArrayList<AttachmentFileObject> downloadFiles;
     private SharedPreferences.Editor downloadListEditor;
     private SharedPreferences downloadList;
-
 
     abstract public void checkFileDownloadStatus();
 
@@ -70,9 +65,7 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
         downloadList = getSharedPreferences(FileUtil.DOWNLOAD_LIST, Context.MODE_PRIVATE);
         downloadListEditor = downloadList.edit();
 
-        completeReceiver = new CompleteReceiver();
         /** register download success broadcast **/
-        registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         share = getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
 
@@ -81,7 +74,6 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(completeReceiver);
         super.onDestroy();
     }
 
@@ -104,38 +96,6 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
         checkFileDownloadStatus1();
         return true;
     }
-//
-//    @Background
-//    void backgroundUpdate(long downloadId) {
-//        boolean downloading = true;
-//        while (downloading) {
-//            DownloadManager.Query q = new DownloadManager.Query().setFilterById(downloadId);
-//            Cursor cursor = downloadManager.query(q);
-//            if (cursor != null) {
-//                if (cursor.moveToFirst()) {
-//                    int bytes_downloaded = cursor.getInt(cursor
-//                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-//                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-//
-//                    final double dl_progress = bytes_downloaded * 100 / bytes_total;
-//                    Log.d("", String.format("progress1 %d %d %f", bytes_downloaded, bytes_total, dl_progress));
-//                    updateProgress(dl_progress);
-//
-//                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-//                        downloading = false;
-//                    }
-//                }
-//                cursor.close();
-//            }
-//        }
-//    }
-//
-//    @UiThread
-//    void updateProgress(double progress) {
-////        mProgressBar.setProgress((int) dl_progress);
-////        Log.d("", "progress " + progress);
-//        checkFileDownloadStatus();
-//    }
 
     protected void updateFileDownloadStatus(AttachmentFileObject mFileObject) {
         if (mFileObject.downloadId != 0L) {
@@ -284,17 +244,6 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
             checkFileDownloadStatus();
         }
 
-    }
-
-    class CompleteReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-//            if (completeDownloadId != -1) {
-//                showMiddleToast(completeDownloadId + " id");
-//            }
-        }
     }
 
     private class MyHandler extends Handler {

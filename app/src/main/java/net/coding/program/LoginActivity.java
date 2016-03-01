@@ -405,7 +405,6 @@ public class LoginActivity extends BaseActivity {
 
                 sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
-                ;
                 startActivity(new Intent(LoginActivity.this, MainActivity_.class));
             } else {
                 showProgressBar(false);

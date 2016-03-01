@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.login.SetGlobalKeyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="您还未设置过用户名(个性后缀)\n 设置后才能正常登录!"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/font_black_9"
+            android:lineSpacingExtra="3dp"
+            android:textSize="14sp"
+            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <net.coding.program.common.widget.LoginEditText
+                    android:id="@+id/globalKeyEdit"
+                    style="@style/EmailEdit"
+                    app:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+                    app:hint="用户名(个性后缀)"
+                    app:topLine="false" />
+
+                <include layout="@layout/divide_10_top_bottom" />
+
+
+            </LinearLayout>
+
+
+        <Button
+            android:id="@+id/loginButton"
+            style="@style/SendButton"
+            android:enabled="true"
+            android:text="马上设置" />
+
+    </LinearLayout>
+</ScrollView>

@@ -60,7 +60,6 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
         sendCode.setUrl(ValidePhoneView.RESET_SEND_MESSAGE_URL);
         sendCode.setPhoneString(account);
-        sendCode.startTimer();
 
         phoneEdit.addTextChangedListener(new SimpleTextWatcher() {
             @Override
