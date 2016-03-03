@@ -1,6 +1,5 @@
 package net.coding.program.login.phone;
 
-import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 
@@ -37,12 +36,7 @@ public class PhoneSetPasswordActivity extends BackActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
             new AlertDialog.Builder(this)
                     .setTitle("不激活就无法使用 Coding，确定放弃?")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
+                    .setPositiveButton("确定", (dialog, which) -> finish())
                     .setNegativeButton("取消", null)
                     .show();
         } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
