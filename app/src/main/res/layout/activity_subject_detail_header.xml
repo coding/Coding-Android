@@ -3,47 +3,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/gray_dark"
-        android:paddingBottom="20dp"
-        android:paddingLeft="@dimen/padding_12"
-        android:paddingRight="@dimen/padding_12"
-        android:paddingTop="20dp">
-
-        <TextView
-            android:id="@+id/subject_detail_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="#我最爱的编程语言#"
-            android:textColor="@color/font_black_2"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/subject_detail_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/subject_detail_title"
-            android:layout_marginTop="8dp"
-            android:text="84人参与 / 92人关注"
-            android:textColor="@color/font_black_9"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/subject_detail_follow_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/topic_follow"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textColor="@color/white" />
-
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

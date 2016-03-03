@@ -42,14 +42,12 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     int topicId;
 
     View mListHeaderView;
+    TextView mSubjectDetailJoin;
 
     @Override
     protected void setActionTitle() {
     }
 
-    private TextView mSubjectNameTv;
-    private TextView mSubjectDescTv;
-    private TextView mFollowTv;
     private TextView mJoinedPeopleTv;
     private FlowLayout mAllJoinedPeopleLayout;
 
@@ -57,15 +55,6 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.subject_detail_follow_btn:
-                    if (subjectDescObject != null) {
-                        if (subjectDescObject.watched) {
-                            deleteNetwork(String.format(topicUnWatchUrl, subjectDescObject.id), topicUnWatchUrl);
-                        } else {
-                            postNetwork(String.format(topicWatchUrl, subjectDescObject.id), null, topicWatchUrl);
-                        }
-                    }
-                    break;
                 case R.id.subject_detail_view_all:
                     if (subjectDescObject != null)
                         SubjectUsersActivity_.intent(getActivity()).topicId(subjectDescObject.id).start();
@@ -83,11 +72,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     @Override
     protected void initMaopaoType() {
         mListHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_subject_detail_header, null);
-        mSubjectNameTv = (TextView) mListHeaderView.findViewById(R.id.subject_detail_title);
-        mSubjectDescTv = (TextView) mListHeaderView.findViewById(R.id.subject_detail_desc);
-        mFollowTv = (TextView) mListHeaderView.findViewById(R.id.subject_detail_follow_btn);
         mJoinedPeopleTv = (TextView) mListHeaderView.findViewById(R.id.subject_detail_view_all);
-        mFollowTv.setOnClickListener(mOnClickListener);
+        mSubjectDetailJoin = (TextView) mListHeaderView.findViewById(R.id.subject_detail_join);
         mJoinedPeopleTv.setOnClickListener(mOnClickListener);
 
         mAllJoinedPeopleLayout = (FlowLayout) mListHeaderView.findViewById(R.id.subject_detail_all_join);
@@ -117,19 +103,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
 
     private void fillHeaderViewData() {
         if (subjectDescObject != null) {
-            mSubjectNameTv.setText("#" + subjectDescObject.name + "#");
-            mSubjectDescTv.setText(String.format("%s人参与/%s人关注", subjectDescObject.speackers, subjectDescObject.watchers));
-            // 更新topic的关注状态
-            updateTopicFollowState();
-        }
-    }
-
-    private void updateTopicFollowState() {
-        if (subjectDescObject != null) {
-            if (subjectDescObject.watched)
-                mFollowTv.setBackgroundResource(R.drawable.topic_unfollow);
-            else
-                mFollowTv.setBackgroundResource(R.drawable.topic_follow);
+            getActionBarActivity().setTitle("#" + subjectDescObject.name + "#");
+            mSubjectDetailJoin.setText(String.format("%s人参与", subjectDescObject.speackers));
         }
     }
 
@@ -224,7 +199,6 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
             if (code == 0) {
                 if (subjectDescObject != null) {
                     subjectDescObject.watched = true;
-                    updateTopicFollowState();
                 }
             } else {
                 showErrorMsg(code, respanse);
@@ -233,7 +207,6 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
             if (code == 0) {
                 if (subjectDescObject != null) {
                     subjectDescObject.watched = false;
-                    updateTopicFollowState();
                 }
             } else {
                 showErrorMsg(code, respanse);
