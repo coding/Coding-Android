@@ -429,7 +429,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginFail(int code, JSONObject respanse) {
-        String msg = Global.getErrorMsg(respanse);
+        String msg = Global.getErrorMsg(respanse).replaceAll("<li>(.*?)</li>", "\n$1");
         showMiddleToast(msg);
         showProgressBar(false);
         if (code != NetworkImpl.NETWORK_ERROR &&
