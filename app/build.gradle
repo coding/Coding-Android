@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -81,6 +82,7 @@ dependencies {
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile files('libs/Xg_sdk_v2.42_20160111_1539.jar')
+//    compile 'com.google.android.gms:play-services-analytics:8.1.0'
 }
 
 buildscript {

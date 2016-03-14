@@ -296,6 +296,8 @@ public class LoginActivity extends BaseActivity {
         params.put("code", input);
         postNetwork(HOST_USER_NEED_2FA, params, HOST_USER_NEED_2FA);
         showProgressBar(true, "登录中");
+
+        Global.popSoftkeyboard(this, edit2FA, false);
     }
 
     private void login() {
@@ -381,14 +383,14 @@ public class LoginActivity extends BaseActivity {
                 showProgressBar(false);
 
             } else {
-                loginFail(code, respanse);
+                loginFail(code, respanse, true);
             }
 
         } else if (tag.equals(HOST_USER_NEED_2FA)) {
             if (code == 0) {
                 loginSuccess(respanse);
             } else {
-                loginFail(code, respanse);
+                loginFail(code, respanse, false);
             }
         } else if (tag.equals(HOST_USER)) {
             if (code == 0) {
@@ -428,12 +430,13 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private void loginFail(int code, JSONObject respanse) {
+    private void loginFail(int code, JSONObject respanse, boolean needCaptcha) {
         String msg = Global.getErrorMsg(respanse).replaceAll("<li>(.*?)</li>", "\n$1");
         showMiddleToast(msg);
         showProgressBar(false);
         if (code != NetworkImpl.NETWORK_ERROR &&
-                code != NetworkImpl.NETWORK_ERROR_SERVICE) {
+                code != NetworkImpl.NETWORK_ERROR_SERVICE &&
+                needCaptcha) {
             needCaptcha();
         }
     }

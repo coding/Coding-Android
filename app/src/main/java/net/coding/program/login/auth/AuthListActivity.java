@@ -134,6 +134,8 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
 
         if (id == R.id.action_add) {
             Intent intent = new Intent(this, QRScanActivity.class);
+            intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, false);
+
             startActivityForResult(intent, RESULT_ADD_ACCOUNT);
             return true;
         } else if (id == android.R.id.home) {
