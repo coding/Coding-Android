@@ -418,20 +418,31 @@ public class ContentAreaImages extends ContentAreaBase {
         }
 
         int min = Math.min(uris.size(), images.length);
-        int i = 0;
-        for (; i < min; ++i) {
-            images[i].setVisibility(View.VISIBLE);
-            images[i].setTag(new MaopaoListFragment.ClickImageParam(uris, i, false));
-            if (images[i] instanceof GifMarkImageView) {
-                ((GifMarkImageView) images[i]).showGifFlag(uris.get(i));
-            }
 
-            imageLoad.loadImage(images[i], uris.get(i), imageOptions);
+        ImageView[] displayImages = images;
+        if (min == 4) { // 4 张图的时候显示做特殊处理
+            displayImages = new ImageView[]{
+                    images[0], images[1], images[3], images[4]
+            };
         }
 
-        for (; i < itemImagesMaxCount; ++i) {
-            images[i].setVisibility(View.GONE);
+        for (ImageView imageView : images) {
+            imageView.setVisibility(View.GONE);
         }
+
+        for (int i = 0; i < min; ++i) {
+            displayImage(displayImages[i], uris, i);
+        }
+    }
+
+    private void displayImage(ImageView images, ArrayList<String> uris, int pos) {
+        images.setVisibility(View.VISIBLE);
+        images.setTag(new MaopaoListFragment.ClickImageParam(uris, pos, false));
+        if (images instanceof GifMarkImageView) {
+            ((GifMarkImageView) images).showGifFlag(uris.get(pos));
+        }
+
+        imageLoad.loadImage(images, uris.get(pos), imageOptions);
     }
 
     /**
