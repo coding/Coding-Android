@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -9,13 +9,14 @@ android {
 
     dexOptions {
         incremental true
+        javaMaxHeapSize "4g"
     }
 
     defaultConfig {
         useLibrary 'org.apache.http.legacy'
         applicationId "net.coding.program"
         renderscriptTargetApi 19
-        multiDexEnabled false
+        multiDexEnabled true
     }
 
     productFlavors {
@@ -54,7 +55,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
 
     compile 'com.android.support:multidex:1.0.1'
-//    compile 'com.android.support:multidex:1.0.1'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
@@ -96,7 +96,7 @@ dependencies {
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile files('libs/Xg_sdk_v2.42_20160111_1539.jar')
-//    compile 'com.google.android.gms:play-services-analytics:8.1.0'
+    compile 'com.google.android.gms:play-services-analytics:8.1.0'
 }
 
 buildscript {
