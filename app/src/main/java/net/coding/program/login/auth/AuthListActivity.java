@@ -55,7 +55,7 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
         mAuthAdapter = new AuthAdapter(this, 0);
         listView = (StickyListHeadersListView) findViewById(R.id.listView);
         View footer = getLayoutInflater().inflate(R.layout.divide_15_top, null);
-        listView.addFooterView(footer);
+        listView.addFooterView(footer, null, false);
         listView.setAdapter(mAuthAdapter);
 
         ArrayList<String> uris = AccountInfo.loadAuthDatas(this);
