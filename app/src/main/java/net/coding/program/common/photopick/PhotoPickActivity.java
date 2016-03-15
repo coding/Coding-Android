@@ -314,6 +314,12 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
     }
 
     public void camera() {
+        if (mPickData.size() >= mMaxPick) {
+            String s = String.format("最多只能选择%d张", mMaxPick);
+            Toast.makeText(PhotoPickActivity.this, s, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = CameraPhotoUtil.getOutputMediaFileUri();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
