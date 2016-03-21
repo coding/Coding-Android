@@ -3,16 +3,22 @@ package net.coding.program.project.detail.merge;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Spannable;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.coding.program.DensityUtil;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.ListItem1;
@@ -22,6 +28,7 @@ import net.coding.program.model.MergeDetail;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.RequestData;
 import net.coding.program.project.git.CommitListActivity_;
+import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -34,7 +41,9 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EActivity(R.layout.activity_merge_detail)
@@ -96,15 +105,18 @@ public class MergeDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initMergeDetailActivity() {
+        String httpReviewers;
         if (mMerge != null) {
             initByMereData();
             getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
+            httpReviewers = mMerge.getHttpReviewers();
         } else {
             showDialogLoading();
             String s = mMergeUrl.replace("/u/", "/api/user/")
                     .replace("/p/", "/project/");
-            s += "/base";
-            getNetwork(s, HOST_MERGE_DETAIL);
+//            s += "/base";
+            getNetwork(s + "/base", HOST_MERGE_DETAIL);
+            httpReviewers = s + "/reviewers";
         }
     }
 
@@ -126,6 +138,7 @@ public class MergeDetailActivity extends BackActivity {
         listView.setAdapter(mAdapter);
         listView.setAreHeadersSticky(false);
 
+        updateReviewer();
         setActionStyle(false, false, false);
     }
 
@@ -366,6 +379,33 @@ public class MergeDetailActivity extends BackActivity {
                     mergeContentDivide.setVisibility(View.VISIBLE);
                     mergeContent.setText(spanContent);
                 }
+
+                MyAsyncHttpClient.get(this, mMerge.getHttpReviewers(), new MyJsonResponse(this) {
+                    @Override
+                    public void onMySuccess(JSONObject response) {
+                        Log.d("reviewers" , response.toString());
+                        JSONArray json = null;
+                        try {
+                            json = response.optJSONObject("data").optJSONArray("reviewers");
+                            List<Merge.Reviewer> arrayData = new ArrayList<>();
+                            for (int i = 0; i < json.length(); ++i) {
+                                Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
+                                arrayData.add(user);
+                            }
+                            json = response.optJSONObject("data").optJSONArray("volunteer_reviewers");
+                            for (int i = 0; i < json.length(); ++i) {
+                                Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
+                                arrayData.add(user);
+                            }
+                            mMerge.setReviewers(arrayData);
+                            updateReviewer();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -412,5 +452,57 @@ public class MergeDetailActivity extends BackActivity {
         public boolean isPublicProject() {
             return mMerge.isPull();
         }
+    }
+
+    private void updateReviewer() {
+//        ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
+//        reviewers.replaceRightArrawLayout(reviewerRightView(1));
+        LinearLayout reviewersLayout = (LinearLayout) findViewById(R.id.reviewers);
+        reviewersLayout.removeAllViews();
+        if (mMerge.getReviewers() != null && mMerge.getReviewers().size() > 0) {
+            int imageSize = DensityUtil.dip2px(this, 33);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageSize, imageSize);
+            lp.rightMargin = DensityUtil.dip2px(this, 10);
+            for (Merge.Reviewer reviewer : mMerge.getReviewers()) {
+                CircleImageView circleImageView = new CircleImageView(this);
+                reviewersLayout.addView(circleImageView, lp);
+                iconfromNetwork(circleImageView, reviewer.avatar);
+                circleImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UserDetailActivity_.intent(MergeDetailActivity.this)
+                                .globalKey(reviewer.global_key).start();
+                    }
+                });
+            }
+            reviewersLayout.setVisibility(View.VISIBLE);
+        } else {
+            reviewersLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private View reviewerRightView(int role) {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setGravity(Gravity.CENTER);
+        if (role == 1) {
+            TextView tv = new TextView(this);
+            tv.setText("添加");
+            ImageView i = new ImageView(this);
+            i.setImageResource(R.drawable.user_home_arrow);
+            linearLayout.addView(tv);
+            linearLayout.addView(i);
+        } else if (role == 2) {
+            TextView tv = new TextView(this);
+            tv.setText("撤消 +1");
+            linearLayout.addView(tv);
+        } else if (role == 3) {
+            ImageView i = new ImageView(this);
+            i.setImageResource(R.drawable.thumb_up);
+            TextView tv = new TextView(this);
+            tv.setText("+1");
+            linearLayout.addView(i);
+            linearLayout.addView(tv);
+        }
+        return linearLayout;
     }
 }

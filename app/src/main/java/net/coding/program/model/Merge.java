@@ -6,9 +6,11 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by chenchao on 15/5/25.
@@ -45,6 +47,8 @@ public class Merge implements Serializable {
     private String merged_sha = "";
     private String content = "";
     private boolean srcExist;
+
+    private List<Reviewer> reviewers;
 
     public Merge(JSONObject json) {
         id = json.optInt("id");
@@ -263,6 +267,10 @@ public class Merge implements Serializable {
         return getHostPublicHead("/base");
     }
 
+    public String getHttpReviewers() {
+        return getHostPublicHead("/reviewers");
+    }
+
 
     public String getHttpCommits() {
         return getHostPublicHead("/commits");
@@ -338,6 +346,15 @@ public class Merge implements Serializable {
         return String.format(template, ProjectObject.getTitle(isPull()), iid, srcBranch, desBranch);
     }
 
+
+    public List<Reviewer> getReviewers() {
+        return reviewers;
+    }
+
+    public void setReviewers(List<Reviewer> reviewers) {
+        this.reviewers = reviewers;
+    }
+
     public static class ActionAuthor extends UserObject implements Serializable {
 
         private int status;
@@ -362,6 +379,16 @@ public class Merge implements Serializable {
             tweets_count = json.optInt("tweets_count");
             followed = json.optBoolean("followed");
             follow = json.optBoolean("follow");
+        }
+    }
+
+    public static class Reviewer extends DynamicObject.User implements Serializable {
+        int value;
+        String volunteer;
+        public Reviewer(JSONObject json) throws JSONException {
+            super(json.optJSONObject("reviewer"));
+            value = json.optInt("value");
+            volunteer = json.optString("volunteer");
         }
     }
 
