@@ -1,16 +1,22 @@
 package net.coding.program.project.detail.merge;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.DensityUtil;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
@@ -26,15 +32,19 @@ import net.coding.program.model.BaseComment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
+import net.coding.program.task.add.RefResourceActivity;
+import net.coding.program.task.add.RefResourceActivity_;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +52,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -53,12 +64,15 @@ public class MergeDetailActivity extends BackActivity {
 
     public static final int RESULT_COMMENT = 1;
     public static final int RESULT_MERGE = 2;
+    public static final int RESULT_RESUSE_REFRESOURCE = 3;
 
     private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
     private static final String HOST_MERGE_REFUSE = "HOST_MERGE_REFUSE";
     private static final String HOST_MERGE_CANNEL = "HOST_MERGE_CANNEL";
     private static final String HOST_MERGE_DETAIL = "HOST_MERGE_DETAIL";
     private static final String HOST_DELETE_COMMENT = "HOST_DELETE_COMMENT";
+
+    private static final String TAG_REVIEW_GOOD = "TAG_REVIEW_GOOD";
 
     @Extra
     Merge mMerge;
@@ -79,6 +93,8 @@ public class MergeDetailActivity extends BackActivity {
 
     MergeCommentAdaper mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
+
+    private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
 
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
@@ -290,6 +306,19 @@ public class MergeDetailActivity extends BackActivity {
         mergeContent.setVisibility(View.GONE);
         mergeContentDivide = head.findViewById(R.id.mergeContentDivide);
         mergeContentDivide.setVisibility(View.GONE);
+
+        head.findViewById(R.id.itemRefResource).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RefResourceActivity.Param param = new RefResourceActivity.Param(mMerge.getProjectPath(),
+                        mMerge.getIid());
+
+                RefResourceActivity_.intent(MergeDetailActivity.this)
+                        .mData(refResourceList)
+                        .mParam(param)
+                        .startForResult(RESULT_RESUSE_REFRESOURCE);
+            }
+        });
     }
 
     private void initFooter(View footer) {
@@ -381,36 +410,85 @@ public class MergeDetailActivity extends BackActivity {
                     mergeContent.setText(spanContent);
                 }
 
-                MyAsyncHttpClient.get(this, mMerge.getHttpReviewers(), new MyJsonResponse(this) {
-                    @Override
-                    public void onMySuccess(JSONObject response) {
-                        Log.d("reviewers" , response.toString());
-                        JSONArray json = null;
-                        try {
-                            json = response.optJSONObject("data").optJSONArray("reviewers");
-                            List<Merge.Reviewer> arrayData = new ArrayList<>();
-                            for (int i = 0; i < json.length(); ++i) {
-                                Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
-                                arrayData.add(user);
-                            }
-                            json = response.optJSONObject("data").optJSONArray("volunteer_reviewers");
-                            for (int i = 0; i < json.length(); ++i) {
-                                Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
-                                arrayData.add(user);
-                            }
-                            mMerge.setReviewers(arrayData);
-                            updateReviewer();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-
+                refreshReviewers();
+                refreshRefResource();
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(TAG_REVIEW_GOOD)) {
+            if (code == 0) {
+                refreshReviewers();
+            }
         }
+    }
+
+
+    private void refreshRefResource() {
+        String url = Global.HOST_API + mMerge.getProjectPath() + "/resource_reference/" + mMerge.getIid();
+        MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+
+                refResourceList.clear();
+                JSONObject jsonData = response.optJSONObject("data");
+                Iterator<String> iter = jsonData.keys();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    JSONArray array = jsonData.optJSONArray(key);
+                    for (int i = 0; i < array.length(); ++i) {
+                        JSONObject item = array.optJSONObject(i);
+                        try {
+                            refResourceList.add(new RefResourceObject(item));
+                        } catch (Exception e) {
+                            Global.errorLog(e);
+                        }
+                    }
+                }
+
+                updateRefResourceUI();
+            }
+        });
+    }
+
+    private void updateRefResourceUI() {
+        View item = findViewById(R.id.itemRefResource);
+        if (refResourceList.isEmpty()) {
+            item.setVisibility(View.GONE);
+        } else {
+            item.setVisibility(View.VISIBLE);
+
+            ((TextView) item.findViewById(R.id.text2)).setText(refResourceList.size() + "个资源");
+            item.findViewById(R.id.text2).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void refreshReviewers() {
+        MyAsyncHttpClient.get(this, mMerge.getHttpReviewers(), new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                Log.d("reviewers", response.toString());
+                JSONArray json = null;
+                try {
+                    json = response.optJSONObject("data").optJSONArray("reviewers");
+                    List<Merge.Reviewer> arrayData = new ArrayList<>();
+                    for (int i = 0; i < json.length(); ++i) {
+                        Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
+                        arrayData.add(user);
+                    }
+                    json = response.optJSONObject("data").optJSONArray("volunteer_reviewers");
+                    for (int i = 0; i < json.length(); ++i) {
+                        Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
+                        arrayData.add(user);
+                    }
+                    mMerge.setReviewers(arrayData);
+                    updateReviewer();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     private void finishAndUpdateList() {
@@ -457,15 +535,68 @@ public class MergeDetailActivity extends BackActivity {
 
     private void updateReviewer() {
         ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
+
+        int role = 0;
+        if (mMerge.authorIsMe()) {
+            role = 1;
+        } else {
+            role = 2;
+            if (mMerge.getReviewers() != null) {
+                for (Merge.Reviewer reviewer : mMerge.getReviewers()) {
+                    if (MyApp.sUserObject.id == reviewer.user.id) {
+                        if (reviewer.value > 0)
+                            role = 3;
+                        break;
+                    }
+                }
+            }
+        }
+        if (role > 0) {
+            TextView tv = (TextView) reviewers.findViewById(R.id.text2);
+            tv.setVisibility(View.VISIBLE);
+            View arrow = reviewers.findViewById(R.id.arrow);
+            if (role == 1) {
+                tv.setText("添加");
+                tv.setTextColor(getResources().getColor(R.color.font_black_9));
+                tv.setCompoundDrawables(null, null, null, null);
+                arrow.setVisibility(View.VISIBLE);
+            } else if (role == 3) {
+                tv.setText("撤消 +1 ");
+                tv.setTextColor(getResources().getColor(R.color.green));
+                tv.setCompoundDrawables(null, null, null, null);
+                arrow.setVisibility(View.GONE);
+            } else if (role == 2) {
+                tv.setText("+1  ");
+                Drawable up = getResources().getDrawable(R.drawable.thumb_up);
+                up.setBounds(0, 0, up.getMinimumWidth(), up.getMinimumHeight());
+                tv.setCompoundDrawables(up, null, null, null);
+                arrow.setVisibility(View.GONE);
+                tv.setTextColor(getResources().getColor(R.color.green));
+            }
+            tv.setGravity(Gravity.CENTER);
+        }
+        final int roleFinal = role;
         reviewers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
-                intent.putExtra("mMerge", mMerge);
-                startActivity(intent);
+                if (roleFinal == 0) {
+                    Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
+                    intent.putExtra("mMerge", mMerge);
+                    startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
+                } else if (roleFinal == 1) {
+                    Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
+                    intent.putExtra("mMerge", mMerge);
+                    intent.putExtra("mSelect", true);
+                    startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
+                } else if (roleFinal == 2) {
+                    postNetwork(mMerge.getHttpReviewGood(), new RequestParams(), TAG_REVIEW_GOOD);
+                } else if (roleFinal == 3) {
+                    deleteNetwork(mMerge.getHttpReviewGood(), TAG_REVIEW_GOOD);
+                }
             }
         });
-//        reviewers.replaceRightArrawLayout(reviewerRightView(1));
+
+
         LinearLayout reviewersLayout = (LinearLayout) findViewById(R.id.reviewers);
         reviewersLayout.removeAllViews();
         if (mMerge.getReviewers() != null && mMerge.getReviewers().size() > 0) {
@@ -490,28 +621,18 @@ public class MergeDetailActivity extends BackActivity {
         }
     }
 
-    private View reviewerRightView(int role) {
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setGravity(Gravity.CENTER);
-        if (role == 1) {
-            TextView tv = new TextView(this);
-            tv.setText("添加");
-            ImageView i = new ImageView(this);
-            i.setImageResource(R.drawable.user_home_arrow);
-            linearLayout.addView(tv);
-            linearLayout.addView(i);
-        } else if (role == 2) {
-            TextView tv = new TextView(this);
-            tv.setText("撤消 +1");
-            linearLayout.addView(tv);
-        } else if (role == 3) {
-            ImageView i = new ImageView(this);
-            i.setImageResource(R.drawable.thumb_up);
-            TextView tv = new TextView(this);
-            tv.setText("+1");
-            linearLayout.addView(i);
-            linearLayout.addView(tv);
+    @OnActivityResult(RESULT_RESUSE_REFRESOURCE)
+    void resultRefResource(int resultCode, @OnActivityResult.Extra ArrayList<RefResourceObject> resultData) {
+        if (resultCode == RESULT_OK) {
+            refResourceList = resultData;
+            updateRefResourceUI();
         }
-        return linearLayout;
+    }
+
+    @OnActivityResult(MergeReviewerListFragment.RESULT_ADD_USER)
+    public void onAddReviewer(int result) {
+        if (result == Activity.RESULT_OK) {
+            refreshReviewers();
+        }
     }
 }

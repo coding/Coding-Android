@@ -469,6 +469,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
             }
 
         } else if (tag.equals(TAG_URL_DEL_REVIEWER)) {
+            getActivity().setResult(Activity.RESULT_OK);
             showProgressBar(false);
             if (code == 0) {
                 Merge.Reviewer reviewer = (Merge.Reviewer) data;
@@ -479,6 +480,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_URL_ADD_REVIEWER)) {
+            getActivity().setResult(Activity.RESULT_OK);
             showProgressBar(false);
             if (code == 0) {
 
@@ -505,6 +507,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_URL_REVIEW_GOOD) || tag.equals(TAG_URL_REVIEW_BAD)) {
+            getActivity().setResult(Activity.RESULT_OK);
             showProgressBar(false);
             if (code == 0) {
                 Merge.Reviewer reviewer = (Merge.Reviewer) data;
