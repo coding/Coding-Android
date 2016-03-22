@@ -271,6 +271,17 @@ public class Merge implements Serializable {
         return getHostPublicHead("/reviewers");
     }
 
+    public String getHttpReviewGood() {
+        return getHostPublicHead("/review_good");
+    }
+
+    public String getHttpAddReviewer() {
+        return getHostPublicHead("/add_reviewer");
+    }
+
+    public String getHttpDelReviewer() {
+        return getHostPublicHead("/del_reviewer");
+    }
 
     public String getHttpCommits() {
         return getHostPublicHead("/commits");
@@ -382,13 +393,21 @@ public class Merge implements Serializable {
         }
     }
 
-    public static class Reviewer extends DynamicObject.User implements Serializable {
-        int value;
-        String volunteer;
+    public static class Reviewer implements Serializable {
+        public int value;
+        public String volunteer;
+        public UserObject user = new UserObject();
         public Reviewer(JSONObject json) throws JSONException {
-            super(json.optJSONObject("reviewer"));
             value = json.optInt("value");
             volunteer = json.optString("volunteer");
+            if (json.has("reviewer")) {
+                user = new UserObject(json.optJSONObject("reviewer"));
+            }
+        }
+
+        public Reviewer(UserObject user) {
+            this.user = user;
+            volunteer = "invitee";
         }
     }
 

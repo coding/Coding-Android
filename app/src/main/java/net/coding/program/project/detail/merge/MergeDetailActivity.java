@@ -27,6 +27,7 @@ import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.RequestData;
+import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
 import net.coding.program.user.UserDetailActivity_;
 
@@ -455,7 +456,15 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     private void updateReviewer() {
-//        ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
+        ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
+        reviewers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
+                intent.putExtra("mMerge", mMerge);
+                startActivity(intent);
+            }
+        });
 //        reviewers.replaceRightArrawLayout(reviewerRightView(1));
         LinearLayout reviewersLayout = (LinearLayout) findViewById(R.id.reviewers);
         reviewersLayout.removeAllViews();
@@ -466,12 +475,12 @@ public class MergeDetailActivity extends BackActivity {
             for (Merge.Reviewer reviewer : mMerge.getReviewers()) {
                 CircleImageView circleImageView = new CircleImageView(this);
                 reviewersLayout.addView(circleImageView, lp);
-                iconfromNetwork(circleImageView, reviewer.avatar);
+                iconfromNetwork(circleImageView, reviewer.user.avatar);
                 circleImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         UserDetailActivity_.intent(MergeDetailActivity.this)
-                                .globalKey(reviewer.global_key).start();
+                                .globalKey(reviewer.user.global_key).start();
                     }
                 });
             }
