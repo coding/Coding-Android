@@ -3,6 +3,7 @@ package net.coding.program.model;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
@@ -60,6 +61,8 @@ public class DynamicObject {
 
             if (json.has("user")) {
                 user = new User(json.optJSONObject("user"));
+            } else if (json.has("author")) {
+                user = new User(json.optJSONObject("author"));
             }
         }
 
@@ -734,6 +737,69 @@ public class DynamicObject {
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
     }
+
+    public static class MergeRequestActivity extends DynamicBaseObject implements Serializable {
+
+        public String comment_content;
+        public MergeRequestActivity(JSONObject json) throws JSONException {
+            super(json);
+            comment_content = json.optString("content");
+            if (json.has("commit")) {
+                comment_content = json.optString("commit");
+            }
+            if (TextUtils.isEmpty(action_msg)) {
+                if (action.equals("create")) {
+                    action_msg = "创建了合并请求";
+                } else if (action.equals("merge")) {
+                    action_msg = "合并了该合并请求";
+                } else if (action.equals("refuse")) {
+                    action_msg = "拒绝了该合并请求";
+                } else if (action.equals("cancel")) {
+                    action_msg = "取消了该合并请求";
+                } else if (action.equals("update")) {
+                    action_msg = "编辑了该合并请求";
+                } else if (action.equals("review")) {
+                    action_msg = "对此合并请求评审 +1";
+                } else if (action.equals("review_undo")) {
+                    action_msg = "取消了对此合并请求评审 +1";
+                } else if (action.equals("grant")) {
+                    action_msg = "授权了该合并请求";
+                } else if (action.equals("grant_undo")) {
+                    action_msg = "取消授权了该合并请求";
+                } else if (action.equals("push")) {
+                    action_msg = "推送了新的提交，更新了该合并请求";
+                } else if (action.equals("update_title")) {
+                    action_msg = "编辑了标题";
+                } else if (action.equals("update_content")) {
+                    action_msg = "编辑了描述";
+                } else if (action.equals("comment")) {
+                    action_msg = "发表了评论";
+                } else {
+                    action_msg = "";
+                }
+            }
+        }
+
+        @Override
+        public Spanned title() {
+            final String format = "%s %s";
+            String title = String.format(format, user.getHtml(), action_msg);
+            return Global.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            String contentString = comment_content;
+            Global.MessageParse parse = HtmlContent.parseMessage(contentString);
+            return (Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
+
+
+//            return Global.changeHyperlinkColor(comment_content, imageGetter, null);
+//            String textContent = HtmlContent.parseToText(comment_content);
+//            return Global.changeHyperlinkColor(textContent, BLACK_COLOR, imageGetter);
+        }
+    }
+
 
     public static class DynamicTask extends DynamicBaseObject {
         Origin_task origin_task;

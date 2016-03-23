@@ -43,6 +43,10 @@ public abstract class DataAdapter<T> extends BaseAdapter {
         mData.add(data);
     }
 
+    public void insertData(T data, int positionn) {
+        mData.add(positionn, data);
+    }
+
     public void appendSingeDataUpdate(T data) {
         mData.add(data);
         notifyDataSetChanged();
@@ -51,6 +55,10 @@ public abstract class DataAdapter<T> extends BaseAdapter {
     public void resetData(ArrayList<T> data) {
         mData = data;
         notifyDataSetChanged();
+    }
+
+    public void setData(ArrayList<T> data) {
+        mData = data;
     }
 
     @Override

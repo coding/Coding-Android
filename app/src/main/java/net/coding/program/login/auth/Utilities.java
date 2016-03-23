@@ -18,6 +18,8 @@ package net.coding.program.login.auth;
 
 import android.webkit.WebView;
 
+import java.util.Calendar;
+
 /**
  * A class for handling a variety of utility things.  This was mostly made
  * because I needed to centralize dialog related constants. I foresee this class
@@ -57,5 +59,11 @@ public class Utilities {
      */
     public static void setWebViewHtml(WebView view, String html) {
         view.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+    }
+
+    public static boolean isDifferentDay(Calendar c1, Calendar c2) {
+        return (c1.get(Calendar.DAY_OF_MONTH) != c2.get(Calendar.DAY_OF_MONTH))
+                || (c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH))
+                || (c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR));
     }
 }

@@ -48,8 +48,6 @@ public class Merge implements Serializable {
     private String content = "";
     private boolean srcExist;
 
-    private List<Reviewer> reviewers;
-
     public Merge(JSONObject json) {
         id = json.optInt("id");
         srcBranch = json.optString("srcBranch");
@@ -263,6 +261,11 @@ public class Merge implements Serializable {
         return getHostPublicHead("/comments");
     }
 
+    public String getHttpActivities() {
+        return getHostPublicHead("/activities");
+    }
+
+
     public String getHttpDetail() {
         return getHostPublicHead("/base");
     }
@@ -326,9 +329,9 @@ public class Merge implements Serializable {
         return new RequestData(url, params);
     }
 
-    public String getHttpDeleteComment(BaseComment comment) {
+    public String getHttpDeleteComment(int commentId) {
         String url = getHttpHostComment();
-        return url + "/" + comment.id;
+        return url + "/" + commentId;
     }
 
     private String getHttpHostComment() {
@@ -355,15 +358,6 @@ public class Merge implements Serializable {
     public String generalMergeMessage() {
         String template = "Accept %s #%d : (%s -> %s)";
         return String.format(template, ProjectObject.getTitle(isPull()), iid, srcBranch, desBranch);
-    }
-
-
-    public List<Reviewer> getReviewers() {
-        return reviewers;
-    }
-
-    public void setReviewers(List<Reviewer> reviewers) {
-        this.reviewers = reviewers;
     }
 
     public static class ActionAuthor extends UserObject implements Serializable {

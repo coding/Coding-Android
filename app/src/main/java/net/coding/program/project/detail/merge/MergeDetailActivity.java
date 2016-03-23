@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,11 +31,13 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.model.BaseComment;
+import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.RequestData;
+import net.coding.program.project.DynamicAdapter;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
 import net.coding.program.task.add.RefResourceActivity;
@@ -53,6 +56,8 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -67,7 +72,7 @@ public class MergeDetailActivity extends BackActivity {
     public static final int RESULT_MERGE = 2;
     public static final int RESULT_RESUSE_REFRESOURCE = 3;
 
-    private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
+//    private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
     private static final String HOST_MERGE_REFUSE = "HOST_MERGE_REFUSE";
     private static final String HOST_MERGE_CANNEL = "HOST_MERGE_CANNEL";
     private static final String HOST_MERGE_DETAIL = "HOST_MERGE_DETAIL";
@@ -92,10 +97,19 @@ public class MergeDetailActivity extends BackActivity {
     @ViewById
     ExpandableStickyListHeadersListView listView;
 
-    MergeCommentAdaper mAdapter;
+    DynamicAdapter mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
 
     private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
+    private ArrayList<Merge.Reviewer> reviewerList = new ArrayList<>();
+    private ArrayList<DynamicObject.DynamicBaseObject> dynamicList = new ArrayList<>();
+
+    Comparator<DynamicObject.DynamicBaseObject> mDynamicSorter = new Comparator<DynamicObject.DynamicBaseObject>() {
+        @Override
+        public int compare(DynamicObject.DynamicBaseObject lhs, DynamicObject.DynamicBaseObject rhs) {
+            return (int) (lhs.created_at - rhs.created_at);
+        }
+    };
 
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
@@ -105,7 +119,7 @@ public class MergeDetailActivity extends BackActivity {
                 showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String url = mMerge.getHttpDeleteComment(item);
+                        String url = mMerge.getHttpDeleteComment(item.id);
                         deleteNetwork(url, HOST_DELETE_COMMENT, item);
                     }
                 });
@@ -141,8 +155,6 @@ public class MergeDetailActivity extends BackActivity {
     private void initByMereData() {
         getSupportActionBar().setTitle(mMerge.getTitleIId());
 
-        String uri = mMerge.getHttpComments();
-        getNetwork(uri, HOST_MERGE_COMMENTS);
 
         View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, null);
         initHead(mListHead);
@@ -152,12 +164,36 @@ public class MergeDetailActivity extends BackActivity {
         initFooter(footer);
 
         BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
-        mAdapter = new MergeCommentAdaper(param);
+        mAdapter = new DynamicAdapter(this, myImageGetter, null);
+        mAdapter.setHasMore(false);
+
         listView.setAdapter(mAdapter);
         listView.setAreHeadersSticky(false);
+        listView.setDividerHeight(0);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DynamicObject.DynamicBaseObject activity = mAdapter.getItem(position);
+                if (activity.user.global_key.equals(MyApp.sUserObject.global_key) && "comment".equals(activity.action)) {
+                    showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String url = mMerge.getHttpDeleteComment(activity.id);
+                            deleteNetwork(url, HOST_DELETE_COMMENT, activity);
+                        }
+                    });
+                } else {
+                    String name = activity.user.name;
+                    CommentActivity.CommentParam param = createParam(name);
+                    CommentActivity_.intent(MergeDetailActivity.this).mParam(param).startForResult(RESULT_COMMENT);
+                }
+            }
+        });
 
         updateReviewer();
         setActionStyle(false, false, false);
+
+        refreshActivities();
     }
 
     private void updateBottomBarStyle() {
@@ -343,8 +379,8 @@ public class MergeDetailActivity extends BackActivity {
                 String commentString = (String) data.getSerializableExtra("data");
                 try {
                     JSONObject json = new JSONObject(commentString);
-                    BaseComment comment = new BaseComment(json);
-                    mAdapter.appendData(comment);
+                    DynamicObject.DynamicBaseObject comment = new DynamicObject.DynamicBaseObject(json);
+                    mAdapter.insertData(comment, 0);
                     mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     showButtomToast("" + e.toString());
@@ -360,21 +396,9 @@ public class MergeDetailActivity extends BackActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_MERGE_COMMENTS)) {
+        if (tag.equals(HOST_DELETE_COMMENT)) {
             if (code == 0) {
-                JSONArray json = respanse.getJSONArray("data");
-                ArrayList<BaseComment> arrayData = new ArrayList<>();
-                for (int i = 0; i < json.length(); ++i) {
-                    BaseComment comment = new BaseComment(json.getJSONArray(i).getJSONObject(0));
-                    arrayData.add(comment);
-                }
-                mAdapter.appendDataUpdate(arrayData);
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        } else if (tag.equals(HOST_DELETE_COMMENT)) {
-            if (code == 0) {
-                mAdapter.removeDataUpdate(data);
+                mAdapter.removeDataUpdate((DynamicObject.DynamicBaseObject) data);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -475,7 +499,7 @@ public class MergeDetailActivity extends BackActivity {
                     JSONArray json = null;
                     try {
                         json = response.optJSONObject("data").optJSONArray("reviewers");
-                        List<Merge.Reviewer> arrayData = new ArrayList<>();
+                        ArrayList<Merge.Reviewer> arrayData = new ArrayList<>();
                         for (int i = 0; i < json.length(); ++i) {
                             Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
                             arrayData.add(user);
@@ -485,7 +509,7 @@ public class MergeDetailActivity extends BackActivity {
                             Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
                             arrayData.add(user);
                         }
-                        mMerge.setReviewers(arrayData);
+                        reviewerList = arrayData;
                         updateReviewer();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -496,6 +520,43 @@ public class MergeDetailActivity extends BackActivity {
         } else {
             updateReviewer();
         }
+    }
+
+    private void refreshActivities() {
+        dynamicList.clear();
+        String commentsUrl = mMerge.getHttpComments();
+        String activitiesUrl = mMerge.getHttpActivities();
+
+        MyJsonResponse activityResponse = new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                try {
+                    JSONArray json = response.getJSONArray("data");
+                    for (int i = 0; i < json.length(); ++i) {
+                        Object object = json.get(i);
+                        JSONObject activityJson = null;
+                        if (object instanceof JSONArray) {  //  comment 的结构是  data : [ [comment] , [comment]]
+                            activityJson = ((JSONArray) object).getJSONObject(0);
+                            activityJson.put("action" , "comment");
+                        } else if (object instanceof JSONObject) {  //  activity 的结构是  data : [ activity , activity]
+                            activityJson = (JSONObject) object;
+                        }
+
+                        DynamicObject.MergeRequestActivity activity = new DynamicObject.MergeRequestActivity(activityJson);
+                        dynamicList.add(activity);
+
+                        Collections.sort(dynamicList, mDynamicSorter);
+                    }
+                    mAdapter.resetData(dynamicList);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        MyAsyncHttpClient.get(this, activitiesUrl, activityResponse);
+        MyAsyncHttpClient.get(this, commentsUrl, activityResponse);
+
     }
 
     private void finishAndUpdateList() {
@@ -553,8 +614,8 @@ public class MergeDetailActivity extends BackActivity {
             role = 1;
         } else {
             role = 2;
-            if (mMerge.getReviewers() != null) {
-                for (Merge.Reviewer reviewer : mMerge.getReviewers()) {
+            if (reviewerList != null) {
+                for (Merge.Reviewer reviewer : reviewerList) {
                     if (MyApp.sUserObject.id == reviewer.user.id) {
                         if (reviewer.value > 0)
                             role = 3;
@@ -611,12 +672,12 @@ public class MergeDetailActivity extends BackActivity {
 
         LinearLayout reviewersLayout = (LinearLayout) findViewById(R.id.reviewers);
         reviewersLayout.removeAllViews();
-        if (mMerge.getReviewers() != null && mMerge.getReviewers().size() > 0) {
+        if (reviewerList != null && reviewerList.size() > 0) {
             int imageSize = DensityUtil.dip2px(this, 33);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageSize, imageSize);
             lp.rightMargin = DensityUtil.dip2px(this, 10);
-            for (int i = 0 ; i < Math.min(mMerge.getReviewers().size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
-                Merge.Reviewer reviewer = mMerge.getReviewers().get(i);
+            for (int i = 0 ; i < Math.min(reviewerList.size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
+                Merge.Reviewer reviewer = reviewerList.get(i);
                 CircleImageView circleImageView = new CircleImageView(this);
                 circleImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
