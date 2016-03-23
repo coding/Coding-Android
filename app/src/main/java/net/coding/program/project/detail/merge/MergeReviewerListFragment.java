@@ -510,9 +510,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
             getActivity().setResult(Activity.RESULT_OK);
             showProgressBar(false);
             if (code == 0) {
-                Merge.Reviewer reviewer = (Merge.Reviewer) data;
-                reviewer.value = tag.equals(TAG_URL_REVIEW_GOOD) ? 100 : 0;
-                adapter.notifyDataSetChanged();
+                onRefresh();
             } else {
                 showErrorMsg(code, respanse);
             }
