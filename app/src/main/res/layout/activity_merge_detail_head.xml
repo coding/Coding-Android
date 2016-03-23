@@ -164,56 +164,43 @@
         app:itemTitle="文件改动" />
     <include layout="@layout/divideline_15" />
 
-    <net.coding.program.common.widget.ListItem1
-        android:id="@+id/itemRefResource"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:itemIcon="@drawable/ic_task_ref_resource"
-        app:itemTitle="关联资源" />
-
-    <include layout="@layout/divide_15_top_bottom" />
-
-
-    <net.coding.program.common.widget.ListItem1
-        android:id="@+id/itemReviewer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemIcon="@drawable/ic_listitem_reviewers"
-        app:itemTitle="评审者"/>
-
-    <include layout="@layout/divideline_15" />
 
     <LinearLayout
-        android:id="@+id/reviewers"
-        android:visibility="gone"
+        android:id="@+id/reviewers_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_12"
-        android:layout_marginBottom="@dimen/padding_12"
-        android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginRight="@dimen/padding_15">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/ic_launcher"/>
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/ic_launcher"/>
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/ic_launcher"/>
-    </LinearLayout>
+        android:visibility="gone"
+        android:orientation="vertical">
 
+
+        <net.coding.program.common.widget.ListItem1
+            android:id="@+id/itemRefResource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemIcon="@drawable/ic_task_ref_resource"
+            app:itemTitle="关联资源" />
+
+        <include layout="@layout/divide_15_top_bottom" />
+
+
+        <net.coding.program.common.widget.ListItem1
+            android:id="@+id/itemReviewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemIcon="@drawable/ic_listitem_reviewers"
+            app:itemTitle="评审者"/>
+
+        <include layout="@layout/divideline_15" />
+
+        <LinearLayout
+            android:id="@+id/reviewers"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_12"
+            android:layout_marginBottom="@dimen/padding_12"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15">
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

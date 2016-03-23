@@ -395,7 +395,7 @@ public class Merge implements Serializable {
 
     public static class Reviewer implements Serializable {
         public int value;
-        public String volunteer;
+        public String volunteer; //invitee
         public UserObject user = new UserObject();
         public Reviewer(JSONObject json) throws JSONException {
             value = json.optInt("value");

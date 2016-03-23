@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -424,31 +425,33 @@ public class MergeDetailActivity extends BackActivity {
 
 
     private void refreshRefResource() {
-        String url = Global.HOST_API + mMerge.getProjectPath() + "/resource_reference/" + mMerge.getIid();
-        MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
+        if (!mMerge.isPull()) {
+            String url = Global.HOST_API + mMerge.getProjectPath() + "/resource_reference/" + mMerge.getIid();
+            MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    super.onMySuccess(response);
 
-                refResourceList.clear();
-                JSONObject jsonData = response.optJSONObject("data");
-                Iterator<String> iter = jsonData.keys();
-                while (iter.hasNext()) {
-                    String key = iter.next();
-                    JSONArray array = jsonData.optJSONArray(key);
-                    for (int i = 0; i < array.length(); ++i) {
-                        JSONObject item = array.optJSONObject(i);
-                        try {
-                            refResourceList.add(new RefResourceObject(item));
-                        } catch (Exception e) {
-                            Global.errorLog(e);
+                    refResourceList.clear();
+                    JSONObject jsonData = response.optJSONObject("data");
+                    Iterator<String> iter = jsonData.keys();
+                    while (iter.hasNext()) {
+                        String key = iter.next();
+                        JSONArray array = jsonData.optJSONArray(key);
+                        for (int i = 0; i < array.length(); ++i) {
+                            JSONObject item = array.optJSONObject(i);
+                            try {
+                                refResourceList.add(new RefResourceObject(item));
+                            } catch (Exception e) {
+                                Global.errorLog(e);
+                            }
                         }
                     }
-                }
 
-                updateRefResourceUI();
-            }
-        });
+                    updateRefResourceUI();
+                }
+            });
+        }
     }
 
     private void updateRefResourceUI() {
@@ -464,31 +467,35 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     private void refreshReviewers() {
-        MyAsyncHttpClient.get(this, mMerge.getHttpReviewers(), new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                Log.d("reviewers", response.toString());
-                JSONArray json = null;
-                try {
-                    json = response.optJSONObject("data").optJSONArray("reviewers");
-                    List<Merge.Reviewer> arrayData = new ArrayList<>();
-                    for (int i = 0; i < json.length(); ++i) {
-                        Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
-                        arrayData.add(user);
+        if (!mMerge.isPull()) {
+            MyAsyncHttpClient.get(this, mMerge.getHttpReviewers(), new MyJsonResponse(this) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    Log.d("reviewers", response.toString());
+                    JSONArray json = null;
+                    try {
+                        json = response.optJSONObject("data").optJSONArray("reviewers");
+                        List<Merge.Reviewer> arrayData = new ArrayList<>();
+                        for (int i = 0; i < json.length(); ++i) {
+                            Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
+                            arrayData.add(user);
+                        }
+                        json = response.optJSONObject("data").optJSONArray("volunteer_reviewers");
+                        for (int i = 0; i < json.length(); ++i) {
+                            Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
+                            arrayData.add(user);
+                        }
+                        mMerge.setReviewers(arrayData);
+                        updateReviewer();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    json = response.optJSONObject("data").optJSONArray("volunteer_reviewers");
-                    for (int i = 0; i < json.length(); ++i) {
-                        Merge.Reviewer user = new Merge.Reviewer(json.getJSONObject(i));
-                        arrayData.add(user);
-                    }
-                    mMerge.setReviewers(arrayData);
-                    updateReviewer();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-            }
-        });
+                }
+            });
+        } else {
+            updateReviewer();
+        }
     }
 
     private void finishAndUpdateList() {
@@ -534,8 +541,13 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     private void updateReviewer() {
+        if (mMerge == null || mMerge.isPull()) {
+            findViewById(R.id.reviewers_layout).setVisibility(View.GONE);
+            return;
+        } else {
+            findViewById(R.id.reviewers_layout).setVisibility(View.VISIBLE);
+        }
         ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
-
         int role = 0;
         if (mMerge.authorIsMe()) {
             role = 1;
@@ -603,10 +615,9 @@ public class MergeDetailActivity extends BackActivity {
             int imageSize = DensityUtil.dip2px(this, 33);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageSize, imageSize);
             lp.rightMargin = DensityUtil.dip2px(this, 10);
-            for (Merge.Reviewer reviewer : mMerge.getReviewers()) {
+            for (int i = 0 ; i < Math.min(mMerge.getReviewers().size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
+                Merge.Reviewer reviewer = mMerge.getReviewers().get(i);
                 CircleImageView circleImageView = new CircleImageView(this);
-                reviewersLayout.addView(circleImageView, lp);
-                iconfromNetwork(circleImageView, reviewer.user.avatar);
                 circleImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -614,7 +625,30 @@ public class MergeDetailActivity extends BackActivity {
                                 .globalKey(reviewer.user.global_key).start();
                     }
                 });
+
+                if ("invitee".equals(reviewer.volunteer) && reviewer.value > 0) {
+                    FrameLayout container = new FrameLayout(this);
+                    container.addView(circleImageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    ImageView thumb = new ImageView(this);
+                    thumb.setImageResource(R.drawable.thumb_uped);
+                    container.addView(thumb, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.RIGHT));
+                    reviewersLayout.addView(container, lp);
+                } else {
+                    reviewersLayout.addView(circleImageView, lp);
+                }
+                iconfromNetwork(circleImageView, reviewer.user.avatar);
             }
+            ImageView more = new ImageView(this);
+            more.setImageResource(R.drawable.round_more);
+            reviewersLayout.addView(more, lp);
+            more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
+                    intent.putExtra("mMerge", mMerge);
+                    startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
+                }
+            });
             reviewersLayout.setVisibility(View.VISIBLE);
         } else {
             reviewersLayout.setVisibility(View.GONE);
