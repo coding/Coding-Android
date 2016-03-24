@@ -36,11 +36,11 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 /**
  * Created by bill on 16/3/23.
  */
-public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject> implements
+public class BaseDynamicAdapter<T extends DynamicObject.DynamicBaseObject> extends DataAdapter<T> implements
         StickyListHeadersAdapter, SectionIndexer {
 
     private final LayoutInflater mInflater;
-    private ImageLoadTool mImageLoader;
+    protected ImageLoadTool mImageLoader;
     private MyImageGetter myImageGetter;
     public boolean  mNoMore = false;
     private int mLastId;
@@ -49,7 +49,6 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
     String sToday = "";
     String sYesterday = "";
 
-    int unreadCount = 0;
     private Context mContext;
     protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
         @Override
@@ -83,7 +82,7 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
     private ArrayList<Long> mSectionTitle = new ArrayList<>();
     private ArrayList<Integer> mSectionId = new ArrayList<>();
 
-    public DynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
+    public BaseDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoadTool();
@@ -125,58 +124,49 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
     }
 
     @Override
-    public DynamicObject.DynamicBaseObject getItem(int position) {
-        return (DynamicObject.DynamicBaseObject) super.getItem(position);
+    public T getItem(int position) {
+        return (T) super.getItem(position);
     }
 
-    @Override
-    public int getViewTypeCount() {
-        return 2;
+    public int getItemResource(int position) {
+        return R.layout.fragment_project_dynamic_list_item;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        DynamicObject.DynamicBaseObject data = getItem(position);
-        if (data.action.equals("comment")) {
-            return 1;
-        } else {
-            return 0;
-        }
+    public ViewHolder createHolder(int position, View convertView) {
+        ViewHolder holder = new ViewHolder();
+        holder.mTitle = (TextView) convertView.findViewById(R.id.title);
+        holder.mTitle.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+        holder.mTitle.setFocusable(false);
+
+        holder.mContent = (TextView) convertView.findViewById(R.id.content);
+        holder.mContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+        holder.mContent.setOnClickListener(onClickParent);
+        holder.mContent.setFocusable(false);
+
+        holder.mLayoutClick = (ViewGroup) convertView.findViewById(R.id.layout0);
+        holder.mLayoutClick.setOnClickListener(onClickJump);
+
+        holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
+
+        holder.mTime = (TextView) convertView.findViewById(R.id.time);
+        holder.timeLineUp = convertView.findViewById(R.id.timeLineUp);
+        holder.timeLinePoint = convertView.findViewById(R.id.timeLinePoint);
+        holder.timeLineDown = convertView.findViewById(R.id.timeLineDown);
+        holder.divideLeft = convertView.findViewById(R.id.divideLeft);
+        holder.divideRight = convertView.findViewById(R.id.divideRight);
+
+        convertView.setTag(holder);
+
+        return holder;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DynamicObject.DynamicBaseObject data = getItem(position);
-        int type = getItemViewType(position);
+        T data = getItem(position);
         ViewHolder holder;
-        ContentAreaMuchImages contentArea = null;
-
         if (convertView == null) {
-            holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.fragment_project_dynamic_list_item, parent, false);
-            holder.mTitle = (TextView) convertView.findViewById(R.id.title);
-            holder.mTitle.setMovementMethod(LongClickLinkMovementMethod.getInstance());
-            holder.mTitle.setFocusable(false);
-
-            holder.mContent = (TextView) convertView.findViewById(R.id.content);
-            holder.mContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
-            holder.mContent.setOnClickListener(onClickParent);
-            holder.mContent.setFocusable(false);
-
-            holder.mLayoutClick = (ViewGroup) convertView.findViewById(R.id.layout0);
-            holder.mLayoutClick.setOnClickListener(onClickJump);
-
-            holder.mIcon = (ImageView) convertView.findViewById(R.id.icon);
-            holder.mIcon.setOnClickListener(mOnClickUser);
-
-            holder.mTime = (TextView) convertView.findViewById(R.id.time);
-            holder.timeLineUp = convertView.findViewById(R.id.timeLineUp);
-            holder.timeLinePoint = convertView.findViewById(R.id.timeLinePoint);
-            holder.timeLineDown = convertView.findViewById(R.id.timeLineDown);
-            holder.divideLeft = convertView.findViewById(R.id.divideLeft);
-            holder.divideRight = convertView.findViewById(R.id.divideRight);
-
-
+            convertView = mInflater.inflate(getItemResource(position), parent, false);
+            holder = createHolder(position, convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -193,12 +183,6 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
         holder.mTime.setText(mDataDyanmicItem.format(data.created_at));
 
         holder.mLayoutClick.setTag(data.jump());
-
-        if (position < unreadCount/*mProjectObject.un_read_activities_count */) {
-            holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_new);
-        } else {
-            holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_old);
-        }
 
         int nowSection = getSectionForPosition(position);
         if (position == 0) {
@@ -227,19 +211,11 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
             }
         }
 
-        if (position == unreadCount/*mProjectObject.un_read_activities_count */ - 1) {
-            holder.divideLeft.setVisibility(View.VISIBLE);
-            holder.timeLineDown.setVisibility(View.INVISIBLE);
-        } else {
-            holder.divideLeft.setVisibility(View.INVISIBLE);
+        if (holder.mIcon != null) {
+            holder.mIcon.setOnClickListener(mOnClickUser);
+            mImageLoader.loadImage(holder.mIcon, data.user.avatar);
+            holder.mIcon.setTag(data.user.global_key);
         }
-
-        if (position == unreadCount/*mProjectObject.un_read_activities_count */) {
-            holder.timeLineUp.setVisibility(View.INVISIBLE);
-        }
-
-        mImageLoader.loadImage(holder.mIcon, data.user.avatar);
-        holder.mIcon.setTag(data.user.global_key);
 
         if (getCount() - position <= 3) {
             if (!mNoMore && mLoadMoreObj != null) {
@@ -251,12 +227,13 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
             }
         }
 
-        if (data instanceof DynamicObject.MergeRequestActivity) {
-            contentArea = new ContentAreaMuchImages(convertView, null, new ClickSmallImage((Activity) mContext), myImageGetter, mImageLoader);
-            contentArea.setDataContent(((DynamicObject.MergeRequestActivity) data).comment_content, data);
-        }
+        afterGetView(position, convertView, parent, holder);
 
         return convertView;
+    }
+
+    public void afterGetView(int position, View convertView, ViewGroup parent, ViewHolder holder) {
+
     }
 
     @Override
@@ -320,23 +297,23 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
         TextView mHead;
     }
 
-    class ViewHolder {
-        ImageView mIcon;
+    protected class ViewHolder {
+        public ImageView mIcon;
         TextView mTitle;
         TextView mContent;
         TextView mTime;
 
         ViewGroup mLayoutClick;
 
-        View timeLineUp;
-        View timeLinePoint;
-        View timeLineDown;
+        public View timeLineUp;
+        public View timeLinePoint;
+        public View timeLineDown;
 
-        View divideLeft;
-        View divideRight;
+        public View divideLeft;
+        protected View divideRight;
     }
 
-    public void setDynamics(ArrayList<DynamicObject.DynamicBaseObject> data) {
+    public void setDynamics(ArrayList<T> data) {
         super.setData(data);
     }
 
@@ -357,7 +334,4 @@ public class DynamicAdapter extends DataAdapter<DynamicObject.DynamicBaseObject>
         mLastId = RefreshBaseFragment.UPDATE_ALL_INT;
     }
 
-    public void setUnreadCount(int count) {
-        unreadCount = count;
-    }
 }

@@ -1,8 +1,8 @@
 package net.coding.program.project.detail;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,24 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
-import android.widget.TextView;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.base.CustomMoreFragment;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.login.auth.Utilities;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.project.DynamicAdapter;
+import net.coding.program.project.BaseDynamicAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -43,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EFragment(R.layout.fragment_project_dynamic)
 public class ProjectDynamicFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
@@ -66,7 +59,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     int mLastId = UPDATE_ALL_INT;
     boolean mNoMore = false;
     ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
-    DynamicAdapter mAdapter;
+    ProjectDynamicAdapter mAdapter;
     String sToday = "";
     String sYesterday = "";
     View.OnClickListener onClickRetry = new View.OnClickListener() {
@@ -92,7 +85,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         super.onCreate(saveInstanceState);
 
         setHasOptionsMenu(true);
-        mAdapter = new DynamicAdapter(getContext(), myImageGetter, this);
+        mAdapter = new ProjectDynamicAdapter(getContext(), myImageGetter, this);
     }
 
     @AfterViews
@@ -117,8 +110,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         listView.setDividerHeight(0);
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
-
-        mAdapter.setUnreadCount(mProjectObject.un_read_activities_count);
         loadMore();
     }
 
@@ -301,6 +292,33 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
         public void destory() {
             ((ViewGroup) getView()).removeView(v);
+        }
+    }
+
+    private class ProjectDynamicAdapter extends BaseDynamicAdapter {
+        public ProjectDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
+            super(context, imageGetter, loader);
+        }
+
+        @Override
+        public void afterGetView(int position, View convertView, ViewGroup parent, BaseDynamicAdapter.ViewHolder holder) {
+            super.afterGetView(position, convertView, parent, holder);
+            if (position < mProjectObject.un_read_activities_count) {
+                holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_new);
+            } else {
+                holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_old);
+            }
+
+            if (position == mProjectObject.un_read_activities_count - 1) {
+                holder.divideLeft.setVisibility(View.VISIBLE);
+                holder.timeLineDown.setVisibility(View.INVISIBLE);
+            } else {
+                holder.divideLeft.setVisibility(View.INVISIBLE);
+            }
+
+            if (position == mProjectObject.un_read_activities_count) {
+                holder.timeLineUp.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

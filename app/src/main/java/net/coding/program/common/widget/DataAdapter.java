@@ -2,6 +2,8 @@ package net.coding.program.common.widget;
 
 import android.widget.BaseAdapter;
 
+import net.coding.program.model.DynamicObject;
+
 import java.util.ArrayList;
 
 /**
@@ -43,7 +45,7 @@ public abstract class DataAdapter<T> extends BaseAdapter {
         mData.add(data);
     }
 
-    public void insertData(T data, int positionn) {
+    public void insertData(int positionn, T data) {
         mData.add(positionn, data);
     }
 
