@@ -300,7 +300,7 @@ public class BaseDynamicAdapter<T extends DynamicObject.DynamicBaseObject> exten
     protected class ViewHolder {
         public ImageView mIcon;
         TextView mTitle;
-        TextView mContent;
+        public TextView mContent;
         TextView mTime;
 
         ViewGroup mLayoutClick;

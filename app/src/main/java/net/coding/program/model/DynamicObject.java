@@ -1,10 +1,13 @@
 package net.coding.program.model;
 
+import android.app.Application;
+import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -821,6 +824,30 @@ public class DynamicObject {
 //            return Global.changeHyperlinkColor(comment_content, imageGetter, null);
 //            String textContent = HtmlContent.parseToText(comment_content);
 //            return Global.changeHyperlinkColor(textContent, BLACK_COLOR, imageGetter);
+        }
+    }
+
+    public static class MergeRequestActivityComment extends MergeRequestActivity {
+        String commitId;
+        String path;
+        DiffFile.DiffSingleFile diffFile;
+        public MergeRequestActivityComment(JSONObject json) throws JSONException {
+            super(json);
+            commitId = json.optString("commitId");
+            path = json.optString("path");
+            diffFile = new DiffFile.DiffSingleFile(commitId, path);
+        }
+
+        public DiffFile.DiffSingleFile getDiffSingleFile() {
+            return diffFile;
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#3BBD79"));
+            SpannableString string = new SpannableString("点击查看评论详情");
+            string.setSpan(span, 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return string;
         }
     }
 

@@ -35,6 +35,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.maopao.item.ContentAreaMuchImages;
 import net.coding.program.model.BaseComment;
+import net.coding.program.model.DiffFile;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Merge;
 import net.coding.program.model.MergeDetail;
@@ -538,9 +539,11 @@ public class MergeDetailActivity extends BackActivity {
                     for (int i = 0; i < json.length(); ++i) {
                         Object object = json.get(i);
                         JSONObject activityJson = null;
+                        boolean isCommentCommit = false;
                         if (object instanceof JSONArray) {  //  comment 的结构是  data : [ [comment] , [comment]]
                             activityJson = ((JSONArray) object).getJSONObject(0);
                             if (activityJson.has("diff_html")) {
+                                isCommentCommit = true;
                                 activityJson.put("action" , "comment_commit");
                             } else {
                                 activityJson.put("action" , "comment");
@@ -549,7 +552,10 @@ public class MergeDetailActivity extends BackActivity {
                             activityJson = (JSONObject) object;
                         }
 
-                        DynamicObject.MergeRequestActivity activity = new DynamicObject.MergeRequestActivity(activityJson);
+                        DynamicObject.MergeRequestActivity activity =
+                                isCommentCommit ?
+                                        new DynamicObject.MergeRequestActivityComment(activityJson) :
+                                        new DynamicObject.MergeRequestActivity(activityJson);
                         dynamicList.add(activity);
 
                         Collections.sort(dynamicList, mDynamicSorter);
@@ -756,7 +762,7 @@ public class MergeDetailActivity extends BackActivity {
 
         @Override
         public int getViewTypeCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -764,6 +770,8 @@ public class MergeDetailActivity extends BackActivity {
             DynamicObject.MergeRequestActivity data = getItem(position);
             if (data.action.equals("comment")) {
                 return 1;
+            } else if (data.action.equals("comment_commit")) {
+                return 2;
             } else {
                 return 0;
             }
@@ -782,11 +790,25 @@ public class MergeDetailActivity extends BackActivity {
         public void afterGetView(int position, View convertView, ViewGroup parent, ViewHolder holder) {
 
             DynamicObject.MergeRequestActivity data = getItem(position);
-            if (getItemViewType(position) == 1) {
+            int itemType = getItemViewType(position);
+            if (itemType == 0) {
+                ((ImageView) holder.timeLinePoint).setImageResource(data.action_icon);
+            } else if (itemType == 1) {
                 ContentAreaMuchImages contentArea = new ContentAreaMuchImages(convertView, null, new ClickSmallImage(MergeDetailActivity.this), myImageGetter, mImageLoader);
                 contentArea.setDataContent(data.comment_content, data);
-            } else {
-                ((ImageView) holder.timeLinePoint).setImageResource(data.action_icon);
+            } else if (itemType == 2){
+                holder.mContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DiffFile.DiffSingleFile fileData = ((DynamicObject.MergeRequestActivityComment) data).getDiffSingleFile();
+                        MergeFileDetailActivity_
+                                .intent(MergeDetailActivity.this)
+                                .mProjectPath(mMerge.getProjectPath())
+                                .mergeIid(mMerge.getIid())
+                                .mSingleFile(fileData)
+                                .start();
+                    }
+                });
             }
         }
     }
