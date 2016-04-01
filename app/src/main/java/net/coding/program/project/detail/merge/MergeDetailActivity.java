@@ -85,6 +85,8 @@ public class MergeDetailActivity extends BackActivity {
     private static final String TAG_REVIEW_GOOD = "TAG_REVIEW_GOOD";
 
     @Extra
+    ProjectObject mProject;
+    @Extra
     Merge mMerge;
 
     @Extra
@@ -98,6 +100,10 @@ public class MergeDetailActivity extends BackActivity {
     View actionRefuse;
     @ViewById
     View actionCancel;
+    @ViewById
+    View actionAuth;
+    @ViewById
+    View actionCancelAuth;
     @ViewById
     ExpandableStickyListHeadersListView listView;
 
@@ -195,7 +201,7 @@ public class MergeDetailActivity extends BackActivity {
         });
 
         updateReviewer();
-        setActionStyle(false, false, false);
+        setActionStyle(false, false, false, false, false);
 
         refreshActivities();
     }
@@ -205,25 +211,37 @@ public class MergeDetailActivity extends BackActivity {
             return;
         }
 
+        boolean author_can_edit = mMergeDetail.isCanEditSrcBranch();
         boolean canEdit = mMergeDetail.isCanEdit();
         boolean canEditSrc = mMergeDetail.isCanEditSrcBranch();
+        boolean isMyMerge = mMerge.authorIsMe();
+        int granted = mMerge.getGranted();
+
+        boolean showCancel = mMerge.authorIsMe();
+        boolean showMerge = canEdit || ( granted == 1 &&  mMerge.authorIsMe());
+        boolean showRefuse = canEdit;
+        boolean showAuth = canEdit && granted == 0 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
+        boolean showCancelAuth = canEdit && granted == 1 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
+
         if (mMerge.isStyleCanMerge()) {
-            setActionStyle(canEdit, canEdit, canEditSrc);
+            setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
         } else if (mMerge.isStyleCannotMerge()) {
-            setActionStyle(canEdit, false, canEditSrc);
+            setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
         } else {
-            setActionStyle(false, false, false);
+            setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
         }
     }
 
-    private void setActionStyle(boolean refuse, boolean accept, boolean cancel) {
-        if (!refuse && !accept && !cancel) {
+    private void setActionStyle(boolean refuse, boolean accept, boolean cancel, boolean auth, boolean cancelAuth) {
+        if (!refuse && !accept && !cancel && !auth && !cancelAuth) {
             actionLayout.setVisibility(View.GONE);
         } else {
             actionLayout.setVisibility(View.VISIBLE);
             actionAccept.setVisibility(accept ? View.VISIBLE : View.GONE);
             actionRefuse.setVisibility(refuse ? View.VISIBLE : View.GONE);
             actionCancel.setVisibility(cancel ? View.VISIBLE : View.GONE);
+            actionAuth.setVisibility(auth ? View.VISIBLE : View.GONE);
+            actionCancelAuth.setVisibility(cancelAuth ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -250,6 +268,47 @@ public class MergeDetailActivity extends BackActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String host = mMerge.getHttpCancel();
                 postNetwork(host, HOST_MERGE_CANNEL);
+            }
+        });
+    }
+
+    @Click
+    protected final void actionAuth() {
+        showDialog(mMerge.getTitle(), "确定要授权吗？", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String host = mMerge.getHttpGrant();
+//                postNetwork(host, HOST_MERGE_CANNEL);
+                MyAsyncHttpClient.post(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
+                    @Override
+                    public void onMySuccess(JSONObject response) {
+                        setResult(RESULT_OK);
+                        mMerge.setGranted(1);
+                        actionAuth.setVisibility(View.GONE);
+                        actionCancelAuth.setVisibility(View.VISIBLE);
+                    }
+                });
+
+            }
+        });
+    }
+
+    @Click
+    protected final void actionCancelAuth() {
+        showDialog(mMerge.getTitle(), "确定要撤消授权吗？", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String host = mMerge.getHttpGrant();
+//                postNetwork(host, HOST_MERGE_CANNEL);
+                MyAsyncHttpClient.delete(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
+                    @Override
+                    public void onMySuccess(JSONObject response) {
+                        setResult(RESULT_OK);
+                        mMerge.setGranted(0);
+                        actionAuth.setVisibility(View.VISIBLE);
+                        actionCancelAuth.setVisibility(View.GONE);
+                    }
+                });
             }
         });
     }

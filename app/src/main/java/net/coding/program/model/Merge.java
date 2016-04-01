@@ -47,6 +47,7 @@ public class Merge implements Serializable {
     private String merged_sha = "";
     private String content = "";
     private boolean srcExist;
+    private int granted = 0;
 
     public Merge(JSONObject json) {
         id = json.optInt("id");
@@ -68,6 +69,7 @@ public class Merge implements Serializable {
         merged_sha = json.optString("merged_sha");
         srcExist = json.optBoolean("srcExist");
         content = json.optString("content", "");
+        granted = json.optInt("granted", 0);
     }
 
     public void setAuthor(UserObject author) {
@@ -257,6 +259,14 @@ public class Merge implements Serializable {
         return path;
     }
 
+    public int getGranted() {
+        return granted;
+    }
+
+    public void setGranted(int granted) {
+        this.granted = granted;
+    }
+
     public String getHttpComments() {
         return getHostPublicHead("/comments");
     }
@@ -317,6 +327,10 @@ public class Merge implements Serializable {
 
     public String getHttpCancel() {
         return getHostPublicHead("/cancel");
+    }
+
+    public String getHttpGrant() {
+        return getHostPublicHead("/grant");
     }
 
     public RequestData getHttpSendComment() {

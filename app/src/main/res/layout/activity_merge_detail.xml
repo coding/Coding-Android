@@ -42,6 +42,28 @@
             android:text="拒绝"
             android:textColor="@color/font_white" />
 
+
+        <TextView
+            android:id="@+id/actionAuth"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/bottom_button_padding"
+            android:layout_weight="1"
+            android:background="@drawable/edit_send_green"
+            android:gravity="center"
+            android:text="授权"
+            android:textColor="@color/font_white" />
+
+        <TextView
+            android:id="@+id/actionCancelAuth"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/bottom_button_padding"
+            android:layout_weight="1"
+            android:background="@drawable/edit_send_green"
+            android:gravity="center"
+            android:text="撤消授权"
+            android:textColor="@color/font_white" />
         <TextView
             android:id="@+id/actionAccept"
             android:layout_width="0dp"
