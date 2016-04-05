@@ -111,6 +111,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 //holder.desc = (TextView) convertView.findViewById(R.id.desc);
                 holder.ic = (ImageView) convertView.findViewById(R.id.ic);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.invitee = convertView.findViewById(R.id.is_invitee);
 //                holder.icon.setOnClickListener(mOnClickUser);
 //                holder.icon.setFocusable(false);
                 holder.reviewerStatus = (TextView) convertView.findViewById(R.id.reviewer_status);
@@ -167,21 +168,20 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     holder.ic.setVisibility(View.GONE);
                     holder.alias.setVisibility(View.GONE);
 
-                    holder.reviewerStatus.setText("+1");
-
                     String volunteer = reviewer.volunteer;
                     int value = reviewer.value;
 
                     if (value > 0) {
-                        holder.reviewerStatus.setText("+1");
-                    }
-                    if (TextUtils.equals(volunteer, "invitee")) {
-                        holder.reviewerStatus.setText("++ +1");
-                        if (value == 0) {
-                            holder.reviewerStatus.setText("++  未评审");
+                        if (TextUtils.equals(volunteer, "invitee")) {
+                            holder.invitee.setVisibility(View.VISIBLE);
+                        } else{
+                            holder.invitee.setVisibility(View.GONE);
                         }
+                        holder.reviewerStatus.setText("+1");
+                    } else {
+                        holder.reviewerStatus.setText("未评审");
+                        holder.invitee.setVisibility(View.GONE);
                     }
-
                 }
 
                 holder.reviewerStatus.setBackgroundColor(0);
@@ -419,6 +419,9 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     if (members != null) {
                         for (int i = 0; i < members.length(); ++i) {
                             Merge.Reviewer member = new Merge.Reviewer(members.optJSONObject(i));
+                            if (member.user.global_key.equals(mMerge.getAuthor().global_key)) {
+                                continue;
+                            }
                             mReviewers.add(member);
                             mReviewerKey.add(member.user.global_key);
                         }
@@ -454,12 +457,17 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
                     for (int i = 0; i < members.length(); ++i) {
                         TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
+                        if (member.user.global_key.equals(mMerge.getAuthor().global_key)) {
+                            continue;
+                        }
+                        if (member.getType() == TaskObject.Members.Type.limited) {
+                            continue;
+                        }
                         if (member.isOwner()) {
                             mMembers.add(0, member);
                         } else {
                             mMembers.add(member);
                         }
-
                     }
                 }
                 resetAllData();
@@ -533,5 +541,6 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         TextView alias;
         ImageView ic;
         TextView reviewerStatus;
+        View invitee;
     }
 }

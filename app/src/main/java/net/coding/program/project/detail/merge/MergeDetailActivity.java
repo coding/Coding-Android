@@ -748,8 +748,11 @@ public class MergeDetailActivity extends BackActivity {
             int imageSize = DensityUtil.dip2px(this, 33);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageSize, imageSize);
             lp.rightMargin = DensityUtil.dip2px(this, 10);
-            for (int i = 0 ; i < Math.min(reviewerList.size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
+            for (int i = 0, addedCount = 0; i < reviewerList.size() && addedCount < Math.min(reviewerList.size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
                 Merge.Reviewer reviewer = reviewerList.get(i);
+                if (reviewer.value == 0 || reviewer.user.global_key.equals(mMerge.getAuthor().global_key)) {
+                    continue;
+                }
                 CircleImageView circleImageView = new CircleImageView(this);
                 circleImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -769,20 +772,25 @@ public class MergeDetailActivity extends BackActivity {
                 } else {
                     reviewersLayout.addView(circleImageView, lp);
                 }
+                addedCount ++;
                 iconfromNetwork(circleImageView, reviewer.user.avatar);
             }
-            ImageView more = new ImageView(this);
-            more.setImageResource(R.drawable.round_more);
-            reviewersLayout.addView(more, lp);
-            more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
-                    intent.putExtra("mMerge", mMerge);
-                    startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
-                }
-            });
-            reviewersLayout.setVisibility(View.VISIBLE);
+            if (reviewersLayout.getChildCount() > 0) {
+                ImageView more = new ImageView(this);
+                more.setImageResource(R.drawable.round_more);
+                reviewersLayout.addView(more, lp);
+                more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
+                        intent.putExtra("mMerge", mMerge);
+                        startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
+                    }
+                });
+                reviewersLayout.setVisibility(View.VISIBLE);
+            } else {
+                reviewersLayout.setVisibility(View.GONE);
+            }
         } else {
             reviewersLayout.setVisibility(View.GONE);
         }
