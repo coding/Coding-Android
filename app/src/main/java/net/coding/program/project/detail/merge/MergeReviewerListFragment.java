@@ -229,7 +229,15 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     if (!mReviewerKey.contains(member.user.global_key)) {
                         addReviewer(member);
                     } else {
-                        showButtomToast("已是评审者，长按移除评审者。");
+                        for (Merge.Reviewer r : mReviewers) {
+                            if (r.user.global_key.equals(member.user.global_key)) {
+                                if (mReviewerKey.contains(member.user.global_key)) {
+                                    removeReviewer(r);
+                                }
+                                break;
+                            }
+                        }
+//                        showButtomToast("已是评审者，长按移除评审者。");
                     }
                 }
             };
