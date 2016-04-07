@@ -160,7 +160,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
                     }
                 }
-
+                holder.invitee.setVisibility(View.GONE);
             } else {
                 if (object instanceof Merge.Reviewer) {
                     Merge.Reviewer reviewer = (Merge.Reviewer) object;
@@ -178,8 +178,10 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                             holder.invitee.setVisibility(View.GONE);
                         }
                         holder.reviewerStatus.setText("+1");
+                        holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_green_2));
                     } else {
                         holder.reviewerStatus.setText("未评审");
+                        holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_black_9));
                         holder.invitee.setVisibility(View.GONE);
                     }
                 }
