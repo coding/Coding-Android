@@ -1,12 +1,12 @@
 package net.coding.program.project.detail.merge;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.net.Uri;
 import android.text.Spannable;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -15,23 +15,31 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.DensityUtil;
-import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.maopao.item.ContentAreaMuchImages;
 import net.coding.program.model.BaseComment;
@@ -42,11 +50,13 @@ import net.coding.program.model.MergeDetail;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.RequestData;
-import net.coding.program.project.BaseDynamicAdapter;
+import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
+import net.coding.program.task.add.CommentHolder;
 import net.coding.program.task.add.RefResourceActivity;
 import net.coding.program.task.add.RefResourceActivity_;
+import net.coding.program.task.add.TaskListHolder;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -59,6 +69,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +77,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EActivity(R.layout.activity_merge_detail)
 //@OptionsMenu(R.menu.menu_merge_detail)
@@ -105,14 +115,14 @@ public class MergeDetailActivity extends BackActivity {
     @ViewById
     View actionCancelAuth;
     @ViewById
-    ExpandableStickyListHeadersListView listView;
+    ListView listView;
 
-    MergeRequestDynamicAdapter mAdapter;
+    DataAdapter mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
 
     private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
     private ArrayList<Merge.Reviewer> reviewerList = new ArrayList<>();
-    private ArrayList<DynamicObject.MergeRequestActivity> dynamicList = new ArrayList<>();
+    private ArrayList<DynamicObject.DynamicMergeRequest> dynamicList = new ArrayList<>();
 
     Comparator<DynamicObject.DynamicBaseObject> mDynamicSorter = new Comparator<DynamicObject.DynamicBaseObject>() {
         @Override
@@ -145,6 +155,138 @@ public class MergeDetailActivity extends BackActivity {
     private TextView mergeContent;
     private View mergeContentDivide;
 
+    private View.OnClickListener mOnClickComment = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final DynamicObject.DynamicMergeRequest comment = (DynamicObject.DynamicMergeRequest) v.getTag();
+            if (comment != null && comment.user.global_key.equals(MyApp.sUserObject.global_key)) {
+                showDialog("Merge Request", "删除评论？", (dialog, which) -> {
+                    String url = mMerge.getHttpDeleteComment(comment.id);
+                    deleteNetwork(url, HOST_DELETE_COMMENT, comment);
+                });
+            } else {
+
+            }
+        }
+    };
+
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
+
+    DataAdapter<DynamicObject.DynamicMergeRequest> commentAdpter = new DataAdapter<DynamicObject.DynamicMergeRequest>() {
+        @Override
+        public int getItemViewType(int position) {
+            DynamicObject.DynamicMergeRequest data =
+                    (DynamicObject.DynamicMergeRequest) getItem(position);
+            if (data.action.equals("comment")) {
+                return 1;
+            } else if (data.action.equals("comment_commit")) {
+                return 2;
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 3;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            int count = getCount();
+            int type = getItemViewType(position);
+
+            DynamicObject.DynamicMergeRequest data =
+                    (DynamicObject.DynamicMergeRequest) getItem(position);
+
+            DynamicHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(type == 1 ?
+                        R.layout.activity_task_comment_much_image_task :
+                        R.layout.task_list_item_dynamic, parent, false);
+                holder = new DynamicHolder(convertView);
+                convertView.setTag(R.id.Commentlayout, holder);
+                CommentHolder commentHolder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                convertView.setTag(R.id.flowLayout, commentHolder);
+            } else {
+                holder = (DynamicHolder) convertView.getTag(R.id.Commentlayout);
+            }
+
+            holder.updateLine(position, count);
+
+
+            if (type == 1) {
+                CommentHolder commentHolder = (CommentHolder) convertView.getTag(R.id.flowLayout);
+                commentHolder.setContent(data);
+                return convertView;
+            } else {
+                holder.mContent.setText(data.title());
+                int iconResId = data.action_icon;
+                holder.mIcon.setImageResource(iconResId);
+                holder.updateLine(position, count);
+                if (type == 2) {
+                    holder.mContent2.setText(data.content(myImageGetter));
+                    holder.mContent2.setVisibility(View.VISIBLE);
+                    holder.mContent2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DiffFile.DiffSingleFile fileData =
+                                    ((DynamicObject.DynamicMergeRequestCommentCommit) data).getDiffSingleFile();
+                            MergeFileDetailActivity_
+                                    .intent(MergeDetailActivity.this)
+                                    .mProjectPath(mMerge.getProjectPath())
+                                    .mergeIid(mMerge.getIid())
+                                    .mSingleFile(fileData)
+                                    .start();
+                        }
+                    });
+                } else {
+                    holder.mContent2.setVisibility(View.GONE);
+                }
+                return convertView;
+            }
+        }
+    };
+
+    class DynamicHolder {
+        public ImageView mIcon;
+        public TextView mContent;
+        public TextView mContent2;
+        private View timeLineUp;
+        private View timeLineDown;
+        public DynamicHolder(View convertView) {
+            mIcon = (ImageView) convertView.findViewById(R.id.icon);
+            mContent = (TextView) convertView.findViewById(R.id.content);
+            mContent2 = (TextView) convertView.findViewById(R.id.linkContent);
+            mContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+            timeLineUp = convertView.findViewById(R.id.timeLineUp);
+            timeLineDown = convertView.findViewById(R.id.timeLineDown);
+        }
+
+        public void updateLine(int position, int count) {
+            switch (count) {
+                case 1:
+                    setLine(false, false);
+                    break;
+
+                default:
+                    if (position == 0) {
+                        setLine(false, true);
+                    } else if (position == count - 1) {
+                        setLine(true, false);
+                    } else {
+                        setLine(true, true);
+                    }
+                    break;
+            }
+        }
+
+        private void setLine(boolean up, boolean down) {
+            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
+            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
+        }
+    }
+
     @AfterViews
     protected final void initMergeDetailActivity() {
         String httpReviewers;
@@ -174,16 +316,17 @@ public class MergeDetailActivity extends BackActivity {
         initFooter(footer);
 
         BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
-        mAdapter = new MergeRequestDynamicAdapter(this, myImageGetter);
-        mAdapter.setHasMore(false);
+        mAdapter = commentAdpter; //new MergeRequestDynamicAdapter(this, myImageGetter);
+//        mAdapter.setHasMore(false);
 
         listView.setAdapter(mAdapter);
-        listView.setAreHeadersSticky(false);
+//        listView.setAreHeadersSticky(false);
         listView.setDividerHeight(0);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DynamicObject.DynamicBaseObject activity = mAdapter.getItem(position);
+                DynamicObject.DynamicBaseObject activity =
+                        (DynamicObject.DynamicBaseObject) mAdapter.getItem(position);
                 if (activity.user.global_key.equals(MyApp.sUserObject.global_key) && "comment".equals(activity.action)) {
                     showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
                         @Override
@@ -201,6 +344,14 @@ public class MergeDetailActivity extends BackActivity {
         });
 
         updateReviewer();
+
+        if (mMerge == null || mMerge.isPull()) {
+            findViewById(R.id.itemRefResource).setVisibility(View.GONE);
+            return;
+        } else {
+            findViewById(R.id.itemRefResource).setVisibility(View.VISIBLE);
+        }
+
         setActionStyle(false, false, false, false, false);
 
         refreshActivities();
@@ -419,6 +570,7 @@ public class MergeDetailActivity extends BackActivity {
                         .startForResult(RESULT_RESUSE_REFRESOURCE);
             }
         });
+
     }
 
     private void initFooter(View footer) {
@@ -431,6 +583,7 @@ public class MergeDetailActivity extends BackActivity {
         });
     }
 
+
     public CommentActivity.CommentParam createParam(final String atSomeOne) {
         return new MergeCommentParam(mMerge, atSomeOne);
     }
@@ -442,7 +595,7 @@ public class MergeDetailActivity extends BackActivity {
                 String commentString = (String) data.getSerializableExtra("data");
                 try {
                     JSONObject json = new JSONObject(commentString);
-                    DynamicObject.MergeRequestActivity comment = new DynamicObject.MergeRequestActivity(json);
+                    DynamicObject.DynamicMergeRequest comment = new DynamicObject.DynamicMergeRequest(json);
                     mAdapter.appendData(comment);
                     mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
@@ -461,7 +614,7 @@ public class MergeDetailActivity extends BackActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_DELETE_COMMENT)) {
             if (code == 0) {
-                mAdapter.removeDataUpdate((DynamicObject.MergeRequestActivity) data);
+                mAdapter.removeDataUpdate((DynamicObject.DynamicMergeRequest) data);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -611,10 +764,10 @@ public class MergeDetailActivity extends BackActivity {
                             activityJson = (JSONObject) object;
                         }
 
-                        DynamicObject.MergeRequestActivity activity =
+                        DynamicObject.DynamicMergeRequest activity =
                                 isCommentCommit ?
-                                        new DynamicObject.MergeRequestActivityComment(activityJson) :
-                                        new DynamicObject.MergeRequestActivity(activityJson);
+                                        new DynamicObject.DynamicMergeRequestCommentCommit(activityJson) :
+                                        new DynamicObject.DynamicMergeRequest(activityJson);
                         dynamicList.add(activity);
 
                         Collections.sort(dynamicList, mDynamicSorter);
@@ -675,10 +828,10 @@ public class MergeDetailActivity extends BackActivity {
 
     private void updateReviewer() {
         if (mMerge == null || mMerge.isPull()) {
-            findViewById(R.id.reviewers_layout).setVisibility(View.GONE);
+            findViewById(R.id.reviewer_layout).setVisibility(View.GONE);
             return;
         } else {
-            findViewById(R.id.reviewers_layout).setVisibility(View.VISIBLE);
+            findViewById(R.id.reviewer_layout).setVisibility(View.VISIBLE);
         }
         ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
         int role = 0;
@@ -808,75 +961,6 @@ public class MergeDetailActivity extends BackActivity {
     public void onAddReviewer(int result) {
         if (result == Activity.RESULT_OK) {
             refreshReviewers();
-        }
-    }
-
-    class MergeRequestDynamicAdapter extends BaseDynamicAdapter<DynamicObject.MergeRequestActivity> {
-
-        public MergeRequestDynamicAdapter(Context context, MyImageGetter imageGetter) {
-            super(context, imageGetter, null);
-        }
-
-
-        @Override
-        public int getItemResource(int position) {
-            if (getItemViewType(position) == 1) {
-                return R.layout.fragment_merge_request_dynamic_comment_list_item;
-            } else {
-                return R.layout.fragment_merge_request_dynamic_list_item;
-            }
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 3;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            DynamicObject.MergeRequestActivity data = getItem(position);
-            if (data.action.equals("comment")) {
-                return 1;
-            } else if (data.action.equals("comment_commit")) {
-                return 2;
-            } else {
-                return 0;
-            }
-        }
-
-        @Override
-        public ViewHolder createHolder(int position, View convertView) {
-            ViewHolder holder = super.createHolder(position, convertView);
-            if (getItemViewType(position) == 1 && holder.timeLinePoint instanceof ImageView) {
-                holder.mIcon = (ImageView) holder.timeLinePoint;
-            }
-            return holder;
-        }
-
-        @Override
-        public void afterGetView(int position, View convertView, ViewGroup parent, ViewHolder holder) {
-
-            DynamicObject.MergeRequestActivity data = getItem(position);
-            int itemType = getItemViewType(position);
-            if (itemType == 0) {
-                ((ImageView) holder.timeLinePoint).setImageResource(data.action_icon);
-            } else if (itemType == 1) {
-                ContentAreaMuchImages contentArea = new ContentAreaMuchImages(convertView, null, new ClickSmallImage(MergeDetailActivity.this), myImageGetter, mImageLoader);
-                contentArea.setDataContent(data.comment_content, data);
-            } else if (itemType == 2){
-                holder.mContent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DiffFile.DiffSingleFile fileData = ((DynamicObject.MergeRequestActivityComment) data).getDiffSingleFile();
-                        MergeFileDetailActivity_
-                                .intent(MergeDetailActivity.this)
-                                .mProjectPath(mMerge.getProjectPath())
-                                .mergeIid(mMerge.getIid())
-                                .mSingleFile(fileData)
-                                .start();
-                    }
-                });
-            }
         }
     }
 }

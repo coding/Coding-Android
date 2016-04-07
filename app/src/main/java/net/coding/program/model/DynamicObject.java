@@ -743,11 +743,11 @@ public class DynamicObject {
         }
     }
 
-    public static class MergeRequestActivity extends DynamicBaseObject implements Serializable {
+    public static class DynamicMergeRequest extends DynamicBaseObject implements Serializable {
 
         public String comment_content;
         public int action_icon;
-        public MergeRequestActivity(JSONObject json) throws JSONException {
+        public DynamicMergeRequest(JSONObject json) throws JSONException {
             super(json);
             boolean outDate = false;
             comment_content = json.optString("content");
@@ -805,11 +805,12 @@ public class DynamicObject {
 
         @Override
         public Spanned title() {
+            String time = Global.dayToNow(created_at);
             if (action.equals("comment")) {
                 return new SpannedString(user.getName());
             } else {
-                final String format = "%s %s";
-                String title = String.format(format, user.getHtml(), action_msg);
+                final String format = "%s %s - %s";
+                String title = String.format(format, user.getHtml(), action_msg, time);
                 return Global.changeHyperlinkColor(title);
             }
         }
@@ -817,6 +818,7 @@ public class DynamicObject {
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String contentString = comment_content;
+
             Global.MessageParse parse = HtmlContent.parseMessage(contentString);
             return (Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
 
@@ -827,11 +829,11 @@ public class DynamicObject {
         }
     }
 
-    public static class MergeRequestActivityComment extends MergeRequestActivity {
+    public static class DynamicMergeRequestCommentCommit extends DynamicMergeRequest {
         String commitId;
         String path;
         DiffFile.DiffSingleFile diffFile;
-        public MergeRequestActivityComment(JSONObject json) throws JSONException {
+        public DynamicMergeRequestCommentCommit(JSONObject json) throws JSONException {
             super(json);
             commitId = json.optString("commitId");
             path = json.optString("path");

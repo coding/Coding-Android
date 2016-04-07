@@ -36,7 +36,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 /**
  * Created by bill on 16/3/23.
  */
-public class BaseDynamicAdapter<T extends DynamicObject.DynamicBaseObject> extends DataAdapter<T> implements
+public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject> extends DataAdapter<T> implements
         StickyListHeadersAdapter, SectionIndexer {
 
     private final LayoutInflater mInflater;
@@ -82,7 +82,7 @@ public class BaseDynamicAdapter<T extends DynamicObject.DynamicBaseObject> exten
     private ArrayList<Long> mSectionTitle = new ArrayList<>();
     private ArrayList<Integer> mSectionId = new ArrayList<>();
 
-    public BaseDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
+    public DateSectionDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoadTool();

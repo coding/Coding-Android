@@ -22,7 +22,7 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.project.BaseDynamicAdapter;
+import net.coding.program.project.DateSectionDynamicAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -295,13 +295,13 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         }
     }
 
-    private class ProjectDynamicAdapter extends BaseDynamicAdapter {
+    private class ProjectDynamicAdapter extends DateSectionDynamicAdapter {
         public ProjectDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
             super(context, imageGetter, loader);
         }
 
         @Override
-        public void afterGetView(int position, View convertView, ViewGroup parent, BaseDynamicAdapter.ViewHolder holder) {
+        public void afterGetView(int position, View convertView, ViewGroup parent, DateSectionDynamicAdapter.ViewHolder holder) {
             super.afterGetView(position, convertView, parent, holder);
             if (position < mProjectObject.un_read_activities_count) {
                 holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_new);

@@ -37,6 +37,8 @@ public class ImageCommentHolder extends BaseCommentHolder {
             contentArea.setDataContent(((Commit) data).getTitle(), data);
         } else if (data instanceof DynamicObject.DynamicProjectFileComment) {
             contentArea.setDataContent(((DynamicObject.DynamicProjectFileComment) data).getComment(), data);
+        } else if (data instanceof DynamicObject.DynamicMergeRequest) {
+            contentArea.setDataContent(((DynamicObject.DynamicMergeRequest) data).comment_content, data);
         }
     }
 }
