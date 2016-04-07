@@ -595,7 +595,7 @@ public class MergeDetailActivity extends BackActivity {
                 String commentString = (String) data.getSerializableExtra("data");
                 try {
                     JSONObject json = new JSONObject(commentString);
-                    DynamicObject.DynamicMergeRequest comment = new DynamicObject.DynamicMergeRequest(json);
+                    DynamicObject.DynamicMergeRequest comment = new DynamicObject.DynamicMergeRequest(json, true);
                     mAdapter.appendData(comment);
                     mAdapter.notifyDataSetChanged();
                 } catch (Exception e) {

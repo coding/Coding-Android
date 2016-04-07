@@ -747,6 +747,13 @@ public class DynamicObject {
 
         public String comment_content;
         public int action_icon;
+
+        public DynamicMergeRequest(JSONObject json, boolean isComment) throws JSONException {
+            this(json);
+            if (isComment)
+                action = "comment";
+        }
+
         public DynamicMergeRequest(JSONObject json) throws JSONException {
             super(json);
             boolean outDate = false;
