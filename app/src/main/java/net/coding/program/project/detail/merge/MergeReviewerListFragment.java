@@ -326,15 +326,22 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     private void addReviewer(TaskObject.Members member) {
         UserObject user = member.user;
-        new AlertDialog.Builder(getActivity())
-                .setMessage(String.format("添加评审者 %s ?", user.name))
-                .setPositiveButton("确定", (dialog2, which1) -> {
-                    RequestParams params = new RequestParams("user_id", String.valueOf(user.id));
-                    postNetwork(mMerge.getHttpAddReviewer(), params, TAG_URL_ADD_REVIEWER, 0, member);
-                    showProgressBar(true);
-                })
-                .setNegativeButton("取消", null)
-                .create().show();
+
+        // #22 去掉弹窗，直接发请求。
+
+        showProgressBar(true);
+        RequestParams params = new RequestParams("user_id", String.valueOf(user.id));
+        postNetwork(mMerge.getHttpAddReviewer(), params, TAG_URL_ADD_REVIEWER, 0, member);
+
+
+
+//        new AlertDialog.Builder(getActivity())
+//                .setMessage(String.format("添加评审者 %s ?", user.name))
+//                .setPositiveButton("确定", (dialog2, which1) -> {
+//
+//                })
+//                .setNegativeButton("取消", null)
+//                .create().show();
     }
 
     public void search(String input) {
@@ -362,6 +369,14 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     private boolean requestCreateByMe() {
         return mMerge.authorIsMe();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (!mMerge.authorIsMe()) {
+            menu.findItem(R.id.action_add).setVisible(false);
+        }
     }
 
     @OptionsItem
