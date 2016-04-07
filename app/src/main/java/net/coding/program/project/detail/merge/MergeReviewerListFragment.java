@@ -59,7 +59,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
     String urlMembers;
     @FragmentArg
     Merge mMerge;
-    // 为true表示是添加或删除评审人，为false表示评审人列表
+    // 为true表示是添加或删除评审者，为false表示评审者列表
     @FragmentArg
     boolean mSelect;
     @ViewById
@@ -211,7 +211,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     @AfterViews
     protected void init() {
-        getActivity().setTitle(mSelect ? "添加评审人" : "评审人");
+        getActivity().setTitle(mSelect ? "添加评审者" : "评审者");
 
         initRefreshLayout();
         resetAllData();
@@ -229,7 +229,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     if (!mReviewerKey.contains(member.user.global_key)) {
                         addReviewer(member);
                     } else {
-                        showButtomToast("已是评审人，长按移除评审人。");
+                        showButtomToast("已是评审者，长按移除评审者。");
                     }
                 }
             };
@@ -283,7 +283,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     String[] items;
                     DialogInterface.OnClickListener clicks;
                     items = new String[]{
-                            "移除评审人"
+                            "移除评审者"
                     };
                     final Merge.Reviewer finalReviewer = reviewer;
                     clicks = new DialogInterface.OnClickListener() {
@@ -327,7 +327,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
     private void addReviewer(TaskObject.Members member) {
         UserObject user = member.user;
         new AlertDialog.Builder(getActivity())
-                .setMessage(String.format("添加评审人 %s ?", user.name))
+                .setMessage(String.format("添加评审者 %s ?", user.name))
                 .setPositiveButton("确定", (dialog2, which1) -> {
                     RequestParams params = new RequestParams("user_id", String.valueOf(user.id));
                     postNetwork(mMerge.getHttpAddReviewer(), params, TAG_URL_ADD_REVIEWER, 0, member);
