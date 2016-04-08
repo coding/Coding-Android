@@ -268,48 +268,50 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
-                Merge.Reviewer reviewer = null;
-                if (mSelect) {
-                    TaskObject.Members member = (TaskObject.Members) mSearchData.get(position);
-                    for (Merge.Reviewer r : mReviewers) {
-                        if (r.user.global_key.equals(member.user.global_key)) {
-                            if (mReviewerKey.contains(member.user.global_key))
-                                reviewer = r;
-                            else
+        if (!mSelect && mMerge.authorIsMe()) {
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
+                    Merge.Reviewer reviewer = null;
+                    if (mSelect) {
+                        TaskObject.Members member = (TaskObject.Members) mSearchData.get(position);
+                        for (Merge.Reviewer r : mReviewers) {
+                            if (r.user.global_key.equals(member.user.global_key)) {
+                                if (mReviewerKey.contains(member.user.global_key))
+                                    reviewer = r;
+                                else
+                                    break;
                                 break;
-                            break;
+                            }
                         }
+                    } else {
+                        reviewer = (Merge.Reviewer) mSearchData.get(position);
                     }
-                } else {
-                    reviewer = (Merge.Reviewer) mSearchData.get(position);
-                }
 
-                if (reviewer != null) {
-                    String[] items;
-                    DialogInterface.OnClickListener clicks;
-                    items = new String[]{
-                            "移除评审者"
-                    };
-                    final Merge.Reviewer finalReviewer = reviewer;
-                    clicks = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeReviewer(finalReviewer);
-                        }
-                    };
+                    if (reviewer != null) {
+                        String[] items;
+                        DialogInterface.OnClickListener clicks;
+                        items = new String[]{
+                                "移除评审者"
+                        };
+                        final Merge.Reviewer finalReviewer = reviewer;
+                        clicks = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeReviewer(finalReviewer);
+                            }
+                        };
 
-                    new AlertDialog.Builder(getActivity())
-                            .setItems(items, clicks)
-                            .show();
-                    return true;
-                } else {
-                    return false;
+                        new AlertDialog.Builder(getActivity())
+                                .setItems(items, clicks)
+                                .show();
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
-            }
-        });
+            });
+        }
 
         if (mMerge != null) {
             urlMembers = Global.HOST_API + mMerge.getProjectPath() + "/members?pagesize=1000";

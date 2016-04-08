@@ -903,7 +903,7 @@ public class MergeDetailActivity extends BackActivity {
             lp.rightMargin = DensityUtil.dip2px(this, 10);
             for (int i = 0, addedCount = 0; i < reviewerList.size() && addedCount < Math.min(reviewerList.size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
                 Merge.Reviewer reviewer = reviewerList.get(i);
-                if (reviewer.value == 0 || reviewer.user.global_key.equals(mMerge.getAuthor().global_key)) {
+                if (reviewer.user.global_key.equals(mMerge.getAuthor().global_key)) {
                     continue;
                 }
                 CircleImageView circleImageView = new CircleImageView(this);
