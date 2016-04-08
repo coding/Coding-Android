@@ -277,7 +277,7 @@ public class Merge implements Serializable {
 
 
     public String getHttpDetail() {
-        return getHostPublicHead("/base");
+        return getHostPublicHead("/?");  // 以前是 /base 但返回的内容缺少必要的字段。
     }
 
     public String getHttpReviewers() {

@@ -328,7 +328,7 @@ public class MergeDetailActivity extends BackActivity {
                 DynamicObject.DynamicBaseObject activity =
                         (DynamicObject.DynamicBaseObject) mAdapter.getItem(position);
                 if (activity.user.global_key.equals(MyApp.sUserObject.global_key) && "comment".equals(activity.action)) {
-                    showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
+                    showDialog(mMerge.getTitle(), "删除评论?", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String url = mMerge.getHttpDeleteComment(activity.id);
@@ -377,9 +377,9 @@ public class MergeDetailActivity extends BackActivity {
         if (mMerge.isStyleCanMerge()) {
             setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
         } else if (mMerge.isStyleCannotMerge()) {
-            setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
+            setActionStyle(canEdit, false, canEditSrc, showAuth, showCancelAuth);
         } else {
-            setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
+            setActionStyle(false, false, false, false, false);
         }
     }
 
@@ -636,10 +636,10 @@ public class MergeDetailActivity extends BackActivity {
             hideProgressDialog();
             if (code == 0) {
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
-                if (mMerge == null) {
-                    mMerge = mMergeDetail.getMerge();
-                    initByMereData();
-                }
+
+                mMerge = mMergeDetail.getMerge();
+//                initByMereData();
+
                 updateBottomBarStyle();
                 Spannable spanContent = Global.changeHyperlinkColor(mMergeDetail.getContent());
                 if (spanContent.length() == 0) {
@@ -940,11 +940,14 @@ public class MergeDetailActivity extends BackActivity {
                         startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
                     }
                 });
+                findViewById(R.id.reviewer_divide).setVisibility(View.VISIBLE);
                 reviewersLayout.setVisibility(View.VISIBLE);
             } else {
+                findViewById(R.id.reviewer_divide).setVisibility(View.GONE);
                 reviewersLayout.setVisibility(View.GONE);
             }
         } else {
+            findViewById(R.id.reviewer_divide).setVisibility(View.GONE);
             reviewersLayout.setVisibility(View.GONE);
         }
     }

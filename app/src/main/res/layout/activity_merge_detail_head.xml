@@ -190,7 +190,9 @@
             app:itemIcon="@drawable/ic_listitem_reviewers"
             app:itemTitle="评审者" />
 
-        <include layout="@layout/divideline_15" />
+        <include
+            android:id="@+id/reviewer_divide"
+            layout="@layout/divideline_15" />
 
         <LinearLayout
             android:id="@+id/reviewers"
