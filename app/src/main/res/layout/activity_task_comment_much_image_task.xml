@@ -12,7 +12,7 @@
         android:layout_width="@dimen/task_list_item_icon"
         android:layout_height="@dimen/task_list_item_icon"
         android:layout_marginLeft="@dimen/padding_12"
-        android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginRight="3dp"
         android:layout_marginTop="@dimen/padding_12"
         android:src="@drawable/ic_default_user" />
 
@@ -115,6 +115,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/layout_1"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="0dp"  />
 
 </RelativeLayout>

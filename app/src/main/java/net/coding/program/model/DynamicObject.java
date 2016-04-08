@@ -817,7 +817,8 @@ public class DynamicObject {
                 return new SpannedString(user.getName());
             } else {
                 final String format = "%s %s - %s";
-                String title = String.format(format, user.getHtml(), action_msg, time);
+                String userString = String.format(BLACK_HTML, user.getName());
+                String title = String.format(format, userString, action_msg, time);
                 return Global.changeHyperlinkColor(title);
             }
         }

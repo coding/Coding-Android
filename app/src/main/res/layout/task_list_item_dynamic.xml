@@ -78,7 +78,7 @@
             android:id="@+id/linkContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/padding_14"
             android:padding="8dp"
             android:lineSpacingExtra="3dp"
             android:visibility="gone"
@@ -96,6 +96,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/layout_1"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="0dp" />
 
 </RelativeLayout>
