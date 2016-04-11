@@ -381,15 +381,6 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         return mMerge.authorIsMe();
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        if (!mSelect) {
-            menu.findItem(R.id.action_search).setVisible(false);
-        }
-
-    }
 
     @OptionsItem
     void action_add() {
@@ -408,10 +399,20 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!mSelect && mMerge.authorIsMe()) {
+        if (!mSelect) {
             inflater.inflate(R.menu.users, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (!mSelect) {
+            menu.findItem(R.id.action_search).setVisible(false);
+        }
+
     }
 
     @Override
