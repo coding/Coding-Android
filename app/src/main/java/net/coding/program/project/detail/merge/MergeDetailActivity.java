@@ -312,6 +312,7 @@ public class MergeDetailActivity extends BackActivity {
         initHead(mListHead);
         listView.addHeaderView(mListHead, null, false);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+        footer.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
         listView.addFooterView(footer);
         initFooter(footer);
 
@@ -375,20 +376,32 @@ public class MergeDetailActivity extends BackActivity {
         boolean showCancelAuth = canEdit && granted == 1 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
 
         if (mMerge.isStyleCanMerge()) {
-            setActionStyle(showRefuse, showMerge, showCancel, showAuth, showCancelAuth);
+            setActionStyle(showMerge, showRefuse, showCancel, showAuth, showCancelAuth);
         } else if (mMerge.isStyleCannotMerge()) {
-            setActionStyle(canEdit, false, canEditSrc, showAuth, showCancelAuth);
+            setActionStyle(null, canEdit, canEditSrc, showAuth, showCancelAuth);
         } else {
             setActionStyle(false, false, false, false, false);
         }
     }
 
-    private void setActionStyle(boolean refuse, boolean accept, boolean cancel, boolean auth, boolean cancelAuth) {
-        if (!refuse && !accept && !cancel && !auth && !cancelAuth) {
+
+    /**
+     * @param accept  这个参数可以为 null，代表不可合并，但是显示合并按钮，并 50% 透明
+     */
+    private void setActionStyle(Boolean accept, boolean refuse, boolean cancel, boolean auth, boolean cancelAuth) {
+        if (!refuse && accept != null && !accept && !cancel && !auth && !cancelAuth) {
             actionLayout.setVisibility(View.GONE);
         } else {
+            if (accept != null) {
+                actionAccept.setVisibility(accept ? View.VISIBLE : View.GONE);
+                actionAccept.setAlpha(1f);
+                actionAccept.setTag(null);
+            } else {
+                actionAccept.setVisibility(View.VISIBLE);
+                actionAccept.setTag("Coding 不能帮你在线自动合并这个请求。");
+                actionAccept.setAlpha(.5f);
+            }
             actionLayout.setVisibility(View.VISIBLE);
-            actionAccept.setVisibility(accept ? View.VISIBLE : View.GONE);
             actionRefuse.setVisibility(refuse ? View.VISIBLE : View.GONE);
             actionCancel.setVisibility(cancel ? View.VISIBLE : View.GONE);
             actionAuth.setVisibility(auth ? View.VISIBLE : View.GONE);
@@ -397,8 +410,12 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     @Click
-    protected final void actionAccept() {
-        MergeAcceptActivity_.intent(this).mMergeDetail(mMergeDetail).startForResult(RESULT_MERGE);
+    protected final void actionAccept(View view) {
+        if (view.getTag() == null) {
+            MergeAcceptActivity_.intent(this).mMergeDetail(mMergeDetail).startForResult(RESULT_MERGE);
+        } else  {
+            showDialog(mMerge.getTitle(), "Coding 不能帮你在线自动合并这个请求。", null, null, "知道了", null);
+        }
     }
 
     @Click
@@ -772,6 +789,7 @@ public class MergeDetailActivity extends BackActivity {
 
                         Collections.sort(dynamicList, mDynamicSorter);
                     }
+                    listView.findViewById(R.id.gap_to_list).setVisibility(View.VISIBLE);
                     mAdapter.resetData(dynamicList);
                 } catch (JSONException e) {
                     e.printStackTrace();
