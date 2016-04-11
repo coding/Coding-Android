@@ -268,7 +268,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        if (!mSelect && mMerge.authorIsMe()) {
+        if (!mSelect) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
@@ -288,7 +288,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                         reviewer = (Merge.Reviewer) mSearchData.get(position);
                     }
 
-                    if (reviewer != null) {
+                    if (reviewer != null && reviewer.volunteer.equals("invitee")) {
                         String[] items;
                         DialogInterface.OnClickListener clicks;
                         items = new String[]{
