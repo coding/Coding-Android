@@ -512,6 +512,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 Merge.Reviewer reviewer = (Merge.Reviewer) data;
                 mReviewers.remove(reviewer);
                 mReviewerKey.remove(reviewer.user.global_key);
+                reviewer.volunteer = "volunteer";
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
