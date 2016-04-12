@@ -268,7 +268,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        if (!mSelect) {
+        if (false) {  //  这个功能不要了，移除评审人在添加页点击就可以移除
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
@@ -324,14 +324,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     private void removeReviewer(Merge.Reviewer reviewer) {
         UserObject user = reviewer.user;
-        new AlertDialog.Builder(getActivity())
-                .setMessage(String.format("确定移除 %s ?", user.name))
-                .setPositiveButton("确定", (dialog2, which1) -> {
-                    deleteNetwork(mMerge.getHttpDelReviewer() + "?user_id=" + user.id, TAG_URL_DEL_REVIEWER, reviewer);
-                    showProgressBar(true);
-                })
-                .setNegativeButton("取消", null)
-                .create().show();
+        deleteNetwork(mMerge.getHttpDelReviewer() + "?user_id=" + user.id, TAG_URL_DEL_REVIEWER, reviewer);
     }
 
     private void addReviewer(TaskObject.Members member) {
@@ -339,7 +332,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
         // #22 去掉弹窗，直接发请求。
 
-        showProgressBar(true);
+//        showProgressBar(true);
         RequestParams params = new RequestParams("user_id", String.valueOf(user.id));
         postNetwork(mMerge.getHttpAddReviewer(), params, TAG_URL_ADD_REVIEWER, 0, member);
 
