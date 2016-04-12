@@ -712,7 +712,7 @@ public class MergeDetailActivity extends BackActivity {
     }
 
     private void updateRefResourceUI() {
-        View item = findViewById(R.id.itemRefResource);
+        View item = findViewById(R.id.itemRefResourceLayout);
         if (refResourceList.isEmpty()) {
             item.setVisibility(View.GONE);
         } else {
