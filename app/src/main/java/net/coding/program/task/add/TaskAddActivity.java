@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.coding.program.DensityUtil;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -349,6 +350,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         description = (TextView) mHeadView.findViewById(R.id.description);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView, null, false);
+        View gap = new View(this);
+        gap.setMinimumHeight(DensityUtil.dip2px(this, 20));
+        gap.setBackgroundResource(R.color.stand_bg);
+        listView.addFooterView(gap);
     }
 
     private void updateLabels(List<TopicLabelObject> labels) {

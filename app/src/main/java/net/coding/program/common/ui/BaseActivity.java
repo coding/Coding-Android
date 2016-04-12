@@ -246,21 +246,26 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCancel,
                               String okButton,
-                              String cannelButton) {
-        showDialog(title, msg, clickOk, clickCancel, null, okButton, cannelButton, "");
+                              String cancelButton) {
+        showDialog(title, msg, clickOk, clickCancel, null, okButton, cancelButton, "");
     }
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCancel,
                               DialogInterface.OnClickListener clickNeutral,
                               String okButton,
-                              String cannelButton,
+                              String cancelButton,
                               String neutralButton) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
-                .setMessage(msg)
-                .setPositiveButton(okButton, clickOk)
-                .setNegativeButton(cannelButton, clickCancel);
+                .setMessage(msg);
+        if (okButton != null) {
+            builder.setPositiveButton(okButton, clickOk);
+        }
+        if (cancelButton != null) {
+            builder.setNegativeButton(cancelButton, clickCancel);
+        }
+
         if (clickNeutral != null && !neutralButton.isEmpty()) {
             builder.setNeutralButton(neutralButton, clickNeutral);
         }

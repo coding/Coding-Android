@@ -9,8 +9,12 @@ import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.model.Merge;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.merge.MergeReviewerListFragment;
+import net.coding.program.project.detail.merge.MergeReviewerListFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -25,11 +29,17 @@ public class MembersSelectActivity extends BackActivity {
     @Extra
     String mMergeUrl;
 
-    MembersListFragment fragment;
+    @Extra
+    Merge mMerge;  // 写 Reviewer 功能加上
+
+    @Extra
+    boolean mSelect = false;
+
+    CustomMoreFragment fragment;
 
     @AfterViews
     void init() {
-        if (mProjectObject != null) {
+        if (mProjectObject != null && mMerge == null) {
             fragment = new MembersListFragment_
                     .FragmentBuilder_()
                     .mProjectObject(mProjectObject)
@@ -41,6 +51,12 @@ public class MembersSelectActivity extends BackActivity {
                     .FragmentBuilder_()
                     .mMergeUrl(mMergeUrl)
                     .mSelect(true)
+                    .build();
+        } else if (mMerge != null) {
+            fragment = new MergeReviewerListFragment_
+                    .FragmentBuilder_()
+                    .mMerge(mMerge)
+                    .mSelect(mSelect)
                     .build();
         }
 
