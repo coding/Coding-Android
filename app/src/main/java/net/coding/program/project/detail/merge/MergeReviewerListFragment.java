@@ -268,7 +268,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        if (false) {  //  这个功能不要了，移除评审人在添加页点击就可以移除
+        if (!mSelect) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
