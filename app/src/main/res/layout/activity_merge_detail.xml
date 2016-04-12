@@ -29,6 +29,7 @@
         android:id="@+id/actionLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:visibility="gone"
         android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
