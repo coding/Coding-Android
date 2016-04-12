@@ -414,7 +414,7 @@ public class MergeDetailActivity extends BackActivity {
         if (view.getTag() == null) {
             MergeAcceptActivity_.intent(this).mMergeDetail(mMergeDetail).startForResult(RESULT_MERGE);
         } else  {
-            showDialog(mMerge.getTitle(), "Coding 不能帮你在线自动合并这个请求。", null, null, "知道了", null);
+            showDialog("提示", "Coding 不能帮你在线自动合并这个请求。", null, null, "知道了", null);
         }
     }
 
