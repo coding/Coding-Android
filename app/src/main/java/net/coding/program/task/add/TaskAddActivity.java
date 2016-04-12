@@ -110,7 +110,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     };
 
     final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
-    final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=9999999";
+    final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=999999999";
     final String HOST_TASK_UPDATE = Global.HOST_API + "/task/%s/update";
     final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
     final String hostDeleteComment = Global.HOST_API + "/task/%s/comment/%s";

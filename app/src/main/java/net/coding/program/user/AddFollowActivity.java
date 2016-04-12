@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -71,35 +70,28 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
         if (mProjectObject == null) {
             baseAdapter = new FollowAdapter(this, true, mData);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    UserObject userObject = mData.get((int) id);
-                    UserDetailActivity_
-                            .intent(AddFollowActivity.this)
-                            .globalKey(userObject.global_key)
-                            .startForResult(RESULT_USER_DETAIL);
-                }
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                UserObject userObject = mData.get((int) id);
+                UserDetailActivity_
+                        .intent(AddFollowActivity.this)
+                        .globalKey(userObject.global_key)
+                        .startForResult(RESULT_USER_DETAIL);
             });
-        } else {
-            urlAddUser = String.format(Global.HOST_API + "/project/%d/members/add?", mProjectObject.getId());
-            getSupportActionBar().setTitle("添加项目成员");
+        } else { // todo 还没上生产,没测试
+            urlAddUser = Global.HOST_API + mProjectObject.getProjectPath() + "/members/gk/add";
+            setActionBarTitle("添加项目成员");
             baseAdapter = new FollowAdapter(this, false, mData);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final UserObject data = mData.get((int) id);
-
-                    new AlertDialog.Builder(AddFollowActivity.this)
-                            .setMessage(String.format("添加项目成员 %s ?", data.name))
-                            .setPositiveButton("确定", (dialog, which) -> {
-                                RequestParams params = new RequestParams();
-                                params.put("users", data.id);
-                                postNetwork(urlAddUser, params, urlAddUser, -1, data);
-                            })
-                            .setNegativeButton("取消", null)
-                            .show();
-                }
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                final UserObject data = mData.get((int) id);
+                new AlertDialog.Builder(this)
+                        .setMessage(String.format("添加项目成员 %s ?", data.name))
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            RequestParams params = new RequestParams();
+                            params.put("users", data.global_key);
+                            postNetwork(urlAddUser, params, urlAddUser, -1, data);
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
             });
         }
         listView.setAdapter(baseAdapter);

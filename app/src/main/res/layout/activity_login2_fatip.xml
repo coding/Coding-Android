@@ -8,7 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="net.coding.program.login.auth.Login2FATipActivity">
 
-
     <Button
         android:id="@+id/login_2fa_next"
         style="?android:textAppearanceButton"

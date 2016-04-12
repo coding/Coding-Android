@@ -361,8 +361,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                     @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                     for (ImageInfo item : pickPhots) {
-                        Uri uri = Uri.parse(item.path);
-                        File outputFile = photoOperate.scal(uri);
+                        File outputFile = photoOperate.scal(item.path);
                         mData.add(new MaopaoAddActivity.PhotoData(outputFile, item));
                     }
                 } catch (Exception e) {

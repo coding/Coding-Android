@@ -115,7 +115,7 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         mSearchFooterClearAllView.setOnClickListener(mOnClickListener);
         mSearchFooterDivider = footerView.findViewById(R.id.subject_search_hot_footer_divider);
         mSearchFooterDivider.setVisibility(View.GONE);
-        emptyListView.addFooterView(footerView);
+        emptyListView.addFooterView(footerView, null, false);
     }
 
     private void loadSearchCache() {

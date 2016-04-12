@@ -11,8 +11,8 @@ import net.coding.program.common.ui.BaseFragment;
  */
 public abstract class RefreshBaseFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String UPDATE_ALL = "99999999";
-    public static final int UPDATE_ALL_INT = 99999999;
+    public static final String UPDATE_ALL = "999999999";
+    public static final int UPDATE_ALL_INT = 999999999;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 

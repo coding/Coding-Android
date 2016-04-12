@@ -16,8 +16,8 @@ import org.androidannotations.annotations.ViewById;
 @EActivity
 public abstract class RefreshBaseActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String UPDATE_ALL = "99999999";
-    public static final int UPDATE_ALL_INT = 99999999;
+    public static final String UPDATE_ALL = "999999999";
+    public static final int UPDATE_ALL_INT = 999999999;
 
     @ViewById
     protected SwipeRefreshLayout swipeRefreshLayout;

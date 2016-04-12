@@ -36,15 +36,15 @@ import java.io.InputStream;
 public class QRScanActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
     // 说明是由tip界面跳转过来的
-    public static final String EXTRA_TIP = "EXTRA_TIP";
+//    public static final String EXTRA_TIP = "EXTRA_TIP";
 
-    // 直接打开扫描到的 url
-    public static final String EXTRA_OPEN_URL = "EXTRA_OPEN_URL";
+    public static final String EXTRA_OPEN_AUTH_LIST = "EXTRA_OPEN_AUTH_LIST"; // true 表示需要打开二次验证列表
 
-    Toast mToast;
     private QRCodeReaderView qrCodeView;
 
     private final int RESULT_REQUEST_PHOTO = 1;
+
+    private boolean openAuthList = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +56,14 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        openAuthList = getIntent().getBooleanExtra(EXTRA_OPEN_AUTH_LIST, true);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (getIntent().getBooleanExtra(EXTRA_OPEN_URL, false)) {
-            getMenuInflater().inflate(R.menu.qrscan, menu);
-        }
-        
+        getMenuInflater().inflate(R.menu.qrscan, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -131,7 +131,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 
         enableScan = false;
 
-        if (getIntent().getBooleanExtra(EXTRA_OPEN_URL, false)) {
+        if (!AuthInfo.isAuthUrl(s)) {
             Uri uri = Uri.parse(s);
             String host = uri.getHost();
             if (host.toLowerCase().endsWith("coding.net")) { // coding.net 结尾的使用内部浏览器打开, 比如 mart.coding.net
@@ -154,27 +154,18 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
                         .setOnDismissListener(dialog -> enableScan = true)
                         .show();
             }
-
         } else {
-            if (!AuthInfo.isAuthUrl(s)) {
-                if (mToast == null) {
-                    mToast = Toast.makeText(this, "不符合要求的二维码", Toast.LENGTH_SHORT);
-                }
-                mToast.show();
-                enableScan = true;
-                return;
-            }
-
-            if (getIntent().getBooleanExtra(EXTRA_TIP, false)) {
+//            if (getIntent().getBooleanExtra(EXTRA_TIP, false)) {
+            if (openAuthList) {
                 Intent intent = new Intent(this, AuthListActivity.class);
                 intent.putExtra("data", s);
                 startActivity(intent);
-            } else {
-                Intent intent = new Intent();
-                intent.putExtra("data", s);
-                setResult(RESULT_OK, intent);
             }
-
+//            } else {
+            Intent intentResult = new Intent();
+            intentResult.putExtra("data", s);
+            setResult(RESULT_OK, intentResult);
+//            }
             finish();
         }
     }

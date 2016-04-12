@@ -312,8 +312,9 @@ public class MergeDetailActivity extends BackActivity {
         initHead(mListHead);
         listView.addHeaderView(mListHead, null, false);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+
         footer.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
-        listView.addFooterView(footer);
+        listView.addFooterView(footer, null, false);
         initFooter(footer);
 
         BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
