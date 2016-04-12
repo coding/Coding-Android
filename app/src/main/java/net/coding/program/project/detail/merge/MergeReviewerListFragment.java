@@ -506,6 +506,9 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 mReviewers.remove(reviewer);
                 mReviewerKey.remove(reviewer.user.global_key);
                 reviewer.volunteer = "volunteer";
+                if (reviewer.value == 0) {
+                    mSearchData.remove(reviewer);
+                }
                 adapter.notifyDataSetChanged();
             } else {
                 showErrorMsg(code, respanse);
