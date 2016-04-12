@@ -347,10 +347,10 @@ public class MergeDetailActivity extends BackActivity {
         updateReviewer();
 
         if (mMerge == null || mMerge.isPull()) {
-            findViewById(R.id.itemRefResource).setVisibility(View.GONE);
+            findViewById(R.id.itemRefResourceLayout).setVisibility(View.GONE);
             return;
         } else {
-            findViewById(R.id.itemRefResource).setVisibility(View.VISIBLE);
+            findViewById(R.id.itemRefResourceLayout).setVisibility(View.VISIBLE);
         }
 
         setActionStyle(false, false, false, false, false);

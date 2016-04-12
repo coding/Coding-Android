@@ -164,16 +164,19 @@
         app:itemIcon="@drawable/ic_listitem_mergefile"
         app:itemTitle="文件改动" />
 
-    <include layout="@layout/divideline_15" />
-
-
-    <net.coding.program.common.widget.ListItem1
-        android:id="@+id/itemRefResource"
+    <LinearLayout
+        android:id="@+id/itemRefResourceLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemIcon="@drawable/ic_task_ref_resource"
-        app:itemTitle="关联资源" />
-
+        android:orientation="vertical">
+        <include layout="@layout/divideline_15" />
+        <net.coding.program.common.widget.ListItem1
+            android:id="@+id/itemRefResource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemIcon="@drawable/ic_task_ref_resource"
+            app:itemTitle="关联资源" />
+    </LinearLayout>
 
     <include layout="@layout/divide_15_top_bottom" />
 
