@@ -31,6 +31,7 @@
     <color name="gray_dark">#f0f0f0</color>
 
     <color name="font_green_1">#ff09b058</color>
+    <color name="font_green_2">#ff34BD77</color>
     <color name="font_green">#ff3bbd79</color>
     <drawable name="font_green">#ff3bbd79</drawable>
     <color name="font_black_0">#000000</color>

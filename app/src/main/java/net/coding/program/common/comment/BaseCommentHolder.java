@@ -10,6 +10,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
+import net.coding.program.model.DynamicObject;
 
 /**
  * Created by chaochen on 14-10-27.
@@ -67,6 +68,12 @@ public class BaseCommentHolder {
             name.setText(nameString);
             time.setText(Global.dayToNow(timeParam));
             layout.setTag(commit);
+        } else if (param instanceof DynamicObject.DynamicMergeRequest) {
+            DynamicObject.User user = ((DynamicObject.DynamicMergeRequest) param).user;
+            imageLoadTool.loadImage(icon, user.avatar);
+            name.setText(user.getName());
+            time.setText(Global.dayToNow(((DynamicObject.DynamicMergeRequest) param).created_at));
+            layout.setTag(param);
         }
     }
 

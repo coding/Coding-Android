@@ -2,6 +2,8 @@ package net.coding.program.common.widget;
 
 import android.widget.BaseAdapter;
 
+import net.coding.program.model.DynamicObject;
+
 import java.util.ArrayList;
 
 /**
@@ -43,6 +45,10 @@ public abstract class DataAdapter<T> extends BaseAdapter {
         mData.add(data);
     }
 
+    public void insertData(int positionn, T data) {
+        mData.add(positionn, data);
+    }
+
     public void appendSingeDataUpdate(T data) {
         mData.add(data);
         notifyDataSetChanged();
@@ -51,6 +57,10 @@ public abstract class DataAdapter<T> extends BaseAdapter {
     public void resetData(ArrayList<T> data) {
         mData = data;
         notifyDataSetChanged();
+    }
+
+    public void setData(ArrayList<T> data) {
+        mData = data;
     }
 
     @Override

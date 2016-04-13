@@ -6,9 +6,11 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by chenchao on 15/5/25.
@@ -45,6 +47,7 @@ public class Merge implements Serializable {
     private String merged_sha = "";
     private String content = "";
     private boolean srcExist;
+    private int granted = 0;
 
     public Merge(JSONObject json) {
         id = json.optInt("id");
@@ -66,6 +69,7 @@ public class Merge implements Serializable {
         merged_sha = json.optString("merged_sha");
         srcExist = json.optBoolean("srcExist");
         content = json.optString("content", "");
+        granted = json.optInt("granted", 0);
     }
 
     public void setAuthor(UserObject author) {
@@ -255,14 +259,42 @@ public class Merge implements Serializable {
         return path;
     }
 
+    public int getGranted() {
+        return granted;
+    }
+
+    public void setGranted(int granted) {
+        this.granted = granted;
+    }
+
     public String getHttpComments() {
         return getHostPublicHead("/comments");
     }
 
-    public String getHttpDetail() {
-        return getHostPublicHead("/base");
+    public String getHttpActivities() {
+        return getHostPublicHead("/activities");
     }
 
+
+    public String getHttpDetail() {
+        return getHostPublicHead("/?");  // 以前是 /base 但返回的内容缺少必要的字段。
+    }
+
+    public String getHttpReviewers() {
+        return getHostPublicHead("/reviewers");
+    }
+
+    public String getHttpReviewGood() {
+        return getHostPublicHead("/review_good");
+    }
+
+    public String getHttpAddReviewer() {
+        return getHostPublicHead("/add_reviewer");
+    }
+
+    public String getHttpDelReviewer() {
+        return getHostPublicHead("/del_reviewer");
+    }
 
     public String getHttpCommits() {
         return getHostPublicHead("/commits");
@@ -297,6 +329,10 @@ public class Merge implements Serializable {
         return getHostPublicHead("/cancel");
     }
 
+    public String getHttpGrant() {
+        return getHostPublicHead("/grant");
+    }
+
     public RequestData getHttpSendComment() {
         String url = getHttpHostComment();
         RequestParams params = new RequestParams();
@@ -307,9 +343,9 @@ public class Merge implements Serializable {
         return new RequestData(url, params);
     }
 
-    public String getHttpDeleteComment(BaseComment comment) {
+    public String getHttpDeleteComment(int commentId) {
         String url = getHttpHostComment();
-        return url + "/" + comment.id;
+        return url + "/" + commentId;
     }
 
     private String getHttpHostComment() {
@@ -362,6 +398,24 @@ public class Merge implements Serializable {
             tweets_count = json.optInt("tweets_count");
             followed = json.optBoolean("followed");
             follow = json.optBoolean("follow");
+        }
+    }
+
+    public static class Reviewer implements Serializable {
+        public int value;
+        public String volunteer; //invitee
+        public UserObject user = new UserObject();
+        public Reviewer(JSONObject json) throws JSONException {
+            value = json.optInt("value");
+            volunteer = json.optString("volunteer");
+            if (json.has("reviewer")) {
+                user = new UserObject(json.optJSONObject("reviewer"));
+            }
+        }
+
+        public Reviewer(UserObject user) {
+            this.user = user;
+            volunteer = "invitee";
         }
     }
 

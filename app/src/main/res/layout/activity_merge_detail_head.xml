@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:listItem1="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -121,6 +121,7 @@
             android:layout_height="wrap_content"
             android:text="jeff"
             android:textColor="@color/font_black_2" />
+
         <TextView
             android:id="@+id/mergeLog"
             android:layout_width="wrap_content"
@@ -150,8 +151,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
-        listItem1:itemIcon="@drawable/ic_listitem_commit"
-        listItem1:itemTitle="提交记录" />
+        app:itemIcon="@drawable/ic_listitem_commit"
+        app:itemTitle="提交记录" />
 
     <include layout="@layout/divideline_15" />
 
@@ -160,7 +161,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
-        listItem1:itemIcon="@drawable/ic_listitem_mergefile"
-        listItem1:itemTitle="文件改动" />
+        app:itemIcon="@drawable/ic_listitem_mergefile"
+        app:itemTitle="文件改动" />
+
+    <LinearLayout
+        android:id="@+id/itemRefResourceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <include layout="@layout/divideline_15" />
+        <net.coding.program.common.widget.ListItem1
+            android:id="@+id/itemRefResource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemIcon="@drawable/ic_task_ref_resource"
+            app:itemTitle="关联资源" />
+    </LinearLayout>
+
+    <include layout="@layout/divide_15_top_bottom" />
+
+    <LinearLayout
+        android:id="@+id/reviewer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <net.coding.program.common.widget.ListItem1
+            android:id="@+id/itemReviewer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemIcon="@drawable/ic_listitem_reviewers"
+            app:itemTitle="评审者" />
+
+        <include
+            android:id="@+id/reviewer_divide"
+            layout="@layout/divideline_15" />
+
+        <LinearLayout
+            android:id="@+id/reviewers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_12"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_marginTop="@dimen/padding_12"
+            android:visibility="gone"></LinearLayout>
+
+        <include layout="@layout/divide_15_top_bottom" />
+    </LinearLayout>
+
 
 </LinearLayout>

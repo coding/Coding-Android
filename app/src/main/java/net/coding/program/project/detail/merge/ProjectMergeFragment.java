@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
@@ -66,7 +66,7 @@ public class ProjectMergeFragment extends BaseFragment {
         }
     }
 
-    private static class MergePagerAdapter extends FragmentPagerAdapter {
+    private static class MergePagerAdapter extends FragmentStatePagerAdapter {
 
         private ProjectObject mProjectObject;
         private int mStatus = 0;
@@ -80,7 +80,7 @@ public class ProjectMergeFragment extends BaseFragment {
         String[] titles = new String[]{
                 "我评审的",
                 "我发布的",
-                "其他的"
+                "全部的"
         };
 
         public MergePagerAdapter(FragmentManager fm, ProjectObject projectObject) {

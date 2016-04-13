@@ -1,9 +1,15 @@
 package net.coding.program.model;
 
+import android.app.Application;
+import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.SpannedString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 
+import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
@@ -60,6 +66,8 @@ public class DynamicObject {
 
             if (json.has("user")) {
                 user = new User(json.optJSONObject("user"));
+            } else if (json.has("author")) {
+                user = new User(json.optJSONObject("author"));
             }
         }
 
@@ -734,6 +742,125 @@ public class DynamicObject {
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
     }
+
+    public static class DynamicMergeRequest extends DynamicBaseObject implements Serializable {
+
+        public String comment_content;
+        public int action_icon;
+
+        public DynamicMergeRequest(JSONObject json, boolean isComment) throws JSONException {
+            this(json);
+            if (isComment)
+                action = "comment";
+        }
+
+        public DynamicMergeRequest(JSONObject json) throws JSONException {
+            super(json);
+            boolean outDate = false;
+            comment_content = json.optString("content");
+            if (json.has("commit")) {
+                comment_content = json.optString("commit");
+            }
+            if (TextUtils.isEmpty(action_msg)) {
+                if (action.equals("create")) {
+                    action_msg = "创建了合并请求";
+                    action_icon = R.drawable.merge_request_create;
+                } else if (action.equals("merge")) {
+                    action_msg = "合并了该合并请求";
+                    action_icon = R.drawable.merge_request_merge;
+                } else if (action.equals("refuse")) {
+                    action_msg = "拒绝了该合并请求";
+                    action_icon = R.drawable.merge_request_reject;
+                } else if (action.equals("cancel")) {
+                    action_msg = "取消了该合并请求";
+                    action_icon = R.drawable.merge_request_outdate;
+                } else if (action.equals("update")) {
+                    action_msg = "编辑了该合并请求";
+                    action_icon = R.drawable.merge_request_edit_merge;
+                } else if (action.equals("review")) {
+                    action_msg = "对此合并请求评审 +1";
+                    action_icon = R.drawable.merge_request_review;
+                } else if (action.equals("review_undo")) {
+                    action_msg = "撤消了对此合并请求评审 +1";
+                    action_icon = R.drawable.merge_request_cancel_review;
+                } else if (action.equals("grant")) {
+                    action_msg = "授权了该合并请求";
+                    action_icon = R.drawable.merge_request_unlock;
+                } else if (action.equals("grant_undo")) {
+                    action_msg = "取消授权了该合并请求";
+                    action_icon = R.drawable.merge_request_lock;
+                } else if (action.equals("push")) {
+                    action_msg = "推送了新的提交，更新了该合并请求";
+                    action_icon = R.drawable.merge_request_push_new;
+                } else if (action.equals("update_title")) {
+                    action_msg = "编辑了标题";
+                    action_icon = R.drawable.merge_request_edit;
+                } else if (action.equals("update_content")) {
+                    action_msg = "编辑了描述";
+                    action_icon = R.drawable.merge_request_edit;
+                } else if (action.equals("comment")) {
+                    action_msg = "发表了评论";
+                } else if (action.equals("comment_commit")) {
+                    outDate = json.optBoolean("outdated");
+                    action_msg = "对文件改动发起了评论";
+                    action_icon = outDate ? R.drawable.merge_request_outdate : R.drawable.merge_request_commont_commit;
+                } else {
+                    action_msg = "";
+                }
+            }
+        }
+
+        @Override
+        public Spanned title() {
+            String time = Global.dayToNow(created_at);
+            if (action.equals("comment")) {
+                return new SpannedString(user.getName());
+            } else {
+                final String format = "%s %s - %s";
+                String userString = String.format(BLACK_HTML, user.getName());
+                String title = String.format(format, userString, action_msg, time);
+                return Global.changeHyperlinkColor(title);
+            }
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            String contentString = comment_content;
+
+            Global.MessageParse parse = HtmlContent.parseMessage(contentString);
+            return (Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
+
+
+//            return Global.changeHyperlinkColor(comment_content, imageGetter, null);
+//            String textContent = HtmlContent.parseToText(comment_content);
+//            return Global.changeHyperlinkColor(textContent, BLACK_COLOR, imageGetter);
+        }
+    }
+
+    public static class DynamicMergeRequestCommentCommit extends DynamicMergeRequest {
+        String commitId;
+        String path;
+        DiffFile.DiffSingleFile diffFile;
+        public DynamicMergeRequestCommentCommit(JSONObject json) throws JSONException {
+            super(json);
+            commitId = json.optString("commitId");
+            path = json.optString("path");
+            diffFile = new DiffFile.DiffSingleFile(commitId, path);
+        }
+
+        public DiffFile.DiffSingleFile getDiffSingleFile() {
+            return diffFile;
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#3BBD79"));
+            SpannableString string = new SpannableString("点击查看评论详情");
+            string.setSpan(span, 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return string;
+        }
+    }
+
 
     public static class DynamicTask extends DynamicBaseObject {
         Origin_task origin_task;
