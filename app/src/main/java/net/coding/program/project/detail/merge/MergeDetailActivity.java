@@ -790,7 +790,11 @@ public class MergeDetailActivity extends BackActivity {
 
                         Collections.sort(dynamicList, mDynamicSorter);
                     }
-                    listView.findViewById(R.id.gap_to_list).setVisibility(View.VISIBLE);
+                    if (dynamicList.size() > 0) {
+                        listView.findViewById(R.id.gap_to_list).setVisibility(View.VISIBLE);
+                    } else {
+                        listView.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
+                    }
                     mAdapter.resetData(dynamicList);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -854,10 +858,10 @@ public class MergeDetailActivity extends BackActivity {
         }
         ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
         int role = 0;
-        if (mMerge.authorIsMe()) {
-            role = 1;
-        } else if (mMerge.isMergeTreate() || mMerge.isCanceled()) {
+        if (mMerge.isMergeTreate() || mMerge.isCanceled()) {
             role = 0;
+        } else if (mMerge.authorIsMe()) {
+            role = 1;
         } else {
             role = 2;
             if (reviewerList != null) {
