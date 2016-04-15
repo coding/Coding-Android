@@ -18,6 +18,7 @@ import net.coding.program.project.detail.ProjectGitFragment;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicListFragment;
 import net.coding.program.project.detail.merge.MergeListFragment;
+import net.coding.program.project.detail.merge.MergeReviewerListFragment;
 import net.coding.program.user.UserProjectListFragment;
 
 /**
@@ -89,6 +90,9 @@ public class BlankViewDisplay {
                     iconId = R.drawable.ic_exception_blank_maopao;
                     text = "快和你的好友打个招呼吧~";
                 } else if (fragment instanceof ProjectDynamicFragment) {
+                    iconId = R.drawable.ic_exception_blank_task;
+                    text = "这里还什么都没有\n赶快起来弄出一点动静吧";
+                } else if (fragment instanceof MergeReviewerListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "这里还什么都没有\n赶快起来弄出一点动静吧";
                 } else if (fragment instanceof ProjectGitFragment) {
