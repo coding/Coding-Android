@@ -856,6 +856,8 @@ public class MergeDetailActivity extends BackActivity {
         int role = 0;
         if (mMerge.authorIsMe()) {
             role = 1;
+        } else if (mMerge.isMergeTreate() || mMerge.isCanceled()) {
+            role = 0;
         } else {
             role = 2;
             if (reviewerList != null) {
@@ -891,6 +893,13 @@ public class MergeDetailActivity extends BackActivity {
                 tv.setTextColor(getResources().getColor(R.color.green));
             }
             tv.setGravity(Gravity.CENTER);
+        } else {
+            TextView tv = (TextView) reviewers.findViewById(R.id.text2);
+            tv.setVisibility(View.GONE);
+            View arrow = reviewers.findViewById(R.id.arrow);
+            if (arrow != null) {
+                arrow.setVisibility(View.VISIBLE);
+            }
         }
         final int roleFinal = role;
         reviewers.setOnClickListener(new View.OnClickListener() {
