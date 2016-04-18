@@ -21,6 +21,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.Merge;
@@ -41,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @EFragment(R.layout.common_refresh_listview)
@@ -64,6 +66,9 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
     boolean mSelect;
     @ViewById
     ListView listView;
+
+    @ViewById
+    View blankLayout;
 
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Merge.Reviewer> mReviewers = new ArrayList<>();
@@ -252,7 +257,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 //                            .mMember((TaskObject.Members) mSearchData.get(position))
 //                            .start();
 
-                    if (reviewer.user.global_key.equals(MyApp.sUserObject.global_key)) {
+                    if (reviewer.user.global_key.equals(MyApp.sUserObject.global_key) && !isDealed()) {
                         if (reviewer.value <= 0) {
                             postNetwork(mMerge.getHttpReviewGood(), new RequestParams(), TAG_URL_REVIEW_GOOD, 0, reviewer);
                         } else {
@@ -268,7 +273,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        if (!mSelect) {
+        if (!mSelect && !isDealed()) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
@@ -392,10 +397,14 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!mSelect) {
+        if (!mSelect && !isDealed()) {
             inflater.inflate(R.menu.users, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public boolean isDealed() {
+        return mMerge.isMergeTreate() || mMerge.isCanceled();
     }
 
 
@@ -425,6 +434,8 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_URL_REVIEWER)) {
+            List theData = mSelect ? mMembers : mReviewers;
+
             hideProgressDialog();
             setRefreshing(false);
 
@@ -458,8 +469,12 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 }
 
                 resetAllData();
+                BlankViewDisplay.setBlank(theData.size(), this, true, blankLayout, null);
+
                 adapter.notifyDataSetChanged();
             } else {
+                BlankViewDisplay.setBlank(theData.size(), this, true, blankLayout, null);
+
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_URL_MEMBER)) {
@@ -493,8 +508,10 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     }
                 }
                 resetAllData();
+                BlankViewDisplay.setBlank(mMembers.size(), this, true, blankLayout, null);
                 adapter.notifyDataSetChanged();
             } else {
+                BlankViewDisplay.setBlank(mMembers.size(), this, true, blankLayout, null);
                 showErrorMsg(code, respanse);
             }
 

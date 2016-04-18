@@ -238,6 +238,10 @@ public class Merge implements Serializable {
                 merge_status.equals(STYLE_REFUSE);
     }
 
+    public boolean isCanceled() {
+        return merge_status.equals(STYLE_CANNEL);
+    }
+
     public long getCreatedAt() {
         return created_at;
     }
