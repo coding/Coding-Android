@@ -932,8 +932,17 @@ public class MergeDetailActivity extends BackActivity {
         if (reviewerList != null && reviewerList.size() > 0) {
             int imageSize = DensityUtil.dip2px(this, 33);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageSize, imageSize);
-            lp.rightMargin = DensityUtil.dip2px(this, 10);
-            for (int i = 0, addedCount = 0; i < reviewerList.size() && addedCount < Math.min(reviewerList.size(), getResources().getInteger(R.integer.max_reviewer_count)) ; i ++) {
+            lp.rightMargin = DensityUtil.dip2px(this, 8);
+            int addedCount = 0;
+            int shouldShowCount = getResources().getInteger(R.integer.max_reviewer_count);
+            boolean shouldShowMore = false;
+            if (reviewerList.size() > shouldShowCount) {
+                shouldShowMore = true;
+                shouldShowCount = shouldShowCount - 1;
+            } else {
+                shouldShowCount = reviewerList.size();
+            }
+            for (int i = 0; i < shouldShowCount ; i ++) {
                 Merge.Reviewer reviewer = reviewerList.get(i);
                 if (reviewer.user.global_key.equals(mMerge.getAuthor().global_key)) {
                     continue;
@@ -960,11 +969,16 @@ public class MergeDetailActivity extends BackActivity {
                 addedCount ++;
                 iconfromNetwork(circleImageView, reviewer.user.avatar);
             }
-            if (reviewersLayout.getChildCount() > 0) {
+            if (shouldShowMore) {
                 ImageView more = new ImageView(this);
                 more.setImageResource(R.drawable.round_more);
                 reviewersLayout.addView(more, lp);
-                more.setOnClickListener(new View.OnClickListener() {
+            }
+
+            if (addedCount > 0) {
+                findViewById(R.id.reviewer_divide).setVisibility(View.VISIBLE);
+                reviewersLayout.setVisibility(View.VISIBLE);
+                reviewersLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
@@ -972,12 +986,11 @@ public class MergeDetailActivity extends BackActivity {
                         startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
                     }
                 });
-                findViewById(R.id.reviewer_divide).setVisibility(View.VISIBLE);
-                reviewersLayout.setVisibility(View.VISIBLE);
             } else {
                 findViewById(R.id.reviewer_divide).setVisibility(View.GONE);
                 reviewersLayout.setVisibility(View.GONE);
             }
+
         } else {
             findViewById(R.id.reviewer_divide).setVisibility(View.GONE);
             reviewersLayout.setVisibility(View.GONE);
