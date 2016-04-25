@@ -55,7 +55,7 @@ public class UserPointActivity extends BackActivity {
         listView.addHeaderView(head, null, false);
 
         View footShade = mInflater.inflate(R.layout.divide_shade_up, null);
-        listView.addFooterView(footShade);
+        listView.addFooterView(footShade, null, false);
 
         getNetwork(PointObject.getHttpPointsAll(), TAG_HTTP_ALL_POINTS);
         listView.setAdapter(adapter);

@@ -37,6 +37,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
@@ -349,35 +350,35 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                 showErrorMsg(code, respanse);
             }
 
-        } else if (tag.equals(HOST_GOOD)) {
-            if (code == 0) {
-//                int headCount = listView.getHeaderViewsCount();
-                for (int i = 0; i < mData.size(); ++i) {
-                    Maopao.MaopaoObject maopao = mData.get(i);
-                    if (maopao.id == ((Maopao.MaopaoObject) data).id) {
-                        maopao.liked = !maopao.liked;
-                        if (maopao.liked) {
-                            Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
-                            maopao.like_users.add(0, like_user);
-                            ++maopao.likes;
-                        } else {
-                            for (int j = 0; j < maopao.like_users.size(); ++j) {
-                                if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
-                                    maopao.like_users.remove(j);
-                                    --maopao.likes;
-                                    break;
-                                }
-                            }
-                        }
-
-                        mAdapter.notifyDataSetChanged();
-
-                        break;
-                    }
-                }
-            } else {
-                showErrorMsg(code, respanse);
-            }
+//        } else if (tag.equals(HOST_GOOD)) {
+//            if (code == 0) {
+////                int headCount = listView.getHeaderViewsCount();
+//                for (int i = 0; i < mData.size(); ++i) {
+//                    Maopao.MaopaoObject maopao = mData.get(i);
+//                    if (maopao.id == ((Maopao.MaopaoObject) data).id) {
+//                        maopao.liked = !maopao.liked;
+//                        if (maopao.liked) {
+//                            Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
+//                            maopao.like_users.add(0, like_user);
+//                            ++maopao.likes;
+//                        } else {
+//                            for (int j = 0; j < maopao.like_users.size(); ++j) {
+//                                if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
+//                                    maopao.like_users.remove(j);
+//                                    --maopao.likes;
+//                                    break;
+//                                }
+//                            }
+//                        }
+//
+//                        mAdapter.notifyDataSetChanged();
+//
+//                        break;
+//                    }
+//                }
+//            } else {
+//                showErrorMsg(code, respanse);
+//            }
 
         } else if (tag.equals(TAG_DELETE_MAOPAO)) {
             int maopaoId = (int) data;
@@ -930,7 +931,36 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     String uri = String.format(HOST_GOOD, data.id, type);
                     v.setTag(data);
 
-                    postNetwork(uri, new RequestParams(), HOST_GOOD, 0, data);
+//                    postNetwork(uri, new RequestParams(), HOST_GOOD, 0, data);
+
+                    MyAsyncHttpClient.post(getActivity(), uri, new RequestParams(), new MyJsonResponse(getActivity()) {
+                        @Override
+                        public void onMySuccess(JSONObject response) {
+                            super.onMySuccess(response);
+                            data.liked = !data.liked;
+                            if (data.liked) {
+                                Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
+                                data.like_users.add(0, like_user);
+                                ++data.likes;
+                            } else {
+                                for (int j = 0; j < data.like_users.size(); ++j) {
+                                    if (data.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
+                                        data.like_users.remove(j);
+                                        --data.likes;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onMyFailure(JSONObject response) {
+                            super.onMyFailure(response);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    });
                 }
             });
             holder.shareBtn.setTag(data);

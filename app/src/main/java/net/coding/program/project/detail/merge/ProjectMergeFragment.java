@@ -80,7 +80,7 @@ public class ProjectMergeFragment extends BaseFragment {
         String[] titles = new String[]{
                 "我评审的",
                 "我发布的",
-                "其他的"
+                "全部的"
         };
 
         public MergePagerAdapter(FragmentManager fm, ProjectObject projectObject) {

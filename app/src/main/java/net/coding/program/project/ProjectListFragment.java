@@ -124,7 +124,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
 
         View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
-        listView.addFooterView(listViewFooter);
+        listView.addFooterView(listViewFooter, null, false);
         if (myAdapter == null) {
             myAdapter = new MyAdapter();
         }

@@ -39,6 +39,15 @@ public class PhotoOperate {
 
     public File scal(Uri fileUri) throws Exception {
         String path = FileUtil.getPath(context, fileUri);
+        return scal(path);
+    }
+
+    public File scal(String path) throws IOException {
+        String prefix = "file://";
+        if (path.toLowerCase().startsWith(prefix)) {
+            path = path.substring(prefix.length(), path.length());
+        }
+
         File outputFile = new File(path);
         if (Global.isGif(path)) {
             return outputFile;

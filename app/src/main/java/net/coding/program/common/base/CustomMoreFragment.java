@@ -21,4 +21,7 @@ public abstract class CustomMoreFragment extends RefreshBaseFragment {
         Global.copy(getActivity(), link);
         showButtomToast("已复制链接 " + link);
     }
+
+    public void search(String text) {}
+
 }

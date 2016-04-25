@@ -70,6 +70,11 @@ public class DiffFile implements Serializable {
             commitId = json.optString("commitId");
         }
 
+        public DiffSingleFile(String commitId, String path) {
+            this.commitId = commitId;
+            this.path = path;
+        }
+
         public String getInsertions() {
             return "+" + insertions;
         }

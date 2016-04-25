@@ -3,13 +3,13 @@ package net.coding.program.login.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import net.coding.program.R;
+import net.coding.program.common.umeng.UmengActivity;
 
-public class Login2FATipActivity extends AppCompatActivity {
+public class Login2FATipActivity extends UmengActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class Login2FATipActivity extends AppCompatActivity {
 
     public void onClick2faScan(View v) {
         Intent intent = new Intent(this, QRScanActivity.class);
-        intent.putExtra(QRScanActivity.EXTRA_TIP, true);
+//        intent.putExtra(QRScanActivity.EXTRA_TIP, true);
         startActivity(intent);
         finish();
     }

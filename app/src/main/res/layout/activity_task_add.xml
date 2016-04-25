@@ -24,7 +24,7 @@
             android:divider="@null"
             android:dividerHeight="0dp"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false" />
+            android:headerDividersEnabled="false"/>
 
         <include layout="@layout/common_enter_image" />
 

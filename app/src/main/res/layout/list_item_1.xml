@@ -35,6 +35,16 @@
         android:gravity="center"
         android:visibility="invisible" />
 
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="@string/no_pick"
+        android:textColor="@color/font_black_9"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
     <include
         android:id="@+id/arrow"
         layout="@layout/list_item_common_arrow" />

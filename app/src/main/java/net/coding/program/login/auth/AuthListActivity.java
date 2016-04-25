@@ -55,7 +55,7 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
         mAuthAdapter = new AuthAdapter(this, 0);
         listView = (StickyListHeadersListView) findViewById(R.id.listView);
         View footer = getLayoutInflater().inflate(R.layout.divide_15_top, null);
-        listView.addFooterView(footer);
+        listView.addFooterView(footer, null, false);
         listView.setAdapter(mAuthAdapter);
 
         ArrayList<String> uris = AccountInfo.loadAuthDatas(this);
@@ -134,6 +134,8 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
 
         if (id == R.id.action_add) {
             Intent intent = new Intent(this, QRScanActivity.class);
+            intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, false);
+
             startActivityForResult(intent, RESULT_ADD_ACCOUNT);
             return true;
         } else if (id == android.R.id.home) {

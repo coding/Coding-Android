@@ -183,7 +183,7 @@ public class FileDynamicActivity extends BackActivity {
         }
 
         public String getHttpDynamic() {
-            String url = Global.HOST_API + mProject.getProjectPath() + "/file/%s/activities?last_id=9999999";
+            String url = Global.HOST_API + mProject.getProjectPath() + "/file/%s/activities?last_id=999999999";
             return String.format(url, mFileObject.file_id);
         }
 

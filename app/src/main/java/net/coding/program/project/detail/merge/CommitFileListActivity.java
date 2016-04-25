@@ -116,7 +116,7 @@ public class CommitFileListActivity extends BackActivity {
 
     private void initListFooter() {
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
-        listView.addFooterView(footer);
+        listView.addFooterView(footer, null, false);
         footer.findViewById(R.id.itemAddComment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

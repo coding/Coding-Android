@@ -229,7 +229,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
                     View footerView = LayoutInflater.from(getActivity()).inflate(
                             R.layout.mall_detail_list_footer, null);
-                    listView.addFooterView(footerView);
+                    listView.addFooterView(footerView, null, false);
                 }
 
 //                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());

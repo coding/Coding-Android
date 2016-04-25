@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.coding.program.DensityUtil;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -109,7 +110,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     };
 
     final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
-    final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=9999999";
+    final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=999999999";
     final String HOST_TASK_UPDATE = Global.HOST_API + "/task/%s/update";
     final String TAG_TASK_UPDATE = "TAG_TASK_UPDATE";
     final String hostDeleteComment = Global.HOST_API + "/task/%s/comment/%s";
@@ -349,6 +350,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         description = (TextView) mHeadView.findViewById(R.id.description);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView, null, false);
+        View gap = new View(this);
+        gap.setMinimumHeight(DensityUtil.dip2px(this, 20));
+        gap.setBackgroundResource(R.color.stand_bg);
+        listView.addFooterView(gap);
     }
 
     private void updateLabels(List<TopicLabelObject> labels) {

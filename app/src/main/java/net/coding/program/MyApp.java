@@ -1,12 +1,14 @@
 package net.coding.program;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -32,7 +34,7 @@ import java.util.List;
  * 用来做一些初始化工作，比如设置 host，
  * 初始化图片库配置
  */
-public class MyApp extends Application {
+public class MyApp extends MultiDexApplication {
 
     public static float sScale;
     public static int sWidthDp;
@@ -159,5 +161,17 @@ public class MyApp extends Application {
                 SDKInitializer.initialize(this);
             }
         }
+    }
+
+    // --- Google Analytics --------------------------------------------------------------------
+    private Tracker mTracker;
+
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
     }
 }

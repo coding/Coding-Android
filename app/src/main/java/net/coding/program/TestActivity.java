@@ -25,7 +25,7 @@ public class TestActivity extends AppCompatActivity {
 
     public void click2(View v) {
         Intent intent = new Intent(this, QRScanActivity.class);
-        intent.putExtra(QRScanActivity.EXTRA_OPEN_URL, "true");
+//        intent.putExtra(QRScanActivity.EXTRA_OPEN_URL, "true");
         startActivity(intent);
     }
 
