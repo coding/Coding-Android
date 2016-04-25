@@ -46,13 +46,13 @@ public class ProjectObject implements Serializable {
     private DynamicObject.Owner owner;
 
     public ProjectObject(JSONObject json) throws JSONException {
-        backend_project_path = json.optString("backend_project_path", "");
+        backend_project_path = json.optString("backend_project_path", "").replace("/team/", "/user/");
         name = json.optString("name", "");
         owner_id = json.optInt("owner_id");
         owner_user_home = json.optString("owner_user_home", "");
         owner_user_name = json.optString("owner_user_name", "");
         owner_user_picture = json.optString("owner_user_picture", "");
-        project_path = json.optString("project_path", "");
+        project_path = json.optString("project_path", "").replace("/t/", "/u/");
         ssh_url = json.optString("ssh_url", "");
         current_user_role = json.optString("current_user_role", "");
         current_user_role_id = json.optString("current_user_role_id", "");
@@ -93,7 +93,7 @@ public class ProjectObject implements Serializable {
     }
 
     public static String translatePath(String path) {
-        return path.replace("/u/", "/user/").replace("/p/", "/project/");
+        return path.replace("/u/", "/user/").replace("/t/", "/user/").replace("/p/", "/project/");
     }
 
     public static String translatePathToOld(String path) {
@@ -269,5 +269,13 @@ public class ProjectObject implements Serializable {
             owner = new DynamicObject.Owner();
         }
         return owner;
+    }
+
+    public static String teamPath2User(String path) {
+        if (path == null) {
+            return "";
+        }
+
+        return path.replace("/team/", "/user/").replace("/t/", "/u/");
     }
 }

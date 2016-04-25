@@ -51,12 +51,15 @@ public class MergeAcceptActivity extends BackActivity {
 
         RequestData request = mMergeDetail.getHttpMerge(text, delSrc.getVisibility() == View.VISIBLE);
         postNetwork(request, HOST_ACCEPT_MEREGE);
+
+        showProgressBar(true);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_ACCEPT_MEREGE)) {
             umengEvent(UmengEvent.CODE, "合并mrpr");
+            showProgressBar(false);
             if (code == 0) {
                 setResult(RESULT_OK);
                 finish();

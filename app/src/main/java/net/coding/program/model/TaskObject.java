@@ -3,6 +3,7 @@ package net.coding.program.model;
 import android.text.Html;
 
 import net.coding.program.R;
+import net.coding.program.task.add.TaskAddActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -188,6 +189,9 @@ public class TaskObject {
             current_user_role_id = json.optString("current_user_role_id");
             id = json.optInt("id");
             priority = json.optInt("priority");
+            if (priority >= TaskAddActivity.priorityDrawable.length) {
+                priority = TaskAddActivity.priorityDrawable.length - 1;
+            }
 
             if (json.has("owner")) {
                 owner = new UserObject(json.optJSONObject("owner"));

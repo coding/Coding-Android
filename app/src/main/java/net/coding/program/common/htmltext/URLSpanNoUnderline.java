@@ -71,11 +71,13 @@ public class URLSpanNoUnderline extends URLSpan {
         return openActivityByUri(context, uriString, newTask, defaultIntent, false);
     }
 
-    public static boolean openActivityByUri(Context context, String uriString, boolean newTask, boolean defaultIntent, boolean share) {
+    public static boolean openActivityByUri(Context context, String uri, boolean newTask, boolean defaultIntent, boolean share) {
         Intent intent = new Intent();
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
+
+        final String uriString = uri.replace("/team/", "/user/").replace("/t/", "/u/");  // 添加 team 后导致的 api 失效问题
 
         final String NAME = "([\\w.-]+)";
 
@@ -404,19 +406,19 @@ public class URLSpanNoUnderline extends URLSpan {
                 if (newTask) {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
-                if (uriString.startsWith("/u/")) {
-                    uriString = Global.HOST + uriString;
+                if (uri.startsWith("/u/")) {
+                    uri = Global.HOST + uri;
                 }
 
                 if (share) {
                     intent.putExtra("share", true);
                 }
 
-                intent.putExtra("url", uriString);
+                intent.putExtra("url", uri);
                 context.startActivity(intent);
             }
         } catch (Exception e) {
-            Toast.makeText(context, "" + uriString, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "" + uri, Toast.LENGTH_LONG).show();
             Global.errorLog(e);
         }
 
@@ -428,6 +430,21 @@ public class URLSpanNoUnderline extends URLSpan {
         super.updateDrawState(ds);
         ds.setUnderlineText(false);
         ds.setColor(color);
+    }
+
+    public static String generateAbsolute(String jumpUrl) {
+        if (jumpUrl == null) {
+            return "";
+        }
+
+        String url = jumpUrl.replace("/u/", "/user/")
+                .replace("/p/", "/project/");
+
+        if (url.startsWith("/")) {
+            url = Global.HOST_API + url;
+        }
+
+        return url;
     }
 
     @Override

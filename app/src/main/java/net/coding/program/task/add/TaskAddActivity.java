@@ -102,7 +102,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     private final MyImageGetter myImageGetter = new MyImageGetter(this);
     private final ClickSmallImage onClickImage = new ClickSmallImage(this);
 
-    final int priorityDrawable[] = new int[]{
+    public static final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
             R.drawable.ic_task_priority_1,
             R.drawable.ic_task_priority_2,
@@ -352,7 +352,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         listView.addHeaderView(mHeadView, null, false);
         View gap = new View(this);
         gap.setMinimumHeight(DensityUtil.dip2px(this, 20));
-        gap.setBackgroundResource(R.color.stand_bg);
+        gap.setBackgroundResource(R.color.divide);
         listView.addFooterView(gap);
     }
 
@@ -457,6 +457,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             findViewById(R.id.line2_comment_off).setVisibility(View.VISIBLE);
             findViewById(R.id.line2_comment_on).setVisibility(View.GONE);
 
+            findViewById(R.id.descriptionLayout).setVisibility(View.GONE);
+
         } else {
             setActionBarTitle(mSingleTask.project.name);
             title.setText(mSingleTask.content);
@@ -467,7 +469,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
             findViewById(R.id.line2_comment_off).setVisibility(View.GONE);
             findViewById(R.id.line2_comment_on).setVisibility(View.VISIBLE);
-
         }
 
         setDeadline();
@@ -710,7 +711,12 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
     private void setPriority() {
         String[] strings_priority = getResources().getStringArray(R.array.strings_priority);
-        layoutPriovity.setText2(strings_priority[mNewParam.priority]);
+
+        String priority = strings_priority[strings_priority.length - 1];
+        if (mNewParam.priority < strings_priority.length) {
+            priority = strings_priority[mNewParam.priority];
+        }
+        layoutPriovity.setText2(priority);
     }
 
     private void setDeadline() {

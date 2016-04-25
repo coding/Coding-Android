@@ -251,6 +251,7 @@ public class MergeObject implements Serializable {
         return Global.changeHyperlinkColor(title);
     }
 
+
     public String getTitleIId() {
         return "# " + iid;
     }

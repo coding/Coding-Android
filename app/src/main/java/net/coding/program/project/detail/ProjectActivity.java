@@ -218,12 +218,30 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         public ProjectJumpParam(String path) {
-            Pattern pattern = Pattern.compile("^/u/(\\w*)/p/(\\w*)$");
+            String[] regexs = new String[] {
+                    "^/u/(.*)/p/(.*)$",
+                    "^/user/(.*)/project/(.*)$",
+                    "^/t/(.*)/p/(.*)$",
+                    "^/team/(.*)/p/(.*)$"
+            };
+
+            for (String item : regexs) {
+                if (isMatch(path, item)) {
+                    break;
+                }
+            }
+        }
+
+        private boolean isMatch(String path, String regex) {
+            Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(path);
             if (matcher.find()) {
                 this.mUser = matcher.group(1);
                 this.mProject = matcher.group(2);
+                return true;
             }
+
+            return false;
         }
 
         public enum JumpType {

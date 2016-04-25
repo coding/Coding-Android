@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.text.Spannable;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -19,29 +17,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.DensityUtil;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.common.enter.ImageCommentLayout;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.common.widget.ListItem1;
-import net.coding.program.maopao.item.ContentAreaMuchImages;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.DiffFile;
 import net.coding.program.model.DynamicObject;
@@ -50,13 +42,11 @@ import net.coding.program.model.MergeDetail;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.RequestData;
-import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
 import net.coding.program.task.add.CommentHolder;
 import net.coding.program.task.add.RefResourceActivity;
 import net.coding.program.task.add.RefResourceActivity_;
-import net.coding.program.task.add.TaskListHolder;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -69,7 +59,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -296,11 +285,9 @@ public class MergeDetailActivity extends BackActivity {
             httpReviewers = mMerge.getHttpReviewers();
         } else {
             showDialogLoading();
-            String s = mMergeUrl.replace("/u/", "/api/user/")
-                    .replace("/p/", "/project/");
-//            s += "/base";
-            getNetwork(s + "/base", HOST_MERGE_DETAIL);
-            httpReviewers = s + "/reviewers";
+            String baseGit = URLSpanNoUnderline.generateAbsolute(mMergeUrl);
+            getNetwork(baseGit + "/base", HOST_MERGE_DETAIL);
+//            httpReviewers = baseGit + "/reviewers";
         }
     }
 
@@ -655,8 +642,12 @@ public class MergeDetailActivity extends BackActivity {
             if (code == 0) {
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
 
-                mMerge = mMergeDetail.getMerge();
-//                initByMereData();
+                if (mMerge == null) {
+                    mMerge = mMergeDetail.getMerge();
+                    initByMereData();
+                } else {
+                    mMerge = mMergeDetail.getMerge();
+                }
 
                 updateBottomBarStyle();
                 Spannable spanContent = Global.changeHyperlinkColor(mMergeDetail.getContent());

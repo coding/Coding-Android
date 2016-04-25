@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by chenchao on 15/5/25.
@@ -47,6 +46,7 @@ public class Merge implements Serializable {
     private String merged_sha = "";
     private String content = "";
     private boolean srcExist;
+    private String body_plan = "";
     private int granted = 0;
 
     public Merge(JSONObject json) {
@@ -69,6 +69,7 @@ public class Merge implements Serializable {
         merged_sha = json.optString("merged_sha");
         srcExist = json.optBoolean("srcExist");
         content = json.optString("content", "");
+        body_plan = json.optString("body_plan", "");
         granted = json.optInt("granted", 0);
     }
 
@@ -165,7 +166,11 @@ public class Merge implements Serializable {
     }
 
     public String getContent() {
-        return content;
+        if (!content.isEmpty()) {
+            return content;
+        }
+
+        return body_plan;
     }
 
     public boolean authorIsMe() {

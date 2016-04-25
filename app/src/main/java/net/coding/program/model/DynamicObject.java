@@ -1,6 +1,5 @@
 package net.coding.program.model;
 
-import android.app.Application;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -220,7 +219,7 @@ public class DynamicObject {
         public line_note(JSONObject json) {
             content = json.optString("content");
             commit_id = json.optString("commit_id");
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             id = json.optInt("id");
             noteable_type = json.optString("noteable_type", "");
             commit_path = json.optString("commit_path", "");
@@ -479,7 +478,7 @@ public class DynamicObject {
         Parent parent = new Parent();
 
         public Project_topic(JSONObject json) throws JSONException {
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             title = json.optString("title");
 
             if (json.has("content")) {
@@ -505,7 +504,7 @@ public class DynamicObject {
 
             public Parent(JSONObject json) {
                 try {
-                    path = json.optString("path");
+                    path = ProjectObject.teamPath2User(json.optString("path"));
                     title = json.optString("title");
                 } catch (Exception e) {
                     Global.errorLog(e);
@@ -630,7 +629,7 @@ public class DynamicObject {
                 }
 
                 if (json.has("path")) {
-                    path = json.optString("path");
+                    path = ProjectObject.teamPath2User(json.optString("path"));
                 }
             }
 
@@ -844,7 +843,7 @@ public class DynamicObject {
         public DynamicMergeRequestCommentCommit(JSONObject json) throws JSONException {
             super(json);
             commitId = json.optString("commitId");
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             diffFile = new DiffFile.DiffSingleFile(commitId, path);
         }
 
@@ -1053,7 +1052,7 @@ public class DynamicObject {
 
         public Depot(JSONObject json) {
             name = json.optString("name");
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
         }
 
         public String getHtml() {
@@ -1111,7 +1110,7 @@ public class DynamicObject {
         public Owner owner = new Owner();
 
         public Origin_task(JSONObject json) throws JSONException {
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             title = json.optString("title");
 
             if (json.has("owner")) {
@@ -1133,7 +1132,7 @@ public class DynamicObject {
 
             global_key = json.optString("global_key");
             name = json.optString("name");
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
         }
 
         public Owner() {
@@ -1169,7 +1168,7 @@ public class DynamicObject {
                 owner = new Owner(json.optJSONObject("owner"));
             }
 
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             title = json.optString("title");
             deadline = json.optString("deadline");
             priority = json.optInt("priority");
@@ -1240,9 +1239,9 @@ public class DynamicObject {
         public String path = "";
 
         public Project(JSONObject json) throws JSONException {
-            full_name = json.optString("full_name");
-            name = json.optString("name");
-            path = json.optString("path");
+            full_name = json.optString("full_name", "");
+            name = json.optString("name", "");
+            path = ProjectObject.teamPath2User(json.optString("path", ""));
         }
 
         public Project() {
@@ -1288,7 +1287,7 @@ public class DynamicObject {
 
             global_key = json.optString("global_key");
             name = json.optString("name");
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             follow = json.optInt("follow") != 0;
             followed = json.optInt("followed") != 0;
         }
@@ -1326,7 +1325,7 @@ public class DynamicObject {
             title = json.optString("title");
             file_id = json.optInt("file_id");
             project_id = json.optInt("project_id");
-            path = json.optString("path");
+            path = ProjectObject.teamPath2User(json.optString("path"));
             owner = new Owner(json.optJSONObject("owner"));
         }
 
