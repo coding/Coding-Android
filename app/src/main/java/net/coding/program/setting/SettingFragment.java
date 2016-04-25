@@ -95,12 +95,6 @@ public class SettingFragment extends BaseFragment {
     }
 
     @Click
-    void feedback() {
-        FeedbackActivity_.intent(getActivity()).start();
-    }
-
-
-    @Click
     void aboutCoding() {
         AboutActivity_.intent(SettingFragment.this).startForResult(RESULT_ABOUT_ACTIVITY);
     }

@@ -89,28 +89,6 @@
         <include layout="@layout/divide_15_top_bottom" />
 
         <RelativeLayout
-            android:id="@+id/feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
-                android:text="意见反馈"
-                android:textColor="#222222"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-
-
-        <include layout="@layout/divide_1" />
-
-        <RelativeLayout
             android:id="@+id/aboutCoding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

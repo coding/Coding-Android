@@ -408,8 +408,10 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     }
 
     private boolean projectCreateByMe() {
-        return mProjectObject != null &&
-                mProjectObject.owner_user_name.equals(MyApp.sUserObject.global_key);
+        String myGlobalKey = MyApp.sUserObject.global_key;
+        return mProjectObject != null
+                && (mProjectObject.owner_user_name.equals(myGlobalKey)
+                    || mProjectObject.getOwner().global_key.equals(myGlobalKey));
     }
 
     @OptionsItem
