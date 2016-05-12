@@ -65,7 +65,7 @@ public class ImagePagerFragment extends BaseFragment {
             .resetViewBeforeLoading(true)
             .cacheInMemory(false)
             .considerExifParams(true)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.NONE_SAFE)
             .build();
     private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
         @Override
