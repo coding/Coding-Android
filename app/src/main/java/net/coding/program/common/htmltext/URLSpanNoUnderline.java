@@ -72,6 +72,11 @@ public class URLSpanNoUnderline extends URLSpan {
     }
 
     public static boolean openActivityByUri(Context context, String uri, boolean newTask, boolean defaultIntent, boolean share) {
+
+        final String ProjectPath = "/u/([\\w.-]+)/p/([\\w\\.-]+)";
+        final String Host = Global.HOST;
+        final String UserPath = "/u/([\\w.-]+)";
+
         Intent intent = new Intent();
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -183,7 +188,21 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
-        // 冒泡话题
+        // 项目内冒泡
+        // https://coding.net/t/superrocket/p/TestPrivate?pp=2417
+        final String projectMaopao = String.format("^%s%s\\?pp=([\\d]+)", Host, ProjectPath);
+        pattern = Pattern.compile(projectMaopao);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            intent.setClass(context, MaopaoDetailActivity_.class);
+            MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
+                    matcher.group(1), matcher.group(2), matcher.group(3));
+            intent.putExtra("mClickParam", param);
+            context.startActivity(intent);
+            return true;
+        }
+
+            // 冒泡话题
         // https://coding.net/u/8206503/pp/9275
         final String maopaoTopic = "^(?:(?:https://[\\w.]*)?/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";
         pattern = Pattern.compile(maopaoTopic);

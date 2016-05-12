@@ -278,4 +278,8 @@ public class ProjectObject implements Serializable {
 
         return path.replace("/team/", "/user/").replace("/t/", "/u/");
     }
+
+    public static String getHttpProject(String user, String project) {
+        return String.format("%s/user/%s/project/%s", Global.HOST_API, user, project);
+    }
 }

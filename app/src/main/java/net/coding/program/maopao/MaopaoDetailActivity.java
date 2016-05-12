@@ -2,7 +2,6 @@ package net.coding.program.maopao;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -42,6 +41,7 @@ import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.model.Maopao;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -64,9 +64,15 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     final int RESULT_REQUEST_AT = 1;
     final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
     private final String TAG_LIKE_USERS = "TAG_LIKE_USERS";
+
+    private static final String TAG_MAOPAO = "TAG_MAOPAO";
+    private static final String TAG_PROJECT = "TAG_PROJECT";
+
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
     Maopao.MaopaoObject mMaopaoObjectOld;
+
+    ProjectObject mProjectObject;
 
     @Extra
     ClickParam mClickParam;
@@ -77,9 +83,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     @ViewById
     MainInputView mEnterLayout;
 
-    String maopaoUrl;
-    String maopaoOwnerGlobal = "";
-    String maopaoId = "";
+
     ArrayList<Maopao.Comment> mData = new ArrayList<>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
     String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
@@ -124,42 +128,27 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     TextView commentBtn;
     TextView reward;
 
-    View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            action_delete_maopao();
-        }
-    };
+    View.OnClickListener onClickDeleteMaopao = v -> action_delete_maopao();
 
     private void action_delete_maopao() {
         final int maopaoId = mMaopaoObject.id;
-        showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%d";
-                deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
-            }
+        showDialog("冒泡", "删除冒泡？", (dialog, which) -> {
+            final String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%d";
+            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
         });
     }
 
     boolean mModifyComment = false;
-    View.OnClickListener onClickComment = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final Maopao.Comment comment = (Maopao.Comment) v.getTag();
-            if (comment.isMy()) {
-                showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id);
-                        deleteNetwork(url, URI_COMMENT_DELETE);
-                    }
-                });
+    View.OnClickListener onClickComment = v -> {
+        final Maopao.Comment comment = (Maopao.Comment) v.getTag();
+        if (comment.isMy()) {
+            showDialog("冒泡", "删除评论？", (dialog, which) -> {
+                String url = String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id);
+                deleteNetwork(url, URI_COMMENT_DELETE);
+            });
 
-            } else {
-                prepareAddComment(comment, true);
-            }
+        } else {
+            prepareAddComment(comment, true);
         }
     };
     BaseAdapter adapter = new BaseAdapter() {
@@ -212,7 +201,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.green);
-        loadData();
+        loadDataFromNetwork();
     }
 
     @Override
@@ -271,26 +260,26 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     @Override
     public void onRefresh() {
         if (mMaopaoObject != null) {
-            mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+            if (mClickParam == null) {
+                mClickParam = new ClickParam(mMaopaoObject.owner.global_key, String.valueOf(mMaopaoObject.id));
+            }
             mMaopaoObjectOld = mMaopaoObject;
             mMaopaoObject = null;
         }
 
-        loadData();
+        loadDataFromNetwork();
     }
 
-    private void loadData() {
+    private void loadDataFromNetwork() {
         if (mMaopaoObject == null) {
-            maopaoOwnerGlobal = mClickParam.name;
-            maopaoId = mClickParam.maopaoId;
-
-            final String url = Global.HOST_API + "/tweet/%s/%s";
-            maopaoUrl = String.format(url, maopaoOwnerGlobal, maopaoId);
-
-            getNetwork(maopaoUrl, maopaoUrl);
-
+            if (!mClickParam.isProjectMaopao()) {
+                String maopaoUrl = String.format(Global.HOST_API + "/tweet/%s/%s", mClickParam.name, mClickParam.maopaoId);
+                getNetwork(maopaoUrl, TAG_MAOPAO);
+            } else {
+                String projectUrl = mClickParam.getHttpProject();
+                getNetwork(projectUrl, TAG_PROJECT);
+            }
         } else {
-            maopaoOwnerGlobal = mMaopaoObject.owner.global_key;
             initData();
         }
     }
@@ -539,7 +528,15 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 showErrorMsg(code, respanse);
             }
             likeBtn.setChecked(mMaopaoObject.liked);
-        } else if (tag.equals(maopaoUrl)) {
+        } else if (tag.equals(TAG_PROJECT)) {
+            if (code == 0) {
+                mProjectObject = new ProjectObject(respanse.optJSONObject("data"));
+                String maopaoUrl = Maopao.getHttpProjectMaopao(mProjectObject.getId(), Integer.valueOf(mClickParam.maopaoId));
+                getNetwork(maopaoUrl, TAG_MAOPAO);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_MAOPAO)) {
             if (code == 0) {
                 mMaopaoObject = new Maopao.MaopaoObject(respanse.getJSONObject("data"));
                 initData();
@@ -622,12 +619,27 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     }
 
     public static class ClickParam implements Serializable {
-        String name;
-        String maopaoId;
+        String name = "";
+        String maopaoId = "";
+        String projectName = "";
 
         public ClickParam(String name, String maopaoId) {
             this.name = name;
             this.maopaoId = maopaoId;
+        }
+
+        public ClickParam(String name, String projectName, String maopaoId) {
+            this.projectName = projectName;
+            this.name = name;
+            this.maopaoId = maopaoId;
+        }
+
+        public boolean isProjectMaopao() {
+            return !projectName.isEmpty();
+        }
+
+        public String getHttpProject() {
+            return ProjectObject.getHttpProject(name, projectName);
         }
     }
 

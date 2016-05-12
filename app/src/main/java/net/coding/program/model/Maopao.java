@@ -152,4 +152,9 @@ public class Maopao {
             path = user.path;
         }
     }
+
+    public static String getHttpProjectMaopao(int projectId, int maopaoId) {
+//        https://coding.net/api/project/205646/tweet/2417
+        return String.format("%s/project/%d/tweet/%d", Global.HOST_API, projectId, maopaoId);
+    }
 }
