@@ -65,7 +65,6 @@ public class LoginActivity extends BaseActivity {
     private static String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
-    //    final String HOST_LOGIN = Global.HOST_API + "/login";
     private final String TAG_LOGIN = "TAG_LOGIN";
     final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";

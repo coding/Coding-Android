@@ -216,6 +216,10 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         setResult(RESULT_CANCELED, intent);
     }
 
+    protected String getExtraString() {
+        return "";
+    }
+
     @Override
     public void saveData(TopicData data) {
         modifyData = data;
@@ -253,6 +257,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         StringBuilder pickLabels = getLabelsParam(modifyData.labels);
         RequestParams params = new RequestParams();
         params.put("title", titleString);
+        contentString += getExtraString();
         params.put("content", contentString);
         params.put("label", pickLabels);
 
