@@ -539,6 +539,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         } else if (tag.equals(TAG_MAOPAO)) {
             if (code == 0) {
                 mMaopaoObject = new Maopao.MaopaoObject(respanse.getJSONObject("data"));
+                invalidateOptionsMenu();
                 initData();
             } else {
                 mMaopaoObject = mMaopaoObjectOld;
