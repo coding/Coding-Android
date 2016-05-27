@@ -1,9 +1,11 @@
 package net.coding.program;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -18,7 +20,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.BlankViewDisplay;
@@ -67,24 +68,9 @@ public class ImagePagerFragment extends BaseFragment {
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.NONE_SAFE)
             .build();
-    private final View.OnClickListener onClickImageClose = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            getActivity().onBackPressed();
-        }
-    };
-    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = new PhotoViewAttacher.OnPhotoTapListener() {
-        @Override
-        public void onPhotoTap(View view, float v, float v2) {
-            getActivity().onBackPressed();
-        }
-    };
-    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = new PhotoViewAttacher.OnViewTapListener() {
-        @Override
-        public void onViewTap(View view, float v, float v1) {
-            getActivity().onBackPressed();
-        }
-    };
+    private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
+    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = (view, v, v2) -> getActivity().onBackPressed();
+    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = (view, v, v1) -> getActivity().onBackPressed();
     @ViewById
     DonutProgress circleLoading;
     @ViewById
@@ -107,8 +93,7 @@ public class ImagePagerFragment extends BaseFragment {
     int mProjectObjectId;
 
     @FragmentArg // 是否允许使用自己的菜单
-            boolean customMenu = true;
-
+    boolean customMenu = true;
 
     private String URL_FILES_BASE = Global.HOST_API + "/project/%d/files/%s/view";
     private String URL_FILES = "";
@@ -172,7 +157,7 @@ public class ImagePagerFragment extends BaseFragment {
                 ((GifImageView) image).setImageURI(null);
             } else if (image instanceof PhotoView) {
                 try {
-                    ((BitmapDrawable) ((PhotoView) image).getDrawable()).getBitmap().recycle();
+                    ((PhotoView) image).setImageDrawable(null);
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }
@@ -224,53 +209,47 @@ public class ImagePagerFragment extends BaseFragment {
                             rootLayout.addView(image);
                             image.setOnClickListener(onClickImageClose);
                         } else {
-                            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, null);
+                            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, rootLayout, false);
                             image = photoView;
                             rootLayout.addView(image);
                             photoView.setOnPhotoTapListener(onPhotoTapClose);
                             photoView.setOnViewTapListener(onViewTapListener);
                         }
 
-                        image.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View v) {
-                                new AlertDialog.Builder(getActivity())
-                                        .setItems(new String[]{"保存到手机"}, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (which == 0) {
-                                                    if (client == null) {
-                                                        client = MyAsyncHttpClient.createClient(getActivity());
-                                                        client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
+                        image.setOnLongClickListener(v -> {
+                            new AlertDialog.Builder(getActivity())
+                                    .setItems(new String[]{"保存到手机"}, (dialog, which) -> {
+                                        if (which == 0) {
+                                            if (client == null) {
+                                                client = MyAsyncHttpClient.createClient(getActivity());
+                                                client.get(getActivity(), imageUri, new FileAsyncHttpResponseHandler(mFile) {
 
-                                                            @Override
-                                                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                                                                if (!isResumed()) {
-                                                                    return;
-                                                                }
-                                                                client = null;
-                                                                showButtomToast("保存失败");
-                                                            }
-
-                                                            @Override
-                                                            public void onSuccess(int statusCode, Header[] headers, File file) {
-                                                                if (!isResumed()) {
-                                                                    return;
-                                                                }
-                                                                client = null;
-                                                                showButtomToast("图片已保存到:" + file.getPath());
-                                                                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));/**/
-                                                            }
-                                                        });
+                                                    @Override
+                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file1) {
+                                                        if (!isResumed()) {
+                                                            return;
+                                                        }
+                                                        client = null;
+                                                        showButtomToast("保存失败");
                                                     }
 
-                                                }
+                                                    @Override
+                                                    public void onSuccess(int statusCode, Header[] headers, File file1) {
+                                                        if (!isResumed()) {
+                                                            return;
+                                                        }
+                                                        client = null;
+                                                        showButtomToast("图片已保存到:" + file1.getPath());
+                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file1)));/**/
+                                                    }
+                                                });
                                             }
-                                        })
-                                        .show();
 
-                                return true;
-                            }
+                                        }
+                                    })
+                                    .show();
+
+                            return true;
                         });
 
                         try {
@@ -278,7 +257,11 @@ public class ImagePagerFragment extends BaseFragment {
                                 Uri uri1 = Uri.fromFile(file);
                                 ((GifImageView) image).setImageURI(uri1);
                             } else if (image instanceof PhotoView) {
-                                ((PhotoView) image).setImageBitmap(loadedImage);
+                                Drawable[] layers = new Drawable[2];
+                                layers[0] = new ColorDrawable(0xFFFFFFFF);
+                                layers[1] = new BitmapDrawable(getResources(), loadedImage);
+                                LayerDrawable layerDrawable = new LayerDrawable(layers);
+                                ((PhotoView) image).setImageDrawable(layerDrawable);
 
                             }
                         } catch (Exception e) {
@@ -286,16 +269,13 @@ public class ImagePagerFragment extends BaseFragment {
                         }
                     }
                 },
-                new ImageLoadingProgressListener() {
-
-                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                        if (!isAdded()) {
-                            return;
-                        }
-
-                        int progress = current * 100 / total;
-                        circleLoading.setProgress(progress);
+                (imageUri, view, current, total) -> {
+                    if (!isAdded()) {
+                        return;
                     }
+
+                    int progress = current * 100 / total;
+                    circleLoading.setProgress(progress);
                 });
 
         FileSaveHelp fileSaveHelp = new FileSaveHelp(getActivity());

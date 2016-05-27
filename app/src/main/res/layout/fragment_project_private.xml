@@ -70,11 +70,19 @@
 
                 <include layout="@layout/divideline_15" />
 
-                <include
-                    android:id="@+id/itemCode"
-                    layout="@layout/project_home_list_head_button" />
+                <LinearLayout
+                    android:id="@+id/codeLayout0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <include layout="@layout/divideline_15" />
+                    <include
+                        android:id="@+id/itemCode"
+                        layout="@layout/project_home_list_head_button" />
+
+                    <include layout="@layout/divideline_15" />
+
+                </LinearLayout>
 
                 <include
                     android:id="@+id/itemMember"
@@ -84,23 +92,31 @@
 
         </LinearLayout>
 
-        <include layout="@layout/divide_15_top_bottom" />
-
         <LinearLayout
+            android:id="@+id/codeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/itemReadme"
-                layout="@layout/project_home_list_head_button" />
+            <include layout="@layout/divide_15_top_bottom" />
 
-            <include layout="@layout/divideline_15" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/itemMerge"
-                layout="@layout/project_home_list_head_button" />
+                <include
+                    android:id="@+id/itemReadme"
+                    layout="@layout/project_home_list_head_button" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/itemMerge"
+                    layout="@layout/project_home_list_head_button" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

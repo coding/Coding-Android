@@ -1,4 +1,4 @@
-package net.coding.program;
+package net.coding.program.common.util;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

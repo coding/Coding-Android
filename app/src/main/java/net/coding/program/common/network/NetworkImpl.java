@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class NetworkImpl {
+    public static final int ERROR_PERMISSION_DENIED = 1400;
     public static final int NETWORK_ERROR = -1;
     public static final int NETWORK_ERROR_SERVICE = -2;
     private final NetworkCallback callback;

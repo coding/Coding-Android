@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.DensityUtil;
+import net.coding.program.common.util.DensityUtil;
 import net.coding.program.R;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;

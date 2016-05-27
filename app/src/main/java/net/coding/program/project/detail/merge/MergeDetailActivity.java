@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.DensityUtil;
+import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.util.DensityUtil;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
@@ -103,6 +105,8 @@ public class MergeDetailActivity extends BackActivity {
     View actionAuth;
     @ViewById
     View actionCancelAuth;
+    @ViewById
+    View blankLayout;
     @ViewById
     ListView listView;
 
@@ -664,6 +668,12 @@ public class MergeDetailActivity extends BackActivity {
                 refreshRefResource();
             } else {
                 showErrorMsg(code, respanse);
+
+                if (code == NetworkImpl.ERROR_PERMISSION_DENIED) {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null, "无权访问\n请联系项目管理员进行代码权限设置");
+                } else {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
+                }
             }
         } else if (tag.equals(TAG_REVIEW_GOOD)) {
             if (code == 0) {

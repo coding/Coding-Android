@@ -17,6 +17,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
@@ -264,7 +265,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             } else {
                 hideProgressDialog();
                 setRefreshing(false);
-                BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
+                if (code == NetworkImpl.ERROR_PERMISSION_DENIED) {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry, "无权访问\n请联系项目管理员进行代码权限设置");
+                } else {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
+                }
             }
         }
     }

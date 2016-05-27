@@ -46,6 +46,10 @@ public class TaskObject {
                 }
             }
 
+            public static boolean canReadCode(int type) {
+                return type >= member.type;
+            }
+
             private int type;
 
             public int getType() {

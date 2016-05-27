@@ -8,17 +8,22 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_project_private)
 public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
+    @ViewById
+    View codeLayout0, codeLayout1;
+
     @AfterViews
-    protected void init2() {
+    protected void initPrivateProjectHomeFragment() {
         final String buttonTitle[] = new String[]{
                 "动态",
                 "任务",
@@ -100,8 +105,15 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         }
 
         updateRedPoinitStyle();
-    }
 
+        if (TaskObject.Members.Type.canReadCode(mProjectObject.getType())) {
+            codeLayout0.setVisibility(View.VISIBLE);
+            codeLayout1.setVisibility(View.VISIBLE);
+        } else {
+            codeLayout0.setVisibility(View.GONE);
+            codeLayout1.setVisibility(View.GONE);
+        }
+    }
 
     void updateRedPoinitStyle() {
         final int[] buttons = new int[]{

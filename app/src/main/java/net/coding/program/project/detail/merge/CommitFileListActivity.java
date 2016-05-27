@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
@@ -51,6 +53,10 @@ public class CommitFileListActivity extends BackActivity {
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    View blankLayout;
+
     CommitFileAdapter mAdapter;
     private View mListHead;
 
@@ -201,7 +207,11 @@ public class CommitFileListActivity extends BackActivity {
                 mCommit = new Commit(jsonDetail);
                 initByCommit();
             } else {
-                showErrorMsg(code, respanse);
+                if (code == NetworkImpl.ERROR_PERMISSION_DENIED) {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null, "无权访问\n请联系项目管理员进行代码权限设置");
+                } else {
+                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
+                }
             }
         }
     }

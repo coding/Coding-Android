@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import net.coding.program.DensityUtil;
+import net.coding.program.common.util.DensityUtil;
 import net.coding.program.R;
 
 /**
