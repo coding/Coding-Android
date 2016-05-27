@@ -461,6 +461,8 @@ public class URLSpanNoUnderline extends URLSpan {
 
         if (url.startsWith("/")) {
             url = Global.HOST_API + url;
+        } else if (url.startsWith(Global.HOST) && !url.startsWith(Global.HOST_API)) {
+            url = url.replace(Global.HOST, Global.HOST_API);
         }
 
         return url;
