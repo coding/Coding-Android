@@ -109,6 +109,15 @@ public class SettingFragment extends BaseFragment {
     }
 
     @Click
+    void clearCache() {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.clear_cache_message)
+                .setPositiveButton("确定", null)
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
+    @Click
     void loginOut() {
         showDialog(MyApp.sUserObject.global_key, "退出当前账号?", new DialogInterface.OnClickListener() {
             @Override
