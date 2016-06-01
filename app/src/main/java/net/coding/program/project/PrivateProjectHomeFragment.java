@@ -8,7 +8,6 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 
@@ -106,7 +105,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
         updateRedPoinitStyle();
 
-        if (TaskObject.Members.Type.canReadCode(mProjectObject.getType())) {
+        if (mProjectObject.canReadCode()) {
             codeLayout0.setVisibility(View.VISIBLE);
             codeLayout1.setVisibility(View.VISIBLE);
         } else {

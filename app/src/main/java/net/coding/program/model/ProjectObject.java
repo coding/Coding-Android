@@ -22,7 +22,7 @@ public class ProjectObject implements Serializable {
     public String project_path = ""; // "/u/cc/p/hell"
     public String ssh_url = "";
     public String current_user_role = "";
-    public String current_user_role_id = "";
+    public int current_user_role_id;
     public String depot_path = "";
     public String description = "";
     public String git_url = "";
@@ -55,7 +55,7 @@ public class ProjectObject implements Serializable {
         project_path = json.optString("project_path", "").replace("/t/", "/u/");
         ssh_url = json.optString("ssh_url", "");
         current_user_role = json.optString("current_user_role", "");
-        current_user_role_id = json.optString("current_user_role_id", "");
+        current_user_role_id = json.optInt("current_user_role_id", 0);
         depot_path = json.optString("depot_path", "");
         description = json.optString("description", "");
         git_url = json.optString("git_url", "");
@@ -86,6 +86,10 @@ public class ProjectObject implements Serializable {
 
     public int getType() {
         return type;
+    }
+
+    public boolean canReadCode() {
+        return TaskObject.Members.Type.canReadCode(current_user_role_id);
     }
 
     public void setType(int type) {
