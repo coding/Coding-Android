@@ -173,6 +173,7 @@ public class SettingFragment extends BaseFragment {
                     for (File item : cacheDir) {
                         deleteFiles(item);
                     }
+                    showMiddleToast("清除缓存成功");
 
                     updateCacheSize();
                 }))
