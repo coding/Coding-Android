@@ -19,6 +19,8 @@ import org.androidannotations.annotations.ViewById;
 public class AccountSetting extends BackActivity {
 
     private static final int RESULT_PHONE_SETTING = 1;
+    private static final int RESULT_MODIFY_EMAIL = 2;
+
     @ViewById
     TextView email, suffix, phone;
 
@@ -38,6 +40,16 @@ public class AccountSetting extends BackActivity {
     @OnActivityResult(RESULT_PHONE_SETTING)
     void onResultPhone() {
         updatePhoneDisplay();
+    }
+
+    @OnActivityResult(RESULT_MODIFY_EMAIL)
+    void onResultModifyEmail() {
+        updateEmail();
+    }
+
+    private void updateEmail() {
+        UserObject userObject = MyApp.sUserObject;
+        email.setText(userObject.email);
     }
 
     private void updatePhoneDisplay() {
@@ -82,8 +94,8 @@ public class AccountSetting extends BackActivity {
                     })
                     .setNegativeButton("取消", null)
                     .show();
+        } else {
+            ModifyEmailActivity_.intent(this).startForResult(RESULT_MODIFY_EMAIL);
         }
     }
-
-
 }

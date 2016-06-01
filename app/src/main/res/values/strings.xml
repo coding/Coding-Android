@@ -186,5 +186,6 @@
     <string name="title_activity_edit_code">编辑代码</string>
     <string name="title_activity_set_global_key">设置用户名</string>
     <string name="clear_cache_message">缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？</string>
+    <string name="title_activity_modify_email">修改邮箱</string>
 
 </resources>

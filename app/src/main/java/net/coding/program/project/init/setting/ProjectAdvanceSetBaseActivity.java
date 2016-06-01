@@ -1,6 +1,5 @@
 package net.coding.program.project.init.setting;
 
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -44,6 +43,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
     private final String HOST_NEED_2FA = Global.HOST_API + "/user/2fa/method";
     @ViewById
     Button deleteBut;
+
     Handler hander2fa;
 
     @Extra
@@ -113,20 +113,16 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
         AlertDialog dialog = builder
                 .setTitle("需要验证码")
                 .setView(textEntryView)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        String editStr1 = edit2fa.getText().toString().trim();
-                        if (TextUtils.isEmpty(editStr1)) {
-                            Toast.makeText(ProjectAdvanceSetBaseActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        actionDelete2FA(editStr1);
+                .setPositiveButton("确定", (dialog1, whichButton) -> {
+                    String editStr1 = edit2fa.getText().toString().trim();
+                    if (TextUtils.isEmpty(editStr1)) {
+                        Toast.makeText(ProjectAdvanceSetBaseActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
+                        return;
                     }
+                    actionDelete2FA(editStr1);
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                }).show();
+                .setNegativeButton("取消",null)
+                .show();
 
         dialog.setOnDismissListener(dialog1 -> {
             hander2fa.removeMessages(0);

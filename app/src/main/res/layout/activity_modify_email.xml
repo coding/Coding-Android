@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.setting.ModifyEmailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/emailEdit"
+                        app:topLine="false"
+                        style="@style/EmailEdit"
+                        app:hint="邮箱" />
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/captchaEdit"
+                        style="@style/EmailEdit"
+                        app:captcha="true"
+                        app:hint="验证码" />
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/passwordEdit"
+                        style="@style/EmailEdit"
+                        app:hint="密码"
+                        app:loginInput="password"
+                        app:showPassword="true" />
+
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/twoFAEdit"
+                        android:visibility="gone"
+                        style="@style/EmailEdit"
+                        app:hint="两步验证码" />
+
+                </LinearLayout>
+
+                <include layout="@layout/divide_10_top_bottom" />
+
+                <Button
+                    android:id="@+id/okButton"
+                    style="@style/SendButton"
+                    android:enabled="false"
+                    android:text="发送验证邮件" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

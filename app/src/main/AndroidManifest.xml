@@ -890,6 +890,10 @@
             android:name=".login.SetGlobalKeyActivity_"
             android:label="@string/title_activity_set_global_key"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.ModifyEmailActivity_"
+            android:label="@string/title_activity_modify_email"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
