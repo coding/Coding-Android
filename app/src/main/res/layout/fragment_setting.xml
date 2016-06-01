@@ -111,6 +111,7 @@
                 android:layout_marginRight="12dp"
                 android:text=""
                 tools:text="0 MB"
+                android:id="@+id/cacheSize"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/font_black_6"
                 android:textSize="18sp" />

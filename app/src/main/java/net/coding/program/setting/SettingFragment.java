@@ -2,7 +2,6 @@ package net.coding.program.setting;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tencent.android.tpush.XGPushManager;
 
@@ -23,11 +23,14 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 @EFragment(R.layout.fragment_setting)
@@ -38,11 +41,64 @@ public class SettingFragment extends BaseFragment {
     @ViewById
     CheckBox allNotify;
 
+    @ViewById
+    TextView cacheSize;
+
     @AfterViews
     void init() {
         boolean mLastNotifySetting = AccountInfo.getNeedPush(getActivity());
         allNotify.setChecked(mLastNotifySetting);
         setHasOptionsMenu(true);
+
+        updateCacheSize();
+    }
+
+    @Background
+    void updateCacheSize() {
+        File[] cacheDir = getAllCacheDir();
+
+        long size = 0;
+        for (File dir : cacheDir) {
+            size += getFileSize(dir);
+        }
+        String sizeString = String.format("%.2f MB", (double) size / 1024 /1024);
+
+        dispayCacheSize(sizeString);
+    }
+
+    File[] getAllCacheDir() {
+        return new File[] {
+                getActivity().getCacheDir(),
+                getActivity().getExternalCacheDir()
+        };
+    }
+
+    long getFileSize(File file) {
+        if (file.isDirectory()) {
+            long size = 0;
+            for (File item : file.listFiles()) {
+                size += getFileSize(item);
+            }
+            return size;
+        } else {
+            return file.length();
+        }
+    }
+
+    void deleteFiles(File file) {
+        if (file.isDirectory()) {
+            for (File item : file.listFiles()) {
+                deleteFiles(item);
+            }
+            file.delete();
+        } else if (file.isFile()){
+            file.delete();
+        }
+    }
+
+    @UiThread
+    void dispayCacheSize(String size) {
+        cacheSize.setText(size);
     }
 
     @Click
@@ -112,21 +168,25 @@ public class SettingFragment extends BaseFragment {
     void clearCache() {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.clear_cache_message)
-                .setPositiveButton("确定", null)
+                .setPositiveButton("确定", ((dialog, which) -> {
+                    File[] cacheDir = getAllCacheDir();
+                    for (File item : cacheDir) {
+                        deleteFiles(item);
+                    }
+
+                    updateCacheSize();
+                }))
                 .setNegativeButton("取消", null)
                 .show();
     }
 
     @Click
     void loginOut() {
-        showDialog(MyApp.sUserObject.global_key, "退出当前账号?", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                XGPushManager.registerPush(getActivity(), "*");
-                AccountInfo.loginOut(getActivity());
-                startActivity(new Intent(getActivity(), GuideActivity.class));
-                getActivity().finish();
-            }
+        showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
+            XGPushManager.registerPush(getActivity(), "*");
+            AccountInfo.loginOut(getActivity());
+            startActivity(new Intent(getActivity(), GuideActivity.class));
+            getActivity().finish();
         });
     }
 }
