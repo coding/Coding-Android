@@ -372,7 +372,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到merge或pull
-        final String mergeString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\w+)$";
+        final String mergeString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
         pattern = Pattern.compile(mergeString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {

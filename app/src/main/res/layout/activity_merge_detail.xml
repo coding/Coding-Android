@@ -32,6 +32,8 @@
 
     </FrameLayout>
 
+    <include layout="@layout/divide_1" />
+
     <LinearLayout
         android:id="@+id/actionLayout"
         android:layout_width="match_parent"
