@@ -282,6 +282,12 @@
         <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>
 
+    <style name="CountryPick" parent="AppTheme">
+        <item name="colorControlNormal">@color/divide_line</item>
+        <item name="colorControlActivated">@color/divide_line</item>
+        <item name="colorControlHighlight">@color/divide_line</item>"
+    </style>
+
     <style name="TextTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -315,6 +321,39 @@
     <style name="BaseListItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--垂直分割线-->
+    <style name="DivideLineVer" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/divide_line</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="DivideSectionBottom5">
+        <item name="android:background">@mipmap/shadow_top_5</item>
+        <item name="android:layout_height">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="DivideSectionTop5">
+        <item name="android:background">@mipmap/shadow_bottom_5</item>
+        <item name="android:layout_height">5dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!--分割线-->
+    <style name="DivideLine" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/divide_line</item>
+    </style>
+
+    <style name="DivideLine_15" parent="DivideLine">
+        <item name="android:layout_marginLeft">@dimen/padding_15</item>
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>
 
     <!--正则替换工具-->

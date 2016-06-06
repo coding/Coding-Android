@@ -1,5 +1,6 @@
 package net.coding.program.login;
 
+import android.app.Activity;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
+import net.coding.program.login.phone.CountryPickActivity_;
+import net.coding.program.model.PhoneCountry;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -30,6 +33,8 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_phone_register)
 public class PhoneRegisterActivity extends BackActivity {
 
+    private static final int RESULT_PICK_COUNTRY = 10;
+
     public static String REGIST_TIP = "注册 Coding 账号表示您已同意<font color=\"#3bbd79\">《Coding 服务条款》</font>";
 
     @ViewById
@@ -39,10 +44,12 @@ public class PhoneRegisterActivity extends BackActivity {
     View loginButton;
 
     @ViewById
-    TextView textClause;
+    TextView textClause, countryCode;
 
     @ViewById
     ValidePhoneView sendCode;
+
+    PhoneCountry pickCountry = PhoneCountry.getChina();
 
     @AfterViews
     void initPhoneVerifyFragment() {
@@ -69,7 +76,28 @@ public class PhoneRegisterActivity extends BackActivity {
         sendCode.setEditPhone(phoneEdit);
         sendCode.setUrl(ValidePhoneView.REGISTER_SEND_MESSAGE_URL);
 
+        bindCountry();
+
         needShowCaptch();
+    }
+
+    @Click
+    void countryCode() {
+        CountryPickActivity_.intent(this)
+                .startForResult(RESULT_PICK_COUNTRY);
+    }
+
+    @OnActivityResult(RESULT_PICK_COUNTRY)
+    void onResultPickCountry(int resultCode, @OnActivityResult.Extra PhoneCountry resultData) {
+        if (resultCode == Activity.RESULT_OK && resultData != null) {
+            pickCountry = resultData;
+            bindCountry();
+        }
+    }
+
+    void bindCountry() {
+        countryCode.setText(pickCountry.getCountryCode());
+        sendCode.setPhoneCountry(pickCountry);
     }
 
     @Override
@@ -109,6 +137,8 @@ public class PhoneRegisterActivity extends BackActivity {
         String sha1 = SimpleSHA1.sha1(password);
         params.put("password", sha1);
         params.put("confirm", sha1);
+
+        params.put("phoneCountryCode", pickCountry.getCountryCode());
 
         if (captchaEdit.getVisibility() == View.VISIBLE) {
             params.put("j_captcha", captcha);

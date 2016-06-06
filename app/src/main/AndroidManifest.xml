@@ -894,6 +894,12 @@
             android:name=".setting.ModifyEmailActivity_"
             android:label="@string/title_activity_modify_email"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.phone.CountryPickActivity_"
+            android:label="@string/title_activity_country_pick"
+            android:theme="@style/CountryPick"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

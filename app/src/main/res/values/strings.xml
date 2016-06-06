@@ -188,4 +188,6 @@
     <string name="clear_cache_message">缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？</string>
     <string name="title_activity_modify_email">修改邮箱</string>
 
+    <string name="title_activity_country_pick">选择国家和地区</string>
+
 </resources>
