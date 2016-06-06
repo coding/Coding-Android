@@ -210,8 +210,6 @@
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
@@ -897,9 +895,9 @@
         <activity
             android:name=".login.phone.CountryPickActivity_"
             android:label="@string/title_activity_country_pick"
+            android:screenOrientation="portrait"
             android:theme="@style/CountryPick"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
     </application>
 
 </manifest>

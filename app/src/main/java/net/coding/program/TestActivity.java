@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.project.detail.PickLabelColorActivity_;
 
@@ -20,7 +21,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void click1(View v) {
-        test1();
+//        test1();
+        PopCaptchaDialog.pop(this);
     }
 
     public void click2(View v) {

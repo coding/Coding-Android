@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:text="亲，你操作这么快，不会是机器人吧？来，输个验证码先！"
+        android:textColor="@color/font_black_6"
+        android:textSize="16sp"
+        android:textIsSelectable="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <EditText
+            android:hint="验证码"
+            android:id="@+id/captchaEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imageValify"
+            android:layout_width="72dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+    <!--<View-->
+        <!--style="@style/DivideLine"-->
+        <!--android:background="@color/font_blue" />-->
+
+</LinearLayout>

@@ -12,6 +12,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.LoginActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.login.SetGlobalKeyActivity;
 import net.coding.program.login.SetGlobalKeyActivity_;
@@ -30,6 +31,7 @@ public class NetworkImpl {
     public static final int ERROR_PERMISSION_DENIED = 1400;
     public static final int NETWORK_ERROR = -1;
     public static final int NETWORK_ERROR_SERVICE = -2;
+    public static final int NETWORK_ERROR_NEED_CAPTCHA = 907;
     private final NetworkCallback callback;
     public static final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
     public static final String ERROR_MSG_SERVICE_ERROR = "服务器内部错误，请稍后重试";
@@ -105,6 +107,10 @@ public class NetworkImpl {
                         if (code == 0) {
                             AccountInfo.saveGetRequestCache(appContext, cacheName, response);
                         }
+                    }
+
+                    if (code == NetworkImpl.NETWORK_ERROR_NEED_CAPTCHA) {
+                        PopCaptchaDialog.pop(appContext);
                     }
 
                     if (tag.equals(UserDetailActivity.HOST_FOLLOW)) {
