@@ -2,7 +2,6 @@ package net.coding.program.message;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -17,7 +16,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -358,55 +356,43 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         mFootUpdate.initToHead(listView, mInflater, this);
         listView.setAdapter(adapter);
         listView.setSelection(mData.size());
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mEnterLayout.hideKeyboard();
-                }
-                return false;
+        listView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                mEnterLayout.hideKeyboard();
             }
+            return false;
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int ppp, long id) {
-                final Message.MessageObject msg = mData.get((int) id);
-                final Global.MessageParse msgParse = HtmlContent.parseMessage(msg.content);
+        listView.setOnItemLongClickListener((parent, view, ppp, id) -> {
+            final Message.MessageObject msg = mData.get((int) id);
+            final Global.MessageParse msgParse = HtmlContent.parseMessage(msg.content);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this);
-                if (msgParse.text.isEmpty()) {
-                    builder.setItems(R.array.message_action_image, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                relayMessage(msg);
-                            } else if (which == 1) {
-                                deleteMessage(msg);
-                            }
-                        }
-                    });
+            AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this);
+            if (msgParse.text.isEmpty()) {
+                builder.setItems(R.array.message_action_image, (dialog, which) -> {
+                    if (which == 0) {
+                        relayMessage(msg);
+                    } else if (which == 1) {
+                        deleteMessage(msg);
+                    }
+                });
 
-                } else {
-                    builder.setItems(R.array.message_action_text, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                Global.copy(MessageListActivity.this, msg.content);
-                                showButtomToast("已复制");
-                            } else if (which == 1) {
-                                relayMessage(msg);
-                            } else if (which == 2) {
-                                deleteMessage(msg);
-                            }
-                        }
-                    });
-                }
-
-                builder.show();
-
-                return true;
+            } else {
+                builder.setItems(R.array.message_action_text, (dialog, which) -> {
+                    if (which == 0) {
+                        Global.copy(MessageListActivity.this, msg.content);
+                        showButtomToast("已复制");
+                    } else if (which == 1) {
+                        relayMessage(msg);
+                    } else if (which == 2) {
+                        deleteMessage(msg);
+                    }
+                });
             }
+
+            builder.show();
+
+            return true;
         });
 
         getNextPageNetwork(url, url);

@@ -1,6 +1,8 @@
 package net.coding.program.common.network;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.os.Build;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;

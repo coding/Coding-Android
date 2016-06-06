@@ -74,6 +74,10 @@ public class SettingFragment extends BaseFragment {
     }
 
     long getFileSize(File file) {
+        if (file == null) {
+            return 0;
+        }
+
         if (file.isDirectory()) {
             long size = 0;
             for (File item : file.listFiles()) {
@@ -86,6 +90,10 @@ public class SettingFragment extends BaseFragment {
     }
 
     void deleteFiles(File file) {
+        if (file == null) {
+            return;
+        }
+
         if (file.isDirectory()) {
             for (File item : file.listFiles()) {
                 deleteFiles(item);

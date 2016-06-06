@@ -66,7 +66,6 @@ public class AccountSetting extends BackActivity {
             boolean emailValid = MyApp.sUserObject.isEmailValidation();
             if (emailValid) {
                 email.setText(emailString);
-                email.setCompoundDrawables(null, null, null, null);
             } else {
                 emailString += " " + "未验证";
             }

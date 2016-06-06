@@ -70,6 +70,10 @@ public class HtmlContent {
                 .replaceAll(REGX_EMOJI, ":$1:");
     }
 
+    public static String parseReplaceHtml(String s) {
+        return parseReplacePhotoEmoji(s).replaceAll("<[^>]*>", "");
+    }
+
     public static String parseReplacePhotoMonkey(String s) {
         return s.replaceAll(REGX_MONKEY, REPLACE_PHOTO)
                 .replaceAll(REGX_PHOTO, REPLACE_PHOTO)

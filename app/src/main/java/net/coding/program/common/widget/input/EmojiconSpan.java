@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
+import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.enter.DrawableTool;
 import net.coding.program.message.EmojiFragment;
@@ -42,5 +43,9 @@ class EmojiconSpan extends DynamicDrawableSpan {
             }
         }
         return mDrawable;
+    }
+
+    public boolean isDefault() {
+        return mResourceId == R.drawable.app_icon;
     }
 }

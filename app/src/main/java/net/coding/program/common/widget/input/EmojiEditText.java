@@ -76,7 +76,7 @@ public class EmojiEditText extends EditText {
                                 } else {
                                     String newString = s.subSequence(emojiStart + 1, emojiEnd).toString();
                                     EmojiconSpan emojiSpan = new EmojiconSpan(mActivity, newString);
-                                    if (emojiSpan.getDrawable() != null) {
+                                    if (!emojiSpan.isDefault() && emojiSpan.getDrawable() != null) {
                                         Editable editable = getText();
                                         editable.setSpan(emojiSpan, emojiStart, emojiEnd + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                         startFinded = false;
