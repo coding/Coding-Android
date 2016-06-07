@@ -2,10 +2,6 @@ package net.coding.program;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -13,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -44,11 +42,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import pl.droidsonroids.gif.GifImageView;
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by chaochen on 2014-9-7.
@@ -69,8 +63,8 @@ public class ImagePagerFragment extends BaseFragment {
             .imageScaleType(ImageScaleType.NONE_SAFE)
             .build();
     private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
-    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = (view, v, v2) -> getActivity().onBackPressed();
-    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = (view, v, v1) -> getActivity().onBackPressed();
+//    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = (view, v, v2) -> getActivity().onBackPressed();
+//    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = (view, v, v1) -> getActivity().onBackPressed();
     @ViewById
     DonutProgress circleLoading;
     @ViewById
@@ -155,12 +149,12 @@ public class ImagePagerFragment extends BaseFragment {
         if (image != null) {
             if (image instanceof GifImageView) {
                 ((GifImageView) image).setImageURI(null);
-            } else if (image instanceof PhotoView) {
-                try {
-                    ((PhotoView) image).setImageDrawable(null);
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
+//            } else if (image instanceof PhotoView) {
+//                try {
+//                    ((SubsamplingScaleImageView) image).setImageDrawable(null);
+//                } catch (Exception e) {
+//                    Global.errorLog(e);
+//                }
             }
         }
 
@@ -172,7 +166,7 @@ public class ImagePagerFragment extends BaseFragment {
             return;
         }
 
-        ImageSize size = new ImageSize(GL10.GL_MAX_TEXTURE_SIZE, GL10.GL_MAX_TEXTURE_SIZE);
+        ImageSize size = new ImageSize(10000, 10000);
         getImageLoad().imageLoader.loadImage(uri, size, optionsImage, new SimpleImageLoadingListener() {
 
                     @Override
@@ -209,11 +203,16 @@ public class ImagePagerFragment extends BaseFragment {
                             rootLayout.addView(image);
                             image.setOnClickListener(onClickImageClose);
                         } else {
-                            PhotoView photoView = (PhotoView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, rootLayout, false);
+                            SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, rootLayout, false);
                             image = photoView;
                             rootLayout.addView(image);
-                            photoView.setOnPhotoTapListener(onPhotoTapClose);
-                            photoView.setOnViewTapListener(onViewTapListener);
+//                            photoView.setOnPhotoTapListener(onPhotoTapClose);
+//                            photoView.setOnViewTapListener(onViewTapListener);
+                            photoView.setOnClickListener(v -> getActivity().onBackPressed());
+//                            photoView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
+//                            photoView.setMa
+//                            photoView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
+//                            photoView.setMinScale(10.f);
                         }
 
                         image.setOnLongClickListener(v -> {
@@ -256,12 +255,10 @@ public class ImagePagerFragment extends BaseFragment {
                             if (image instanceof GifImageView) {
                                 Uri uri1 = Uri.fromFile(file);
                                 ((GifImageView) image).setImageURI(uri1);
-                            } else if (image instanceof PhotoView) {
-                                Drawable[] layers = new Drawable[2];
-                                layers[0] = new ColorDrawable(0xFFFFFFFF);
-                                layers[1] = new BitmapDrawable(getResources(), loadedImage);
-                                LayerDrawable layerDrawable = new LayerDrawable(layers);
-                                ((PhotoView) image).setImageDrawable(layerDrawable);
+                            } else if (image instanceof SubsamplingScaleImageView) {
+                                SubsamplingScaleImageView scaleImageView = (SubsamplingScaleImageView) ImagePagerFragment.this.image;
+                                scaleImageView.setImage(ImageSource.uri(file.getAbsolutePath()));
+//                                scaleImageView.setPanLimit(SubsamplingScaleImageView.PAN_LIMIT_OUTSIDE);
 
                             }
                         } catch (Exception e) {

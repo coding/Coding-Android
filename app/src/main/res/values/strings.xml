@@ -12,7 +12,7 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_user_info">个人信息</string>
-    <string name="title_activity_set_password">密码设置</string>
+    <string name="title_activity_set_password">修改密码</string>
     <string name="title_activity_feedback">用户反馈</string>
     <string name="title_activity_about">关于我们</string>
     <string name="title_activity_topic_comment">讨论</string>

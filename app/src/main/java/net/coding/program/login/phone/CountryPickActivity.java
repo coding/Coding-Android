@@ -172,7 +172,7 @@ public class CountryPickActivity extends BackActivity {
     class CountryAdapter extends BaseAdapter implements SectionIndexer {
 
         private final String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private final String TOP_SECTION = "常用地区";
+        private final String TOP_SECTION = "常用";
 //        private ArrayList<String> mSectionTitle = new ArrayList<>();
 //        private ArrayList<Integer> mSectionId = new ArrayList<>();
 

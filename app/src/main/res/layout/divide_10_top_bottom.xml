@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<View xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/divide_section_10"
-    android:background="@drawable/divide_10_top_bottom"
-    tools:showIn="@layout_activity_user_detail_edit" />
+    android:background="@color/divide">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_gravity="top"
+        android:background="@drawable/shadow_top_5" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shadow_bottom_5" />
+
+</FrameLayout>

@@ -45,7 +45,7 @@ import java.io.File;
 @EActivity(R.layout.entrance_image)
 public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
-    static final String HOST_CURRENT = Global.HOST_API + "/current_user";
+    public static final String HOST_CURRENT = Global.HOST_API + "/current_user";
     private static final int HANDLER_MESSAGE_ANIMATION = 0;
     private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
     @ViewById

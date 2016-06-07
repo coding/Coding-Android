@@ -1,6 +1,5 @@
 package net.coding.program.setting;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -14,28 +13,35 @@ import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.ViewStyleUtil;
+import net.coding.program.common.widget.LoginEditText;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_set_password)
-@OptionsMenu(R.menu.set_password)
+//@OptionsMenu(R.menu.set_password)
 public class SetPasswordActivity extends BackActivity {
 
     final String Url = Global.HOST_API + "/user/updatePassword";
-    @ViewById
-    TextView oldPassword;
-    @ViewById
-    TextView newPassword;
-    @ViewById
-    TextView confirmPassword;
 
-    @OptionsItem
-    void submit() {
+    @ViewById
+    LoginEditText oldPassword, newPassword, confirmPassword;
+
+    @ViewById
+    TextView okButton;
+
+    @AfterViews
+    void initSetPasswordActivity() {
+        ViewStyleUtil.editTextBindButton(okButton, oldPassword, newPassword, confirmPassword);
+    }
+
+    @Click
+    void okButton() {
         RequestParams params = new RequestParams();
         try {
             String oldPwd = oldPassword.getText().toString();
@@ -94,17 +100,13 @@ public class SetPasswordActivity extends BackActivity {
     }
 
     private void popDialog() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setMessage("修改密码后需要重新登录")
-                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                        startActivity(new Intent(SetPasswordActivity.this, LoginActivity_.class));
-                    }
+                .setNegativeButton("确定", (dialog1, which) -> {
+                    finish();
+                    startActivity(new Intent(SetPasswordActivity.this, LoginActivity_.class));
                 })
                 .setCancelable(false)
                 .show();
     }
-
 }
