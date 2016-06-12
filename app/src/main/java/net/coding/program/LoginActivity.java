@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -56,6 +57,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Calendar;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -69,30 +71,22 @@ public class LoginActivity extends BaseActivity {
     final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
     final private int RESULT_CLOSE = 100;
+
     @Extra
     Uri background;
+
     @ViewById
-    ImageView userIcon;
-    @ViewById
-    ImageView backgroundImage;
-    @ViewById
-    View layoutRoot;
+    ImageView userIcon, backgroundImage, imageValify;
     @ViewById
     LoginAutoCompleteEdit editName;
     @ViewById
-    EditText editPassword;
+    EditText editPassword, editValify, edit2FA;
     @ViewById
-    ImageView imageValify;
-    @ViewById
-    EditText editValify;
-    @ViewById
-    EditText edit2FA;
-    @ViewById
-    View captchaLayout;
-    @ViewById
-    View loginButton;
-    @ViewById
-    View layout2fa, loginLayout;
+    View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
+
+    private int clickIconCount = 0;
+    private long lastClickTime = 0;
+
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -161,6 +155,48 @@ public class LoginActivity extends BaseActivity {
             editName.setDisableAuto(false);
             editPassword.requestFocus();
             editName(false);
+        }
+    }
+
+    @Click
+    void userIcon() {
+        long clickTime = Calendar.getInstance().getTimeInMillis();
+        long lastTemp = lastClickTime;
+        lastClickTime = clickTime;
+        if (clickTime - lastTemp < 1000) {
+            ++clickIconCount;
+        } else {
+            clickIconCount = 1;
+        }
+
+        if (clickIconCount >= 5) {
+            clickIconCount = 0;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            View content = getLayoutInflater().inflate(R.layout.host_setting, null);
+            final EditText editText = (EditText) content.findViewById(R.id.edit);
+            final EditText editCode = (EditText) content.findViewById(R.id.editCode);
+            AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
+            editText.setText(customHost.getHost());
+            editCode.setText(customHost.getCode());
+            editText.setHint(Global.DEFAULT_HOST);
+            builder.setView(content)
+                    .setPositiveButton(R.string.action_ok, (dialog, which) -> {
+                        String hostString = editText.getText().toString();
+                        String hostCode = editCode.getText().toString();
+                        AccountInfo.CustomHost customHost1 = new AccountInfo.CustomHost(hostString, hostCode);
+                        if (!hostString.isEmpty()) {
+                            AccountInfo.saveCustomHost(this, customHost1);
+                        } else {
+                            AccountInfo.removeCustomHost(this);
+                        }
+
+                        AccountInfo.loginOut(this);
+                        setResult(RESULT_OK);
+                        finish();
+                    })
+                    .setNegativeButton(R.string.action_cancel, null)
+                    .show();
         }
     }
 

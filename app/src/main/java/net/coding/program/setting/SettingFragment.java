@@ -1,6 +1,5 @@
 package net.coding.program.setting;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +25,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -35,8 +33,6 @@ import java.util.regex.Pattern;
 
 @EFragment(R.layout.fragment_setting)
 public class SettingFragment extends BaseFragment {
-
-    private static final int RESULT_ABOUT_ACTIVITY = 1;
 
     @ViewById
     CheckBox allNotify;
@@ -160,16 +156,7 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void aboutCoding() {
-        AboutActivity_.intent(SettingFragment.this).startForResult(RESULT_ABOUT_ACTIVITY);
-    }
-
-    @OnActivityResult(RESULT_ABOUT_ACTIVITY)
-    void resultAboutActivity(int resultCode) {
-        if (resultCode == Activity.RESULT_OK) {
-            AccountInfo.loginOut(getActivity());
-            getActivity().finish();
-            System.exit(0);
-        }
+        AboutActivity_.intent(SettingFragment.this).start();
     }
 
     @Click
