@@ -1,23 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="net.coding.program.maopao.MaopaoAddActivity">
 
     <LinearLayout
         android:id="@+id/emojiLayout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:minHeight="150dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="top|left"
             android:hint="来，发个冒泡吧~"
-            android:paddingBottom="14dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="14dp"
@@ -67,6 +69,34 @@
         android:stretchMode="none"
         android:verticalSpacing="8dp" />
 
+    <!--<View-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
+
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:background="@drawable/round_rect_maopao_local"
+        android:layout_height="30dp"
+        android:layout_marginTop="11dp"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_location_inactive"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:hint="@string/location_undefined"
+        android:maxLines="1"
+        android:paddingLeft="9dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/font_black_content"
+        android:textColorHint="@color/font_black_9"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/bottom_layout"
@@ -160,28 +190,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="wrap_content"
-        android:background="@drawable/round_rect_maopao_local"
-        android:layout_height="30dp"
-        android:layout_above="@id/bottom_layout"
-        android:layout_marginTop="11dp"
-        android:clickable="true"
-        android:drawableLeft="@drawable/ic_location_inactive"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:gravity="center_vertical"
-        android:hint="@string/location_undefined"
-        android:maxLines="1"
-        android:paddingLeft="9dp"
-        android:paddingRight="12dp"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="@color/font_black_content"
-        android:textColorHint="@color/font_black_9"
-        android:textSize="15sp" />
-
-</RelativeLayout>
+</LinearLayout>
