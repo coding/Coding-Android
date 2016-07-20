@@ -62,8 +62,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final int RESULT_REQUEST_AT = 1;
-    final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
+
+    String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
+    String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
+    String ADD_COMMENT = Global.HOST_API + "/tweet/%s/comment";
+
     private final String TAG_LIKE_USERS = "TAG_LIKE_USERS";
+    String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
 
     private static final String TAG_MAOPAO = "TAG_MAOPAO";
     private static final String TAG_PROJECT = "TAG_PROJECT";
@@ -86,9 +91,6 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     ArrayList<Maopao.Comment> mData = new ArrayList<>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
-    String ADD_COMMENT = Global.HOST_API + "/tweet/%s/comment";
-    String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
     String bubble;
     View.OnClickListener onClickSend = new View.OnClickListener() {
         @Override
@@ -277,6 +279,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 getNetwork(maopaoUrl, TAG_MAOPAO);
             } else {
                 String projectUrl = mClickParam.getHttpProject();
+
                 getNetwork(projectUrl, TAG_PROJECT);
             }
         } else {
@@ -458,8 +461,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             swipeRefreshLayout.setRefreshing(false);
             if (code == 0) {
                 mData.clear();
-
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                JSONObject jsonData = respanse.optJSONObject("data");
+                JSONArray jsonArray;
+                if (jsonData != null) {
+                    jsonArray = jsonData.optJSONArray("list");
+                } else {
+                    jsonArray = respanse.optJSONArray("data");
+                }
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Maopao.Comment comment = new Maopao.Comment(jsonArray.getJSONObject(i));
                     mData.add(comment);
@@ -532,6 +540,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.optJSONObject("data"));
                 String maopaoUrl = Maopao.getHttpProjectMaopao(mProjectObject.getId(), Integer.valueOf(mClickParam.maopaoId));
+
+                String projectPath = "/project/" + mProjectObject.getId();
+                URI_COMMENT_DELETE = Global.HOST_API + projectPath + "/tweet/%s/comment/%s";
+                URI_COMMENT = Global.HOST_API + projectPath+ "/tweet/%s/comments?pageSize=500";
+                ADD_COMMENT = Global.HOST_API + projectPath + "/tweet/%s/comment";
+
                 getNetwork(maopaoUrl, TAG_MAOPAO);
             } else {
                 showErrorMsg(code, respanse);
