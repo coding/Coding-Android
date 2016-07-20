@@ -54,7 +54,7 @@ public class CountryPickActivity extends BackActivity {
     void initCountryPickActivity() {
         countryDataSrc = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray(Global.readTextFile(this, "country"));
+            JSONArray jsonArray = new JSONArray(Global.readTextFile(this, "country.html"));
             for (int i = 0; i < jsonArray.length(); ++i) {
                 countryDataSrc.add(new PhoneCountry(jsonArray.optJSONObject(i)));
             }

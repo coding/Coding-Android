@@ -125,7 +125,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
     @Override
     public String createLocateHtml(String s) {
         try {
-            final String bubble = Global.readTextFile(getAssets().open("topic-android"));
+            final String bubble = Global.readTextFile(getAssets().open("topic-android.html"));
             return bubble.replace("${webview_content}", s);
         } catch (Exception e) {
             Global.errorLog(e);

@@ -86,7 +86,7 @@ public class ReadmeFragment extends BaseFragment {
 
                         String bubble = "${webview_content}";
                         try {
-                            bubble = Global.readTextFile(getResources().getAssets().open("markdown"));
+                            bubble = Global.readTextFile(getResources().getAssets().open("markdown.html"));
                         } catch (Exception e) {
                             Global.errorLog(e);
                         }

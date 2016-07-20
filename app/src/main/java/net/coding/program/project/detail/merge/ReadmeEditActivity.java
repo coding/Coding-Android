@@ -114,7 +114,7 @@ public class ReadmeEditActivity extends BackActivity implements TaskDescrip, Top
     @Override
     public String createLocateHtml(String s) {
         try {
-            final String bubble = Global.readTextFile(getAssets().open("markdown"));
+            final String bubble = Global.readTextFile(getAssets().open("markdown.html"));
             return bubble.replace("${webview_content}", s);
         } catch (Exception e) {
             Global.errorLog(e);

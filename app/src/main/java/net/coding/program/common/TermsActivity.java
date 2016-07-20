@@ -19,7 +19,7 @@ public class TermsActivity extends BackActivity {
     protected void initTermsActivity() {
         Global.initWebView(webView);
         try {
-            webView.loadDataWithBaseURL(null, Global.readTextFile(getAssets().open("terms")), "text/html", "UTF-8", null);
+            webView.loadDataWithBaseURL(null, Global.readTextFile(getAssets().open("terms.html")), "text/html", "UTF-8", null);
         } catch (Exception e) {
             Global.errorLog(e);
         }

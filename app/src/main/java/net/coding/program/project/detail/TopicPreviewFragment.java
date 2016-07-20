@@ -50,7 +50,7 @@ public class TopicPreviewFragment extends BaseFragment {
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
                 String html = response.optString("data", "");
-                Global.setWebViewContent(content, "markdown", html);
+                Global.setWebViewContent(content, "markdown.html", html);
             }
         };
 

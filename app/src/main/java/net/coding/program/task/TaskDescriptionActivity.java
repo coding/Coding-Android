@@ -90,7 +90,7 @@ public class TaskDescriptionActivity extends BackActivity implements TaskDescrip
     @Override
     public String createLocateHtml(String s) {
         try {
-            final String bubble = Global.readTextFile(getAssets().open("topic-android"));
+            final String bubble = Global.readTextFile(getAssets().open("topic-android.html"));
             return bubble.replace("${webview_content}", s);
         } catch (Exception e) {
             Global.errorLog(e);

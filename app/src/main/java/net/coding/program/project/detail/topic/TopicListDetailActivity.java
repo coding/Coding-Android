@@ -349,7 +349,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         updateLabels(topicObject.labels);
 
         WebView webView = (WebView) mListHead.findViewById(R.id.comment);
-        Global.setWebViewContent(webView, "topic-android", topicObject.content);
+        Global.setWebViewContent(webView, "topic-android.html", topicObject.content);
 
         textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();

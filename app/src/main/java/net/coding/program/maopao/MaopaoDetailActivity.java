@@ -194,7 +194,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
 
         try {
-            bubble = Global.readTextFile(getAssets().open("bubble"));
+            bubble = Global.readTextFile(getAssets().open("bubble.html"));
         } catch (Exception e) {
             Global.errorLog(e);
         }

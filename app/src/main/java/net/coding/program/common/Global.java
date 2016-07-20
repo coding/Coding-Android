@@ -461,17 +461,13 @@ public class Global {
     }
 
     static public void setWebViewContent(WebView webView, String tempate, String content) {
-        setWebViewContent(webView, tempate, "${webview_content}", content);
-    }
-
-    static public void setWebViewContent(WebView webView, String tempate, String replaceString, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);
         webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
         try {
             syncCookie(webView.getContext());
             String bubble = readTextFile(context.getAssets().open(tempate));
-            webView.loadDataWithBaseURL(Global.HOST, bubble.replace(replaceString, content), "text/html", "UTF-8", null);
+            webView.loadDataWithBaseURL(Global.HOST, bubble.replace("${webview_content}", content), "text/html", "UTF-8", null);
         } catch (Exception e) {
             Global.errorLog(e);
         }
@@ -481,7 +477,7 @@ public class Global {
         Context context = webview.getContext();
         if (gitFile.lang.equals("markdown")) {
             try {
-                String template = readTextFile(context.getAssets().open("markdown"));
+                String template = readTextFile(context.getAssets().open("markdown.html"));
                 webview.loadDataWithBaseURL(Global.HOST, template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
 
             } catch (Exception e) {
@@ -489,8 +485,8 @@ public class Global {
             }
         } else {
             try {
-                String template = readTextFile(context.getAssets().open("code"));
-                String replaceData = gitFile.data.replace("<", "&lt;").replace(">", "&gt;");
+                String template = readTextFile(context.getAssets().open("code.html"));
+                String replaceData = gitFile.data.replace("<", "&lt;").replace(">", "&gt;").replace("\u2028", "").replace("\u2029", "");
                 webview.loadDataWithBaseURL(Global.HOST, template.replace("${file_code}", replaceData).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
             } catch (Exception e) {
                 Global.errorLog(e);

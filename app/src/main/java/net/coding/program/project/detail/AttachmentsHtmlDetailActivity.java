@@ -62,7 +62,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         textView.setMovementMethod(new ScrollingMovementMethod());
 
         try {
-            markdown = readTextFile(getAssets().open("markdown"));
+            markdown = readTextFile(getAssets().open("markdown.html"));
         } catch (Exception e) {
             Global.errorLog(e);
         }
