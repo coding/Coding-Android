@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -137,34 +138,25 @@ public class ValidePhoneActivity extends BackActivity {
 
     @Click
     void loginButton() {
-        final String url = Global.HOST_API + "/user/updateInfo";
-        RequestParams params = new RequestParams();
-        try {
-            params.put("phone", user.phone);
-            params.put("tags", user.tags);
-            params.put("job", user.job);
-            params.put("sex", user.sex);
-            String phoneString = editPhone.getTextString();
-            user.phone = phoneString;
-            params.put("phone", user.phone);
-            params.put("birthday", user.birthday);
-            params.put("location", user.location);
-            params.put("company", user.company);
-            params.put("slogan", user.slogan);
-            params.put("introduction", user.introduction);
-            params.put("lavatar", user.lavatar);
-            params.put("global_key", user.global_key);
-            params.put("name", user.name);
-            params.put("email", user.email);
-            params.put("id", user.id);
-            String phoneCodeString = editCode.getTextString();
-            params.put("code", phoneCodeString);
-
-            postNetwork(url, params, TAG_SET_USER_INFO);
-            showProgressBar(true, "");
-        } catch (Exception e) {
-            showMiddleToast(e.toString());
+        final String url = Global.HOST_API + "/account/phone/change";
+        String phone = editPhone.getTextString();
+        String code = editCode.getTextString();
+        String phoneCountryCode = pickCountry.getCountryCode();
+        String country = pickCountry.iso_code;
+        String two_factor_code;
+        if (twoFAEdit.getVisibility() == View.VISIBLE) {
+            two_factor_code = SimpleSHA1.sha1(twoFAEdit.getTextString());
+        } else {
+            two_factor_code = SimpleSHA1.sha1(passwordEdit.getTextString());
         }
+        RequestParams params = new RequestParams();
+        params.put("phone", phone);
+        params.put("code", code);
+        params.put("phoneCountryCode", phoneCountryCode);
+        params.put("country", country);
+        params.put("two_factor_code", two_factor_code);
+        postNetwork(url, params, TAG_SET_USER_INFO);
+        showProgressBar(true);
     }
 
     @Override
@@ -174,10 +166,12 @@ public class ValidePhoneActivity extends BackActivity {
             if (code == 0) {
                 showMiddleToast("修改成功");
                 setResult(Activity.RESULT_OK);
+                user.setPhone(editPhone.getTextString(), pickCountry.getCountryCode());
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
                 finish();
             } else {
+                showProgressBar(false);
                 showErrorMsgMiddle(code, respanse);
             }
         }

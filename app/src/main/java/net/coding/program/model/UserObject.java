@@ -46,7 +46,9 @@ public class UserObject implements Serializable, Comparable {
     public String email = "";
     private String pingYin = "";
     public double points_left = 0;
-    private int email_validation = 0;
+    public int email_validation = 0;
+    public int phone_validation = 0;
+    public String phone_country_code = "+86";
 
     public boolean isMe() {
         return MyApp.sUserObject.id == id;
@@ -94,6 +96,8 @@ public class UserObject implements Serializable, Comparable {
         points_left = json.optDouble("points_left", 0);
         pingYin = getFirstLetters(name).toUpperCase();
         email_validation = json.optInt("email_validation", 0);
+        phone_validation = json.optInt("phone_validation", 0);
+        phone_country_code = json.optString("phone_country_code", "+86");
     }
 
     public UserObject() {
@@ -215,5 +219,11 @@ public class UserObject implements Serializable, Comparable {
             }
         }
         return pybf.toString().replaceAll("\\W", "").trim();
+    }
+
+    public void setPhone(String phone, String countryCode) {
+        this.phone = phone;
+        this.phone_country_code = countryCode;
+        this.phone_validation = 1;
     }
 }

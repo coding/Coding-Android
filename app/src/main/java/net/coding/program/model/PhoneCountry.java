@@ -10,9 +10,9 @@ import java.io.Serializable;
  */
 public class PhoneCountry implements Serializable {
 
-    public String country = "";
-    public String country_code = "";
-    public String iso_code = "";
+    public String country = "";     //"China",
+    public String country_code = "";//"86",
+    public String iso_code = "";    //"cn"
 
     public PhoneCountry() {
     }
