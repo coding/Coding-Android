@@ -33,6 +33,7 @@ public class Maopao {
         public String coord = "";
         public String address = "";
         public boolean rewarded;
+        public long sortTime = 0;
         public int rewards;
         public ArrayList<Like_user> reward_users = new ArrayList<>();
 
@@ -84,6 +85,7 @@ public class Maopao {
 
             rewarded = json.optBoolean("rewarded");
             rewards = json.optInt("rewards");
+            sortTime = json.optLong("sort_time");
         }
 
         public String getLink() {

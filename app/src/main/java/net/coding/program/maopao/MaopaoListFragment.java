@@ -132,6 +132,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
         if (mType == Type.friends) {
             id = UPDATE_ALL_INT;
+            lastTime = 0;
         }
 
         if (mType == Type.hot) {
@@ -277,7 +278,11 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         } else if (mType == Type.user) {
             return String.format(myUrl, userId, id);
         } else {
-            return String.format(getMaopaoUrlFormat(), id, mType);
+            String url = String.format(getMaopaoUrlFormat(), id, mType) + "&last_time=";
+            if (lastTime > 0) {
+                url += lastTime;
+            }
+            return url;
         }
     }
 

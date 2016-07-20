@@ -90,6 +90,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     protected boolean mIsToMaopaoTopic = false;
 
     protected int id = UPDATE_ALL_INT;
+    protected long lastTime = 0;
 
     int needScrollY = 0;
     int oldListHigh = 0;
@@ -297,7 +298,9 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                     mNoMore = true;
                 } else {
                     int oldId = id;
-                    id = mData.get(mData.size() - 1).id;
+                    Maopao.MaopaoObject maopaoObject = mData.get(mData.size() - 1);
+                    id = maopaoObject.id;
+                    lastTime = maopaoObject.sortTime;
                     mAdapter.notifyDataSetChanged();
 
                     if (oldId == UPDATE_ALL_INT) {
@@ -422,6 +425,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     protected void initSetting() {
         super.initSetting();
         id = UPDATE_ALL_INT;
+        lastTime = 0;
     }
 
     @Override
