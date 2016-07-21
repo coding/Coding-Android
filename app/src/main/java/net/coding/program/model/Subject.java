@@ -29,6 +29,8 @@ public class Subject {
         public HotTweetDescObject hot_tweet;
         public List<UserObject> user_list;
 
+        private int type = 1; // 自定义属性 1 表示热门话题 2 表示
+
         public SubjectDescObject(JSONObject json) throws JSONException {
             created_at = json.optLong("created_at");
             id = json.optInt("id");
@@ -59,7 +61,11 @@ public class Subject {
 
         @Override
         public int getType() {
-            return 1;
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
         }
 
     }

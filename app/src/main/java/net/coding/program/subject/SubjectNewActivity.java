@@ -36,7 +36,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class SubjectNewActivity extends BackActivity {
 
     final String subjectHotTweetUrl = Global.HOST_API + "/tweet_topic/hot?page=1&pageSize=20";
-    final String subjectHotTweetTag = "subject_hot";
+    final String hotRecommendUrl = Global.HOST_API + "/tweet_topic/defaults";
+
+    private static final String TAG_HOT_SUBJECT = "TAG_HOT_SUBJECT";
+    private static final String TAG_HOT_RECOMMEND = "TAG_HOT_RECOMMEND";
 
     @ViewById
     View emptyView;
@@ -108,12 +111,13 @@ public class SubjectNewActivity extends BackActivity {
     }
 
     private void loadHotSubjectFromServer() {
-        getNetwork(subjectHotTweetUrl, subjectHotTweetTag);
+        getNetwork(subjectHotTweetUrl, TAG_HOT_SUBJECT);
+        getNetwork(hotRecommendUrl, TAG_HOT_RECOMMEND);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(subjectHotTweetTag)) {
+        if (tag.equals(TAG_HOT_SUBJECT)) {
             if (code == 0) {
                 JSONArray jsonArray = null;
                 jsonArray = respanse.optJSONArray("data");
@@ -127,9 +131,21 @@ public class SubjectNewActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+            updateShow("");
+            hideProgressDialog();
+        } else if (tag.equals(TAG_HOT_RECOMMEND)) {
+            if (code == 0) {
+                JSONArray jsonArray = respanse.optJSONArray("data");
+                int insertPos = TopicLastCache.getInstance(this).getTopicLastCacheList().size();
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    JSONObject json = jsonArray.getJSONObject(i);
+                    Subject.SubjectDescObject subject = new Subject.SubjectDescObject(json);
+                    subject.setType(2);
+                    subjectRecommendObjectList.add(insertPos + i, subject);
+                }
+            }
         }
-        updateShow("");
-        hideProgressDialog();
+
     }
 
     private void updateShow(String condition) {

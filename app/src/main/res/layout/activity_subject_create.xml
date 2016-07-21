@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:dividerHeight="0dp"></se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView>
+        android:dividerHeight="0dp"/>
 
     <LinearLayout
         android:id="@+id/topic_create_layout"

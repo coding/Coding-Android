@@ -82,10 +82,13 @@ public class SubjectLastListAdapter extends BaseAdapter implements StickyListHea
         if (items != null && position >= 0 && position < items.size()) {
             ISubjectRecommendObject recommendObject = items.get(position);
             if (recommendObject != null) {
-                if (recommendObject.getType() == 1)
+                if (recommendObject.getType() == 1) {
+                    viewHolder.name.setText("热门话题");
+                } else if (recommendObject.getType() == 2) {
                     viewHolder.name.setText("热门推荐");
-                else
+                } else {
                     viewHolder.name.setText("最近使用");
+                }
             }
         }
         return convertView;
