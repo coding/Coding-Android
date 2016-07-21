@@ -13,9 +13,12 @@ import net.coding.program.project.detail.ProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_project_private)
+@OptionsMenu(R.menu.menu_fragment_project_home)
 public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
     @ViewById
@@ -128,6 +131,17 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         for (int i = 0; i < buttons.length; ++i) {
             setRedPointStyle(buttons[i], types[i]);
         }
+    }
+
+
+    @OptionsItem
+    void actionMaopao() {
+
+    }
+
+    @OptionsItem
+    void actionSearch() {
+
     }
 
     //    private void initHeadHead(View view) {

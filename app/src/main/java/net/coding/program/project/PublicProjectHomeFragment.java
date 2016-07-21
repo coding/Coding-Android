@@ -22,11 +22,14 @@ import net.coding.program.user.UsersListActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_public_project_home)
+@OptionsMenu(R.menu.menu_fragment_project_home_public)
 public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
     @ViewById
@@ -309,6 +312,11 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 }
             });
         }
+    }
+
+    @OptionsItem
+    void actionSearch() {
+
     }
 
     class ProjectMarkButton {
