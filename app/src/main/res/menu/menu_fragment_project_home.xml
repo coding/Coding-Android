@@ -9,11 +9,11 @@
         android:title="冒泡"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/actionSearch"
-        android:icon="@drawable/ic_menu_search"
-        android:title="搜索"
-        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/actionSearch"-->
+        <!--android:icon="@drawable/ic_menu_search"-->
+        <!--android:title="搜索"-->
+        <!--app:showAsAction="always" />-->
 
     <!--<item android:id="@+id/action_search"-->
     <!--android:title="搜索"-->

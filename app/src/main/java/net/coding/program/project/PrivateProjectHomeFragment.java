@@ -10,6 +10,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -133,16 +134,17 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         }
     }
 
-
     @OptionsItem
     void actionMaopao() {
-
+        ProjectMaopaoActivity_.intent(this)
+                .projectObject(mProjectObject)
+                .start();
     }
 
-    @OptionsItem
-    void actionSearch() {
-
-    }
+//    @OptionsItem
+//    void actionSearch() {
+//
+//    }
 
     //    private void initHeadHead(View view) {
 //        ImageView projectIcon = (ImageView) view.findViewById(R.id.projectIcon);

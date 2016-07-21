@@ -189,5 +189,6 @@
     <string name="title_activity_modify_email">修改邮箱</string>
 
     <string name="title_activity_country_pick">选择国家和地区</string>
+    <string name="title_activity_project_maopao">项目内冒泡</string>
 
 </resources>

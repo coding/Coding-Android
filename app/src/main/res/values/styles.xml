@@ -356,6 +356,16 @@
         <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>
 
+    <style name="ListItemComment">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/font_black_9</item>
+        <item name="android:drawablePadding">9dp</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->
