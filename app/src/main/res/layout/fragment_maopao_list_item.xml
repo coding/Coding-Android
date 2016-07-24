@@ -270,13 +270,9 @@
 
             <TextView
                 android:id="@+id/deleteButton"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/commentBtn"
-                android:gravity="center"
-                android:text="删除"
-                android:textColor="@color/font_green" />
+                style="@style/MaopaoDelete" />
 
 
             <ImageView

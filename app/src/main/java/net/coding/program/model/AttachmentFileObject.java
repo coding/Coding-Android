@@ -213,7 +213,7 @@ public class AttachmentFileObject implements Serializable {
     }
 
     public static boolean isImage(String suffix) {
-        return imagePattern.matcher(suffix).find();
+        return imagePattern.matcher(suffix.toLowerCase()).find();
     }
 
     public boolean isGif() {
@@ -221,23 +221,23 @@ public class AttachmentFileObject implements Serializable {
     }
 
     public static boolean isDoc(String fileName) {
-        return docPattern.matcher(fileName).find();
+        return docPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isPpt(String fileName) {
-        return pptPattern.matcher(fileName).find();
+        return pptPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isPdf(String fileName) {
-        return pdfPattern.matcher(fileName).find();
+        return pdfPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isXls(String fileName) {
-        return xlsPattern.matcher(fileName).find();
+        return xlsPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isTxt(String fileName) {
-        return txtPattern.matcher(fileName).find();
+        return txtPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public boolean needJump() {
@@ -245,35 +245,35 @@ public class AttachmentFileObject implements Serializable {
     }
 
     public static boolean isZip(String fileName) {
-        return zipPattern.matcher(fileName).find();
+        return zipPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isHtml(String fileName) {
-        return htmlPattern.matcher(fileName).find();
+        return htmlPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isMd(String fileName) {
-        return mdPattern.matcher(fileName).find();
+        return mdPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isAi(String fileName) {
-        return aiPattern.matcher(fileName).find();
+        return aiPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isApk(String fileName) {
-        return apkPattern.matcher(fileName).find();
+        return apkPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isPsd(String fileName) {
-        return psdPattern.matcher(fileName).find();
+        return psdPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isSound(String fileName) {
-        return soundPattern.matcher(fileName).find();
+        return soundPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public static boolean isVideo(String fileName) {
-        return videoPattern.matcher(fileName).find();
+        return videoPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public int getIconResourceId() {

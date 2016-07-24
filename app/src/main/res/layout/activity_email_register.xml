@@ -34,7 +34,7 @@
                     <net.coding.program.common.widget.LoginEditText
                         android:id="@+id/globalKeyEdit"
                         style="@style/EmailEdit"
-                        app:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+                        app:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
                         app:hint="用户名(个性后缀)"
                         app:topLine="false" />
 

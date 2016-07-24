@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -15,55 +16,154 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="12dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
         android:layout_toRightOf="@id/icon"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:textColor="@color/font_green"
                 android:textSize="15sp"
-                android:layout_width="0dp"
-                tools:text="蝈蝈因"
-                android:layout_weight="1"
-                android:id="@+id/name"
-                android:layout_height="wrap_content" />
+                tools:text="蝈蝈因" />
+
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/time"
-                android:textSize="12sp"
-                tools:text="25 分钟前"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
-                android:layout_height="wrap_content" />
+                android:textSize="12sp"
+                tools:text="25 分钟前" />
 
         </LinearLayout>
 
-        <TextView
+        <!--<TextView-->
+            <!--android:id="@+id/content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="今天下午 5 点开始整理明天更新的 checklist ，请大家尽快完成自己的 MR 流程。"-->
+            <!--android:textColor="@color/font_black_2"-->
+            <!--android:textSize="15sp" />-->
+
+        <net.coding.program.common.enter.GifSpanTextView
+            android:id="@+id/content"
+            android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:text="今天下午 5 点开始整理明天更新的 checklist ，请大家尽快完成自己的 MR 流程。"
-            android:textColor="@color/font_black_2"
-            android:layout_marginRight="12dp"
-            android:textSize="15sp"
-            android:id="@+id/content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name"
+            android:layout_below="@+id/name"
+            android:background="@drawable/content_pressed_selector"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.1"
+            android:singleLine="false"
+            android:text="去"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/font_black_content"
+            android:textSize="15sp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <net.coding.program.common.widget.MinSizeImageView
+                android:id="@+id/imageSingle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:adjustViewBounds="true"
+                android:longClickable="true"
+                android:maxHeight="@dimen/image_single_width"
+                android:maxWidth="@dimen/image_single_width"
+                android:minHeight="@dimen/image_single_min_width"
+                android:minWidth="@dimen/image_single_min_width"
+                android:scaleType="centerCrop"
+                custom:microSize="@dimen/image_single_micro_width"
+                custom:minHeight="@dimen/image_single_min_size"
+                custom:minWidth="@dimen/image_single_min_size" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="2dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/imagesLayout0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/image0"
+                    layout="@layout/maopao_image" />
+
+                <include
+                    android:id="@+id/image1"
+                    layout="@layout/maopao_image" />
+
+                <include
+                    android:id="@+id/image2"
+                    layout="@layout/maopao_image" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/imagesLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/image3"
+                    layout="@layout/maopao_image" />
+
+                <include
+                    android:id="@+id/image4"
+                    layout="@layout/maopao_image" />
+
+                <include
+                    android:id="@+id/image5"
+                    layout="@layout/maopao_image" />
+            </LinearLayout>
+        </LinearLayout>
 
         <View
-            android:layout_marginTop="12dp"
-            style="@style/DivideLine" />
-        
-        <TextView
-            android:layout_marginTop="12dp"
-            tools:text="3 条评论"
-            android:id="@+id/comment"
-            style="@style/ListItemComment" />
+            style="@style/DivideLine"
+            android:layout_marginTop="12dp" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/comment"
+                style="@style/ListItemComment"
+                android:layout_height="wrap_content"
+                tools:text="3 条评论" />
+
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/delete"
+                android:layout_height="wrap_content"
+                style="@style/MaopaoDelete" />
+
+        </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>

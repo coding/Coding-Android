@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MyActivity">
     <item
-        android:id="@+id/action_add"
-        android:title="新建讨论"
+        android:id="@+id/actionAdd"
+        android:title="新建项目内冒泡"
         android:icon="@drawable/ic_menu_add"
         app:showAsAction="always" />
 

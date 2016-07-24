@@ -145,7 +145,6 @@ public class ContentAreaImages extends ContentAreaBase {
             content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
                     content.getContext().getAssets()), TextView.BufferType.EDITABLE);
             content.setTag(contentObject);
-
         }
 
         setImageUrl(maopaoData.uris);
