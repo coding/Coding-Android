@@ -501,6 +501,11 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 mModifyComment = true;
 
 
+                Intent intent = new Intent();
+                intent.putExtra(ListModify.DATA, mMaopaoObject);
+                intent.putExtra(ListModify.TYPE, ListModify.ModifyComment);
+                setResult(Activity.RESULT_OK, intent);
+
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -564,6 +569,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             if (code == 0) {
                 mModifyComment = true;
                 getNetwork(URI_COMMENT, URI_COMMENT);
+
+
+                Intent intent = new Intent();
+                intent.putExtra(ListModify.DATA, mMaopaoObject);
+                intent.putExtra(ListModify.TYPE, ListModify.ModifyComment);
+                setResult(Activity.RESULT_OK, intent);
+
             } else {
                 showErrorMsg(code, respanse);
             }

@@ -11,6 +11,8 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.RefreshBaseActivity;
+import net.coding.program.maopao.MaopaoDetailActivity;
+import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.ProjectObject;
 
@@ -33,6 +35,7 @@ import java.util.List;
 public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.LoadMore {
 
     private static final int RESULT_ADD = 1;
+    private static final int RESULT_EDIT = 2;
 
     @Extra
     ProjectObject projectObject;
@@ -43,7 +46,6 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     private String projectMaopaoUrl = "";
 
     private int lastId = RefreshBaseActivity.UPDATE_ALL_INT;
-
 
     View.OnClickListener clickDelete = new View.OnClickListener() {
         @Override
@@ -86,6 +88,14 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     @AfterViews
     void initProjectMaopaoActivity() {
         listView.setAdapter(projectMaopaoAdapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Maopao.MaopaoObject maopao = listData.get(position);
+            MaopaoDetailActivity.ClickParam clickParam = new MaopaoDetailActivity.ClickParam(projectObject.owner_user_name,
+                    projectObject.name, String.valueOf(maopao.id));
+            MaopaoDetailActivity_.intent(ProjectMaopaoActivity.this)
+                    .mClickParam(clickParam)
+                    .startForResult(RESULT_EDIT);
+        });
 
         onRefresh();
     }
@@ -138,6 +148,13 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
 
     @OnActivityResult(RESULT_ADD)
     void onResultAdd(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            onRefresh();
+        }
+    }
+
+    @OnActivityResult(RESULT_EDIT)
+    void onResultEdit(int resultCode) {
         if (resultCode == RESULT_OK) {
             onRefresh();
         }

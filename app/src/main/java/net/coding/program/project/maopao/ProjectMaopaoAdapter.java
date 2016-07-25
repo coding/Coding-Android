@@ -23,7 +23,7 @@ import java.util.List;
  * Created by chenchao on 16/7/21.
  * 项目内冒泡的 adapter
  */
-public class ProjectMaopaoAdapter extends BaseAdapter {
+class ProjectMaopaoAdapter extends BaseAdapter {
 
     List<Maopao.MaopaoObject> listData;
     FootUpdate.LoadMore loadMore;

@@ -12,6 +12,8 @@ public final class ListModify {
     public static final int Edit = 2;
     public static final int Delete = 3;
 
+    public static final int ModifyComment = 4;
+
     public static final String ID = "ID";
     public static final String DATA = "DATA";
 
