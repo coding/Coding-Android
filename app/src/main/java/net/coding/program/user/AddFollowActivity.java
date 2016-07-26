@@ -77,7 +77,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                         .globalKey(userObject.global_key)
                         .startForResult(RESULT_USER_DETAIL);
             });
-        } else { // todo 还没上生产,没测试
+        } else {
             urlAddUser = Global.HOST_API + mProjectObject.getProjectPath() + "/members/gk/add";
             setActionBarTitle("添加项目成员");
             baseAdapter = new FollowAdapter(this, false, mData);

@@ -90,6 +90,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     ListView listView;
 
     private WatchHelp watchHelp;
+    private CommentHelp commentHelp;
 
     @ViewById
     SwipeRefreshLayout swipeRefreshLayout;
@@ -337,7 +338,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     }
 
     void updateDisplayCommentCount() {
-        String commentCount = String.format("评论(%d)", topicObject.child_count);
+        String commentCount = String.format("%s 条评论", topicObject.child_count);
         textViewCommentCount.setText(commentCount);
     }
 
@@ -348,6 +349,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
             listView.addHeaderView(mListHead);
             watchHelp = new WatchHelp(mListHead);
+            commentHelp = new CommentHelp(mListHead);
         }
 
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
@@ -544,9 +546,11 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                     TopicObject commnet = new TopicObject(jsonArray.getJSONObject(i));
                     mData.add(commnet);
                 }
+
             } else {
                 showErrorMsg(code, respanse);
             }
+            commentHelp.update();
             baseAdapter.notifyDataSetChanged();
             mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
@@ -569,6 +573,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 mEnterComment.clearContent();
                 baseAdapter.notifyDataSetChanged();
                 showButtomToast("发送评论成功");
+                commentHelp.update();
             } else {
                 showErrorMsg(code, respanse);
                 baseAdapter.notifyDataSetChanged();
@@ -598,6 +603,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                         break;
                     }
                 }
+
+                commentHelp.update();
             } else {
                 showButtomToast(R.string.delete_fail);
             }
@@ -608,7 +615,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 setResult(RESULT_OK, mResultData);
                 finish();
             } else {
-                showButtomToast(R.string.delete_fail);
+                showButtomToast("删除讨论失败");
             }
         } else if (tag.equals(tagUrlCommentPhoto)) {
             if (code == 0) {
@@ -686,8 +693,31 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         }
     }
 
+    private class CommentHelp {
+        View commentButton;
+        View commentSort;
+
+        public CommentHelp(View v) {
+            commentButton = v.findViewById(R.id.topicCommentButton);
+            commentSort = v.findViewById(R.id.spinner);
+            commentButton.setOnClickListener(v1 -> {
+                prepareComment();
+                mEnterComment.getEnterLayout().popKeyboard();
+            });
+        }
+
+        public void update() {
+            if (mData.isEmpty()) {
+                commentButton.setVisibility(View.VISIBLE);
+                commentSort.setVisibility(View.GONE);
+            } else {
+                commentButton.setVisibility(View.GONE);
+                commentSort.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     View.OnClickListener clickAddWatch = v -> {
-        // // TODO: 16/7/26  未实现
         WatcherListActivity_.intent(TopicListDetailActivity.this)
                 .mProjectObjectId(topicObject.project.getId())
                 .topicId(topicObject.id)

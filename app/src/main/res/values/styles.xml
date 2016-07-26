@@ -383,6 +383,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="WatcherAdd" parent="TopicWatchCount">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:textColor">@color/font_black_9</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

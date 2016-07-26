@@ -92,8 +92,9 @@
                 android:gravity="center"
                 android:text="尚未添加任何关注者, 去添加" />
 
-            <View style="@style/DivideLine" />
-
+            <View
+                style="@style/DivideLine"
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
 
@@ -107,23 +108,19 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/padding_12"
-                android:paddingRight="@dimen/padding_12"
                 android:layout_height="48dp">
 
                 <TextView
+                    android:paddingLeft="@dimen/padding_12"
                     android:id="@+id/watchCount"
                     tools:text="7人关注"
                     style="@style/TopicWatchCount" />
 
                 <TextView
                     android:id="@+id/watchListAdd"
-                    style="@style/TopicWatchCount"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
+                    style="@style/WatcherAdd"
+                    android:paddingRight="@dimen/padding_12"
                     android:drawableLeft="@drawable/topic_watcher_add"
-                    android:drawablePadding="5dp"
-                    android:textColor="@color/font_green"
                     android:text="添加" />
 
             </RelativeLayout>
@@ -147,39 +144,49 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_below="@id/watchLayout"
-        android:paddingTop="@dimen/padding_12"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/commentCount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/padding_12"
-            android:layout_marginRight="7dp"
-            android:text="评论(8)"
-            android:textColor="@color/font_green"
+            android:text="8 条评论"
+            android:textColor="@color/font_black_9"
             android:textSize="14sp" />
-
-        <include
-            layout="@layout/divide_1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="@dimen/padding_12"
             android:background="@drawable/topic_comment_spinner"
             android:dropDownWidth="80dp" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/topicCommentButton"
+            style="@style/WatcherAdd"
+            android:drawableLeft="@drawable/topic_comment"
+            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginRight="@dimen/padding_12"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:text="评论" />
+
+        <View
+            style="@style/DivideLine"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
