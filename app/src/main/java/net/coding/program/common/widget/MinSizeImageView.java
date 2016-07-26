@@ -33,9 +33,9 @@ public class MinSizeImageView extends GifMarkImageView {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(attrs, ATTR);
-        mMinWidth = a.getDimensionPixelSize(0, 1);
-        mMinHeight = a.getDimensionPixelSize(1, 1);
-        mMicroSize = a.getDimensionPixelSize(2, 1);
+        mMinWidth = a.getDimensionPixelSize(R.styleable.MinSizeImageView_minWidth, 1);
+        mMinHeight = a.getDimensionPixelSize(R.styleable.MinSizeImageView_minHeight, 1);
+        mMicroSize = a.getDimensionPixelSize(R.styleable.MinSizeImageView_microSize, 1);
         a.recycle();
     }
 

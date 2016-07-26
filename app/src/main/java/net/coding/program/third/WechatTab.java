@@ -134,16 +134,16 @@ public class WechatTab extends HorizontalScrollView {
 
         // get system attrs (android:textSize and android:textColor)
 
-        TypedArray a = context.obtainStyledAttributes(attrs, ATTRS);
-
-        tabTextSize = a.getDimensionPixelSize(0, tabTextSize);
-        tabTextColor = a.getColor(1, tabTextColor);
-
-        a.recycle();
+//        TypedArray a = context.obtainStyledAttributes(attrs, ATTRS);
+//
+//        tabTextSize = a.getDimensionPixelSize(0, tabTextSize);
+//        tabTextColor = a.getColor(1, tabTextColor);
+//
+//        a.recycle();
 
         // get custom attrs
 
-        a = context.obtainStyledAttributes(attrs, R.styleable.WechatTab);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WechatTab);
 
         indicatorColor = a.getColor(R.styleable.WechatTab_pstsIndicatorColorWe, indicatorColor);
         underlineColor = a.getColor(R.styleable.WechatTab_pstsUnderlineColorWe, underlineColor);

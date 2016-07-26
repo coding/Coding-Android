@@ -14,6 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.TaskObject;
+import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -65,6 +66,8 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.watchCheck = convertView.findViewById(R.id.watchCheck);
+                holder.ic = (ImageView) convertView.findViewById(R.id.ic);
+                holder.alias = (TextView) convertView.findViewById(R.id.alias);
 
                 convertView.setTag(holder);
             } else {
@@ -75,6 +78,24 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
             iconfromNetwork(holder.icon, data.user.avatar);
 
             updateChecked(holder, data);
+
+            UserObject user = data.user;
+
+            TaskObject.Members.Type memberType = data.getType();
+            int iconRes = memberType.getIcon();
+            if (iconRes == 0) {
+                holder.ic.setVisibility(View.GONE);
+            } else {
+                holder.ic.setVisibility(View.VISIBLE);
+                holder.ic.setImageResource(iconRes);
+            }
+
+            if (!data.alias.isEmpty()) {
+                holder.alias.setText(data.alias);
+                holder.alias.setVisibility(View.VISIBLE);
+            } else {
+                holder.alias.setVisibility(View.GONE);
+            }
 
             if (position == mMembersArray.size() - 1) {
                 loadMore();
@@ -138,5 +159,7 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
         public ImageView icon;
         public TextView name;
         public View watchCheck;
+        TextView alias;
+        ImageView ic;
     }
 }

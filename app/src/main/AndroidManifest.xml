@@ -93,7 +93,6 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
-
         <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
