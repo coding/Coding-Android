@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,15 +30,19 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.maopao.BaseUsersArea;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
+import net.coding.program.model.UserObject;
+import net.coding.program.model.request.Project;
 import net.coding.program.project.detail.TopicAddActivity_;
 import net.coding.program.project.detail.TopicLabelActivity;
 import net.coding.program.project.detail.TopicLabelActivity_;
@@ -68,6 +73,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     final int RESULT_AT = 1;
     final int RESULT_EDIT = 2;
     final int RESULT_LABEL = 3;
+    private static final int RESULT_MODIFY_WATCHER = 4;
     final String HOST_MAOPAO_DELETE = Global.HOST_API + "/topic/%s";
     final String TAG_DELETE_TOPIC_COMMENT = "TAG_DELETE_TOPIC_COMMENT";
     final String TAG_DELETE_TOPIC = "TAG_DELETE_TOPIC";
@@ -75,12 +81,16 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @InstanceState
     protected boolean saveTopicWhenLoaded;
+
     @Extra
     TopicObject topicObject;
     @Extra
     TopicDetailParam mJumpParam;
     @ViewById
     ListView listView;
+
+    private WatchHelp watchHelp;
+
     @ViewById
     SwipeRefreshLayout swipeRefreshLayout;
     //    EnterLayout mEnterLayout;
@@ -203,7 +213,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
         } else if (topicObject != null) {
             owerGlobar = topicObject.owner.global_key;
-            getSupportActionBar().setTitle(topicObject.project.name);
+            setActionBarTitle(topicObject.project.name);
 
             urlTopic = String.format(Global.HOST_API + "/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
@@ -213,7 +223,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     }
 
     private void initData() {
-        getSupportActionBar().setTitle(topicObject.project.name);
+        setActionBarTitle(topicObject.project.name);
         updateHeadData();
         if (saveTopicWhenLoaded) {
             saveTopicWhenLoaded = false;
@@ -270,6 +280,13 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         }
     }
 
+    @OnActivityResult(RESULT_MODIFY_WATCHER)
+    void onResultModifyWatcher(int code, @OnActivityResult.Extra ArrayList<UserObject> resultData) {
+        if (code == RESULT_OK) {
+            watchers = resultData;
+            watchHelp.setData(this.watchers);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (topicObject != null) {
@@ -330,6 +347,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         if (mListHead == null) {
             mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
             listView.addHeaderView(mListHead);
+            watchHelp = new WatchHelp(mListHead);
         }
 
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
@@ -374,12 +392,9 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             }
         });
 
-        mListHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prepareComment();
-                mEnterComment.getEnterLayout().popKeyboard();
-            }
+        mListHead.setOnClickListener(v -> {
+            prepareComment();
+            mEnterComment.getEnterLayout().popKeyboard();
         });
 
         listView.setAdapter(baseAdapter);
@@ -416,6 +431,33 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 currentLabelId = labelId;
                 String url = String.format(URI_DELETE_TOPIC_LABEL, topicObject.id, labelId);
                 deleteNetwork(url, URI_DELETE_TOPIC_LABEL);
+            }
+        });
+    }
+
+    private ArrayList<UserObject> watchers = new ArrayList<>(0);
+
+    private void updateWatchFromNetwork() {
+        if (topicObject == null) {
+            return;
+        }
+
+        Project.topicWatchList(this, topicObject.project.getId(), topicObject.id, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                watchers.clear();
+
+                JSONArray jsonArray = response.optJSONObject("data").optJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    UserObject user = new UserObject(jsonArray.optJSONObject(i));
+                    watchers.add(user);
+                }
+                watchHelp.setData(watchers);
+            }
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
             }
         });
     }
@@ -497,7 +539,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                     mData.clear();
                 }
 
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     TopicObject commnet = new TopicObject(jsonArray.getJSONObject(i));
                     mData.add(commnet);
@@ -536,6 +578,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             if (code == 0) {
                 topicObject = new TopicObject(respanse.getJSONObject("data"));
                 initData();
+                updateWatchFromNetwork();
                 invalidateOptionsMenu();
             } else {
                 showErrorMsg(code, respanse);
@@ -604,6 +647,53 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             }
         }
     }
+
+    private class WatchHelp {
+        View emptyWatchLayout;
+        View watchUsersLayout;
+
+        TextView watchCount;
+        LinearLayout watchUsers;
+        BaseUsersArea userArea;
+
+        public WatchHelp(View headView) {
+            emptyWatchLayout = (View) headView.findViewById(R.id.emptyWatchLayout);
+            TextView emptyWatchAdd = (TextView) headView.findViewById(R.id.emptyWatchAdd);
+            emptyWatchAdd.setText(Html.fromHtml("尚未添加任何关注者, <font color='#3bbd79'>去添加</font>"));
+            emptyWatchAdd.setOnClickListener(clickAddWatch);
+
+            watchUsersLayout = (View) headView.findViewById(R.id.watchUsersLayout);
+            watchCount = (TextView) headView.findViewById(R.id.watchCount);
+            View watchListAdd = (View) headView.findViewById(R.id.watchListAdd);
+            watchListAdd.setOnClickListener(clickAddWatch);
+            watchUsers = (LinearLayout) headView.findViewById(R.id.watchUsers);
+
+            userArea = new BaseUsersArea(watchUsers, null, TopicListDetailActivity.this, mOnClickUser, getImageLoad());
+        }
+
+        public void setData(List<UserObject> watches) {
+            if (watches.isEmpty()) {
+                emptyWatchLayout.setVisibility(View.VISIBLE);
+                watchUsersLayout.setVisibility(View.GONE);
+            } else {
+                emptyWatchLayout.setVisibility(View.GONE);
+                watchUsersLayout.setVisibility(View.VISIBLE);
+
+                watchCount.setText(String.format("%s 人关注", watches.size()));
+                watchUsers.setTag(watches);
+                userArea.displayLikeUser();
+            }
+        }
+    }
+
+    View.OnClickListener clickAddWatch = v -> {
+        // // TODO: 16/7/26  未实现
+        WatcherListActivity_.intent(TopicListDetailActivity.this)
+                .mProjectObjectId(topicObject.project.getId())
+                .topicId(topicObject.id)
+                .watchers(watchers)
+                .startForResult(RESULT_MODIFY_WATCHER);
+    };
 
     public static class TopicDetailParam implements Serializable {
         public String mUser;

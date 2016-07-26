@@ -1,76 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:id="@+id/icon"
-        android:layout_margin="10dp" />
-
-    <!--4.1下必须这样布局才正常-->
-    <RelativeLayout
-        android:id="@+id/con"
-        android:layout_weight="1"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <!--<TextView
-            android:layout_width="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_margin="10dp" />
+
+        <!--4.1下必须这样布局才正常-->
+        <RelativeLayout
+            android:id="@+id/con"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_gray"
-            android:textSize="16sp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:text="(创建者)"
-            android:singleLine="true"
-            android:id="@+id/desc"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/name"
-            android:gravity="center_vertical"
-            android:visibility="gone"/>-->
+            android:layout_weight="1"
+            android:gravity="left|center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_centerVertical="true"
-            android:text="Medium Text"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:id="@+id/name" />
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/font_gray"
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:text="(创建者)"
+                android:singleLine="true"
+                android:id="@+id/desc"
+                android:layout_alignParentRight="true"
+                android:layout_alignBaseline="@+id/name"
+                android:gravity="center_vertical"
+                android:visibility="gone"/>-->
 
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+            <ImageView
+                android:id="@+id/ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/name"
+                android:src="@drawable/ic_project_creator"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_project_creator"
-            android:layout_toRightOf="@id/name"
-            android:id="@+id/ic"
+            android:id="@+id/watchCheck"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
+            android:layout_toRightOf="@id/name"
+            android:scaleType="center"
+            android:src="@drawable/ic_watchuser_check"
+            android:visibility="invisible"
+            tools:visibility="visible" />
 
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <ImageView
-        android:src="@drawable/ic_watchuser_check"
-        android:scaleType="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
-        android:layout_width="50dp"
-        android:id="@+id/watchCheck"
-        android:layout_toRightOf="@id/name"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        android:layout_height="50dp" />
-
-</LinearLayout>
+    <View
+        style="@style/DivideLine"
+        android:layout_gravity="bottom" />
+</FrameLayout>

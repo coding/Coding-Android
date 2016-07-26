@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -63,13 +64,94 @@
         android:layout_below="@+id/labelBar"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@color/transparent" />
+
+
+    <LinearLayout
+        android:id="@+id/watchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment"
+        android:orientation="vertical">
+
+        <include layout="@layout/divide_10_top_bottom" />
+
+        <RelativeLayout
+            android:id="@+id/emptyWatchLayout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/emptyWatchAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="尚未添加任何关注者, 去添加" />
+
+            <View style="@style/DivideLine" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/watchUsersLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/padding_12"
+                android:paddingRight="@dimen/padding_12"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:id="@+id/watchCount"
+                    tools:text="7人关注"
+                    style="@style/TopicWatchCount" />
+
+                <TextView
+                    android:id="@+id/watchListAdd"
+                    style="@style/TopicWatchCount"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@drawable/topic_watcher_add"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/font_green"
+                    android:text="添加" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/reviewer_divide"
+                layout="@layout/divide_1_12" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/watchUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_12"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_marginRight="@dimen/padding_12"
+                android:layout_marginTop="@dimen/padding_12" />
+
+            <include layout="@layout/divide_10_top_bottom" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comment"
-        android:layout_marginTop="12dp"
+        android:layout_below="@id/watchLayout"
+        android:paddingTop="@dimen/padding_12"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

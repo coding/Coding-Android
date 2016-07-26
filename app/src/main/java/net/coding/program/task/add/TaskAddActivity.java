@@ -681,9 +681,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 return;
             }
 
-            MembersActivity_.intent(TaskAddActivity.this)
+            WatcherListActivity_.intent(TaskAddActivity.this)
                     .mProjectObjectId(mSingleTask.project_id)
-                    .mPickWatch(true)
                     .mTaskId(mSingleTask.getId())
                     .mWatchUsers(watchUsers)
                     .startForResult(RESULT_REQUEST_PICK_WATCH_USER);

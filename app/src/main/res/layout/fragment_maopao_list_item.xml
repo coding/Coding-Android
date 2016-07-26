@@ -233,7 +233,6 @@
                 android:id="@+id/commentBtn"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/maopao_extra_comment"
                 tools:text="17"
                 android:src="@drawable/checkbox_comment"
                 android:layout_marginRight="3dp"

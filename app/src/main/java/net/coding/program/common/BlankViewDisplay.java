@@ -19,6 +19,7 @@ import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicListFragment;
 import net.coding.program.project.detail.merge.MergeListFragment;
 import net.coding.program.project.detail.merge.MergeReviewerListFragment;
+import net.coding.program.project.maopao.ProjectMaopaoActivity;
 import net.coding.program.user.UserProjectListFragment;
 
 /**
@@ -116,6 +117,9 @@ public class BlankViewDisplay {
                         || fragment instanceof AttachmentsTextDetailActivity) {
                     iconId = R.drawable.ic_exception_no_network;
                     text = "晚了一步\n文件已经被人删除了";
+                } else if (fragment instanceof ProjectMaopaoActivity) {
+                    iconId = R.drawable.ic_exception_blank_task;
+                    text = "暂时没有项目内冒泡哦～";
                 }
             } else {
                 iconId = R.drawable.ic_exception_no_network;

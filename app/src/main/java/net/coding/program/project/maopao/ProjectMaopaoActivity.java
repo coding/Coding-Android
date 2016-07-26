@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -43,6 +44,9 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     @ViewById
     ListView listView;
 
+    @ViewById
+    View blankLayout;
+
     private String projectMaopaoUrl = "";
 
     private int lastId = RefreshBaseActivity.UPDATE_ALL_INT;
@@ -67,6 +71,8 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
                     super.onMySuccess(response);
                     listData.remove(maopao);
                     projectMaopaoAdapter.notifyDataSetChanged();
+
+                    BlankViewDisplay.setBlank(listData.size(), this, true, blankLayout, onClickRetry);
 
                     showProgressBar(false);
                 }
@@ -136,10 +142,17 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
                 }
 
                 projectMaopaoAdapter.notifyDataSetChanged();
+
+                BlankViewDisplay.setBlank(listData.size(), this, true, blankLayout, onClickRetry);
+            } else {
+                showErrorMsg(code, respanse);
+                BlankViewDisplay.setBlank(listData.size(), this, false, blankLayout, onClickRetry);
             }
 
         }
     }
+
+    View.OnClickListener onClickRetry = v -> onRefresh();
 
     @OptionsItem
     void actionAdd() {

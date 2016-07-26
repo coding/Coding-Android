@@ -12,11 +12,8 @@ import android.widget.TextView;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.TaskObject;
-import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -33,24 +30,17 @@ import java.util.ArrayList;
 public class MembersActivity extends BackActivity implements FootUpdate.LoadMore {
 
     @Extra
-    int mProjectObjectId;
+    protected int mProjectObjectId;
 
-    @Extra
-    ArrayList<UserObject> mWatchUsers = new ArrayList<>(); // 任务的关注者
+    protected String getProjectMembers = "getProjectMembers";
+    protected String urlMembers = "";
 
-    @Extra
-    int mTaskId = 0; // 任务的 id 号，0 表示新建任务
+    protected ArrayList<TaskObject.Members> mMembersArray = new ArrayList<>();
 
-    @Extra
-    boolean mPickWatch = false;
-
-    String getProjectMembers = "getProjectMembers";
-    String urlMembers = "";
-
-    ArrayList<TaskObject.Members> mMembersArray = new ArrayList<>();
     @ViewById
-    ListView listView;
-    BaseAdapter adapter = new BaseAdapter() {
+    protected ListView listView;
+
+    protected BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
             return mMembersArray.size();
@@ -93,113 +83,27 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
             return convertView;
         }
 
-        private void updateChecked(ViewHolder holder, TaskObject.Members data) {
-            if (!mPickWatch) {
-                return;
-            }
-
-            for (UserObject item : mWatchUsers) {
-                if (data.user.id == item.id) {
-                    holder.watchCheck.setVisibility(View.VISIBLE);
-                    return;
-                }
-            }
-
-            holder.watchCheck.setVisibility(View.INVISIBLE);
-        }
     };
+
+    protected void updateChecked(ViewHolder holder, TaskObject.Members data) {
+    }
 
     @AfterViews
     protected final void initMembersActivity() {
-        if (mPickWatch) {
-            setActionBarTitle("关注者列表");
-        }
-
         final String format = Global.HOST_API + "/project/%d/members?";
         urlMembers = String.format(format, mProjectObjectId);
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            if (!mPickWatch) {
-                Intent intent = new Intent();
-                TaskObject.Members members = mMembersArray.get(position);
-                intent.putExtra("members", members);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            } else {
-                TaskObject.Members members = mMembersArray.get(position);
-                for (int i = 0; i < mWatchUsers.size(); ++i) {
-                    UserObject item = mWatchUsers.get(i);
-                    if (members.user.id == item.id) {
-                        UserObject deleteUser = mWatchUsers.remove(i);
-                        removeWatchUser(deleteUser);
-                        adapter.notifyDataSetChanged();
-                        return;
-                    }
-                }
-
-                addWatchUser(members.user);
-                mWatchUsers.add(members.user);
-                adapter.notifyDataSetChanged();
-            }
+            Intent intent = new Intent();
+            TaskObject.Members members = mMembersArray.get(position);
+            intent.putExtra("members", members);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
         });
 
         loadMore();
-    }
-
-    private void removeWatchUser(UserObject user) {
-        if (mTaskId == 0) {
-            return;
-        }
-
-        String url = String.format(Global.HOST_API + "/task/%d/user/%s/watch", mTaskId, user.global_key);
-        MyAsyncHttpClient.delete(this, url, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-            }
-
-            @Override
-            public void onMyFailure(JSONObject response) {
-                super.onMyFailure(response);
-                mWatchUsers.add(user);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    private void addWatchUser(UserObject user) {
-        if (mTaskId == 0) {
-            return;
-        }
-
-        String url = String.format(Global.HOST_API + "/task/%d/user/%s/watch", mTaskId, user.global_key);
-        MyAsyncHttpClient.post(this, url, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-            }
-
-            @Override
-            public void onMyFailure(JSONObject response) {
-                super.onMyFailure(response);
-                mWatchUsers.remove(user);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mPickWatch) {
-            Intent intent = new Intent();
-            intent.putExtra("resultData", mWatchUsers);
-            setResult(Activity.RESULT_OK, intent);
-        }
-
-        super.onBackPressed();
     }
 
     @Override
@@ -228,12 +132,11 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
 
     @OptionsItem
     public void action_add() {
-
     }
 
-    static class ViewHolder {
-        ImageView icon;
-        TextView name;
-        View watchCheck;
+    protected static class ViewHolder {
+        public ImageView icon;
+        public TextView name;
+        public View watchCheck;
     }
 }

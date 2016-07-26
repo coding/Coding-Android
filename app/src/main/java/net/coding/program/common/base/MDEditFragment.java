@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -39,7 +40,7 @@ public class MDEditFragment extends BaseFragment {
     private final String HOST_UPLOAD_PHOTO_PUBLIC_PATH = Global.HOST_API + "%s/upload_public_image";
     //    private final String host_upload_photo = "https://coding.net/api/project/%d/file/upload";
     private final String HOST_UPLOAD_PHOTO_PRIVATE_PATH = Global.HOST_API + "%s/file/upload";
-    private final int RESULT_REQUEST_PHOTO = 1005;
+    private final int RESULT_REQUEST_PHOTO = 3005;
     @ViewById
     protected EditText edit;
     private Uri fileUri;
@@ -66,6 +67,15 @@ public class MDEditFragment extends BaseFragment {
             }
             hostUploadPhoto = String.format(template, path);
         }
+
+        String customUploadPhoto = getCustomUploadPhoto();
+        if (!TextUtils.isEmpty(customUploadPhoto)) {
+            hostUploadPhoto = getCustomUploadPhoto();
+        }
+    }
+
+    protected String getCustomUploadPhoto() {
+        return "";
     }
 
     @Click
@@ -146,7 +156,10 @@ public class MDEditFragment extends BaseFragment {
                     showProgressBar(true, "正在上传图片...");
                     setProgressBarProgress();
                     if (data != null) {
-                        fileUri = data.getData();
+                        Uri url = data.getData();
+                        if (url != null) {
+                            fileUri = url;
+                        }
                     }
 
                     File outputFile = new PhotoOperate(getActivity()).scal(fileUri);

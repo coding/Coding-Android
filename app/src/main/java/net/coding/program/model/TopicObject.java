@@ -48,8 +48,8 @@ public class TopicObject extends BaseComment implements Serializable {
         number = json.optInt("number");
         comment_count = json.optInt("comment_count");
 
-        {
-            JSONArray array = json.optJSONArray("labels");
+        JSONArray array = json.optJSONArray("labels");
+        if (array != null) {
             for (int i = 0, n = array.length(); i < n; i++) {
                 TopicLabelObject label = new TopicLabelObject(array.getJSONObject(i));
                 if (!label.isEmpty()) {

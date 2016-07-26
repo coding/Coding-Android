@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="113"
-    android:versionName="3.9.6">
+    android:versionCode="114"
+    android:versionName="3.9.8">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -267,6 +267,16 @@
             android:name=".project.detail.MembersActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_members"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".task.add.WatcherListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_members"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.topic.WatcherListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_watcher_list"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.AttachmentsActivity_"

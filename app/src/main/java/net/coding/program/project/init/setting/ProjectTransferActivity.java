@@ -45,7 +45,6 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
                 .startForResult(RESULT_REQUEST_SELECT_USER);
     }
 
-
     protected boolean checkInput() {
         if (mUser.user.isMe()) {
             showMiddleToast("转让的对象不能是自己");
