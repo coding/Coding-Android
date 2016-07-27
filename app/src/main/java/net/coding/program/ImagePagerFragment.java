@@ -204,6 +204,7 @@ public class ImagePagerFragment extends BaseFragment {
                             image.setOnClickListener(onClickImageClose);
                         } else {
                             SubsamplingScaleImageView photoView = (SubsamplingScaleImageView) getActivity().getLayoutInflater().inflate(R.layout.imageview_touch, rootLayout, false);
+                            photoView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
                             image = photoView;
                             rootLayout.addView(image);
 //                            photoView.setOnPhotoTapListener(onPhotoTapClose);
