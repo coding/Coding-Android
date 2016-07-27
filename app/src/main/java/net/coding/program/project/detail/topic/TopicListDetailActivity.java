@@ -74,7 +74,6 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     final int RESULT_EDIT = 2;
     final int RESULT_LABEL = 3;
     private static final int RESULT_MODIFY_WATCHER = 4;
-    final String HOST_MAOPAO_DELETE = Global.HOST_API + "/topic/%s";
     final String TAG_DELETE_TOPIC_COMMENT = "TAG_DELETE_TOPIC_COMMENT";
     final String TAG_DELETE_TOPIC = "TAG_DELETE_TOPIC";
     private final String HOST_COMMENT_SEND = Global.HOST_API + "/project/%s/topic?parent=%s";
@@ -105,24 +104,18 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     View mListHead;
     String tagUrlCommentPhoto = "";
     HashMap<String, String> mSendedImages = new HashMap<>();
-    View.OnClickListener mOnClickSend = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            sendCommentAll();
-        }
-    };
-    View.OnClickListener onClickComment = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    View.OnClickListener mOnClickSend = v -> sendCommentAll();
+    View.OnClickListener onClickComment = v -> {
             final TopicObject comment = (TopicObject) v.getTag();
 
             if (comment.isMy()) {
-                AlertDialog dialog = new AlertDialog.Builder(TopicListDetailActivity.this).setTitle("删除评论")
+                new AlertDialog.Builder(TopicListDetailActivity.this)
+                        .setTitle("删除评论")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                final String HOST_MAOPAO_DELETE = Global.HOST_API + "/topic/%s";
-                                deleteNetwork(String.format(HOST_MAOPAO_DELETE, comment.id), TAG_DELETE_TOPIC_COMMENT, comment.id);
+                                String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
+                                deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, comment.id);
                             }
                         })
                         .setNegativeButton("取消", null)
@@ -138,8 +131,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
                 enterLayout.restoreLoad(comment);
             }
-        }
     };
+
     MyImageGetter myImageGetter = new MyImageGetter(this);
     BaseAdapter baseAdapter = new BaseAdapter() {
 
@@ -321,7 +314,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
     @OptionsItem
     void action_delete() {
-        showDialog("讨论", "删除讨论?", (dialog, which) -> deleteNetwork(String.format(HOST_MAOPAO_DELETE, topicObject.id), TAG_DELETE_TOPIC));
+        showDialog("讨论", "删除讨论?", (dialog, which) -> deleteNetwork(String.format(Global.HOST_API + "/topic/%s", topicObject.id), TAG_DELETE_TOPIC));
     }
 
     @OptionsItem

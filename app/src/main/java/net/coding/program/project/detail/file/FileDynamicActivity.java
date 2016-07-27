@@ -1,7 +1,6 @@
 package net.coding.program.project.detail.file;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -257,12 +256,8 @@ public class FileDynamicActivity extends BackActivity {
 
                 final int itemIdFinal = itemId;
                 if (globalKey.equals(MyApp.sUserObject.global_key)) {
-                    showDialog("评论", "删除评论？", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            deleteNetwork(mProjectFileParam.getHttpDeleteComment(itemIdFinal), TAG_HTTP_COMMENT_DELETE, tagData);
-                        }
-                    });
+                    showDialog("评论", "删除评论？", (dialog, which) ->
+                            deleteNetwork(mProjectFileParam.getHttpDeleteComment(itemIdFinal), TAG_HTTP_COMMENT_DELETE, tagData));
                 } else {
                     FileDynamicParam param = new FileDynamicParam(mProjectFileParam.getProject(),
                             Integer.valueOf(mProjectFileParam.mFileObject.file_id), ownerName);
