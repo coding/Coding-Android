@@ -3,8 +3,6 @@ package net.coding.program.common.umeng;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.MyApp;
@@ -14,15 +12,12 @@ import net.coding.program.MyApp;
  */
 public class UmengActivity extends AppCompatActivity {
 
-    private Tracker mTracker;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MobclickAgent.openActivityDurationTrack(false);
 
         MyApp application = (MyApp) getApplication();
-        mTracker = application.getDefaultTracker();
     }
 
     @Override
@@ -32,9 +27,6 @@ public class UmengActivity extends AppCompatActivity {
         MobclickAgent.onResume(this);
 
         MyApp.setMainActivityState(true);
-
-        mTracker.setScreenName(getClass().getName());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
