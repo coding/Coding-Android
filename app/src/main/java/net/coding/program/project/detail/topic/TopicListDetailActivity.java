@@ -106,31 +106,31 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     HashMap<String, String> mSendedImages = new HashMap<>();
     View.OnClickListener mOnClickSend = v -> sendCommentAll();
     View.OnClickListener onClickComment = v -> {
-            final TopicObject comment = (TopicObject) v.getTag();
+        final TopicObject comment = (TopicObject) v.getTag();
 
-            if (comment.isMy()) {
-                new AlertDialog.Builder(TopicListDetailActivity.this)
-                        .setTitle("删除评论")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
-                                deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, comment.id);
-                            }
-                        })
-                        .setNegativeButton("取消", null)
-                        .show();
+        if (comment.isMy()) {
+            new AlertDialog.Builder(TopicListDetailActivity.this)
+                    .setTitle("删除评论")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
+                            deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, comment.id);
+                        }
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
 
-            } else {
-                EnterLayout enterLayout = mEnterComment.getEnterLayout();
-                EditText message = enterLayout.content;
-                message.setHint("回复 " + comment.owner.name);
+        } else {
+            EnterLayout enterLayout = mEnterComment.getEnterLayout();
+            EditText message = enterLayout.content;
+            message.setHint("回复 " + comment.owner.name);
 
-                message.setTag(comment);
-                enterLayout.popKeyboard();
+            message.setTag(comment);
+            enterLayout.popKeyboard();
 
-                enterLayout.restoreLoad(comment);
-            }
+            enterLayout.restoreLoad(comment);
+        }
     };
 
     MyImageGetter myImageGetter = new MyImageGetter(this);
@@ -281,6 +281,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             watchHelp.setData(this.watchers);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (topicObject != null) {
@@ -368,11 +369,14 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int defaultPostion = TopicObject.SORT_DEFAULT;
                 if (position == 0) {
-                    topicObject.setSortOld(TopicObject.SORT_OLD);
-                } else {
-                    topicObject.setSortOld(TopicObject.SORT_NEW);
+                    defaultPostion = TopicObject.SORT_OLD;
+                } else if (position == 1) {
+                    defaultPostion = TopicObject.SORT_NEW;
                 }
+                topicObject.setSortOld(defaultPostion);
+
                 initSetting();
                 loadMore();
             }
@@ -445,6 +449,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 }
                 watchHelp.setData(watchers);
             }
+
             @Override
             public void onMyFailure(JSONObject response) {
                 super.onMyFailure(response);

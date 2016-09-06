@@ -93,6 +93,9 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
 
     @AfterViews
     void initProjectMaopaoActivity() {
+        if (projectObject != null) {
+            setActionBarTitle(projectObject.name);
+        }
         listView.setAdapter(projectMaopaoAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Maopao.MaopaoObject maopao = listData.get(position);

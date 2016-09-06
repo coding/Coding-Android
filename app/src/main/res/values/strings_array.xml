@@ -204,6 +204,7 @@
     </string-array>
 
     <string-array name="comment_sort">
+        <item>默认排序</item>
         <item>最旧评论</item>
         <item>最新评论</item>
     </string-array>

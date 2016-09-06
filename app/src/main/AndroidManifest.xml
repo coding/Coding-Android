@@ -913,7 +913,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.maopao.ProjectMaopaoAddActivity_"
-            android:label="@string/title_activity_project_maopao"
+            android:label="@string/title_activity_project_maopao_add"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:screenOrientation="portrait" />
     </application>
