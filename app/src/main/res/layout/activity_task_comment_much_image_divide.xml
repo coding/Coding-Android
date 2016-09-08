@@ -134,14 +134,18 @@
         <!--android:layout_height="1dp"-->
         <!--android:layout_marginTop="10dp" />-->
 
-        <View
-            android:id="@+id/customDivide"
-            style="@style/DivideLine"
-            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
+
+    <View
+        android:id="@+id/childCommentTopLine"
+        style="@style/DivideLine"
+        android:layout_alignParentBottom="true" />
 
     <include android:id="@+id/child0" layout="@layout/topic_comment_child" />
     <include android:id="@+id/child1" layout="@layout/topic_comment_child" />
 
+    <View
+        style="@style/DivideLine"
+        android:layout_alignParentBottom="true" />
 </LinearLayout>

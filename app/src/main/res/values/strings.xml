@@ -192,6 +192,7 @@
     <string name="title_activity_country_pick">选择国家和地区</string>
     <string name="title_activity_project_maopao">项目内冒泡</string>
     <string name="title_activity_project_maopao_add">创建项目内冒泡</string>
+    <string name="title_activity_topic_comment_detail">讨论详情</string>
     <string name="delete">删除</string>
 
 </resources>

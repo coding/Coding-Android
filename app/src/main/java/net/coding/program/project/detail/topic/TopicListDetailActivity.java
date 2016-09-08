@@ -195,6 +195,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             View recommendView;
             TextView voteView;
 
+            View childCommentTopLine;
             ChildHolder childHolder0;
             ChildHolder childHolder1;
 
@@ -217,6 +218,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                     }
                 });
 
+                childCommentTopLine = convertView.findViewById(R.id.childCommentTopLine);
+
                 childHolder0 = new ChildHolder(convertView.findViewById(R.id.child0), R.id.child0, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
                 childHolder1 = new ChildHolder(convertView.findViewById(R.id.child1), R.id.child1, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             }
@@ -230,7 +233,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 voteView.setText(String.format("+%s", comment.upvotecounts));
                 if (findVoteOwnerWithMe(comment.upVoteUsers) == null) {
                     voteView.setBackgroundResource(R.drawable.shape_vote_no);
-                    voteView.setTextColor(0xffdddddd);
+                    voteView.setTextColor(0xff999999);
                 } else {
                     voteView.setBackgroundResource(R.drawable.shape_vote);
                     voteView.setTextColor(0xffffffff);
@@ -239,6 +242,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
                 ArrayList<TopicCommentChild> childcomments = ((TopicComment) data).childcomments;
                 if (childcomments.size() > 0) {
+                    childCommentTopLine.setVisibility(View.VISIBLE);
                     childHolder0.setContent(childcomments.get(0));
                     if (childcomments.size() > 1) {
                         childHolder1.setContent(childcomments.get(1));
@@ -246,7 +250,9 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                     } else {
                        childHolder1.show(false);
                     }
+
                 } else {
+                    childCommentTopLine.setVisibility(View.INVISIBLE);
                     childHolder0.show(false);
                     childHolder1.show(false);
                 }
@@ -256,17 +262,17 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
         class ChildHolder extends ImageCommentHolder {
 
             TextView moreChildComment;
-            View roolLayout;
+            View rootLayout;
 
             public ChildHolder(View convertView, int rootLayoutId, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
                 super(convertView, rootLayoutId, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
                 moreChildComment = (TextView) convertView.findViewById(R.id.moreChildComment);
-                roolLayout = convertView;
+                rootLayout = convertView;
 
                 if (rootLayoutId == R.id.child0) { // 第一个子评论
                     moreChildComment.setVisibility(View.GONE);
                 } else if (rootLayoutId == R.id.child1) { // 最后一个子评论
-                    roolLayout.findViewById(R.id.bottomLine).setVisibility(View.INVISIBLE);
+                    rootLayout.findViewById(R.id.bottomLine).setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -277,7 +283,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             }
 
             void show(boolean show) {
-                roolLayout.setVisibility(show ? View.VISIBLE : View.GONE);
+                rootLayout.setVisibility(show ? View.VISIBLE : View.GONE);
             }
 
             void showMoreChildButton(int count) {
