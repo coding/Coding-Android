@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -23,9 +24,11 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
@@ -39,10 +42,13 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.BaseUsersArea;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.model.DynamicObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.request.Project;
+import net.coding.program.model.topic.TopicComment;
+import net.coding.program.model.topic.TopicCommentChild;
 import net.coding.program.project.detail.TopicAddActivity_;
 import net.coding.program.project.detail.TopicLabelActivity;
 import net.coding.program.project.detail.TopicLabelActivity_;
@@ -76,6 +82,8 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     private static final int RESULT_MODIFY_WATCHER = 4;
     final String TAG_DELETE_TOPIC_COMMENT = "TAG_DELETE_TOPIC_COMMENT";
     final String TAG_DELETE_TOPIC = "TAG_DELETE_TOPIC";
+    final String TAG_DELETE_TOPIC_COMMENT_VOTE = "TAG_DELETE_TOPIC_COMMENT_VOTE";
+    final String TAG_TOPIC_COMMENT_VOTE = "TAG_TOPIC_COMMENT_VOTE";
     private final String HOST_COMMENT_SEND = Global.HOST_API + "/project/%s/topic?parent=%s";
     private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @InstanceState
@@ -99,7 +107,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     String urlCommentSend = HOST_COMMENT_SEND;
     String URI_DELETE_TOPIC_LABEL = Global.HOST_API + "/topic/%s/label/%s";
     String urlTopic = "";
-    ArrayList<TopicObject> mData = new ArrayList<>();
+    ArrayList<TopicComment> mData = new ArrayList<>();
     Intent mResultData = new Intent();
     View mListHead;
     String tagUrlCommentPhoto = "";
@@ -156,22 +164,136 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
             ImageCommentHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_divide, parent, false);
-                holder = new ImageCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
             } else {
                 holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
             }
 
-            TopicObject data = (TopicObject) getItem(position);
+            TopicComment data = (TopicComment) getItem(position);
             holder.setContent(data);
-
-//            convertView.findViewById(R.id.customDivide)
 
             loadMore();
 
             return convertView;
         }
+
+
+        @Nullable
+        public DynamicObject.Owner findVoteOwnerWithMe(ArrayList<DynamicObject.Owner> users) {
+            DynamicObject.Owner voteOwner = null;
+            for (DynamicObject.Owner item : users) {
+                if (item.global_key.equals(MyApp.sUserObject.global_key)) {
+                    voteOwner = item;
+                    break;
+                }
+            }
+            return voteOwner;
+        }
+
+        class ViewHolder extends ImageCommentHolder {
+            View recommendView;
+            TextView voteView;
+
+            ChildHolder childHolder0;
+            ChildHolder childHolder1;
+
+            public ViewHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
+                super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+
+                recommendView = convertView.findViewById(R.id.recommendLayout);
+                voteView = (TextView) convertView.findViewById(R.id.vote);
+                voteView.setOnClickListener(v -> {
+                    TopicComment comment = (TopicComment) v.getTag();
+                    ArrayList<DynamicObject.Owner> users = comment.upVoteUsers;
+                    DynamicObject.Owner voteOwner = findVoteOwnerWithMe(users);
+
+                    String host = String.format("%s/project/%s/topic/%s/comment/%s/upvote", Global.HOST_API,
+                            topicObject.project.getId(), topicObject.id, comment.id);
+                    if (voteOwner == null) {
+                        postNetwork(host, new RequestParams(), TAG_TOPIC_COMMENT_VOTE, -1, comment);
+                    } else {
+                        deleteNetwork(host, TAG_DELETE_TOPIC_COMMENT_VOTE, new VoteParam(comment, voteOwner));
+                    }
+                });
+
+                childHolder0 = new ChildHolder(convertView.findViewById(R.id.child0), R.id.child0, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+                childHolder1 = new ChildHolder(convertView.findViewById(R.id.child1), R.id.child1, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            }
+
+            @Override
+            public void setContent(Object data) {
+                super.setContent(data);
+
+                TopicComment comment = (TopicComment) data;
+                recommendView.setVisibility(comment.isRecommend() ? View.VISIBLE : View.GONE);
+                voteView.setText(String.format("+%s", comment.upvotecounts));
+                if (findVoteOwnerWithMe(comment.upVoteUsers) == null) {
+                    voteView.setBackgroundResource(R.drawable.shape_vote_no);
+                    voteView.setTextColor(0xffdddddd);
+                } else {
+                    voteView.setBackgroundResource(R.drawable.shape_vote);
+                    voteView.setTextColor(0xffffffff);
+                }
+                voteView.setTag(comment);
+
+                ArrayList<TopicCommentChild> childcomments = ((TopicComment) data).childcomments;
+                if (childcomments.size() > 0) {
+                    childHolder0.setContent(childcomments.get(0));
+                    if (childcomments.size() > 1) {
+                        childHolder1.setContent(childcomments.get(1));
+                        childHolder1.showMoreChildButton(childcomments.size());
+                    } else {
+                       childHolder1.show(false);
+                    }
+                } else {
+                    childHolder0.show(false);
+                    childHolder1.show(false);
+                }
+            }
+        }
+
+        class ChildHolder extends ImageCommentHolder {
+
+            TextView moreChildComment;
+            View roolLayout;
+
+            public ChildHolder(View convertView, int rootLayoutId, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
+                super(convertView, rootLayoutId, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+                moreChildComment = (TextView) convertView.findViewById(R.id.moreChildComment);
+                roolLayout = convertView;
+
+                if (rootLayoutId == R.id.child0) { // 第一个子评论
+                    moreChildComment.setVisibility(View.GONE);
+                } else if (rootLayoutId == R.id.child1) { // 最后一个子评论
+                    roolLayout.findViewById(R.id.bottomLine).setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void setContent(Object data) {
+                show(true);
+                super.setContent(data);
+            }
+
+            void show(boolean show) {
+                roolLayout.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+
+            void showMoreChildButton(int count) {
+                if (count > 2) {
+                    moreChildComment.setVisibility(View.VISIBLE);
+                    moreChildComment.setText(String.format("查看全部%s条评论", count));
+                    moreChildComment.setOnClickListener(v -> {
+                        // dd
+                    });
+                } else {
+                    moreChildComment.setVisibility(View.GONE);
+                }
+            }
+        }
     };
+
     private TopicLabelBar labelBar;
     private int currentLabelId;
     private TextView textViewCommentCount;
@@ -327,7 +449,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
     }
 
     void updateDisplayCommentCount() {
-        String commentCount = String.format("%s 条评论", topicObject.child_count);
+        String commentCount = String.format("%s 条回答", topicObject.child_count);
         textViewCommentCount.setText(commentCount);
     }
 
@@ -536,7 +658,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
 
                 JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
-                    TopicObject commnet = new TopicObject(jsonArray.getJSONObject(i));
+                    TopicComment commnet = new TopicComment(jsonArray.optJSONObject(i));
                     mData.add(commnet);
                 }
 
@@ -559,7 +681,7 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 mResultData.putExtra("topic_id", topicObject.id);
                 updateDisplayCommentCount();
 
-                mData.add(new TopicObject(jsonObject));
+                mData.add(new TopicComment(jsonObject));
 
                 EnterLayout enterLayout = mEnterComment.getEnterLayout();
                 enterLayout.restoreDelete(data);
@@ -645,6 +767,37 @@ public class TopicListDetailActivity extends BackActivity implements StartActivi
                 showErrorMsg(code, respanse);
                 showProgressBar(false);
             }
+        } else if (TAG_TOPIC_COMMENT_VOTE.equals(tag)) {
+            if (code == 0) {
+                showMiddleToast("+1 成功");
+                TopicComment comment = (TopicComment) data;
+                TopicComment newItem = new TopicComment(respanse.optJSONObject("data"));
+                comment.upVoteUsers = newItem.upVoteUsers;
+                comment.upvotecounts = newItem.upvotecounts;
+                baseAdapter.notifyDataSetChanged();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (TAG_DELETE_TOPIC_COMMENT_VOTE.equals(tag)) {
+            if (code == 0) {
+                showMiddleToast("取消 +1 成功");
+                VoteParam param = (VoteParam) data;
+                param.topicComment.upVoteUsers.remove(param.topicCommentChild);
+                param.topicComment.upvotecounts--;
+                baseAdapter.notifyDataSetChanged();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    private static class VoteParam {
+        TopicComment topicComment;
+        DynamicObject.Owner topicCommentChild;
+
+        public VoteParam(TopicComment topicComment, DynamicObject.Owner topicCommentChild) {
+            this.topicComment = topicComment;
+            this.topicCommentChild = topicCommentChild;
         }
     }
 

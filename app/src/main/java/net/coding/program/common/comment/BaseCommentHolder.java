@@ -25,8 +25,8 @@ public class BaseCommentHolder {
     protected ImageLoadTool imageLoadTool;
     protected String globalKey = "";
 
-    public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
-        layout = convertView.findViewById(R.id.Commentlayout);
+    public BaseCommentHolder(View convertView, int rootLayoutId, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
+        layout = convertView.findViewById(rootLayoutId);
         layout.setOnClickListener(onClickComment);
 
         icon = (ImageView) convertView.findViewById(R.id.icon);
@@ -36,6 +36,10 @@ public class BaseCommentHolder {
 
         this.imageLoadTool = imageLoadTool;
         this.imageGetter = imageGetter;
+    }
+
+    public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
+        this(convertView, R.id.Commentlayout, onClickComment, imageGetter, imageLoadTool, clickUser);
     }
 
     public BaseCommentHolder(View convertView, BaseCommentParam param) {

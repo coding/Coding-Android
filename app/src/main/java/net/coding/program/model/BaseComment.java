@@ -2,7 +2,6 @@ package net.coding.program.model;
 
 import net.coding.program.MyApp;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -14,15 +13,19 @@ public class BaseComment implements Serializable {
     public net.coding.program.model.DynamicObject.Owner owner = new net.coding.program.model.DynamicObject.Owner();
     public int owner_id; // 8205,
 
-    public BaseComment(JSONObject json) throws JSONException {
+    public BaseComment(JSONObject json) {
+        if (json == null) {
+            return;
+        }
+
         content = json.optString("content");
         created_at = json.optLong("created_at");
         id = json.optInt("id");
 
         if (json.has("owner")) {
-            owner = new DynamicObject.Owner(json.getJSONObject("owner"));
+            owner = new DynamicObject.Owner(json.optJSONObject("owner"));
         } else if (json.has("author")) {
-            owner = new DynamicObject.Owner(json.getJSONObject("author"));
+            owner = new DynamicObject.Owner(json.optJSONObject("author"));
         }
 
         if (json.has("owner_id")) {

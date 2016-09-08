@@ -62,6 +62,10 @@ public class UserObject implements Serializable, Comparable {
     }
 
     public UserObject(JSONObject json) {
+        if (json == null) {
+            return;
+        }
+
         avatar = Global.replaceAvatar(json);
         slogan = json.optString("slogan", "");
         tags = json.optString("tags", "");

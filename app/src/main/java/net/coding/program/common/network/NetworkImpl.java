@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NetworkImpl {
     public static final int ERROR_PERMISSION_DENIED = 1400;
@@ -72,6 +74,14 @@ public class NetworkImpl {
         mUpdateing.put(tag, true);
 
         AsyncHttpClient client = MyAsyncHttpClient.createClient(appContext);
+
+        String prefix = Global.HOST_API + "/topic/\\w*/comments";
+        Pattern pattern = Pattern.compile(prefix);
+        Matcher matcher = pattern.matcher(url);
+        if (matcher.find()) {// // TODO: 16/9/7 删除 4.0
+            String agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
+            client.addHeader("User-Agent", agent);
+        }
 
         final String cacheName = url;
 

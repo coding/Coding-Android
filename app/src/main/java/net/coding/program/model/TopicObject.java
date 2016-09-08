@@ -22,6 +22,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public static final int SORT_OLD = 0;
     public static final int SORT_NEW = 1;
     public static final int SORT_DEFAULT = 2;
+
     public int child_count;
     public String current_user_role_id = "";
     public int parent_id;

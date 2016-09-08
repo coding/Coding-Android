@@ -75,7 +75,9 @@ public class MyAsyncHttpClient {
         } catch (Exception e) {
             Global.errorLog(e);
         }
-        String userAgentValue = String.format("android %d %s coding_android", Build.VERSION.SDK_INT, versionName);
+
+        String userAgentValue = String.format("coding_android/%s (%s)", versionName, Build.VERSION.SDK_INT);
+
         mapHeaders.put("User-Agent", userAgentValue);
         mapHeaders.put("Accept", "*/*");
     }

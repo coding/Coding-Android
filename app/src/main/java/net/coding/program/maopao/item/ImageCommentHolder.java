@@ -23,6 +23,11 @@ public class ImageCommentHolder extends BaseCommentHolder {
         contentArea = new ContentAreaMuchImages(convertView, onClickComment, clickImage, imageGetter, imageLoadTool); //
     }
 
+    public ImageCommentHolder(View convertView, int rootLayoutId, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
+        super(convertView, rootLayoutId, onClickComment, imageGetter, imageLoadTool, clickUser);
+        contentArea = new ContentAreaMuchImages(convertView, onClickComment, clickImage, imageGetter, imageLoadTool); //
+    }
+
     public ImageCommentHolder(View convertView, BaseCommentParam param) {
         super(convertView, param);
         this.contentArea = new ContentAreaMuchImages(convertView, param.onClickComment, param.mClickImage, param.imageGetter, param.imageLoadTool);

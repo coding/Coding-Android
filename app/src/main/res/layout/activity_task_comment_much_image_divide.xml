@@ -1,98 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/Commentlayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_item_selector">
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon"
-        android:layout_width="37dp"
-        android:layout_height="37dp"
-        android:layout_margin="12dp"
-        android:focusable="false"
-        android:src="@drawable/ic_default_user" />
-
-    <LinearLayout
-        android:id="@+id/layout_1"
+    <RelativeLayout
+        android:id="@+id/Commentlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/icon"
-        android:layout_toRightOf="@+id/icon"
-        android:orientation="vertical">
+        android:background="@drawable/list_item_selector">
+
+        <FrameLayout
+            android:id="@+id/recommendLayout"
+            android:layout_width="80dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:background="@color/font_green"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_recomend"
+                android:drawablePadding="5dp"
+                android:text="最佳答案"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+        </FrameLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/recommendLayout"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:focusable="false"
+            android:src="@drawable/ic_default_user" />
+
+        <TextView
+            android:id="@+id/vote"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_alignLeft="@id/icon"
+            android:layout_alignRight="@id/icon"
+            android:layout_below="@id/icon"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_vote"
+            android:gravity="center"
+            android:text="+0"
+            android:textColor="@color/font_white"
+            android:textSize="11sp" />
 
         <LinearLayout
-            android:id="@+id/layoutContent"
-            android:layout_width="wrap_content"
+            android:id="@+id/layout_1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon"
+            android:layout_toRightOf="@+id/icon"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/content"
+            <LinearLayout
+                android:id="@+id/layoutContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/icon"
-                android:layout_below="@+id/name"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/content_pressed_selector"
-                android:lineSpacingExtra="1dp"
-                android:lineSpacingMultiplier="1.1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/font_black_content"
-                android:textSize="15sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/icon"
+                    android:layout_below="@+id/name"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/content_pressed_selector"
+                    android:lineSpacingExtra="1dp"
+                    android:lineSpacingMultiplier="1.1"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/font_black_content"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <org.apmem.tools.layouts.FlowLayout
+                android:id="@+id/flowLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/layout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/layoutContent"
+                    android:layout_below="@id/layoutContent"
+                    android:text="超级小胖纸"
+                    android:textColor="@color/font_black_9"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/name"
+                    android:drawableLeft="@drawable/ic_clock"
+                    android:drawablePadding="5dp"
+                    android:text="3分钟前"
+                    android:textColor="@color/font_black_9"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <org.apmem.tools.layouts.FlowLayout
-            android:id="@+id/flowLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:visibility="visible" />
+        <!--<include-->
+        <!--layout="@layout/divide_1"-->
+        <!--android:layout_below="@id/layout_1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginTop="10dp" />-->
 
-        <LinearLayout
-            android:id="@+id/layout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/layoutContent"
-                android:layout_below="@id/layoutContent"
-                android:text="超级小胖纸"
-                android:textColor="@color/font_black_comment"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/name"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/name"
-                android:drawableLeft="@drawable/ic_clock"
-                android:drawablePadding="5dp"
-
-                android:text="3分钟前"
-                android:textColor="@color/font_black_9"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <include
+        <View
             android:id="@+id/customDivide"
-            layout="@layout/divide_1" />
-    </LinearLayout>
+            style="@style/DivideLine"
+            android:layout_alignParentBottom="true" />
 
-    <!--<include-->
-    <!--layout="@layout/divide_1"-->
-    <!--android:layout_below="@id/layout_1"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_marginTop="10dp" />-->
+    </RelativeLayout>
 
-</RelativeLayout>
+    <include android:id="@+id/child0" layout="@layout/topic_comment_child" />
+    <include android:id="@+id/child1" layout="@layout/topic_comment_child" />
+
+</LinearLayout>
