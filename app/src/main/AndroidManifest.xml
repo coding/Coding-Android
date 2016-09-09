@@ -919,7 +919,7 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".project.detail.topic.TopicCommentDetail_"
             android:label="@string/title_activity_topic_comment_detail"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait" />
     </application>
 

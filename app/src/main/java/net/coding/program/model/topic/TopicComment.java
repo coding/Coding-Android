@@ -1,5 +1,6 @@
 package net.coding.program.model.topic;
 
+import net.coding.program.common.Global;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.UserObject;
@@ -68,6 +69,11 @@ public class TopicComment extends BaseComment implements Serializable {
 
         updatedat = json.optInt("updated_at");
         anchor = json.optString("anchor", "");
+    }
+
+    public String getUrlAllComment(int projectId) {
+        return String.format( "%s/project/%s/topic/%s/comment/%s/comments?page=1&pageSize=99999",
+                Global.HOST_API, projectId, topicid, id);
     }
 
     public boolean isRecommend() {
