@@ -83,6 +83,14 @@ public class NetworkImpl {
             client.addHeader("User-Agent", agent);
         }
 
+        String prefix1 = Global.HOST_API +
+                "/project/\\d*/topic/\\d*/comment";
+        pattern = Pattern.compile(prefix1); // // TODO: 16/9/9 删除
+        if (pattern.matcher(url).find()) {
+            String agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
+            client.addHeader("User-Agent", agent);
+        }
+
         final String cacheName = url;
 
         JsonHttpResponseHandler jsonHttpResponseHandler = new JsonHttpResponseHandler() {
