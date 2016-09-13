@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.loopj.android.http.RequestParams;
@@ -55,6 +56,12 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;
     private NetworkImpl networkImpl;
+
+    protected void listViewAddFootShade(ListView listView) {
+        View listViewFooter = getLayoutInflater().inflate(R.layout.divide_15_top, listView, false);
+        listView.addFooterView(listViewFooter, null, false);
+    }
+
     /**
      * 载入动画
      */
@@ -306,6 +313,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     }
 
     protected void imagefromNetwork(ImageView view, String url, DisplayImageOptions options) {
+        url = Global.translateStaticIcon(url);
         imageLoadTool.loadImageFromUrl(view, url, options);
     }
 

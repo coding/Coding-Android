@@ -9,23 +9,11 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.R;
-import net.coding.program.common.widget.Dimens;
 
 /**
  * Created by chaochen on 14-9-22.
  */
 public class ImageLoadTool {
-
-    //两像素圆角
-    public static final DisplayImageOptions optionsRounded = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.ic_default_image)
-            .showImageForEmptyUri(R.drawable.ic_default_image)
-            .showImageOnFail(R.drawable.ic_default_image)
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
-            .considerExifParams(true)
-            .displayer(new RoundedBitmapDisplayer(2))
-            .build();
     public static final DisplayImageOptions optionsRounded2 = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
             .showImageForEmptyUri(R.drawable.ic_default_image)
@@ -33,8 +21,9 @@ public class ImageLoadTool {
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
-            .displayer(new RoundedBitmapDisplayer(Global.dpToPx(Dimens.PROJECT_ICON_ROUND)))
+            .displayer(new RoundedBitmapDisplayer(Global.dpToPx((float) 2)))
             .build();
+
     public static DisplayImageOptions enterOptions = new DisplayImageOptions
             .Builder()
 //            .showImageOnLoading(R.drawable.ic_default_user)

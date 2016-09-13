@@ -917,9 +917,26 @@
             android:label="@string/title_activity_project_maopao_add"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
-        <activity android:name=".project.detail.topic.TopicCommentDetail_"
+        <activity
+            android:name=".project.detail.topic.TopicCommentDetail_"
             android:label="@string/title_activity_topic_comment_detail"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".user.team.TeamListActivity_"
+            android:label="@string/title_activity_team_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.team.TeamListDetailActivity_"
+            android:label="@string/title_activity_team_list_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.team.TeamMemberListActivity_"
+            android:label="@string/title_activity_team_member_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.team.TeamProjectListActivity_"
+            android:label="@string/title_activity_team_project_list"
             android:screenOrientation="portrait" />
     </application>
 

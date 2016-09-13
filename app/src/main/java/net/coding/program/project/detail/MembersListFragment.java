@@ -48,7 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-@EFragment(R.layout.common_refresh_listview)
+@EFragment(R.layout.common_refresh_listview_divide)
 public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
     static final int RESULT_ADD_USER = 111;
@@ -58,13 +58,19 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     String urlMembers = Global.HOST_API + "/project/%d/members?pagesize=1000";
     String urlQuit = Global.HOST_API + "/project/%d/quit";
 
+    public enum Type {
+        Member,
+        Pick,
+        Team
+    }
+
     @FragmentArg
     ProjectObject mProjectObject;
     @FragmentArg
     String mMergeUrl;
-    // 为true表示是用@选成员，为false表示项目成员列表
     @FragmentArg
-    boolean mSelect;
+    Type type = Type.Member;
+
     @ViewById
     ListView listView;
 
@@ -120,6 +126,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 //holder.desc = (TextView) convertView.findViewById(R.id.desc);
                 holder.ic = (ImageView) convertView.findViewById(R.id.ic);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.bottomLine = convertView.findViewById(R.id.bottomLine);
 //                holder.icon.setOnClickListener(mOnClickUser);
 //                holder.icon.setFocusable(false);
                 holder.btn = (ImageView) convertView.findViewById(R.id.btn);
@@ -159,11 +166,13 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             iconfromNetwork(holder.icon, user.avatar);
             holder.icon.setTag(user.global_key);
 
-            if (mSearchData.size() - 1 == position) {
+            boolean isLast = mSearchData.size() - 1 == position;
+            holder.bottomLine.setVisibility(isLast ? View.INVISIBLE : View.VISIBLE);
+            if (isLast) {
                 loadMore();
             }
 
-            if (mSelect) {
+            if (type == Type.Pick) {
                 holder.btn.setVisibility(View.GONE);
             } else if (user.name.equals(MyApp.sUserObject.name)) {
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
@@ -197,42 +206,35 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             showDialogLoading();
         }
 
+        View listViewFooter = mInflater.inflate(R.layout.divide_15_top, listView, false);
+        listView.addFooterView(listViewFooter, null, false);
         listView.setAdapter(adapter);
         AdapterView.OnItemClickListener mListClickJump;
-        if (mSelect) {
-            mListClickJump = new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent();
-                    UserObject userObject;
-                    Object object = mSearchData.get((int) id);
-                    if (object instanceof TaskObject.Members) {
-                        userObject = ((TaskObject.Members) object).user;
-                    } else {
-                        userObject = (UserObject) object;
-                    }
-
-                    intent.putExtra("name", userObject.name);
-                    getActivity().setResult(Activity.RESULT_OK, intent);
-                    getActivity().finish();
+        if (type == Type.Pick) {
+            mListClickJump = (parent, view, position, id) -> {
+                Intent intent = new Intent();
+                UserObject userObject;
+                Object object = mSearchData.get((int) id);
+                if (object instanceof TaskObject.Members) {
+                    userObject = ((TaskObject.Members) object).user;
+                } else {
+                    userObject = (UserObject) object;
                 }
+
+                intent.putExtra("name", userObject.name);
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
             };
         } else {
-            mListClickJump = new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    UserDynamicActivity_
-                            .intent(getActivity())
-                            .mProjectObject(mProjectObject)
-                            .mMember((TaskObject.Members) mSearchData.get(position))
-                            .start();
-
-                }
-            };
+            mListClickJump = (parent, view, position, id) -> UserDynamicActivity_
+                    .intent(getActivity())
+                    .mProjectObject(mProjectObject)
+                    .mMember((TaskObject.Members) mSearchData.get(position))
+                    .start();
         }
         listView.setOnItemClickListener(mListClickJump);
 
-        if (!mSelect) {
+        if (type != Type.Pick) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
@@ -363,7 +365,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 })
                 .setNegativeButton("取消", null)
                 .show();
-
     }
 
     private void removeMember(TaskObject.Members member) {
@@ -437,7 +438,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!mSelect) {
+        if (type != Type.Pick) {
             if (projectCreateByMe()) {
                 inflater.inflate(R.menu.users, menu);
             } else {
@@ -538,5 +539,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         TextView alias;
         ImageView ic;
         ImageView btn;
+        View bottomLine;
     }
 }

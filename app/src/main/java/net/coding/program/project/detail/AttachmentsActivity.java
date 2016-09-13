@@ -197,14 +197,14 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 holder.folder_name.setVisibility(View.VISIBLE);
             } else if (data.isImage()) {
                 //Log.d("imagePattern", "data.preview:" + data.preview);
-                imagefromNetwork(holder.icon, data.preview, ImageLoadTool.optionsRounded);
+                imagefromNetwork(holder.icon, data.preview, ImageLoadTool.optionsRounded2);
                 holder.icon.setVisibility(View.VISIBLE);
                 holder.icon.setBackgroundResource(R.drawable.shape_image_icon_bg);
                 holder.icon_txt.setVisibility(View.GONE);
                 holder.file_info_layout.setVisibility(View.VISIBLE);
                 holder.folder_name.setVisibility(View.GONE);
             } else {
-                imagefromNetwork(holder.icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded);
+                imagefromNetwork(holder.icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded2);
                 holder.icon.setVisibility(View.VISIBLE);
                 holder.icon.setBackgroundResource(android.R.color.transparent);
                 holder.icon_txt.setVisibility(View.GONE);

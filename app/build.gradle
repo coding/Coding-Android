@@ -130,7 +130,7 @@ repositories {
 
 
 dependencies {
-    def AAVersion = '3.3.2'
+    def AAVersion = '4.1.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 }

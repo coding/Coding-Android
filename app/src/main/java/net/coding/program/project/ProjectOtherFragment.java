@@ -25,7 +25,6 @@ import net.coding.program.project.init.InitProUtils;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,8 +86,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
         btn_action.setOnClickListener(this);
     }
 
-    @ItemClick
-    public void listView(ProjectObject item) {
+    private void listView(ProjectObject item) {
         // 在搜索界面不是嵌套的，getParentFragment会返回null
         Fragment fragment = getParentFragment();
         if (fragment == null) {
@@ -139,6 +137,8 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
                 if (adapter == null) {
                     adapter = new MyAdapter();
                     listView.setAdapter(adapter);
+                    listView.setOnItemClickListener((parent, view, position, id) ->
+                            listView((ProjectObject) adapter.getItem((int) id)));
                 } else {
                     adapter.notifyDataSetChanged();
                 }

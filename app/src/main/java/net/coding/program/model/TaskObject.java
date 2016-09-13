@@ -55,6 +55,18 @@ public class TaskObject {
             public int getType() {
                 return type;
             }
+
+            public static Type idToEnum(int id) {
+                if (ower.type == id) {
+                    return ower;
+                } else if (member.type == id) {
+                    return member;
+                } else if (manager.type == id) {
+                    return manager;
+                } else {
+                    return limited;
+                }
+            }
         }
 
         public long created_at;

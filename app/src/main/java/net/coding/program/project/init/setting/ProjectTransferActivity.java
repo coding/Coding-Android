@@ -10,14 +10,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.MembersActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
@@ -26,9 +24,6 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
 
 
     public static final int RESULT_REQUEST_SELECT_USER = 3;
-
-    @Extra
-    ProjectObject mProjectObject;
 
     @ViewById
     ImageView circleIcon;

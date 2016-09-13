@@ -13,7 +13,6 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.Merge;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.merge.MergeReviewerListFragment;
 import net.coding.program.project.detail.merge.MergeReviewerListFragment_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -43,14 +42,14 @@ public class MembersSelectActivity extends BackActivity {
             fragment = new MembersListFragment_
                     .FragmentBuilder_()
                     .mProjectObject(mProjectObject)
-                    .mSelect(true)
+                    .type(MembersListFragment.Type.Pick)
                     .build();
         } else if (mMergeUrl != null) {
             setActionBarTitle("选择@对象");
             fragment = new MembersListFragment_
                     .FragmentBuilder_()
                     .mMergeUrl(mMergeUrl)
-                    .mSelect(true)
+                    .type(MembersListFragment.Type.Pick)
                     .build();
         } else if (mMerge != null) {
             fragment = new MergeReviewerListFragment_

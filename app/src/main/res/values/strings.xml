@@ -193,6 +193,10 @@
     <string name="title_activity_project_maopao">项目内冒泡</string>
     <string name="title_activity_project_maopao_add">创建项目内冒泡</string>
     <string name="title_activity_topic_comment_detail">讨论详情</string>
+    <string name="title_activity_team_list">团队</string>
+    <string name="title_activity_team_list_detail">团队首页</string>
+    <string name="title_activity_team_member_list">团队成员</string>
+    <string name="title_activity_team_project_list">团队项目</string>
     <string name="delete">删除</string>
 
 </resources>

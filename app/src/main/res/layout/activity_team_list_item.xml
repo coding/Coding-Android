@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@color/stand_bg"
+    tools:context="net.coding.program.user.team.TeamListActivity">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/round_icon_path"
+        android:layout_margin="12dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/icon"
+        android:layout_toRightOf="@id/icon"
+        android:textColor="#323a45"
+        android:textSize="15sp"
+        tools:text="CodingDesign" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/name"
+        android:layout_below="@id/name"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#76808E"
+            android:textSize="12sp"
+            android:text="项目" />
+
+        <TextView
+            android:id="@+id/projectCount"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#4F565F"
+            android:textSize="14sp"
+            tools:text="10" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:textColor="#76808E"
+            android:textSize="12sp"
+            android:text="成员" />
+
+        <TextView
+            android:id="@+id/memberCount"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#4F565F"
+            tools:text="10" />
+    </LinearLayout>
+
+    <View
+        style="@style/DivideLine"
+        android:id="@+id/bottomLine"
+        android:layout_alignLeft="@id/icon"
+        android:layout_below="@id/icon" />
+
+</RelativeLayout>

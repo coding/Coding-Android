@@ -42,6 +42,7 @@ import net.coding.program.project.ProjectFragment_;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.setting.SettingFragment_;
 import net.coding.program.task.TaskFragment_;
+import net.coding.program.user.team.TeamListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -268,6 +269,7 @@ public class MainActivity extends BaseActivity
 
         switch (position) {
             case 0://防止重复加载数据
+                TeamListActivity_.intent(this).start();
 //                fragment = new ProjectFragment_();
                 List<Fragment> fragments = getSupportFragmentManager().getFragments();
                 boolean containFragment = false;

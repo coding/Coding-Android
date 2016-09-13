@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.user.team.TeamListDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/stand_bg"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/round_icon_path"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="12dp"
+            android:id="@+id/icon"
+            tools:src="@drawable/ic_default_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:textColor="#1E2D42"
+            android:layout_toRightOf="@id/icon"
+            android:textSize="15sp"
+            tools:text="CodingTeamA"
+            android:layout_alignTop="@id/icon"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/title"
+            android:layout_alignLeft="@id/title"
+            android:layout_marginRight="15dp"
+            android:id="@+id/content"
+            android:lineSpacingExtra="2dp"
+            android:textSize="12sp"
+            android:textColor="@color/font_black_9"
+            tools:text="这是 Coding 产品设计部使用团队，专门用于管理产品设计相关项目。 "
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divide_15_top_bottom" />
+
+    <FrameLayout
+        android:background="@color/stand_bg"
+        android:layout_width="match_parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:id="@+id/teamProject"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:text="团队项目"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <View
+        style="@style/DivideLine" />
+
+    <FrameLayout
+        android:background="@color/stand_bg"
+        android:layout_width="match_parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:id="@+id/teamMember"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:text="团队成员"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <include layout="@layout/divide_15_top" />
+
+</LinearLayout>

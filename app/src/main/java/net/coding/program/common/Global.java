@@ -210,7 +210,7 @@ public class Global {
         return translateStaticIcon(s);
     }
 
-    private static String translateStaticIcon(String s) {
+    public static String translateStaticIcon(String s) {
         if (s.indexOf("/static/") == 0) {
             return Global.HOST + s;
         }

@@ -4,13 +4,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.text.Layout;
-import android.text.ParcelableSpan;
 import android.text.style.LeadingMarginSpan;
+import android.text.style.UnderlineSpan;
 
 /**
  * Created by chaochen on 15/1/12.
  */
-public class GrayQuoteSpan implements LeadingMarginSpan, ParcelableSpan {
+public class GrayQuoteSpan extends UnderlineSpan implements LeadingMarginSpan {
     private static final int STRIPE_WIDTH = 4 * 3;
     private static final int GAP_WIDTH = 12 * 3;
 
@@ -27,6 +27,7 @@ public class GrayQuoteSpan implements LeadingMarginSpan, ParcelableSpan {
     }
 
     public GrayQuoteSpan(Parcel src) {
+        super(src);
         mColor = src.readInt();
     }
 

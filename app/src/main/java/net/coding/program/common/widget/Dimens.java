@@ -6,6 +6,4 @@ package net.coding.program.common.widget;
  */
 public class Dimens {
 
-    public static float PROJECT_ICON_ROUND = 2;
-
 }

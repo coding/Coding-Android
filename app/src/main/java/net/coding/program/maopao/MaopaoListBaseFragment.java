@@ -163,7 +163,6 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
         initMaopaoType();
         myImageGetter = new MyImageGetter(getActivity());
 
-
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(mAdapter);
 
@@ -171,6 +170,10 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                if (listView == null) {
+                    return;
+                }
+
                 int listHeight = listView.getHeight();
 
                 if (oldListHigh > listHeight) {

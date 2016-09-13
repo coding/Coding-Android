@@ -31,7 +31,6 @@ import net.coding.program.project.init.create.ProjectCreateActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,6 +131,10 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         if (getParentFragment() == null) { // 搜索
             disableRefreshing();
         }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            ProjectObject item = (ProjectObject) myAdapter.getItem(position);
+            listView(item);
+        });
     }
 
     private void notifyEmputy() {
@@ -217,8 +220,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
     }
 
-    @ItemClick
-    public void listView(ProjectObject item) {
+    void listView(ProjectObject item) {
 //        if (item.un_read_activities_count > 0) {
         // 调用此函数，则按hot排序时项目会排序到有动态的项目后面
 //        String s = String.format(HOST_VISTIT, item.getId());
