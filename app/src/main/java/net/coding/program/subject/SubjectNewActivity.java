@@ -135,7 +135,7 @@ public class SubjectNewActivity extends BackActivity {
             hideProgressDialog();
         } else if (tag.equals(TAG_HOT_RECOMMEND)) {
             if (code == 0) {
-                JSONArray jsonArray = respanse.optJSONArray("data");
+                JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("default_topics");
                 int insertPos = TopicLastCache.getInstance(this).getTopicLastCacheList().size();
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);

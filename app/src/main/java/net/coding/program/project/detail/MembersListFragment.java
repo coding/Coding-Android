@@ -27,7 +27,6 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
@@ -81,12 +80,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     BaseAdapter adapter = new BaseAdapter() {
 
-        private View.OnClickListener sendMessage = v -> {
-            UserObject user = (UserObject) v.getTag();
-            Intent intent = new Intent(getActivity(), MessageListActivity_.class);
-            intent.putExtra("mUserObject", user);
-            startActivity(intent);
-        };
         private View.OnClickListener quitProject = v -> {
             new AlertDialog.Builder(getActivity())
                     .setTitle("退出项目")
@@ -186,10 +179,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                     }
                 }
             } else {
-                holder.btn.setImageResource(R.drawable.ic_send_message);
-                holder.btn.setTag(user);
-                holder.btn.setOnClickListener(sendMessage);
-                holder.btn.setVisibility(View.VISIBLE);
+                holder.btn.setVisibility(View.INVISIBLE);
             }
 
             return convertView;
