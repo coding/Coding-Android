@@ -1,8 +1,5 @@
 package net.coding.program.project;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
@@ -100,13 +97,6 @@ public class MenuProjectFragment extends BaseFragment {
             }
 
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        MenuItem menuItem = menu.findItem(R.id.action_filter);
-        menuItem.setIcon(R.drawable.ic_filter_click);
     }
 
     private void setData(MenuCount bean) {

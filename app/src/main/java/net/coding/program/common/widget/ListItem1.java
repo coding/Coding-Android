@@ -39,6 +39,8 @@ public class ListItem1 extends FrameLayout {
         String title = array.getString(R.styleable.ListItem1_itemTitle);
         int icon = array.getResourceId(R.styleable.ListItem1_itemIcon, R.drawable.user_home_project);
 
+        boolean showBottomLine = array.getBoolean(R.styleable.ListItem1_itemShowBottomLine, true);
+
         boolean center = array.getBoolean(R.styleable.ListItem1_itemCenter, false);
         array.recycle();
 

@@ -48,6 +48,7 @@
         <attr name="itemIcon" format="reference" />
         <attr name="itemTitle" format="string" />
         <attr name="itemCenter" format="boolean" />
+        <attr name="itemShowBottomLine" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="TaskAttrItem">

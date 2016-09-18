@@ -74,7 +74,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     ));
     String urlProject;
 
-    //    MySpinnerAdapter mSpinnerAdapter;
+    //    MaopaoTypeAdapter mSpinnerAdapter;
     ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
             R.drawable.ic_spinner_dynamic,
             R.drawable.ic_spinner_topic,

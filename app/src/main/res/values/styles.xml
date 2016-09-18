@@ -31,13 +31,13 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
         <item name="android:windowBackground">@color/stand_bg</item>
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/gray_drawable</item>
+        <item name="android:actionModeBackground">@drawable/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
@@ -50,15 +50,7 @@
         <item name="android:actionMenuTextColor">@color/white</item>
 
 
-        <item name="colorPrimary">@drawable/gray_drawable</item>
-        <!--<item name="android:textColorPrimary">@drawable/</item>-->
-        <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
-        <!--<item name="colorAccent">@color/material_green_A200</item>-->
-
-        <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
-
-        <!--add by libo material theme-->
-        <!--<item name="alertDialogProTheme">@style/Theme.AlertDialogPro.Material.Light</item>-->
+        <item name="colorPrimary">@drawable/color_primary</item>
     </style>
 
     <!--没有icon的actionbar -->
@@ -87,9 +79,9 @@
         <!--<item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>-->
         <!--<item name="android:actionMenuTextColor">@color/white</item>-->
 
-        <item name="colorPrimary">@drawable/gray_drawable</item>
-        <item name="android:textColorPrimary">@drawable/white</item>
-        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorPrimary">@drawable/color_primary</item>
+        <item name="android:textColorPrimary">@drawable/text_color_primary</item>
+        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
 
         <item name="android:divider">@drawable/system_divide</item>
 
@@ -101,7 +93,7 @@
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/gray_drawable</item>
+        <item name="android:actionModeBackground">@drawable/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
@@ -114,15 +106,6 @@
         <!--抽屉导航的旋转箭头-->
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
-        <!--<item name="android:icon">@android:color/transparent</item>-->
-        <!--<item name="icon">@android:color/transparent</item>-->
-
-        <!--<item name="colorPrimaryDark">@color/black</item>-->
-        <!--<item name="android:textColorPrimary">@drawable/</item>-->
-        <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
-        <!--<item name="colorAccent">@color/material_green_A200</item>-->
-
-        <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -136,7 +119,7 @@
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/gray_drawable</item>
+        <item name="android:actionModeBackground">@drawable/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
@@ -149,18 +132,13 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
-        <item name="colorPrimary">@drawable/gray_drawable</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <!--<item name="android:textColorPrimary">@drawable/</item>-->
-        <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
-        <!--<item name="colorAccent">@color/material_green_A200</item>-->
-
-        <!--<item name="numberPickerStyle">@style/WidgetHoloNumberPicker</item>-->
+        <item name="colorPrimary">@drawable/color_primary</item>
+        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
     </style>
 
     <!--商城界面主题-->
     <style name="ThemeMall" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@drawable/gray_drawable</item>
+        <item name="colorPrimary">@drawable/color_primary</item>
         <item name="colorPrimaryDark">@color/black</item>
     </style>
 

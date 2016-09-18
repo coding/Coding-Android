@@ -41,6 +41,8 @@ import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+// // TODO: 16/9/18 need delete
+@Deprecated
 @EFragment(R.layout.fragment_navigation_drawer)
 public class NavigationDrawerFragment extends BaseFragment implements UnreadNotify.UnreadNotifyObserver {
 

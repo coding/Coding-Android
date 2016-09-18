@@ -12,7 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -20,6 +19,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.NoHorizontalScrollViewPager;
+import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.maopao.MaopaoAddActivity_;
@@ -35,7 +35,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +47,6 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_project)
-@OptionsMenu(R.menu.menu_project_item)
 public class ProjectFragment extends BaseFragment implements ViewPager.OnPageChangeListener, ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
@@ -87,13 +85,18 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     }
 
     // 用于处理推送
-    public void onEventMainThread(EventPosition event) {
-        int position = event.position;
-        pager.setCurrentItem(position, false);
+    public void onEventMainThread(Object object) {
+        if (object instanceof EventFilter) {
+            action_filter();
+        } else if (object instanceof EventPosition){
+            EventPosition event = (EventPosition) object;
+            int position = event.position;
+            pager.setCurrentItem(position, false);
+        }
     }
 
     @AfterViews
-    protected void init() {
+    protected void initProjectFragment() {
         hideProgressDialog();
         mData = AccountInfo.loadProjects(getActivity());
         pager.setOnPageChangeListener(this);
@@ -126,8 +129,6 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         } else {
             inflater.inflate(R.menu.menu_project_pick_search, menu);
         }
-        MenuItem menuItem = menu.findItem(R.id.action_filter);
-        menuItem.setIcon(R.drawable.ic_filter_normal);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -154,14 +155,12 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         }
     }
 
-    @OptionsItem
     void action_filter() {
         if (pageIndex != program_title.length) {
             pager.setCurrentItem(program_title.length, false);
         } else {
             pager.setCurrentItem(program_title.length - pageIndex, false);
         }
-
     }
 
     @OptionsItem

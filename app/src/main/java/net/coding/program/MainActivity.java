@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -24,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.roughike.bottombar.BottomBar;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -31,6 +30,7 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.event.EventFilter;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoListFragment;
@@ -40,9 +40,8 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectFragment_;
 import net.coding.program.project.init.InitProUtils;
-import net.coding.program.setting.SettingFragment_;
+import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.TaskFragment_;
-import net.coding.program.user.team.TeamListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -52,14 +51,17 @@ import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
 
     public static final String TAG = "MainActivity";
     public static final String BroadcastPushStyle = "BroadcastPushStyle";
-    NavigationDrawerFragment_ mNavigationDrawerFragment;
+
     String mTitle;
+
     @Extra
     String mPushUrl;
     @StringArrayRes
@@ -67,7 +69,10 @@ public class MainActivity extends BaseActivity
     @StringArrayRes
     String maopao_action_types[];
     @ViewById
-    ViewGroup drawer_layout;
+    BottomBar bottomBar;
+
+    TextView toolbarTitle;
+    View toolbarProjectTitle;
 
     private static boolean sNeedWarnEmailNoValidLogin = false;
 
@@ -89,8 +94,8 @@ public class MainActivity extends BaseActivity
         }
     };
     int mSelectPos = 0;
-    MySpinnerAdapter mSpinnerAdapter;
-    private View actionbarCustom;
+    MaopaoTypeAdapter mSpinnerAdapter;
+    private Spinner toolbarMaopaoTitle;
     private long exitTime = 0;
 
     @Override
@@ -194,17 +199,19 @@ public class MainActivity extends BaseActivity
         intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
         startService(intent);
 
-        mSpinnerAdapter = new MySpinnerAdapter(getLayoutInflater(), maopao_action_types);
+        mSpinnerAdapter = new MaopaoTypeAdapter(getLayoutInflater(), maopao_action_types);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setActionBarTitle("");
 
-        ActionBar supportActionBar = getSupportActionBar();
-        supportActionBar.setCustomView(R.layout.actionbar_custom_spinner);
-        actionbarCustom = supportActionBar.getCustomView();
-        Spinner spinner = (Spinner) supportActionBar.getCustomView().findViewById(R.id.spinner);
-        spinner.setAdapter(mSpinnerAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
+        toolbarProjectTitle = findViewById(R.id.toolbarProjectTitle);
+        toolbarProjectTitle.setOnClickListener(clickProjectTitle);
+        toolbarMaopaoTitle = (Spinner) findViewById(R.id.toolbarMaopaoTitle);
+
+        toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
+        toolbarMaopaoTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             String[] strings = getResources().getStringArray(R.array.maopao_action_types);
 
             @Override
@@ -248,18 +255,28 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment_)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         mTitle = drawer_title[0];
-
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
 
         if (mFirstEnter) {
             onNavigationDrawerItemSelected(0);
         }
+
+        bottomBar.setOnTabSelectListener(tabId -> {
+            int[] tabs = new int[]{
+                    R.id.tabProject,
+                    R.id.tabTask,
+                    R.id.tabMaopao,
+                    R.id.tabMessage,
+                    R.id.tabMy
+            };
+
+            for (int i = 0; i < tabs.length; ++i) {
+                if (tabs[i] == tabId) {
+                    onNavigationDrawerItemSelected(i);
+                }
+            }
+        });
     }
 
     @Override
@@ -269,14 +286,15 @@ public class MainActivity extends BaseActivity
 
         switch (position) {
             case 0://防止重复加载数据
-                TeamListActivity_.intent(this).start();
 //                fragment = new ProjectFragment_();
                 List<Fragment> fragments = getSupportFragmentManager().getFragments();
                 boolean containFragment = false;
-                for (Fragment item : fragments) {
-                    if (item instanceof ProjectFragment_) {
-                        containFragment = true;
-                        break;
+                if (fragments != null) {
+                    for (Fragment item : fragments) {
+                        if (item instanceof ProjectFragment_) {
+                            containFragment = true;
+                            break;
+                        }
                     }
                 }
                 if (!containFragment) {
@@ -295,18 +313,12 @@ public class MainActivity extends BaseActivity
                 break;
 
             case 4:
-                fragment = new SettingFragment_();
+                fragment = new MainSettingFragment_();
                 break;
         }
 
         if (position == 2) {
-            ActionBar actionBar = getSupportActionBar();
-            Spinner spinner;
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(actionbarCustom);
-            spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
-
             boolean containFragment = false;
             for (Fragment item : fragments) {
                 if (item instanceof MaopaoListFragment) {
@@ -316,12 +328,36 @@ public class MainActivity extends BaseActivity
             }
 
             if (!containFragment) {
-                int pos = spinner.getSelectedItemPosition();
-                spinner.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
+                int pos = toolbarMaopaoTitle.getSelectedItemPosition();
+                toolbarMaopaoTitle.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
             }
+
+            visibleTitle(toolbarMaopaoTitle);
+        } else if (position == 0) {
+            visibleTitle(toolbarProjectTitle);
+        } else {
+            toolbarTitle.setVisibility(View.VISIBLE);
+            visibleTitle(toolbarTitle);
         }
+
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        }
+    }
+
+    void visibleTitle(View title) {
+        View[] titles = {
+                toolbarTitle,
+                toolbarProjectTitle,
+                toolbarMaopaoTitle,
+        };
+
+        for (View item : titles) {
+            if (title == item) {
+                item.setVisibility(View.VISIBLE);
+            } else {
+                item.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -343,28 +379,19 @@ public class MainActivity extends BaseActivity
 
     public void restoreActionBar() {
         mTitle = drawer_title[mSelectPos];
-        ActionBar actionBar = getSupportActionBar();
-        if (mSelectPos != 2) {
-            actionBar.setDisplayShowCustomEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(mTitle);
-//            actionBar.setIcon(R.drawable.ic_lancher);
+        if (mSelectPos == 0) {
+            visibleTitle(toolbarProjectTitle);
+        } else if (mSelectPos == 2) {
+            visibleTitle(toolbarMaopaoTitle);
         } else {
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(actionbarCustom);
-            actionBar.setTitle("");
-//             Spinner   spinner = (Spinner) actionbarCustom.findViewById(R.id.spinner);
-//            spinner.setSelection(1);
-//            spinner.setSelection(0);
+            visibleTitle(toolbarTitle);
+            toolbarTitle.setText(mTitle);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            restoreActionBar();
-            return true;
-        }
+        restoreActionBar();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -400,18 +427,23 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    class MySpinnerAdapter extends BaseAdapter {
+    private View.OnClickListener clickProjectTitle = v -> {
+        EventBus.getDefault().post(new EventFilter());
+    };
+
+    class MaopaoTypeAdapter extends BaseAdapter {
 
         final int spinnerIcons[] = new int[]{
                 R.drawable.ic_spinner_maopao_time,
                 R.drawable.ic_spinner_maopao_friend,
                 R.drawable.ic_spinner_maopao_hot,
         };
+
         int checkPos = 0;
         private LayoutInflater inflater;
         private String[] project_activity_action_list;
 
-        public MySpinnerAdapter(LayoutInflater inflater, String[] titles) {
+        public MaopaoTypeAdapter(LayoutInflater inflater, String[] titles) {
             this.inflater = inflater;
             this.project_activity_action_list = titles;
         }

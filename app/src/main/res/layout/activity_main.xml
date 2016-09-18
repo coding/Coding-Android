@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
@@ -15,20 +14,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_height="wrap_content"
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:minHeight="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
-        <!--app:theme="@style/NoIconActionbar"-->
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary" >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:id="@+id/toolbarMaopaoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/maopao_spinner"
+                    android:dropDownWidth="196dp" />
+
+                <TextView
+                    android:id="@+id/toolbarProjectTitle"
+                    android:text="我的项目"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:textColor="@color/text_color_primary"
+                    android:background="@drawable/maopao_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </android.support.v7.widget.Toolbar>
+            <!--app:theme="@style/NoIconActionbar"-->
+
+        </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp" />
-
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 
         <com.roughike.bottombar.BottomBar
@@ -37,20 +70,20 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
-            app:bb_tabXmlResource="@xml/bottombar_tabs"
-            app:bb_behavior="shifting"
             app:bb_activeTabColor="@color/font_green"
-            app:bb_inActiveTabColor="@color/tab_font_no_active" />
+            app:bb_behavior="shifting"
+            app:bb_inActiveTabColor="@color/tab_font_no_active"
+            app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/navigation_drawer"
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        android:name="net.coding.program.NavigationDrawerFragment_"
-        tools:layout="@layout/fragment_navigation_drawer" />
+    <!--<fragment-->
+    <!--android:id="@+id/navigation_drawer"-->
+    <!--android:layout_width="280dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="start"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--android:name="net.coding.program.NavigationDrawerFragment_"-->
+    <!--tools:layout="@layout/fragment_navigation_drawer" />-->
 
-</android.support.v4.widget.DrawerLayout>
+</android.support.design.widget.CoordinatorLayout>

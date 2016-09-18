@@ -2,7 +2,12 @@
 <resources>
     <item name="green" type="color">#FF3BBD79</item>
     <item name="gray" type="color">#FF323A45</item>
-    <item name="gray_drawable" type="drawable">#FF323A45</item>
+    <item name="color_primary" type="drawable">#FFFFFF</item>
+    <item name="text_color_primary" type="drawable">#000000</item>
+    <item name="color_primary_dark" type="drawable">#494E57</item>
+    <item name="color_primary" type="color">#FFFFFF</item>
+    <item name="text_color_primary" type="color">#000000</item>
+    <item name="color_primary_dark" type="color">#494E57</item>
 
     <item name="drawer_bg_color_normal" type="color">#00ffffff</item>
     <item name="drawer_bg_color_press" type="color">#ffeeeeee</item>
@@ -59,7 +64,7 @@
 
     <drawable name="system_divide">#ffdddddd</drawable>
 
-    <color name="stand_bg">#fff6f6f6</color>
+    <color name="stand_bg">#ffffff</color>
     <color name="stand_tab_bg">#ffffff</color>
     <color name="bg_fa">#fafafa</color>
 

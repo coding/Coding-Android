@@ -620,10 +620,6 @@
             android:name=".user.UserProjectActivity_"
             android:label="@string/title_activity_user_project"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".project.MyProjectActivity_"
-            android:label="@string/title_activity_my_project"
-            android:screenOrientation="portrait" />
         <!-- <activity -->
         <!-- android:name=".login.SendEmailBaseActivity" -->
         <!-- android:label="@string/title_activity_base_reset_password" > -->

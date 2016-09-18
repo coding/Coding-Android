@@ -5,7 +5,7 @@
         <item>我的任务</item>
         <item />
         <item>@string/title_activity_message_list</item>
-        <item>设置</item>
+        <item>我的</item>
     </string-array>
 
     <string-array name="program_title">
