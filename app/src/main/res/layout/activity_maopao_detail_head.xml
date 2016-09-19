@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:text="wwww"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="@dimen/padding_12"
                 android:layout_toRightOf="@id/icon"
                 android:text="1小时前"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -66,7 +66,7 @@
             android:lineSpacingMultiplier="1.1"
             android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:singleLine="true"
             android:text="来自 iPhone 6"
             android:drawableLeft="@drawable/icon_maopao_send_phone"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="13sp"
             android:layout_marginLeft="12dp" />
 
@@ -137,7 +137,7 @@
                 android:background="@null"
                 android:gravity="center"
                 android:textSize="14sp"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:drawablePadding="9dp"
                 android:drawableLeft="@drawable/maopao_extra_comment"
                 tools:text="17"
@@ -154,7 +154,7 @@
                 android:paddingLeft="9dp"
 
                 android:textSize="14sp"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:text="0"
                 tools:text="55"
                 android:button="@drawable/checkbox_good" />
@@ -168,7 +168,7 @@
                 android:id="@+id/rewardCount"
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:gravity="center"
                 tools:text="2"/>
 

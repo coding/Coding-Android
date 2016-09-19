@@ -13,7 +13,7 @@
         android:layout_marginTop="12dp"
         android:maxLines="2"
         android:text="Medium Text"
-        android:textColor="@color/font_black_content"
+        android:textColor="@color/font_2"
         android:textSize="20sp" />
 
     <net.coding.program.project.detail.TopicLabelBar_

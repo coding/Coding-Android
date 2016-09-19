@@ -30,7 +30,7 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="24dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_menu_add"
+            android:src="@drawable/ic_float_button_add"
             fab:fab_colorNormal="@color/font_green"
             fab:fab_colorPressed="@color/font_green_1" />
 
@@ -41,6 +41,5 @@
         layout="@layout/view_exception"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </LinearLayout>

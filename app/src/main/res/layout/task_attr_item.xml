@@ -28,7 +28,7 @@
             android:layout_marginLeft="@dimen/padding_12"
             android:layout_weight="1"
             android:text="项目名"
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="@string/no_pick"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="16sp" />
 
         <ImageView

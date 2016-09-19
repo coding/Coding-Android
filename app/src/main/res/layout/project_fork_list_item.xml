@@ -31,7 +31,7 @@
             android:layout_toRightOf="@id/icon"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="18sp" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_marginBottom="5dp"
             android:singleLine="true"
             android:text="cc"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="15sp" />
 
     </RelativeLayout>

@@ -984,7 +984,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     private void descriptionButtonUpdate(boolean loading) {
         if (!loading && descriptionDataNew.markdown.isEmpty()) {
             descriptionButton.setText("添加描述");
-            descriptionButton.setTextColor(getResources().getColor(R.color.font_black_6));
+            descriptionButton.setTextColor(getResources().getColor(R.color.font_6));
         } else {
             descriptionButton.setText("查看描述");
             descriptionButton.setTextColor(getResources().getColor(R.color.font_green));

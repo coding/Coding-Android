@@ -4,16 +4,10 @@
     android:layout_height="@dimen/divide_section_10"
     android:background="@color/divide">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_gravity="top"
-        android:background="@drawable/shadow_top_5" />
+    <View style="@style/DivideSectionTop5" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/shadow_bottom_5" />
+        style="@style/DivideSectionBottom5"
+        android:layout_gravity="bottom" />
 
 </FrameLayout>

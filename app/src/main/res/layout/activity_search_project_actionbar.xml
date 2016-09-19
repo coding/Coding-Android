@@ -18,7 +18,7 @@
         android:paddingLeft="45dp"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textColorHint="@color/color_94989D"
+        android:textColorHint="@color/color_hint"
         android:textSize="15sp" />
 
     <View

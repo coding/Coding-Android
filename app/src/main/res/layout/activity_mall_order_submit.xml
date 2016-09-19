@@ -57,7 +57,7 @@
                             android:scrollHorizontally="true"
                             android:text="titletitletitletitletitletitletitletitletitletitletitletitletitle"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/font_black_2"
+                            android:textColor="@color/font_2"
                             android:textSize="16sp" />
 
                         <TextView
@@ -94,7 +94,7 @@
                             android:paddingLeft="16dp"
                             android:text="0.0 码币"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/font_black_9"
+                            android:textColor="@color/font_9"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -122,7 +122,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/desc_mall_order_item_tip"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -149,7 +149,7 @@
                 android:paddingBottom="18dp"
                 android:text="收货人 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <EditText
@@ -162,7 +162,7 @@
                 android:inputType=""
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#666666"
+                android:textColor="@color/font_6"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp" />
 
@@ -178,7 +178,7 @@
                 android:paddingTop="18dp"
                 android:text="详细地址 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
 
@@ -192,7 +192,7 @@
                 android:hint="省，市，县"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#666666"
+                android:textColor="@color/font_6"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp" />
 
@@ -211,7 +211,7 @@
                 android:hint="街道地址"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#666666"
+                android:textColor="@color/font_6"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp" />
 
@@ -227,7 +227,7 @@
                 android:paddingTop="18dp"
                 android:text="联系电话 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <EditText
@@ -240,7 +240,7 @@
                 android:inputType="phone"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#666666"
+                android:textColor="@color/font_6"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp" />
 
@@ -256,7 +256,7 @@
                 android:paddingTop="18dp"
                 android:text="备注"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <EditText
@@ -268,7 +268,7 @@
                 android:hint="备注信息"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#666666"
+                android:textColor="@color/font_6"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp" />
 
@@ -286,7 +286,7 @@
                 android:paddingTop="18dp"
                 android:text="选项 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
 
@@ -300,7 +300,7 @@
                 android:hint=""
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#666666"
+                android:textColor="@color/font_6"
                 android:textColorHint="#cccccc"
                 android:textSize="15sp" />
 
@@ -316,7 +316,6 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/divide_15_top_bottom"
             android:orientation="vertical">
 
             <TextView

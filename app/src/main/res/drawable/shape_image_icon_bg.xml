@@ -7,6 +7,6 @@
 
     <stroke
         android:width="0.5dp"
-        android:color="#dddddd" />
+        android:color="@color/divide_line" />
 
 </shape>

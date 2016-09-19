@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#EEEEEE"
+        android:background="@color/divide"
         android:orientation="vertical">
 
         <include layout="@layout/divideline_e2" />

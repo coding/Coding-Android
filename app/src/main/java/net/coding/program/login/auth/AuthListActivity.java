@@ -54,7 +54,7 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
         mClock = new TotpClock(this);
         mAuthAdapter = new AuthAdapter(this, 0);
         listView = (StickyListHeadersListView) findViewById(R.id.listView);
-        View footer = getLayoutInflater().inflate(R.layout.divide_15_top, null);
+        View footer = getLayoutInflater().inflate(R.layout.divide_bottom_15, null);
         listView.addFooterView(footer, null, false);
         listView.setAdapter(mAuthAdapter);
 

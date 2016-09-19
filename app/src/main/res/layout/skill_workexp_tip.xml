@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        android:textColor="#FFDDDDDD"
+        android:textColor="@color/divide_line"
         android:textSize="16sp"
         android:text="示例
 工作经历

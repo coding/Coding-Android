@@ -196,7 +196,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             showDialogLoading();
         }
 
-        View listViewFooter = mInflater.inflate(R.layout.divide_15_top, listView, false);
+        View listViewFooter = mInflater.inflate(R.layout.divide_bottom_15, listView, false);
         listView.addFooterView(listViewFooter, null, false);
         listView.setAdapter(adapter);
         AdapterView.OnItemClickListener mListClickJump;

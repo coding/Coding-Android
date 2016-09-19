@@ -18,7 +18,7 @@
         android:lineSpacingExtra="2dp"
         android:gravity="center"
         android:text="coding"
-        android:textColor="#222222"
+        android:textColor="@color/font_2"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text="位置"
-            android:textColor="#666666"
+            android:textColor="@color/font_6"
             android:textSize="15sp" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text=""
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:textSize="15sp" />
 
         <ImageView

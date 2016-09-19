@@ -7,4 +7,4 @@
     android:gravity="center_vertical"
     android:paddingLeft="@dimen/padding_15"
     android:text="Title"
-    android:textColor="@color/font_black_6" />
+    android:textColor="@color/font_6" />

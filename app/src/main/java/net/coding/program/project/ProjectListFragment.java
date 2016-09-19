@@ -122,7 +122,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ++msectionId;
         }
 
-        View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
+        View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, null);
         listView.addFooterView(listViewFooter, null, false);
         if (myAdapter == null) {
             myAdapter = new MyAdapter();

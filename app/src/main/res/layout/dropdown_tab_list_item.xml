@@ -12,5 +12,5 @@
     android:paddingRight="15dp"
     android:singleLine="true"
     android:text="选项"
-    android:textColor="@color/font_black_6"
+    android:textColor="@color/font_6"
     android:textSize="15sp" />

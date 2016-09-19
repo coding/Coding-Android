@@ -31,7 +31,7 @@
             android:ellipsize="end"
             android:maxLines="@integer/dynamic_title_max_lines"
             android:text="22222 Text"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:lineSpacingExtra="3dp"
             android:text="1111"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_black_comment"
+            android:textColor="@color/font_6"
             android:textSize="14sp" />
 
         <net.coding.program.common.widget.FlowLabelLayout
@@ -60,7 +60,7 @@
             android:drawableLeft="@drawable/ic_clock"
             android:drawablePadding="2dp"
             android:text="Small Text"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="11sp" />
 
     </LinearLayout>

@@ -20,7 +20,7 @@
             android:layout_marginTop="12dp"
             android:maxLines="2"
             android:text="Medium Text"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="20sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -40,7 +40,7 @@
             android:layout_marginBottom="1dp"
             android:layout_toRightOf="@+id/icon"
             android:text="Small Text"
-            android:textColor="@color/font_black_9" />
+            android:textColor="@color/font_9" />
 
         <TextView
             android:id="@+id/mergeStyle"
@@ -120,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="jeff"
-            android:textColor="@color/font_black_2" />
+            android:textColor="@color/font_2" />
 
         <TextView
             android:id="@+id/mergeLog"

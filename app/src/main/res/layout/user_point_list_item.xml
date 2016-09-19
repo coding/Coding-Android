@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:textSize="16sp"
             tools:text="推送代码" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="12sp"
             tools:text="2015-07" />
 
@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="12sp"
             tools:text="余额" />
 

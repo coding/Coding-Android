@@ -16,7 +16,7 @@
             android:layout_marginRight="@dimen/list_item_icon_right"
             android:layout_toRightOf="@id/icon"
             android:text="全部"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:layout_marginTop="20dp"
             android:textSize="14sp" />
     </RelativeLayout>

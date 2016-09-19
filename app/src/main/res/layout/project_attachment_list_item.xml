@@ -27,7 +27,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:text="Medium Text"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="17sp"
             android:layout_toLeftOf="@+id/more"
             android:layout_toStartOf="@+id/more" />

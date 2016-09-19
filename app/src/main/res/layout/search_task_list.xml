@@ -24,7 +24,7 @@
         android:lineSpacingExtra="2dp"
         android:singleLine="true"
         android:text="中秋首页改版"
-        android:textColor="@color/color_222222"
+        android:textColor="@color/font_2"
         android:textSize="16sp" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:maxLines="2"
         android:minLines="1"
         android:text="wad"
-        android:textColor="@color/color_666666"
+        android:textColor="@color/font_6"
         android:textSize="15sp" />
 
     <include

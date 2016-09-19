@@ -46,7 +46,7 @@
             android:gravity="center_vertical"
             android:text=""
             android:textSize="16sp"
-            android:textColor="@color/color_99999" />
+            android:textColor="@color/font_9" />
 
         <ImageView
             android:id="@+id/icon"
@@ -67,7 +67,7 @@
             android:layout_marginTop="22dp"
             android:lineSpacingMultiplier="1.5"
             android:text="这里一个项目都没有，赶快行动起来"
-            android:textColor="@color/color_99999"
+            android:textColor="@color/font_9"
             android:textSize="12sp" />
 
         <Button

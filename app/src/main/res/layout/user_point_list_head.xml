@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
         android:text="码币余额"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="12sp" />
 
 

@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="私有"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="20sp" />
 
 
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="公开"
-                android:textColor="@color/font_black_2"
+                android:textColor="@color/font_2"
                 android:textSize="20sp" />
 
 

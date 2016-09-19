@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/hold_to_talk"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:textSize="16sp" />
             <!--显示录音时间-->
             <FrameLayout
@@ -87,7 +87,7 @@
             android:layout_below="@+id/voiceRecordButton"
             android:layout_centerHorizontal="true"
             android:text="@string/sliding_upwards_and_cancel_sending"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="12sp" />
     </com.skyfishjy.library.RippleBackground>
 </merge>

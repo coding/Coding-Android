@@ -26,7 +26,7 @@
         android:background="@null"
         android:gravity="top"
         android:minLines="3"
-        android:textColor="@color/font_black_content"
+        android:textColor="@color/font_2"
         android:textSize="17sp" />
 
 </LinearLayout>

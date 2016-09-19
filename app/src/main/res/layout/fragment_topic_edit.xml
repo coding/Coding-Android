@@ -16,7 +16,7 @@
         android:singleLine="true"
         android:text=""
         android:textSize="20sp"
-        android:textColor="@color/font_black_content" />
+        android:textColor="@color/font_2" />
 
     <net.coding.program.project.detail.TopicLabelBar_
         android:id="@+id/labelBar"
@@ -30,7 +30,7 @@
         android:layout_marginBottom="9dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="#dddddd" />
+        android:background="@color/divide_line" />
 
     <EditText
         android:id="@+id/edit"
@@ -45,7 +45,7 @@
         android:textSize="16sp"
         android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
-        android:textColor="@color/font_black_comment" />
+        android:textColor="@color/font_6" />
 
     <View
         android:layout_width="match_parent"

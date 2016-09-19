@@ -5,7 +5,7 @@
     android:background="@color/divide"
     android:orientation="vertical">
 
-    <include layout="@layout/divide_15_bottom" />
+    <include layout="@layout/divide_top_15" />
 
     <RelativeLayout
         android:id="@+id/aboutCoding"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="个性后缀"
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:textSize="18sp" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             tools:text="邮箱"
-            android:textColor="@color/font_black_comment"
+            android:textColor="@color/font_6"
             android:textSize="18sp" />
 
     </RelativeLayout>
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="邮箱"
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:id="@+id/emailTitle"
             android:textSize="18sp" />
 
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="未绑定"
-            android:textColor="@color/font_black_comment"
+            android:textColor="@color/font_6"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_list_right_arr"
             android:textSize="18sp" />
@@ -86,7 +86,7 @@
             android:layout_marginRight="12dp"
             android:text="手机号码"
 
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:id="@+id/phoneTitle"
             android:textSize="18sp" />
 
@@ -97,7 +97,7 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_list_right_arr"
-            android:textColor="@color/font_black_comment"
+            android:textColor="@color/font_6"
             android:textSize="18sp"
             android:text="未绑定" />
 
@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="修改密码"
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:drawablePadding="5dp"
             android:textSize="18sp" />
 
@@ -132,5 +132,5 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 </LinearLayout>

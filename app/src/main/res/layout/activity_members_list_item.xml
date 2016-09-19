@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:ellipsize="end"
-                    android:textColor="@color/font_black_2"
+                    android:textColor="@color/font_2"
                     android:singleLine="true"
                     android:text="Medium Text"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -80,7 +80,7 @@
                 android:singleLine="true"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_6"
+                android:textColor="@color/font_6"
                 android:textSize="14sp"
                 android:visibility="gone" />
 

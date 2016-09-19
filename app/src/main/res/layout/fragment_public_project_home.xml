@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/padding_15"
-                    android:textColor="@color/font_black_2"
+                    android:textColor="@color/font_2"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -100,7 +100,7 @@
             </LinearLayout>
 
 
-            <include layout="@layout/divide_15_top" />
+            <include layout="@layout/divide_bottom_15" />
 
         </LinearLayout>
     </ScrollView>

@@ -64,7 +64,7 @@
                 android:singleLine="true"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_black_2" />
+                android:textColor="@color/font_2" />
 
 
             <ImageView
@@ -90,7 +90,7 @@
             android:singleLine="true"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_black_6"
+            android:textColor="@color/font_6"
             android:textSize="14sp"
             android:visibility="gone" />
 

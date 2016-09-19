@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="15dp"
     android:background="@color/divide">
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/shadow_bottom_5" />
+        style="@style/DivideSectionTop5" />
 
 </FrameLayout>

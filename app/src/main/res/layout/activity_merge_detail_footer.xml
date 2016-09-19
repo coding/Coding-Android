@@ -20,5 +20,5 @@
 
     <include layout="@layout/list_item_add_comment" />
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 </LinearLayout>

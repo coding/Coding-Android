@@ -174,7 +174,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         fab.attachToListView(listView.getWrappedList());
         fab.setVisibility(View.GONE);
-        View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_15_top, null);
+        View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, null);
         listView.addFooterView(footer, null, false);
         listView.setAdapter(mAdapter);
 

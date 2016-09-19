@@ -36,7 +36,7 @@
             android:singleLine="true"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:textSize="18sp" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_marginTop="7dp"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_black_9" />
+            android:textColor="@color/font_9" />
 
         <View
             android:id="@+id/iconPrivate"

@@ -15,7 +15,7 @@
         android:background="@drawable/content_pressed_selector"
         android:gravity="center"
         android:text="Small Text"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="this is content"
-                    android:textColor="@color/font_black_content"
+                    android:textColor="@color/font_2"
                     android:background="@color/transparent"
                     android:textSize="16sp" />
                 <ImageView android:id="@+id/voice_play"

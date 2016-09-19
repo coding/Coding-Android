@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:text="性别"
-        android:textColor="@color/font_black_2"
+        android:textColor="@color/font_2"
         android:textSize="16sp" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:ellipsize="end"
         android:gravity="right"
         android:text="男"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="16sp" />
 
 </RelativeLayout>

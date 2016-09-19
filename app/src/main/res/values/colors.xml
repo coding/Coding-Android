@@ -9,14 +9,7 @@
     <item name="text_color_primary" type="color">#000000</item>
     <item name="color_primary_dark" type="color">#494E57</item>
 
-    <item name="drawer_bg_color_normal" type="color">#00ffffff</item>
-    <item name="drawer_bg_color_press" type="color">#ffeeeeee</item>
-    <item name="drawer_bg_color_white" type="color">#ff2d353f</item>
-    <item name="drawer_bg_color_divide" type="color">#ff243040</item>
-    <item name="drawer_bg_color_bottom" type="color">#ff1e2733</item>
-
     <item name="button_disable" type="color">#ffc6c6c6</item>
-    <item name="button_parent" type="color">#ffeeeeee</item>
 
     <item name="line_green" type="drawable">#ff3bbd79</item>
     <item name="line_gray" type="drawable">#ffc7cacc</item>
@@ -40,29 +33,23 @@
     <color name="font_green">#ff3bbd79</color>
     <drawable name="font_green">#ff3bbd79</drawable>
     <color name="font_black_0">#000000</color>
-    <color name="font_black_content">#ff222222</color>
-    <color name="font_black_2">#ff222222</color>
     <color name="font_black_content_disabled">#ffcacaca</color>
-    <color name="font_black_comment">#ff666666</color>
-    <color name="font_black_6">#666666</color>
-    <color name="font_black_9">#999999</color>
     <color name="tab_font_no_active">#9AA1AB</color>
 
     <color name="font_white">#ffffffff</color>
     <color name="font_white_disable">#7fffffff</color>
 
-    <color name="bg_maopao_comment">#ffeeeeee</color>
-    <drawable name="bg_maopao_comment">#ffeeeeee</drawable>
     <color name="task_list_head">#ffe4e4e4</color>
-    <color name="divide">#ffeeeeee</color>
-    <color name="divide_line">#ffdddddd</color>
+    <color name="divide">#F2F4F6</color>
+    <drawable name="divide">#F2F4F6</drawable>
+
+    <color name="divide_line">#D8DDE4</color>
+    <drawable name="divide_line">#D8DDE4</drawable>
+
     <color name="divide_line_e2">#ffe2e2e2</color>
-
     <color name="divide_line_81">#ff818181</color>
-
     <color name="search_divide_color">#e3e3e3</color>
 
-    <drawable name="system_divide">#ffdddddd</drawable>
 
     <color name="stand_bg">#ffffff</color>
     <color name="stand_tab_bg">#ffffff</color>
@@ -78,24 +65,17 @@
 
     <!-- user info tags -->
     <color name="user_info_tags_bg_1">#EBEBEB</color>
-    <color name="user_info_tags_font_1">#999999</color>
     <color name="user_info_tags_bg_2">#3BBD79</color>
-    <color name="user_info_tags_font_2">#FFFFFF</color>
     <!-- user info tags end -->
     <color name="commom_loading_font">#28303B</color>
 
     <color name="attachment_btn_layout">#E2E2E2</color>
     <color name="attachment_btn_color">#A5A5A5</color>
 
-
     <color name="emoji_line">#ffcbc9ca</color>
-
-    <color name="menu_item_text_disable">#ffffffff</color>
-
 
     <color name="init_light_gray">#e2e2e2</color>
     <color name="init_advance_header_bg">#f7f3d6</color>
-    <color name="init_advance_text_gray">#666666</color>
     <color name="init_advance_text_red">#f34a4a</color>
     <color name="init_common_bg">#e5e5e5</color>
 
@@ -110,20 +90,19 @@
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="possible_result_points">#c0ffff00</color>
-    <color name="font_black_e" >#eeeeee</color>
-    <color name="color_99999">#999999</color>
+    <color name="font_black_e" >@color/divide</color>
     <color name="color_F6F6F6">#f6f6f6</color>
     <color name="color_3BBD79">#3BBD79</color>
     <color name="color_E5E5E5">#e5e5e5</color>
-    <color name="color_666666">#666666</color>
     <color name="color_hint">#686D75</color>
-    <color name="color_222222">#222222</color>
-    <color name="color_999999">#999999</color>
-    <color name="color_DDDDDD">#dddddd</color>
+    <color name="font_2">#323A45</color>
+    <color name="font_6">#4F565F</color>
+    <color name="font_9">#76808E</color>
+
+    <color name="color_DDDDDD">@color/divide_line</color>
     <color name="color_000000">#000000</color>
     <color name="color_4E90BF">#4E90BF</color>
-    <color name="color_EEEEEE">#EEEEEE</color>
-    <color name="color_94989D">#94989D</color>
+    <color name="color_EEEEEE">@color/divide</color>
     <color name="color_28303B">#28303B</color>
 
     <color name="popDialogBg">#99000000</color>

@@ -41,7 +41,7 @@
         android:maxLines="2"
         android:phoneNumber="false"
         android:text="      江龙减法看东方看a东皇反抗a双簧反抗a荒废"
-        android:textColor="@color/font_black_2"
+        android:textColor="@color/font_2"
         android:textSize="15sp" />
 
     <View
@@ -112,7 +112,7 @@
                 android:drawableLeft="@drawable/icon_task_des"
                 android:drawablePadding="4dp"
                 android:text="描述"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:textSize="12sp" />
 
         </LinearLayout>

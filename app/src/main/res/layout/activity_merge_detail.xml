@@ -54,7 +54,7 @@
             android:background="@drawable/edit_send"
             android:gravity="center"
             android:text="取消"
-            android:textColor="@color/font_black_2" />
+            android:textColor="@color/font_2" />
 
 
         <TextView

@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="A栋"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:singleLine="true"
             android:ellipsize="end"
             android:clickable="true"
@@ -47,7 +47,7 @@
         android:layout_below="@id/nameLayout"
         android:layout_alignLeft="@id/nameLayout"
         android:layout_marginTop="12dp"
-        android:textColor="@color/font_black_content"
+        android:textColor="@color/font_2"
         android:textSize="16sp" />
 
 
@@ -81,9 +81,9 @@
             android:id="@+id/detail"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:paddingLeft="@dimen/list_item_space_width"
-            android:background="#eeeeee"
+            android:background="@color/divide"
             android:clickable="true"
             />
     </LinearLayout>
@@ -101,7 +101,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/nameLayout"
         android:text="2小时"
-        android:textColor="@color/font_black_9" />
+        android:textColor="@color/font_9" />
 
 
 </net.coding.program.message.TouchLinearLayout>

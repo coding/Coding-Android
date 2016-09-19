@@ -16,6 +16,6 @@
         android:textSize="16sp"
         android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
-        android:textColor="@color/font_black_comment" />
+        android:textColor="@color/font_6" />
 
 </FrameLayout>

@@ -23,7 +23,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text="没有找到你的位置?"
-            android:textColor="#999999"
+            android:textColor="@color/font_9"
             android:textSize="14sp" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text="创建新的位置: "
-            android:textColor="#999999"
+            android:textColor="@color/font_9"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

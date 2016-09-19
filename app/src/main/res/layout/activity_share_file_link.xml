@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.file.ShareFileLinkActivity">
 
-    <include layout="@layout/divide_15_bottom" />
+    <include layout="@layout/divide_top_15" />
 
     <TextView
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:background="#fff7f3d5"
         android:padding="@dimen/padding_12"
         android:text="适用于所有人，无需登陆。\n当前未开启分享，请先创建公开链接。"
-        android:textColor="@color/font_black_6"
+        android:textColor="@color/font_6"
         android:textSize="16sp" />
 
     <include layout="@layout/divide_15_top_bottom" />
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="共享链接"
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <CheckBox
@@ -66,7 +66,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="linkContent"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:textSize="16sp"
             tools:text="https://coding.net/32l3k23l/akldsfj;asdk,ajdsf;alksdfaadsfasdfads" />
 
@@ -89,6 +89,6 @@
     </RelativeLayout>
 
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

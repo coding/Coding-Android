@@ -21,7 +21,7 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:text="加载失败，请检查下网络"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="15sp" />
 
     <Button
@@ -33,7 +33,7 @@
         android:layout_marginTop="23dp"
         android:background="@drawable/button_retry"
         android:text="点击重试"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="18sp" />
 
 </LinearLayout>

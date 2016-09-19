@@ -310,7 +310,7 @@ public class UserDetailActivity extends BackActivity {
             String contentString = secondContents[i];
             if (contentString.isEmpty()) {
                 contentString = "未填写";
-                second.setTextColor(getResources().getColor(R.color.font_black_9));
+                second.setTextColor(getResources().getColor(R.color.font_9));
             }
 
             second.setText(contentString);

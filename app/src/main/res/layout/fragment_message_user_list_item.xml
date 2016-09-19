@@ -28,7 +28,7 @@
         android:singleLine="true"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/font_black_content" />
+        android:textColor="@color/font_2" />
 
     <TextView
         android:id="@+id/time"
@@ -41,7 +41,7 @@
         android:layout_marginTop="12dp"
         android:singleLine="true"
         android:text="New Text"
-        android:textColor="@color/font_black_9" />
+        android:textColor="@color/font_9" />
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
@@ -71,7 +71,7 @@
         android:scrollHorizontally="true"
         android:singleLine="false"
         android:text="Medium Text"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="16sp" />
 
 

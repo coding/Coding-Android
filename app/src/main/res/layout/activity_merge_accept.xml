@@ -12,7 +12,7 @@
         android:gravity="center"
         android:paddingLeft="@dimen/padding_15"
         android:text="Message"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="15sp" />
 
     <include layout="@layout/divideline_15" />
@@ -52,7 +52,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 
     <TextView
         android:id="@+id/send"

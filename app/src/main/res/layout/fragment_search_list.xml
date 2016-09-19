@@ -49,6 +49,6 @@
             android:lineSpacingMultiplier="1.1"
             android:text="什么都没有搜到，换个词再试试？"
             android:textSize="15sp"
-            android:textColor="@color/font_black_9" />
+            android:textColor="@color/font_9" />
     </LinearLayout>
 </FrameLayout>

@@ -17,7 +17,7 @@
             android:layout_marginRight="@dimen/padding_15"
             android:layout_toRightOf="@id/icon"
             android:text="全部"
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:textSize="16sp"
             />
     </RelativeLayout>

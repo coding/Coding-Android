@@ -15,7 +15,7 @@
         android:hint="讨论标题"
         android:singleLine="true"
         android:text="我我问"
-        android:textColor="@color/font_black_content" />
+        android:textColor="@color/font_2" />
 
     <View
         android:visibility="gone"
@@ -39,7 +39,7 @@
         android:gravity="start"
         android:hint="在项目里冒个泡吧~"
         android:minHeight="600dp"
-        android:textColor="@color/font_black_comment" />
+        android:textColor="@color/font_6" />
 
     <View
         android:layout_width="match_parent"

@@ -3,7 +3,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@color/drawer_bg_color_bottom" />
+    <solid android:color="@color/divide" />
 
     <corners
         android:bottomLeftRadius="2dp"

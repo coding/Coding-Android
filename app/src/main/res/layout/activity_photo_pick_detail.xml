@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="选择"
-            android:textColor="#ffdddddd" />
+            android:textColor="@color/divide_line" />
 
     </LinearLayout>
 

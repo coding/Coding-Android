@@ -72,7 +72,7 @@
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:text="Medium Text"
-                android:textColor="@color/font_black_content"
+                android:textColor="@color/font_2"
                 android:textSize="17sp" />
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_marginBottom="0dp"
                 android:singleLine="true"
                 android:text="Medium Text"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="Medium Text"
-                    android:textColor="@color/font_black_9"
+                    android:textColor="@color/font_9"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -156,7 +156,7 @@
             android:layout_toRightOf="@id/icon_layout"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="17sp" />
 
         <TextView

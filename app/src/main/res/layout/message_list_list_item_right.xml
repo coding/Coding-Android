@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Small Text"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/content_pressed_selector"
                 android:text="this is contentasdfasdfasdfasdfasdfasdfasdfasdfasdfas"
-                android:textColor="@color/font_black_content"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
         </LinearLayout>
 

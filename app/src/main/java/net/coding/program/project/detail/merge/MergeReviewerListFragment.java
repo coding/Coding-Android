@@ -28,7 +28,6 @@ import net.coding.program.model.Merge;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersSelectActivity_;
-import net.coding.program.project.detail.UserDynamicActivity_;
 import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -186,7 +185,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                         holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_green_2));
                     } else {
                         holder.reviewerStatus.setText("未评审");
-                        holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_black_9));
+                        holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_9));
                         holder.invitee.setVisibility(View.GONE);
                     }
                 }

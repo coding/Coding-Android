@@ -64,7 +64,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/font_black_content"
+                android:textColor="@color/font_2"
                 android:textSize="18sp" />
 
 
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="粉丝"
-                    android:textColor="@color/font_black_comment"
+                    android:textColor="@color/font_6"
                     android:textSize="16sp" />
 
                 <View
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="关注"
-                    android:textColor="@color/font_black_comment"
+                    android:textColor="@color/font_6"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -207,7 +207,7 @@
 
             <include
                 android:id="@+id/pointDivide"
-                layout="@layout/divide_15_top"
+                layout="@layout/divide_bottom_15"
                 android:visibility="gone" />
 
             <net.coding.program.common.widget.ListItem1
@@ -221,7 +221,7 @@
 
         </LinearLayout>
 
-        <include layout="@layout/divide_15_top" />
+        <include layout="@layout/divide_bottom_15" />
 
         <RelativeLayout
             android:id="@+id/sendMessageLayout"

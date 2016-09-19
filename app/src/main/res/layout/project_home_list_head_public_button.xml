@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="2015"
-        android:textColor="@color/font_black_2"
+        android:textColor="@color/font_2"
         android:textSize="12sp" />
 
 </LinearLayout>

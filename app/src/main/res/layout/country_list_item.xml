@@ -20,7 +20,7 @@
             android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginRight="@dimen/padding_15"
             android:id="@+id/title"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:textSize="14sp"
             tools:text="A"
             android:layout_width="wrap_content"
@@ -45,14 +45,14 @@
         <TextView
             android:id="@+id/countryName"
             android:layout_width="wrap_content"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true" />
 
         <TextView
             android:id="@+id/countryPhone"
             android:layout_width="wrap_content"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />

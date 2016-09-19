@@ -52,7 +52,7 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:text="今天下午 5 点开始整理明天更新的 checklist ，请大家尽快完成自己的 MR 流程。"-->
-            <!--android:textColor="@color/font_black_2"-->
+            <!--android:textColor="@color/font_2"-->
             <!--android:textSize="15sp" />-->
 
         <net.coding.program.common.enter.GifSpanTextView
@@ -69,7 +69,7 @@
             android:singleLine="false"
             android:text="去"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textSize="15sp" />
 
         <FrameLayout

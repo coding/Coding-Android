@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/clickProject"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:gravity="center_vertical"
-    android:background="@drawable/list_item_selector"
-    android:paddingLeft="15sp"
-    android:paddingRight="15sp">
+    android:id="@+id/clickProject"
+    android:background="@drawable/list_item_selector">
 
     <View
         android:id="@+id/icon"
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
         android:layout_width="@dimen/project_icon_width"
         android:layout_height="@dimen/project_icon_width"
-        android:layout_marginRight="15dp"
         android:background="@drawable/user_home_project" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="TA的项目"
-        android:textColor="#222222"
-        android:textSize="16sp" />
+    <LinearLayout
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/contentLayout"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:paddingRight="15sp">
 
-    <com.readystatesoftware.viewbadger.BadgeView
-        android:id="@+id/badge"
-        android:layout_width="9dp"
-        android:layout_height="9dp"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/ic_notify"
-        android:gravity="center"
-        android:visibility="invisible" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="TA的项目"
+            android:textColor="@color/font_2"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="@string/no_pick"
-        android:textColor="@color/font_black_9"
-        android:textSize="16sp"
-        android:visibility="gone"/>
+        <com.readystatesoftware.viewbadger.BadgeView
+            android:id="@+id/badge"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/ic_notify"
+            android:gravity="center"
+            android:visibility="invisible" />
 
-    <include
-        android:id="@+id/arrow"
-        layout="@layout/list_item_common_arrow" />
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/no_pick"
+            android:textColor="@color/font_9"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
-</LinearLayout>
+        <include
+            android:id="@+id/arrow"
+            layout="@layout/list_item_common_arrow" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_alignLeft="@id/contentLayout"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:id="@+id/bottomLine"
+        style="@style/DivideLine" />
+
+</RelativeLayout>

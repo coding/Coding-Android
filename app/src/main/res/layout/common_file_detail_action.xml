@@ -13,7 +13,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/button_parent"
+        android:background="@color/divide"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15">
@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:textColor="@color/font_black_6"
+            android:textColor="@color/font_6"
             android:textSize="16sp">
 
             <TextView
@@ -50,7 +50,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/font_black_6"
+            android:textColor="@color/font_6"
             android:textSize="16sp">
 
             <TextView

@@ -87,7 +87,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/drawer_bg_color_normal"
                 android:gravity="center">
 
                 <TextView
@@ -111,7 +110,7 @@
                 android:layout_width="1dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
-                android:background="@color/drawer_bg_color_divide" />
+                android:background="@color/divide" />
 
             <LinearLayout
                 android:id="@+id/followsLayout"
@@ -119,7 +118,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0.5dp"
                 android:layout_weight="1"
-                android:background="@color/drawer_bg_color_normal"
                 android:gravity="center">
 
                 <TextView

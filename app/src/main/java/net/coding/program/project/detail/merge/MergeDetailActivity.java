@@ -881,7 +881,7 @@ public class MergeDetailActivity extends BackActivity {
             View arrow = reviewers.findViewById(R.id.arrow);
             if (role == 1) {
                 tv.setText("添加");
-                tv.setTextColor(getResources().getColor(R.color.font_black_9));
+                tv.setTextColor(getResources().getColor(R.color.font_9));
                 tv.setCompoundDrawables(null, null, null, null);
                 arrow.setVisibility(View.VISIBLE);
             } else if (role == 3) {

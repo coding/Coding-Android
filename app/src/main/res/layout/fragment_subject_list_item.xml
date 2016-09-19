@@ -30,7 +30,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="#我最爱的变成语言#"
-                    android:textColor="@color/font_black_2"
+                    android:textColor="@color/font_2"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                     android:text="#我最爱的变成语言#"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:textColor="@color/font_black_2"
+                    android:textColor="@color/font_2"
                     android:textColorLink="@color/font_green"
                     android:textSize="15sp" />
 
@@ -54,7 +54,7 @@
                     android:layout_below="@id/subject_list_item_content"
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="213人参与"
-                    android:textColor="@color/font_black_9"
+                    android:textColor="@color/font_9"
                     android:textSize="12sp" />
 
             </RelativeLayout>

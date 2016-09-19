@@ -10,6 +10,6 @@
     <!-- disabled -->
     <item android:color="@color/font_black_content_disabled" android:state_enabled="false" />
     <!-- selected -->
-    <item android:color="@color/font_black_content" />
+    <item android:color="@color/font_2" />
     <!-- default -->
 </selector>

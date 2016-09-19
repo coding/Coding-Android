@@ -8,7 +8,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/button_parent"
+        android:background="@color/divide"
         android:gravity="center_vertical" >
 
         <FrameLayout
@@ -25,7 +25,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="下载"
-                android:textColor="@color/font_black_6"
+                android:textColor="@color/font_6"
                 android:textSize="16sp" />
         </FrameLayout>
 
@@ -48,7 +48,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="移动"
-                android:textColor="@color/font_black_6"
+                android:textColor="@color/font_6"
                 android:textSize="16sp" />
 
         </FrameLayout>
@@ -72,7 +72,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="删除"
-                android:textColor="@color/font_black_6"
+                android:textColor="@color/font_6"
                 android:textSize="16sp" />
         </FrameLayout>
     </LinearLayout>

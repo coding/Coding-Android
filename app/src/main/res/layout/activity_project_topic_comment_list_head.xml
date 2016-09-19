@@ -15,7 +15,7 @@
         android:layout_marginTop="12dp"
         android:maxLines="2"
         android:text="Medium Text"
-        android:textColor="@color/font_black_content"
+        android:textColor="@color/font_2"
         android:textSize="20sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -35,7 +35,7 @@
         android:layout_marginBottom="1dp"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/icon"
-        android:textColor="@color/font_black_9"
+        android:textColor="@color/font_9"
         tools:text="Small Text" />
 
     <TextView
@@ -46,7 +46,7 @@
         android:layout_alignBottom="@+id/icon"
         android:layout_marginBottom="1dp"
         android:layout_toRightOf="@+id/time"
-        android:textColor="@color/font_black_2"
+        android:textColor="@color/font_2"
         android:textSize="13sp"
         tools:text="#179" />
 
@@ -157,7 +157,7 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/padding_12"
             android:text="8 条评论"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="14sp" />
 
         <Spinner

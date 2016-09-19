@@ -34,7 +34,7 @@
             android:drawablePadding="8dp"
             android:padding="7dp"
             android:text="置顶话题"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:textSize="14sp" />
 
         <View
@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:text="wwww"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_black_2"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:layout_marginLeft="@dimen/padding_12"
             android:layout_toRightOf="@id/icon"
             android:text="1小时前"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="12sp" />
 
         <ImageView
@@ -106,7 +106,7 @@
         android:singleLine="false"
         android:text="去"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/font_black_content"
+        android:textColor="@color/font_2"
         android:textSize="15sp" />
 
     <FrameLayout
@@ -209,7 +209,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="来自 iPhone 6"
-            android:textColor="@color/font_black_9"
+            android:textColor="@color/font_9"
             android:textSize="13sp" />
 
         <RelativeLayout
@@ -248,7 +248,7 @@
                 android:paddingLeft="9dp"
 
                 android:textSize="14sp"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:text="0"
                 tools:text="55"
                 android:button="@drawable/checkbox_good"
@@ -263,7 +263,7 @@
                 android:id="@+id/rewardCount"
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"
-                android:textColor="@color/font_black_9"
+                android:textColor="@color/font_9"
                 android:gravity="center"
                 tools:text="2"/>
 
@@ -308,7 +308,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/triangle"
             android:layout_marginBottom="5dp"
-            android:background="@color/bg_maopao_comment"
+            android:background="@color/divide"
             android:orientation="vertical">
 
             <LinearLayout

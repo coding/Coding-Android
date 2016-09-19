@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/padding_15"
     tools:context="net.coding.program.project.detail.PickLabelColorActivity">
 
-    <include layout="@layout/divide_15_bottom" />
+    <include layout="@layout/divide_top_15" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:text="#"
-            android:textColor="#FF222222" />
+            android:textColor="@color/font_2" />
 
         <EditText
             android:layout_width="0dp"
@@ -43,7 +43,7 @@
             android:digits="1234567890abedefABCDEF"
             android:maxLength="6"
             android:maxLines="1"
-            android:textColor="#FF222222"
+            android:textColor="@color/font_2"
             android:textSize="16sp"
             android:id="@+id/inputColor"
             tools:text="3BBD79" />
@@ -58,9 +58,9 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 
-    <include layout="@layout/divide_15_bottom" />
+    <include layout="@layout/divide_top_15" />
 
     <net.coding.program.common.widget.PickLabelColorItem
         android:id="@+id/color0"
@@ -105,5 +105,5 @@
         app:labelColor="#FFAB44BC"
         app:labelColorString="紫色" />
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 </LinearLayout>

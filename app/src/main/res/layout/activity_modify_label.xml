@@ -8,7 +8,7 @@
     android:paddingTop="5dp"
     tools:context="net.coding.program.project.detail.ModifyLabelActivity">
 
-    <include layout="@layout/divide_15_bottom" />
+    <include layout="@layout/divide_top_15" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text=""
-            android:textColor="@color/font_black_content"
+            android:textColor="@color/font_2"
             android:textColorHint="#a3a3a3"
             android:textSize="16sp" />
 
@@ -57,6 +57,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

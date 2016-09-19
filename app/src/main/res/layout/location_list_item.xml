@@ -24,7 +24,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text=""
-            android:textColor="#222222"
+            android:textColor="@color/font_2"
             android:textColorHint="@color/green"
             android:textSize="14sp" />
 
@@ -38,7 +38,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text=""
-            android:textColor="#999999"
+            android:textColor="@color/font_9"
             android:textSize="12sp" />
     </LinearLayout>
 

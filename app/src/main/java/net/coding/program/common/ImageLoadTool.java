@@ -44,9 +44,9 @@ public class ImageLoadTool {
             .build();
     public static DisplayImageOptions bannerOptions = new DisplayImageOptions
             .Builder()
-            .showImageOnLoading(R.drawable.bg_maopao_comment)
-            .showImageForEmptyUri(R.drawable.bg_maopao_comment)
-            .showImageOnFail(R.drawable.bg_maopao_comment)
+            .showImageOnLoading(R.drawable.divide)
+            .showImageForEmptyUri(R.drawable.divide)
+            .showImageOnFail(R.drawable.divide)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)

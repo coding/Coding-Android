@@ -3,7 +3,7 @@
 
     <stroke
         android:width="0.7dp"
-        android:color="#dddddd" />
+        android:color="@color/divide_line" />
 
     <corners
         android:bottomLeftRadius="20dp"
