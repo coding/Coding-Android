@@ -5,6 +5,6 @@
     android:background="@color/divide">
 
     <View
-        style="@style/DivideSectionTop5" />
+        style="@style/DivideSectionBottom5" />
 
 </FrameLayout>

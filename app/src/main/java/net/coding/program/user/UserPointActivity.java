@@ -153,7 +153,7 @@ public class UserPointActivity extends BackActivity {
         public View getHeaderView(int i, View view, ViewGroup viewGroup) {
             LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
             if (i == 0) {
-                return layoutInflater.inflate(R.layout.divide_15_top_bottom, null);
+                return layoutInflater.inflate(R.layout.divide_middle_15, null);
             } else {
                 return layoutInflater.inflate(R.layout.divide_0, null);
             }

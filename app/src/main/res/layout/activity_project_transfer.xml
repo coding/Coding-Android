@@ -23,7 +23,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <LinearLayout
         android:id="@+id/linearlayout1"
@@ -70,7 +70,7 @@
             android:src="@drawable/ic_list_right_arr" />
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <Button
         android:id="@+id/deleteBut"

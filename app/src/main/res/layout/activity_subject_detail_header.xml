@@ -41,11 +41,9 @@
         </RelativeLayout>
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/divide_line"
-            android:paddingLeft="@dimen/padding_12"
-            android:paddingRight="@dimen/padding_12">
+            style="@style/DivideLine"
+            android:layout_marginLeft="@dimen/padding_12"
+            android:layout_marginRight="@dimen/padding_12">
 
         </View>
 

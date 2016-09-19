@@ -390,8 +390,7 @@ public class UserDetailActivity extends BackActivity {
 
     @Click
     public void clickLocal() {
-        LocalProjectFileActivity_.intent(this)
-                .start();
+        LocalProjectFileActivity_.intent(this).start();
     }
 
     @Click

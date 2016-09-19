@@ -18,10 +18,9 @@
             android:layout_weight="1" />
 
         <View
+            style="@style/DivideLineVer"
             android:layout_width="1dp"
-            android:layout_height="18dp"
-            android:background="@color/divide_line" />
-
+            android:layout_height="18dp" />
 
         <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseLabel"
@@ -30,9 +29,8 @@
             android:layout_weight="1" />
 
         <View
-            android:layout_width="0.5dp"
-            android:layout_height="18dp"
-            android:background="@color/divide_line" />
+            style="@style/DivideLineVer"
+            android:layout_height="18dp" />
 
         <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseOrder"

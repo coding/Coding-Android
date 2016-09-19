@@ -2,24 +2,169 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/divide"
     android:orientation="vertical"
     tools:context="net.coding.program.setting.MainSettingFragment">
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_top_15" />
+
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/stand_bg"
         android:layout_height="86dp">
-        
+
         <net.coding.program.common.widget.CircleImageView
-            android:layout_width="50dp"
             android:id="@+id/userIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:layout_height="50dp" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
         <TextView
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/userName"
+            android:layout_alignTop="@id/userIcon"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/userIcon"
+            android:textColor="@color/font_2"
+            android:textSize="16sp"
+            tools:text="Man" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/userIcon"
+            android:id="@+id/userGK"
+            android:layout_marginBottom="3dp"
+            android:layout_toRightOf="@id/userIcon"
+            android:textColor="@color/font_6"
+            android:textSize="13sp"
+            tools:text="个性后缀" />
+
     </RelativeLayout>
+
+    <View style="@style/DivideLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/stand_bg"
+        android:layout_height="75dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:id="@+id/projectLayout"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="bottom">
+
+                <TextView
+                    android:id="@+id/projectCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/font_2"
+                    android:textSize="20sp"
+                    android:text="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="项目"
+                    android:textColor="@color/font_9"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <View
+            style="@style/DivideLineVer"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="18dp" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:id="@+id/teamLayout"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="bottom">
+
+                <TextView
+                    android:id="@+id/teamCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/font_2"
+                    android:textSize="20sp"
+                    android:text="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="团队"
+                    android:textColor="@color/font_9"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_middle_15" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:layout_width="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_account"
+        android:id="@+id/itemAccount"
+        app:itemTitle="我的账户"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/divide_middle_15" />
+
+
+    <net.coding.program.common.widget.ListItem1
+        android:layout_width="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_local_file"
+        app:itemTitle="本地文件"
+        android:id="@+id/itemLocalFile"
+        app:itemShowBottomLine="true"
+        android:layout_height="wrap_content"/>
+
+    <net.coding.program.common.widget.ListItem1
+        android:layout_width="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_help"
+        app:itemTitle="帮助和反馈"
+        android:id="@+id/itemHelp"
+        app:itemShowBottomLine="true"
+        android:layout_height="wrap_content"/>
+
+    <net.coding.program.common.widget.ListItem1
+        android:layout_width="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_setting"
+        app:itemTitle="设置"
+        app:itemShowBottomLine="true"
+        android:id="@+id/itemSetting"
+        android:layout_height="wrap_content"/>
+
+    <net.coding.program.common.widget.ListItem1
+        android:layout_width="wrap_content"
+        android:id="@+id/itemAbout"
+        app:itemIcon="@mipmap/ic_setting_about"
+        app:itemTitle="关于 Coding"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

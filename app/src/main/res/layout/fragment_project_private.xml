@@ -31,7 +31,7 @@
         </LinearLayout>
 
 
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
 
         <LinearLayout
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/divide_15_top_bottom" />
+            <include layout="@layout/divide_middle_15" />
 
             <LinearLayout
                 android:layout_width="match_parent"

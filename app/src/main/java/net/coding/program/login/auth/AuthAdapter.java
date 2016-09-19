@@ -108,7 +108,7 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHea
         if (i == 0) {
             return mLayoutInflater.inflate(R.layout.divide_0, null);
         } else {
-            return mLayoutInflater.inflate(R.layout.divide_15_top_bottom, null);
+            return mLayoutInflater.inflate(R.layout.divide_middle_15, null);
         }
     }
 

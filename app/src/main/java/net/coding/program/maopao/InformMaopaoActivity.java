@@ -1,6 +1,5 @@
 package net.coding.program.maopao;
 
-import android.content.DialogInterface;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -48,16 +47,13 @@ public class InformMaopaoActivity extends BackActivity {
 
     @ItemClick
     void listView(final String item) {
-        showDialog("举报", item, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final String url = Global.HOST_API + "/inform/tweet";
-                RequestParams params = new RequestParams();
-                params.put("user", MyApp.sUserObject.global_key);
-                params.put("content", maopaoId);
-                params.put("reason", item);
-                postNetwork(new RequestData(url, params), TAG_INFORM_MAOPAO);
-            }
+        showDialog("举报", item, (dialog, which) -> {
+            final String url = Global.HOST_API + "/inform/tweet";
+            RequestParams params = new RequestParams();
+            params.put("user", MyApp.sUserObject.global_key);
+            params.put("content", maopaoId);
+            params.put("reason", item);
+            postNetwork(new RequestData(url, params), TAG_INFORM_MAOPAO);
         });
     }
 

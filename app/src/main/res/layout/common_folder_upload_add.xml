@@ -34,9 +34,9 @@
         </FrameLayout>
 
         <View
+            style="@style/DivideLineVer"
             android:layout_width="0.7dp"
-            android:layout_height="33dp"
-            android:background="@color/divide_line" />
+            android:layout_height="33dp" />
 
         <FrameLayout
             android:id="@+id/common_folder_bottom_upload"

@@ -38,7 +38,7 @@ public class MergeCommentAdaper extends SimpleData1Adaper<BaseComment> implement
     @Override
     public View getHeaderView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.divide_15_top_bottom,
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.divide_middle_15,
                     viewGroup, false);
         }
 

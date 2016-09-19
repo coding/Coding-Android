@@ -1,11 +1,15 @@
 package net.coding.program.project.detail;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.View;
-import android.widget.ImageView;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.AttachmentFileObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -13,12 +17,14 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
+
 @EActivity(R.layout.activity_attachments_photo_detail)
 //@OptionsMenu(R.menu.menu_attachments_photo_detail)
 public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivity {
 
     @ViewById
-    ImageView imageView;
+    SubsamplingScaleImageView imageView;
 
     @ViewById
     View layout_dynamic_history;
@@ -40,20 +46,26 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
 
     private void updateDisplay() {
         if (mExtraFile != null) {
-
             String filePath = "file://" + mExtraFile.getPath();
-            imagefromNetwork(imageView, filePath, ImageLoadTool.enterOptions);
+
+            imageView.setImage(ImageSource.uri(filePath));
             layout_image_prototype.setVisibility(View.GONE);
             layout_dynamic_history.setVisibility(View.VISIBLE);
             findViewById(R.id.bottomPanel).setVisibility(View.GONE);
 
         } else if (mFile.exists()) {
             String filePath = "file://" + mFile.getPath();
-            imagefromNetwork(imageView, filePath, ImageLoadTool.enterOptions);
+            imageView.setImage(ImageSource.uri(filePath));
             layout_image_prototype.setVisibility(View.GONE);
             layout_dynamic_history.setVisibility(View.VISIBLE);
         } else {
-            imagefromNetwork(imageView, mAttachmentFileObject.owner_preview, ImageLoadTool.enterOptions);
+            getImageLoad().imageLoader.loadImage(mAttachmentFileObject.owner_preview, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
+                    imageView.setImage(ImageSource.uri(file.getAbsolutePath()));
+                }
+            });
             layout_image_prototype.setVisibility(View.VISIBLE);
             layout_dynamic_history.setVisibility(View.VISIBLE);
         }

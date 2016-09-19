@@ -49,7 +49,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <FrameLayout
         android:background="@color/stand_bg"

@@ -33,7 +33,7 @@
 
 
         <!--<include layout="@layout/list_divider_big" />-->
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
         <RelativeLayout
             android:id="@+id/pushSetting"
@@ -65,7 +65,7 @@
 
         <!--<include layout="@layout/list_divider_big" />-->
 
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
         <RelativeLayout
             android:id="@+id/downloadPathSetting"
@@ -86,7 +86,7 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
         <RelativeLayout
             android:id="@+id/clearCache"
@@ -118,7 +118,7 @@
 
         </RelativeLayout>
         <!--<include layout="@layout/list_divider_big" />-->
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
         <RelativeLayout
             android:id="@+id/aboutCoding"

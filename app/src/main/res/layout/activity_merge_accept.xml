@@ -26,7 +26,7 @@
         android:minLines="5"
         android:padding="@dimen/padding_15" />
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <LinearLayout
         android:id="@+id/listItemDelSrc"

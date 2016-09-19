@@ -1,5 +1,7 @@
 package net.coding.program.common.ui;
 
+import android.support.v7.app.ActionBar;
+
 import net.coding.program.R;
 
 import org.androidannotations.annotations.AfterViews;
@@ -11,7 +13,10 @@ public class BackActivity extends BaseActivity {
 
     @AfterViews
     protected final void annotationDispayHomeAsUp() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @OptionsItem(android.R.id.home)

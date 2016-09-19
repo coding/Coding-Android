@@ -28,7 +28,7 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <Button
         android:id="@+id/deleteBut"

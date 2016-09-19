@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -25,7 +27,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 import net.coding.program.common.Global;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.share.CustomShareBoard;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,13 +37,16 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_web)
-public class WebActivity extends UmengActivity {
+public class WebActivity extends BackActivity {
 
     @Extra
     protected String url = Global.HOST;
 
     @Extra
     protected boolean share = false; // 可以弹出显示分享 Dialog
+
+    @Extra
+    protected String title = "";
 
     @ViewById
     protected WebView webView;
@@ -50,7 +55,7 @@ public class WebActivity extends UmengActivity {
     protected ProgressBar progressBar;
 
     String loading = "";
-    private TextView actionbarTitle;
+    protected TextView actionbarTitle;
 
     @AfterViews
     protected final void initWebActivity() {
@@ -59,16 +64,16 @@ public class WebActivity extends UmengActivity {
             url = Global.HOST_MOBILE + url;
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.custom_action_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        actionbarTitle = (TextView) findViewById(R.id.actionbar_title);
-        findViewById(R.id.actionbar_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        actionbarTitle = (TextView) findViewById(R.id.toolbarTitle);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        actionbarTitle.setText(title);
 
         loading = actionbarTitle.getText().toString();
 
@@ -81,7 +86,7 @@ public class WebActivity extends UmengActivity {
                                            if (newProgress == 100) {
                                                // 没有title显示网址
                                                String currentTitle = actionbarTitle.getText().toString();
-                                               if (loading.equals(currentTitle)) {
+                                               if (loading.equals(currentTitle) && TextUtils.isEmpty(title)) {
                                                    actionbarTitle.setText(url);
                                                }
 
@@ -110,7 +115,9 @@ public class WebActivity extends UmengActivity {
 
                                        @Override
                                        public void onReceivedTitle(WebView view, String title) {
-                                           actionbarTitle.setText(title);
+                                           if (TextUtils.isEmpty(title)) {
+                                               actionbarTitle.setText(title);
+                                           }
                                        }
                                    }
         );

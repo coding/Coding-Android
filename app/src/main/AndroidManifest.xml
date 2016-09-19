@@ -562,6 +562,13 @@
             android:process=":customweb"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
+
+        <activity
+            android:name=".setting.HelpActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+        android:theme="@style/AppThemeNoActionbar" />
+
         <activity
             android:name=".search.SearchProjectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -933,6 +940,10 @@
         <activity
             android:name=".user.team.TeamProjectListActivity_"
             android:label="@string/title_activity_team_project_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.SettingActivity_"
+            android:label="@string/title_activity_setting"
             android:screenOrientation="portrait" />
     </application>
 

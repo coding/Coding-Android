@@ -340,7 +340,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
             selectedPosition = position;
             if (file.isDownload) {
-                listViewItemClicked(position);
+                listViewItemClicked(position + 1);
             } else {
                 action_download_single(mFilesArray.get(selectedPosition));
             }

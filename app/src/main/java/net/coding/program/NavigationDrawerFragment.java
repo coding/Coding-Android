@@ -118,7 +118,7 @@ public class NavigationDrawerFragment extends BaseFragment implements UnreadNoti
 
     @Click
     protected final void buttonFeedback(View view) {
-        FeedbackActivity_.intent(getActivity()).start();
+    FeedbackActivity_.intent(getActivity()).start();
         mDrawerLayout.closeDrawer(mFragmentContainerView);
     }
 

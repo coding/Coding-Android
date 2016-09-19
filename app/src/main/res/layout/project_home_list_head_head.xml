@@ -89,10 +89,8 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        style="@style/DivideLine"
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_15"
-        android:layout_marginTop="15dp"
-        android:background="@color/divide_line" />
+        android:layout_marginTop="15dp" />
 </merge>

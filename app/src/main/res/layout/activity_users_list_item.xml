@@ -56,7 +56,7 @@
             android:layout_marginLeft="@dimen/padding_12"
             android:layout_marginRight="@dimen/padding_12"
             android:background="@color/divide_line"
-            android:visibility="gone"></View>
+            android:visibility="gone" />
 
     </LinearLayout>
 

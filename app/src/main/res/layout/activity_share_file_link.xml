@@ -17,7 +17,7 @@
         android:textColor="@color/font_6"
         android:textSize="16sp" />
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -144,7 +144,7 @@
         android:layout_marginTop="@dimen/padding_12"
         android:text="this is contetn" />
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemCommit"
@@ -178,7 +178,7 @@
             app:itemTitle="关联资源" />
     </LinearLayout>
 
-    <include layout="@layout/divide_15_top_bottom" />
+    <include layout="@layout/divide_middle_15" />
 
     <LinearLayout
         android:id="@+id/reviewer_layout"
@@ -207,7 +207,7 @@
             android:layout_marginTop="@dimen/padding_12"
             android:visibility="gone"></LinearLayout>
 
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
     </LinearLayout>
 
 

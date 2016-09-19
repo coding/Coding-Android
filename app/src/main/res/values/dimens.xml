@@ -44,7 +44,7 @@
     <dimen name="project_icon_circle">2dp</dimen>
     <dimen name="project_icon_edge_width">0.5dp</dimen>
 
-    <dimen name="project_icon_width">23dp</dimen>
+    <dimen name="project_icon_width">22dp</dimen>
     <dimen name="project_icon_text">15sp</dimen>
     <dimen name="project_item_height">45dp</dimen>
 

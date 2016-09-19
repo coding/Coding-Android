@@ -31,7 +31,7 @@
             android:singleLine="true"
             android:text="TA的项目"
             android:textColor="@color/font_2"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badge"

@@ -69,7 +69,7 @@
 
     <include
         android:id="@+id/line1"
-        layout="@layout/divide_15_top_bottom" />
+        layout="@layout/divide_middle_15" />
 
     <net.coding.program.task.add.TaskAttrItem
         android:id="@+id/layoutProjectName"
@@ -128,7 +128,7 @@
         android:visibility="gone"
         android:orientation="vertical">
 
-        <include layout="@layout/divide_15_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
         <net.coding.program.task.add.TaskAttrItem
             android:id="@+id/layoutRefResource"
@@ -152,7 +152,7 @@
 
     <include
         android:id="@+id/line2_comment_on"
-        layout="@layout/divide_15_top_bottom" />
+        layout="@layout/divide_middle_15" />
 
 
     <LinearLayout
