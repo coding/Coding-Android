@@ -8,6 +8,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.user.ServiceInfo;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 public class MainSettingFragment extends BaseFragment {
 
     private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
+    final String url = Global.HOST_API + "/user/service_info";
 
     @ViewById
     TextView userName, userGK, projectCount, teamCount;
@@ -44,13 +46,14 @@ public class MainSettingFragment extends BaseFragment {
         userGK.setText(String.format("个性后缀：%s", me.global_key));
         iconfromNetwork(userIcon, me.avatar);
 
+
         bindData();
         loadUser();
     }
 
     private void bindData() {
         if (serviceInfo == null) {
-            return;
+            serviceInfo = new ServiceInfo(AccountInfo.getGetRequestCacheData(getActivity(), url));
         }
 
         projectCount.setText(String.valueOf(serviceInfo.publicProject + serviceInfo.privateProject));
@@ -58,7 +61,6 @@ public class MainSettingFragment extends BaseFragment {
     }
 
     void loadUser() {
-        String url = Global.HOST_API + "/user/service_info";
         getNetwork(url, TAG_SERVICE_INFO);
     }
 

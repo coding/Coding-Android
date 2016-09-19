@@ -144,6 +144,15 @@ public class AccountInfo {
         }
     }
 
+    public static JSONObject getGetRequestCacheData(Context context, String request) {
+        JSONObject json = getGetRequestCache(context, request);
+        if (json.has("data")) {
+            return json.optJSONObject("data");
+        }
+
+        return json;
+    }
+
     public static JSONObject getGetRequestCache(Context context, String request) {
         String s = new DataCache<String>().loadObject(context, Global.encodeUtf8(request), KEY_CACHE_GET_REQUEST);
         try {
