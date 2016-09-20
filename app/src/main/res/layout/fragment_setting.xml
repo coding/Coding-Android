@@ -117,27 +117,6 @@
                 android:textSize="18sp" />
 
         </RelativeLayout>
-        <!--<include layout="@layout/list_divider_big" />-->
-        <include layout="@layout/divide_middle_15" />
-
-        <RelativeLayout
-            android:id="@+id/aboutCoding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
-                android:text="关于Coding"
-                android:textColor="@color/font_2"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
 
         <include layout="@layout/divide_bottom_15" />
 

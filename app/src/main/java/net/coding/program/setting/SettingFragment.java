@@ -155,11 +155,6 @@ public class SettingFragment extends BaseFragment {
     }
 
     @Click
-    void aboutCoding() {
-        AboutActivity_.intent(SettingFragment.this).start();
-    }
-
-    @Click
     void clearCache() {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.clear_cache_message)

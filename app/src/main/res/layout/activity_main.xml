@@ -69,7 +69,6 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:background="#FFFFFF"
             app:bb_activeTabColor="@color/font_green"
             app:bb_behavior="shifting"
             app:bb_inActiveTabColor="@color/tab_font_no_active"
