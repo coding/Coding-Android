@@ -4,8 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/padding_14">
+    android:orientation="vertical">
+
+    <com.bigkoo.convenientbanner.ConvenientBanner
+        android:id="@+id/bannerViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginBottom="@dimen/padding_14" />
 
     <LinearLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -21,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_rect_edge"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_9"
             android:textSize="13sp"
             android:visibility="invisible"
             tools:text="活动" />
@@ -34,7 +39,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_6"
             android:textSize="14sp"
             tools:text="hahahah" />
 
@@ -46,13 +51,6 @@
 
     </LinearLayout>
 
-    <com.bigkoo.convenientbanner.ConvenientBanner
-        android:id="@+id/bannerViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="@dimen/padding_14"
-        android:paddingLeft="@dimen/padding_12"
-        android:paddingRight="@dimen/padding_12" />
 
     <include layout="@layout/divide_shade_up" />
 

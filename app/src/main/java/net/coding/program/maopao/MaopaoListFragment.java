@@ -222,11 +222,11 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     }
 
     private void initBannerData() {
-        View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, null);
+        View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, listView, false);
         banner = (ConvenientBanner) bannerLayout.findViewById(R.id.bannerViewPager);
 
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
-        layoutParams.height = (int) ((MyApp.sWidthPix - getResources().getDimensionPixelSize(R.dimen.padding_12) * 2) * 0.3);
+        layoutParams.height = MyApp.sWidthPix * 130 / 360;
         banner.setLayoutParams(layoutParams);
 
         bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);

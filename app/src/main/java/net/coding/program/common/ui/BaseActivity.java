@@ -152,6 +152,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         initSetting();
 
         UnreadNotify.update(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setElevation(Global.dpToPx(4));
+        }
     }
 
     @Override
