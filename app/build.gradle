@@ -16,6 +16,8 @@ android {
         applicationId "net.coding.program"
         renderscriptTargetApi 19
         multiDexEnabled true
+        minSdkVersion 15
+        targetSdkVersion 22
     }
 
     productFlavors {
