@@ -96,7 +96,7 @@ public class SubjectSearchFragment extends BaseFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (searchTag.equals(tag)) {
-            hideProgressDialog();
+            hideDialogLoading();
             maopaoObjectList.clear();
             JSONArray jsonArray = respanse.optJSONObject("data").optJSONObject("tweets").optJSONArray("list");
             for (int i = 0; i < jsonArray.length(); ++i) {

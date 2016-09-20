@@ -97,7 +97,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @AfterViews
     protected void initProjectFragment() {
-        hideProgressDialog();
+        hideDialogLoading();
         mData = AccountInfo.loadProjects(getActivity());
         pager.setOnPageChangeListener(this);
         setHasOptionsMenu(true);

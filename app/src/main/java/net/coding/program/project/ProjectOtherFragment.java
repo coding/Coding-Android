@@ -78,7 +78,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
 
     @AfterViews
     protected void init() {
-        hideProgressDialog();
+        hideDialogLoading();
 //        mData = AccountInfo.loadProjects(getActivity());
         setHasOptionsMenu(true);
         initRefreshLayout();

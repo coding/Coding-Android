@@ -184,14 +184,14 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 }
             } else {
                 showErrorMsg(code, respanse);
-                hideProgressDialog();
+                hideDialogLoading();
             }
         } else if (tag.equals(HOST_LIST_TAG)) {
             if (code == 0) {
                 parseVersion(mDataVers[1], respanse.optJSONArray("data"));
             } else {
                 showErrorMsg(code, respanse);
-                hideProgressDialog();
+                hideDialogLoading();
             }
         } else {
             super.parseJson(code, respanse, tag, pos, data);
@@ -199,7 +199,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     }
 
     private void branchNotExist() {
-        hideProgressDialog();
+        hideDialogLoading();
         getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
         BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
     }

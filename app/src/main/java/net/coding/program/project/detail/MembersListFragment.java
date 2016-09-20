@@ -448,7 +448,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlMembers)) {
-            hideProgressDialog();
+            hideDialogLoading();
             setRefreshing(false);
 
             if (code == 0) {

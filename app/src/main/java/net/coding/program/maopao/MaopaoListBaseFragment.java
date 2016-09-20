@@ -38,8 +38,8 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.CommentArea;
@@ -65,7 +65,7 @@ import java.util.Iterator;
  * Created by chenchao on 15/9/22.
  */
 @EFragment
-public abstract class MaopaoListBaseFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
+public abstract class MaopaoListBaseFragment extends LoadingFragment implements FootUpdate.LoadMore, StartActivity {
 
     abstract protected String createUrl();
 
@@ -155,7 +155,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
 
         setActionTitle();
         if (mData.isEmpty()) {
-            showDialogLoading();
+            showLoading(true);
         } else {
             setRefreshing(true);
         }
@@ -277,7 +277,7 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(getMaopaoUrlFormat())) {
-            hideProgressDialog();
+            showLoading(false);
             setRefreshing(false);
             if (code == 0) {
                 if (id == UPDATE_ALL_INT) {
@@ -295,7 +295,6 @@ public abstract class MaopaoListBaseFragment extends RefreshBaseFragment impleme
                 for (int i = 0; i < minSize; ++i) {
                     mSaveData.add(mData.get(i));
                 }
-//                AccountInfo.saveMaopao(getActivity(), mSaveData, mType.toString(), userId);
 
                 if (jsonArray.length() == 0) {
                     mNoMore = true;

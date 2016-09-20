@@ -264,7 +264,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         }
     }
 
-    protected void hideProgressDialog() {
+    protected void hideDialogLoading() {
         if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).hideProgressDialog();
         }

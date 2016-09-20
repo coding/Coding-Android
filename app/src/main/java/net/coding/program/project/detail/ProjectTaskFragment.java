@@ -89,7 +89,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MEMBERS)) {
-            hideProgressDialog();
+            hideDialogLoading();
             if (code == 0) {
                 ArrayList<TaskObject.Members> usersInfo = new ArrayList<>();
 
@@ -134,7 +134,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 getNetwork(getMembers, HOST_MEMBERS);
 
             } else {
-                hideProgressDialog();
+                hideDialogLoading();
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mMembersAllAll.size(), this, false, blankLayout, onClickRetry);
             }

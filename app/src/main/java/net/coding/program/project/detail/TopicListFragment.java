@@ -226,7 +226,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             return;
         }
         setRefreshing(false);
-        hideProgressDialog();
+        hideDialogLoading();
         if (code == 0) {
             if (isLoadingFirstPage(tag)) {
                 mData.clear();

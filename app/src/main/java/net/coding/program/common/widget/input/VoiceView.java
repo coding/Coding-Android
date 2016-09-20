@@ -261,14 +261,13 @@ public class VoiceView extends FrameLayout {
                 Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(activity, Environment.DIRECTORY_MUSIC, FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
             } catch (Exception e) {
                 Global.errorLog(e);
-            } finally {
-                if (Global.sVoiceDir == null) {
-                    showToast(R.string.record_failed_no_enough_storage_space);
-                    stopRecord();
-                    return;
-                }
             }
 
+            if (Global.sVoiceDir == null) {
+                showToast(R.string.record_failed_no_enough_storage_space);
+                stopRecord();
+                return;
+            }
         }
 
         voiceRecrodAnimtion.selectDrawable(1);

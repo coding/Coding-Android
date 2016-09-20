@@ -105,6 +105,11 @@ public class Maopao {
             }
             return super.equals(o);
         }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
     }
 
     public static class Comment extends BaseComment implements Serializable {

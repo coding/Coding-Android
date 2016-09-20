@@ -100,7 +100,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
                 String content = respanse.getJSONObject("data").optString("content");
                 mAttachmentFileObject = mFiles;
 //                if (mFiles.isHtml()) {
-//                    hideProgressDialog();
+//                    hideDialogLoading();
 //                    webview.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
 //                } else
 //                if (mFiles.isMd()) {

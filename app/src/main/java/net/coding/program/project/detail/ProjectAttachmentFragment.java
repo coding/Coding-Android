@@ -289,7 +289,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_FOLDER)) {
-            hideProgressDialog();
+            hideDialogLoading();
             setRefreshing(false);
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
@@ -325,7 +325,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
                 }
                 loadMore();
             } else {
-                hideProgressDialog();
+                hideDialogLoading();
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_FOLDER_NAME)) {

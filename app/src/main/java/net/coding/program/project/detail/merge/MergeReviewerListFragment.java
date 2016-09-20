@@ -435,7 +435,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         if (tag.equals(TAG_URL_REVIEWER)) {
             List theData = mSelect ? mMembers : mReviewers;
 
-            hideProgressDialog();
+            hideDialogLoading();
             setRefreshing(false);
 
             if (code == 0) {
@@ -477,7 +477,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(TAG_URL_MEMBER)) {
-            hideProgressDialog();
+            hideDialogLoading();
             setRefreshing(false);
 
             if (code == 0) {

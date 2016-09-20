@@ -200,7 +200,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     public void onRefresh() {
         if (mTooManyFiles) {
             showTooManyFilesAlert();
-            hideProgressDialog();
+            hideDialogLoading();
             setRefreshing(false);
             return;
         }
@@ -223,7 +223,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_GIT_TREEINFO)) {
-            hideProgressDialog();
+            hideDialogLoading();
             setRefreshing(false);
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
@@ -253,7 +253,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                     }
 
                     mTooManyFiles = true;
-                    hideProgressDialog();
+                    hideDialogLoading();
                     setRefreshing(false);
                     adapter.notifyDataSetChanged();
                     switchVersionSuccess();
@@ -263,7 +263,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
                 getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
             } else {
-                hideProgressDialog();
+                hideDialogLoading();
                 setRefreshing(false);
                 if (code == NetworkImpl.ERROR_PERMISSION_DENIED) {
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry, "无权访问\n请联系项目管理员进行代码权限设置");

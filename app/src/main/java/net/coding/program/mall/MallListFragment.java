@@ -109,7 +109,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
             throws JSONException {
-        hideProgressDialog();
+        hideDialogLoading();
         setRefreshing(false);
         if (tag.equals(USER_POINT_URL)) {
             if (code == 0) {

@@ -185,7 +185,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data)
             throws JSONException {
         setRefreshing(false);
-        hideProgressDialog();
+        hideDialogLoading();
         if (tag.equals(mUrl)) {
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {

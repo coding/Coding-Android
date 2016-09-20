@@ -81,7 +81,7 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(host)) {
-            hideProgressDialog();
+            hideDialogLoading();
             if (code == 0) {
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
