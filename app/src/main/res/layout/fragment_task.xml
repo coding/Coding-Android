@@ -1,25 +1,37 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="net.coding.program.task.TaskFragment">
 
-
-    <net.coding.program.third.MyPagerSlidingTabStrip
-        android:id="@+id/tabs"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="77dip"
-        android:background="@color/stand_bg" />
-    <!--<android.support.v4.view.PagerTabStrip-->
-    <!--android:id="@+id/tabs"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="48dip"-->
-    <!--android:background="@drawable/background_tabs" >-->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pagerTaskFragment"
-        android:layout_width="match_parent"
+        <net.coding.program.third.MyPagerSlidingTabStrip
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="77dip"
+            android:background="@color/stand_bg" />
+        <!--<android.support.v4.view.PagerTabStrip-->
+        <!--android:id="@+id/tabs"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dip"-->
+        <!--android:background="@drawable/background_tabs" >-->
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pagerTaskFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <net.coding.program.common.widget.LoadingView
+        android:id="@+id/baseLoadingView"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</FrameLayout>

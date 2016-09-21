@@ -16,6 +16,7 @@ import net.coding.program.message.MessageListActivity;
 import net.coding.program.project.detail.TopicAddActivity;
 import net.coding.program.user.UsersListActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -151,6 +152,16 @@ public class AccountInfo {
         }
 
         return json;
+    }
+
+
+    public static JSONArray getGetRequestCacheListData(Context context, String request) {
+        JSONObject json = getGetRequestCache(context, request);
+        if (json.has("data")) {
+            return json.optJSONArray("data");
+        }
+
+        return new JSONArray();
     }
 
     public static JSONObject getGetRequestCache(Context context, String request) {
@@ -456,10 +467,6 @@ public class AccountInfo {
         }
 
         return s;
-    }
-
-    public static void saveTaskProjects(Context context, ArrayList<ProjectObject> data) {
-        new DataCache<ProjectObject>().save(context, data, USER_TASK_PROJECTS);
     }
 
     public static ArrayList<ProjectObject> loadTaskProjects(Context context) {

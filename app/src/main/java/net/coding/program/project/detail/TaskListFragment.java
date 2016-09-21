@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
+import net.coding.program.task.TaskFragment;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity_;
 
@@ -162,7 +164,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     @AfterViews
-    protected void init() {
+    protected void initTaskListFragment() {
         initRefreshLayout();
 
         Calendar calendar = Calendar.getInstance();
@@ -174,7 +176,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         fab.attachToListView(listView.getWrappedList());
         fab.setVisibility(View.GONE);
-        View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, null);
+        View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
         listView.addFooterView(footer, null, false);
         listView.setAdapter(mAdapter);
 
@@ -197,6 +199,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         urlAll = createHost(mMembers.user.global_key, "/all");
 
         loadData();
+
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment instanceof TaskFragment) {
+            ((TaskFragment) parentFragment).showLoading(true);
+        }
     }
 
     @Click
@@ -232,6 +239,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlAll)) {
             setRefreshing(false);
+            Fragment parentFragment = getParentFragment();
+            if (parentFragment instanceof TaskFragment) {
+                ((TaskFragment) parentFragment).showLoading(false);
+            }
 
             if (code == 0) {
                 if (mUpdateAll) {

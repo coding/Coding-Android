@@ -15,7 +15,7 @@ public abstract class LoadingFragment extends RefreshBaseFragment {
 
     View baseLoadinggView;
 
-    protected void showLoading(boolean show) {
+    public void showLoading(boolean show) {
         if (baseLoadinggView == null) {
             return;
         }

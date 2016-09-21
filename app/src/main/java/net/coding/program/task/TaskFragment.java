@@ -14,7 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -40,7 +40,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_task)
 @OptionsMenu(R.menu.fragment_task)
-public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
+public class TaskFragment extends LoadingFragment implements TaskListParentUpdate {
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
@@ -55,14 +55,10 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
 
     @AfterViews
     void init() {
-//        mData = AccountInfo.loadTaskProjects(getActivity());
-//        if (mData.isEmpty()) {
-        showDialogLoading();
-//        }
+//        initListData();
 
         pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
-
 
         tabs.setLayoutInflater(mInflater);
 
@@ -72,49 +68,77 @@ public class TaskFragment extends BaseFragment implements TaskListParentUpdate {
         pager.setPageMargin(pageMargin);
         pager.setAdapter(adapter);
 
-        if (!mData.isEmpty()) {
-            tabs.setViewPager(pager);
-            adapter.notifyDataSetChanged();
+        showLoading(true);
+    }
+
+    @Override
+    public void onRefresh() {
+    }
+
+    private void initListData() {
+        mAllData.clear();
+        mData.clear();;
+        mData.add(new ProjectObject());
+
+        try {
+            JSONObject json = AccountInfo.getGetRequestCacheData(getActivity(), host);
+            jsonToAllData(json.optJSONArray("list"));
+
+            JSONArray jsonArray = AccountInfo.getGetRequestCacheListData(getActivity(), urlTaskCount);
+            jsonToData(jsonArray);
+
+        } catch (Exception e) {
+            Global.errorLog(e);
         }
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(host)) {
-            hideDialogLoading();
             if (code == 0) {
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    ProjectObject projectObject = new ProjectObject(jsonArray.getJSONObject(i));
-                    mAllData.add(projectObject);
-                }
+
+                jsonToAllData(jsonArray);
+
                 getNetwork(urlTaskCount, urlTaskCount);
             } else {
                 showErrorMsg(code, respanse);
             }
 
         } else if (tag.equals(urlTaskCount)) {
+            showLoading(false);
             if (code == 0) {
-                mData = new ArrayList<>();
-                mData.add(new ProjectObject());
-
                 JSONArray jsonArray = respanse.getJSONArray("data");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    TaskCount taskCount = new TaskCount(jsonArray.getJSONObject(i));
-                    for (int j = 0; j < mAllData.size(); ++j) {
-                        ProjectObject project = mAllData.get(j);
-                        if (taskCount.project == project.getId()) {
-                            mData.add(project);
-                        }
-                    }
-                }
+                jsonToData(jsonArray);
 
-                AccountInfo.saveTaskProjects(getActivity(), mData);
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
 
             } else {
                 showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    private void jsonToAllData(JSONArray jsonArray) throws JSONException {
+        mAllData.clear();
+        for (int i = 0; i < jsonArray.length(); ++i) {
+            ProjectObject projectObject = new ProjectObject(jsonArray.getJSONObject(i));
+            mAllData.add(projectObject);
+        }
+    }
+
+    private void jsonToData(JSONArray jsonArray) throws JSONException {
+        mData.clear();
+        mData.add(new ProjectObject());
+
+        for (int i = 0; i < jsonArray.length(); ++i) {
+            TaskCount taskCount = new TaskCount(jsonArray.getJSONObject(i));
+            for (int j = 0; j < mAllData.size(); ++j) {
+                ProjectObject project = mAllData.get(j);
+                if (taskCount.project == project.getId()) {
+                    mData.add(project);
+                }
             }
         }
     }

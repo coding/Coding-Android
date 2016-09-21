@@ -1,6 +1,7 @@
 package net.coding.program.common.network;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
@@ -17,15 +18,31 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
     private SwipeRefreshLayout swipeRefreshLayout;
 
     protected final boolean isRefreshing() {
-        return swipeRefreshLayout.isRefreshing();
+        if (swipeRefreshLayout != null) {
+            return swipeRefreshLayout.isRefreshing();
+        }
+
+        return false;
     }
 
     protected final void setRefreshing(boolean refreshing) {
-        swipeRefreshLayout.setRefreshing(refreshing);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(refreshing);
+        }
     }
 
     protected final void initRefreshLayout() {
-        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipeRefreshLayout);
+        View rootView = getView();
+        if (rootView == null) {
+            return;
+        }
+
+        View swipe = rootView.findViewById(R.id.swipeRefreshLayout);
+        if (swipe == null) {
+            return;
+        }
+        
+        swipeRefreshLayout = (SwipeRefreshLayout) swipe;
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.green);
     }
@@ -37,6 +54,8 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
     }
 
     protected final void enableSwipeRefresh(boolean enable) {
-        swipeRefreshLayout.setEnabled(enable);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(enable);
+        }
     }
 }
