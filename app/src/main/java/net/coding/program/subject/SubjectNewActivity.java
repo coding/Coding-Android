@@ -36,7 +36,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class SubjectNewActivity extends BackActivity {
 
     final String subjectHotTweetUrl = Global.HOST_API + "/tweet_topic/hot?page=1&pageSize=20";
-    final String hotRecommendUrl = Global.HOST_API + "/tweet_topic/defaults";
+    final String hotRecommendUrl = Global.HOST_API + "/tweet/pop";
 
     private static final String TAG_HOT_SUBJECT = "TAG_HOT_SUBJECT";
     private static final String TAG_HOT_RECOMMEND = "TAG_HOT_RECOMMEND";
