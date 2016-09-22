@@ -40,7 +40,6 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_search" />
 
-
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="56dp"

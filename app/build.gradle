@@ -4,11 +4,10 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     dexOptions {
-        incremental true
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "2g"
     }
 
     defaultConfig {
