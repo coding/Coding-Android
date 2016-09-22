@@ -38,8 +38,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
@@ -50,13 +50,14 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mDataBackup = new ArrayList<>();
+
     @FragmentArg
     ProjectFragment.Type type = ProjectFragment.Type.Main;
 
-    boolean mRequestOk;
     @ViewById
-    ExpandableStickyListHeadersListView listView;
+    StickyListHeadersListView listView;
 
+    boolean mRequestOk;
     private ProjectActionUtil projectActionUtil;
 
     private String title = "";
@@ -74,12 +75,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     TextView tv_msg_tip;
     MyAdapter myAdapter = null;
     int msectionId = 0;
-    private View.OnClickListener mOnClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+    private View.OnClickListener mOnClickRetry = v -> onRefresh();
 
     public void setData(ArrayList<ProjectObject> data, boolean requestOk) {
         mData = data;
@@ -122,8 +118,10 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ++msectionId;
         }
 
+        listView.setAreHeadersSticky(false);
         View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
         listView.addFooterView(listViewFooter, null, false);
+
         if (myAdapter == null) {
             myAdapter = new MyAdapter();
         }
@@ -405,19 +403,9 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
 
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
-            HeaderViewHolder holder;
             if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_project_list_head, parent, false);
-                holder.mHead = (TextView) convertView.findViewById(R.id.head);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
+                convertView = mInflater.inflate(R.layout.divide_top_15, parent, false);
             }
-
-//            int type = getSectionForPosition(position);
-//            String title =titles[type];
-            holder.mHead.setText(getTitle());
 
             return convertView;
         }

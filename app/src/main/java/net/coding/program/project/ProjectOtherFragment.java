@@ -32,8 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Vernon on 15/11/15.
@@ -55,7 +55,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
     ProjectFragment.Type type = ProjectFragment.Type.Main;
 
     @ViewById
-    ExpandableStickyListHeadersListView listView;
+    StickyListHeadersListView listView;
     @ViewById
     View blankLayout;
     @ViewById
@@ -70,20 +70,23 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
 
     private MyAdapter adapter;
 
-
     public void setTitleAndPostion(String title, int postion) {
         this.title = title;
         this.postion = postion;
     }
 
     @AfterViews
-    protected void init() {
+    protected void initProjectOtherFragment() {
         hideDialogLoading();
 //        mData = AccountInfo.loadProjects(getActivity());
         setHasOptionsMenu(true);
         initRefreshLayout();
         setRefreshing(true);
         btn_action.setOnClickListener(this);
+
+        listView.setAreHeadersSticky(false);
+        View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
+        listView.addFooterView(listViewFooter, null, false);
     }
 
     private void listView(ProjectObject item) {
@@ -284,25 +287,16 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
 
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
-            HeaderViewHolder holder;
             if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_project_list_head, parent, false);
-                holder.mHead = (TextView) convertView.findViewById(R.id.head);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
+                convertView = mInflater.inflate(R.layout.divide_top_15, parent, false);
             }
 
-//            int type = getSectionForPosition(position);
-//            String title =titles[type];
-            holder.mHead.setText(getTitle());
             return convertView;
         }
 
         @Override
         public long getHeaderId(int i) {
-            return 1;
+            return 0;
         }
     }
 }
