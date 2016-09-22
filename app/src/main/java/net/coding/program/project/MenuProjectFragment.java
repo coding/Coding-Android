@@ -25,6 +25,7 @@ import de.greenrobot.event.EventBus;
 public class MenuProjectFragment extends BaseFragment {
 
     private static final String URL_PROJECT_COUNT = Global.HOST_API + "/project_count";
+    public static final int POS_MY_CREATE = 2;
 
     @ViewById
     RadioButton rb_all_project;
@@ -76,7 +77,7 @@ public class MenuProjectFragment extends BaseFragment {
 
     @Click
     void rb_my_build() {//我创建的
-        EventBus.getDefault().post(new EventPosition(2));
+        EventBus.getDefault().post(new EventPosition(POS_MY_CREATE));
     }
 
     @Click

@@ -233,7 +233,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             fragment = this;
         }
 
-        if (type == ProjectFragment.Type.Main) {
+        if (type == ProjectFragment.Type.Main || type == ProjectFragment.Type.Create) {
             ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.project_path);
             ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
         } else {

@@ -57,6 +57,7 @@
             android:layout_width="0dp"
             android:id="@+id/projectLayout"
             android:layout_height="match_parent"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_weight="1">
 
             <LinearLayout
@@ -92,6 +93,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:id="@+id/teamLayout"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_height="match_parent"
             android:layout_weight="1">
 

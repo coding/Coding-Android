@@ -12,6 +12,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.user.ServiceInfo;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
+import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.UserPointActivity_;
 import net.coding.program.user.team.TeamListActivity_;
 
@@ -79,7 +80,7 @@ public class MainSettingFragment extends BaseFragment {
     
     @Click
     void projectLayout() {
-        // TODO: 16/9/19  未实现
+        MyCreateProjectListActivity_.intent(this).start();
     }
 
     @Click
@@ -115,6 +116,6 @@ public class MainSettingFragment extends BaseFragment {
 
     @OptionsItem
     void actionAddFollow() {
-
+        AddFollowActivity_.intent(this).start();
     }
 }

@@ -54,8 +54,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity
-        implements NavigationDrawerFragment_.NavigationDrawerCallbacks {
+public class MainActivity extends BaseActivity {
 
     public static final String TAG = "MainActivity";
     public static final String BroadcastPushStyle = "BroadcastPushStyle";
@@ -279,7 +278,6 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    @Override
     public void onNavigationDrawerItemSelected(int position) {
         mSelectPos = position;
         Fragment fragment = null;

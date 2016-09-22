@@ -58,6 +58,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     NoHorizontalScrollViewPager pager;
     @FragmentArg
     Type type = Type.Main;
+
     boolean requestOk = true;
     private int pageIndex = 0;
     boolean needRefresh = true;
@@ -88,7 +89,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     public void onEventMainThread(Object object) {
         if (object instanceof EventFilter) {
             action_filter();
-        } else if (object instanceof EventPosition){
+        } else if (object instanceof EventPosition) {
             EventPosition event = (EventPosition) object;
             int position = event.position;
             pager.setCurrentItem(position, false);
@@ -101,7 +102,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         mData = AccountInfo.loadProjects(getActivity());
         pager.setOnPageChangeListener(this);
         setHasOptionsMenu(true);
-        if (type == Type.Main) {
+        if (type == Type.Main || type == Type.Create) {
             program_title = getResources().getStringArray(R.array.program_title);
         } else {
             program_title = getResources().getStringArray(R.array.program_title_pick);
@@ -115,6 +116,10 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
+
+        if (type == Type.Create) {
+            pager.setCurrentItem(MenuProjectFragment.POS_MY_CREATE, false);
+        }
     }
 
     @Override
@@ -126,6 +131,8 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (type == Type.Main) {
             inflater.inflate(R.menu.menu_fragment_project, menu);
+        } else if (type == Type.Create) {
+            // 不显示菜单
         } else {
             inflater.inflate(R.menu.menu_project_pick_search, menu);
         }
@@ -311,7 +318,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     }
 
     public enum Type {
-        Main, Pick, Filter
+        Main, Pick, Filter, Create
     }
 
 }

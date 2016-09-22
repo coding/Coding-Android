@@ -12,6 +12,7 @@
     <string name="title_activity_attachment">项目文档列表</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_setting">设置</string>
+    <string name="title_activity_my_created">我创建的</string>
     <string name="title_activity_help">帮助与反馈</string>
     <string name="title_activity_user_info">个人信息</string>
     <string name="title_activity_set_password">修改密码</string>
