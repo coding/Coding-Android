@@ -95,9 +95,9 @@
     <color name="color_3BBD79">#3BBD79</color>
     <color name="color_E5E5E5">#e5e5e5</color>
     <color name="color_hint">#686D75</color>
-    <color name="font_2">#323A45</color>
-    <color name="font_6">#4F565F</color>
-    <color name="font_9">#76808E</color>
+    <color name="font_2">#222222</color>
+    <color name="font_6">#666666</color>
+    <color name="font_9">#999999</color>
 
     <color name="color_DDDDDD">@color/divide_line</color>
     <color name="color_000000">#000000</color>
