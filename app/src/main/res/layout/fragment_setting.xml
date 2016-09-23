@@ -1,8 +1,8 @@
 <!--<ListView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/listView"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:footerDividersEnabled="false"--><!--tools:context="net.coding.program.setting.SettingFragment" />-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/divide">
 
     <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_marginRight="12dp"
                 android:text="帐号设置"
                 android:textColor="@color/font_2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -50,7 +50,7 @@
                 android:layout_centerVertical="true"
                 android:text="消息推送"
                 android:textColor="@color/font_2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <CheckBox
                 android:id="@+id/allNotify"
@@ -63,9 +63,7 @@
 
         </RelativeLayout>
 
-        <!--<include layout="@layout/list_divider_big" />-->
-
-        <include layout="@layout/divide_middle_15" />
+        <include layout="@layout/divideline_15" />
 
         <RelativeLayout
             android:id="@+id/downloadPathSetting"
@@ -82,11 +80,11 @@
                 android:layout_marginRight="12dp"
                 android:text="下载路径设置"
                 android:textColor="@color/font_2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
-        <include layout="@layout/divide_middle_15" />
+        <include layout="@layout/divideline_15" />
 
         <RelativeLayout
             android:id="@+id/clearCache"
@@ -103,18 +101,18 @@
                 android:layout_marginRight="12dp"
                 android:text="清除缓存"
                 android:textColor="@color/font_2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/cacheSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="12dp"
                 android:text=""
-                tools:text="0 MB"
-                android:id="@+id/cacheSize"
-                android:layout_alignParentRight="true"
                 android:textColor="@color/font_6"
-                android:textSize="18sp" />
+                android:textSize="16sp"
+                tools:text="0 MB" />
 
         </RelativeLayout>
 
@@ -129,10 +127,10 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="5dp"
-            android:textSize="18sp"
             android:background="@drawable/setting_button_esc"
             android:text="退出"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </ScrollView>

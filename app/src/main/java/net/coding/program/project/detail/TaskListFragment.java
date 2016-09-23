@@ -1,7 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.WeakHashMap;
 
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -94,6 +90,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     String mTomorrow = "";
     WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
     private net.coding.program.task.TaskListParentUpdate mParent;
+    private View listFooter;
 
     public void setParent(net.coding.program.task.TaskListParentUpdate parent) {
         mParent = parent;
@@ -176,9 +173,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         fab.attachToListView(listView.getWrappedList());
         fab.setVisibility(View.GONE);
-        View footer = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
-        listView.addFooterView(footer, null, false);
+        listFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
+        listView.setAreHeadersSticky(false);
+        listView.addFooterView(listFooter, null, false);
         listView.setAdapter(mAdapter);
+
+        updateFootStyle();
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
@@ -203,6 +203,14 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         Fragment parentFragment = getParentFragment();
         if (parentFragment instanceof TaskFragment) {
             ((TaskFragment) parentFragment).showLoading(true);
+        }
+    }
+
+    private void updateFootStyle() {
+        if (mData.isEmpty()) {
+            listFooter.setVisibility(View.INVISIBLE);
+        } else {
+            listFooter.setVisibility(View.VISIBLE);
         }
     }
 
@@ -358,7 +366,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     public class TestBaseAdapter extends BaseAdapter implements
-            StickyListHeadersAdapter, SectionIndexer {
+            StickyListHeadersAdapter {
 
         public TestBaseAdapter() {
         }
@@ -373,6 +381,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                     break;
                 }
             }
+
+            updateFootStyle();
 
             super.notifyDataSetChanged();
         }
@@ -395,7 +405,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
-
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.fragment_task_list_item, parent, false);
@@ -513,49 +522,16 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
-            HeaderViewHolder holder;
             if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
-                holder.mHead = (TextView) convertView.findViewById(R.id.head);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
+                convertView = mInflater.inflate(R.layout.divide_top_15, parent, false);
             }
-
-            int type = getSectionForPosition(position);
-            String title = task_titles[type];
-            holder.mHead.setText(title);
 
             return convertView;
         }
 
         @Override
         public long getHeaderId(int position) {
-            return getSectionForPosition(position);
-        }
-
-        @Override
-        public int getPositionForSection(int section) {
-            return section;
-        }
-
-        @Override
-        public int getSectionForPosition(int position) {
-            if (position < mSectionId) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-
-        @Override
-        public Object[] getSections() {
-            return task_titles;
-        }
-
-        class HeaderViewHolder {
-            TextView mHead;
+            return 0;
         }
 
         class ViewHolder {
@@ -577,62 +553,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                 mDeadline.setTextColor(color);
             }
-        }
-    }
-
-    //animation executor
-    class AnimationExecutor implements ExpandableStickyListHeadersListView.IAnimationExecutor {
-
-        @Override
-        public void executeAnim(final View target, final int animType) {
-            if (ExpandableStickyListHeadersListView.ANIMATION_EXPAND == animType && target.getVisibility() == View.VISIBLE) {
-                return;
-            }
-            if (ExpandableStickyListHeadersListView.ANIMATION_COLLAPSE == animType && target.getVisibility() != View.VISIBLE) {
-                return;
-            }
-            if (mOriginalViewHeightPool.get(target) == null) {
-                mOriginalViewHeightPool.put(target, target.getHeight());
-            }
-            final int viewHeight = mOriginalViewHeightPool.get(target);
-            float animStartY = animType == ExpandableStickyListHeadersListView.ANIMATION_EXPAND ? 0f : viewHeight;
-            float animEndY = animType == ExpandableStickyListHeadersListView.ANIMATION_EXPAND ? viewHeight : 0f;
-            final ViewGroup.LayoutParams lp = target.getLayoutParams();
-            ValueAnimator animator = ValueAnimator.ofFloat(animStartY, animEndY);
-            animator.setDuration(200);
-            target.setVisibility(View.VISIBLE);
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    if (animType == ExpandableStickyListHeadersListView.ANIMATION_EXPAND) {
-                        target.setVisibility(View.VISIBLE);
-                    } else {
-                        target.setVisibility(View.GONE);
-                    }
-                    target.getLayoutParams().height = viewHeight;
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-                }
-            });
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    lp.height = ((Float) valueAnimator.getAnimatedValue()).intValue();
-                    target.setLayoutParams(lp);
-                    target.requestLayout();
-                }
-            });
-            animator.start();
         }
     }
 }

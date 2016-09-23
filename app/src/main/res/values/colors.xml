@@ -34,7 +34,7 @@
     <drawable name="font_green">#ff3bbd79</drawable>
     <color name="font_black_0">#000000</color>
     <color name="font_black_content_disabled">#ffcacaca</color>
-    <color name="tab_font_no_active">#9AA1AB</color>
+    <color name="tab_font_no_active">#76808E</color>
 
     <color name="font_white">#ffffffff</color>
     <color name="font_white_disable">#7fffffff</color>
@@ -49,7 +49,6 @@
     <color name="divide_line_e2">#ffe2e2e2</color>
     <color name="divide_line_81">#ff818181</color>
     <color name="search_divide_color">#e3e3e3</color>
-
 
     <color name="stand_bg">#ffffff</color>
     <color name="stand_tab_bg">#ffffff</color>

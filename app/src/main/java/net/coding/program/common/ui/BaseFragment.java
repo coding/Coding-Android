@@ -1,9 +1,11 @@
 package net.coding.program.common.ui;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -62,6 +64,23 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
 
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setProgress(30);
+    }
+
+    protected ActionBar getActionBar() {
+        Activity activity = getActivity();
+        if (activity instanceof AppCompatActivity) {
+            ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+            return actionBar;
+        }
+
+        return null;
+    }
+
+    protected void setActionBarShadow(int dp) {
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setElevation(Global.dpToPx(dp));
+        }
     }
 
     protected void showProgressBar(boolean show, String message) {

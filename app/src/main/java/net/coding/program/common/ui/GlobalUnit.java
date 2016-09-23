@@ -10,7 +10,7 @@ import net.coding.program.common.Global;
 public class GlobalUnit {
 
     public static void init() {
-        ACTIONBAR_SHADOW = Global.dpToPx(4);
+        ACTIONBAR_SHADOW = Global.dpToPx(2);
     }
 
     public static int ACTIONBAR_SHADOW;

@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 
 import net.coding.program.MainActivity;
@@ -17,7 +17,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.LoadingFragment;
-import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -69,6 +68,7 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
         pager.setPageMargin(pageMargin);
         pager.setAdapter(adapter);
 
+        tabs.setVisibility(View.INVISIBLE);
         showLoading(true);
     }
 
@@ -112,10 +112,10 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
                 JSONArray jsonArray = respanse.getJSONArray("data");
                 jsonToData(jsonArray);
 
+                tabs.setVisibility(View.VISIBLE);
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
 
-                ViewCompat.setElevation(tabs, GlobalUnit.ACTIONBAR_SHADOW);
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity) {
                     ((MainActivity) activity).hideActionBarShadow();

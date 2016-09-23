@@ -70,6 +70,9 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     @AfterViews
     protected final void initProjectTaskFragment() {
         showDialogLoading();
+
+        setActionBarShadow(0);
+
         tabs.setLayoutInflater(mInflater);
 
         HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.getId());

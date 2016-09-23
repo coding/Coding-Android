@@ -28,7 +28,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -85,7 +84,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     private int lastScrollX = 0;
     private int tabBackgroundResId = 0x00000000;
     private Locale locale;
-    private int iconPadding = 5;
+    private int iconPadding = 21; // 5 + (44 - 12) / 2  保证中间留下 12dp
     private int myPaddingLeft = 0;
     private LayoutInflater mInflater;
     private int myFirstExtraPdddingLeft = 0;
@@ -241,7 +240,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 //		tab.setImageResource(resId);
 //
 //		addTab(position, tab);
-        View v = mInflater.inflate(net.coding.program.R.layout.imageview_head, null, false);
+        View v = mInflater.inflate(net.coding.program.R.layout.imageview_head, tabsContainer, false);
         ImageView head = (ImageView) v.findViewById(net.coding.program.R.id.head);
         if (url.isEmpty()) {
             head.setImageResource(net.coding.program.R.drawable.icon_all_task);
@@ -356,8 +355,6 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         View currentTab = tabsContainer.getChildAt(currentPosition);
         float lineLeft = currentTab.getLeft();
         float lineRight = currentTab.getRight();
-
-        Log.d("", "tabdraw " + currentPosition);
 
         if (currentPosition == 0) {
             lineLeft += myFirstExtraPdddingLeft;
