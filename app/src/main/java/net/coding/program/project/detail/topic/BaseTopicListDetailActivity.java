@@ -1,7 +1,6 @@
 package net.coding.program.project.detail.topic;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -99,17 +98,14 @@ public class BaseTopicListDetailActivity extends BackActivity {
         void showOptionDialog(final BaseComment comment, final Object tag, final View v) {
             new AlertDialog.Builder(v.getContext())
                     .setTitle("删除评论")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
-                            if (tag instanceof TopicComment) {
-                                deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, tag);
-                            } else if (tag instanceof TopicCommentChild) {
-                                TopicComment topicComment = (TopicComment) v.getTag(R.layout.topic_comment_child);
-                                CommentParam param = new CommentParam(topicComment, (TopicCommentChild) tag);
-                                deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, param);
-                            }
+                    .setPositiveButton("确定", (dialog, which) -> {
+                        String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
+                        if (tag instanceof TopicComment) {
+                            deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, tag);
+                        } else if (tag instanceof TopicCommentChild) {
+                            TopicComment topicComment = (TopicComment) v.getTag(R.layout.topic_comment_child);
+                            CommentParam param = new CommentParam(topicComment, (TopicCommentChild) tag);
+                            deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, param);
                         }
                     })
                     .setNegativeButton("取消", null)

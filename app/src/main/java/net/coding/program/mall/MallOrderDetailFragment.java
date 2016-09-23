@@ -228,7 +228,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 if (mData.size() != 0 && footerAdded.compareAndSet(false, true)) {
 
                     View footerView = LayoutInflater.from(getActivity()).inflate(
-                            R.layout.mall_detail_list_footer, null);
+                            R.layout.mall_detail_list_footer, listView, false);
                     listView.addFooterView(footerView, null, false);
                 }
 

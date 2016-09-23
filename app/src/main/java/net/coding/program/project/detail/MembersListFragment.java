@@ -398,11 +398,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         getNextPageNetwork(urlMembers, urlMembers);
     }
 
-    private boolean projectCreateByMe() {
-        String myGlobalKey = MyApp.sUserObject.global_key;
-        return mProjectObject != null
-                && (mProjectObject.owner_user_name.equals(myGlobalKey)
-                    || mProjectObject.getOwner().global_key.equals(myGlobalKey));
+    private boolean canManagerMember() {
+        return mProjectObject != null && mProjectObject.canManagerMember();
     }
 
     @OptionsItem
@@ -414,9 +411,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     @OnActivityResult(RESULT_ADD_USER)
     void onResultAddUser(int resultCode) {
-        if (resultCode == Activity.RESULT_OK) {
-            onRefresh();
-        }
+        onRefresh();
     }
 
     @OnActivityResult(RESULT_MODIFY_AUTHORITY)
@@ -429,10 +424,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (type != Type.Pick) {
-            if (projectCreateByMe()) {
+            if (canManagerMember()) {
                 inflater.inflate(R.menu.users, menu);
-            } else {
-                inflater.inflate(R.menu.common_more, menu);
             }
         }
 

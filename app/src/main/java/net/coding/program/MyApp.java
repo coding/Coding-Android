@@ -17,6 +17,7 @@ import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -148,6 +149,7 @@ public class MyApp extends MultiDexApplication {
         sUnread = new Unread();
 
         RedPointTip.init(this);
+        GlobalUnit.init();
     }
 
     private void loadBaiduMap() {

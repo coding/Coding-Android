@@ -106,9 +106,9 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHea
     @Override
     public View getHeaderView(int i, View view, ViewGroup viewGroup) {
         if (i == 0) {
-            return mLayoutInflater.inflate(R.layout.divide_0, null);
+            return mLayoutInflater.inflate(R.layout.divide_0, viewGroup, false);
         } else {
-            return mLayoutInflater.inflate(R.layout.divide_middle_15, null);
+            return mLayoutInflater.inflate(R.layout.divide_middle_15, viewGroup, false);
         }
     }
 

@@ -294,7 +294,6 @@ public class Global {
         return Global.changeHyperlinkColor(content, null, null);
     }
 
-
     public static Spannable changeHyperlinkColor(String content, MyImageGetter imageGetter) {
         return Global.changeHyperlinkColor(content, imageGetter, null);
     }

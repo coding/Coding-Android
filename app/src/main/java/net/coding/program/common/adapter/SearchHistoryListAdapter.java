@@ -46,10 +46,9 @@ public class SearchHistoryListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
-
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.search_history_list_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.search_history_list_item, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.desc = (TextView) convertView.findViewById(R.id.subject_search_list_item_name);
             viewHolder.delImage = (ImageView) convertView.findViewById(R.id.subject_search_list_item_del);

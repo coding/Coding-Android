@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,6 +31,7 @@ import net.coding.program.common.LoginBackground;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
@@ -69,6 +71,8 @@ public class MainActivity extends BaseActivity {
     String maopao_action_types[];
     @ViewById
     BottomBar bottomBar;
+    @ViewById
+    AppBarLayout appbar;
 
     TextView toolbarTitle;
     View toolbarProjectTitle;
@@ -278,9 +282,17 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    public void hideActionBarShadow() {
+        if (appbar != null) {
+            appbar.setElevation(0);
+        }
+    }
+
     public void onNavigationDrawerItemSelected(int position) {
         mSelectPos = position;
         Fragment fragment = null;
+
+        appbar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
 
         switch (position) {
             case 0://防止重复加载数据

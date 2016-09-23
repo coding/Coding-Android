@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
@@ -28,8 +29,10 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.model.project.ProjectServiceInfo;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -45,10 +48,13 @@ import java.util.List;
 public class AddFollowActivity extends BackActivity implements Handler.Callback {
 
     public static final int RESULT_USER_DETAIL = 1000;
+    private static final int RESULT_ADD_PROJECT_MEMBER = 1;
 
     String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
     String urlAddUser = "";
     ArrayList<UserObject> mData = new ArrayList<>();
+
+    private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
 
     boolean mNeedUpdate = false;
 
@@ -58,17 +64,26 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     @ViewById
     ListView listView;
 
+    @ViewById
+    View friendLayout;
+
+    @ViewById
+    TextView maxUserCount;
+
     int flag = 0;
 
     Handler mHandler;
 
     BaseAdapter baseAdapter;
 
+    ProjectServiceInfo serviceInfo;
+
     @AfterViews
     protected final void initAddFollowActivity() {
         mHandler = new WeakRefHander(this);
 
         if (mProjectObject == null) {
+            friendLayout.setVisibility(View.GONE);
             baseAdapter = new FollowAdapter(this, true, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 UserObject userObject = mData.get((int) id);
@@ -80,6 +95,8 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         } else {
             urlAddUser = Global.HOST_API + mProjectObject.getProjectPath() + "/members/gk/add";
             setActionBarTitle("添加项目成员");
+            friendLayout.setVisibility(View.VISIBLE);
+            maxUserCount.setVisibility(View.GONE);
             baseAdapter = new FollowAdapter(this, false, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 final UserObject data = mData.get((int) id);
@@ -95,6 +112,26 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             });
         }
         listView.setAdapter(baseAdapter);
+        loadServiceInfo();
+    }
+
+
+    private void loadServiceInfo() {
+        final String url = mProjectObject.getHttpProjectApi() + "/service_info";
+        getNetwork(url, TAG_SERVICE_INFO);
+    }
+
+    public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
+        maxUserCount.setVisibility(View.VISIBLE);
+        int count = serviceInfo.maxmember - serviceInfo.member;
+        if (count > 0) {
+            maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
+            maxUserCount.setTextColor(0xff666666);
+        } else {
+            maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
+            maxUserCount.setTextColor(0xfff34a4a);
+        }
+
     }
 
     @Override
@@ -148,10 +185,49 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
                 mNeedUpdate = true;
                 showMiddleToast(String.format("添加项目成员 %s 成功", ((UserObject) data).name));
+                serviceInfo.member++;
+                bindData(maxUserCount, serviceInfo);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_SERVICE_INFO)) {
+            if (code == 0) {
+                serviceInfo = new ProjectServiceInfo(respanse.optJSONObject("data"));
+                bindData(maxUserCount, serviceInfo);
             } else {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    @Click
+    void listItemFollow() {
+        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
+                UsersListActivity.Friend.Follow);
+
+        UsersListActivity_
+                .intent(this)
+                .mUserParam(userParams)
+                .type(UsersListActivity.Friend.Follow)
+                .hideFollowButton(true)
+                .projectObject(mProjectObject)
+                .projectServiceInfo(serviceInfo)
+                .startForResult(RESULT_ADD_PROJECT_MEMBER);
+    }
+
+    @Click
+    void listItemFans() {
+        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
+                UsersListActivity.Friend.Fans);
+
+        UsersListActivity_
+                .intent(this)
+                .mUserParam(userParams)
+                .type(UsersListActivity.Friend.Fans)
+                .projectObject(mProjectObject)
+                .projectServiceInfo(serviceInfo)
+                .hideFollowButton(true)
+                .startForResult(RESULT_ADD_PROJECT_MEMBER);
     }
 
     @Override
@@ -196,8 +272,16 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     void search(String s) {
         if (s == null || s.replaceAll(" ", "").replaceAll("　", "").isEmpty()) {
+            if (mProjectObject != null) {
+                friendLayout.setVisibility(View.VISIBLE);
+            }
+
+            mData.clear();
+            baseAdapter.notifyDataSetChanged();
             return;
         }
+
+        friendLayout.setVisibility(View.GONE);
 
         int flagHandler = ++flag;
         Message message = Message.obtain(mHandler, flagHandler, s);
@@ -227,6 +311,11 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 }
             }
         }
+    }
+
+    @OnActivityResult(RESULT_ADD_PROJECT_MEMBER)
+    void onResultAddProjectMember(int result) {
+        loadServiceInfo();
     }
 
     static class ViewHolder {

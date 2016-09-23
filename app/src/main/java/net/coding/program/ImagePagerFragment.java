@@ -199,7 +199,7 @@ public class ImagePagerFragment extends BaseFragment {
                             file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
                         }
                         if (Global.isGifByFile(file)) {
-                            image = getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, null);
+                            image = getActivity().getLayoutInflater().inflate(R.layout.imageview_gif, rootLayout, false);
                             rootLayout.addView(image);
                             image.setOnClickListener(onClickImageClose);
                         } else {

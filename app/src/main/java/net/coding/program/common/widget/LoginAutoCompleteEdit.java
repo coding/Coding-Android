@@ -161,7 +161,7 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
             View v = convertView;
             if (v == null)
                 v = LayoutInflater.from(getContext()).inflate(
-                        R.layout.login_auto_complete_item, null);
+                        R.layout.login_auto_complete_item, parent, false);
             TextView tv = (TextView) v.findViewById(R.id.tv);
 
             String input = LoginAutoCompleteEdit.this.getText().toString();

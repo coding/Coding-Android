@@ -50,6 +50,10 @@ public class TaskObject {
                 return type >= member.type;
             }
 
+            public static boolean canManagerMember(int type) {
+                return type >= manager.type;
+            }
+
             private int type;
 
             public int getType() {

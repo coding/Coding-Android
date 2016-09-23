@@ -6,9 +6,25 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.user.UsersListActivity">
 
+    <TextView
+        android:id="@+id/maxUserCount"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/font_6"
+        android:textSize="14sp"
+        tools:text="你还可以添加 4 个项目成员" />
+
+    <View
+        android:id="@+id/userCountLine"
+        style="@style/DivideLine"
+        android:layout_below="@id/maxUserCount" />
+
     <net.coding.program.third.sidebar.IndexableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/userCountLine"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
         android:id="@+id/listView" />

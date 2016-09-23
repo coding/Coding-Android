@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 
+import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.LoadingFragment;
+import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -54,9 +57,7 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
     private PageTaskFragment adapter;
 
     @AfterViews
-    void init() {
-//        initListData();
-
+    void initTaskFragment() {
         pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
 
@@ -113,6 +114,12 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
+
+                ViewCompat.setElevation(tabs, GlobalUnit.ACTIONBAR_SHADOW);
+                Activity activity = getActivity();
+                if (activity instanceof MainActivity) {
+                    ((MainActivity) activity).hideActionBarShadow();
+                }
 
             } else {
                 showErrorMsg(code, respanse);

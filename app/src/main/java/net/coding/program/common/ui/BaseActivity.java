@@ -155,7 +155,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setElevation(Global.dpToPx(4));
+            actionBar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
         }
     }
 

@@ -1,16 +1,15 @@
 package net.coding.program.user;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -26,9 +25,12 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.model.project.ProjectServiceInfo;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 
@@ -64,13 +66,19 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     private static final String TAG_RELAY_MESSAGE = "TAG_RELAY_MESSAGE";
     final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=500";
     final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=500";
+
+    private static final String TAG_ADD_PROJECT_MEMBER = "TAG_ADD_PROJECT_MEMBER";
+
     final int RESULT_REQUEST_ADD = 1;
     final int RESULT_REQUEST_DETAIL = 2;
     @Extra
     Friend type;
 
     @Extra
-    boolean select;
+    Type selectType;
+
+    @Extra
+    ProjectObject projectObject;
 
     @Extra
     boolean hideFollowButton; // 隐藏互相关注按钮，用于发私信选人的界面
@@ -85,12 +93,18 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     String statUrl; // 收藏项目的人
 
     @Extra
+    ProjectServiceInfo projectServiceInfo;
+
+    @Extra
     UserParams mUserParam;
     ArrayList<UserObject> mData = new ArrayList<>();
     ArrayList<UserObject> mSearchData = new ArrayList<>();
 
     @ViewById
     IndexableListView listView;
+
+    @ViewById
+    TextView maxUserCount;
 
     @ViewById
     FloatingActionButton floatButton;
@@ -119,7 +133,13 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         if (mData.isEmpty()) {
             showDialogLoading();
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (projectObject != null) {
+            AddFollowActivity.bindData(maxUserCount, projectServiceInfo);
+        } else {
+            maxUserCount.setVisibility(View.GONE);
+        }
+
         setTitle();
 
 //        mFootUpdate.init(listView, mInflater, this);
@@ -135,57 +155,53 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             floatButton.setVisibility(View.GONE);
         }
 
-        if (select) {
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent();
-                    UserObject user = (UserObject) parent.getItemAtPosition(position);
-                    intent.putExtra(RESULT_EXTRA_NAME, user.name);
-                    intent.putExtra(RESULT_EXTRA_USESR, user);
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                }
+        if (selectType == Type.Select) {
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                Intent intent = new Intent();
+                UserObject user = (UserObject) parent.getItemAtPosition(position);
+                intent.putExtra(RESULT_EXTRA_NAME, user.name);
+                intent.putExtra(RESULT_EXTRA_USESR, user);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            });
+        } else if (projectObject != null) {
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                String urlAddUser = Global.HOST_API + projectObject.getProjectPath() + "/members/gk/add";
+                final UserObject data = (UserObject) parent.getItemAtPosition(position);
+                new AlertDialog.Builder(UsersListActivity.this)
+                        .setMessage(String.format("添加项目成员 %s ?", data.name))
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            RequestParams params = new RequestParams();
+                            params.put("users", data.global_key);
+                            postNetwork(urlAddUser, params, TAG_ADD_PROJECT_MEMBER, -1, data);
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
             });
         } else if (!relayString.isEmpty()) {
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent();
-                    final UserObject user = (UserObject) parent.getItemAtPosition(position);
-                    showDialog("转发", "转发给" + user.name, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Global.MessageParse messageParse = HtmlContent.parseMessage(relayString);
-//                            String urls = "";
-//                            for (String item : messageParse.uris) {
-//                                urls += item + "/n";
-//                            }
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                final UserObject user = (UserObject) parent.getItemAtPosition(position);
+                showDialog("转发", "转发给" + user.name, (dialog, which) -> {
+                    Global.MessageParse messageParse = HtmlContent.parseMessage(relayString);
+                    RequestParams params = new RequestParams();
+                    String text = messageParse.text;
+                    for (String url : messageParse.uris) {
+                        String photoTemplate = "\n![图片](%s)";
+                        text += String.format(photoTemplate, url);
 
-                            RequestParams params = new RequestParams();
-                            String text = messageParse.text;
-                            for (String url : messageParse.uris) {
-                                String photoTemplate = "\n![图片](%s)";
-                                text += String.format(photoTemplate, url);
-
-                            }
-                            params.put("content", text);
-                            params.put("receiver_global_key", user.global_key);
-                            postNetwork(MessageListActivity.HOST_MESSAGE_SEND, params, TAG_RELAY_MESSAGE);
-                            showProgressBar(true, "发送中...");
-                        }
-                    });
-                }
+                    }
+                    params.put("content", text);
+                    params.put("receiver_global_key", user.global_key);
+                    postNetwork(MessageListActivity.HOST_MESSAGE_SEND, params, TAG_RELAY_MESSAGE);
+                    showProgressBar(true, "发送中...");
+                });
             });
         } else {
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String globalKey = ((UserObject) parent.getItemAtPosition(position)).global_key;
-                    UserDetailActivity_.intent(UsersListActivity.this)
-                            .globalKey(globalKey)
-                            .startForResult(RESULT_REQUEST_DETAIL);
-                }
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                String globalKey = ((UserObject) parent.getItemAtPosition(position)).global_key;
+                UserDetailActivity_.intent(UsersListActivity.this)
+                        .globalKey(globalKey)
+                        .startForResult(RESULT_REQUEST_DETAIL);
             });
         }
     }
@@ -393,6 +409,15 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(TAG_ADD_PROJECT_MEMBER)) {
+            if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "添加成员");
+                showMiddleToast(String.format("添加项目成员 %s 成功", ((UserObject) data).name));
+                projectServiceInfo.member++;
+                AddFollowActivity.bindData(maxUserCount, projectServiceInfo);
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
     }
 
@@ -591,5 +616,9 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         class HeaderViewHolder {
             TextView mHead;
         }
+    }
+
+    public enum Type {
+        Select
     }
 }

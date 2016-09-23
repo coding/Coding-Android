@@ -63,15 +63,17 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <View
+            style="@style/DivideLine" />
 
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="56dp"
             android:layout_alignParentBottom="true"
             app:bb_activeTabColor="@color/font_green"
-            app:bb_behavior="shifting"
             app:bb_inActiveTabColor="@color/tab_font_no_active"
+            app:bb_showShadow="false"
             app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
     </LinearLayout>

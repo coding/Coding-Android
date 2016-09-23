@@ -92,6 +92,10 @@ public class ProjectObject implements Serializable {
         return TaskObject.Members.Type.canReadCode(current_user_role_id);
     }
 
+    public boolean canManagerMember() {
+        return TaskObject.Members.Type.canManagerMember(current_user_role_id);
+    }
+
     public void setType(int type) {
         this.type = type;
     }

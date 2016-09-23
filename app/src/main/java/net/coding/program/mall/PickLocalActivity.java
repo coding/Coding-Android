@@ -47,7 +47,7 @@ public class PickLocalActivity extends BackActivity {
         ArrayList<MallOrderSubmitActivity.City> listData = (ArrayList<MallOrderSubmitActivity.City>) getIntent().getSerializableExtra(EXTRA_LIST_DATA);
         mPos = getIntent().getIntExtra(EXTRA_LOCAL_POS, 1);
         ListAdapter mAdapter = new CityAdapter(this, R.layout.list_item_city, listData);
-        View head = LayoutInflater.from(this).inflate(R.layout.list_item_city_head, null);
+        View head = LayoutInflater.from(this).inflate(R.layout.list_item_city_head, listView, false);
         listView.addHeaderView(head, null, false);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(mItemClick);
@@ -131,7 +131,7 @@ public class PickLocalActivity extends BackActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_city, null);
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_city, parent, false);
             }
 
             MallOrderSubmitActivity.City data = getItem(position);

@@ -654,7 +654,7 @@ public class EnterEmojiLayout extends EnterLayout {
         lp.leftMargin = pointWidth;
         lp.rightMargin = pointMargin;
         for (int i = 0; i < count; ++i) {
-            View pointView = mActivity.getLayoutInflater().inflate(R.layout.common_point, null);
+            View pointView = mActivity.getLayoutInflater().inflate(R.layout.common_point, emojiKeyboardIndicator, false);
             emojiKeyboardIndicator.addView(pointView, lp);
         }
         emojiKeyboardIndicator.getChildAt(0).setBackgroundResource(R.drawable.ic_point_select);
