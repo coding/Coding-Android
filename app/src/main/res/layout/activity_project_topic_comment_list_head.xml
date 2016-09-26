@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/stand_bg"
     android:layout_height="wrap_content">
 
     <TextView
@@ -75,7 +76,7 @@
         android:layout_below="@+id/comment"
         android:orientation="vertical">
 
-        <include layout="@layout/divide_10_top_bottom" />
+        <include layout="@layout/divide_middle_15" />
 
         <RelativeLayout
             android:id="@+id/emptyWatchLayout"
@@ -139,7 +140,7 @@
                 android:layout_marginRight="@dimen/padding_12"
                 android:layout_marginTop="@dimen/padding_12" />
 
-            <include layout="@layout/divide_10_top_bottom" />
+            <include layout="@layout/divide_middle_15" />
         </LinearLayout>
 
     </LinearLayout>

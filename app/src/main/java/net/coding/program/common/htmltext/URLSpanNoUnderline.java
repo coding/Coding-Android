@@ -144,7 +144,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 单个项目讨论
         // https://coding.net/u/8206503/p/AndroidCoding/topic/9638?page=1
-        final String topic = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?$";
+        final String topic = "^(?:https://[\\w.]*)?/[ut]/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?(#comment-\\w*)?$";
         pattern = Pattern.compile(topic);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {

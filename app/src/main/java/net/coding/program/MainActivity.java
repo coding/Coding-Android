@@ -312,6 +312,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case 1:
+                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
                 fragment = new TaskFragment_();
                 break;
             case 2:
@@ -319,10 +320,12 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case 3:
+                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(300);
                 fragment = new UsersListFragment_();
                 break;
 
             case 4:
+                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(0);
                 fragment = new MainSettingFragment_();
                 break;
         }

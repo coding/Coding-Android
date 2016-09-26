@@ -126,6 +126,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         swipeRefreshLayout.setColorSchemeResources(R.color.green);
         mFootUpdate.init(listView, mInflater, this);
 
+        showDialogLoading();
         loadData();
     }
 
@@ -468,6 +469,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             }
         } else if (tag.equals(urlTopic)) {
             swipeRefreshLayout.setRefreshing(false);
+            hideProgressDialog();
             if (code == 0) {
                 topicObject = new TopicObject(respanse.getJSONObject("data"));
                 initData();
