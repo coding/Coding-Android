@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,11 +29,14 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.LoginBackground;
+import net.coding.program.common.Unread;
+import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
+import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoListFragment;
@@ -135,8 +139,16 @@ public class MainActivity extends BaseActivity {
 
         warnMailNoValidLogin();
         warnMailNoValidRegister();
+
+        EventBus.getDefault().register(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        updateNotifyFromService();
+    }
 
     private void warnMailNoValidLogin() {
         if (sNeedWarnEmailNoValidLogin) {
@@ -170,9 +182,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
+
     @Override
     protected void onDestroy() {
         unregisterReceiver(mUpdatePushReceiver);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -284,7 +299,7 @@ public class MainActivity extends BaseActivity {
 
     public void hideActionBarShadow() {
         if (appbar != null) {
-            appbar.setElevation(0);
+            ViewCompat.setElevation(appbar, 0);
         }
     }
 
@@ -292,7 +307,9 @@ public class MainActivity extends BaseActivity {
         mSelectPos = position;
         Fragment fragment = null;
 
-        appbar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
+        ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
+
+        updateNotifyFromService();
 
         switch (position) {
             case 0://防止重复加载数据
@@ -312,7 +329,7 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case 1:
-                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
+//                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
                 fragment = new TaskFragment_();
                 break;
             case 2:
@@ -320,12 +337,12 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case 3:
-                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(300);
+//                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(300);
                 fragment = new UsersListFragment_();
                 break;
 
             case 4:
-                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(0);
+//                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(0);
                 fragment = new MainSettingFragment_();
                 break;
         }
@@ -512,4 +529,19 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void onEventMainThread(Object object) {
+        if (object instanceof EventNotifyBottomBar) {
+            updateNotify();
+        }
+    }
+
+    public void updateNotifyFromService() {
+        UnreadNotify.update(this);
+    }
+
+    public void updateNotify() {
+        Unread unread = MyApp.sUnread;
+        bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(unread.getProjectCount());
+        bottomBar.getTabWithId(R.id.tabMessage).setBadgeCount(unread.getNotifyCount());
+    }
 }

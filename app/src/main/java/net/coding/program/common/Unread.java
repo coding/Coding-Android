@@ -24,8 +24,16 @@ public class Unread {
         return countToString(project_update_count);
     }
 
+    public int getProjectCount() {
+        return project_update_count;
+    }
+
     public String getNotify() {
         return countToString(notifications + messages);
+    }
+
+    public int getNotifyCount() {
+        return notifications + messages;
     }
 
     public static String countToString(int count) {

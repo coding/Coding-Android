@@ -37,8 +37,8 @@ import android.widget.TextView;
  */
 public class BottomBarTab extends LinearLayout {
     private static final long ANIMATION_DURATION = 150;
-    private static final float ACTIVE_TITLE_SCALE = 0.86f;
-    private static final float INACTIVE_FIXED_TITLE_SCALE = 0.86f;
+    private static final float ACTIVE_TITLE_SCALE = 1.0f;
+    private static final float INACTIVE_FIXED_TITLE_SCALE = 1.0f;
 
     private final int sixDps;
     private final int eightDps;
@@ -360,9 +360,9 @@ public class BottomBarTab extends LinearLayout {
             setAlphas(activeAlpha);
         }
 
-        if (badge != null) {
-            badge.hide();
-        }
+//        if (badge != null) {
+//            badge.hide();
+//        }
     }
 
     void deselect(boolean animate) {
