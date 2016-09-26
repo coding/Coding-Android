@@ -46,10 +46,14 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
+
     @ViewById
     MyPagerSlidingTabStrip tabs;
     @ViewById(R.id.pagerTaskFragment)
     ViewPager pager;
+    @ViewById
+    View actionDivideLine;
+
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mAllData = new ArrayList<>();
     int pageMargin;
@@ -69,6 +73,7 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
         pager.setAdapter(adapter);
 
         tabs.setVisibility(View.INVISIBLE);
+        actionDivideLine.setVisibility(View.INVISIBLE);
         showLoading(true);
     }
 
@@ -78,7 +83,7 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     private void initListData() {
         mAllData.clear();
-        mData.clear();;
+        mData.clear();
         mData.add(new ProjectObject());
 
         try {
@@ -113,6 +118,7 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
                 jsonToData(jsonArray);
 
                 tabs.setVisibility(View.VISIBLE);
+                actionDivideLine.setVisibility(View.VISIBLE);
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
 

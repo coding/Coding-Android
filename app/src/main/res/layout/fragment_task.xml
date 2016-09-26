@@ -11,6 +11,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <View
+            style="@style/DivideLine"
+            android:id="@+id/actionDivideLine" />
 
         <net.coding.program.third.MyPagerSlidingTabStrip
             android:id="@+id/tabs"
