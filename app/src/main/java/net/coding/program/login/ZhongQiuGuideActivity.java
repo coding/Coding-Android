@@ -21,8 +21,6 @@ import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 
-import java.util.Calendar;
-
 public class ZhongQiuGuideActivity extends BaseActivity {
 
     public static void showHolidayGuide(Activity activity) {
@@ -34,12 +32,13 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     }
 
     public static boolean isZhongqiu() {
-        Calendar calendar = Calendar.getInstance();
+        return false;
+//        Calendar calendar = Calendar.getInstance();
 
         // 25,26,27
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        return month == Calendar.SEPTEMBER && 25 <= day && day <= 27;
+//        int day = calendar.get(Calendar.DAY_OF_MONTH);
+//        int month = calendar.get(Calendar.MONTH);
+//        return month == Calendar.SEPTEMBER && 25 <= day && day <= 27;
     }
 
     ViewPager mViewPager;
