@@ -1,0 +1,152 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+//        applicationId 'com.roughike.bottombar'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+//coveralls {
+//    jacocoReportPath = "${buildDir}/reports/coverage/debug/report.xml"
+//}
+
+//tasks.coveralls {
+//    dependsOn 'connectedAndroidTest'
+//    onlyIf { System.env.'CI' }
+//}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    testCompile 'junit:junit:4.12'
+
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'org.mockito:mockito-core:1.+'
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
+}
+
+//apply plugin: 'com.github.dcendents.android-maven'
+//
+//group = publishedGroupId                               // Maven Group ID for the artifact
+//
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                groupId publishedGroupId
+//                artifactId artifact
+//
+//                // Add your description here
+//                name libraryName
+//                description libraryDescription
+//                url siteUrl
+//
+//                // Set your license
+//                licenses {
+//                    license {
+//                        name licenseName
+//                        url licenseUrl
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id developerId
+//                        name developerName
+//                        email developerEmail
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//apply plugin: 'com.jfrog.bintray'
+//
+//version = libraryVersion
+//
+//if (project.hasProperty("android")) { // Android libraries
+//    task sourcesJar(type: Jar) {
+//        classifier = 'sources'
+//        from android.sourceSets.main.java.srcDirs
+//    }
+//
+//    task javadoc(type: Javadoc) {
+//        source = android.sourceSets.main.java.srcDirs
+//        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    }
+//} else { // Java libraries
+//    task sourcesJar(type: Jar, dependsOn: classes) {
+//        classifier = 'sources'
+//        from sourceSets.main.allSource
+//    }
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
+
+// Bintray
+//File localProps = project.rootProject.file('local.properties')
+//
+//if (localProps.exists()) {
+//    Properties properties = new Properties()
+//    properties.load(localProps.newDataInputStream())
+//
+//    bintray {
+//        user = properties.getProperty("bintray.user")
+//        key = properties.getProperty("bintray.apikey")
+//
+//        configurations = ['archives']
+//        pkg {
+//            repo = bintrayRepo
+//            name = bintrayName
+//            desc = libraryDescription
+//            websiteUrl = siteUrl
+//            vcsUrl = gitUrl
+//            licenses = allLicenses
+//            publish = true
+//            publicDownloadNumbers = true
+//            version {
+//                desc = libraryDescription
+//                gpg {
+//                    sign = true //Determines whether to GPG sign the files. The default is false
+//                    passphrase = properties.getProperty("bintray.gpg.password")
+//                    //Optional. The passphrase for GPG signing'
+//                }
+//            }
+//        }
+//    }
+//}

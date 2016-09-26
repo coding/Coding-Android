@@ -74,17 +74,9 @@
             app:bb_activeTabColor="@color/font_green"
             app:bb_inActiveTabColor="@color/tab_font_no_active"
             app:bb_showShadow="false"
+            app:bb_titleTextAppearance="@style/BottomTabTitle"
             app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
     </LinearLayout>
-
-    <!--<fragment-->
-    <!--android:id="@+id/navigation_drawer"-->
-    <!--android:layout_width="280dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--android:name="net.coding.program.NavigationDrawerFragment_"-->
-    <!--tools:layout="@layout/fragment_navigation_drawer" />-->
 
 </android.support.design.widget.CoordinatorLayout>

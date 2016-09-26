@@ -368,6 +368,11 @@
         <item name="android:textColor">@color/font_9</item>
     </style>
 
+    <style name="BottomTabTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_2</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->
