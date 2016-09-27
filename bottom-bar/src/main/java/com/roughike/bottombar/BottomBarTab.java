@@ -63,6 +63,8 @@ public class BottomBarTab extends LinearLayout {
 
     @VisibleForTesting
     BottomBarBadge badge;
+
+
     private int titleTextAppearanceResId;
     private Typeface titleTypeFace;
 
@@ -285,7 +287,7 @@ public class BottomBarTab extends LinearLayout {
     }
 
     public void setBadgeCount(int count) {
-        if (count <= 0) {
+        if (count < 0) {
             if (badge != null) {
                 badge.removeFromTab(this);
                 badge = null;

@@ -2,7 +2,6 @@ package com.roughike.bottombar;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import static com.roughike.bottombar.MiscUtils.dpToPixel;
 
 /*
  * BottomBar library for Android
@@ -48,7 +49,18 @@ class BottomBarBadge extends TextView {
      */
     void setCount(int count) {
         this.count = count;
-        setText(String.valueOf(count));
+        if (count == 0) {
+            setBackgroundResource(R.drawable.bottom_tab_notity);
+            setText("");
+        } else if (count > 99) {
+            setText("99+");
+            setBackgroundResource(R.drawable.bottom_tab_notity_count);
+        } else if (0 < count && count < 99) {
+            setText(String.valueOf(count));
+            setBackgroundResource(R.drawable.bottom_tab_notity_count);
+        }
+
+        updateLayoutParam();
     }
 
     /**
@@ -103,16 +115,19 @@ class BottomBarBadge extends TextView {
         setGravity(Gravity.CENTER);
         MiscUtils.setTextAppearance(this, R.style.BB_BottomBarBadge_Text);
 
-        setColoredCircleBackground(backgroundColor);
+//        setColoredCircleBackground(backgroundColor);
+
+
         wrapTabAndBadgeInSameContainer(tab);
     }
 
     void setColoredCircleBackground(int circleColor) {
-        int innerPadding = MiscUtils.dpToPixel(getContext(), 1);
-        ShapeDrawable backgroundCircle = BadgeCircle.make(innerPadding * 3, circleColor);
-        setPadding(innerPadding, innerPadding, innerPadding, innerPadding);
-        setBackgroundCompat(backgroundCircle);
+//        int innerPadding = MiscUtils.dpToPixel(getContext(), 1);
+//        ShapeDrawable backgroundCircle = BadgeCircle.make(innerPadding * 3, circleColor);
+//        setPadding(innerPadding, innerPadding, innerPadding, innerPadding);
+//        setBackgroundCompat(backgroundCircle);
     }
+
 
     private void wrapTabAndBadgeInSameContainer(final BottomBarTab tab) {
         ViewGroup tabContainer = (ViewGroup) tab.getParent();
@@ -148,22 +163,41 @@ class BottomBarBadge extends TextView {
 
     void adjustPositionAndSize(BottomBarTab tab) {
         AppCompatImageView iconView = tab.getIconView();
-        ViewGroup.LayoutParams params = getLayoutParams();
-
+//        ViewGroup.LayoutParams params = getLayoutParams();
+//
         int size = Math.max(getWidth(), getHeight());
         float xOffset = iconView.getWidth();
+//
+//        if (tab.getType() == BottomBarTab.Type.TABLET) {
+//            xOffset /= 1.25;
+//        }
 
-        if (tab.getType() == BottomBarTab.Type.TABLET) {
-            xOffset /= 1.25;
+        int dp5 = MiscUtils.dpToPixel(getContext(), 5);
+        setX(iconView.getX() + iconView.getWidth() - dp5);
+        if (count == 0) {
+            setTranslationY(iconView.getTop() + dp5);
+        } else {
+            setTranslationY(iconView.getTop() + dp5);
         }
+//
+//        if (params.width != size || params.height != size) {
+//            params.width = size;
+//            params.height = size;
+//            setLayoutParams(params);
+//        }
+        updateLayoutParam();
+    }
 
-        setX(iconView.getX() + xOffset);
-        setTranslationY(10);
-
-        if (params.width != size || params.height != size) {
-            params.width = size;
-            params.height = size;
-            setLayoutParams(params);
+    void updateLayoutParam() {
+        ViewGroup.LayoutParams lp = getLayoutParams();
+        if (count == 0) {
+            lp.height = dpToPixel(getContext(), 10);
+            lp.width = lp.height;
+            setLayoutParams(lp);
+        } else if (count > 0) {
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            setLayoutParams(lp);
         }
     }
 

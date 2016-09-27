@@ -541,7 +541,11 @@ public class MainActivity extends BaseActivity {
 
     public void updateNotify() {
         Unread unread = MyApp.sUnread;
-        bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(unread.getProjectCount());
-        bottomBar.getTabWithId(R.id.tabMessage).setBadgeCount(unread.getNotifyCount());
+        bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(unread.getProjectCount() > 0 ? 0 : -1);
+        int notifyCount = unread.getNotifyCount();
+        if (notifyCount <= 0) {
+            notifyCount = -1;
+        }
+        bottomBar.getTabWithId(R.id.tabMessage).setBadgeCount(notifyCount);
     }
 }
