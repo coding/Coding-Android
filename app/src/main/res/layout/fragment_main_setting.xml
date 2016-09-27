@@ -12,6 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/userLayout"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@color/stand_bg"
         android:layout_height="86dp">
 

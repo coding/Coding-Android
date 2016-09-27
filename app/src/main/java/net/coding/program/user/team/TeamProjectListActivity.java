@@ -89,7 +89,9 @@ public class TeamProjectListActivity extends BackActivity {
                 joinedCount = jsonArray.length();
                 listAdapter.notifyDataSetChanged();
 
-                loadUnjoinUrl();
+                if (teamListObject.owner.isMe()) {
+                    loadUnjoinUrl();
+                }
             } else {
                 showErrorMsg(code, respanse);
             }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.View;
@@ -103,6 +104,8 @@ public class MyDetailActivity extends BackActivity {
 //                .getDisplayMetrics());
 //        viewPager.setPageMargin(pageMargin);
         tabs.setViewPager(viewPager);
+        ViewCompat.setElevation(tabs, 0);
+        ViewCompat.setElevation(findViewById(R.id.appbarLayout), 0);
 
         bindUI();
 

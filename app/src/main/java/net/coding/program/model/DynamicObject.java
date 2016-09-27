@@ -8,6 +8,7 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
@@ -1143,6 +1144,10 @@ public class DynamicObject {
             global_key = data.global_key;
             name = data.name;
             path = data.path;
+        }
+
+        public boolean isMe() {
+            return MyApp.sUserObject.global_key.equals(global_key);
         }
 
         public String getName() {

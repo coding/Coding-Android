@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
@@ -60,7 +61,10 @@ public class ListItem1 extends FrameLayout {
             layoutParams = (LinearLayout.LayoutParams) mText.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             layoutParams.weight = 0;
-            ((LinearLayout) findViewById(R.id.clickProject)).setGravity(Gravity.CENTER);
+            View projectListItem = findViewById(R.id.clickProject);
+            if (projectListItem instanceof RelativeLayout) {
+                ((RelativeLayout) projectListItem).setGravity(Gravity.CENTER);
+            }
         }
     }
 

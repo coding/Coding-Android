@@ -65,7 +65,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     ListView listView;
 
     @ViewById
-    View friendLayout;
+    View friendLayout, userCountLine;
 
     @ViewById
     TextView maxUserCount;
@@ -84,6 +84,8 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
         if (mProjectObject == null) {
             friendLayout.setVisibility(View.GONE);
+            maxUserCount.setVisibility(View.GONE);
+            userCountLine.setVisibility(View.GONE);
             baseAdapter = new FollowAdapter(this, true, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 UserObject userObject = mData.get((int) id);
@@ -97,6 +99,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             setActionBarTitle("添加项目成员");
             friendLayout.setVisibility(View.VISIBLE);
             maxUserCount.setVisibility(View.GONE);
+            userCountLine.setVisibility(View.GONE);
             baseAdapter = new FollowAdapter(this, false, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 final UserObject data = mData.get((int) id);
@@ -117,6 +120,10 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
 
     private void loadServiceInfo() {
+        if (mProjectObject == null) {
+            return;
+        }
+
         final String url = mProjectObject.getHttpProjectApi() + "/service_info";
         getNetwork(url, TAG_SERVICE_INFO);
     }
@@ -194,6 +201,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             if (code == 0) {
                 serviceInfo = new ProjectServiceInfo(respanse.optJSONObject("data"));
                 bindData(maxUserCount, serviceInfo);
+                userCountLine.setVisibility(View.VISIBLE);
             } else {
                 showErrorMsg(code, respanse);
             }
