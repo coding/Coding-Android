@@ -13,6 +13,7 @@ import net.coding.program.model.UserObject;
 import net.coding.program.model.user.ServiceInfo;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
 import net.coding.program.user.AddFollowActivity_;
+import net.coding.program.user.MyDetailActivity_;
 import net.coding.program.user.UserPointActivity_;
 import net.coding.program.user.team.TeamListActivity_;
 
@@ -102,6 +103,11 @@ public class MainSettingFragment extends BaseFragment {
     void itemHelp() {
         final String url = "https://coding.net/help";
         HelpActivity_.intent(this).url(url).title("帮助与反馈").start();
+    }
+
+    @Click
+    void userLayout() {
+        MyDetailActivity_.intent(this).start();
     }
 
     @Click

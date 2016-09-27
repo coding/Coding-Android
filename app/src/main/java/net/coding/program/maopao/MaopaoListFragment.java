@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
@@ -96,11 +96,16 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     @Override
     protected void setActionTitle() {
         if (userId != 0) {
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (userId == MyApp.sUserObject.id) {
-                actionBar.setTitle("我的冒泡");
-            } else {
-                actionBar.setTitle("TA的冒泡");
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                String actionBarTitle = actionBar.getTitle().toString();
+                if (TextUtils.isEmpty(actionBarTitle)) {
+                    if (userId == MyApp.sUserObject.id) {
+                        actionBar.setTitle("我的冒泡");
+                    } else {
+                        actionBar.setTitle("TA的冒泡");
+                    }
+                }
             }
         }
     }

@@ -70,6 +70,7 @@
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:background="#f8f8f8"
             android:layout_alignParentBottom="true"
             app:bb_activeTabColor="@color/font_green"
             app:bb_inActiveTabColor="@color/tab_font_no_active"

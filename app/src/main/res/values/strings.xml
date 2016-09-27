@@ -15,6 +15,7 @@
     <string name="title_activity_my_created">我创建的</string>
     <string name="title_activity_help">帮助与反馈</string>
     <string name="title_activity_user_info">个人信息</string>
+    <string name="title_activity_my_detail">个人主页</string>
     <string name="title_activity_set_password">修改密码</string>
     <string name="title_activity_feedback">用户反馈</string>
     <string name="title_activity_about">关于我们</string>

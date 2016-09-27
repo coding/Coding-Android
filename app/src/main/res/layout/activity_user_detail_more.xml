@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-
+        
+        <include layout="@layout/divide_top_15" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -52,13 +53,13 @@
                 android:id="@+id/createAtLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/lastLoginLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/globalKeyLayout"
@@ -78,19 +79,19 @@
                 android:id="@+id/sexLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/birthdayLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/locateLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/loginsLayout"
@@ -110,13 +111,13 @@
                 android:id="@+id/companyLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/jobLayout"
                 layout="@layout/list_item_2_text_align_right" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tagsLayout"

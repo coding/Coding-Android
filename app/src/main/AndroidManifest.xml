@@ -461,7 +461,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslateActionbar" />
+            android:theme="@style/WhiteFontTranslateActionbar" />
         <activity
             android:name=".message.MessageListActivity_"
             android:icon="@drawable/ic_lancher"
@@ -942,6 +942,10 @@
         <activity
             android:name=".setting.MyCreateProjectListActivity_"
             android:label="@string/title_activity_my_created"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.MyDetailActivity_"
+            android:label="@string/title_activity_my_detail"
             android:screenOrientation="portrait" />
     </application>
 

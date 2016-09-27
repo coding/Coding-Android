@@ -21,6 +21,10 @@
         <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
     </style>
 
+    <style name="WhiteFontTranslateActionbar" parent="TranslateActionbar">
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
     <style name="MyApp.PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@drawable/white</item>
     </style>

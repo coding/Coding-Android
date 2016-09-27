@@ -112,7 +112,6 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void pushSetting() {
-//        NotifySetting_.intent(this).start();
         allNotify.performClick();
     }
 

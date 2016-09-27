@@ -21,7 +21,7 @@
             <FrameLayout
                 android:id="@+id/userBackgroundLayout"
                 android:layout_width="match_parent"
-                android:layout_height="188dp">
+                android:layout_height="145dp">
 
                 <ImageView
                     android:id="@+id/userBackground"
@@ -142,18 +142,39 @@
                 android:id="@+id/pos0"
                 layout="@layout/list_item_2_text" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/pos1"
                 layout="@layout/list_item_2_text" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <include
                 android:id="@+id/pos2"
                 layout="@layout/list_item_2_text" />
 
+            <include layout="@layout/divideline_15" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/moreDetail"
+                android:gravity="center_vertical"
+                android:background="@drawable/list_item_selector"
+                android:minHeight="48dp"
+                android:paddingLeft="@dimen/padding_15"
+                android:paddingRight="@dimen/padding_15">
+
+                <TextView
+                    android:id="@+id/first"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:textColor="@color/font_2"
+                    android:text="详细信息"
+                    android:textSize="16sp" />
+            </RelativeLayout>
         </LinearLayout>
 
 
@@ -174,7 +195,7 @@
                 listItem1:itemIcon="@drawable/user_home_project"
                 listItem1:itemTitle="TA的项目" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickMaopao"
@@ -184,7 +205,7 @@
                 listItem1:itemIcon="@drawable/user_home_maopao"
                 listItem1:itemTitle="TA的冒泡" />
 
-            <include layout="@layout/divide_1_12" />
+            <include layout="@layout/divideline_15" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickTopic"
@@ -194,7 +215,7 @@
                 listItem1:itemIcon="@drawable/user_home_topic"
                 listItem1:itemTitle="TA的话题" />
 
-            <include layout="@layout/divide_1_12"
+            <include layout="@layout/divideline_15"
                 android:id="@+id/divideLocal"/>
 
             <net.coding.program.common.widget.ListItem1

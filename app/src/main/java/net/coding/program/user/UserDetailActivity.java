@@ -1,5 +1,6 @@
 package net.coding.program.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -7,8 +8,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -118,6 +117,10 @@ public class UserDetailActivity extends BackActivity {
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
                 isMe = true;
+
+                MyDetailActivity_.intent(this).start();
+                finish();
+                return;
             }
             bindViewType();
 
@@ -128,6 +131,10 @@ public class UserDetailActivity extends BackActivity {
                 String name = getIntent().getData().getQueryParameter("name");
                 if (name.equals(MyApp.sUserObject.name)) {
                     isMe = true;
+
+                    MyDetailActivity_.intent(this).start();
+                    finish();
+                    return;
                 }
                 bindViewType();
 
@@ -150,6 +157,13 @@ public class UserDetailActivity extends BackActivity {
                 }
             }
         });
+    }
+
+    @Click
+    void moreDetail() {
+        UserDetailMoreActivity_.intent(this)
+                .mUserObject(mUserObject)
+                .start();
     }
 
     @Override
@@ -193,18 +207,18 @@ public class UserDetailActivity extends BackActivity {
 
         invalidateOptionsMenu();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        if (isMe) {
-            inflater.inflate(R.menu.user_detail_me, menu);
-        } else {
-            inflater.inflate(R.menu.user_detail, menu);
-        }
-
-        return super.onCreateOptionsMenu(menu);
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        if (isMe) {
+//            inflater.inflate(R.menu.user_detail_me, menu);
+//        } else {
+//            inflater.inflate(R.menu.user_detail, menu);
+//        }
+//
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @OptionsItem
     void action_edit() {
@@ -274,11 +288,11 @@ public class UserDetailActivity extends BackActivity {
         }
 
         TextView fans = (TextView) findViewById(R.id.fans);
-        fans.setText(createSpan(String.format("%d  粉丝", mUserObject.fans_count)));
+        fans.setText(createSpan(this, String.format("%d  粉丝", mUserObject.fans_count)));
         fans.setOnClickListener(onClickFans);
 
         TextView follows = (TextView) findViewById(R.id.follows);
-        follows.setText(createSpan(String.format("%d  关注", mUserObject.follows_count)));
+        follows.setText(createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
 
         setListData();
@@ -317,9 +331,9 @@ public class UserDetailActivity extends BackActivity {
         }
     }
 
-    private SpannableString createSpan(String s) {
+    public static SpannableString createSpan(Context context, String s) {
         SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.font_green));
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_green));
         itemContent.setSpan(colorSpan, 0, itemContent.length() - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return itemContent;
     }
@@ -426,7 +440,7 @@ public class UserDetailActivity extends BackActivity {
         return mUserObject != null;
     }
 
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+    public static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

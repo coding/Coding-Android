@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:minHeight="48dp"
-    android:padding="@dimen/padding_15">
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
     <TextView
         android:id="@+id/first"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
         android:text="性别"
         android:textColor="@color/font_2"
         android:textSize="16sp" />
@@ -20,6 +20,7 @@
         android:id="@+id/second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/first"
         android:layout_toRightOf="@+id/first"
         android:ellipsize="end"
