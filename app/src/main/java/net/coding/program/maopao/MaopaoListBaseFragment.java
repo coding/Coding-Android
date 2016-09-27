@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.Gravity;
@@ -145,6 +146,8 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
     protected void initMaopaoListBaseFragmen() {
         initRefreshLayout();
         initImageWidth();
+
+        ViewCompat.setNestedScrollingEnabled(listView, true);
 
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34

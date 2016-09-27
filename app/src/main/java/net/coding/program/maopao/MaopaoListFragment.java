@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
@@ -28,13 +30,13 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.subject.SubjectWallActivity_;
+import net.coding.program.user.MyDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +46,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @EFragment(R.layout.fragment_maopao_list)
-@OptionsMenu(R.menu.menu_fragment_maopao)
 public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     final String friendUrl = Global.HOST_API + "/activities/user_tweet?last_id=%s";
@@ -77,6 +78,14 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (!(getActivity() instanceof MyDetailActivity)) {
+            inflater.inflate(R.menu.menu_fragment_maopao, menu);
+            super.onCreateOptionsMenu(menu, inflater);
+        }
+    }
+
     @OptionsItem
     void action_search() {
         SubjectWallActivity_.intent(this).start();
@@ -91,6 +100,12 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     @AfterViews
     protected void initMaopaoListFragment() {
         initMaopaoListBaseFragmen();
+
+        if (getActivity() instanceof MyDetailActivity) {
+            setHasOptionsMenu(false);
+        } else {
+            setHasOptionsMenu(true);
+        }
     }
 
     @Override

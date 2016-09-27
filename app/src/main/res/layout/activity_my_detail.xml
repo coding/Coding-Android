@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="258dp"
-
             android:background="@color/stand_bg"
-            android:paddingBottom="17dp">
+            android:paddingBottom="17dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <FrameLayout
                 android:id="@+id/userBackgroundLayout"
@@ -115,20 +113,31 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/divide_middle_15" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divide_section_15"
+            android:background="@color/divide"
+            app:layout_scrollFlags="scroll">
+
+            <View
+                style="@style/DivideSectionTop5"
+                android:layout_alignParentBottom="true" />
+
+            <View style="@style/DivideSectionBottom5" />
+        </RelativeLayout>
 
         <net.coding.program.third.WechatTab
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="48dip"
             android:background="@android:color/transparent" />
+    </android.support.design.widget.AppBarLayout>
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp" />
-    </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

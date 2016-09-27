@@ -1,5 +1,6 @@
 package net.coding.program.subject;
 
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -56,6 +57,8 @@ public class SubjectListFragment extends RefreshBaseFragment {
     @AfterViews
     protected void init() {
         initRefreshLayout();
+
+        ViewCompat.setNestedScrollingEnabled(listView, true);
 
         setRefreshing(true);
 

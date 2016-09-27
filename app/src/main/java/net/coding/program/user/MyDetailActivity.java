@@ -1,10 +1,10 @@
 package net.coding.program.user;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
@@ -53,13 +53,14 @@ public class MyDetailActivity extends BackActivity {
     @ViewById
     ImageView sex;
     @ViewById
-            TextView fans, follows;
+    TextView fans, follows;
 
     int sexs[] = new int[]{
             R.drawable.ic_sex_boy,
             R.drawable.ic_sex_girl,
             android.R.color.transparent
     };
+
     @OptionsItem
     void action_edit() {
         UserDetailEditActivity_
@@ -96,11 +97,11 @@ public class MyDetailActivity extends BackActivity {
 
     @AfterViews
     void initMyDetailActivity() {
-        MyDetailPagerAdapter adapter = new MyDetailPagerAdapter(getSupportFragmentManager());
+        MyDetailPagerAdapter adapter = new MyDetailPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-                .getDisplayMetrics());
-        viewPager.setPageMargin(pageMargin);
+//        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+//                .getDisplayMetrics());
+//        viewPager.setPageMargin(pageMargin);
         tabs.setViewPager(viewPager);
 
         bindUI();
@@ -136,19 +137,23 @@ public class MyDetailActivity extends BackActivity {
         follows.setText(UserDetailActivity.createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
     }
+
     public int getActionBarSize() {
         return Global.dpToPx(48);
     }
 
-    private static class MyDetailPagerAdapter extends FragmentStatePagerAdapter {
+    private static class MyDetailPagerAdapter extends FragmentPagerAdapter {
 
         String[] titles = new String[]{
                 "冒泡",
                 "话题"
         };
 
-        public MyDetailPagerAdapter(FragmentManager fm) {
+        Context context;
+
+        public MyDetailPagerAdapter(Context context, FragmentManager fm) {
             super(fm);
+            this.context = context;
         }
 
         @Override
@@ -167,11 +172,6 @@ public class MyDetailActivity extends BackActivity {
         }
 
         @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
         public int getCount() {
             return titles.length;
         }
@@ -181,4 +181,5 @@ public class MyDetailActivity extends BackActivity {
             return titles[position];
         }
     }
+
 }
