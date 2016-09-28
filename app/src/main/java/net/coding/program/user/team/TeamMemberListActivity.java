@@ -36,7 +36,9 @@ public class TeamMemberListActivity extends BackActivity {
 
     @AfterViews
     void initTeamMemberListAcitvity() {
+        listViewAddHeaderSection(listView);
         listViewAddFootSection(listView);
+        listView.setVisibility(View.INVISIBLE);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(((parent, view, position, id) -> {
             TeamMember teamMember = (TeamMember) listAdapter.getItem((int) id);
@@ -59,6 +61,10 @@ public class TeamMemberListActivity extends BackActivity {
                     listData.add(new TeamMember(jsonArray.optJSONObject(i)));
                 }
                 listAdapter.notifyDataSetChanged();
+
+                if (listData.size() > 0) {
+                    listView.setVisibility(View.VISIBLE);
+                }
 
             } else {
                 showErrorMsg(code, respanse);

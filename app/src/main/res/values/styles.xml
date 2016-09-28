@@ -34,6 +34,24 @@
         <item name="android:windowBackground">@color/popDialogBg</item>
     </style>
 
+    <!--<item name="actionBarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item-->
+    <style name="CommonActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:elevation">2dp</item>
+        <item name="elevation">2dp</item>
+    </style>
+
+    <style name="AAActionbar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:elevation">2dp</item>
+        <item name="elevation">2dp</item>
+    </style>
+    <style name="Theme.MyApp.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!-- remove shadow below action bar -->
+        <!-- <item name="android:elevation">0dp</item> -->
+        <!-- Support library compatibility -->
+        <item name="elevation">2dp</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
@@ -48,8 +66,11 @@
         <item name="android:divider">@drawable/divide_line</item>
 
         <item name="android:textColorPrimary">@color/font_green</item>
+        <!--<item name="android:actionBarStyle">@style/AAActionbar</item>-->
+        <!--<item name="actionBarStyle">@style/AAActionbar</item>-->
 
-
+        <!--<item name="actionBarStyle">@style/Theme.MyApp.ActionBar</item>-->
+        <!--<item name="android:actionBarStyle">@style/Theme.MyApp.ActionBar</item>-->
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 

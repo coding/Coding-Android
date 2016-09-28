@@ -276,6 +276,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
         setDefaultByType();
 
+        listViewAddHeaderSection(listView);
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);
 

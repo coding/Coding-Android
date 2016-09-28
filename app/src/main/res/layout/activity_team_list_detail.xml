@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context="net.coding.program.user.team.TeamListDetailActivity">
 
+    <include layout="@layout/divide_top_15" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@color/stand_bg"

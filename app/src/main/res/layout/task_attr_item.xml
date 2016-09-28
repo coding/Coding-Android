@@ -17,7 +17,7 @@
             android:layout_width="@dimen/task_add_user_icon_width"
             android:layout_height="@dimen/task_add_user_icon_width"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_task_project" />
 
@@ -53,14 +53,15 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/user_home_arrow"
             tools:showIn="@layout/activity_user_detail" />
 
     </LinearLayout>
 
-    <include
+    <View
         android:id="@+id/topLine"
-        layout="@layout/divide_1" />
+        style="@style/DivideLine"
+        android:layout_marginLeft="15dp" />
 
 </merge>

@@ -18,7 +18,7 @@
         android:imeOptions="actionSearch"
         android:paddingLeft="45dp"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/font_2"
         android:textColorHint="@color/color_hint"
         android:textSize="15sp" />
 

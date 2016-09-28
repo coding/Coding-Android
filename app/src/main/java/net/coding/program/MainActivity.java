@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -77,6 +78,8 @@ public class MainActivity extends BaseActivity {
     BottomBar bottomBar;
     @ViewById
     AppBarLayout appbar;
+    @ViewById
+    View actionBarCompShadow;
 
     TextView toolbarTitle;
     View toolbarProjectTitle;
@@ -183,7 +186,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onDestroy() {
         unregisterReceiver(mUpdatePushReceiver);
@@ -222,6 +224,12 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setActionBarTitle("");
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            actionBarCompShadow.setVisibility(View.VISIBLE);
+        } else {
+            actionBarCompShadow.setVisibility(View.GONE);
+        }
 
         toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
         toolbarProjectTitle = findViewById(R.id.toolbarProjectTitle);
@@ -298,8 +306,14 @@ public class MainActivity extends BaseActivity {
     }
 
     public void hideActionBarShadow() {
-        if (appbar != null) {
-            ViewCompat.setElevation(appbar, 0);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (actionBarCompShadow != null) {
+                actionBarCompShadow.setVisibility(View.GONE);
+            }
+        } else {
+            if (appbar != null) {
+                ViewCompat.setElevation(appbar, 0);
+            }
         }
     }
 
@@ -307,7 +321,12 @@ public class MainActivity extends BaseActivity {
         mSelectPos = position;
         Fragment fragment = null;
 
-        ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            actionBarCompShadow.setVisibility(View.VISIBLE);
+        } else {
+            ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
+        }
 
         updateNotifyFromService();
 

@@ -37,6 +37,7 @@ import net.coding.program.user.AddFollowActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -79,7 +80,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     TaskObject.Members mMySelf = new TaskObject.Members();
 
     BaseAdapter adapter = new BaseAdapter() {
-
         private View.OnClickListener quitProject = v -> {
             new AlertDialog.Builder(getActivity())
                     .setTitle("退出项目")
@@ -186,6 +186,31 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         }
     };
 
+    @ItemClick(R.id.listView)
+    public void listViewItemClicked(Object object) {
+        if (type == Type.Pick) {
+            Intent intent = new Intent();
+            UserObject userObject;
+
+            if (object instanceof TaskObject.Members) {
+                userObject = ((TaskObject.Members) object).user;
+            } else {
+                userObject = (UserObject) object;
+            }
+
+            intent.putExtra("name", userObject.name);
+            getActivity().setResult(Activity.RESULT_OK, intent);
+            getActivity().finish();
+        } else {
+            UserDynamicActivity_
+                    .intent(getActivity())
+                    .mProjectObject(mProjectObject)
+                    .mMember((TaskObject.Members) object)
+                    .start();
+        }
+    }
+
+
     @AfterViews
     protected void init() {
         initRefreshLayout();
@@ -199,30 +224,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         listViewAddHeaderSection(listView);
 
         listView.setAdapter(adapter);
-        AdapterView.OnItemClickListener mListClickJump;
-        if (type == Type.Pick) {
-            mListClickJump = (parent, view, position, id) -> {
-                Intent intent = new Intent();
-                UserObject userObject;
-                Object object = mSearchData.get((int) id);
-                if (object instanceof TaskObject.Members) {
-                    userObject = ((TaskObject.Members) object).user;
-                } else {
-                    userObject = (UserObject) object;
-                }
 
-                intent.putExtra("name", userObject.name);
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
-            };
-        } else {
-            mListClickJump = (parent, view, position, id) -> UserDynamicActivity_
-                    .intent(getActivity())
-                    .mProjectObject(mProjectObject)
-                    .mMember((TaskObject.Members) mSearchData.get(position))
-                    .start();
-        }
-        listView.setOnItemClickListener(mListClickJump);
 
         if (type != Type.Pick) {
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

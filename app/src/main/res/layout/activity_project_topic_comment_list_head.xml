@@ -6,7 +6,10 @@
     android:background="@color/stand_bg"
     android:layout_height="wrap_content">
 
+    <include layout="@layout/divide_top_15" android:id="@+id/headerTopSection" />
+
     <TextView
+        android:layout_below="@id/headerTopSection"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

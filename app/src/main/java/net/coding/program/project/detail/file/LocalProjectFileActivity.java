@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@EActivity(R.layout.activity_notify_list)
+@EActivity(R.layout.activity_notify_list2)
 public class LocalProjectFileActivity extends BackActivity {
 
     private static final int RESULT_FILE_LIST = 1;
@@ -81,6 +81,7 @@ public class LocalProjectFileActivity extends BackActivity {
 //            ss += s;
 //        }
 //        Log.d("", ss);
+        listViewAddHeaderSection(listView);
         setStrings = createListData();
         adapter = new LocalAdapter();
         listView.setAdapter(adapter);
@@ -94,6 +95,7 @@ public class LocalProjectFileActivity extends BackActivity {
                         .startForResult(RESULT_FILE_LIST);
             }
         });
+
     }
 
     private String[] createListData() {

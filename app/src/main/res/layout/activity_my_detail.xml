@@ -114,24 +114,16 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divide_section_15"
-            android:background="@color/divide"
-            app:layout_scrollFlags="scroll">
-
-            <View
-                style="@style/DivideSectionTop5"
-                android:layout_alignParentBottom="true" />
-
-            <View style="@style/DivideSectionBottom5" />
-        </RelativeLayout>
-
         <net.coding.program.third.WechatTab
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="48dip"
-            android:background="@android:color/transparent" />
+            android:background="@color/stand_bg" />
+
+        <View
+            android:layout_height="10dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            style="@style/DivideLine" />
     </android.support.design.widget.AppBarLayout>
 
 
