@@ -287,7 +287,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     void action_add() {
         UsersListActivity_.intent(this)
                 .type(UsersListActivity.Friend.Follow)
-                .selectType(UsersListActivity.Type.Select)
+                .selectType(true)
                 .hideFollowButton(true)
                 .startForResult(RESULT_SELECT_USER);
     }

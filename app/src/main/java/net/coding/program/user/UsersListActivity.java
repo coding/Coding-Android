@@ -75,7 +75,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     Friend type;
 
     @Extra
-    Type selectType;
+    boolean selectType;
 
     @Extra
     ProjectObject projectObject;
@@ -155,7 +155,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             floatButton.setVisibility(View.GONE);
         }
 
-        if (selectType == Type.Select) {
+        if (selectType) {
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 Intent intent = new Intent();
                 UserObject user = (UserObject) parent.getItemAtPosition(position);

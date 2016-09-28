@@ -10,7 +10,7 @@ public class HtmlContent {
 
     private static final String REGX_PHOTO = "(?:<br>)? ?<a href=\"(?:[^\\\"]*)?\" (?:alt=\"\" )?target=\"_blank\" class=\"bubble-markdown-image-link\".*?><img src=\"(.*?)\" alt=\"(.*?)\".*?></a>(?:<br>)? ?";
     private static final String REGX_PHOTO_OLD = "<div class='message-image-box'><a href=\'(?:[^\\\']*)?\' target='_blank'><img class='message-image' src='(.*?)'/?></a></div>";
-    private static final String REGX_PHOTO_IOS = "<div class=\"message-image-box\">(?:\\n)? ?<a href=\"(?:.*)\" target=\"_blank\"(?: rel=\"nofollow\")?><img class=\"message-image\" src=\"(.*?)\"></a>(?:\\n)? ?</div>";
+    private static final String REGX_PHOTO_IOS = "<div class=\"message-image-box\">(?:\\n)?(?:↵)? ?<a href=\"(?:.*)\" target=\"_blank\"(?: rel=\"(?:.*)\")?><img class=\"message-image\" src=\"(.*?)\"></a>(?:\\n)?(?:↵)? ?</div>";
     private static final String REPLACE_PHOTO = "[图片]";
 
     private static final String REGX_MONKEY = "<img class=\"emotion monkey\" src=\".*?\" title=\"(.*?)\">";

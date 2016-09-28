@@ -3,12 +3,11 @@
     android:id="@+id/files_actions_layout"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@color/stand_bg">
+    android:background="@color/color_bottom_bar">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/divide"
         android:gravity="center_vertical" >
 
         <FrameLayout

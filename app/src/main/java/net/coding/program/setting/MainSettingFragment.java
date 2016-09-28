@@ -48,7 +48,6 @@ public class MainSettingFragment extends BaseFragment {
         userGK.setText(String.format("个性后缀：%s", me.global_key));
         iconfromNetwork(userIcon, me.avatar);
 
-
         bindData();
         loadUser();
     }

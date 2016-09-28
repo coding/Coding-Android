@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/divide"
     android:orientation="vertical"
     tools:context="net.coding.program.user.AddFollowActivity">
 
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center"
+        android:background="@color/stand_bg"
         android:textColor="@color/font_6"
         android:textSize="14sp"
         tools:text="你还可以添加 4 个项目成员" />
@@ -23,13 +25,14 @@
         android:layout_below="@id/userCountLine"
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_below="@id/userCountLine"
         android:id="@+id/friendLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/stand_bg"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">

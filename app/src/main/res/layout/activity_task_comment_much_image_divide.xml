@@ -166,6 +166,7 @@
 
     <View
         style="@style/DivideLine_15"
+        android:id="@+id/bottomDivideLine"
         android:layout_alignParentBottom="true" />
 
 </LinearLayout>

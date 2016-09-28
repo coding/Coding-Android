@@ -75,8 +75,7 @@
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-        <item name="android:actionMenuTextColor">@color/white</item>
-
+        <item name="android:actionMenuTextColor">@color/font_6</item>
 
         <item name="colorPrimary">@drawable/color_primary</item>
     </style>

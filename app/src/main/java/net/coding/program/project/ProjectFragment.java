@@ -22,6 +22,7 @@ import net.coding.program.common.widget.NoHorizontalScrollViewPager;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventRefresh;
+import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -219,7 +220,9 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @OptionsItem
     final void action_scan() {
-        Global.start2FAActivity(getActivity());
+        Intent intent = new Intent(getActivity(), QRScanActivity.class);
+        intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, false);
+        startActivity(intent);
     }
 
     @OptionsItem

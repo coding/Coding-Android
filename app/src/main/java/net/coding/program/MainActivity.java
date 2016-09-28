@@ -38,6 +38,7 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventNotifyBottomBar;
+import net.coding.program.event.EventShowBottom;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MaopaoListFragment;
@@ -551,7 +552,15 @@ public class MainActivity extends BaseActivity {
     public void onEventMainThread(Object object) {
         if (object instanceof EventNotifyBottomBar) {
             updateNotify();
+        } else if (object instanceof EventShowBottom) {
+            EventShowBottom showBottom = (EventShowBottom) object;
+            if (showBottom.showBottom) {
+                bottomBar.setVisibility(View.VISIBLE);
+            } else {
+                bottomBar.setVisibility(View.GONE);
+            }
         }
+
     }
 
     public void updateNotifyFromService() {

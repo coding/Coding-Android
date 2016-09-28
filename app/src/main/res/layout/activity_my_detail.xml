@@ -122,8 +122,9 @@
 
         <View
             android:layout_height="10dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            style="@style/DivideLine" />
+            app:layout_scrollFlags="scroll"
+            android:layout_width="match_parent"
+            android:background="@color/divide" />
     </android.support.design.widget.AppBarLayout>
 
 

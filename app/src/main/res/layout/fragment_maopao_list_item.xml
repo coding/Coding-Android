@@ -16,8 +16,8 @@
         layout="@layout/divide_shade_down"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginLeft="-12dp"
-        android:layout_marginRight="-12dp" />
+        android:layout_marginLeft="-15dp"
+        android:layout_marginRight="-15dp" />
 
 
     <RelativeLayout
@@ -400,8 +400,8 @@
         layout="@layout/divide_shade_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-12dp"
-        android:layout_marginRight="-12dp"
+        android:layout_marginLeft="-15dp"
+        android:layout_marginRight="-15dp"
         android:layout_marginTop="@dimen/padding_12" />
 
 </LinearLayout>

@@ -43,6 +43,7 @@ import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.widget.input.MainInputView;
+import net.coding.program.event.EventShowBottom;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -61,6 +62,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -212,6 +215,8 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         mEnterLayout.addTextWatcher(new TextWatcherAt(getActivity(), this, RESULT_AT));
         mEnterLayout.hide();
 
+        sendEvent(true);
+
         initData();
     }
 
@@ -275,6 +280,14 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         mEnterLayout.clearContent();
         mEnterLayout.hideKeyboard();
         mEnterLayout.hide();
+        sendEvent(true);
+
+    }
+
+    private void sendEvent(boolean show) {
+        EventShowBottom bottom = new EventShowBottom();
+        bottom.showBottom = show;
+        EventBus.getDefault().post(bottom);
     }
 
     @Override
@@ -686,6 +699,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         }
 
         mEnterLayout.show();
+        sendEvent(false);
 
         mEnterLayout.restoreLoad(commentObject);
 

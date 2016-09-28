@@ -97,7 +97,6 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
             setActionBarTitle(projectObject.name);
         }
 
-        listViewAddHeaderSection(listView);
         listView.setVisibility(View.INVISIBLE);
 
         listView.setAdapter(projectMaopaoAdapter);

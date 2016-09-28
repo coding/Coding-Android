@@ -224,6 +224,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     @AfterViews
     protected final void initUserDetailEditActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        listViewAddHeaderSection(listView);
+        listViewAddFootSection(listView);
         user = AccountInfo.loadAccount(this);
 
         View head = mInflater.inflate(R.layout.activity_user_info_head, null, false);

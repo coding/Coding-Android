@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -77,20 +76,11 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
 
         class ViewHolder extends ImageCommentHolder {
 
-            TextView moreChildComment;
             View rootLayout;
 
             public ViewHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
                 super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
-                moreChildComment = (TextView) convertView.findViewById(R.id.moreChildComment);
                 rootLayout = convertView;
-
-//                if (rootLayoutId == R.id.child0) { // 第一个子评论
-//                    moreChildComment.setVisibility(View.GONE);
-//                } else if (rootLayoutId == R.id.child1) { // 最后一个子评论
-//                    rootLayout.findViewById(R.id.bottomLine).setVisibility(View.INVISIBLE);
-//                }
-
             }
 
             @Override
@@ -103,17 +93,6 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
                 rootLayout.setVisibility(show ? View.VISIBLE : View.GONE);
             }
 
-//            void showMoreChildButton(int count) {
-//                if (count > 2) {
-//                    moreChildComment.setVisibility(View.VISIBLE);
-//                    moreChildComment.setText(String.format("查看全部%s条评论", count));
-//                    moreChildComment.setOnClickListener(v -> {
-//                        // dd
-//                    });
-//                } else {
-//                    moreChildComment.setVisibility(View.GONE);
-//                }
-//            }
         }
     };
     int resultCode = RESULT_OK;
@@ -135,14 +114,20 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
 
     private void initList() {
         View convertView = getLayoutInflater().inflate(R.layout.activity_task_comment_much_image_divide, listView, false);
+        convertView.findViewById(R.id.moreChildComment).setVisibility(View.GONE);
+        convertView.findViewById(R.id.bottomDivideLine).setVisibility(View.GONE);
+        swipeRefreshLayout.setEnabled(false);
 
         holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage) {
+
             @Override
             public void setContent(Object data) {
                 super.setContent(data);
                 hideAllChildren();
+                moreChildComment.setVisibility(View.GONE);
             }
         };
+        holder.moreChildComment.setVisibility(View.GONE);
         convertView.setTag(R.id.layout, holder);
         updateHeader();
 
