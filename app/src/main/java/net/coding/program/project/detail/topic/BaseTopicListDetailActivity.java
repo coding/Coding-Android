@@ -322,9 +322,10 @@ public class BaseTopicListDetailActivity extends BackActivity {
         View recommendView;
         TextView voteView;
 
-//        View childCommentTopLine;
+        //        View childCommentTopLine;
         ChildHolder childHolder0;
         ChildHolder childHolder1;
+        TextView moreChildComment;
 
         public ViewHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
             super(convertView, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
@@ -337,6 +338,7 @@ public class BaseTopicListDetailActivity extends BackActivity {
 
             childHolder0 = new ChildHolder(convertView.findViewById(R.id.child0), R.id.child0, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             childHolder1 = new ChildHolder(convertView.findViewById(R.id.child1), R.id.child1, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            moreChildComment = (TextView) convertView.findViewById(R.id.moreChildComment);
         }
 
         @Override
@@ -361,13 +363,28 @@ public class BaseTopicListDetailActivity extends BackActivity {
                 childHolder0.setContent(childcomments.get(0), comment);
                 if (childcomments.size() > 1) {
                     childHolder1.setContent(childcomments.get(1), comment);
-                    childHolder1.showMoreChildButton(comment);
+//                    childHolder1.showMoreChildButton(comment);
                 } else {
                     childHolder1.show(false);
                 }
 
             } else {
                 hideAllChildren();
+            }
+
+
+            int count = comment.childcount;
+            if (count > 2) {
+                moreChildComment.setVisibility(View.VISIBLE);
+                moreChildComment.setText(String.format("查看全部%s条评论", comment.childcount));
+                moreChildComment.setOnClickListener(v -> {
+                    TopicCommentDetail_.intent(v.getContext())
+                            .topicObject(topicObject)
+                            .topicComment(comment)
+                            .startForResult(RESULT_COMMENT);
+                });
+            } else {
+                moreChildComment.setVisibility(View.GONE);
             }
         }
 
@@ -380,19 +397,19 @@ public class BaseTopicListDetailActivity extends BackActivity {
 
     class ChildHolder extends ImageCommentHolder {
 
-        TextView moreChildComment;
+        //        TextView moreChildComment;
         View rootLayout;
 
         public ChildHolder(View convertView, int rootLayoutId, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
             super(convertView, rootLayoutId, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
-            moreChildComment = (TextView) convertView.findViewById(R.id.moreChildComment);
+//            moreChildComment = (TextView) convertView.findViewById(moreChildComment);
             rootLayout = convertView;
 
-            if (rootLayoutId == R.id.child0) { // 第一个子评论
-                moreChildComment.setVisibility(View.GONE);
-            } else if (rootLayoutId == R.id.child1) { // 最后一个子评论
-                rootLayout.findViewById(R.id.bottomLine).setVisibility(View.INVISIBLE);
-            }
+//            if (rootLayoutId == R.id.child0) { // 第一个子评论
+//                moreChildComment.setVisibility(View.GONE);
+//            } else if (rootLayoutId == R.id.child1) { // 最后一个子评论
+//                rootLayout.findViewById(R.id.bottomLine).setVisibility(View.INVISIBLE);
+//            }
         }
 
         @Override
@@ -410,20 +427,5 @@ public class BaseTopicListDetailActivity extends BackActivity {
             rootLayout.setVisibility(show ? View.VISIBLE : View.GONE);
         }
 
-        void showMoreChildButton(TopicComment comment) {
-            int count = comment.childcomments.size();
-            if (count > 2) {
-                moreChildComment.setVisibility(View.VISIBLE);
-                moreChildComment.setText(String.format("查看全部%s条评论", comment.childcount));
-                moreChildComment.setOnClickListener(v -> {
-                    TopicCommentDetail_.intent(v.getContext())
-                            .topicObject(topicObject)
-                            .topicComment(comment)
-                            .startForResult(RESULT_COMMENT);
-                });
-            } else {
-                moreChildComment.setVisibility(View.GONE);
-            }
-        }
     }
 }

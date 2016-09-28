@@ -148,6 +148,21 @@
     <include android:id="@+id/child0" layout="@layout/topic_comment_child" />
     <include android:id="@+id/child1" layout="@layout/topic_comment_child" />
 
+
+
+    <TextView
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:text="查看全部12条评论"
+        android:textColor="#32BE77"
+        android:layout_marginLeft="55dp"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:background="@color/stand_bg"
+        android:id="@+id/moreChildComment"
+        android:layout_height="wrap_content" />
+
     <View
         style="@style/DivideLine_15"
         android:layout_alignParentBottom="true" />

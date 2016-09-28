@@ -25,7 +25,6 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
-import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -171,12 +170,12 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     }
 
     private void settingBackground() {
-        if (ZhongQiuGuideActivity.isZhongqiu()) {
-            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
-            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.zhongqiu_init_photo, imageSize));
-            title.setText("中秋快乐 © Mango");
-            return;
-        }
+//        if (ZhongQiuGuideActivity.isZhongqiu()) { // 修改首页图
+//            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+//            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.zhongqiu_init_photo, imageSize));
+//            title.setText("中秋快乐 © Mango");
+//            return;
+//        }
 
         LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
         File file = photoItem.getCacheFile(this);

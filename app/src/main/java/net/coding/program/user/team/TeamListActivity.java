@@ -41,6 +41,8 @@ public class TeamListActivity extends BackActivity {
         listView.addFooterView(listViewFooter, null, false);
         baseAdapter.init(listData);
         listView.setAdapter(baseAdapter);
+        listView.setVisibility(View.INVISIBLE);
+        showDialogLoading();
 
         loadData();
     }
@@ -53,6 +55,7 @@ public class TeamListActivity extends BackActivity {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_TEAM_LIST)) {
+            hideProgressDialog();
             if (code == 0) {
                 listData.clear();
 
@@ -61,6 +64,7 @@ public class TeamListActivity extends BackActivity {
                     listData.add(new TeamListObject(jsonArray.optJSONObject(i)));
                 }
                 baseAdapter.notifyDataSetChanged();
+                listView.setVisibility(View.VISIBLE);
 
             } else {
                 showErrorMsg(code, respanse);

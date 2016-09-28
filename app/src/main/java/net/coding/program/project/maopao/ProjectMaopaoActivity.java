@@ -96,6 +96,10 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
         if (projectObject != null) {
             setActionBarTitle(projectObject.name);
         }
+
+        listViewAddHeaderSection(listView);
+        listView.setVisibility(View.INVISIBLE);
+
         listView.setAdapter(projectMaopaoAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Maopao.MaopaoObject maopao = listData.get(position);
@@ -143,6 +147,8 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
                 } else {
                     lastId = 0;
                 }
+
+                listView.setVisibility(View.VISIBLE);
 
                 projectMaopaoAdapter.notifyDataSetChanged();
 

@@ -37,7 +37,6 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.login.PhoneRegisterActivity_;
-import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.InputAccountActivity_;
@@ -203,9 +202,9 @@ public class LoginActivity extends BaseActivity {
     private void settingBackground() {
         try {
             BitmapDrawable bitmapDrawable;
-            if (ZhongQiuGuideActivity.isZhongqiu()) {
-                bitmapDrawable = createBlur(R.drawable.zhongqiu_init_photo);
-            } else {
+//            if (ZhongQiuGuideActivity.isZhongqiu()) {
+//                bitmapDrawable = createBlur(R.drawable.zhongqiu_init_photo);
+//            } else {
                 if (background == null) {
                     LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
                     File file = photoItem.getCacheFile(this);
@@ -219,7 +218,7 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     bitmapDrawable = createBlur(background);
                 }
-            }
+//            }
             backgroundImage.setImageDrawable(bitmapDrawable);
         } catch (Exception e) {
             Global.errorLog(e);

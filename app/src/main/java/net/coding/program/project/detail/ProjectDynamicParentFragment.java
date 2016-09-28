@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
 import net.coding.program.R;
@@ -49,6 +50,11 @@ public class ProjectDynamicParentFragment extends BaseFragment {
         if (mProjectObject.isPublic()) {
             title = dynamic_type_public;
             titleParams = dynamic_type_public_params;
+        }
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setElevation(0);
         }
 
         DynamicPagerAdapter adapter = new DynamicPagerAdapter(getChildFragmentManager(), title, titleParams);

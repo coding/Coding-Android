@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 
+/*
+ * 用来显示特别的版本或活动, 比如中秋节, 比如 4.0 大更新
+ */
 public class ZhongQiuGuideActivity extends BaseActivity {
 
     public static void showHolidayGuide(Activity activity) {
@@ -42,8 +44,9 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     }
 
     ViewPager mViewPager;
-
     IndicatorView mIndicatorView;
+    View entranceButton;
+    View jumpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +54,15 @@ public class ZhongQiuGuideActivity extends BaseActivity {
         setContentView(R.layout.activity_zhong_qiu_guide);
 
         mIndicatorView = (IndicatorView) findViewById(R.id.indicatorView);
+        jumpButton = findViewById(R.id.jump);
+        entranceButton = findViewById(R.id.entrance);
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         pagerAdapter = new HolidayPager(getSupportFragmentManager());
         mViewPager.setAdapter(pagerAdapter);
+
+        jumpButton.setOnClickListener(v -> finish());
+        entranceButton.setOnClickListener(v -> finish());
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -63,20 +71,21 @@ public class ZhongQiuGuideActivity extends BaseActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d("", String.format("scr1 %d %f %d", position, positionOffset, positionOffsetPixels));
-                if (position == 1 && positionOffset > 0) {
-                    Fragment fragment1 = getFragment(1);
-                    Fragment fragment2 = getFragment(2);
-                    float alpha = 1 - positionOffset;
-                    fragment1.getView().setAlpha(alpha);
-                    fragment2.getView().setAlpha(alpha);
+//                if (position == 1 && positionOffset > 0) {
+//                    Fragment fragment1 = getFragment(1);
+//                    Fragment fragment2 = getFragment(2);
+//                    float alpha = 1 - positionOffset;
+//
+//                    if (indicatorWidth == 0) {
+//                        indicatorWidth = mIndicatorView.getWidth();
+//                    }
+//                    mIndicatorView.setX((MyApp.sWidthPix - indicatorWidth) / 2 - positionOffsetPixels);
+//                }
 
-                    if (indicatorWidth == 0) {
-                        indicatorWidth = mIndicatorView.getWidth();
-                    }
-                    mIndicatorView.setAlpha(alpha);
-                    mIndicatorView.setX((MyApp.sWidthPix - indicatorWidth) / 2 - positionOffsetPixels);
-                } else if (position == 2) {
-                    finish();
+                if (position == 2) {
+                    entranceButton.setVisibility(View.VISIBLE);
+                } else {
+                    entranceButton.setVisibility(View.INVISIBLE);
                 }
 
                 if (positionOffset > 0.5) {
@@ -133,7 +142,7 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     int[] mBackgroundResId = new int[]{
             R.drawable.guide_zhongqiu_1,
             R.drawable.guide_zhongqiu_2,
-            0
+            R.drawable.guide_zhongqiu_3
     };
 
 

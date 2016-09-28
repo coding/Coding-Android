@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/stand_bg">
+    android:background="@color/divide">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -13,6 +13,7 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/stand_bg"
             android:divider="@color/divide_line"
             android:dividerHeight="@dimen/divide_height"
             android:footerDividersEnabled="false" />

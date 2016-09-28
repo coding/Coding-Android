@@ -90,16 +90,6 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <TextView
-            android:paddingBottom="10dp"
-            android:visibility="gone"
-            android:text="查看全部12条评论"
-            android:textColor="#32BE77"
-            android:textSize="14sp"
-            android:layout_width="match_parent"
-            android:id="@+id/moreChildComment"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <!--<include-->
