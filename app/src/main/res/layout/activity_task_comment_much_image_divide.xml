@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -15,7 +16,8 @@
             android:layout_width="80dp"
             android:layout_height="24dp"
             android:layout_marginLeft="@dimen/padding_15"
-            android:background="@color/font_green"
+            android:background="@color/font_blue"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <TextView
@@ -25,6 +27,7 @@
                 android:drawableLeft="@drawable/ic_recomend"
                 android:drawablePadding="5dp"
                 android:text="最佳答案"
+                tools:visibility="visible"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
         </FrameLayout>
@@ -137,15 +140,16 @@
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/childCommentTopLine"
-        style="@style/DivideLine"
-        android:layout_alignParentBottom="true" />
+    <!--<View-->
+        <!--android:id="@+id/childCommentTopLine"-->
+        <!--style="@style/DivideLine_15"-->
+        <!--android:layout_alignParentBottom="true" />-->
 
     <include android:id="@+id/child0" layout="@layout/topic_comment_child" />
     <include android:id="@+id/child1" layout="@layout/topic_comment_child" />
 
     <View
-        style="@style/DivideLine"
+        style="@style/DivideLine_15"
         android:layout_alignParentBottom="true" />
+
 </LinearLayout>

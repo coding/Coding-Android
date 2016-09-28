@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="12dp"
         android:maxLines="2"
         android:text="Medium Text"
@@ -24,7 +24,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_below="@id/title"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="0dp" />
 
@@ -63,8 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/labelBar"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginBottom="12dp"
         android:background="@color/transparent" />
 
@@ -112,7 +112,7 @@
                 android:layout_height="48dp">
 
                 <TextView
-                    android:paddingLeft="@dimen/padding_12"
+                    android:paddingLeft="@dimen/padding_15"
                     android:id="@+id/watchCount"
                     tools:text="7人关注"
                     style="@style/TopicWatchCount" />
@@ -120,7 +120,7 @@
                 <TextView
                     android:id="@+id/watchListAdd"
                     style="@style/WatcherAdd"
-                    android:paddingRight="@dimen/padding_12"
+                    android:paddingRight="@dimen/padding_15"
                     android:drawableLeft="@drawable/topic_watcher_add"
                     android:text="添加" />
 
@@ -128,16 +128,15 @@
 
             <include
                 android:id="@+id/reviewer_divide"
-                layout="@layout/divide_1_12" />
+                layout="@layout/divideline_15" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:id="@+id/watchUsers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_12"
-                android:layout_marginLeft="@dimen/padding_12"
-                android:layout_marginRight="@dimen/padding_12"
+                android:layout_marginBottom="@dimen/padding_15"
+                android:layout_marginLeft="@dimen/padding_15"
                 android:layout_marginTop="@dimen/padding_12" />
 
             <include layout="@layout/divide_middle_15" />
@@ -156,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/padding_12"
+            android:layout_marginLeft="@dimen/padding_15"
             android:text="8 条评论"
             android:textColor="@color/font_9"
             android:textSize="14sp" />
@@ -168,7 +167,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="7dp"
-            android:layout_marginRight="@dimen/padding_12"
+            android:layout_marginRight="@dimen/padding_15"
             android:background="@drawable/topic_comment_spinner"
             android:dropDownWidth="80dp" />
 
@@ -179,7 +178,7 @@
             android:layout_centerVertical="true"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_marginRight="@dimen/padding_12"
+            android:layout_marginRight="@dimen/padding_15"
             android:visibility="gone"
             android:layout_alignParentRight="true"
             android:text="评论" />

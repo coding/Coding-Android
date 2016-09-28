@@ -64,6 +64,6 @@
         </LinearLayout>
 
 
-        <include layout="@layout/divide_1_12" />
+        <include layout="@layout/divideline_12" />
     </LinearLayout>
 </FrameLayout>

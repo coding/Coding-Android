@@ -4,6 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/divide_top_15" />
+
     <LinearLayout
         android:id="@+id/atLayout"
         android:layout_width="match_parent"

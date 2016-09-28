@@ -2,10 +2,10 @@
 <resources>
     <item name="green" type="color">#FF3BBD79</item>
     <item name="gray" type="color">#FF323A45</item>
-    <item name="color_primary" type="drawable">#FFFFFF</item>
+    <item name="color_primary" type="drawable">#fff8f8f8</item>
     <item name="text_color_primary" type="drawable">#000000</item>
     <item name="color_primary_dark" type="drawable">#494E57</item>
-    <item name="color_primary" type="color">#FFFFFF</item>
+    <item name="color_primary" type="color">#fff8f8f8</item>
     <item name="text_color_primary" type="color">#000000</item>
     <item name="color_primary_dark" type="color">#494E57</item>
 
@@ -108,5 +108,5 @@
 
     <color name="addjob_radio_text_gray">#ffcccccc</color>
     <color name="addjob_text_blue">#ff30A8E1</color>
-    <color name="addjob_radio_text_blue">#ff2FAEEA</color>
+    <color name="font_blue">#ff2FAEEA</color>
 </resources>

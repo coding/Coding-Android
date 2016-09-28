@@ -23,6 +23,8 @@
             android:background="@color/stand_bg"
             android:orientation="vertical">
 
+            <include layout="@layout/divide_top_15" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -57,19 +59,19 @@
                         android:id="@+id/itemDynamic"
                         layout="@layout/project_home_list_head_button1" />
 
-                    <include layout="@layout/divideline_15" />
+                    <View style="@style/DivideLineHomeList" />
 
                     <include
                         android:id="@+id/itemTopic"
                         layout="@layout/project_home_list_head_button" />
 
-                    <include layout="@layout/divideline_15" />
+                    <View style="@style/DivideLineHomeList" />>
 
                     <include
                         android:id="@+id/itemCode"
                         layout="@layout/project_home_list_head_button" />
 
-                    <include layout="@layout/divideline_15" />
+                    <View style="@style/DivideLineHomeList" />
 
                     <include
                         android:id="@+id/itemMember"
@@ -91,7 +93,7 @@
                     android:id="@+id/itemReadme"
                     layout="@layout/project_home_list_head_button" />
 
-                <include layout="@layout/divideline_15" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemMerge"

@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        style="@style/DivideLine" />
+
     <LinearLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -17,20 +20,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <View
-            style="@style/DivideLineVer"
-            android:layout_width="1dp"
-            android:layout_height="18dp" />
-
         <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseLabel"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-
-        <View
-            style="@style/DivideLineVer"
-            android:layout_height="18dp" />
 
         <net.coding.program.project.detail.DropdownButton_
             android:id="@+id/chooseOrder"

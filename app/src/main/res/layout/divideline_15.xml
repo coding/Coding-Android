@@ -3,5 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/divideline_height"
     android:layout_marginLeft="@dimen/padding_15"
-    android:layout_marginRight="@dimen/padding_15"
+    android:layout_marginRight="0dp"
     android:background="@color/divide_line" />

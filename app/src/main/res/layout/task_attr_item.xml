@@ -40,13 +40,23 @@
             android:textColor="@color/font_9"
             android:textSize="16sp" />
 
-        <ImageView
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:src="@drawable/ic_list_right_arr" />-->
+
+
+        <View xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_list_right_arr" />
+            android:background="@drawable/user_home_arrow"
+            tools:showIn="@layout/activity_user_detail" />
+
     </LinearLayout>
 
     <include

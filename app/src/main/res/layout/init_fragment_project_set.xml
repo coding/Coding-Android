@@ -71,7 +71,7 @@
         layout="@layout/init_common_item" />
 
     <include
-        layout="@layout/divide_1_12" />
+        layout="@layout/divideline_12" />
 
     <include
         android:id="@+id/item"

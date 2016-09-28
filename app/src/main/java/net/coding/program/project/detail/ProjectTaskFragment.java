@@ -54,7 +54,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
     @ViewById(R.id.pagerProjectTask)
     ViewPager pager;
     @ViewById
-    View blankLayout;
+    View blankLayout, actionDivideLine;
     @ViewById
     FloatingActionButton floatButton;
 
@@ -74,6 +74,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         setActionBarShadow(0);
 
         tabs.setLayoutInflater(mInflater);
+        tabs.setVisibility(View.INVISIBLE);
 
         HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.getId());
         refresh();
@@ -123,6 +124,8 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 pager.setPageMargin(pageMargin);
 
                 tabs.setViewPager(pager);
+                tabs.setVisibility(View.VISIBLE);
+                actionDivideLine.setVisibility(View.VISIBLE);
             } else {
                 showErrorMsg(code, respanse);
 
@@ -163,6 +166,8 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                     mMembersAll.add(modifyMember);
                     adapter.notifyDataSetChanged();
                     tabs.setViewPager(pager);
+                    tabs.setVisibility(View.VISIBLE);
+                    actionDivideLine.setVisibility(View.VISIBLE);
                 }
             }
         }

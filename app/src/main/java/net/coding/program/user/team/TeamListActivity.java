@@ -35,6 +35,8 @@ public class TeamListActivity extends BackActivity {
 
     @AfterViews
     void initTeamListActivity() {
+        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
+        listView.addHeaderView(listViewHeader, null, false);
         View listViewFooter = getLayoutInflater().inflate(R.layout.divide_bottom_15, listView, false);
         listView.addFooterView(listViewFooter, null, false);
         baseAdapter.init(listData);

@@ -261,7 +261,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     }
 
     private void initHead() {
-        View v = mInflater.inflate(layout.fragment_message_user_list_head, null, false);
+        View v = mInflater.inflate(layout.fragment_message_user_list_head, listView, false);
 
         v.findViewById(id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
         v.findViewById(id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
@@ -274,7 +274,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         badgeSystem = (BadgeView) v.findViewById(id.badgeSystem);
         badgeSystem.setVisibility(View.INVISIBLE);
 
-        listView.addHeaderView(v);
+        listView.addHeaderView(v, null, false);
     }
 
     private void startNotifyListActivity(int type) {

@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,10 +164,17 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private DropdownButtonsController dropdownButtonsController = new DropdownButtonsController();
 
     @AfterViews
-    protected void init() {
+    protected void initTopicListFragment() {
         dropdownButtonsController.init();
         initRefreshLayout();
         showDialogLoading();
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setElevation(0);
+        }
+
+        listViewAddHeaderSection(listView);
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);

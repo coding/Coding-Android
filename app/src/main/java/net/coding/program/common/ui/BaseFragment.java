@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -64,6 +65,16 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
 
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setProgress(30);
+    }
+
+    protected void listViewAddHeaderSection(ListView listView) {
+        View listViewHeader = LayoutInflater.from(getContext()).inflate(R.layout.divide_top_15, listView, false);
+        listView.addHeaderView(listViewHeader, null, false);
+    }
+
+    protected void listViewAddFooterSection(ListView listView) {
+        View listViewFooter = mInflater.inflate(R.layout.divide_bottom_15, listView, false);
+        listView.addFooterView(listViewFooter, null, false);
     }
 
     protected ActionBar getActionBar() {

@@ -338,7 +338,11 @@
 
     <style name="DivideLine_15" parent="DivideLine">
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
-        <item name="android:layout_marginRight">@dimen/padding_15</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+
+    <style name="DivideLineHomeList" parent="DivideLine">
+        <item name="android:layout_marginLeft">35dp</item>
     </style>
 
     <style name="ListItemComment">

@@ -3,7 +3,6 @@ package net.coding.program.common.ui;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -58,9 +57,14 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     private ProgressDialog mProgressDialog;
     private NetworkImpl networkImpl;
 
-    protected void listViewAddFootShade(ListView listView) {
+    protected void listViewAddFootSection(ListView listView) {
         View listViewFooter = getLayoutInflater().inflate(R.layout.divide_bottom_15, listView, false);
         listView.addFooterView(listViewFooter, null, false);
+    }
+
+    protected void listViewAddHeaderSection(ListView listView) {
+        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
+        listView.addHeaderView(listViewHeader, null, false);
     }
 
     /**

@@ -322,7 +322,7 @@ public class BaseTopicListDetailActivity extends BackActivity {
         View recommendView;
         TextView voteView;
 
-        View childCommentTopLine;
+//        View childCommentTopLine;
         ChildHolder childHolder0;
         ChildHolder childHolder1;
 
@@ -333,7 +333,7 @@ public class BaseTopicListDetailActivity extends BackActivity {
             voteView = (TextView) convertView.findViewById(R.id.vote);
             voteView.setOnClickListener(clickVoteButton);
 
-            childCommentTopLine = convertView.findViewById(R.id.childCommentTopLine);
+//            childCommentTopLine = convertView.findViewById(R.id.childCommentTopLine);
 
             childHolder0 = new ChildHolder(convertView.findViewById(R.id.child0), R.id.child0, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             childHolder1 = new ChildHolder(convertView.findViewById(R.id.child1), R.id.child1, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
@@ -357,7 +357,7 @@ public class BaseTopicListDetailActivity extends BackActivity {
 
             ArrayList<TopicCommentChild> childcomments = ((TopicComment) data).childcomments;
             if (childcomments.size() > 0) {
-                childCommentTopLine.setVisibility(View.VISIBLE);
+//                childCommentTopLine.setVisibility(View.VISIBLE);
                 childHolder0.setContent(childcomments.get(0), comment);
                 if (childcomments.size() > 1) {
                     childHolder1.setContent(childcomments.get(1), comment);
@@ -372,7 +372,7 @@ public class BaseTopicListDetailActivity extends BackActivity {
         }
 
         protected void hideAllChildren() {
-            childCommentTopLine.setVisibility(View.INVISIBLE);
+//            childCommentTopLine.setVisibility(View.INVISIBLE);
             childHolder0.show(false);
             childHolder1.show(false);
         }

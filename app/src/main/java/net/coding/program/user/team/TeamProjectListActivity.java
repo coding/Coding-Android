@@ -49,7 +49,7 @@ public class TeamProjectListActivity extends BackActivity {
 
     @AfterViews
     void initTeamProjectListActivity() {
-        listViewAddFootShade(listView.getWrappedList());
+        listViewAddFootSection(listView.getWrappedList());
         listAdapter = new ListAdapter();
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(((parent, view, position, id) -> {

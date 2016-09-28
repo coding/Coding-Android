@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:drawablePadding="2dp"
+        android:drawablePadding="5dp"
         android:drawableRight="@drawable/ic_dropdown_normal"
         android:ellipsize="end"
         android:maxLines="1"

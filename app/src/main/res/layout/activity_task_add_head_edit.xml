@@ -13,7 +13,7 @@
         android:layout_below="@+id/icon"
         android:layout_marginTop="5dp" />
 
-    <include layout="@layout/divide_1_12" />
+    <include layout="@layout/divideline_12" />
 
     <EditText
         android:id="@+id/title"

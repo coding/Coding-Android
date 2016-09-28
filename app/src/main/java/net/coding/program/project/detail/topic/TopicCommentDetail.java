@@ -120,6 +120,8 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
 
     @AfterViews
     void initTopicCommentDetail() {
+        listViewAddHeaderSection(listView);
+
         urlCommentSend = String.format(Global.HOST_API + "/project/%s/topic/%s/comment", topicObject.project_id, topicObject.id);
 
         listData = topicComment.childcomments;

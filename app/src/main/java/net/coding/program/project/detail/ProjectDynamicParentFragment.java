@@ -43,6 +43,7 @@ public class ProjectDynamicParentFragment extends BaseFragment {
 
     @AfterViews
     protected void init() {
+        getActionBar().setElevation(0);
         String[] title = dynamic_type;
         String[] titleParams = dynamic_type_params;
         if (mProjectObject.isPublic()) {

@@ -3,6 +3,7 @@ package net.coding.program.user;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
@@ -22,7 +23,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 @EActivity(R.layout.activity_user_point)
 //@OptionsMenu(R.menu.menu_user_point)
@@ -33,7 +33,7 @@ public class UserPointActivity extends BackActivity {
     private static final String TAG_HTTP_ALL_POINTS = "TAG_HTTP_ALL_POINTS";
 
     @ViewById
-    StickyListHeadersListView listView;
+    ListView listView;
 
     TextView pointsAll;
 
@@ -60,8 +60,6 @@ public class UserPointActivity extends BackActivity {
         getNetwork(PointObject.getHttpPointsAll(), TAG_HTTP_ALL_POINTS);
         listView.setAdapter(adapter);
         getNextPageNetwork(PointObject.getHttpRecord(), TAG_HTTP_USER_POINT);
-
-        listView.setAreHeadersSticky(false);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class TeamMemberListActivity extends BackActivity {
 
     @AfterViews
     void initTeamMemberListAcitvity() {
-        listViewAddFootShade(listView);
+        listViewAddFootSection(listView);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(((parent, view, position, id) -> {
             TeamMember teamMember = (TeamMember) listAdapter.getItem((int) id);

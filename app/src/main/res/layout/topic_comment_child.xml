@@ -110,7 +110,7 @@
     <!--android:layout_marginTop="10dp" />-->
 
     <View
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:id="@+id/bottomLine"
         android:layout_toRightOf="@id/icon"
         style="@style/DivideLine" />

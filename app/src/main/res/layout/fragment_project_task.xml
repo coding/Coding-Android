@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/divide"
     android:orientation="vertical"
     tools:context=".project.detail.ProjectTaskFragment">
 
+    <View
+        style="@style/DivideLine"
+        android:id="@+id/actionDivideLine" />
 
     <net.coding.program.third.MyPagerSlidingTabStrip
         android:id="@+id/tabs"
