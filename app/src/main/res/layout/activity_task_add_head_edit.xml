@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context="net.coding.program.task.add.TaskAddActivity">
 
+    <include layout="@layout/divide_top_15" />
+
     <net.coding.program.project.detail.TopicLabelBar_
         android:id="@+id/labelBar"
         android:layout_width="match_parent"
@@ -13,7 +15,6 @@
         android:layout_below="@+id/icon"
         android:layout_marginTop="5dp" />
 
-    <include layout="@layout/divideline_12" />
 
     <EditText
         android:id="@+id/title"

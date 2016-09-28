@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="23dp"
+        android:layout_marginLeft="18dp"
         android:src="@drawable/ic_spinner_maopao_friend" />
 
     <TextView
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="23dp"
+        android:layout_marginLeft="18dp"
         android:layout_toRightOf="@id/icon"
         android:singleLine="true"
         android:text="项目任务"

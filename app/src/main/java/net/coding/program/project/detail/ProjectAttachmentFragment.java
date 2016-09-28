@@ -36,7 +36,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -215,7 +214,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     };
 
     @AfterViews
-    protected void init() {
+    protected void initProjectAttachmentFragment() {
         // 根目录下不能上传文件
         View rootLayout = getView();
         if (rootLayout != null) {
@@ -233,6 +232,9 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             }
         }
 
+        listViewAddHeaderSection(listView);
+        listView.setVisibility(View.INVISIBLE);
+
         initRefreshLayout();
 
         showDialogLoading();
@@ -241,20 +243,24 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         //mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
 
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            listViewItemLongClicked((int) id);
+            return true;
+        });
+
         getNetwork(HOST_FILECOUNT, HOST_FILECOUNT);
     }
 
     @ItemClick
-    public void listViewItemClicked(int position) {
+    public void listViewItemClicked(AttachmentFolderObject folderObject) {
         AttachmentsActivity_.intent(getActivity())
-                .mAttachmentFolderObject(mData.get(position))
+                .mAttachmentFolderObject(folderObject)
                 .mProjectObjectId(mProjectObject.getId())
                 .mProject(mProjectObject)
                 .startForResult(RESULT_REQUEST_FILES);
 
     }
 
-    @ItemLongClick
     public void listViewItemLongClicked(int position) {
         showPop(position);
     }
@@ -312,6 +318,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
                 }
 
                 adapter.notifyDataSetChanged();
+                listView.setVisibility(View.VISIBLE);
             } else {
                 showErrorMsg(code, respanse);
             }

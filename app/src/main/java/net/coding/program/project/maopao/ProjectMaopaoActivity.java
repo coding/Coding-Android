@@ -102,7 +102,7 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
 
         listView.setAdapter(projectMaopaoAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            Maopao.MaopaoObject maopao = listData.get(position);
+            Maopao.MaopaoObject maopao = listData.get((int)id);
             MaopaoDetailActivity.ClickParam clickParam = new MaopaoDetailActivity.ClickParam(projectObject.owner_user_name,
                     projectObject.name, String.valueOf(maopao.id));
             MaopaoDetailActivity_.intent(ProjectMaopaoActivity.this)

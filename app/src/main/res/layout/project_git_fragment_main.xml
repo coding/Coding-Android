@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/versionButton"
             android:text=""
-            android:background="#ffececec"
+            android:background="@color/divide"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:paddingLeft="12dp"

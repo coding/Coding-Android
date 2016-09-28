@@ -50,7 +50,6 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -101,7 +100,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     boolean mNoMore = false;
     @ViewById
     ListView listView;
-//    @ViewById
+    //    @ViewById
 //    RelativeLayout uploadLayout;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
     // /\.(pdf)$/
@@ -111,7 +110,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     View folder_actions_layout;
     @ViewById
     View files_actions_layout;
-//    @ViewById
+    //    @ViewById
 //    ImageView uploadCloseBtn;
 //    @ViewById
 //    TextView uploadDoneHint;
@@ -340,7 +339,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
             selectedPosition = position;
             if (file.isDownload) {
-                listViewItemClicked(position + 1);
+                listViewItemClicked(file);
             } else {
                 action_download_single(mFilesArray.get(selectedPosition));
             }
@@ -510,9 +509,14 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObjectId);
 
         mFootUpdate.init(listView, mInflater, this);
+        listViewAddHeaderSection(listView);
         listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
         listView.addHeaderView(listHead, null, false);
         listView.setAdapter(adapter);
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            showPop(null, (int) id);
+            return true;
+        });
 
         initBottomPop();
 
@@ -542,9 +546,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     @ItemClick
-    void listViewItemClicked(int pos) {
-        int position = pos - 1; // 由于 addHeader 后, pos 是以 header 开始计算
-        AttachmentFileObject data = mFilesArray.get(position);
+    void listViewItemClicked(AttachmentFileObject fileObject) {
+        AttachmentFileObject data = fileObject;
 
         if (isEditMode) {
             if (!data.isFolder) {
@@ -624,11 +627,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
-
-    @ItemLongClick
-    void listViewItemLongClicked(int position) {
-        showPop(null, position - 1);
-    }
 
     /**
      * 获取当前文档列表中的所有图片文档，提供给AttachmentsPicDetailActivity
@@ -1218,27 +1216,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         AttachmentFileObject selectedFileObject = mFilesArray.get(selectedPosition);
         if (selectedFileObject.isFolder) {
             AttachmentFolderObject selectedFolderObject = selectedFileObject.folderObject;
-
-//            if (mAttachmentPopupWindow == null) {
-//                initBottomPop();
-//            }
-//
-//            DialogUtil.BottomPopupItem renameItem = mAttachmentPopupWindow.adapter.getItem(0);
-//            DialogUtil.BottomPopupItem deleteItem = mAttachmentPopupWindow.adapter.getItem(1);
-//            if (selectedFolderObject.file_id.equals("0")) {
-//                renameItem.enabled = false;
-//                deleteItem.enabled = false;
-//            } else if (selectedFolderObject.count != 0) {
-//                renameItem.enabled = true;
-//                deleteItem.enabled = false;
-//            } else {
-//                renameItem.enabled = true;
-//                deleteItem.enabled = true;
-//            }
-//            mAttachmentPopupWindow.adapter.notifyDataSetChanged();
-//            mAttachmentPopupWindow.tvTitle.setText(selectedFolderObject.name);
-//
-//            mAttachmentPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
             String[] itemNames;
             if (selectedFolderObject.file_id.equals("0")) {

@@ -50,6 +50,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
 
     @AfterViews
     protected final void initMergeListFragment() {
+        listViewAddHeaderSection(listView);
         initRefreshLayout();
         disableRefreshing();
 
