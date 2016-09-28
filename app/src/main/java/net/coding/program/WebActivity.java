@@ -222,7 +222,12 @@ public class WebActivity extends BackActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
+            boolean openActivity = URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
+            if (!openActivity) {
+                view.loadUrl(url);
+            }
+
+            return !openActivity;
         }
     }
 
