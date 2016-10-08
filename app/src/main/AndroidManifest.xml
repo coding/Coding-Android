@@ -554,7 +554,7 @@
         <activity
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_account_setting"
+            android:label="@string/empty"
             android:process=":customweb"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />

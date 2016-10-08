@@ -31,7 +31,6 @@
 
         </RelativeLayout>
 
-
         <!--<include layout="@layout/list_divider_big" />-->
         <include layout="@layout/divide_middle_15" />
 
