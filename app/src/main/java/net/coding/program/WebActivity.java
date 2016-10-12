@@ -27,7 +27,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 import net.coding.program.common.Global;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.share.CustomShareBoard;
 
 import org.androidannotations.annotations.AfterViews;
@@ -37,7 +37,7 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_web)
-public class WebActivity extends BackActivity {
+public class WebActivity extends BaseActivity {
 
     @Extra
     protected String url = Global.HOST;
@@ -198,6 +198,11 @@ public class WebActivity extends BackActivity {
         }
 
         action_share_third();
+    }
+
+    @OptionsItem(android.R.id.home)
+    protected final void actionBack() {
+        finish();
     }
 
     void action_share_third() {

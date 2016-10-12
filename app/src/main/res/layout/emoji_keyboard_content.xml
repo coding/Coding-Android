@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/emojiKeyboardLayout"
+    android:background="@color/stand_bg"
     android:visibility="visible"
     android:focusable="true"
     android:clickable="true"

@@ -259,7 +259,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 holder.resend.setVisibility(View.INVISIBLE);
                 holder.sending.setVisibility(View.INVISIBLE);
             }
-            boolean isVoice = item.extra != null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
+            boolean isVoice = isVoice(item);
             String data = isVoice ? item.extra : item.content;
             holder.contentArea.setData(data);
             if (holder.contentArea.getVocicePath() != null) {
@@ -280,6 +280,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             return convertView;
         }
 
+
         private boolean lessThanStandard(long selfTime, long lastTime) {
             return (selfTime - lastTime) < (30 * 60 * 1000);
         }
@@ -291,6 +292,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
         }
     };
+
+    public boolean isVoice(Message.MessageObject item) {
+        return item.extra != null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
+    }
+
     private int mPxImageDivide = 0;
 
     @Override
@@ -377,6 +383,12 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                     }
                 });
 
+            } else if (isVoice(msg)) {
+                builder.setItems(R.array.message_action_voice, (dialog, which) -> {
+                    if (which == 0) {
+                        deleteMessage(msg);
+                    }
+                });
             } else {
                 builder.setItems(R.array.message_action_text, (dialog, which) -> {
                     if (which == 0) {

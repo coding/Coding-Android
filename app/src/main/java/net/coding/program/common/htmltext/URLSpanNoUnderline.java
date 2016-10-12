@@ -50,7 +50,7 @@ import java.util.regex.Pattern;
  */
 public class URLSpanNoUnderline extends URLSpan {
 
-    public static final String PATTERN_URL_MESSAGE = "^(?:https://[\\w.]*)?/user/messages/history/([\\w-]+)$";
+    public static final String PATTERN_URL_MESSAGE = "^(?:https?://[\\w.]*)?/user/messages/history/([\\w-]+)$";
     private int color;
 
     public URLSpanNoUnderline(String url, int color) {
@@ -75,7 +75,6 @@ public class URLSpanNoUnderline extends URLSpan {
 
         final String ProjectPath = "/u/([\\w.-]+)/p/([\\w\\.-]+)";
         final String Host = Global.HOST;
-        final String UserPath = "/u/([\\w.-]+)";
 
         Intent intent = new Intent();
         if (newTask) {
@@ -115,7 +114,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 用户名
-        final String atSomeOne = "^(?:https://[\\w.]*)?/u/([\\w.-]+)$";
+        final String atSomeOne = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)$";
         pattern = Pattern.compile(atSomeOne);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -128,7 +127,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 项目讨论列表
         // https://coding.net/u/8206503/p/TestIt2/topic/mine
-        final String topicList = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/(mine|all)$";
+        final String topicList = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/(mine|all)$";
         pattern = Pattern.compile(topicList);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -144,7 +143,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 单个项目讨论
         // https://coding.net/u/8206503/p/AndroidCoding/topic/9638?page=1
-        final String topic = "^(?:https://[\\w.]*)?/[ut]/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?(#comment-\\w*)?$";
+        final String topic = "^(?:https?://[\\w.]*)?/[ut]/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?(#comment-\\w*)?$";
         pattern = Pattern.compile(topic);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -161,7 +160,7 @@ public class URLSpanNoUnderline extends URLSpan {
         // https://coding.net/u/8206503/p/AndroidCoding
         // https://coding.net/u/8206503/p/FireEye/git
         //
-        final String project = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)(/git)?$";
+        final String project = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)(/git)?$";
         pattern = Pattern.compile(project);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -176,7 +175,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 冒泡
         // https://coding.net/u/8206503/pp/9275
-        final String maopao = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/pp/([\\w.-]+)$";
+        final String maopao = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/pp/([\\w.-]+)$";
         pattern = Pattern.compile(maopao);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -227,7 +226,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 任务详情
         // https://coding.net/u/wzw/p/coding/task/9220
-        final String task = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)$";
+        final String task = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)(#comment-\\w*)?$";
         pattern = Pattern.compile(task);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -275,7 +274,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 文件夹，这个url后面的字段是添加上去的
         // https://coding.net/u/8206503/p/TestIt2/attachment/65138/projectid/5741/name/aa.jpg
-        final String dir = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
+        final String dir = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
         pattern = Pattern.compile(dir);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -300,7 +299,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 文件，这个url后面的字段是添加上去的
         // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171/projectid/5741/name/aa.jpg
-        final String dirFile = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
+        final String dirFile = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
         pattern = Pattern.compile(dirFile);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -372,7 +371,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到merge或pull
-        final String mergeString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
+        final String mergeString = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
         pattern = Pattern.compile(mergeString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -383,7 +382,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到commit
-        final String commitString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
+        final String commitString = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
         pattern = Pattern.compile(commitString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
@@ -394,7 +393,7 @@ public class URLSpanNoUnderline extends URLSpan {
         }
 
         // 跳转到branch
-        final String branchString = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
+        final String branchString = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
         pattern = Pattern.compile(branchString);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {

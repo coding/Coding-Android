@@ -177,6 +177,10 @@
         <item>删除</item>
     </string-array>
 
+    <string-array name="message_action_voice">
+        <item>删除</item>
+    </string-array>
+
     <string-array name="message_action_image">
         <item>转发</item>
         <item>删除</item>

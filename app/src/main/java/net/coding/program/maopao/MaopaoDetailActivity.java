@@ -88,7 +88,6 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     @ViewById
     MainInputView mEnterLayout;
 
-
     ArrayList<Maopao.Comment> mData = new ArrayList<>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
     String bubble;
@@ -208,11 +207,10 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mMaopaoObject != null) {
+        if (mClickParam != null && mClickParam.isProjectMaopao()) {
+            // doing nothing
+        } else if (mMaopaoObject != null) {
             int menuId = R.menu.activity_maopao_detail;
-//            if (mMaopaoObject.owner.isMe()) {
-//                menuId = R.menu.activity_maopao_detail_my;
-//            }
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(menuId, menu);
         }
@@ -279,7 +277,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 getNetwork(maopaoUrl, TAG_MAOPAO);
             } else {
                 String projectUrl = mClickParam.getHttpProject();
-
+                setActionBarTitle(mClickParam.projectName);
                 getNetwork(projectUrl, TAG_PROJECT);
             }
         } else {
@@ -310,7 +308,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     void initHead() {
         if (mListHead == null) {
-            mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, null, false);
+            mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, listView, false);
             listView.addHeaderView(mListHead, null, false);
         }
 

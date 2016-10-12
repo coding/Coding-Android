@@ -17,6 +17,8 @@
 
             <ListView
                 android:id="@+id/listView"
+                android:divider="@drawable/maopao_comment_divide_line"
+                android:dividerHeight="@dimen/divide_height"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -27,6 +29,6 @@
         android:id="@+id/mEnterLayout"
         app:showEmojiOnly="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
