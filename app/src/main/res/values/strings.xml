@@ -191,6 +191,7 @@
     <string name="title_activity_set_global_key">设置用户名</string>
     <string name="clear_cache_message">缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？</string>
     <string name="title_activity_modify_email">修改邮箱</string>
+    <string name="input_format_global_key">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-</string>
 
     <string name="title_activity_country_pick">选择国家和地区</string>
     <string name="title_activity_project_maopao">项目内冒泡</string>

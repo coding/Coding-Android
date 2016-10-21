@@ -35,7 +35,7 @@
                         android:id="@+id/globalKeyEdit"
                         style="@style/EmailEdit"
                         app:hint="用户名(个性后缀)"
-                        app:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+                        app:digits="@string/input_format_global_key"
                         app:topLine="false" />
 
                     <include
