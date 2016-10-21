@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        app:pointView="@layout/special_guide_point"
+        app:pointView="@layout/guide_light_point"
         app:pointCount="3" />
 
     <TextView

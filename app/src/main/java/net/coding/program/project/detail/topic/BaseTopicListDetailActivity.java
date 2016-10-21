@@ -54,7 +54,7 @@ import java.util.HashMap;
  */
 
 @EActivity(R.layout.activity_topic_list_detail)
-public class BaseTopicListDetailActivity extends BackActivity {
+public abstract class BaseTopicListDetailActivity extends BackActivity {
 
     static final int RESULT_AT = 1;
     static final int RESULT_COMMENT = 5;
