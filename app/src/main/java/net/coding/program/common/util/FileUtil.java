@@ -38,21 +38,6 @@ public class FileUtil {
             }
         }
 
-        //mDestinationUri = Uri.withAppendedPath(Uri.fromFile(file), subPath);
-        /*File destFolder =  new File(file.getAbsolutePath() + File.separator + DOWNLOAD_FOLDER);
-        if (destFolder.exists()) {
-            if (!destFolder.isDirectory()) {
-                throw new IllegalStateException(file.getAbsolutePath() +
-                        " already exists and is not a directory");
-            }
-        } else {
-            if (!destFolder.mkdirs()) {
-                throw new IllegalStateException("Unable to create directory: "+
-                        destFolder.getAbsolutePath());
-            }
-        }
-
-        File destFile = new File(destFolder.getAbsolutePath() + File.separator + fileName);*/
         return new File(file.getAbsolutePath() + File.separator + fileName);
     }
 
