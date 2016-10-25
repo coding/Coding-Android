@@ -28,61 +28,31 @@ public class FootUpdate {
     }
 
     public void initToHead(Object listView, LayoutInflater inflater, final LoadMore loadMore) {
-        View v = inflater.inflate(R.layout.listview_foot, null);
-
-        // 为了防止触发listview的onListItemClick事件
-        mLayout = v.findViewById(R.id.layout);
-        mLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
-        mClick = v.findViewById(R.id.textView);
-        mClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadMore.loadMore();
-                showLoading();
-            }
-        });
-
-        mLoading = v.findViewById(R.id.progressBar);
-
-        try {
-            Method method = listView.getClass().getMethod("addHeaderView", View.class);
-            method.invoke(listView, v);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
-        mLayout.setVisibility(View.GONE);
+        init(listView, inflater, loadMore, "addHeaderView");
     }
 
     public void init(Object listView, LayoutInflater inflater, final LoadMore loadMore) {
+        init(listView, inflater, loadMore, "addFooterView");
+    }
+
+    private void init(Object listView, LayoutInflater inflater, final LoadMore loadMore, String callMethod) {
         View v = inflater.inflate(R.layout.listview_foot, null, false);
 
         // 为了防止触发listview的onListItemClick事件
         mLayout = v.findViewById(R.id.layout);
-        mLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
+        mLayout.setOnClickListener(v1 -> {
         });
 
         mClick = v.findViewById(R.id.textView);
-        mClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadMore.loadMore();
-                showLoading();
-            }
+        mClick.setOnClickListener(v12 -> {
+            loadMore.loadMore();
+            showLoading();
         });
 
         mLoading = v.findViewById(R.id.progressBar);
 
         try {
-            Method method = listView.getClass().getMethod("addFooterView", View.class);
+            Method method = listView.getClass().getMethod(callMethod, View.class);
             method.invoke(listView, v);
         } catch (Exception e) {
             Global.errorLog(e);
