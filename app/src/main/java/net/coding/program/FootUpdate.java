@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 
 /**
  * Created by chaochen on 14-10-22.
+ * 上拉加载更多
  */
 public class FootUpdate {
 
