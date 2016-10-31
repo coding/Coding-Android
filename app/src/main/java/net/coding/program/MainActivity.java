@@ -318,6 +318,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    // todo 切换保存状态
     public void onNavigationDrawerItemSelected(int position) {
         mSelectPos = position;
         Fragment fragment = null;
