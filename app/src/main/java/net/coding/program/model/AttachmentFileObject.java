@@ -89,6 +89,8 @@ public class AttachmentFileObject implements Serializable {
     //    private Share share = new Share();
     private String share_url = "";
 
+    public AttachmentFileObject.Share share;
+
     public AttachmentFileObject() {
     }
 
@@ -114,6 +116,10 @@ public class AttachmentFileObject implements Serializable {
         history_id = json.optInt("history_id");
 
         share_url = json.optString("share_url");
+
+        if (json.has("share")) {
+            share = new AttachmentFileObject.Share(json.optJSONObject("share"));
+        }
     }
 
 //    public void setShare(Share shareParam) {

@@ -20,6 +20,7 @@ public class ViewHolderFile {
     public TextView name;
     public TextView content;
     public TextView desc;
+    public View shareMark;
 
     public LinearLayout file_info_layout;
     public TextView folder_name;
@@ -63,6 +64,7 @@ public class ViewHolderFile {
         progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
         progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
         cancel = (TextView) convertView.findViewById(R.id.cancel);
+        shareMark = convertView.findViewById(R.id.shareMark);
     }
 
 }
