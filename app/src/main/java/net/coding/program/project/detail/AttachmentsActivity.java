@@ -226,6 +226,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             holder.desc.setText(String.format("发布于%s", Global.dayToNow(data.created_at)));
             holder.username.setText(data.owner.name);
 
+
+            if (data.share != null) {
+                holder.shareMark.setVisibility(View.VISIBLE);
+            } else {
+                holder.shareMark.setVisibility(View.INVISIBLE);
+            }
+
             if (position == mFilesArray.size() - 1) {
                 if (!mNoMore) {
                     loadMore();
@@ -923,64 +930,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 "/files/existed?names=" +
                 encodeName;
     }
-
-//    private void showUploadStatus(UploadStatus status) {
-//        switch (status) {
-//            case Uploading:
-//                uploadFailureLayout.setVisibility(View.GONE);
-//                barParams.weight = 0;
-//                uploadStatusProgress.requestLayout();
-//                uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, 0));
-//                barParamsRemain.weight = 100;
-//                uploadStatusProgressRemain.requestLayout();
-//                uploadDoneLayout.setVisibility(View.GONE);
-//                uploadStatusLayout.setVisibility(View.VISIBLE);
-//                uploadLayout.setVisibility(View.VISIBLE);
-//                uploadStartTime = System.currentTimeMillis();
-//                break;
-//            case Finish:
-//                uploadFailureLayout.setVisibility(View.GONE);
-//                uploadDoneLayout.setVisibility(View.VISIBLE);
-//                uploadStatusLayout.setVisibility(View.GONE);
-//                uploadLayout.setVisibility(View.VISIBLE);
-//                barParams.weight = 100;
-//                uploadStatusProgress.requestLayout();
-//                barParamsRemain.weight = 0;
-//                uploadStatusProgressRemain.requestLayout();
-//                break;
-//            case Failure:
-//                uploadFailureLayout.setVisibility(View.VISIBLE);
-//                uploadDoneLayout.setVisibility(View.GONE);
-//                uploadStatusLayout.setVisibility(View.GONE);
-//                uploadLayout.setVisibility(View.VISIBLE);
-//                barParams.weight = 100;
-//                uploadStatusProgress.requestLayout();
-//                barParamsRemain.weight = 0;
-//                uploadStatusProgressRemain.requestLayout();
-//                break;
-//            case Close:
-//                uploadLayout.setVisibility(View.GONE);
-//                break;
-//
-//        }
-//    }
-
-//    @Click({R.id.uploadCloseBtn, R.id.uploadFailureCloseBtn})
-//    void closeUploadBar() {
-//        showUploadStatus(UploadStatus.Close);
-//    }
-
-//    private void setUploadStatus(long bytesWritten, long totalSize) {
-//        long uploadCurTime = System.currentTimeMillis();
-//        int progress = (int) ((totalSize > 0) ? (bytesWritten * 1.0 / totalSize) * 100 : -1);//bytesWritten * 100 /totalSize ;
-//        uploadMiddleHint.setText(String.format(uploadHitMiddleFormat, progress));
-//        barParams.weight = progress;
-//        uploadStatusProgress.requestLayout();
-//        barParamsRemain.weight = 100 - progress;
-//        uploadStatusProgressRemain.requestLayout();
-//        uploadRightHint.setText(String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
-//        Log.d(TAG, barParams.weight + " " + barParamsRemain.weight + " " + (bytesWritten / (uploadCurTime - uploadStartTime) * 1000) + " " + String.format("%s/S", Global.HumanReadableFilesize(bytesWritten / (uploadCurTime - uploadStartTime) * 1000)));
-//    }
 
     @OnActivityResult(FILE_DELETE_CODE)
     void onFileResult(int resultCode, Intent data) {

@@ -198,6 +198,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             } else {
                 holder.checkBox.setVisibility(View.GONE);
             }
+
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
             holder.checkBox.setTag(new Integer(position));
 
@@ -550,6 +551,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
 
     static class ViewHolder {
         ImageView icon;
+        View shareMark;
         TextView name;
         CheckBox checkBox;
         RelativeLayout more;
