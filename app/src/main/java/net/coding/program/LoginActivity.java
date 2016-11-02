@@ -116,7 +116,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 调用下，防止收到上次登陆账号的通知
+        // 调用下，防止收到上次登录账号的通知
         XGPushManager.registerPush(this, "*");
     }
 
@@ -408,10 +408,10 @@ public class LoginActivity extends BaseActivity {
             if (code == 0) {
                 MainActivity.setNeedWarnEmailNoValidLogin();
                 loginSuccess(respanse);
-                umengEvent(UmengEvent.USER, "普通登陆");
+                umengEvent(UmengEvent.USER, "普通登录");
             } else if (code == 3205) {
                 MainActivity.setNeedWarnEmailNoValidLogin();
-                umengEvent(UmengEvent.USER, "2fa登陆");
+                umengEvent(UmengEvent.USER, "2fa登录");
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
                 show2FA(true);
                 showProgressBar(false);

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="#fff7f3d5"
         android:padding="@dimen/padding_12"
-        android:text="适用于所有人，无需登陆。\n当前未开启分享，请先创建公开链接。"
+        android:text="适用于所有人，无需登录。\n当前未开启分享，请先创建公开链接。"
         android:textColor="@color/font_6"
         android:textSize="16sp" />
 
