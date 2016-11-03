@@ -214,7 +214,7 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path;
     }
 
-    public String getProjectPath() {
+    public String getProjectPath() { //     /user/cc/project/test
         return translatePath(backend_project_path);
     }
 

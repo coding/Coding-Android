@@ -72,6 +72,10 @@
             android:layout_toRightOf="@id/icon"
             android:layout_alignLeft="@+id/name"
             android:textSize="15sp"
+
+            collection = getCollection();
+            process(collection, somthingInTheWay);
+
             android:layout_marginBottom="5dp"
             android:id="@+id/content" />-->
     </RelativeLayout>

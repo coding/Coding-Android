@@ -26,7 +26,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -37,7 +37,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,9 +50,10 @@ import java.util.regex.Pattern;
  * Created by yangzhen on 2014/10/25.
  */
 @EFragment(R.layout.folder_main_refresh_listview)
-@OptionsMenu(R.menu.project_attachment_folder)
-public class ProjectAttachmentFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class ProjectAttachmentFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
     public static final int RESULT_REQUEST_FILES = 1;
+    final public static int RESULT_MOVE_FOLDER = 13;
+
     //@FragmentArg
     boolean mShowAdd = true;
     @FragmentArg
@@ -81,7 +81,7 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     //SwipeRefreshLayout swipeRefreshLayout;
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%d/rmdir/%s";
     private String HOST_FOLDER_DELETE;
-    private HashMap<String, Integer> fileCountMap = new HashMap<String, Integer>();
+    private HashMap<String, Integer> fileCountMap = new HashMap<>();
     private boolean isEditMode = false;
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
@@ -182,6 +182,9 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             holder.name.setText(data.getNameCount());
             if (data.file_id.equals("0")) {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder);
+                holder.more.setVisibility(View.GONE);
+            } else if (data.file_id.equals("-1")) {
+                holder.icon.setImageResource(R.drawable.icon_file_folder_share);
                 holder.more.setVisibility(View.GONE);
             } else {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
@@ -304,6 +307,13 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
                 }
                 JSONArray folders = respanse.getJSONObject("data").getJSONArray("list");
 
+                AttachmentFolderObject shareFolder = new AttachmentFolderObject();
+                // todo 数量
+                shareFolder.setCount(0);
+                shareFolder.file_id = AttachmentFolderObject.SHARE_FOLDER_ID;
+                shareFolder.name = "分享中";
+                mData.add(shareFolder);
+
                 AttachmentFolderObject defaultFolder = new AttachmentFolderObject();
                 defaultFolder.setCount(fileCountMap.get(defaultFolder.file_id));
                 mData.add(defaultFolder);
@@ -374,7 +384,21 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(TAG_MOVE_FOLDER)) {
+            if (code == 0) {
+                umengEvent(UmengEvent.FILE, "移动文件夹");
+
+                showButtomToast("移动成功");
+                mData.remove(pickedFolderObject);
+                pickedFolderObject = null;
+                adapter.notifyDataSetChanged();
+
+                onRefresh();
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
+
     }
 
     private void doRename(final int position, final AttachmentFolderObject folderObject) {
@@ -414,7 +438,6 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
     }
 
     private void doNowFolder() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //final EditText input = new EditText(getActivity());
         LayoutInflater li = LayoutInflater.from(getActivity());
@@ -518,40 +541,82 @@ public class ProjectAttachmentFragment extends CustomMoreFragment implements Foo
         AttachmentFolderObject selectedFolderObject = mData.get(selectedPosition);
 
 
+        final int deletePos;
+
         String[] itemTitles;
         if (selectedFolderObject.file_id.equals("0")) {
             return;
         } else if (selectedFolderObject.count != 0) {
-            itemTitles = new String[]{"重命名"};
+            if (selectedFolderObject.sub_folders.isEmpty()) {
+                itemTitles = new String[]{"重命名", "移动到"};
+                deletePos = 3;
+            } else {
+                itemTitles = new String[]{"重命名"};
+                deletePos = 2;
+            }
         } else {
-            itemTitles = new String[]{"重命名", "删除"};
+            if (selectedFolderObject.sub_folders.isEmpty()) {
+                itemTitles = new String[]{"重命名", "移动到", "删除"};
+                deletePos = 3;
+            } else {
+                itemTitles = new String[]{"重命名", "删除"};
+                deletePos = 2;
+            }
         }
 
         new AlertDialog.Builder(getActivity())
                 .setItems(itemTitles, (dialog, which) -> {
                     AttachmentFolderObject itemData = mData.get(position);
+                    AttachmentFolderObject folderObject = mData.get(selectedPosition);
                     if (which == 0) {
-                        doRename(selectedPosition, mData.get(selectedPosition));
-                    } else {
-                        AttachmentFolderObject selectedFolderObject1 = mData.get(selectedPosition);
+                        doRename(selectedPosition, folderObject);
+                    } else if (which == deletePos ){
+                        AttachmentFolderObject selectedFolderObject1 = folderObject;
                         if (selectedFolderObject1.isDeleteable()) {
                             action_delete_single(selectedFolderObject1);
                         } else {
                             showButtomToast("请先清空文件夹");
                         }
+                    } else {
+                        actionMove(folderObject);
                     }
                 })
                 .show();
     }
 
-    @Override
-    protected String getLink() {
-        return Global.HOST + mProjectObject.project_path + "/attachment";
+    AttachmentFolderObject pickedFolderObject;
+
+    private void actionMove(AttachmentFolderObject folderObject) {
+        pickedFolderObject = folderObject;
+        AttachmentsFolderSelectorActivity_.intent(this)
+                .mProjectObjectId(mProjectObject.getId())
+                .sourceRootFolder(pickedFolderObject)
+                .startForResult(RESULT_MOVE_FOLDER);
     }
+
+    @OnActivityResult(RESULT_MOVE_FOLDER)
+    void onResultFolderMove(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            AttachmentFolderObject selectedFolder = (AttachmentFolderObject) data.getSerializableExtra("mAttachmentFolderObject");
+            if (selectedFolder.file_id.equals("0")) {
+                return;
+            }
+
+            if (pickedFolderObject == null) {
+                return;
+            }
+
+//            AttachmentFileObject source = selectFile.get(selectFile.size() - 1);
+
+            String host = String.format("%s/%s/folder/%s/move-to/%s", Global.HOST_API, mProjectObject.getProjectPath(), pickedFolderObject.file_id, selectedFolder.file_id);
+            putNetwork(host, null, TAG_MOVE_FOLDER);
+        }
+    }
+
+    private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
 
     static class ViewHolder {
         ImageView icon;
-        View shareMark;
         TextView name;
         CheckBox checkBox;
         RelativeLayout more;

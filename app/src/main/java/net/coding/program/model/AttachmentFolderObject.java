@@ -21,6 +21,8 @@ public class AttachmentFolderObject implements Serializable {
     public int count;
     public boolean isSelected = false;
 
+    public static final String SHARE_FOLDER_ID = "-1";
+
     public ArrayList<AttachmentFolderObject> sub_folders = new ArrayList<>();
     public AttachmentFolderObject parent;
 
