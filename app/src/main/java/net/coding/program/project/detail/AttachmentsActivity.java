@@ -191,7 +191,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             holder.username.setText(data.owner.name);
 
 
-            if (data.share != null) {
+            if (data.isShared()) {
                 holder.shareMark.setVisibility(View.VISIBLE);
             } else {
                 holder.shareMark.setVisibility(View.INVISIBLE);
