@@ -23,6 +23,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -50,6 +51,12 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     @Extra
     int mProjectObjectId;
 
+    @Extra
+    AttachmentFileObject sourceFileObject;
+
+    @Extra
+    AttachmentFolderObject sourceRootFolder;
+
     AttachmentFolderObject mAttachmentFolderObject;
 
     @ViewById
@@ -58,7 +65,8 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     @ViewById
     Button btnRight;
 
-    //Boolean isTopFolder = true;
+    private boolean inChildFolder = false;
+
     @ViewById
     ListView listView;
     private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
@@ -96,8 +104,13 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             //holder.name.setText(data.getNameCount());
             holder.name.setText(data.name);
             if (data.file_id.equals("0")) {
-                holder.icon.setImageResource(R.drawable.ic_project_git_folder);
-                holder.more.setVisibility(View.GONE);
+                if (isChildFolder()) {
+                    holder.icon.setImageResource(R.drawable.icon_file_folder_out);
+                    holder.more.setVisibility(View.GONE);
+                } else {
+                    holder.icon.setImageResource(R.drawable.ic_project_git_folder);
+                    holder.more.setVisibility(View.GONE);
+                }
             } else {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
                 holder.more.setVisibility(View.VISIBLE);
@@ -116,6 +129,19 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         }
 
     };
+
+    private boolean isRootFolder() {
+        return sourceRootFolder != null;
+    }
+
+    private boolean isChildFolder() {
+        return sourceFileObject != null && sourceFileObject.isFolder;
+    }
+
+    private boolean isFile() {
+        return sourceFileObject == null || !sourceFileObject.isFolder;
+    }
+
     private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<>();
 
     @OptionsItem(android.R.id.home)
@@ -159,9 +185,15 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!isFile() && inChildFolder) {
+                    return;
+                }
+
+                inChildFolder = true;
                 mAttachmentFolderObject = mData.get(position);
                 mData.clear();
                 mData.addAll(mAttachmentFolderObject.sub_folders);
@@ -257,15 +289,18 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
 
                 AttachmentFolderObject defaultFolder = new AttachmentFolderObject();
                 //defaultFolder.setCount(fileCountMap.get(defaultFolder.file_id));
-                mData.add(defaultFolder);
+
+                if (isChildFolder()) {
+                    defaultFolder.name = "移出目录";
+                    mData.add(defaultFolder);
+                } else if (isRootFolder()) {
+                    // do nothing
+                } else { // 移动文件显示默认文件夹
+                    mData.add(defaultFolder);
+                }
 
                 for (int i = 0; i < folders.length(); ++i) {
                     AttachmentFolderObject folder = new AttachmentFolderObject(folders.getJSONObject(i));
-                    /*folder.setCount(fileCountMap.get(folder.file_id));
-                    ArrayList<AttachmentFolderObject> subFolders = folder.sub_folders;
-                    for (AttachmentFolderObject subFolder:subFolders){
-                        subFolder.setCount(fileCountMap.get(subFolder.file_id));
-                    }*/
                     mData.add(folder);
                 }
 

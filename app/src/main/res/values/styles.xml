@@ -148,7 +148,6 @@
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
         <item name="android:actionModeBackground">@drawable/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
-
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
         <item name="android:icon">@android:color/transparent</item>
