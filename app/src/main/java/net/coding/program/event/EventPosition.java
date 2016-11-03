@@ -5,8 +5,10 @@ package net.coding.program.event;
  */
 public class EventPosition {
     public int position;
+    public String title = "";
 
-    public EventPosition(int position) {
+    public EventPosition(int position, String title) {
         this.position = position;
+        this.title = title;
     }
 }

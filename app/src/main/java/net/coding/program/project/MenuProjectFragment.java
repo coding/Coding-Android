@@ -57,27 +57,27 @@ public class MenuProjectFragment extends BaseFragment {
 
     @Click
     void rb_join_project() {//我参与的项目
-        EventBus.getDefault().post(new EventPosition(1));
+        EventBus.getDefault().post(new EventPosition(1, "我参与的"));
     }
 
     @Click
     void rb_my_intrest() {//我关注的
-        EventBus.getDefault().post(new EventPosition(3));
+        EventBus.getDefault().post(new EventPosition(3, "我关注的"));
     }
 
     @Click
     void rb_my_collected() {//我收藏的
-        EventBus.getDefault().post(new EventPosition(4));
+        EventBus.getDefault().post(new EventPosition(4, "我收藏的"));
     }
 
     @Click
     void rb_all_project() {//全部项目
-        EventBus.getDefault().post(new EventPosition(0));
+        EventBus.getDefault().post(new EventPosition(0, "全部项目"));
     }
 
     @Click
     void rb_my_build() {//我创建的
-        EventBus.getDefault().post(new EventPosition(POS_MY_CREATE));
+        EventBus.getDefault().post(new EventPosition(POS_MY_CREATE, "我创建的"));
     }
 
     @Click
@@ -106,6 +106,5 @@ public class MenuProjectFragment extends BaseFragment {
         rb_my_build.setText("我创建的 (" + bean.getCreated() + ")");
         rb_my_collected.setText("我收藏的 (" + bean.getStared() + ")");
         rb_join_project.setText("我参与的 (" + bean.getJoined() + ")");
-
     }
 }

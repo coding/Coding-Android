@@ -38,6 +38,7 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventNotifyBottomBar;
+import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
@@ -83,7 +84,7 @@ public class MainActivity extends BaseActivity {
     View actionBarCompShadow;
 
     TextView toolbarTitle;
-    View toolbarProjectTitle;
+    TextView toolbarProjectTitle;
 
     private static boolean sNeedWarnEmailNoValidLogin = false;
 
@@ -233,7 +234,7 @@ public class MainActivity extends BaseActivity {
         }
 
         toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
-        toolbarProjectTitle = findViewById(R.id.toolbarProjectTitle);
+        toolbarProjectTitle = (TextView) findViewById(R.id.toolbarProjectTitle);
         toolbarProjectTitle.setOnClickListener(clickProjectTitle);
         toolbarMaopaoTitle = (Spinner) findViewById(R.id.toolbarMaopaoTitle);
 
@@ -323,7 +324,6 @@ public class MainActivity extends BaseActivity {
         mSelectPos = position;
         Fragment fragment = null;
 
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             actionBarCompShadow.setVisibility(View.VISIBLE);
         } else {
@@ -345,9 +345,11 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                 }
+
                 if (!containFragment) {
                     fragment = new ProjectFragment_();
                 }
+                toolbarProjectTitle.setText("全部项目");
                 break;
             case 1:
 //                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
@@ -560,8 +562,10 @@ public class MainActivity extends BaseActivity {
             } else {
                 bottomBar.setVisibility(View.GONE);
             }
+        } else if (object instanceof EventPosition) {
+            EventPosition eventPosition = (EventPosition) object;
+            toolbarProjectTitle.setText(eventPosition.title);
         }
-
     }
 
     public void updateNotifyFromService() {
