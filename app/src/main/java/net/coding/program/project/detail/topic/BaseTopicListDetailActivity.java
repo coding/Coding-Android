@@ -323,8 +323,11 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
         TextView voteView;
 
         //        View childCommentTopLine;
-        ChildHolder childHolder0;
-        ChildHolder childHolder1;
+
+
+        ChildHolder[] childHolders;
+
+
         TextView moreChildComment;
 
         public ViewHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser, View.OnClickListener clickImage) {
@@ -335,9 +338,21 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             voteView.setOnClickListener(clickVoteButton);
 
 //            childCommentTopLine = convertView.findViewById(R.id.childCommentTopLine);
+            ChildHolder childHolder0 = new ChildHolder(convertView.findViewById(R.id.child0), R.id.child0, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            ChildHolder childHolder1 = new ChildHolder(convertView.findViewById(R.id.child1), R.id.child1, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            ChildHolder childHolder2 = new ChildHolder(convertView.findViewById(R.id.child2), R.id.child2, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            ChildHolder childHolder3 = new ChildHolder(convertView.findViewById(R.id.child3), R.id.child3, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            ChildHolder childHolder4 = new ChildHolder(convertView.findViewById(R.id.child4), R.id.child4, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            ChildHolder childHolder5 = new ChildHolder(convertView.findViewById(R.id.child5), R.id.child5, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
+            childHolders = new ChildHolder[] {
+                    childHolder0,
+                    childHolder1,
+                    childHolder2,
+                    childHolder3,
+                    childHolder4,
+                    childHolder5,
+            };
 
-            childHolder0 = new ChildHolder(convertView.findViewById(R.id.child0), R.id.child0, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
-            childHolder1 = new ChildHolder(convertView.findViewById(R.id.child1), R.id.child1, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             moreChildComment = (TextView) convertView.findViewById(R.id.moreChildComment);
         }
 
@@ -359,19 +374,18 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
 
             ArrayList<TopicCommentChild> childcomments = ((TopicComment) data).childcomments;
             if (childcomments.size() > 0) {
-//                childCommentTopLine.setVisibility(View.VISIBLE);
-                childHolder0.setContent(childcomments.get(0), comment);
-                if (childcomments.size() > 1) {
-                    childHolder1.setContent(childcomments.get(1), comment);
-//                    childHolder1.showMoreChildButton(comment);
-                } else {
-                    childHolder1.show(false);
+                int i = 0;
+                for (; i < childHolders.length && i < childcomments.size(); ++i) {
+                    childHolders[i].setContent(childcomments.get(i), comment);
+                    childHolders[i].show(true);
                 }
 
+                for (; i < childHolders.length; ++i) {
+                    childHolders[i].show(false);
+                }
             } else {
                 hideAllChildren();
             }
-
 
             int count = comment.childcount;
             if (count > 2) {
@@ -389,9 +403,9 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
         }
 
         protected void hideAllChildren() {
-//            childCommentTopLine.setVisibility(View.INVISIBLE);
-            childHolder0.show(false);
-            childHolder1.show(false);
+            for (ChildHolder item : childHolders) {
+                item.show(false);
+            }
         }
     }
 
