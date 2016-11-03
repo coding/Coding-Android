@@ -196,7 +196,6 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
     @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
     void onFileResult(int resultCode, Intent data) {
-
         for (WeakReference<Fragment> item : mFragments) {
             Fragment f = item.get();
             if (f instanceof ProjectAttachmentFragment_) {

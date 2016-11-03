@@ -16,14 +16,15 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
-import net.coding.program.project.detail.file.ShareFileLinkActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -131,9 +132,23 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                 hideProgressDialog();
                 showButtomToast("删除完成");
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("mAttachmentFileObject", mAttachmentFileObject);
+                resultIntent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
                 setResult(RESULT_OK, resultIntent);
                 finish();
+            } else {
+                showErrorMsg(code, response);
+            }
+        } else if (tag.equals(TAG_SHARE_LINK_ON)) {
+            if (code == 0) {
+                umengEvent(UmengEvent.FILE, "开启共享");
+                AttachmentFileObject.Share mShare = new AttachmentFileObject.Share(response.optJSONObject("data"));
+                mAttachmentFileObject.setShereLink(mShare.getUrl());
+
+                Intent intent = new Intent();
+                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME, AttachmentsActivity.FileActions.ACTION_EDIT);
+                intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
+                setResult(RESULT_OK, intent);
+                copyShareLink();
             } else {
                 showErrorMsg(code, response);
             }
@@ -195,12 +210,22 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         showButtomToast("已复制 " + preViewUrl);
     }
 
+    private static final String TAG_SHARE_LINK_ON = "TAG_SHARE_LINK_ON";
+
     @OptionsItem
     protected final void action_link_public() {
-        ShareFileLinkActivity_.intent(this)
-                .mAttachmentFileObject(mAttachmentFileObject)
-                .mProject(mProject)
-                .startForResult(RESULT_SHARE_LINK);
+        if (mAttachmentFileObject.isShared()) {
+            copyShareLink();
+        } else {
+            RequestData request = mAttachmentFileObject.getHttpShareLinkOn(mProject);
+            postNetwork(request, TAG_SHARE_LINK_ON);
+        }
+    }
+
+    private void copyShareLink() {
+        String shareLink = mAttachmentFileObject.getShareLink();
+        Global.copy(this, shareLink);
+        showButtomToast("共享链接已复制");
     }
 
     @OnActivityResult(RESULT_SHARE_LINK)

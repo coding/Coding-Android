@@ -48,6 +48,7 @@ import java.util.regex.Pattern;
 @OptionsMenu(R.menu.project_attachment_folder_selector)
 public class AttachmentsFolderSelectorActivity extends BaseActivity implements FootUpdate.LoadMore {
     private static String TAG = AttachmentsFolderSelectorActivity.class.getSimpleName();
+    private final String STRING_OUT_FOLDER = "移出目录";
     @Extra
     int mProjectObjectId;
 
@@ -103,6 +104,12 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             AttachmentFolderObject data = mData.get(position);
             //holder.name.setText(data.getNameCount());
             holder.name.setText(data.name);
+            if (data.name.equals(STRING_OUT_FOLDER)) {
+                holder.name.setTextColor(0xFFAAB1B9);
+            } else {
+                holder.name.setTextColor(0xFF222222);
+            }
+
             if (data.file_id.equals("0")) {
                 if (isChildFolder()) {
                     holder.icon.setImageResource(R.drawable.icon_file_folder_out);
@@ -291,7 +298,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 //defaultFolder.setCount(fileCountMap.get(defaultFolder.file_id));
 
                 if (isChildFolder()) {
-                    defaultFolder.name = "移出目录";
+                    defaultFolder.name = STRING_OUT_FOLDER;
                     mData.add(defaultFolder);
                 } else if (isRootFolder()) {
                     // do nothing

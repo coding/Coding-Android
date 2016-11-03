@@ -119,6 +119,7 @@ public class AttachmentFileObject implements Serializable {
 
         if (json.has("share")) {
             share = new AttachmentFileObject.Share(json.optJSONObject("share"));
+            share_url = share.getUrl();
         }
     }
 
@@ -156,7 +157,6 @@ public class AttachmentFileObject implements Serializable {
     }
 
     public String getShareLink() {
-//        return share.url;
         return share_url;
     }
 
