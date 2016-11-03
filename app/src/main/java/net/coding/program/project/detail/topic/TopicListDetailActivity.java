@@ -439,7 +439,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
                 } else if (data instanceof TopicComment) {
                     TopicComment comment = (TopicComment) data;
                     TopicCommentChild newItem = new TopicCommentChild(respanse.optJSONObject("data"));
-                    comment.childcomments.add(0, newItem);
+                    comment.childcomments.add(newItem);
                     comment.childcount++;
                 } else if (data instanceof TopicCommentChild) {
                     TopicCommentChild child = (TopicCommentChild) data;
@@ -452,7 +452,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
                     }
                     if (comment != null) {
                         TopicCommentChild newItem = new TopicCommentChild(respanse.optJSONObject("data"));
-                        comment.childcomments.add(0, newItem);
+                        comment.childcomments.add(newItem);
                         comment.childcount++;
                     }
                 }

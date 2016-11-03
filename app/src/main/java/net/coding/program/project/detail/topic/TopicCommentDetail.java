@@ -222,12 +222,12 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
                 } else if (data instanceof TopicComment) {
                     TopicComment comment = (TopicComment) data;
                     TopicCommentChild newItem = new TopicCommentChild(respanse.optJSONObject("data"));
-                    comment.childcomments.add(0, newItem);
+                    comment.childcomments.add(newItem);
                     comment.childcount++;
                 } else if (data instanceof TopicCommentChild) {
                     TopicComment comment = topicComment;
                     TopicCommentChild newItem = new TopicCommentChild(respanse.optJSONObject("data"));
-                    comment.childcomments.add(0, newItem);
+                    comment.childcomments.add(newItem);
                     comment.childcount++;
                 }
 

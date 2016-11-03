@@ -148,8 +148,10 @@
 
     <include android:id="@+id/child0" layout="@layout/topic_comment_child" />
     <include android:id="@+id/child1" layout="@layout/topic_comment_child" />
-
-
+    <include android:id="@+id/child2" layout="@layout/topic_comment_child" />
+    <include android:id="@+id/child3" layout="@layout/topic_comment_child" />
+    <include android:id="@+id/child4" layout="@layout/topic_comment_child" />
+    <include android:id="@+id/child5" layout="@layout/topic_comment_child" />
 
     <TextView
         android:paddingBottom="10dp"
