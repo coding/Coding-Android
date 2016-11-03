@@ -86,10 +86,9 @@ public class AttachmentFileObject implements Serializable {
     private String name = "";
     private int size = 0;
     private int history_id;
-    //    private Share share = new Share();
-    private String share_url = "";
 
-    public AttachmentFileObject.Share share;
+    private String share_url = ""; // 早期的版本是使用 share_url，现在的版本改成了 share
+    private AttachmentFileObject.Share share;
 
     public AttachmentFileObject() {
     }
