@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -325,16 +324,16 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 TaskObject.SingleTask task = param.mTask;
                 task.status = param.mStatus;
 
-                if (mParent != null) {
-                    mNeedUpdate = false;
-                    mParent.taskListParentUpdate();
-                }
+//                if (mParent != null) {
+//                    mNeedUpdate = false;
+//                    mParent.taskListParentUpdate();
+//                }
 
             } else {
                 Toast.makeText(getActivity(), "修改任务失败", Toast.LENGTH_SHORT).show();
             }
 
-            mAdapter.notifyDataSetChanged();
+//            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -435,7 +434,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
-
             int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 12); // item 左边空 100 dp，右边空12dp
             if (!data.deadline.isEmpty()) {
                 flowWidth -= Global.dpToPx(55);
@@ -506,12 +504,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 }
             }
 
-            holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    statusTask(pos, data.getId(), isChecked);
-                }
-            });
+            holder.mCheckBox.setOnCheckedChangeListener((buttonView, isChecked) ->
+                    statusTask(pos, data.getId(), isChecked));
 
             if (position == mData.size() - 1) {
                 loadData();
