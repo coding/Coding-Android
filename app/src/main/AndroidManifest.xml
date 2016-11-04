@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="120"
-    android:versionName="4.0.2">
+    android:versionCode="122"
+    android:versionName="4.0.8">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -941,6 +941,10 @@
         <activity
             android:name=".user.MyDetailActivity_"
             android:label="@string/title_activity_my_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".common.activity.WebviewDetailActivity_"
+            android:label="@string/title_activity_comment_detail"
             android:screenOrientation="portrait" />
     </application>
 

@@ -78,7 +78,7 @@
             android:orientation="horizontal"
             android:visibility="visible" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -88,8 +88,6 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/layoutContent"
-                android:layout_below="@id/layoutContent"
                 android:text="超级小胖纸"
                 android:textColor="@color/font_6"
                 android:textSize="12sp" />
@@ -103,11 +101,17 @@
                 android:layout_toRightOf="@id/name"
                 android:drawableLeft="@drawable/ic_clock"
                 android:drawablePadding="5dp"
-
                 android:text="3分钟前"
                 android:textColor="@color/font_9"
                 android:textSize="12sp" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/commentWebviewDetail"
+                android:text="查看详情"
+                android:layout_marginRight="0dp"
+                style="@style/commentWebviewDetail" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <View

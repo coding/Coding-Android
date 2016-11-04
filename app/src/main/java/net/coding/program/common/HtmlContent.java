@@ -24,6 +24,10 @@ public class HtmlContent {
 
     private static final String REGX_HTML = "<([A-Za-z][A-Za-z0-9]*)[^>]*>(.*?)</\\1>";
 
+    public static boolean includeMathLabel(String s) {
+        return s != null && s.contains("<span class=");
+    }
+
     public static Global.MessageParse parseMessage(String s) {
         Global.MessageParse parse = createMessageParse(s, REGX_PHOTO_OLD);
         if (parse.uris.size() > 0) {

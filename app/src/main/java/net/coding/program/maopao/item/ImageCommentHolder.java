@@ -37,7 +37,9 @@ public class ImageCommentHolder extends BaseCommentHolder {
     public void setContent(Object data) {
         super.setContent(data);
         if (data instanceof BaseComment) {
-            contentArea.setDataContent(((BaseComment) data).content, data);
+            String content = ((BaseComment) data).content;
+            contentArea.setDataContent(content, data);
+            bindMathLabButton(content);
         } else if (data instanceof Commit) {
             contentArea.setDataContent(((Commit) data).getTitle(), data);
         } else if (data instanceof DynamicObject.DynamicProjectFileComment) {

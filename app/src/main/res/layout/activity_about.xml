@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
-                android:text="给Coding好评"
+                android:text="给 Coding 好评"
                 android:textColor="@color/font_2"
                 android:textSize="18sp" />
 

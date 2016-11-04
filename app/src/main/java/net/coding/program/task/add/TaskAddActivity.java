@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.common.util.DensityUtil;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -108,6 +107,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             R.drawable.ic_task_priority_2,
             R.drawable.ic_task_priority_3
     };
+
+    View listFooter;
 
     final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
     final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=999999999";
@@ -217,6 +218,17 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 return 0;
             } else {
                 return 1;
+            }
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+
+            if (getCount() == 0) {
+                listFooter.setVisibility(View.INVISIBLE);
+            } else {
+                listFooter.setVisibility(View.VISIBLE);
             }
         }
 
@@ -350,10 +362,10 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         description = (TextView) mHeadView.findViewById(R.id.description);
         descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView, null, false);
-        View gap = new View(this);
-        gap.setMinimumHeight(DensityUtil.dip2px(this, 20));
-        gap.setBackgroundResource(R.color.divide);
-        listView.addFooterView(gap);
+        listFooter = mInflater.inflate(R.layout.task_add_footer, listView, false);
+        listView.addFooterView(listFooter);
+
+        listFooter.setVisibility(View.INVISIBLE);
     }
 
     private void updateLabels(List<TopicLabelObject> labels) {
