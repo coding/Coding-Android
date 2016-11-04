@@ -144,7 +144,7 @@ public class FileDynamicActivity extends BackActivity {
         @Override
         public String getAtSomeUrl() {
             return String.format(Global.HOST_API +
-                    "/user/relationships/context?context_type=project_file_comment&item_id=%d", mProjectObject.getId());
+                    "/user/relationships/context?context_type=project_file_comment&item_id=%d", fileId);
         }
 
         @Override

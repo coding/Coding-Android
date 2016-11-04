@@ -1,6 +1,5 @@
 package net.coding.program.project.detail.merge;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
@@ -51,12 +50,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     @Override
     public void onBackPressed() {
         if (!editFragment.isEmpty()) {
-            showDialog("发表评论", "确定放弃已写的评论？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
+            showDialog("发表评论", "确定放弃已写的评论？", (dialog, which) -> finish());
         } else {
             finish();
         }

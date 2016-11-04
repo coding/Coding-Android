@@ -64,8 +64,8 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     public static final String RESULT_EXTRA_NAME = "name";
     public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
     private static final String TAG_RELAY_MESSAGE = "TAG_RELAY_MESSAGE";
-    final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=500";
-    final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=500";
+    final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=20";
+    final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=20";
 
     private static final String TAG_ADD_PROJECT_MEMBER = "TAG_ADD_PROJECT_MEMBER";
 
@@ -215,7 +215,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     @Override
     public void loadMore() {
         if (statUrl != null) {
-            getNetwork(statUrl, statUrl);
+            getNextPageNetwork(statUrl, statUrl);
         } else if (mUserParam == null) {
             if (type == Friend.Fans) {
                 getNextPageNetwork(HOST_FANS, HOST_FANS);
@@ -343,7 +343,8 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         if (tag.equals(HOST_FOLLOWS) ||
                 tag.equals(HOST_FANS) ||
                 tag.equals(TAG_USER_FANS) ||
-                tag.equals(TAG_USER_FOLLOWS)) {
+                tag.equals(TAG_USER_FOLLOWS) ||
+                tag.equals(statUrl)) {
 
             if (code == 0) {
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
@@ -393,22 +394,22 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(statUrl)) {
-            showProgressBar(false);
-            hideProgressDialog();
-            if (code == 0) {
-                JSONArray json = respanse.optJSONArray("data");
-                for (int i = 0; i < json.length(); ++i) {
-                    UserObject userObject = new UserObject(json.getJSONObject(i));
-                    mData.add(userObject);
-                }
-
-                Collections.sort(mData);
-                mSearchData = new ArrayList<>(mData);
-                adapter.notifyDataSetChanged();
-            } else {
-                showErrorMsg(code, respanse);
-            }
+//        } else if (tag.equals(statUrl)) {
+//            showProgressBar(false);
+//            hideProgressDialog();
+//            if (code == 0) {
+//                JSONArray json = respanse.optJSONArray("data");
+//                for (int i = 0; i < json.length(); ++i) {
+//                    UserObject userObject = new UserObject(json.getJSONObject(i));
+//                    mData.add(userObject);
+//                }
+//
+//                Collections.sort(mData);
+//                mSearchData = new ArrayList<>(mData);
+//                adapter.notifyDataSetChanged();
+//            } else {
+//                showErrorMsg(code, respanse);
+//            }
         } else if (tag.equals(TAG_ADD_PROJECT_MEMBER)) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "添加成员");

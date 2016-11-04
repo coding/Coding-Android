@@ -14,10 +14,10 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.git.ForksListActivity_;
-import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -146,43 +146,35 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], backgroundRight[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
         mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], backgroundRight[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
         mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], backgroundRight[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
-
-
     }
 
-    View.OnClickListener onClickStatCount = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String title = String.format("收藏了 %s 的人", mProjectObject.name);
-            String url = mProjectObject.getHttptStargazers();
-            startUserList(title, url);
-        }
+    View.OnClickListener onClickStatCount = v -> {
+        String title = String.format("收藏了 %s 的人", mProjectObject.name);
+        String url = mProjectObject.getHttptStargazers();
+        startUserList(title, url);
     };
 
-    View.OnClickListener onClickFollowCount = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String title = String.format("关注了 %s 的人", mProjectObject.name);
-            String url = mProjectObject.getHttptwatchers();
-            startUserList(title, url);
-        }
+    View.OnClickListener onClickFollowCount = v -> {
+        String title = String.format("关注了 %s 的人", mProjectObject.name);
+        String url = mProjectObject.getHttptwatchers();
+        startUserList(title, url);
     };
 
     private void startUserList(String title, String url) {
-        UsersListActivity_.intent(PublicProjectHomeFragment.this)
-                .titleName(title)
-                .statUrl(url)
+//        UsersListActivity_.intent(PublicProjectHomeFragment.this)
+//                .titleName(title)
+//                .statUrl(url)
+//                .start();
+        MembersSelectActivity_.intent(this)
+                .actionBarTitle(title)
+                .userListUrl(url)
                 .start();
     }
 
-    View.OnClickListener onClickForkCount = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ForksListActivity_.intent(PublicProjectHomeFragment.this)
-                    .mProjectObject(mProjectObject)
-                    .start();
-        }
-    };
+    View.OnClickListener onClickForkCount = v -> ForksListActivity_
+            .intent(PublicProjectHomeFragment.this)
+            .mProjectObject(mProjectObject)
+            .start();
 
     private void initHead3(View root) {
         final int[] buttons = new int[]{

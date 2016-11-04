@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.ProjectObject;
@@ -27,18 +28,25 @@ import java.util.List;
  * 基本的listActivity，没有分隔条，没有分页
  */
 @EActivity
-public abstract class BaseListActivity extends BackActivity {
+public abstract class BaseListActivity extends BackActivity implements FootUpdate.LoadMore {
 
 //    public abstract String getActionbarTitle();
 //    public abstract String getGetUrl();
 //    public abstract View getBindView(int position, View convertView, ViewGroup parent);
+
 
     ActivityParam mActivityParam;
     private ArrayAdapter<Object> mAdapter;
 
     public abstract ActivityParam getActivityParam();
 
-    private static final String TAG_HTTP_BASE_LIST_ACTIVITY = "TAG_HTTP_BASE_LIST_ACTIVITY";
+//    private static final String TAG_HTTP_BASE_LIST_ACTIVITY = "TAG_HTTP_BASE_LIST_ACTIVITY";
+    private static final String TAG_LOAD_MORE = "TAG_LOAD_MORE";
+
+    @Override
+    public void loadMore() {
+        getNextPageNetwork(mActivityParam.mUrl, TAG_LOAD_MORE);
+    }
 
     @AfterViews
     protected final void BaseListActivity() {
@@ -51,12 +59,13 @@ public abstract class BaseListActivity extends BackActivity {
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(mActivityParam.mItemClick);
 
-        getNetwork(mActivityParam.mUrl, TAG_HTTP_BASE_LIST_ACTIVITY);
+        loadMore();
+//        getNetwork(mActivityParam.mUrl, TAG_HTTP_BASE_LIST_ACTIVITY);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(TAG_HTTP_BASE_LIST_ACTIVITY)) {
+        if (tag.equals(TAG_LOAD_MORE)) {
             hideProgressDialog();
             if (code == 0) {
                 JSONArray jsonArray = respanse.optJSONArray("data");
@@ -101,6 +110,11 @@ public abstract class BaseListActivity extends BackActivity {
                 }
 
                 hold.setData(getItem(position));
+
+                if (position == getCount() - 1) {
+                    loadMore();
+                }
+
                 return convertView;
             } catch (Exception e) {
                 return new TextView(parent.getContext());

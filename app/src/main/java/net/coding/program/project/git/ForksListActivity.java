@@ -12,6 +12,7 @@ import net.coding.program.common.ui.ActivityParamBuilder;
 import net.coding.program.common.ui.BaseListActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.ProjectHomeActivity_;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.user.UserDetailActivity_;
 
@@ -28,19 +29,18 @@ public class ForksListActivity extends BaseListActivity {
     public ActivityParam getActivityParam() {
         String title = String.format("Fork 了 %s 的人", mProjectObject.name);
         return new ActivityParamBuilder().setTitle(title)
-                .setUrl(Global.HOST_API + mProjectObject.getProjectPath() + "/git/forks")
+                .setUrl(Global.HOST_API + mProjectObject.getProjectPath() + "/git/forks/paging?pageSize=20")
                 .setViewHold(ViewHold.class)
                 .setItemClick(mItemClick)
                 .createActivityParam();
     }
 
-    AdapterView.OnItemClickListener mItemClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ProjectHomeActivity_.intent(ForksListActivity.this)
-                    .mProjectObject(mProjectObject)
-                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
-        }
+    AdapterView.OnItemClickListener mItemClick = (parent, view, position, id) -> {
+        ProjectObject projectObject = (ProjectObject) parent.getItemAtPosition(position);
+        ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(projectObject.depot_path);
+        ProjectHomeActivity_.intent(ForksListActivity.this)
+                .mJumpParam(param)
+                .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
     };
 
     public static class ViewHold implements BaseViewHold {
@@ -69,14 +69,11 @@ public class ForksListActivity extends BaseListActivity {
             icon.setTag(data.getOwner().global_key);
         }
 
-        View.OnClickListener mClickIcon = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String globalKey = (String) v.getTag();
-                UserDetailActivity_.intent(v.getContext())
-                        .globalKey(globalKey)
-                        .start();
-            }
+        View.OnClickListener mClickIcon = v -> {
+            String globalKey = (String) v.getTag();
+            UserDetailActivity_.intent(v.getContext())
+                    .globalKey(globalKey)
+                    .start();
         };
 
     }
