@@ -261,11 +261,11 @@ public class ProjectObject implements Serializable {
 
 
     public String getHttptStargazers() {
-        return Global.HOST_API + backend_project_path + "/stargazers";
+        return Global.HOST_API + backend_project_path + "/stargazers/paging?pageSize=20";
     }
 
     public String getHttptwatchers() {
-        return Global.HOST_API + backend_project_path + "/watchers";
+        return Global.HOST_API + backend_project_path + "/watchers/paging?pageSize=20";
     }
 
     public String getForkPath() {

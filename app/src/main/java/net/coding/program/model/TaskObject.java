@@ -82,7 +82,7 @@ public class TaskObject {
         public String alias = "";
         public UserObject user = new UserObject();
 
-        public Members(JSONObject json) throws JSONException {
+        public Members(JSONObject json) {
             created_at = json.optLong("created_at");
             id = json.optInt("id");
             last_visit_at = json.optLong("last_visit_at");

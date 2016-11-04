@@ -29,6 +29,12 @@ public class MembersSelectActivity extends BackActivity {
     String mMergeUrl;
 
     @Extra
+    String actionBarTitle;
+
+    @Extra
+    String userListUrl;
+
+    @Extra
     Merge mMerge;  // 写 Reviewer 功能加上
 
     @Extra
@@ -44,6 +50,16 @@ public class MembersSelectActivity extends BackActivity {
                     .mProjectObject(mProjectObject)
                     .type(MembersListFragment.Type.Pick)
                     .build();
+        } else if (userListUrl != null) {
+            String title = actionBarTitle != null ? actionBarTitle : "";
+            setActionBarTitle(title);
+            fragment = new MembersListFragment_
+                    .FragmentBuilder_()
+                    .mMergeUrl(userListUrl)
+                    .type(MembersListFragment.Type.Member)
+                    .dataType(MembersListFragment.DataType.User)
+                    .build();
+
         } else if (mMergeUrl != null) {
             setActionBarTitle("选择@对象");
             fragment = new MembersListFragment_
