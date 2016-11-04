@@ -387,8 +387,8 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
                 hideAllChildren();
             }
 
-            int count = comment.childcount;
-            if (count > 2) {
+            if (comment.childcount > comment.childcomments.size()
+                    || comment.childcomments.size() > childHolders.length) {
                 moreChildComment.setVisibility(View.VISIBLE);
                 moreChildComment.setText(String.format("查看全部%s条评论", comment.childcount));
                 moreChildComment.setOnClickListener(v -> {
