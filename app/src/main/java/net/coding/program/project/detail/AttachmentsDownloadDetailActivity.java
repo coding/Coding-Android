@@ -41,10 +41,10 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
+import net.coding.program.project.detail.file.ShareFileLinkActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -548,13 +548,10 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     @OptionsItem
     protected final void action_link_public() {
-//        ShareFileLinkActivity_.intent(this)
-//                .mAttachmentFileObject(mAttachmentFileObject)
-//                .mProject(mProject)
-//                .startForResult(RESULT_SHARE_LINK);
-
-        RequestData request = mAttachmentFileObject.getHttpShareLinkOn(mProject);
-        postNetwork(request, TAG_SHARE_LINK_ON);
+        ShareFileLinkActivity_.intent(this)
+                .mAttachmentFileObject(mAttachmentFileObject)
+                .mProject(mProject)
+                .startForResult(RESULT_SHARE_LINK);
     }
 
     private void copyShareLink() {

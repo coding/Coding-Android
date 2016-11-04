@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
     android:orientation="vertical">
@@ -18,8 +18,8 @@
             android:layout_height="24dp"
             android:layout_marginLeft="@dimen/padding_15"
             android:background="@color/font_blue"
-            tools:visibility="visible"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -28,9 +28,9 @@
                 android:drawableLeft="@drawable/ic_recomend"
                 android:drawablePadding="5dp"
                 android:text="最佳答案"
-                tools:visibility="visible"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:visibility="visible" />
         </FrameLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -96,9 +96,9 @@
                 android:orientation="horizontal"
                 android:visibility="visible" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/layout3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -108,8 +108,7 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/layoutContent"
-                    android:layout_below="@id/layoutContent"
+                    android:layout_centerVertical="true"
                     android:text="超级小胖纸"
                     android:textColor="@color/font_9"
                     android:textSize="12sp" />
@@ -119,6 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/name"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/name"
                     android:drawableLeft="@drawable/ic_clock"
@@ -127,7 +127,12 @@
                     android:textColor="@color/font_9"
                     android:textSize="12sp" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/commentWebviewDetail"
+                    android:text="查看详情"
+                    style="@style/commentWebviewDetail" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -142,33 +147,50 @@
     </RelativeLayout>
 
     <!--<View-->
-        <!--android:id="@+id/childCommentTopLine"-->
-        <!--style="@style/DivideLine_15"-->
-        <!--android:layout_alignParentBottom="true" />-->
+    <!--android:id="@+id/childCommentTopLine"-->
+    <!--style="@style/DivideLine_15"-->
+    <!--android:layout_alignParentBottom="true" />-->
 
-    <include android:id="@+id/child0" layout="@layout/topic_comment_child" />
-    <include android:id="@+id/child1" layout="@layout/topic_comment_child" />
-    <include android:id="@+id/child2" layout="@layout/topic_comment_child" />
-    <include android:id="@+id/child3" layout="@layout/topic_comment_child" />
-    <include android:id="@+id/child4" layout="@layout/topic_comment_child" />
-    <include android:id="@+id/child5" layout="@layout/topic_comment_child" />
+    <include
+        android:id="@+id/child0"
+        layout="@layout/topic_comment_child" />
+
+    <include
+        android:id="@+id/child1"
+        layout="@layout/topic_comment_child" />
+
+    <include
+        android:id="@+id/child2"
+        layout="@layout/topic_comment_child" />
+
+    <include
+        android:id="@+id/child3"
+        layout="@layout/topic_comment_child" />
+
+    <include
+        android:id="@+id/child4"
+        layout="@layout/topic_comment_child" />
+
+    <include
+        android:id="@+id/child5"
+        layout="@layout/topic_comment_child" />
 
     <TextView
+        android:id="@+id/moreChildComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dp"
+        android:background="@color/stand_bg"
         android:paddingBottom="10dp"
-        android:visibility="gone"
-        tools:visibility="visible"
         android:text="查看全部12条评论"
         android:textColor="#32BE77"
-        android:layout_marginLeft="55dp"
         android:textSize="14sp"
-        android:layout_width="match_parent"
-        android:background="@color/stand_bg"
-        android:id="@+id/moreChildComment"
-        android:layout_height="wrap_content" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <View
-        style="@style/DivideLine_15"
         android:id="@+id/bottomDivideLine"
+        style="@style/DivideLine_15"
         android:layout_alignParentBottom="true" />
 
 </LinearLayout>

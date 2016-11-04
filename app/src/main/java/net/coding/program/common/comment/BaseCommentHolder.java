@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
@@ -25,6 +26,9 @@ public class BaseCommentHolder {
     protected ImageLoadTool imageLoadTool;
     protected String globalKey = "";
 
+    private View mathLabButton;
+
+
     public BaseCommentHolder(View convertView, int rootLayoutId, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
         layout = convertView.findViewById(rootLayoutId);
         layout.setOnClickListener(onClickComment);
@@ -36,6 +40,24 @@ public class BaseCommentHolder {
 
         this.imageLoadTool = imageLoadTool;
         this.imageGetter = imageGetter;
+
+        mathLabButton = convertView.findViewById(R.id.commentWebviewDetail);
+        if (mathLabButton != null) {
+            mathLabButton.setOnClickListener(Global.clickJumpWebView);
+        }
+    }
+
+    protected void bindMathLabButton(String string) {
+        if (mathLabButton == null) {
+            return;
+        }
+
+        if (HtmlContent.includeMathLabel(string)) {
+            mathLabButton.setVisibility(View.VISIBLE);
+            mathLabButton.setTag(string);
+        } else {
+            mathLabButton.setVisibility(View.GONE);
+        }
     }
 
     public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {

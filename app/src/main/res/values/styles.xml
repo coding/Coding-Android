@@ -403,6 +403,18 @@
         <item name="android:textColor">@color/font_2</item>
     </style>
 
+    <style name="commentWebviewDetail">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignTop">@id/name</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
+        <item name="android:textColor">@color/font_green</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

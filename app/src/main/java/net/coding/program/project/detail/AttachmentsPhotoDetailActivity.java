@@ -81,7 +81,8 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     protected void clickImagePrototype() {
         // download
         action_download();
-        showProgressBar(true, "正在下载");
+//        showProgressBar(true, "正在下载");
+        showMiddleToast("开始下载");
     }
 
     @Override
@@ -96,7 +97,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
             setResult(RESULT_OK, intent);
             updateDisplay();
         } else {
-            showButtomToast("下载原图失败");
+//            showButtomToast("下载原图失败");
         }
     }
 }
