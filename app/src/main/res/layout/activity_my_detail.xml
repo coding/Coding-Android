@@ -17,6 +17,7 @@
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <FrameLayout
+                android:visibility="gone"
                 android:id="@+id/userBackgroundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="145dp">

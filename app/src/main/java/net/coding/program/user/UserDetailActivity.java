@@ -68,7 +68,8 @@ public class UserDetailActivity extends BackActivity {
     CheckBox followCheckbox;
     @ViewById
     ImageView userBackground;
-
+    @ViewById
+    ImageView sex;
     @StringArrayRes
     String[] user_detail_activity_list_first;
     @StringArrayRes
@@ -158,12 +159,12 @@ public class UserDetailActivity extends BackActivity {
         });
     }
 
-//    @Click
-//    void moreDetail() {
-//        UserDetailMoreActivity_.intent(this)
-//                .mUserObject(mUserObject)
-//                .start();
-//    }
+    @Click
+    void moreDetail() {
+        UserDetailMoreActivity_.intent(this)
+                .mUserObject(mUserObject)
+                .start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,7 +263,7 @@ public class UserDetailActivity extends BackActivity {
         icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
 
-        //sex.setImageResource(sexs[mUserObject.sex]);
+        sex.setImageResource(sexs[mUserObject.sex]);
 
         name.setText(mUserObject.name);
 
@@ -287,11 +288,11 @@ public class UserDetailActivity extends BackActivity {
         }
 
         TextView fans = (TextView) findViewById(R.id.fans);
-        fans.setText(createSpan(this, String.format("粉丝  %d", mUserObject.fans_count)));
+        fans.setText(createSpan(this, String.format("%d  粉丝", mUserObject.fans_count)));
         fans.setOnClickListener(onClickFans);
 
         TextView follows = (TextView) findViewById(R.id.follows);
-        follows.setText(createSpan(this, String.format("关注  %d", mUserObject.follows_count)));
+        follows.setText(createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
 
         setListData();
