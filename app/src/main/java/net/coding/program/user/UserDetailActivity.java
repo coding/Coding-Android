@@ -6,14 +6,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.method.ScrollingMovementMethod;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -22,11 +19,9 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
-import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.ListItem1;
-import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
@@ -43,7 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_user_detail)
-public class UserDetailActivity extends BackActivity {
+public class UserDetailActivity extends UserDetailCommonActivity {
 
     public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
@@ -58,61 +53,20 @@ public class UserDetailActivity extends BackActivity {
     String globalKey;
     @ViewById
     ImageView icon;
-    @ViewById
-    TextView name;
-    @ViewById
-    View sendMessage;
-    @ViewById
-    View icon_sharow;
-    @ViewById
-    CheckBox followCheckbox;
-    @ViewById
-    ImageView userBackground;
-    @ViewById
-    ImageView sex;
     @StringArrayRes
     String[] user_detail_activity_list_first;
     @StringArrayRes
     String[] user_detail_list_first;
     String[] user_detail_list_second;
     boolean isMe = false;
-    int sexs[] = new int[]{
-            R.drawable.ic_sex_boy,
-            R.drawable.ic_sex_girl,
-            android.R.color.transparent
-    };
+
     boolean mNeedUpdate = false;
-    private UserObject mUserObject;
-    View.OnClickListener onClickFans = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
-                    UsersListActivity.Friend.Fans);
 
-            UsersListActivity_
-                    .intent(UserDetailActivity.this)
-                    .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Fans)
-                    .start();
-        }
-    };
-    View.OnClickListener onClickFollow = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
-                    UsersListActivity.Friend.Follow);
 
-            UsersListActivity_
-                    .intent(UserDetailActivity.this)
-                    .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Follow)
-                    .start();
-        }
-    };
 
     @AfterViews
     protected final void initUserDetailActivity() {
-        initListFirst();
+        //initListFirst();
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
@@ -123,8 +77,6 @@ public class UserDetailActivity extends BackActivity {
                 return;
             }
             bindViewType();
-
-
             getNetwork(HOST_USER_INFO + globalKey, HOST_USER_INFO);
         } else {
             try {
@@ -137,33 +89,12 @@ public class UserDetailActivity extends BackActivity {
                     return;
                 }
                 bindViewType();
-
                 getNetwork(HOST_USER_INFO + name, HOST_USER_INFO);
             } catch (Exception e) {
                 Global.errorLog(e);
                 finish();
-                return;
             }
         }
-
-        userBackground.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewGroup.LayoutParams lp = userBackground.getLayoutParams();
-                if (lp.width > 0) {
-                    lp.height = lp.width * 560 / 1080;
-                    userBackground.setLayoutParams(lp);
-                    userBackground.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            }
-        });
-    }
-
-    @Click
-    void moreDetail() {
-        UserDetailMoreActivity_.intent(this)
-                .mUserObject(mUserObject)
-                .start();
     }
 
     @Override
@@ -191,34 +122,14 @@ public class UserDetailActivity extends BackActivity {
             ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
             ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
             ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
-
         } else {
             findViewById(R.id.divideLocal).setVisibility(View.GONE);
             findViewById(R.id.clickLocal).setVisibility(View.GONE);
         }
-
-        followCheckbox.setVisibility(isMe ? View.GONE : View.VISIBLE);
-        findViewById(R.id.sendMessageLayout).setVisibility(isMe ? View.GONE : View.VISIBLE);
-        findViewById(R.id.layoutLocal).setVisibility(isMe ? View.GONE : View.VISIBLE);
-
         findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
         findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
 
-
-        invalidateOptionsMenu();
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        if (isMe) {
-//            inflater.inflate(R.menu.user_detail_me, menu);
-//        } else {
-//            inflater.inflate(R.menu.user_detail, menu);
-//        }
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @OptionsItem
     void action_edit() {
@@ -247,107 +158,77 @@ public class UserDetailActivity extends BackActivity {
     }
 
     void displayUserinfo() {
-        String dayToNow = Global.dayToNow(mUserObject.created_at);
-        String lastActivity = Global.dayToNow(mUserObject.last_activity_at);
-        user_detail_list_second = new String[]{
-                dayToNow,
-                lastActivity,
-                mUserObject.global_key,
-                mUserObject.company,
-                mUserObject.job_str,
-                mUserObject.location,
-                mUserObject.tags_str
-        };
 
-        iconfromNetwork(icon, mUserObject.avatar, new AnimateFirstDisplayListener());
-        icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
-        icon.setOnClickListener(new ClickSmallImage(this));
+        bindUI(mUserObject);
 
-        sex.setImageResource(sexs[mUserObject.sex]);
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) rl_follow_state.getLayoutParams();
+        lp.setMargins(0, 0, DensityUtil.dip2px(UserDetailActivity.this, 5), 0);
+        rl_follow_state.setLayoutParams(lp);
 
-        name.setText(mUserObject.name);
+        findViewById(R.id.first).setOnClickListener(v -> {
+            UserDetailMoreActivity_.intent(this)
+                    .mUserObject(mUserObject)
+                    .start();
+        });
+        findViewById(R.id.first).setVisibility(View.VISIBLE);
+        rl_message.setVisibility(View.VISIBLE);
+        rl_message.setOnClickListener(v -> {
+            if (!dataIsLoaded()) {
+                return;
+            }
+
+            Intent intent = new Intent(this, MessageListActivity_.class);
+            intent.putExtra("mUserObject", mUserObject);
+            startActivity(intent);
+        });
 
         // 自己的页面不显示 关注
         if (!isMe) {
-            int followId = mUserObject.follow ? R.drawable.checkbox_fans_big : R.drawable.checkbox_follow_big;
-            followCheckbox.setVisibility(View.VISIBLE);
-            followCheckbox.setButtonDrawable(followId);
-            followCheckbox.setChecked(mUserObject.followed);
-            followCheckbox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RequestParams params = new RequestParams();
-                    params.put("users", mUserObject.global_key);
-                    if (((CheckBox) v).isChecked()) {
-                        postNetwork(HOST_FOLLOW, params, HOST_FOLLOW);
-                    } else {
-                        postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW);
-                    }
+            if (mUserObject.follow && mUserObject.followed) {
+                tv_follow_state.setText("相关关注");
+                tv_follow_state.setTextColor(getResources().getColor(R.color.color_323A45));
+                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
+                tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state3, 0, 0, 0);
+            } else if (!mUserObject.follow && mUserObject.followed) {
+                tv_follow_state.setText("已关注");
+                tv_follow_state.setTextColor(getResources().getColor(R.color.color_323A45));
+                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
+                tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state2, 0, 0, 0);
+            } else {
+                tv_follow_state.setText("关注");
+                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.white));
+                tv_follow_state.setTextColor(getResources().getColor(R.color.color_2EBE76));
+                tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state1, 0, 0, 0);
+            }
+
+            rl_follow_state.setOnClickListener(v -> {
+                RequestParams params = new RequestParams();
+                params.put("users", mUserObject.global_key);
+                if (!mUserObject.followed) {
+                    postNetwork(HOST_FOLLOW, params, HOST_FOLLOW);
+                } else {
+                    postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW);
                 }
             });
         }
-
-        TextView fans = (TextView) findViewById(R.id.fans);
-        fans.setText(createSpan(this, String.format("%d  粉丝", mUserObject.fans_count)));
-        fans.setOnClickListener(onClickFans);
-
-        TextView follows = (TextView) findViewById(R.id.follows);
-        follows.setText(createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
-        follows.setOnClickListener(onClickFollow);
-
-        setListData();
     }
 
-    private void initListFirst() {
-        for (int i = 0; i < items.length; ++i) {
-            View parent = findViewById(items[i]);
-            TextView first = (TextView) parent.findViewById(R.id.first);
-            first.setText(user_detail_activity_list_first[i]);
-
-            TextView second = (TextView) parent.findViewById(R.id.second);
-            second.setEllipsize(null);
-            second.setMovementMethod(new ScrollingMovementMethod());
-
-        }
-    }
-
-    private void setListData() {
-        String[] secondContents = new String[]{
-                mUserObject.location,
-                mUserObject.slogan,
-                mUserObject.tags_str
-        };
-
-        for (int i = 0; i < items.length; ++i) {
-            View parent = findViewById(items[i]);
-            TextView second = (TextView) parent.findViewById(R.id.second);
-            String contentString = secondContents[i];
-            if (contentString.isEmpty()) {
-                contentString = "未填写";
-                second.setTextColor(getResources().getColor(R.color.font_9));
-            }
-
-            second.setText(contentString);
-        }
+    private void followState(String value, int txtColor, int bgColor, int logo) {
+        tv_follow_state.setText(value);
+        rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(bgColor));
+        tv_follow_state.setTextColor(getResources().getColor(txtColor));
+        tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(logo, 0, 0, 0);
     }
 
     public static SpannableString createSpan(Context context, String s) {
         SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_green));
-        itemContent.setSpan(colorSpan, 0, itemContent.length() - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_2));
+
+        itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return itemContent;
     }
 
-    @Click
-    void sendMessage() {
-        if (!dataIsLoaded()) {
-            return;
-        }
-
-        Intent intent = new Intent(this, MessageListActivity_.class);
-        intent.putExtra("mUserObject", mUserObject);
-        startActivity(intent);
-    }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

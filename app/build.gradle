@@ -83,6 +83,7 @@ dependencies {
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile 'org.apmem.tools:layouts:1.9@aar'
 
+    compile 'com.alibaba:fastjson:1.1.44.android'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
@@ -106,7 +107,7 @@ dependencies {
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
@@ -116,7 +117,7 @@ buildscript {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
     mavenLocal()
 }
 
@@ -132,7 +133,7 @@ repositories {
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
 }
 
 
