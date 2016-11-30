@@ -460,8 +460,7 @@
             android:name=".user.UserDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_detail"
-            android:screenOrientation="portrait"
-            android:theme="@style/WhiteFontTranslateActionbar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".message.MessageListActivity_"
             android:icon="@drawable/ic_lancher"

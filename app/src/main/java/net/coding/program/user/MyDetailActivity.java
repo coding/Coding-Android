@@ -6,11 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -18,6 +21,7 @@ import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.DensityUtil;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.model.UserObject;
@@ -45,14 +49,20 @@ public class MyDetailActivity extends BackActivity {
     ImageView icon;
     @ViewById
     TextView name;
+
+    @ViewById
+    TextView location;
+
+    @ViewById
+    TextView introduction;
+
     @ViewById
     View icon_sharow;
-    @ViewById
-    CheckBox followCheckbox;
-    @ViewById
-    ImageView userBackground;
-    @ViewById
-    ImageView sex;
+    //@ViewById
+    //CheckBox followCheckbox;
+    //@ViewById
+    //ImageView userBackground;
+
     @ViewById
     TextView fans, follows;
 
@@ -131,14 +141,58 @@ public class MyDetailActivity extends BackActivity {
         iconfromNetwork(icon, mUserObject.avatar, new UserDetailActivity.AnimateFirstDisplayListener());
         icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
-        sex.setImageResource(sexs[mUserObject.sex]);
+
+        name.setCompoundDrawablesWithIntrinsicBounds(0, 0, sexs[mUserObject.sex], 0);
         name.setText(mUserObject.name);
 
-        fans.setText(UserDetailActivity.createSpan(this, String.format("%d  粉丝", mUserObject.fans_count)));
+        initTextData(name, mUserObject.name);
+        initTextData(location, mUserObject.location);
+        initTextData(introduction, mUserObject.slogan);
+
+        if (TextUtils.isEmpty(mUserObject.tags_str)) {
+            findViewById(R.id.hsl_main).setVisibility(View.GONE);
+        } else {
+            LinearLayout llTags = (LinearLayout) findViewById(R.id.ll_tags);
+
+            String[] split = mUserObject.tags_str.split(",");
+            for (String tag : split) {
+                if (TextUtils.isEmpty(tag)) {
+                    continue;
+                }
+                RoundTextView roundTextView = (RoundTextView) getLayoutInflater().inflate(R.layout.view_tag, null);
+                roundTextView.setText(tag);
+                llTags.addView(roundTextView);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(0, 0, DensityUtil.dip2px(MyDetailActivity.this, 5), 0);
+                roundTextView.setLayoutParams(lp);
+            }
+        }
+
+
+        //findViewById(R.id.sendMessageLayout).setVisibility(View.GONE);
+
+        fans.setText(UserDetailActivity.createSpan(this, String.format("粉丝   %d", mUserObject.fans_count)));
         fans.setOnClickListener(onClickFans);
 
-        follows.setText(UserDetailActivity.createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
+        follows.setText(UserDetailActivity.createSpan(this, String.format("关注   %d", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
+    }
+
+    private void initTextData(TextView textView, String data) {
+        if (TextUtils.isEmpty(data)) {
+            isShow(false, textView);
+            return;
+        }
+        isShow(true, textView);
+        textView.setText(data);
+    }
+
+    private void isShow(boolean isShow, View view) {
+        if (view == null) {
+            return;
+        }
+        view.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     public int getActionBarSize() {

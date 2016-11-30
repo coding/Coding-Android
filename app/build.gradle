@@ -106,7 +106,7 @@ dependencies {
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
@@ -116,7 +116,7 @@ buildscript {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
     mavenLocal()
 }
 
@@ -132,7 +132,7 @@ repositories {
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
 }
 
 

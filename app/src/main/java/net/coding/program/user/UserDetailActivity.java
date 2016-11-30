@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -64,12 +61,13 @@ public class UserDetailActivity extends BackActivity {
     View sendMessage;
     @ViewById
     View icon_sharow;
-    @ViewById
-    CheckBox followCheckbox;
-    @ViewById
-    ImageView userBackground;
-    @ViewById
-    ImageView sex;
+    //@ViewById
+    //CheckBox followCheckbox;
+    //@ViewById
+    //ImageView userBackground;
+    //@ViewById
+    //ImageView sex;
+
     @StringArrayRes
     String[] user_detail_activity_list_first;
     @StringArrayRes
@@ -112,7 +110,7 @@ public class UserDetailActivity extends BackActivity {
 
     @AfterViews
     protected final void initUserDetailActivity() {
-        initListFirst();
+        //initListFirst();
 
         if (globalKey != null) {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
@@ -146,17 +144,17 @@ public class UserDetailActivity extends BackActivity {
             }
         }
 
-        userBackground.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewGroup.LayoutParams lp = userBackground.getLayoutParams();
-                if (lp.width > 0) {
-                    lp.height = lp.width * 560 / 1080;
-                    userBackground.setLayoutParams(lp);
-                    userBackground.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            }
-        });
+//        userBackground.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                ViewGroup.LayoutParams lp = userBackground.getLayoutParams();
+//                if (lp.width > 0) {
+//                    lp.height = lp.width * 560 / 1080;
+//                    userBackground.setLayoutParams(lp);
+//                    userBackground.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                }
+//            }
+//        });
     }
 
     @Click
@@ -195,17 +193,17 @@ public class UserDetailActivity extends BackActivity {
         } else {
             findViewById(R.id.divideLocal).setVisibility(View.GONE);
             findViewById(R.id.clickLocal).setVisibility(View.GONE);
+            getSupportActionBar().setTitle("TA 的主页");
+            getSupportActionBar().show();
         }
 
-        followCheckbox.setVisibility(isMe ? View.GONE : View.VISIBLE);
-        findViewById(R.id.sendMessageLayout).setVisibility(isMe ? View.GONE : View.VISIBLE);
-        findViewById(R.id.layoutLocal).setVisibility(isMe ? View.GONE : View.VISIBLE);
+        //followCheckbox.setVisibility(isMe ? View.GONE : View.VISIBLE);
+        //findViewById(R.id.sendMessageLayout).setVisibility(isMe ? View.GONE : View.VISIBLE);
+        //findViewById(R.id.layoutLocal).setVisibility(isMe ? View.GONE : View.VISIBLE);
 
         findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
         findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
 
-
-        invalidateOptionsMenu();
     }
 //
 //    @Override
@@ -263,36 +261,36 @@ public class UserDetailActivity extends BackActivity {
         icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
 
-        sex.setImageResource(sexs[mUserObject.sex]);
+        //sex.setImageResource(sexs[mUserObject.sex]);
 
         name.setText(mUserObject.name);
 
         // 自己的页面不显示 关注
         if (!isMe) {
-            int followId = mUserObject.follow ? R.drawable.checkbox_fans_big : R.drawable.checkbox_follow_big;
-            followCheckbox.setVisibility(View.VISIBLE);
-            followCheckbox.setButtonDrawable(followId);
-            followCheckbox.setChecked(mUserObject.followed);
-            followCheckbox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RequestParams params = new RequestParams();
-                    params.put("users", mUserObject.global_key);
-                    if (((CheckBox) v).isChecked()) {
-                        postNetwork(HOST_FOLLOW, params, HOST_FOLLOW);
-                    } else {
-                        postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW);
-                    }
-                }
-            });
+            int followId = mUserObject.follow ? R.drawable.ic_follow_state1 : R.drawable.ic_follow_state2;
+//            followCheckbox.setVisibility(View.VISIBLE);
+//            followCheckbox.setButtonDrawable(followId);
+//            followCheckbox.setChecked(mUserObject.followed);
+//            followCheckbox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    RequestParams params = new RequestParams();
+//                    params.put("users", mUserObject.global_key);
+//                    if (((CheckBox) v).isChecked()) {
+//                        postNetwork(HOST_FOLLOW, params, HOST_FOLLOW);
+//                    } else {
+//                        postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW);
+//                    }
+//                }
+//            });
         }
 
         TextView fans = (TextView) findViewById(R.id.fans);
-        fans.setText(createSpan(this, String.format("%d  粉丝", mUserObject.fans_count)));
+        fans.setText(createSpan(this, String.format("粉丝   %d", mUserObject.fans_count)));
         fans.setOnClickListener(onClickFans);
 
         TextView follows = (TextView) findViewById(R.id.follows);
-        follows.setText(createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
+        follows.setText(createSpan(this, String.format("关注   %d", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
 
         setListData();
@@ -333,8 +331,10 @@ public class UserDetailActivity extends BackActivity {
 
     public static SpannableString createSpan(Context context, String s) {
         SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_green));
-        itemContent.setSpan(colorSpan, 0, itemContent.length() - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_2));
+
+        itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return itemContent;
     }
 
