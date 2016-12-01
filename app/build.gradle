@@ -95,7 +95,7 @@ dependencies {
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:25.0.1'
     compile project(':scrollanimationlibrary')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')

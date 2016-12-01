@@ -44,11 +44,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
     public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
     public final int RESULT_EDIT = 0;
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
-    private final int[] items = new int[]{
-            R.id.pos0,
-            R.id.pos1,
-            R.id.pos2
-    };
+
     @Extra
     String globalKey;
     @ViewById
@@ -61,7 +57,6 @@ public class UserDetailActivity extends UserDetailCommonActivity {
     boolean isMe = false;
 
     boolean mNeedUpdate = false;
-
 
 
     @AfterViews
@@ -259,6 +254,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
             }
             displayUserinfo();
         }
+        operActivenessResult(code, respanse, tag);
     }
 
 

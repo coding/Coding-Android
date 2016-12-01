@@ -293,7 +293,7 @@
             <net.coding.program.common.widget.LoadingView
                 android:id="@+id/baseLoadingView"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"/>
 
@@ -413,48 +413,6 @@
 
         </com.flyco.roundview.RoundLinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutLocal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/stand_bg"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <include layout="@layout/divide_middle_15"/>
-
-        <include
-            android:id="@+id/pos0"
-            layout="@layout/list_item_2_text"/>
-
-        <include layout="@layout/divideline_15"/>
-
-        <include
-            android:id="@+id/pos1"
-            layout="@layout/list_item_2_text"/>
-
-        <include layout="@layout/divideline_15"/>
-
-        <include
-            android:id="@+id/pos2"
-            layout="@layout/list_item_2_text"/>
-
-        <include layout="@layout/divideline_15"/>
-
-        <RelativeLayout
-            android:id="@+id/moreDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15">
-
-
-        </RelativeLayout>
     </LinearLayout>
 
     <include layout="@layout/divide_middle_15"/>

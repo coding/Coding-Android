@@ -188,8 +188,12 @@ public class UserDetailCommonActivity extends BackActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        baseLoadingView.setVisibility(View.GONE);
+        operActivenessResult(code, respanse, tag);
+    }
+
+    protected void operActivenessResult(int code, JSONObject respanse, String tag) throws JSONException {
         if (tag.equals(USER_ACTIVENESS)) {
+            baseLoadingView.setVisibility(View.GONE);
             if (code == 0) {
                 ActiveModel activeModel = JSONUtils.getData(respanse.getString("data"), ActiveModel.class);
                 initActiveness(activeModel);
