@@ -44,9 +44,4 @@ public class LoadingView extends FrameLayout {
         animator1.setRepeatCount(2000);
         animator1.start();
     }
-
-    public void setSmallLoading() {
-        inflate(getContext(), R.layout.loading_view_small, this);
-        initAnimator();
-    }
 }
