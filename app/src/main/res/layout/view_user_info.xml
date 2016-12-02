@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_scrollFlags="scroll|enterAlways|snap"
+    app:layout_scrollFlags="scroll"
     tools:showIn="@layout/activity_my_detail">
 
     <RelativeLayout
@@ -282,6 +282,7 @@
 
                         <LinearLayout
                             android:id="@+id/llTrend"
+                            android:paddingRight="15dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"/>

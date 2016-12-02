@@ -3,11 +3,13 @@ package net.coding.program.user;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -221,6 +223,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
 
         itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return itemContent;
     }
 
