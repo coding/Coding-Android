@@ -32,9 +32,9 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * 用户信息公共部分
  * Created by anfs on 01/12/2016.
  */
-
 public class UserDetailCommonActivity extends BackActivity {
 
     private static final String USER_ACTIVENESS = Global.HOST_API + "/user/activeness/data/";
@@ -117,7 +117,7 @@ public class UserDetailCommonActivity extends BackActivity {
         String url = USER_ACTIVENESS + mUserObject.global_key;
         getNetwork(url, USER_ACTIVENESS);
 
-
+        //用户信息赋值
         iconfromNetwork(icon, mUserObject.avatar, new UserDetailActivity.AnimateFirstDisplayListener());
         icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
@@ -129,6 +129,7 @@ public class UserDetailCommonActivity extends BackActivity {
         initTextData(location, mUserObject.location);
         initTextData(introduction, mUserObject.slogan);
 
+        //用户标签
         if (TextUtils.isEmpty(mUserObject.tags_str)) {
             findViewById(R.id.hsl_main).setVisibility(View.GONE);
         } else {
@@ -191,6 +192,13 @@ public class UserDetailCommonActivity extends BackActivity {
         operActivenessResult(code, respanse, tag);
     }
 
+    /**
+     * 绘制活动图
+     * @param code
+     * @param respanse
+     * @param tag
+     * @throws JSONException
+     */
     protected void operActivenessResult(int code, JSONObject respanse, String tag) throws JSONException {
         if (tag.equals(USER_ACTIVENESS)) {
             baseLoadingView.setVisibility(View.GONE);
@@ -248,7 +256,7 @@ public class UserDetailCommonActivity extends BackActivity {
     }
 
     /**
-     * 统计的月份
+     * 统计月份
      *
      * @return
      */

@@ -7,6 +7,7 @@ import android.widget.HorizontalScrollView;
 
 /**
  * Created by anfs on 2016/11/28.
+ * 横向 HorizontalScrollView 跟随
  */
 public class SyncHorizontalScrollView extends HorizontalScrollView {
     private View mView;

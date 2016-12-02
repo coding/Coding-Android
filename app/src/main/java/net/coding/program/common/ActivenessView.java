@@ -13,6 +13,7 @@ import net.coding.program.common.util.DensityUtil;
 import net.coding.program.model.user.ActiveModel;
 
 /**
+ * 活动图
  * Created by anfs on 2016/11/28.
  */
 public class ActivenessView extends View {
