@@ -93,7 +93,9 @@
     <color name="font_black_e" >@color/divide</color>
     <color name="color_F6F6F6">#f6f6f6</color>
     <color name="color_3BBD79">#3BBD79</color>
+    <color name="color_2EBE76">#2EBE76</color>
     <color name="color_E5E5E5">#e5e5e5</color>
+    <color name="color_323A45">#323A45</color>
     <color name="color_hint">#686D75</color>
     <color name="font_2">#222222</color>
     <color name="font_6">#666666</color>
@@ -110,4 +112,12 @@
     <color name="addjob_radio_text_gray">#ffcccccc</color>
     <color name="addjob_text_blue">#ff30A8E1</color>
     <color name="font_blue">#ff2FAEEA</color>
+
+
+    <color name="chunkWhite">#FFFFFF</color>
+    <color name="chunkGrey">#EEEEEE</color>
+    <color name="chunkGreen1">#d6e685</color>
+    <color name="chunkGreen2">#8cc665</color>
+    <color name="chunkGreen3">#44a340</color>
+    <color name="chunkGreen4">#1e6923</color>
 </resources>

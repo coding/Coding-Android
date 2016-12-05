@@ -6,18 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
-import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.model.UserObject;
@@ -27,13 +20,15 @@ import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @EActivity(R.layout.activity_my_detail)
-public class MyDetailActivity extends BackActivity {
+public class MyDetailActivity extends UserDetailCommonActivity {
 
     public final int RESULT_EDIT = 0;
+    private final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
 
     @ViewById
     WechatTab tabs;
@@ -41,104 +36,45 @@ public class MyDetailActivity extends BackActivity {
     @ViewById
     ViewPager viewPager;
 
-    @ViewById
-    ImageView icon;
-    @ViewById
-    TextView name;
-    @ViewById
-    View icon_sharow;
-    @ViewById
-    CheckBox followCheckbox;
-    @ViewById
-    ImageView userBackground;
-    @ViewById
-    ImageView sex;
-    @ViewById
-    TextView fans, follows;
-
-    int sexs[] = new int[]{
-            R.drawable.ic_sex_boy,
-            R.drawable.ic_sex_girl,
-            android.R.color.transparent
-    };
-
-    @OptionsItem
-    void action_edit() {
-        UserDetailEditActivity_
-                .intent(this)
-                .startForResult(RESULT_EDIT);
-    }
-
-    View.OnClickListener onClickFans = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
-                    UsersListActivity.Friend.Fans);
-
-            UsersListActivity_
-                    .intent(MyDetailActivity.this)
-                    .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Fans)
-                    .start();
-        }
-    };
-    View.OnClickListener onClickFollow = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
-                    UsersListActivity.Friend.Follow);
-
-            UsersListActivity_
-                    .intent(MyDetailActivity.this)
-                    .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Follow)
-                    .start();
-        }
-    };
-
     @AfterViews
     void initMyDetailActivity() {
-        MyDetailPagerAdapter adapter = new MyDetailPagerAdapter(this, getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
-//        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-//                .getDisplayMetrics());
-//        viewPager.setPageMargin(pageMargin);
-        tabs.setViewPager(viewPager);
-        ViewCompat.setElevation(tabs, 0);
-        ViewCompat.setElevation(findViewById(R.id.appbarLayout), 0);
-
-        bindUI();
-
-//        tabs.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                int viewPagerHeight = MyApp.sHeightPix - Global.dpToPx(258 + 15);
-//                ViewGroup.LayoutParams lp = viewPager.getLayoutParams();
-//                lp.height = viewPagerHeight;
-//                viewPager.setLayoutParams(lp);
-//            }
-//        });
+        bindUI(MyApp.sUserObject);
+        tv_follow_state.setText("编辑资料");
+        rl_follow_state.setOnClickListener(v -> {
+            UserDetailEditActivity_
+                    .intent(this)
+                    .startForResult(RESULT_EDIT);
+        });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.user_detail_me, menu);
-        return true;
+    public void onResume() {
+        super.onResume();
+        final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+        getNetwork(HOST_USER_INFO + MyApp.sUserObject.global_key, HOST_USER_INFO);
     }
 
-    private void bindUI() {
-        UserObject mUserObject = MyApp.sUserObject;
-        iconfromNetwork(icon, mUserObject.avatar, new UserDetailActivity.AnimateFirstDisplayListener());
-        icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
-        icon.setOnClickListener(new ClickSmallImage(this));
-        sex.setImageResource(sexs[mUserObject.sex]);
-        name.setText(mUserObject.name);
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_USER_INFO)) {
+            if (code == 0) {
+                mUserObject = new UserObject(respanse.getJSONObject("data"));
+                bindUI(mUserObject);
+            } else {
+                showButtomToast("获取用户信息错误");
+            }
+        }
+        operActivenessResult(code, respanse, tag);
+    }
 
-        fans.setText(UserDetailActivity.createSpan(this, String.format("%d  粉丝", mUserObject.fans_count)));
-        fans.setOnClickListener(onClickFans);
 
-        follows.setText(UserDetailActivity.createSpan(this, String.format("%d  关注", mUserObject.follows_count)));
-        follows.setOnClickListener(onClickFollow);
+    @Override
+    protected void setViewPageData() {
+        super.setViewPageData();
+        viewPager.setAdapter(new MyDetailPagerAdapter(this, getSupportFragmentManager()));
+        tabs.setViewPager(viewPager);
+        ViewCompat.setElevation(tabs, 0);
+        ViewCompat.setElevation(findViewById(R.id.appbarLayout), 0);
     }
 
     public int getActionBarSize() {

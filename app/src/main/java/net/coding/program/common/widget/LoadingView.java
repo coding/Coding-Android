@@ -25,6 +25,10 @@ public class LoadingView extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.loading_view, this);
 
+        initAnimator();
+    }
+
+    private void initAnimator() {
         ImageView loadingView = (ImageView) findViewById(R.id.loadingCircle);
         ObjectAnimator animator = ObjectAnimator.ofFloat(loadingView, "rotation", 0f, 360f);
         animator.setDuration(2000);

@@ -82,6 +82,10 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile 'org.apmem.tools:layouts:1.9@aar'
+
+    compile 'com.alibaba:fastjson:1.1.44.android'
+    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+
     //flow_layout
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
@@ -89,7 +93,7 @@ dependencies {
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:23.4.0'
     compile project(':scrollanimationlibrary')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
@@ -101,17 +105,17 @@ dependencies {
 
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.4'
     }
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
     mavenLocal()
 }
 
@@ -127,7 +131,7 @@ repositories {
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
 }
 
 

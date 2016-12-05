@@ -1,7 +1,8 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/divide">
 
     <LinearLayout
@@ -11,177 +12,10 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:background="@color/stand_bg"
-            android:paddingBottom="17dp">
-
-            <FrameLayout
-                android:id="@+id/userBackgroundLayout"
-                android:layout_width="match_parent"
-                android:layout_height="145dp">
-
-                <ImageView
-                    android:id="@+id/userBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_home_bg" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#33000000" />
-            </FrameLayout>
-
-            <RelativeLayout
-                android:id="@+id/icon_sharow"
-                android:layout_width="87dp"
-                android:layout_height="87dp"
-                android:layout_alignBottom="@id/userBackgroundLayout"
-                android:layout_marginBottom="-27dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/user_detail_sharow"
-                android:visibility="gone">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/icon"
-                    android:layout_width="83dp"
-                    android:layout_height="83dp"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/userBackgroundLayout"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="44dp"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="@color/font_2"
-                android:textSize="18sp" />
-
-
-            <ImageView
-                android:id="@+id/sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/name"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="3dp"
-                android:layout_toRightOf="@id/name"
-                android:src="@drawable/ic_sex_boy" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout1"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:layout_alignLeft="@id/name"
-                android:layout_below="@id/name"
-                android:gravity="bottom"
-
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/fans"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="粉丝"
-                    android:textColor="@color/font_6"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="13dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/divide" />
-
-                <TextView
-                    android:id="@+id/follows"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="关注"
-                    android:textColor="@color/font_6"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <CheckBox
-                android:id="@+id/followCheckbox"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:layout_alignLeft="@+id/name"
-                android:layout_below="@+id/linearLayout1"
-                android:layout_marginTop="17dp"
-                android:button="@drawable/checkbox_fans_big"
-                android:visibility="visible" />
-
-        </RelativeLayout>
-
+        <include
+            layout="@layout/view_user_info"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layoutLocal"
-            android:background="@color/stand_bg"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:orientation="vertical">
-
-            <include layout="@layout/divide_middle_15" />
-
-            <include
-                android:id="@+id/pos0"
-                layout="@layout/list_item_2_text" />
-
-            <include layout="@layout/divideline_15" />
-
-            <include
-                android:id="@+id/pos1"
-                layout="@layout/list_item_2_text" />
-
-            <include layout="@layout/divideline_15" />
-
-            <include
-                android:id="@+id/pos2"
-                layout="@layout/list_item_2_text" />
-
-            <include layout="@layout/divideline_15" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/moreDetail"
-                android:gravity="center_vertical"
-                android:background="@drawable/list_item_selector"
-                android:minHeight="48dp"
-                android:paddingLeft="@dimen/padding_15"
-                android:paddingRight="@dimen/padding_15">
-
-                <TextView
-                    android:id="@+id/first"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:textColor="@color/font_2"
-                    android:text="详细信息"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-
-        <include layout="@layout/divide_middle_15" />
-
-
-        <LinearLayout xmlns:listItem1="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/stand_bg"
@@ -192,44 +26,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                listItem1:itemIcon="@drawable/user_home_project"
-                listItem1:itemTitle="TA的项目" />
+                app:itemIcon="@drawable/user_home_project"
+                app:itemTitle="TA的项目"/>
 
-            <include layout="@layout/divideline_15" />
+            <include layout="@layout/divideline_15"/>
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickMaopao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                listItem1:itemIcon="@drawable/user_home_maopao"
-                listItem1:itemTitle="TA的冒泡" />
+                app:itemIcon="@drawable/user_home_maopao"
+                app:itemTitle="TA的冒泡"/>
 
-            <include layout="@layout/divideline_15" />
+            <include layout="@layout/divideline_15"/>
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickTopic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                listItem1:itemIcon="@drawable/user_home_topic"
-                listItem1:itemTitle="TA的话题" />
+                app:itemIcon="@drawable/user_home_topic"
+                app:itemTitle="TA的话题"/>
 
-            <include layout="@layout/divideline_15"
-                android:id="@+id/divideLocal"/>
+            <include
+                android:id="@+id/divideLocal"
+                layout="@layout/divideline_15"/>
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickLocal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                listItem1:itemIcon="@drawable/user_home_local"
-                listItem1:itemTitle="本地文件" />
+                app:itemIcon="@drawable/user_home_local"
+                app:itemTitle="本地文件"/>
 
             <include
                 android:id="@+id/pointDivide"
                 layout="@layout/divide_bottom_15"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickPointRecord"
@@ -237,12 +72,12 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:visibility="gone"
-                listItem1:itemIcon="@drawable/user_home_points"
-                listItem1:itemTitle="我的码币" />
+                app:itemIcon="@drawable/user_home_points"
+                app:itemTitle="我的码币"/>
 
         </LinearLayout>
 
-        <include layout="@layout/divide_bottom_15" />
+        <include layout="@layout/divide_bottom_15"/>
 
         <RelativeLayout
             android:id="@+id/sendMessageLayout"
@@ -251,7 +86,8 @@
             android:background="@color/divide"
             android:paddingBottom="15dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="15dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/sendMessage"
@@ -261,7 +97,7 @@
                 android:gravity="center"
                 android:text="发消息"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </RelativeLayout>
 
