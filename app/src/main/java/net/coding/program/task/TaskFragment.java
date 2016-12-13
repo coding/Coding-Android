@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.FilterDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
@@ -181,6 +182,17 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
                 .mUserOwner(MyApp.sUserObject)
                 .mProjectObject(projectObject)
                 .startForResult(ListModify.RESULT_EDIT_LIST);
+    }
+
+    @OptionsItem
+    protected final void action_filter() {
+//        ProjectObject projectObject = mData.get(pager.getCurrentItem());
+//        TaskAddActivity_.intent(this)
+//                .mUserOwner(MyApp.sUserObject)
+//                .mProjectObject(projectObject)
+//                .startForResult(ListModify.RESULT_EDIT_LIST);
+
+        FilterDialog.getInstance().show(getContext(),null,null);
     }
 
     public static class TaskCount {
