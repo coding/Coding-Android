@@ -90,7 +90,6 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    compile files('libs/Xg_sdk_v2.42_20160111_1539.jar')
     compile files('libs/Xg_sdk_v2.45_20160510_1845.jar')
     compile project(':bottom-bar')
 
