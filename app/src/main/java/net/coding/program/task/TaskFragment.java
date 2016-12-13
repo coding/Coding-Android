@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
@@ -18,6 +21,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.LoadingFragment;
+import net.coding.program.event.EventFilter;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -39,6 +43,8 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 @EFragment(R.layout.fragment_task)
@@ -186,13 +192,23 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     @OptionsItem
     protected final void action_filter() {
+        TextView title = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
+        title.setText("update");
+
+        Toolbar mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            ActionMenuItemView viewById = (ActionMenuItemView) mToolbar.findViewById(R.id.action_filter);
+            if (viewById != null) {
+                viewById.setIcon(getResources().getDrawable(R.drawable.ic_menu_filter_selected));
+            }
+        }
 //        ProjectObject projectObject = mData.get(pager.getCurrentItem());
 //        TaskAddActivity_.intent(this)
 //                .mUserOwner(MyApp.sUserObject)
 //                .mProjectObject(projectObject)
 //                .startForResult(ListModify.RESULT_EDIT_LIST);
 
-        FilterDialog.getInstance().show(getContext(),null,null);
+        FilterDialog.getInstance().show(getContext(), null, null);
     }
 
     public static class TaskCount {
@@ -256,6 +272,56 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
             saveFragment(fragment);
 
             return fragment;
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //筛选的index
+    private int statusIndex = 0;
+
+    // 用于处理推送
+    public void onEventMainThread(Object object) {
+        if (!(object instanceof EventFilter)) {
+            return;
+        }
+        EventFilter eventFilter = (EventFilter) object;
+        //确定是我的任务筛选
+        if (eventFilter.index == 1) {
+            iniTaskStatusLayout();
+            iniTaskStatus();
+        }
+    }
+
+    private void iniTaskStatusLayout() {
+        View viewById = getActivity().findViewById(R.id.ll_task_filter);
+        viewById.setVisibility(viewById.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    }
+
+    private void iniTaskStatus() {
+        int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
+        int font2 = getResources().getColor(R.color.font_2);
+        int green = getResources().getColor(R.color.green);
+        for (int i = 0; i < filterItem.length; i++) {
+            TextView status = (TextView) getActivity().findViewById(filterItem[i]);
+            int finalI = i;
+            status.setOnClickListener(v -> {
+                this.statusIndex = finalI;
+                iniTaskStatus();
+                iniTaskStatusLayout();
+            });
+            status.setTextColor(i != this.statusIndex ? font2 : green);
+            status.setCompoundDrawablesWithIntrinsicBounds(0, 0, i != this.statusIndex ? 0 : R.drawable.ic_task_status_list_check, 0);
         }
     }
 }

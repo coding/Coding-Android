@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,30 +33,35 @@ public class FilterDialog {
     }
 
     public void show(Context context, FilterModel filterModel, SearchListener searchListener) {
-        mDialog = new Dialog(context, R.style.notitleDialog);
         this.mContext = context;
+        mDialog = new Dialog(context, R.style.notitleDialog);
+        //adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden
+        mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mDialog.setContentView(R.layout.dialog_task_filter);
         mDialog.setCanceledOnTouchOutside(true);
-        //赋值的位置是有影响的
         mDialog.getWindow().getAttributes().width = ViewGroup.LayoutParams.MATCH_PARENT;
         mDialog.show();
 
         View reset = mDialog.findViewById(R.id.tv_reset);
 
         EditText etSearch = (EditText) mDialog.findViewById(R.id.et_search);
+        etSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                mDialog.dismiss();
+            }
+            return false;
+        });
 
         TextView taskDoing = (TextView) mDialog.findViewById(R.id.tv_task_doing);
         TextView taskDone = (TextView) mDialog.findViewById(R.id.tv_task_done);
 
-        TextView bug = (TextView) mDialog.findViewById(R.id.tv_bug);
-        TextView function = (TextView) mDialog.findViewById(R.id.tv_function);
-        TextView survey = (TextView) mDialog.findViewById(R.id.tv_survey);
-
-        setLeftDrawable(bug, false);
-        setLeftDrawable(function, false);
-        setLeftDrawable(survey, false);
+        //setLeftDrawable(bug, false);
 
     }
+
 
     /**
      * 非左即右
@@ -66,7 +73,7 @@ public class FilterDialog {
         textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
     }
 
-    public void setLeftDrawable(TextView textView, boolean checked) {
+    public void setLeftDrawable(TextView textView, String color, boolean checked) {
 
         if (mContext == null) {
             return;
@@ -75,9 +82,8 @@ public class FilterDialog {
         final Drawable originalBitmapDrawable = mContext.getResources().getDrawable(R.drawable.ic_project_topic_label).mutate();
         Drawable right = checked ? mContext.getResources().getDrawable(R.drawable.ic_task_status_list_check) : null;
 
-        ColorStateList color = ColorStateList.valueOf(Color.parseColor(textView.getTag().toString()));
-
-        textView.setCompoundDrawablesWithIntrinsicBounds(tintDrawable(originalBitmapDrawable, color), null, right, null);
+        ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor(color));
+        textView.setCompoundDrawablesWithIntrinsicBounds(tintDrawable(originalBitmapDrawable, colorStateList), null, right, null);
     }
 
     public Drawable tintDrawable(Drawable drawable, ColorStateList colors) {
