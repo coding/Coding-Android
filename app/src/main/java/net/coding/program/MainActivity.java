@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
     View actionBarCompShadow;
 
     TextView toolbarTitle;
-    View toolbarProjectTitle;
+    TextView toolbarProjectTitle;
 
     private static boolean sNeedWarnEmailNoValidLogin = false;
 
@@ -233,7 +233,7 @@ public class MainActivity extends BaseActivity {
         }
 
         toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
-        toolbarProjectTitle = findViewById(R.id.toolbarProjectTitle);
+        toolbarProjectTitle = (TextView) findViewById(R.id.toolbarProjectTitle);
         toolbarProjectTitle.setOnClickListener(clickProjectTitle);
         toolbarMaopaoTitle = (Spinner) findViewById(R.id.toolbarMaopaoTitle);
 
@@ -383,7 +383,14 @@ public class MainActivity extends BaseActivity {
             }
 
             visibleTitle(toolbarMaopaoTitle);
-        } else if (position == 0) {
+        } else if (position == 0 || position == 1) {
+            if (position == 0) {
+                toolbarProjectTitle.setText("我的项目");
+            }
+            if (position == 1) {
+                toolbarProjectTitle.setText("我的任务");
+            }
+            toolbarProjectTitle.setTag(position);
             visibleTitle(toolbarProjectTitle);
         } else {
             toolbarTitle.setVisibility(View.VISIBLE);
@@ -429,7 +436,7 @@ public class MainActivity extends BaseActivity {
 
     public void restoreActionBar() {
         mTitle = drawer_title[mSelectPos];
-        if (mSelectPos == 0) {
+        if (mSelectPos == 0 || mSelectPos == 1) {
             visibleTitle(toolbarProjectTitle);
         } else if (mSelectPos == 2) {
             visibleTitle(toolbarMaopaoTitle);
@@ -478,7 +485,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private View.OnClickListener clickProjectTitle = v -> {
-        EventBus.getDefault().post(new EventFilter());
+        EventBus.getDefault().post(new EventFilter(v.getTag()));
     };
 
     class MaopaoTypeAdapter extends BaseAdapter {

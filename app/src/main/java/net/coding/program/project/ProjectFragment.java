@@ -89,7 +89,11 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     // 用于处理推送
     public void onEventMainThread(Object object) {
         if (object instanceof EventFilter) {
-            action_filter();
+            EventFilter eventFilter = (EventFilter) object;
+            //确定是我的项目筛选
+            if (eventFilter.index == 0) {
+                action_filter();
+            }
         } else if (object instanceof EventPosition) {
             EventPosition event = (EventPosition) object;
             int position = event.position;

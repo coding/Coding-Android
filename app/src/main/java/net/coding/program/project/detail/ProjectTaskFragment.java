@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -15,6 +17,7 @@ import com.melnykov.fab.FloatingActionButton;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.FilterDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
@@ -33,6 +36,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.fragment_project_task)
+@OptionsMenu(R.menu.fragment_project_task)
 public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
@@ -291,5 +297,24 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         public String getPageIconUrl(int position) {
             return mMembersAll.get(position).user.avatar;
         }
+    }
+
+    @OptionsItem
+    protected final void action_filter() {
+
+        Toolbar mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            ActionMenuItemView viewById = (ActionMenuItemView) mToolbar.findViewById(R.id.action_filter);
+            if (viewById != null) {
+                viewById.setIcon(getResources().getDrawable(R.drawable.ic_menu_filter_selected));
+            }
+        }
+//        ProjectObject projectObject = mData.get(pager.getCurrentItem());
+//        TaskAddActivity_.intent(this)
+//                .mUserOwner(MyApp.sUserObject)
+//                .mProjectObject(projectObject)
+//                .startForResult(ListModify.RESULT_EDIT_LIST);
+
+        FilterDialog.getInstance().show(getContext(), null, null);
     }
 }

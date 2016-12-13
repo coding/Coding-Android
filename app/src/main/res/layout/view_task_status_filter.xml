@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_task_filter"
+    android:layout_marginTop="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_status1"
+        android:text="我的任务"
+        style="@style/TextViewFilterTag"/>
+
+    <TextView
+        android:id="@+id/tv_status2"
+        android:text="我关注的"
+        style="@style/TextViewFilterTag"/>
+
+    <TextView
+        android:text="我创建的"
+        android:id="@+id/tv_status3"
+        style="@style/TextViewFilterTag"/>
+
+</LinearLayout>
