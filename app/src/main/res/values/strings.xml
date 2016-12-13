@@ -168,6 +168,7 @@
     <string name="title_activity_local_file_list">LocalFileListActivity</string>
     <string name="title_activity_project_transfer">项目转让</string>
     <string name="title_activity_all_tasks">我的任务</string>
+    <string name="title_activity_filter_tasks">任务筛选</string>
 
     <string name="alert_activity_email">欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
     <string name="alert_activity_email2">该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
@@ -201,5 +202,9 @@
     <string name="title_activity_team_member_list">团队成员</string>
     <string name="title_activity_team_project_list">团队项目</string>
     <string name="delete">删除</string>
+    <string name="reset">重置</string>
+    <string name="filter_label_bug">Bug</string>
+    <string name="filter_label_function">功能</string>
+    <string name="filter_label_survey">调研</string>
 
 </resources>
