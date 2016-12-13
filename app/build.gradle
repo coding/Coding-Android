@@ -82,10 +82,6 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile 'org.apmem.tools:layouts:1.9@aar'
-
-    compile 'com.alibaba:fastjson:1.1.44.android'
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
-
     //flow_layout
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
@@ -105,17 +101,17 @@ dependencies {
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.4'
     }
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     mavenLocal()
 }
 
@@ -131,7 +127,7 @@ repositories {
 
 repositories {
     mavenLocal()
-    jcenter()
+    mavenCentral()
 }
 
 
