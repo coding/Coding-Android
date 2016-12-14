@@ -109,6 +109,22 @@ public class Global {
         return DayFormatTime.format(time);
     }
 
+    private static final String LOG_PREFIX = "coding_";
+    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
+    private static final int MAX_LOG_TAG_LENGTH = 23;
+
+    public static String makeLogTag(Class cls) {
+        return makeLogTag(cls.getSimpleName());
+    }
+
+    public static String makeLogTag(String str) {
+        if (str.length() > MAX_LOG_TAG_LENGTH - LOG_PREFIX_LENGTH) {
+            return LOG_PREFIX + str.substring(0, MAX_LOG_TAG_LENGTH - LOG_PREFIX_LENGTH - 1);
+        }
+
+        return LOG_PREFIX + str;
+    }
+
     public static long longFromDay(String day) throws ParseException {
         final String format = "yyyy-MM-dd";
         final SimpleDateFormat sd = new SimpleDateFormat(format);

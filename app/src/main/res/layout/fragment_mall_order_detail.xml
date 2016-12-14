@@ -15,6 +15,7 @@
 				android:layout_above="@+id/list_footer"
 				android:layout_height="match_parent">
 
+			<!--todo 替换为 listview -->
 			<com.twotoasters.jazzylistview.JazzyListView
 					android:id="@+id/listView"
 					android:scrollingCache="false"

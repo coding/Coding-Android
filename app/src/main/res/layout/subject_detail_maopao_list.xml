@@ -1,31 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="net.coding.program.maopao.MaopaoListFragment">
 
-    <FrameLayout xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.twotoasters.jazzylistview.JazzyListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/divide"
-                android:divider="@null"
-                android:dividerHeight="6dp"
-                android:footerDividersEnabled="false" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent"
+            android:background="@color/divide"
+            android:divider="@null"
+            android:dividerHeight="6dp"
+            android:footerDividersEnabled="false" />
 
         <include
             android:id="@+id/blankLayout"
@@ -38,7 +31,7 @@
     <net.coding.program.common.widget.input.MainInputView_
         android:id="@+id/mEnterLayout"
         android:layout_width="match_parent"
-        app:showEmojiOnly="true"
-        android:layout_height="wrap_content" />>
+        android:layout_height="wrap_content"
+        app:showEmojiOnly="true" />
 
 </LinearLayout>

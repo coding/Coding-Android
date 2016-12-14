@@ -1,5 +1,6 @@
 package net.coding.program.maopao;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,14 +9,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.BaseAdapter;
+import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,10 +26,12 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.twotoasters.jazzylistview.JazzyListView;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
+import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -39,9 +43,10 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.maopao.item.CommentArea;
@@ -53,6 +58,7 @@ import net.coding.program.model.Maopao;
 import net.coding.program.setting.ValidePhoneActivity_;
 import net.coding.program.third.EmojiFilter;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.apache.http.Header;
@@ -62,14 +68,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import jp.wasabeef.recyclerview.internal.ViewHelper;
 
 /**
  * Created by chenchao on 15/9/22.
  */
 @EFragment
-public abstract class MaopaoListBaseFragment extends LoadingFragment implements FootUpdate.LoadMore, StartActivity {
+public abstract class MaopaoListBaseFragment extends BaseFragment implements StartActivity {
+
+    public static final String TAG = Global.makeLogTag(MaopaoListBaseFragment.class);
 
     abstract protected String createUrl();
 
@@ -82,7 +92,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
     abstract protected void initData();
 
     @ViewById
-    protected JazzyListView listView;
+    protected UltimateRecyclerView listView;
     @ViewById
     protected View blankLayout;
     @ViewById
@@ -93,7 +103,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
 
     protected boolean mIsToMaopaoTopic = false;
 
-    protected int id = UPDATE_ALL_INT;
+    protected int id = RefreshBaseFragment.UPDATE_ALL_INT;
     protected long lastTime = 0;
 
     int needScrollY = 0;
@@ -119,6 +129,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
 
     boolean mNoMore = false;
 
+    protected MyAdapter mAdapter;
 
     protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
 
@@ -135,6 +146,24 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         setHasOptionsMenu(true);
     }
 
+    View baseLoadinggView;
+
+    public void showLoading(boolean show) {
+        if (baseLoadinggView == null) {
+            return;
+        }
+
+        baseLoadinggView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @AfterViews
+    protected void initLoadingFragment() {
+        View view = getView();
+        if (view != null) {
+            baseLoadinggView = view.findViewById(R.id.baseLoadingView);
+        }
+    }
+
     protected void initImageWidth() {
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34
@@ -147,7 +176,17 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
     }
 
     protected void initMaopaoListBaseFragmen() {
-        initRefreshLayout();
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        listView.setLayoutManager(manager);
+
+        listView.setEmptyView(R.layout.loading_view, R.layout.loading_view);
+
+
+        listView.setDefaultOnRefreshListener(() -> onRefresh());
+
+        listView.setOnLoadMoreListener((itemsCount, maxLastVisiblePosition) ->
+                MaopaoListBaseFragment.this.loadMore());
+
         initImageWidth();
 
         ViewCompat.setNestedScrollingEnabled(listView, true);
@@ -163,13 +202,17 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         if (mData.isEmpty()) {
             showLoading(true);
         } else {
-            setRefreshing(true);
+            listView.setRefreshing(true);
         }
 
         initMaopaoType();
         myImageGetter = new MyImageGetter(getActivity());
 
-        mFootUpdate.init(listView, mInflater, this);
+        mFootUpdate.initToRecycler(listView, mInflater, this);
+        mFootUpdate.showLoading();
+        listView.setLoadMoreView(mFootUpdate.getView());
+
+        mAdapter = new MyAdapter(mData, getShowAnimator());
         listView.setAdapter(mAdapter);
 
         ViewTreeObserver vto = listView.getViewTreeObserver();
@@ -189,7 +232,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
 
                     } else if (cal1 == 1) {
                         int scrollResult = needScrollY + oldListHigh - listHeight;
-                        listView.smoothScrollBy(scrollResult, 1);
+                        listView.mRecyclerView.smoothScrollBy(scrollResult, 1);
                         needScrollY = 0;
                     }
 
@@ -218,6 +261,10 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         sendEvent(true);
 
         initData();
+    }
+
+    protected boolean getShowAnimator() {
+        return false;
     }
 
     @Override
@@ -294,9 +341,9 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(getMaopaoUrlFormat())) {
             showLoading(false);
-            setRefreshing(false);
+            listView.setRefreshing(false);
             if (code == 0) {
-                if (id == UPDATE_ALL_INT) {
+                if (id == RefreshBaseFragment.UPDATE_ALL_INT) {
                     mData.clear();
                 }
 
@@ -321,15 +368,16 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
                     lastTime = maopaoObject.sortTime;
                     mAdapter.notifyDataSetChanged();
 
-                    if (oldId == UPDATE_ALL_INT) {
+                    if (oldId == RefreshBaseFragment.UPDATE_ALL_INT) {
                         // 当单个的冒泡item大于一屏时，smoothScrollToPosition(0)不会滚动到listview的顶端
-                        listView.setSelectionAfterHeaderView();
+                        listView.mRecyclerView.scrollToPosition(0);
                     }
                 }
 
                 if (mNoMore) {
-                    mFootUpdate.dismiss();
+                    listView.disableLoadmore();
                 } else {
+                    listView.reenableLoadmore();
                     mFootUpdate.showLoading();
                 }
 
@@ -337,9 +385,10 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
 
             } else {
                 if (mData.size() > 0) {
+                    listView.reenableLoadmore();
                     mFootUpdate.showFail();
                 } else {
-                    mFootUpdate.dismiss();
+                    listView.disableLoadmore();
                 }
 
                 showErrorMsg(code, respanse);
@@ -442,7 +491,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
     @Override
     protected void initSetting() {
         super.initSetting();
-        id = UPDATE_ALL_INT;
+        id = RefreshBaseFragment.UPDATE_ALL_INT;
         lastTime = 0;
     }
 
@@ -451,7 +500,6 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         getNetwork(createUrl(), getMaopaoUrlFormat());
     }
 
-    @Override
     public void onRefresh() {
         initSetting();
         getNetwork(createUrl(), getMaopaoUrlFormat());
@@ -500,7 +548,7 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         }
     };
 
-    public static void popReward(final BaseActivity activity, View v, final BaseAdapter adapter) {
+    public static void popReward(final BaseActivity activity, View v, final UltimateViewAdapter adapter) {
         Object data = v.getTag();
         if (data instanceof Maopao.MaopaoObject) {
             final Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) data;
@@ -726,165 +774,99 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
         mEnterLayout.showSystemInput(true);
     }
 
-    protected BaseAdapter mAdapter = new BaseAdapter() {
-        final int[] commentsId = new int[]{
-                R.id.comment0,
-                R.id.comment1,
-                R.id.comment2,
-                R.id.comment3,
-                R.id.comment4,
-        };
-        protected View.OnClickListener mOnClickMaopaoItem = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-                Fragment parent = getParentFragment();
-                MaopaoDetailActivity_
-                        .intent(parent != null ? parent : MaopaoListBaseFragment.this)
-                        .mMaopaoObject(data)
-                        .startForResult(RESULT_EDIT_MAOPAO);
-            }
-        };
-        ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListBaseFragment.this);
+    class MyHolder extends UltimateRecyclerviewViewHolder {
 
-        View.OnClickListener onClickMaopaoMore = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
-                showDialog(new String[]{"删除冒泡"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
-                                    deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
-                                            -1, maopaoId);
-                                }
-                            });
-                        }
-                    }
-                });
+        ViewHolder holder = new ViewHolder();
 
-            }
-        };
+        public MyHolder(View convertView, boolean isHeader) {
+            super(convertView);
+        }
 
-        View.OnClickListener onClickComment = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
-                if (MyApp.sUserObject.id == (comment.owner_id)) {
-                    showDialog("冒泡", "删除评论？", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%d/comment/%d";
-                            deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
-                        }
-                    });
-                } else {
-                    popComment(v);
+        public MyHolder(View convertView) {
+            super(convertView);
+
+            holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
+
+            holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
+            holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
+
+            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            holder.icon.setOnClickListener(mOnClickUser);
+
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.name.setOnClickListener(mOnClickUser);
+            holder.time = (TextView) convertView.findViewById(R.id.time);
+
+            holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
+
+            holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
+            holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListBaseFragment.this, getImageLoad(), mOnClickUser);
+
+            holder.location = (TextView) convertView.findViewById(R.id.location);
+            holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
+            holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
+            holder.commentBtn = (TextView) convertView.findViewById(R.id.commentBtn);
+            holder.reward = (TextView) convertView.findViewById(R.id.rewardCount);
+            holder.likeBtn.setTag(R.id.likeBtn, holder);
+            holder.maopaoGoodView = convertView.findViewById(R.id.maopaoGood);
+            holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
+            holder.commentBtn.setOnClickListener(v -> popComment(v));
+
+            holder.reward.setOnClickListener(v -> popReward((BaseActivity) getActivity(), v, mAdapter));
+
+            holder.shareBtn = convertView.findViewById(R.id.shareBtn);
+            holder.shareBtn.setOnClickListener(v -> {
+                Object item = v.getTag();
+                if (item instanceof Maopao.MaopaoObject) {
+                    action_share_third((Maopao.MaopaoObject) item);
                 }
+            });
+
+            holder.maopaoDelete = convertView.findViewById(R.id.deleteButton);
+            holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
+
+            holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
+
+            View[] divides = new View[commentsId.length];
+            for (int i = 0; i < commentsId.length; ++i) {
+                divides[i] = convertView.findViewById(commentsId[i]).findViewById(R.id.commentTopDivider);
             }
-        };
+            holder.divides = divides;
+        }
+    }
 
-        @Override
-        public int getCount() {
-            return mData.size();
+    protected class MyAdapter extends easyRegularAdapter<Maopao.MaopaoObject, MyHolder> {
+
+        private final LinearInterpolator interpolator = new LinearInterpolator();
+
+        public MyAdapter(List<Maopao.MaopaoObject> list, boolean showAnimator) {
+            super(list);
+            this.showAnimator = showAnimator;
         }
 
         @Override
-        public Object getItem(int position) {
-            return mData.get(position);
+        protected int getNormalLayoutResId() {
+            return R.layout.fragment_maopao_list_item;
         }
 
         @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
-            mEnterLayout.hideKeyboard();
-            CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
-            CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
-            shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        protected MyHolder newViewHolder(View view) {
+            return new MyHolder(view);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
+        public MyHolder newHeaderHolder(View view) {
+            return new MyHolder(view, true);
+        }
 
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.fragment_maopao_list_item, parent, false);
+        @Override
+        public MyHolder newFooterHolder(View view) {
+            return new MyHolder(view, true);
+        }
 
-                holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
-
-                holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
-                holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
-
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(mOnClickUser);
-
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.name.setOnClickListener(mOnClickUser);
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-
-                holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
-
-                holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
-                holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListBaseFragment.this, getImageLoad(), mOnClickUser);
-
-                holder.location = (TextView) convertView.findViewById(R.id.location);
-                holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
-                holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
-                holder.commentBtn = (TextView) convertView.findViewById(R.id.commentBtn);
-                holder.reward = (TextView) convertView.findViewById(R.id.rewardCount);
-                holder.likeBtn.setTag(R.id.likeBtn, holder);
-                holder.maopaoGoodView = convertView.findViewById(R.id.maopaoGood);
-                holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
-                holder.commentBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popComment(v);
-                    }
-                });
-
-                holder.reward.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popReward((BaseActivity) getActivity(), v, mAdapter);
-                    }
-                });
-
-                holder.shareBtn = convertView.findViewById(R.id.shareBtn);
-                holder.shareBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Object item = v.getTag();
-                        if (item instanceof Maopao.MaopaoObject) {
-                            action_share_third((Maopao.MaopaoObject) item);
-                        }
-                    }
-                });
-
-                holder.maopaoDelete = convertView.findViewById(R.id.deleteButton);
-                holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
-
-                holder.commentArea = new CommentArea(convertView, onClickComment, myImageGetter);
-
-                View[] divides = new View[commentsId.length];
-                for (int i = 0; i < commentsId.length; ++i) {
-                    divides[i] = convertView.findViewById(commentsId[i]).findViewById(R.id.commentTopDivider);
-                }
-                holder.divides = divides;
-
-                convertView.setTag(R.id.MaopaoItem, holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag(R.id.MaopaoItem);
-            }
-
-            final Maopao.MaopaoObject data = (Maopao.MaopaoObject) getItem(position);
+        @Override
+        protected void withBindHolder(MyHolder holderLayout, Maopao.MaopaoObject data, int position) {
+            ViewHolder holder = holderLayout.holder;
 
             holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
             holder.likeUsersArea.displayLikeUser();
@@ -1008,15 +990,60 @@ public abstract class MaopaoListBaseFragment extends LoadingFragment implements 
                 holder.divides[commentsId.length - 1].setVisibility(View.VISIBLE);
             }
 
-            if (mData.size() - position <= 1) {
-                if (!mNoMore) {
-                    getNetwork(createUrl(), getMaopaoUrlFormat());
+            if (showAnimator) {
+                if (position > mLastPosition) {
+                    Animator[] animators = getAdapterAnimations(holderLayout.getView(), AdapterAnimationType.SlideInBottom);
+                    for (Animator anim : animators) {
+                        anim.setDuration(600).start();
+                        anim.setInterpolator(interpolator);
+                    }
+                    mLastPosition = position;
+                } else {
+                    ViewHelper.clear(holderLayout.getView());
                 }
             }
-
-            return convertView;
         }
 
+        private boolean showAnimator = false;
+        private int mLastPosition = -1;
+    }
+
+    View.OnClickListener mOnClickMaopaoItem = v -> {
+        Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
+        Fragment parent = getParentFragment();
+        MaopaoDetailActivity_
+                .intent(parent != null ? parent : MaopaoListBaseFragment.this)
+                .mMaopaoObject(data)
+                .startForResult(RESULT_EDIT_MAOPAO);
+    };
+    ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListBaseFragment.this);
+
+    void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
+        mEnterLayout.hideKeyboard();
+        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
+        CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
+        shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+    }
+
+
+    View.OnClickListener onClickComment = v -> {
+        final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
+        if (MyApp.sUserObject.id == (comment.owner_id)) {
+            showDialog("冒泡", "删除评论？", (dialog, which) -> {
+                final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
+                deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
+            });
+        } else {
+            popComment(v);
+        }
+    };
+
+    final int[] commentsId = new int[]{
+            R.id.comment0,
+            R.id.comment1,
+            R.id.comment2,
+            R.id.comment3,
+            R.id.comment4,
     };
 
     static class ViewHolder {

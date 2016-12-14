@@ -1,5 +1,6 @@
 package net.coding.program;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -36,6 +37,10 @@ public class FootUpdate {
         init(listView, inflater, loadMore, "addFooterView");
     }
 
+    public void initToRecycler(Object listView, LayoutInflater inflater, final LoadMore loadMore) {
+        init(listView, inflater, loadMore, null);
+    }
+
     private void init(Object listView, LayoutInflater inflater, final LoadMore loadMore, String callMethod) {
         View v = inflater.inflate(R.layout.listview_foot, null, false);
 
@@ -52,14 +57,20 @@ public class FootUpdate {
 
         mLoading = v.findViewById(R.id.progressBar);
 
-        try {
-            Method method = listView.getClass().getMethod(callMethod, View.class);
-            method.invoke(listView, v);
-        } catch (Exception e) {
-            Global.errorLog(e);
+        if (!TextUtils.isEmpty(callMethod)) {
+            try {
+                Method method = listView.getClass().getMethod(callMethod, View.class);
+                method.invoke(listView, v);
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
         }
 
         mLayout.setVisibility(View.GONE);
+    }
+
+    public View getView() {
+        return mLayout;
     }
 
     public void showLoading() {

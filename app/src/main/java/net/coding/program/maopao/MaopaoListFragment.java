@@ -26,6 +26,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
@@ -147,11 +148,14 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     }
 
     @Override
-    protected void initMaopaoType() {
-        listView.setTransitionEffect(new UpSlideInEffect());
+    protected boolean getShowAnimator() {
+        return true;
+    }
 
+    @Override
+    protected void initMaopaoType() {
         if (mType == Type.friends) {
-            id = UPDATE_ALL_INT;
+            id = LoadingFragment.UPDATE_ALL_INT;
             lastTime = 0;
         }
 
@@ -160,7 +164,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
 
         if (mType != Type.user) {
-            floatButton.attachToListView(listView);
+            floatButton.attachToRecyclerView(listView.mRecyclerView);
         } else {
             floatButton.hide(false);
         }
@@ -173,7 +177,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
 
         addDoubleClickActionbar();
-
 
         getNetwork(createUrl(), getMaopaoUrlFormat());
     }
@@ -195,8 +198,9 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
                     mLastTime = nowTime;
 
                     if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
-                        if (!isRefreshing()) {
-                            setRefreshing(true);
+                        if (listView.mSwipeRefreshLayout != null &&
+                                !listView.mSwipeRefreshLayout.isRefreshing()) {
+                            listView.setRefreshing(true);
                             onRefresh();
                         }
                     }
@@ -253,7 +257,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         bannerName = (TextView) bannerLayout.findViewById(R.id.bannerName);
         bannerTitle = (TextView) bannerLayout.findViewById(R.id.bannerTitle);
 
-        listView.addHeaderView(bannerLayout);
+        listView.setNormalHeader(bannerLayout);
 
         ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -277,7 +281,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                enableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+                listView.enableDefaultSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
     }
