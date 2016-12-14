@@ -2,7 +2,6 @@ package net.coding.program.maopao;
 
 import android.animation.Animator;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -215,7 +214,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         mAdapter = new MyAdapter(mData, getShowAnimator());
         listView.setAdapter(mAdapter);
 
-        ViewTreeObserver vto = listView.getViewTreeObserver();
+        ViewTreeObserver vto = listView.mRecyclerView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -232,7 +231,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
                     } else if (cal1 == 1) {
                         int scrollResult = needScrollY + oldListHigh - listHeight;
-                        listView.mRecyclerView.smoothScrollBy(scrollResult, 1);
+                        listView.mRecyclerView.smoothScrollBy(0, scrollResult);
                         needScrollY = 0;
                     }
 
@@ -241,16 +240,13 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             }
         });
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
-                    hideSoftkeyboard();
-                }
-
-                return false;
+        listView.mRecyclerView.setOnTouchListener((v, event) -> {
+            int action = event.getAction();
+            if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
+                hideSoftkeyboard();
             }
+
+            return false;
         });
 
 //        mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
@@ -327,8 +323,12 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         mEnterLayout.clearContent();
         mEnterLayout.hideKeyboard();
         mEnterLayout.hide();
-        sendEvent(true);
+//        sendEvent(true);
+        sendEventDelay(true);
+    }
 
+    private void sendEventDelay(boolean show) {
+        mEnterLayout.postDelayed(() -> sendEvent(show), 500);
     }
 
     private void sendEvent(boolean show) {
@@ -533,19 +533,13 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         }
     };
 
-    View.OnClickListener onClickDeleteMaopao = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
-            showDialog("冒泡", "删除冒泡？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
-                    deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
-                            -1, maopaoId);
-                }
-            });
-        }
+    View.OnClickListener onClickDeleteMaopao = v -> {
+        final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
+        showDialog("冒泡", "删除冒泡？", (dialog, which) -> {
+            String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
+            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
+                    -1, maopaoId);
+        });
     };
 
     public static void popReward(final BaseActivity activity, View v, final UltimateViewAdapter adapter) {
@@ -660,7 +654,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                             } else {
                                 activity.showErrorMsg(code, response);
                             }
-
                         }
 
                         @Override
