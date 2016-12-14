@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,23 +78,6 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     @Override
     public void onRefresh() {
-    }
-
-    private void initListData() {
-        mAllData.clear();
-        mData.clear();
-        mData.add(new ProjectObject());
-
-        try {
-            JSONObject json = AccountInfo.getGetRequestCacheData(getActivity(), host);
-            jsonToAllData(json.optJSONArray("list"));
-
-            JSONArray jsonArray = AccountInfo.getGetRequestCacheListData(getActivity(), urlTaskCount);
-            jsonToData(jsonArray);
-
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
     }
 
     @Override
@@ -215,8 +197,6 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
         public Object instantiateItem(ViewGroup container, int position) {
             TaskListFragment fragment = (TaskListFragment) super.instantiateItem(container, position);
             fragment.setParent(TaskFragment.this);
-
-            Log.d("", "init p " + position);
 
             return fragment;
         }

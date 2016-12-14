@@ -3,7 +3,6 @@ package net.coding.program.project.detail;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +22,11 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.task.TaskFragment;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity_;
 
@@ -45,7 +44,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.WeakHashMap;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -87,8 +85,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     TestBaseAdapter mAdapter;
     String mToday = "";
     String mTomorrow = "";
-    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
+
     private net.coding.program.task.TaskListParentUpdate mParent;
+
     private View listFooter;
 
     public void setParent(net.coding.program.task.TaskListParentUpdate parent) {
@@ -176,6 +175,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         listView.setAreHeadersSticky(false);
         listView.addFooterView(listFooter, null, false);
         listView.setAdapter(mAdapter);
+        BlankViewHelp.setBlankLoading(blankLayout, true);
 
         updateFootStyle();
 
@@ -199,10 +199,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         loadData();
 
-        Fragment parentFragment = getParentFragment();
-        if (parentFragment instanceof TaskFragment) {
-            ((TaskFragment) parentFragment).showLoading(true);
-        }
+        BlankViewHelp.setBlankLoading(blankLayout, true);
     }
 
     private void updateFootStyle() {
@@ -246,11 +243,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlAll)) {
             setRefreshing(false);
-            Fragment parentFragment = getParentFragment();
-            if (parentFragment instanceof TaskFragment) {
-                ((TaskFragment) parentFragment).showLoading(false);
-            }
-
+            BlankViewHelp.setBlankLoading(blankLayout, false);
+            
             if (code == 0) {
                 if (mUpdateAll) {
                     mData.clear();
@@ -324,16 +318,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 TaskObject.SingleTask task = param.mTask;
                 task.status = param.mStatus;
 
-//                if (mParent != null) {
-//                    mNeedUpdate = false;
-//                    mParent.taskListParentUpdate();
-//                }
-
             } else {
                 Toast.makeText(getActivity(), "修改任务失败", Toast.LENGTH_SHORT).show();
             }
-
-//            mAdapter.notifyDataSetChanged();
         }
     }
 
