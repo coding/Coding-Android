@@ -244,7 +244,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         if (tag.equals(urlAll)) {
             setRefreshing(false);
             BlankViewHelp.setBlankLoading(blankLayout, false);
-            
+
             if (code == 0) {
                 if (mUpdateAll) {
                     mData.clear();
@@ -417,7 +417,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
             holder.mRefId.setText(data.getNumber());
             holder.mName.setText(data.creator.name);
-            holder.mTime.setText(Global.dayToNow(data.created_at));
+            holder.mTime.setText(Global.dayToNow(data.created_at, false));
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
