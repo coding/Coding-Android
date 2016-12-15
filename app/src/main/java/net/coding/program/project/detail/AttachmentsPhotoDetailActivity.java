@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -20,27 +21,19 @@ import org.androidannotations.annotations.ViewById;
 import java.io.File;
 
 @EActivity(R.layout.activity_attachments_photo_detail)
-//@OptionsMenu(R.menu.menu_attachments_photo_detail)
 public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivity {
 
     @ViewById
     SubsamplingScaleImageView imageView;
 
     @ViewById
-    View layout_dynamic_history;
+    View layout_dynamic_history, layout_image_prototype, clickImagePrototype;
 
     @ViewById
-    View layout_image_prototype;
+    ProgressBar progressBar;
 
     @AfterViews
     protected final void initAttachmentsPhotoDetailActivity() {
-//        urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
-//        if (mFile.exists()) {
-//            textView.setText(Global.readTextFile(mFile));
-//        } else {
-//            showDialogLoading();
-//            getFileUrlFromNetwork();
-//        }
         updateDisplay();
     }
 
@@ -71,7 +64,6 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
         }
     }
 
-
     @Override
     protected int getMenuResourceId() {
         return R.menu.project_attachment_photo;
@@ -79,10 +71,16 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
 
     @Click
     protected void clickImagePrototype() {
-        // download
         action_download();
-//        showProgressBar(true, "正在下载");
         showMiddleToast("开始下载");
+
+        progressBar.setVisibility(View.VISIBLE);
+        clickImagePrototype.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onDownloadProgress(int progress) {
+        progressBar.setProgress(progress);
     }
 
     @Override
@@ -97,7 +95,8 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
             setResult(RESULT_OK, intent);
             updateDisplay();
         } else {
-//            showButtomToast("下载原图失败");
+            progressBar.setVisibility(View.INVISIBLE);
+            clickImagePrototype.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -303,6 +303,13 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             }
 
             @Override
+            public void onProgress(int bytesWritten, int totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                int progresss = (totalSize > 0 && bytesWritten >= 0) ? bytesWritten * 100 / totalSize : 0;
+                onDownloadProgress(progresss);
+            }
+
+            @Override
             public void onSuccess(int statusCode, Header[] headers, File response) {
                 Log.v(TAG, "onSuccess:" + statusCode + " " + headers.toString());
                 showButtomToast("下载完成");
@@ -324,6 +331,9 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     }
 
     protected void onDownloadFinish(boolean success) {
+    }
+
+    protected void onDownloadProgress(int progress) {
     }
 
 

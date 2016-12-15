@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_dynamic_history"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="@dimen/bottom_layout_high"
     android:background="@color/stand_bg"
     android:orientation="vertical"
     tools:showIn="@layout/activity_attachments_html">
 
     <include layout="@layout/divideline_e2" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="@color/divide"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15">
@@ -42,7 +42,6 @@
             android:layout_width="0.7dp"
             android:layout_height="33dp"
             android:background="@color/divide_line" />
-
 
         <LinearLayout
             android:id="@+id/clickFileHistory"

@@ -23,10 +23,9 @@
         android:layout_height="match_parent" />
 
     <include
-
         layout="@layout/common_file_detail_action"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/bottom_layout_high"
         android:layout_gravity="bottom"
         android:visibility="invisible" />
 
