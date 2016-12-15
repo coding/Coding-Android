@@ -1,9 +1,11 @@
 package net.coding.program.project.detail;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.FlowLabelLayout;
+import net.coding.program.event.EventFilterDetail;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -48,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.WeakHashMap;
 
+import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -56,12 +60,42 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     public static final String hostTaskDelete = Global.HOST_API + "/user/%s/project/%s/task/%s";
     final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    //统计，已完成，进行中数量
     final String urlTaskCountProject = Global.HOST_API + "/project/%d/task/user/count";
     final String urlTaskCountMy = Global.HOST_API + "/tasks/projects/count";
     final String URL_TASK_SATUS = Global.HOST_API + "/task/%s/status";
+    //筛选
+    final String URL_TASK_FILTER = Global.HOST_API + "/tasks/search?";
+
 
     @FragmentArg
     boolean mShowAdd = false;
+
+    //筛选 有3种类型，
+    // https://coding.net/api/tasks/search?creator=52353&label=bug&status=2
+    //-------------------
+    // 1.我的任务，我关注的，我创建的
+    // https://coding.net/api/tasks/search?owner=52353
+    // https://coding.net/api/tasks/search?watcher=52353
+    // https://coding.net/api/tasks/search?creator=52353
+
+    // 2.进行中，已完成
+    // https://coding.net/api/tasks/search?status=1
+    // https://coding.net/api/tasks/search?status=2
+
+    // 3.标签筛选 标签内容
+    // https://coding.net/api/tasks/search?label=Bug
+
+    @FragmentArg
+    String mMeAction;
+
+    @FragmentArg
+    String mStatus;
+
+    @FragmentArg
+    String mLabel;
+
+
     @FragmentArg
     TaskObject.Members mMembers;
     @FragmentArg
@@ -143,7 +177,33 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    //检查是否有筛选条件
+    String checkHostFilter() {
+        String host = "";
+        if (!TextUtils.isEmpty(mMeAction) && mMembers != null && mMembers.user != null) {
+            host += String.format("%s=%s&", mMeAction, mMembers.user.id);
+        }
+        if (!TextUtils.isEmpty(mStatus)) {
+            host += String.format("status=%s&", mStatus);
+        }
+        if (!TextUtils.isEmpty(mLabel)) {
+            host += String.format("label=%s&", Global.encodeUtf8(mLabel));
+        }
+        //去掉最后一个 &
+        if (!TextUtils.isEmpty(host)) {
+            return host.substring(0, host.length() - 1);
+        }
+
+        return host;
+    }
+
     String createHost(String userId, String type) {
+        //检查是否有筛选条件
+        String searchUrl = checkHostFilter();
+        if (!TextUtils.isEmpty(searchUrl)) {
+            return URL_TASK_FILTER + searchUrl;
+        }
+
         String BASE_HOST = Global.HOST_API + "%s/tasks%s?";
         String userType;
         if (mProjectObject.isEmpty()) {
@@ -196,14 +256,14 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             return true;
         });
 
+        initUrlAndLoadData();
+    }
+
+    private void initUrlAndLoadData() {
         urlAll = createHost(mMembers.user.global_key, "/all");
 
-        loadData();
-
-        Fragment parentFragment = getParentFragment();
-        if (parentFragment instanceof TaskFragment) {
-            ((TaskFragment) parentFragment).showLoading(true);
-        }
+        taskListUpdate(true);
+        taskFragmentLoading(true);
     }
 
     private void updateFootStyle() {
@@ -243,14 +303,18 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         mUpdateAll = true;
     }
 
+    public void taskFragmentLoading(boolean isLoading){
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment instanceof TaskFragment) {
+            ((TaskFragment) parentFragment).showLoading(isLoading);
+        }
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(urlAll)) {
             setRefreshing(false);
-            Fragment parentFragment = getParentFragment();
-            if (parentFragment instanceof TaskFragment) {
-                ((TaskFragment) parentFragment).showLoading(false);
-            }
+            taskFragmentLoading(false);
 
             if (code == 0) {
                 if (mUpdateAll) {
@@ -553,6 +617,32 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                 mDeadline.setTextColor(color);
             }
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //筛选后刷新
+    public void onEventMainThread(Object object) {
+        if (object instanceof EventFilterDetail) {
+            EventFilterDetail eventFilter = (EventFilterDetail) object;
+            mMeAction = eventFilter.meAction;
+            mStatus = eventFilter.status;
+            mLabel = eventFilter.label;
+
+            //重新加载所有
+            mUpdateAll = true;
+            initUrlAndLoadData();
         }
     }
 }

@@ -275,6 +275,9 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             bundle.putSerializable("mMembersArray", mUsersInfo);
             bundle.putSerializable("mMemberPos", position);
             bundle.putBoolean("mShowAdd", true);
+//            bundle.putString("mMeAction", "");
+//            bundle.putString("mStatus", "");
+//            bundle.putString("mLabel", "");
             fragment.setParent(ProjectTaskFragment.this);
 
             fragment.setArguments(bundle);

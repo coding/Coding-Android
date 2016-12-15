@@ -16,14 +16,16 @@ import android.widget.TextView;
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.FilterDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.event.EventFilter;
+import net.coding.program.event.EventFilterDetail;
+import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TaskListFragment_;
@@ -53,6 +55,7 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
+    final String urlTaskLabels = Global.HOST_API + "/v2/tasks/search_filters";
 
     @ViewById
     MyPagerSlidingTabStrip tabs;
@@ -65,6 +68,9 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
     ArrayList<ProjectObject> mAllData = new ArrayList<>();
     int pageMargin;
     private PageTaskFragment adapter;
+    private TextView toolBarTitle;
+    //labels
+    List<TaskLabelModel> taskLabelModels = new ArrayList<>();
 
     @AfterViews
     void initTaskFragment() {
@@ -74,6 +80,8 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
         tabs.setLayoutInflater(mInflater);
 
         getNetwork(host, host);
+        //加载所有的标签
+        getNetwork(urlTaskLabels, urlTaskLabels);
 
         adapter = new PageTaskFragment(getChildFragmentManager());
         pager.setPageMargin(pageMargin);
@@ -81,6 +89,8 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
         tabs.setVisibility(View.INVISIBLE);
         actionDivideLine.setVisibility(View.INVISIBLE);
+
+        toolBarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
         showLoading(true);
     }
 
@@ -107,7 +117,11 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(host)) {
+        if (tag.equals(urlTaskLabels)) {
+            if (code == 0) {
+                taskLabelModels = JSONUtils.getList("labels", respanse.getString("data"), TaskLabelModel.class);
+            }
+        } else if (tag.equals(host)) {
             if (code == 0) {
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
 
@@ -117,7 +131,6 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
             } else {
                 showErrorMsg(code, respanse);
             }
-
         } else if (tag.equals(urlTaskCount)) {
             showLoading(false);
             if (code == 0) {
@@ -192,9 +205,6 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 
     @OptionsItem
     protected final void action_filter() {
-        TextView title = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
-        title.setText("update");
-
         Toolbar mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         if (mToolbar != null) {
             ActionMenuItemView viewById = (ActionMenuItemView) mToolbar.findViewById(R.id.action_filter);
@@ -207,8 +217,9 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
 //                .mUserOwner(MyApp.sUserObject)
 //                .mProjectObject(projectObject)
 //                .startForResult(ListModify.RESULT_EDIT_LIST);
+        //FilterDialog.FilterModel filterModel = new FilterDialog.FilterModel(taskLabelModels);
 
-        FilterDialog.getInstance().show(getContext(), null, null);
+        //FilterDialog.getInstance().show(getContext(), null, null);
     }
 
     public static class TaskCount {
@@ -266,7 +277,9 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
             bundle.putSerializable("mMembers", new TaskObject.Members(AccountInfo.loadAccount(getActivity())));
             bundle.putSerializable("mProjectObject", mData.get(position));
             bundle.putBoolean("mShowAdd", false);
-
+//            bundle.putString("mMeAction", "owner");
+//            bundle.putString("mStatus", "1");
+//            bundle.putString("mLabel", "Bug");
             fragment.setArguments(bundle);
 
             saveFragment(fragment);
@@ -308,8 +321,10 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
         viewById.setVisibility(viewById.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
+
     private void iniTaskStatus() {
         int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
+        String[] meActions = {"owner", "watcher", "creator" };
         int font2 = getResources().getColor(R.color.font_2);
         int green = getResources().getColor(R.color.green);
         for (int i = 0; i < filterItem.length; i++) {
@@ -319,6 +334,10 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
                 this.statusIndex = finalI;
                 iniTaskStatus();
                 iniTaskStatusLayout();
+
+                toolBarTitle.setText(status.getText());
+                //状态筛选
+                EventBus.getDefault().post(new EventFilterDetail(meActions[finalI], null, null));
             });
             status.setTextColor(i != this.statusIndex ? font2 : green);
             status.setCompoundDrawablesWithIntrinsicBounds(0, 0, i != this.statusIndex ? 0 : R.drawable.ic_task_status_list_check, 0);

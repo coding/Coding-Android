@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.model.TaskLabelModel;
+
+import java.util.List;
 
 /**
  * Created by afs on 2016/12/12.
@@ -56,7 +59,9 @@ public class FilterDialog {
         });
 
         TextView taskDoing = (TextView) mDialog.findViewById(R.id.tv_task_doing);
+        taskDoing.setText("进行中");
         TextView taskDone = (TextView) mDialog.findViewById(R.id.tv_task_done);
+        taskDone.setText("已完成");
 
         //setLeftDrawable(bug, false);
 
@@ -64,8 +69,6 @@ public class FilterDialog {
 
 
     /**
-     * 非左即右
-     *
      * @param textView
      * @param resId
      */
@@ -101,7 +104,12 @@ public class FilterDialog {
         public String label;//任务标签
         public String keyword;//根据关键字筛选任务
 
+        public FilterModel(List<TaskLabelModel> labelModels) {
+            this.labelModels = labelModels;
+        }
+
         public int statusTaskDoing;
         public int statusTaskDone;
+        public List<TaskLabelModel> labelModels;
     }
 }
