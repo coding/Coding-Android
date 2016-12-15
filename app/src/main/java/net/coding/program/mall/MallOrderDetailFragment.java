@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by libo on 2015/11/22.
+ *
  */
 @EFragment(R.layout.fragment_mall_order_detail)
 public class MallOrderDetailFragment extends RefreshBaseFragment {
@@ -38,10 +39,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     ListView listView;
 
     @ViewById
-    View blankLayout;
-
-    @ViewById
-    View list_footer;
+    View blankLayout, list_footer;
 
     @FragmentArg
     Type mType;
@@ -52,12 +50,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
     String mUrl;
 
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+    View.OnClickListener onClickRetry = v -> onRefresh();
 
     BaseAdapter mAdapter = new BaseAdapter() {
         @Override
@@ -162,9 +155,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     @AfterViews
     protected final void init() {
         initRefreshLayout();
-//        mFootUpdate.init(listView, mInflater, this);
         list_footer.setVisibility(View.GONE);
-
         listView.setAdapter(mAdapter);
         switch (mType) {
             case un_send:
@@ -209,30 +200,12 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                     }
                 }
 
-//                MallOrderObject orderObject = new MallOrderObject();
-//                orderObject.setCreatedAt(1448174663000L);
-//                orderObject.setExpressNo("expressNo");
-//                orderObject.setId(1);
-//                orderObject.setName("name");
-//                orderObject.setOrderNo("12312421");
-//                orderObject.setPointsCost(2.2);
-//                orderObject.setReceiverAddress("address");
-//                orderObject.setReceiverName("receiverName");
-//                orderObject.setReceiverPhone("123532424");
-//                orderObject.setRemark("remark");
-//                orderObject.setStatus(0);
-//                orderObject.setUserId(23424);
-//
-//                mData.add(orderObject);
-
                 if (mData.size() != 0 && footerAdded.compareAndSet(false, true)) {
-
                     View footerView = LayoutInflater.from(getActivity()).inflate(
                             R.layout.mall_detail_list_footer, listView, false);
                     listView.addFooterView(footerView, null, false);
                 }
 
-//                mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
                 String tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK;
                 if (mType == Type.already_send) {
                     tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
@@ -254,7 +227,6 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             showDialogLoading();
         }
         getNextPageNetwork(mUrl, mUrl);
-
     }
 
     @Override
@@ -270,31 +242,17 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     }
 
     class ViewHolder {
-
         ImageView goodImg;
-
         TextView orderNo;
-
         TextView goodTitle;
-
         TextView count;
-
         TextView note;
-
         TextView pointCost;
-
         TextView receiverName;
-
         TextView receiverPhone;
-
         TextView status;
-
         TextView express;
-
         TextView time;
-
         TextView receiverAddress;
-
     }
-
 }

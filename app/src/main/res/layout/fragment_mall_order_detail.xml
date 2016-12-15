@@ -15,15 +15,14 @@
 				android:layout_above="@+id/list_footer"
 				android:layout_height="match_parent">
 
-			<!--todo 替换为 listview -->
-			<com.twotoasters.jazzylistview.JazzyListView
+			<ListView
 					android:id="@+id/listView"
 					android:scrollingCache="false"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:background="@color/divide"
 					android:divider="@null"
-					android:dividerHeight="6dp"
+					android:dividerHeight="0dp"
 					android:footerDividersEnabled="false"/>
 
 		</android.support.v4.widget.SwipeRefreshLayout>
