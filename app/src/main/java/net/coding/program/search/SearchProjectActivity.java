@@ -19,11 +19,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.common.util.DensityUtil;
 import net.coding.program.R;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.util.DensityUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -42,11 +42,14 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     net.coding.program.common.PagerSlidingTabStrip tabs;
     @ViewById(R.id.pager)
     ViewPager pager;
+    @ViewById
+    ListView emptyListView;
     // footer
     private TextView mSearchFooterClearAllView;
     private View mSearchFooterDivider;
+
     @ViewById
-    ListView emptyListView;
+    View allEmptyView;
 
     private InputMethodManager imm;
 
@@ -125,26 +128,20 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     }
 
     private void notifySearchHistoryDataChanged() {
-        if (mSearchHistoryList.size() > 0)
-            showSearchClearView();
-        else
-            hideSearchClearView();
+        showSearchClearView(mSearchHistoryList.size() > 0);
         mSearchHistoryListAdapter.notifyDataSetChanged();
+        allEmptyView.setVisibility(mSearchHistoryList.size() > 0 ? View.GONE : View.VISIBLE);
     }
 
-    private void showSearchClearView() {
-        mSearchFooterClearAllView.setVisibility(View.VISIBLE);
-    }
-
-    private void hideSearchClearView() {
-        mSearchFooterClearAllView.setVisibility(View.GONE);
+    private void showSearchClearView(boolean show) {
+        int visable = show ? View.VISIBLE : View.GONE;
+        mSearchFooterClearAllView.setVisibility(visable);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        this.
-                overridePendingTransition(0, 0);
+        this.overridePendingTransition(0, 0);
     }
 
     private void search(String condition) {
@@ -164,7 +161,6 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     }
 
     private void updateSearchResult() {
-
     }
 
     @Override

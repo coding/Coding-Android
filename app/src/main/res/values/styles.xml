@@ -44,6 +44,7 @@
         <item name="android:elevation">2dp</item>
         <item name="elevation">2dp</item>
     </style>
+
     <style name="Theme.MyApp.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <!-- remove shadow below action bar -->
         <!-- <item name="android:elevation">0dp</item> -->
@@ -413,6 +414,16 @@
         <item name="android:layout_marginRight">@dimen/padding_15</item>
         <item name="android:textColor">@color/font_green</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="searchEmptyIcon">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:drawablePadding">7dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/font_9</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!--正则替换工具-->
