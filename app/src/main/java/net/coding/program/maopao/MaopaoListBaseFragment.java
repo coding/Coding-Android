@@ -180,8 +180,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
         listView.setEmptyView(R.layout.loading_view, R.layout.loading_view);
 
-
         listView.setDefaultOnRefreshListener(() -> onRefresh());
+        listView.mSwipeRefreshLayout.setColorSchemeResources(R.color.green);
 
         listView.setOnLoadMoreListener((itemsCount, maxLastVisiblePosition) ->
                 MaopaoListBaseFragment.this.loadMore());
