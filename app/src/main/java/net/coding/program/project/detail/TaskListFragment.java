@@ -70,8 +70,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     @FragmentArg
     boolean mShowAdd = false;
 
-    //筛选 有3种类型，
-    // https://coding.net/api/tasks/search?creator=52353&label=bug&status=2
+    //筛选 有4种类型，
+    // https://coding.net/api/tasks/search?creator=52353&label=bug&status=2&keyword=Bug
     //-------------------
     // 1.我的任务，我关注的，我创建的
     // https://coding.net/api/tasks/search?owner=52353
@@ -85,15 +85,16 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     // 3.标签筛选 标签内容
     // https://coding.net/api/tasks/search?label=Bug
 
+    // 4.关键字筛选
+    // https://coding.net/api/tasks/search?keyword=Bug
     @FragmentArg
     String mMeAction;
-
     @FragmentArg
     String mStatus;
-
     @FragmentArg
     String mLabel;
-
+    @FragmentArg
+    String mKeyword;
 
     @FragmentArg
     TaskObject.Members mMembers;
@@ -182,11 +183,17 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         if (!TextUtils.isEmpty(mMeAction) && mMembers != null && mMembers.user != null) {
             host += String.format("%s=%s&", mMeAction, mMembers.user.id);
         }
-        if (!TextUtils.isEmpty(mStatus)) {
+        if (!TextUtils.isEmpty(mStatus) && !mStatus.equals("0")) {
             host += String.format("status=%s&", mStatus);
         }
         if (!TextUtils.isEmpty(mLabel)) {
             host += String.format("label=%s&", Global.encodeUtf8(mLabel));
+        }
+        if (!TextUtils.isEmpty(mKeyword)) {
+            host += String.format("keyword=%s&", Global.encodeUtf8(mKeyword));
+        }
+        if (mProjectObject != null && !mProjectObject.isEmpty()) {
+            host += String.format("project_id=%s&", mProjectObject.getId());
         }
         //去掉最后一个 &
         if (!TextUtils.isEmpty(host)) {
@@ -302,7 +309,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         mUpdateAll = true;
     }
 
-    public void taskFragmentLoading(boolean isLoading){
+    public void taskFragmentLoading(boolean isLoading) {
         Fragment parentFragment = getParentFragment();
         if (parentFragment instanceof TaskFragment) {
             ((TaskFragment) parentFragment).showLoading(isLoading);
@@ -633,6 +640,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             mMeAction = eventFilter.meAction;
             mStatus = eventFilter.status;
             mLabel = eventFilter.label;
+            mKeyword = eventFilter.keyword;
 
             //重新加载所有
             mUpdateAll = true;
