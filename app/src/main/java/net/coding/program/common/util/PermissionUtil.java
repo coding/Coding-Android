@@ -42,6 +42,16 @@ public class PermissionUtil {
         return checkPermission(activity, result, permission, "开启麦克风权限后才能使用");
     }
 
+    public static boolean checkLocation(Activity activity) {
+        final int result = 2004;
+        final String[] permission = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        return checkPermission(activity, result, permission, "开启位置信息权限后才能使用");
+    }
+
     private static boolean checkPermission(Activity activity, int result, String[] permission, String tipString) {
         List<String> needApply = new ArrayList<>();
         for (String item : permission) {
