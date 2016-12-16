@@ -16,6 +16,7 @@ import android.widget.TextView;
 import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.FilterDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
@@ -69,8 +70,12 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
     int pageMargin;
     private PageTaskFragment adapter;
     private TextView toolBarTitle;
-    //labels
+
+    //任务筛选
     List<TaskLabelModel> taskLabelModels = new ArrayList<>();
+    private final String[] mMeActions = new String[]{"owner", "watcher", "creator"};
+    private FilterDialog.FilterModel mFilterModel;
+    private int statusIndex = 0;////筛选的index
 
     @AfterViews
     void initTaskFragment() {
@@ -203,25 +208,6 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
                 .startForResult(ListModify.RESULT_EDIT_LIST);
     }
 
-    @OptionsItem
-    protected final void action_filter() {
-        Toolbar mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            ActionMenuItemView viewById = (ActionMenuItemView) mToolbar.findViewById(R.id.action_filter);
-            if (viewById != null) {
-                viewById.setIcon(getResources().getDrawable(R.drawable.ic_menu_filter_selected));
-            }
-        }
-//        ProjectObject projectObject = mData.get(pager.getCurrentItem());
-//        TaskAddActivity_.intent(this)
-//                .mUserOwner(MyApp.sUserObject)
-//                .mProjectObject(projectObject)
-//                .startForResult(ListModify.RESULT_EDIT_LIST);
-        //FilterDialog.FilterModel filterModel = new FilterDialog.FilterModel(taskLabelModels);
-
-        //FilterDialog.getInstance().show(getContext(), null, null);
-    }
-
     public static class TaskCount {
         public int project;
         public int processing;
@@ -277,9 +263,18 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
             bundle.putSerializable("mMembers", new TaskObject.Members(AccountInfo.loadAccount(getActivity())));
             bundle.putSerializable("mProjectObject", mData.get(position));
             bundle.putBoolean("mShowAdd", false);
-//            bundle.putString("mMeAction", "owner");
-//            bundle.putString("mStatus", "1");
-//            bundle.putString("mLabel", "Bug");
+
+            bundle.putString("mMeAction", mMeActions[statusIndex]);
+            if (mFilterModel != null) {
+                bundle.putString("mStatus", mFilterModel.status + "");
+                bundle.putString("mLabel", mFilterModel.label);
+                bundle.putString("mKeyword", mFilterModel.keyword);
+                changeFilterIcon(mFilterModel.isFilter());
+            }else{
+                bundle.putString("mStatus", "");
+                bundle.putString("mLabel",  "");
+                bundle.putString("mKeyword",  "");
+            }
             fragment.setArguments(bundle);
 
             saveFragment(fragment);
@@ -300,9 +295,6 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
         EventBus.getDefault().unregister(this);
     }
 
-    //筛选的index
-    private int statusIndex = 0;
-
     // 用于处理推送
     public void onEventMainThread(Object object) {
         if (!(object instanceof EventFilter)) {
@@ -317,14 +309,17 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
     }
 
     private void iniTaskStatusLayout() {
+        if (getActivity() == null) return;
+
         View viewById = getActivity().findViewById(R.id.ll_task_filter);
         viewById.setVisibility(viewById.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
 
 
     private void iniTaskStatus() {
+        if (getActivity() == null) return;
+
         int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
-        String[] meActions = {"owner", "watcher", "creator" };
         int font2 = getResources().getColor(R.color.font_2);
         int green = getResources().getColor(R.color.green);
         for (int i = 0; i < filterItem.length; i++) {
@@ -332,15 +327,48 @@ public class TaskFragment extends LoadingFragment implements TaskListParentUpdat
             int finalI = i;
             status.setOnClickListener(v -> {
                 this.statusIndex = finalI;
+                toolBarTitle.setText(status.getText());
                 iniTaskStatus();
                 iniTaskStatusLayout();
-
-                toolBarTitle.setText(status.getText());
-                //状态筛选
-                EventBus.getDefault().post(new EventFilterDetail(meActions[finalI], null, null));
+                sureFilter();
             });
             status.setTextColor(i != this.statusIndex ? font2 : green);
             status.setCompoundDrawablesWithIntrinsicBounds(0, 0, i != this.statusIndex ? 0 : R.drawable.ic_task_status_list_check, 0);
+        }
+    }
+
+    private void sureFilter() {
+        EventBus.getDefault().post(new EventFilterDetail(mMeActions[statusIndex], mFilterModel));
+    }
+
+    @OptionsItem
+    protected final void action_filter() {
+
+        if (mFilterModel == null) {
+            mFilterModel = new FilterDialog.FilterModel(taskLabelModels);
+        } else {
+            mFilterModel.labelModels = taskLabelModels;
+        }
+
+        FilterDialog.getInstance().show(getContext(), mFilterModel, new FilterDialog.SearchListener() {
+            @Override
+            public void callback(FilterDialog.FilterModel filterModel) {
+                mFilterModel = filterModel;
+                sureFilter();
+                changeFilterIcon(mFilterModel.isFilter());
+            }
+        });
+    }
+
+    private void changeFilterIcon(boolean isFilter) {
+        if (getActivity() == null) return;
+
+        Toolbar mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            ActionMenuItemView viewById = (ActionMenuItemView) mToolbar.findViewById(R.id.action_filter);
+            if (viewById != null) {
+                viewById.setIcon(getResources().getDrawable(isFilter ? R.drawable.ic_menu_filter_selected : R.drawable.ic_menu_filter));
+            }
         }
     }
 }
