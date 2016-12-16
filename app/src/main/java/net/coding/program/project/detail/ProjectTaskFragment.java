@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.view.menu.ActionMenuItemView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -17,11 +16,9 @@ import com.melnykov.fab.FloatingActionButton;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.FilterDialog;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -49,9 +46,10 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_project_task)
 @OptionsMenu(R.menu.fragment_project_task)
-public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
+public class ProjectTaskFragment extends TaskFilterFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
+
     @FragmentArg
     ProjectObject mProjectObject;
 
@@ -90,6 +88,14 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
+
+        //toolBarTitle = (TextView) getActivity().findViewById();
+        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setCustomView(R.layout.view_project_task_toolbar);
+
+        initFilterViews();
     }
 
     private void refresh() {
@@ -98,6 +104,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        postLabelJson(tag, code, respanse);
         if (tag.equals(HOST_MEMBERS)) {
             hideDialogLoading();
             if (code == 0) {
@@ -151,6 +158,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 BlankViewDisplay.setBlank(mMembersAllAll.size(), this, false, blankLayout, onClickRetry);
             }
         }
+
     }
 
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
@@ -304,20 +312,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
     @OptionsItem
     protected final void action_filter() {
-
-        Toolbar mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            ActionMenuItemView viewById = (ActionMenuItemView) mToolbar.findViewById(R.id.action_filter);
-            if (viewById != null) {
-                viewById.setIcon(getResources().getDrawable(R.drawable.ic_menu_filter_selected));
-            }
-        }
-//        ProjectObject projectObject = mData.get(pager.getCurrentItem());
-//        TaskAddActivity_.intent(this)
-//                .mUserOwner(MyApp.sUserObject)
-//                .mProjectObject(projectObject)
-//                .startForResult(ListModify.RESULT_EDIT_LIST);
-
-        FilterDialog.getInstance().show(getContext(), null, null);
+        actionFilter();
     }
+
 }
