@@ -83,7 +83,6 @@ public class UpdateService extends Service {
     private void downloadApp() {
         try {
             if (enqueue == 0) {
-
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUpdateInfo.url))
                         .setTitle("Coding")
                         .setDescription("下载Coding" + mUpdateInfo.versionName)

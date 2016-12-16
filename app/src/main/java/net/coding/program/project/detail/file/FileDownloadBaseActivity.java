@@ -185,6 +185,10 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
 
     private void download(ArrayList<AttachmentFileObject> mFileObjects) {
         try {
+            if (FileUtil.needWriteExternalPermission(this)) {
+                return;
+            }
+
             for (AttachmentFileObject mFileObject : mFileObjects) {
                 final String urlDownload = Global.HOST_API + "%s/files/%s/download";
                 String url = String.format(urlDownload, getProjectPath(), mFileObject.file_id);

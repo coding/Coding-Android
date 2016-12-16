@@ -472,6 +472,10 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     private void download(String url) {
         try {
+            if (FileUtil.needWriteExternalPermission(this)) {
+                return;
+            }
+
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
 
             PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);
