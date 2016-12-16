@@ -54,7 +54,7 @@ import de.greenrobot.event.EventBus;
 @OptionsMenu(R.menu.fragment_task)
 public class TaskFragment extends LoadingFragment implements TaskListParentUpdate {
 
-    final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
+    final String host = Global.HOST_API + "/projects?pageSize=10&type=all";
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
     final String urlTaskLabels = Global.HOST_API + "/v2/tasks/search_filters";
 
