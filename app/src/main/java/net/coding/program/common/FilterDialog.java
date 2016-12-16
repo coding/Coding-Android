@@ -31,6 +31,8 @@ public class FilterDialog {
     private Dialog mDialog;
     private Context mContext;
     private FilterModel mFilterModel;
+    private int font2;
+    private int green;
 
     public FilterDialog() {
 
@@ -43,7 +45,10 @@ public class FilterDialog {
     public void show(Context context, FilterModel filterModel, SearchListener searchListener) {
         this.mContext = context;
         this.mFilterModel = filterModel;
-        mDialog = new Dialog(context, R.style.notitleDialog);
+        font2 = mContext.getResources().getColor(R.color.font_2);
+        green = mContext.getResources().getColor(R.color.green);
+
+        mDialog = new Dialog(context, R.style.FilterDialog);
         mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
@@ -148,7 +153,9 @@ public class FilterDialog {
             });
 
             //初始化状态
-            if (mFilterModel != null && mFilterModel.status == status) {
+            boolean isCheck = mFilterModel != null && mFilterModel.status == status;
+            taskView.setTextColor(!isCheck ? font2 : green);
+            if (isCheck) {
                 setRightDrawable(taskView, R.drawable.ic_task_status_list_check);
             } else {
                 setRightDrawable(taskView, 0);
@@ -165,17 +172,18 @@ public class FilterDialog {
         textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
     }
 
-    public void setLeftDrawable(TextView textView, String color, boolean checked) {
+    public void setLeftDrawable(TextView textView, String color, boolean isChecked) {
 
         if (mContext == null) {
             return;
         }
 
         final Drawable originalBitmapDrawable = mContext.getResources().getDrawable(R.drawable.ic_project_topic_label).mutate();
-        Drawable right = checked ? mContext.getResources().getDrawable(R.drawable.ic_task_status_list_check) : null;
+        Drawable right = isChecked ? mContext.getResources().getDrawable(R.drawable.ic_task_status_list_check) : null;
 
         ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor(color));
         textView.setCompoundDrawablesWithIntrinsicBounds(tintDrawable(originalBitmapDrawable, colorStateList), null, right, null);
+        textView.setTextColor(!isChecked ? font2 : green);
     }
 
     public Drawable tintDrawable(Drawable drawable, ColorStateList colors) {

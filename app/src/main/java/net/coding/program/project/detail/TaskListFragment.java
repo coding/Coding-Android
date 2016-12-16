@@ -24,6 +24,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.FlowLabelLayout;
@@ -31,7 +32,6 @@ import net.coding.program.event.EventFilterDetail;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
-import net.coding.program.task.TaskFragment;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity_;
 
@@ -181,8 +181,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     //检查是否有筛选条件
     String checkHostFilter() {
         String host = "";
-        if (!TextUtils.isEmpty(mMeAction) && mMembers != null && mMembers.user != null) {
-            host += String.format("%s=%s&", mMeAction, mMembers.user.id);
+        if (!TextUtils.isEmpty(mMeAction)) {
+            int userId = AccountInfo.loadAccount(getActivity()).id;
+            host += String.format("%s=%s&", mMeAction, userId);
         }
         if (!TextUtils.isEmpty(mStatus) && !mStatus.equals("0")) {
             host += String.format("status=%s&", mStatus);
@@ -312,8 +313,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     public void taskFragmentLoading(boolean isLoading) {
         Fragment parentFragment = getParentFragment();
-        if (parentFragment instanceof TaskFragment) {
-            ((TaskFragment) parentFragment).showLoading(isLoading);
+        if (parentFragment instanceof LoadingFragment) {
+            ((LoadingFragment) parentFragment).showLoading(isLoading);
         }
     }
 
