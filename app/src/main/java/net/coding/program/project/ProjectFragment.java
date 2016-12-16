@@ -18,6 +18,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.NoHorizontalScrollViewPager;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventPosition;
@@ -48,7 +49,8 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_project)
-public class ProjectFragment extends BaseFragment implements ViewPager.OnPageChangeListener, ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
+public class ProjectFragment extends BaseFragment implements ViewPager.OnPageChangeListener,
+        ProjectListFragment.UpdateData, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RECEIVER_INTENT_REFRESH_PROJECT = "net.coding.program.project.receiver.refresh";
     static final int RESULT_PROJECT_SEARCH_PICK = 88;
@@ -57,6 +59,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @ViewById(R.id.pagerFragmentProgram)
     NoHorizontalScrollViewPager pager;
+
     @FragmentArg
     Type type = Type.Main;
 
@@ -75,8 +78,8 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     };
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         EventBus.getDefault().register(this);
     }
 
@@ -220,6 +223,10 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @OptionsItem
     final void action_scan() {
+        if (!PermissionUtil.checkCamera(getActivity())) {
+            return;
+        }
+
         Intent intent = new Intent(getActivity(), QRScanActivity.class);
         intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, false);
         startActivity(intent);
@@ -227,6 +234,10 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @OptionsItem
     final void action_2fa() {
+        if (!PermissionUtil.checkCamera(getActivity())) {
+            return;
+        }
+
         Global.start2FAActivity(getActivity());
     }
 

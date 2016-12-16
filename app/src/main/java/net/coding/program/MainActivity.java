@@ -271,15 +271,13 @@ public class MainActivity extends BaseActivity {
 
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                Log.d("", ft == null ? "is null" : "is good");
+                Log.d(TAG, ft == null ? "is null" : "is good");
                 ft.replace(R.id.container, fragment, strings[position]);
                 ft.commit();
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 

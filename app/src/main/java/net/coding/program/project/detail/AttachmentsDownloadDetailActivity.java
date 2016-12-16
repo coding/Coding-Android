@@ -38,6 +38,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -472,7 +473,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     private void download(String url) {
         try {
-            if (FileUtil.needWriteExternalPermission(this)) {
+            if (!PermissionUtil.writeExtralStorage(this)) {
                 return;
             }
 

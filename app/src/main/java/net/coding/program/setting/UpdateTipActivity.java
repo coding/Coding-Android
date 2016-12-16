@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.UpdateService;
-import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 
 public class UpdateTipActivity extends Activity {
 
@@ -52,7 +52,7 @@ public class UpdateTipActivity extends Activity {
             });
             textView.setText("下载");
             textView.setOnClickListener(v -> {
-                if (FileUtil.needWriteExternalPermission(UpdateTipActivity.this)) {
+                if (!PermissionUtil.writeExtralStorage(UpdateTipActivity.this)) {
                     return;
                 }
                 startUpdateService(UpdateService.PARAM_START_DOWNLOAD);
