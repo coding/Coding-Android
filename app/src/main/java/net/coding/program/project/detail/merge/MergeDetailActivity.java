@@ -412,74 +412,58 @@ public class MergeDetailActivity extends BackActivity {
 
     @Click
     protected final void actionRefuse() {
-        showDialog(mMerge.getTitle(), "确定要拒绝吗？", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String host = mMerge.getHttpRefuse();
-                postNetwork(host, HOST_MERGE_REFUSE);
-            }
+        showDialog(mMerge.getTitle(), "确定要拒绝吗？", (dialog, which) -> {
+            String host = mMerge.getHttpRefuse();
+            postNetwork(host, HOST_MERGE_REFUSE);
         });
     }
 
     @Click
     protected final void actionCancel() {
-        showDialog(mMerge.getTitle(), "确定要取消吗？", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String host = mMerge.getHttpCancel();
-                postNetwork(host, HOST_MERGE_CANNEL);
-            }
+        showDialog(mMerge.getTitle(), "确定要取消吗？", (dialog, which) -> {
+            String host = mMerge.getHttpCancel();
+            postNetwork(host, HOST_MERGE_CANNEL);
         });
     }
 
     @Click
     protected final void actionAuth() {
-        showDialog(mMerge.getTitle(), "确定要授权吗？", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String host = mMerge.getHttpGrant();
+        showDialog(mMerge.getTitle(), "确定要授权吗？", (dialog, which) -> {
+            String host = mMerge.getHttpGrant();
 //                postNetwork(host, HOST_MERGE_CANNEL);
-                MyAsyncHttpClient.post(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
-                    @Override
-                    public void onMySuccess(JSONObject response) {
-                        setResult(RESULT_OK);
-                        mMerge.setGranted(1);
-                        actionAuth.setVisibility(View.GONE);
-                        actionCancelAuth.setVisibility(View.VISIBLE);
-                    }
-                });
+            MyAsyncHttpClient.post(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    setResult(RESULT_OK);
+                    mMerge.setGranted(1);
+                    actionAuth.setVisibility(View.GONE);
+                    actionCancelAuth.setVisibility(View.VISIBLE);
+                }
+            });
 
-            }
         });
     }
 
     @Click
     protected final void actionCancelAuth() {
-        showDialog(mMerge.getTitle(), "确定要撤消授权吗？", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String host = mMerge.getHttpGrant();
+        showDialog(mMerge.getTitle(), "确定要撤消授权吗？", (dialog, which) -> {
+            String host = mMerge.getHttpGrant();
 //                postNetwork(host, HOST_MERGE_CANNEL);
-                MyAsyncHttpClient.delete(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
-                    @Override
-                    public void onMySuccess(JSONObject response) {
-                        setResult(RESULT_OK);
-                        mMerge.setGranted(0);
-                        actionAuth.setVisibility(View.VISIBLE);
-                        actionCancelAuth.setVisibility(View.GONE);
-                    }
-                });
-            }
+            MyAsyncHttpClient.delete(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    setResult(RESULT_OK);
+                    mMerge.setGranted(0);
+                    actionAuth.setVisibility(View.VISIBLE);
+                    actionCancelAuth.setVisibility(View.GONE);
+                }
+            });
         });
     }
 
     private void initHead(View head) {
-        head.findViewById(R.id.itemCommit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommitListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start();
-            }
-        });
+        head.findViewById(R.id.itemCommit).setOnClickListener(v ->
+                CommitListActivity_.intent(MergeDetailActivity.this).mMerge(mMerge).start());
 
         ListItem1 itemFiles = (ListItem1) head.findViewById(R.id.itemFile);
         itemFiles.showBadge(RedPointTip.show(this, RedPointTip.Type.MergeFile320));

@@ -110,20 +110,9 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-
-            <!--<ProgressBar-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:id="@+id/progressBar2"-->
-                <!--style="?android:attr/progressBarStyleSmall"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--tools:visibility="visible"-->
-                <!--android:layout_gravity="center_horizontal" />-->
         </RelativeLayout>
 
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/myPoints"
@@ -135,14 +124,6 @@
         tools:text="我的码币余额：0.41 "
         android:textColor="#FF808080"
         tools:visibility="visible" />
-
-    <!--<ProgressBar-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/loading"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:visibility="visible"-->
-    <!--tools:visibility="visible"/>-->
 
 
 </LinearLayout>

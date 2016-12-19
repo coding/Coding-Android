@@ -679,12 +679,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             });
 
 
-            root.findViewById(R.id.closeDialog).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+            root.findViewById(R.id.closeDialog).setOnClickListener(v12 -> dialog.dismiss());
 
             AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
             String urlBalance = Global.HOST_API + "/point/balance";
