@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
+import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -19,6 +21,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.SaveFragmentPagerAdapter;
+import net.coding.program.common.util.ViewUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -70,6 +73,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
     MemberTaskCount mMemberTask = new MemberTaskCount();
     private MyPagerAdapter adapter;
+    private DrawerLayout drawer;
 
     @AfterViews
     protected final void initProjectTaskFragment() {
@@ -89,14 +93,22 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
 
-        //toolBarTitle = (TextView) getActivity().findViewById();
-        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setCustomView(R.layout.view_project_task_toolbar);
+        TextView viewById = (TextView) ViewUtils.findActionBarTitle(getActivity().getWindow().getDecorView());
+        if (viewById != null) {
+            viewById.setBackgroundResource(R.drawable.maopao_spinner);
+            viewById.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Do something
+                    Toast.makeText(getActivity(), "hello world", Toast.LENGTH_SHORT).show();
+                }
+            });
+            viewById.setText("我的任务");
+        }
 
         initFilterViews();
     }
+
 
     private void refresh() {
         getNetwork(HOST_TASK_MEMBER, HOST_TASK_MEMBER);
@@ -313,6 +325,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @OptionsItem
     protected final void action_filter() {
         actionFilter();
+        //drawer.openDrawer(GravityCompat.END);
     }
 
 }
