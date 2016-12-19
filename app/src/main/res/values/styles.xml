@@ -417,8 +417,11 @@
         <item name="android:textColor">@color/font_2</item>
     </style>
 
-    <style name="FilterDialog" parent="notitleDialog">
+    <style name="FilterDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/popwin_anim_style</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
