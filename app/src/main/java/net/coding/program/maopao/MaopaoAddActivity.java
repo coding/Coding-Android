@@ -573,16 +573,6 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
                 String imageUri = intent.getStringExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
-//                    File outputFile;
-//                    try {
-//                        outputFile = photoOperate.scal(imageUri);
-//                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));
-//                        adapter.notifyDataSetChanged();
-//                    } catch (Exception e) {
-//                        showMiddleToast("缩放图片失败");
-//                        Global.errorLog(e);
-//                    }
-
                     ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
                     ImageLoader.getInstance().loadImage(imageUri, size, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
                         @Override
@@ -607,20 +597,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                     });
                 }
 
-                // TODO 因为mart app那边的bug，项目链接有两个，这里做了一下去重处理
-                String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
-                String martHost = "https://mart.coding.net/";
-                int urlStart = stringExtra.lastIndexOf(martHost);
-                if (urlStart != -1) {
-                    String martUrl = stringExtra.substring(urlStart, stringExtra.length());
-                    String splitLastUrl = stringExtra.substring(0, urlStart);
-                    int urlStart2 = splitLastUrl.lastIndexOf(martUrl);
-                    if (urlStart2 != -1) {
-                        stringExtra = splitLastUrl;
-                    }
-                }
-
-                mIntentExtraString = stringExtra;
+                mIntentExtraString = intent.getStringExtra(Intent.EXTRA_TEXT);
             }
         }
     }
@@ -676,12 +653,12 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         Uri uri = Uri.parse("");
         String serviceUri = "";
 
-        public PhotoData(File file, ImageInfo info) {
+        PhotoData(File file, ImageInfo info) {
             uri = Uri.fromFile(file);
             mImageinfo = info;
         }
 
-        public PhotoData(PhotoDataSerializable data) {
+        PhotoData(PhotoDataSerializable data) {
             uri = Uri.parse(data.uriString);
             serviceUri = data.serviceUri;
             mImageinfo = data.mImageInfo;
@@ -694,7 +671,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         String serviceUri = "";
         ImageInfo mImageInfo;
 
-        public PhotoDataSerializable(PhotoData data) {
+        PhotoDataSerializable(PhotoData data) {
             uriString = data.uri.toString();
             serviceUri = data.serviceUri;
             mImageInfo = data.mImageinfo;
@@ -711,7 +688,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         public MaopaoDraft() {
         }
 
-        public MaopaoDraft(String input, ArrayList<PhotoData> photos, LocationObject locationObject) {
+        MaopaoDraft(String input, ArrayList<PhotoData> photos, LocationObject locationObject) {
             this.input = input;
             this.photos = new ArrayList<>();
             for (PhotoData item : photos) {
@@ -732,7 +709,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
             return locationObject;
         }
 
-        public ArrayList<PhotoData> getPhotos() {
+        ArrayList<PhotoData> getPhotos() {
             ArrayList<PhotoData> data = new ArrayList<>();
             for (PhotoDataSerializable item : photos) {
                 data.add(new PhotoData(item));

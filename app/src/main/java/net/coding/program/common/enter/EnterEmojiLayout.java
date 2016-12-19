@@ -43,7 +43,7 @@ import net.coding.program.message.EmojiFragment;
  * 输入框
  */
 
-// // FIXME: delete this class
+// // TODO: 准备删除这个类，使用 EmojiKeyboard 代替，估计 3 天的工作量，时间充足再改吧
 public class EnterEmojiLayout extends EnterLayout {
 
     static String emojiIcons[][] = {{

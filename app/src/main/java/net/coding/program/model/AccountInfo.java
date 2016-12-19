@@ -793,15 +793,4 @@ public class AccountInfo {
             return code;
         }
     }
-
-    static class Pair implements Serializable {
-        public String first;
-        public String second;
-
-        Pair(String first, String second) {
-            this.first = first;
-            this.second = second;
-        }
-    }
-
 }
