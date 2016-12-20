@@ -1,16 +1,16 @@
 package net.coding.program.common;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,41 +27,31 @@ import java.util.List;
  * Created by afs on 2016/12/12.
  */
 
-public class FilterDialog {
+public class DrawerLayoutHelper {
 
-    private Dialog mDialog;
+    private DrawerLayout drawerLayout;
     private Context mContext;
     private FilterModel mFilterModel;
     private int font2;
     private int green;
 
-    public FilterDialog() {
+    public DrawerLayoutHelper() {
 
     }
 
-    public static FilterDialog getInstance() {
-        return new FilterDialog();
+    public static DrawerLayoutHelper getInstance() {
+        return new DrawerLayoutHelper();
     }
 
-    public void show(Context context, FilterModel filterModel, FilterListener filterListener) {
+    public void initData(Context context, DrawerLayout drawerLayout, FilterModel filterModel, FilterListener filterListener) {
         this.mContext = context;
         this.mFilterModel = filterModel;
         font2 = mContext.getResources().getColor(R.color.font_2);
         green = mContext.getResources().getColor(R.color.green);
 
-        mDialog = new Dialog(context, R.style.FilterDialog);
-        mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        this.drawerLayout = drawerLayout;
 
-        mDialog.setContentView(R.layout.dialog_task_filter);
-        mDialog.getWindow().getAttributes().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        mDialog.show();
-        mDialog.setCanceledOnTouchOutside(true);
-
-
-        View reset = mDialog.findViewById(R.id.tv_reset);
+        View reset = drawerLayout.findViewById(R.id.tv_reset);
         reset.setOnClickListener(v -> {
             if (filterListener != null) {
                 filterListener.callback(new FilterModel());
@@ -77,7 +67,7 @@ public class FilterDialog {
 
     @NonNull
     private EditText initKeyword(FilterListener filterListener) {
-        EditText etSearch = (EditText) mDialog.findViewById(R.id.et_search);
+        EditText etSearch = (EditText) drawerLayout.findViewById(R.id.et_search);
 
         if (mFilterModel != null && !TextUtils.isEmpty(mFilterModel.keyword)) {
             etSearch.setText(mFilterModel.keyword);
@@ -98,9 +88,11 @@ public class FilterDialog {
     }
 
     private void dismiss() {
-        if (mDialog == null) return;
+        if (drawerLayout == null) return;
 
-        mDialog.dismiss();
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
+        }
     }
 
     private void iniLabels(FilterListener filterListener, EditText etSearch) {
@@ -109,11 +101,12 @@ public class FilterDialog {
             return;
         }
 
-        LinearLayout llLabels = (LinearLayout) mDialog.findViewById(R.id.ll_labels);
-
+        LinearLayout llLabels = (LinearLayout) drawerLayout.findViewById(R.id.ll_labels);
+        llLabels.removeAllViews();
         List<String> labelModels = new ArrayList<>();
 
         int len = mFilterModel.labelModels.size();
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         for (int i = 0; i < len; i++) {
             final TaskLabelModel item = mFilterModel.labelModels.get(i);
             if (labelModels.contains(item.name)) {
@@ -121,7 +114,7 @@ public class FilterDialog {
             }
             labelModels.add(item.name);
 
-            TextView labelItem = (TextView) mDialog.getLayoutInflater().inflate(R.layout.dialog_task_filter_label_item, null);
+            TextView labelItem = (TextView) layoutInflater.inflate(R.layout.dialog_task_filter_label_item, null);
             String str = String.format("%s (%d/%d)", item.name, item.processing, item.all);
             labelItem.setText(str);
             setLeftDrawable(labelItem, item.color, item.name.equals(mFilterModel.label));
@@ -144,7 +137,7 @@ public class FilterDialog {
 
         for (int i = 0; i < taskStr.length; i++) {
 
-            TextView taskView = (TextView) mDialog.findViewById(taskViews[i]);
+            TextView taskView = (TextView) drawerLayout.findViewById(taskViews[i]);
             String txt = taskStr[i];
             if (i == 0) {
                 if (mFilterModel != null && mFilterModel.statusTaskDoing > 0) {

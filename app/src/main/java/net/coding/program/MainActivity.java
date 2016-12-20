@@ -10,7 +10,9 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -62,7 +64,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-@EActivity(R.layout.activity_main)
+@EActivity(R.layout.activity_main_parent)
 public class MainActivity extends BaseActivity {
 
     public static final String TAG = "MainActivity";
@@ -475,10 +477,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        exitApp();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            exitApp();
+        }
     }
 
     private void exitApp() {
+
         if ((System.currentTimeMillis() - exitTime) > 2000) {
             showButtomToast("再按一次退出Coding");
             exitTime = System.currentTimeMillis();

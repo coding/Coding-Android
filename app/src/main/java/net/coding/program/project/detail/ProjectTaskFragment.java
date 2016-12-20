@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -20,11 +19,15 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.util.ViewUtils;
+import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
+import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
@@ -45,9 +48,10 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@EFragment(R.layout.fragment_project_task)
+@EFragment(R.layout.fragment_project_task_filter)
 @OptionsMenu(R.menu.fragment_project_task)
 public class ProjectTaskFragment extends TaskFilterFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
@@ -92,23 +96,23 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
-
-        TextView viewById = (TextView) ViewUtils.findActionBarTitle(getActivity().getWindow().getDecorView());
-        if (viewById != null) {
-            viewById.setBackgroundResource(R.drawable.maopao_spinner);
-            viewById.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Do something
-                    Toast.makeText(getActivity(), "hello world", Toast.LENGTH_SHORT).show();
-                }
-            });
-            viewById.setText("我的任务");
-        }
-
         initFilterViews();
     }
 
+    @Override
+    protected void initFilterViews() {
+        super.initFilterViews();
+        toolBarTitle = (TextView) ViewUtils.findActionBarTitle(getActivity().getWindow().getDecorView());
+        if (toolBarTitle != null) {
+            toolBarTitle.setBackgroundResource(R.drawable.maopao_spinner);
+            toolBarTitle.setOnClickListener(v -> {
+                meActionFilter();
+            });
+            toolBarTitle.setText("我的任务");
+        }
+        getNetwork(String.format(urlProjectTaskCount, mProjectObject.getId()), urlProjectTaskCount);
+        getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+    }
 
     private void refresh() {
         getNetwork(HOST_TASK_MEMBER, HOST_TASK_MEMBER);
@@ -116,7 +120,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        postLabelJson(tag, code, respanse);
         if (tag.equals(HOST_MEMBERS)) {
             hideDialogLoading();
             if (code == 0) {
@@ -168,6 +171,21 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                 hideDialogLoading();
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mMembersAllAll.size(), this, false, blankLayout, onClickRetry);
+            }
+        } else if (tag.equals(urlProjectTaskCount)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskProjectCountModel = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlProjectTaskLabels)) {
+            showLoading(false);
+            if (code == 0) {
+                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                Collections.sort(taskLabelModels, new PinyinComparator());
+            } else {
+                showErrorMsg(code, respanse);
             }
         }
 
@@ -325,7 +343,11 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @OptionsItem
     protected final void action_filter() {
         actionFilter();
-        //drawer.openDrawer(GravityCompat.END);
     }
 
+    @Override
+    protected void sureFilter() {
+        super.sureFilter();
+        getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+    }
 }
