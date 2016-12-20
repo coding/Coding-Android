@@ -15,7 +15,7 @@
         android:id="@+id/first"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="15dp"
         android:textColor="@color/font_9"
         android:textSize="16sp" />
 

@@ -14,9 +14,9 @@
             android:background="@color/divide"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:paddingLeft="12dp"
+            android:paddingLeft="15dp"
             android:textSize="18sp"
-            android:paddingRight="12dp"
+            android:paddingRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -27,7 +27,6 @@
             android:id="@+id/expandableIndicator"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="20dp" />
-
 
     </FrameLayout>
 

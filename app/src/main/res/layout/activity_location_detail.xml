@@ -12,8 +12,8 @@
         android:minHeight="58dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
         android:singleLine="false"
         android:lineSpacingExtra="2dp"
         android:gravity="center"
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:maxLines="1"
             android:singleLine="true"
@@ -61,7 +61,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15"
             android:src="@drawable/ic_list_right_arr" />
     </LinearLayout>
 

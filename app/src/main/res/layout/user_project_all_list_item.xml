@@ -12,7 +12,7 @@
             android:id="@+id/icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/round_icon_path"

@@ -10,7 +10,7 @@
         android:id="@+id/icon"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="12dp"

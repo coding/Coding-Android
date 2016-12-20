@@ -14,7 +14,7 @@
         android:layout_width="20dp"
         android:layout_centerVertical="true"
         android:layout_height="20dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="15dp"
         android:src="@color/red_f75" />
 
     <TextView

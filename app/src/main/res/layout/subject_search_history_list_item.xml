@@ -39,6 +39,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="15dp"
         android:background="@color/search_divide_color" />
 </LinearLayout>

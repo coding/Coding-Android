@@ -21,8 +21,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,8 +60,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,8 +100,8 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15">
 
             <TextView
                 android:layout_width="wrap_content"

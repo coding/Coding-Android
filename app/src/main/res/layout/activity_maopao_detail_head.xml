@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:clipChildren="false"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:paddingBottom="@dimen/padding_12"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
+        android:paddingTop="@dimen/padding_12">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -73,12 +75,12 @@
     <LinearLayout
         android:id="@+id/goodCommentLayout"
         android:layout_width="match_parent"
-        android:clipChildren="false"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:clipChildren="false"
         android:gravity="bottom"
         android:orientation="vertical">
 
@@ -86,11 +88,11 @@
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginRight="5dp"
             android:ellipsize="end"
             android:gravity="bottom"
-            android:singleLine="true"
+            android:lines="1"
             android:text="北京"
             android:textColor="@color/font_green" />
 
@@ -99,24 +101,24 @@
             android:id="@+id/photoType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="9dp"
+            android:drawableLeft="@drawable/icon_maopao_send_phone"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:layout_marginTop="9dp"
             android:singleLine="true"
             android:text="来自 iPhone 6"
-            android:drawableLeft="@drawable/icon_maopao_send_phone"
             android:textColor="@color/font_9"
-            android:textSize="13sp"
-            android:layout_marginLeft="12dp" />
+            android:textSize="13sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
             android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp"
-            android:minHeight="30dp"
             android:clipChildren="false"
+            android:minHeight="30dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -125,8 +127,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:visibility="gone"
-                android:src="@drawable/maopao_item_share" />
+                android:src="@drawable/maopao_item_share"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/commentBtn"
@@ -135,14 +137,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textColor="@color/font_9"
-                android:drawablePadding="9dp"
                 android:drawableLeft="@drawable/maopao_extra_comment"
-                tools:text="17"
+                android:drawablePadding="9dp"
+                android:gravity="center"
                 android:src="@drawable/checkbox_comment"
-                />
+                android:textColor="@color/font_9"
+                android:textSize="14sp"
+                tools:text="17" />
 
             <CheckBox
                 android:id="@+id/likeBtn"
@@ -151,26 +152,25 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:background="@null"
+                android:button="@drawable/checkbox_good"
                 android:paddingLeft="9dp"
-
-                android:textSize="14sp"
-                android:textColor="@color/font_9"
                 android:text="0"
-                tools:text="55"
-                android:button="@drawable/checkbox_good" />
+                android:textColor="@color/font_9"
+                android:textSize="14sp"
+                tools:text="55" />
 
             <TextView
+                android:id="@+id/rewardCount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/maopao_extra_reward"
-                android:layout_toRightOf="@id/likeBtn"
-                android:drawablePadding="9dp"
-                android:id="@+id/rewardCount"
                 android:layout_marginLeft="8dp"
-                android:textSize="14sp"
-                android:textColor="@color/font_9"
+                android:layout_toRightOf="@id/likeBtn"
+                android:drawableLeft="@drawable/maopao_extra_reward"
+                android:drawablePadding="9dp"
                 android:gravity="center"
-                tools:text="2"/>
+                android:textColor="@color/font_9"
+                android:textSize="14sp"
+                tools:text="2" />
 
             <TextView
                 android:id="@+id/deleteButton"
@@ -187,8 +187,8 @@
                 android:id="@+id/maopaoGood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.0"
                 android:layout_centerVertical="true"
+                android:alpha="0.0"
                 android:src="@drawable/maopao_extra_liked" />
 
         </RelativeLayout>
@@ -198,8 +198,8 @@
         android:id="@+id/likesAllLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/likeUsersLayout"

@@ -23,7 +23,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="@dimen/padding_15"
             android:layout_marginTop="15.3dp"
             android:ellipsize="end"
             android:lines="1"

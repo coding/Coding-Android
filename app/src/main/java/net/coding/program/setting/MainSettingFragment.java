@@ -8,6 +8,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.user.ServiceInfo;
@@ -95,6 +96,10 @@ public class MainSettingFragment extends BaseFragment {
 
     @Click
     void itemLocalFile() {
+        if (!PermissionUtil.writeExtralStorage(getActivity())) {
+            return;
+        }
+
         LocalProjectFileActivity_.intent(this).start();
     }
 

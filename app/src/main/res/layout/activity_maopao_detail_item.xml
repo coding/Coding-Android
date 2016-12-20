@@ -11,6 +11,10 @@
         android:layout_width="37dp"
         android:layout_height="37dp"
         android:layout_margin="12dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginTop="@dimen/padding_12"
+        android:layout_marginBottom="@dimen/padding_12"
+        android:layout_marginRight="@dimen/padding_12"
         android:src="@drawable/ic_default_user" />
 
     <LinearLayout
@@ -27,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/icon"
             android:layout_below="@+id/name"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="@dimen/padding_15"
             android:background="@drawable/content_pressed_selector"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"

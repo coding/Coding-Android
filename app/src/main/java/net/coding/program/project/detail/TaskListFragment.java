@@ -421,7 +421,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
-            int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 12); // item 左边空 100 dp，右边空12dp
+            int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 15); // item 左边空 100 dp，右边空15dp
             if (!data.deadline.isEmpty()) {
                 flowWidth -= Global.dpToPx(55);
             }
