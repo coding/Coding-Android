@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -123,6 +124,21 @@ public class Global {
         }
 
         return LOG_PREFIX + str;
+    }
+
+
+    public static String getExtraString(Context context) {
+        String FEED_EXTRA = "";
+        if (FEED_EXTRA.isEmpty()) {
+            try {
+                PackageInfo pInfo = context.getPackageManager().getPackageInfo("net.coding.mart", 0);
+                String appVersion = pInfo.versionName;
+                String phoneModel = Build.MODEL;
+                FEED_EXTRA = String.format("CodingMart_Android/%s (Android %s; %s)", appVersion, Build.VERSION.SDK_INT, phoneModel);
+            } catch (Exception e) {}
+        }
+
+        return FEED_EXTRA;
     }
 
     public static long longFromDay(String day) throws ParseException {

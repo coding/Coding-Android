@@ -29,10 +29,12 @@ import com.roughike.bottombar.BottomBar;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
+import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.GlobalUnit;
@@ -61,6 +63,7 @@ import org.androidannotations.annotations.res.StringArrayRes;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import network.coding.net.checknetwork.CheckNetworkIntentService;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
@@ -123,6 +126,7 @@ public class MainActivity extends BaseActivity {
         // qq push
         updateNotifyService();
         pushInXiaomi();
+        startNetworkCheckService();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
@@ -146,6 +150,18 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidRegister();
 
         EventBus.getDefault().register(this);
+    }
+
+    private void startNetworkCheckService() {
+        Intent intent = new Intent(this, CheckNetworkIntentService.class);
+        String extra = Global.getExtraString(this);
+        intent.putExtra(CheckNetworkIntentService.PARAM_APP, extra);
+
+        intent.putExtra(CheckNetworkIntentService.PARAM_GK, MyApp.sUserObject.global_key);
+        String sid = MyAsyncHttpClient.getCookie(this, Global.HOST);
+        intent.putExtra(CheckNetworkIntentService.PARAM_COOKIE, sid);
+
+        startService(intent);
     }
 
     @Override

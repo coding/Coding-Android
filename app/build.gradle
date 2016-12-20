@@ -124,3 +124,11 @@ apt {
         androidManifestFile variant.outputs[0]?.processResources?.manifestFile
     }
 }
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
+    }
+}
+dependencies {
+    compile(name:'checknetwork', ext:'aar')
+}
