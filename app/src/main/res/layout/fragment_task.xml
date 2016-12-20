@@ -1,37 +1,39 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="net.coding.program.task.TaskFragment">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             tools:context="net.coding.program.task.TaskFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/divide"
         android:layout_height="match_parent"
+        android:background="@color/divide"
         android:orientation="vertical">
 
         <View
-            style="@style/DivideLine"
-            android:id="@+id/actionDivideLine" />
+            android:id="@+id/actionDivideLine"
+            style="@style/DivideLine"/>
 
         <net.coding.program.third.MyPagerSlidingTabStrip
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="77dip"
-            android:background="@color/stand_bg" />
+            android:background="@color/stand_bg"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pagerTaskFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <net.coding.program.common.widget.LoadingView
         android:id="@+id/baseLoadingView"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <include layout="@layout/view_task_status_filter"/>
 
 </FrameLayout>

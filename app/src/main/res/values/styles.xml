@@ -403,6 +403,25 @@
         <item name="android:textColor">@color/font_2</item>
     </style>
 
+    <style name="TextViewFilterTag">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">15dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:textColor">@color/font_2</item>
+    </style>
+
+    <style name="FilterDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/popwin_anim_style</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
     <style name="commentWebviewDetail">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -415,6 +434,25 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="TextViewFilterTag">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">15dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:textColor">@color/font_2</item>
+    </style>
+
+    <style name="FilterDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/popwin_anim_style</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

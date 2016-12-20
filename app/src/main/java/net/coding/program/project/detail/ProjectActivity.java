@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
 import net.coding.program.FileUrlActivity;
@@ -31,7 +33,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@EActivity(R.layout.activity_project)
+@EActivity(R.layout.activity_project_parent)
 public class ProjectActivity extends BackActivity implements NetworkCallback {
 
     public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
@@ -214,6 +216,8 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         public ProjectJumpParam(String path) {
+            String[] regexs = new String[]{
+                    "^/u/(.*)/p/(.*)$",
             String[] regexs = new String[] {
                     "^/u/(.*?)/p/(.*?)(?:/git)?$",
                     "^/user/(.*)/project/(.*)$",
@@ -252,4 +256,15 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             typeHome
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

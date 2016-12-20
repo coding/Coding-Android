@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -17,11 +19,15 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.ViewUtils;
+import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
+import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
@@ -33,6 +39,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,12 +48,15 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@EFragment(R.layout.fragment_project_task)
-public class ProjectTaskFragment extends BaseFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
+@EFragment(R.layout.fragment_project_task_filter)
+@OptionsMenu(R.menu.fragment_project_task)
+public class ProjectTaskFragment extends TaskFilterFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
 
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
+
     @FragmentArg
     ProjectObject mProjectObject;
 
@@ -66,6 +77,7 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
     MemberTaskCount mMemberTask = new MemberTaskCount();
     private MyPagerAdapter adapter;
+    private DrawerLayout drawer;
 
     @AfterViews
     protected final void initProjectTaskFragment() {
@@ -84,6 +96,22 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
 
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
+        initFilterViews();
+    }
+
+    @Override
+    protected void initFilterViews() {
+        super.initFilterViews();
+        toolBarTitle = (TextView) ViewUtils.findActionBarTitle(getActivity().getWindow().getDecorView());
+        if (toolBarTitle != null) {
+            toolBarTitle.setBackgroundResource(R.drawable.maopao_spinner);
+            toolBarTitle.setOnClickListener(v -> {
+                meActionFilter();
+            });
+            toolBarTitle.setText("我的任务");
+        }
+        getNetwork(String.format(urlProjectTaskCount, mProjectObject.getId()), urlProjectTaskCount);
+        getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
     }
 
     private void refresh() {
@@ -144,7 +172,23 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mMembersAllAll.size(), this, false, blankLayout, onClickRetry);
             }
+        } else if (tag.equals(urlProjectTaskCount)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskProjectCountModel = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlProjectTaskLabels)) {
+            showLoading(false);
+            if (code == 0) {
+                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                Collections.sort(taskLabelModels, new PinyinComparator());
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
+
     }
 
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
@@ -269,6 +313,9 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
             bundle.putSerializable("mMembersArray", mUsersInfo);
             bundle.putSerializable("mMemberPos", position);
             bundle.putBoolean("mShowAdd", true);
+//            bundle.putString("mMeAction", "");
+//            bundle.putString("mStatus", "");
+//            bundle.putString("mLabel", "");
             fragment.setParent(ProjectTaskFragment.this);
 
             fragment.setArguments(bundle);
@@ -291,5 +338,16 @@ public class ProjectTaskFragment extends BaseFragment implements TaskListParentU
         public String getPageIconUrl(int position) {
             return mMembersAll.get(position).user.avatar;
         }
+    }
+
+    @OptionsItem
+    protected final void action_filter() {
+        actionFilter();
+    }
+
+    @Override
+    protected void sureFilter() {
+        super.sureFilter();
+        getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
     }
 }

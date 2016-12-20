@@ -75,7 +75,8 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
             });
 
         } else {
-            view.findViewById(R.id.iconRight).setVisibility(View.GONE);
+            //fix bug -gone掉后页面会乱
+            view.findViewById(R.id.iconRight).setVisibility(View.INVISIBLE);
         }
     }
 
