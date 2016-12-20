@@ -134,7 +134,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
     }
 
     @Override

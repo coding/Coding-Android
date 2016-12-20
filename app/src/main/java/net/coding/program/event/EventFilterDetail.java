@@ -1,6 +1,6 @@
 package net.coding.program.event;
 
-import net.coding.program.common.FilterDialog;
+import net.coding.program.model.FilterModel;
 
 /**
  * Created by anfs on 15/12/2016.
@@ -30,7 +30,7 @@ public class EventFilterDetail {
     public String status;
     public String keyword;
 
-    public EventFilterDetail(String meAction, FilterDialog.FilterModel filterModel) {
+    public EventFilterDetail(String meAction, FilterModel filterModel) {
         this.meAction = meAction;
         if (filterModel == null) {
             return;

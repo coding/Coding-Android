@@ -3,8 +3,10 @@ package net.coding.program.task;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -15,10 +17,14 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
+import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.event.EventFilter;
+import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.TaskCountModel;
+import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
 import net.coding.program.project.detail.TaskFilterFragment;
 import net.coding.program.project.detail.TaskListFragment;
@@ -38,6 +44,7 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -80,6 +87,14 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
         initFilterViews();
         showLoading(true);
+    }
+
+    @Override
+    protected void initFilterViews() {
+        super.initFilterViews();
+        setHasOptionsMenu(true);
+        getNetwork(urlTaskCountAll, urlTaskCountAll);
+        getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
     }
 
     @Override
@@ -132,6 +147,21 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                     ((MainActivity) activity).hideActionBarShadow();
                 }
 
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlTaskCountAll)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskCountModel = JSONUtils.getData(respanse.getString("data"), TaskCountModel.class);
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlTaskLabel)) {
+            showLoading(false);
+            if (code == 0) {
+                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                Collections.sort(taskLabelModels, new PinyinComparator());
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -282,13 +312,19 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         EventFilter eventFilter = (EventFilter) object;
         //确定是我的任务筛选
         if (eventFilter.index == 1) {
-            iniTaskStatusLayout();
-            iniTaskStatus();
+            meActionFilter();
         }
     }
 
     @OptionsItem
     protected final void action_filter() {
         actionFilter();
+    }
+
+    @Override
+    protected void sureFilter() {
+        super.sureFilter();
+        //筛选了状态，相应的筛选标签也变化
+        getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
     }
 }
