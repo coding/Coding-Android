@@ -216,6 +216,8 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         public ProjectJumpParam(String path) {
+            String[] regexs = new String[]{
+                    "^/u/(.*)/p/(.*)$",
             String[] regexs = new String[] {
                     "^/u/(.*?)/p/(.*?)(?:/git)?$",
                     "^/user/(.*)/project/(.*)$",
