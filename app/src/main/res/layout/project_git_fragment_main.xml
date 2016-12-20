@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/divide"
     android:layout_height="match_parent">
 
     <FrameLayout
@@ -44,6 +45,8 @@
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@drawable/divide_line_project_item"
+                android:dividerHeight="@dimen/divide_height"
                 android:footerDividersEnabled="false" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
@@ -65,6 +68,8 @@
             <ExpandableListView
                 android:id="@+id/versionList"
                 android:layout_width="match_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white" />
         </FrameLayout>

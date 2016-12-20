@@ -53,8 +53,10 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
 
     @FragmentArg
     ProjectObject mProjectObject;
+
     @ViewById
     ListView listView;
+    
     @ViewById
     View blankLayout;
 

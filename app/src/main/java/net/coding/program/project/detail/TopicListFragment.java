@@ -169,6 +169,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         }
 
         listViewAddHeaderSection(listView);
+        listView.setVisibility(View.INVISIBLE);
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);
@@ -244,8 +245,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             }
 
             BlankViewDisplay.setBlank(mData.size(), TopicListFragment.this, true, blankLayout, onClickRetry);
-
-
+            listView.setVisibility(mData.size() > 0 ? View.VISIBLE : View.INVISIBLE);
             baseAdapter.notifyDataSetChanged();
         } else {
             showErrorMsg(code, respanse);

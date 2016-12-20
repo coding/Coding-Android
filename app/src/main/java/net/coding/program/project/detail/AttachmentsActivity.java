@@ -216,11 +216,11 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     holder.checkBox.setChecked(false);
                 }
                 //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, R.id.icon);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(58);
+                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(62);
             } else {
                 holder.checkBox.setVisibility(View.GONE);
                 //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).removeRule(RelativeLayout.LEFT_OF);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = 0;
+                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(15);
             }
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 

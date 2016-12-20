@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -127,17 +126,15 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         showDialogLoading();
 
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GitFileInfoObject selectedFile = mData.get(position);
-                if (selectedFile.isTree()) {
-                    GitTreeActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
-                } else {
-                    GitViewActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
-                }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            GitFileInfoObject selectedFile = mData.get(position);
+            if (selectedFile.isTree()) {
+                GitTreeActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+            } else {
+                GitViewActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
             }
         });
+        listView.setVisibility(View.INVISIBLE);
 
         if (mGitFileInfoObject == null) {
             pathStack.push("");
@@ -236,7 +233,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                     mData.add(fileInfoObject);
                 }
 
-                adapter.notifyDataSetChanged();
+                updateListview();
                 switchVersionSuccess();
             } else {
                 showErrorMsg(code, respanse);
@@ -244,7 +241,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
-                if (jsonData.optBoolean("too_many_files", false) == true) {
+                if (jsonData.optBoolean("too_many_files")) {
                     showTooManyFilesAlert();
                     JSONArray jsonArray = jsonData.optJSONArray("files");
                     for (int i = 0; i < jsonArray.length(); ++i) {
@@ -255,7 +252,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                     mTooManyFiles = true;
                     hideDialogLoading();
                     setRefreshing(false);
-                    adapter.notifyDataSetChanged();
+                    updateListview();
                     switchVersionSuccess();
                     return;
                 }
@@ -272,6 +269,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 }
             }
         }
+    }
+
+    private void updateListview() {
+        listView.setVisibility(mData.size() > 0 ? View.VISIBLE : View.INVISIBLE);
+        adapter.notifyDataSetChanged();
     }
 
     private void showTooManyFilesAlert() {

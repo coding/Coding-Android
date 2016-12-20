@@ -209,6 +209,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/padding_15"
             android:background="@color/font_black_content_disabled" />
     </RelativeLayout>
 
