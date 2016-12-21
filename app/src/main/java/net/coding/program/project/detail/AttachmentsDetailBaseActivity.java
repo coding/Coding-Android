@@ -32,11 +32,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 展示某一项目文档目录下面文件的BsseActivity
@@ -303,9 +304,9 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             }
 
             @Override
-            public void onProgress(int bytesWritten, int totalSize) {
+            public void onProgress(long bytesWritten, long totalSize) {
                 super.onProgress(bytesWritten, totalSize);
-                int progresss = (totalSize > 0 && bytesWritten >= 0) ? bytesWritten * 100 / totalSize : 0;
+                int progresss = (int) ((totalSize > 0 && bytesWritten >= 0) ? bytesWritten * 100 / totalSize : 0);
                 onDownloadProgress(progresss);
             }
 

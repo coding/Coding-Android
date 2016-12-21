@@ -156,11 +156,11 @@ public class MainActivity extends BaseActivity {
     private void startNetworkCheckService() {
         Intent intent = new Intent(this, CheckNetworkIntentService.class);
         String extra = Global.getExtraString(this);
-        intent.putExtra(CheckNetworkIntentService.PARAM_APP, extra);
+        intent.putExtra("PARAM_APP", extra);
 
-        intent.putExtra(CheckNetworkIntentService.PARAM_GK, MyApp.sUserObject.global_key);
+        intent.putExtra("PARAM_GK", MyApp.sUserObject.global_key);
         String sid = MyAsyncHttpClient.getCookie(this, Global.HOST);
-        intent.putExtra(CheckNetworkIntentService.PARAM_COOKIE, sid);
+        intent.putExtra("PARAM_COOKIE", sid);
 
         startService(intent);
     }

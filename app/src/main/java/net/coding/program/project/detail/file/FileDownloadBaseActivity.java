@@ -25,7 +25,7 @@ import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 
-import org.apache.http.cookie.Cookie;
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 import java.io.File;
 import java.util.ArrayList;

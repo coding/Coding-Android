@@ -45,7 +45,6 @@ import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.GitFileObject;
 
-import org.apache.http.cookie.Cookie;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
@@ -64,6 +63,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import cz.msebera.android.httpclient.cookie.Cookie;
 import pl.droidsonroids.gif.GifDrawable;
 
 /**
@@ -131,10 +131,10 @@ public class Global {
         String FEED_EXTRA = "";
         if (FEED_EXTRA.isEmpty()) {
             try {
-                PackageInfo pInfo = context.getPackageManager().getPackageInfo("net.coding.mart", 0);
+                PackageInfo pInfo = context.getPackageManager().getPackageInfo("net.coding.program", 0);
                 String appVersion = pInfo.versionName;
                 String phoneModel = Build.MODEL;
-                FEED_EXTRA = String.format("CodingMart_Android/%s (Android %s; %s)", appVersion, Build.VERSION.SDK_INT, phoneModel);
+                FEED_EXTRA = String.format("Coding_Android/%s (Android %s; %s)", appVersion, Build.VERSION.SDK_INT, phoneModel);
             } catch (Exception e) {}
         }
 
@@ -198,6 +198,7 @@ public class Global {
     }
 
     public static void syncCookie(Context context) {
+
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         List<Cookie> cookies = cookieStore.getCookies();
 

@@ -8,8 +8,9 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.util.SingleToast;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/10/11.

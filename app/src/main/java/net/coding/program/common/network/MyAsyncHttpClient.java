@@ -14,10 +14,10 @@ import net.coding.program.common.util.LogUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.RequestData;
 
-import org.apache.http.cookie.Cookie;
-
 import java.util.HashMap;
 import java.util.List;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 import static net.coding.program.common.util.LogUtils.makeLogTag;
 

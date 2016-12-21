@@ -54,7 +54,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.cookie.Cookie;
+import cz.msebera.android.httpclient.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 

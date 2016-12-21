@@ -7,7 +7,7 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import net.coding.program.common.Global;
 
-import org.apache.http.cookie.Cookie;
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
