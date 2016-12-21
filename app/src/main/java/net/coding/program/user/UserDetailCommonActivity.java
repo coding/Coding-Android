@@ -135,7 +135,7 @@ public class UserDetailCommonActivity extends BackActivity {
         } else {
             findViewById(R.id.hsl_main).setVisibility(View.VISIBLE);
             LinearLayout llTags = (LinearLayout) findViewById(R.id.ll_tags);
-
+            llTags.removeAllViews();
             String[] split = mUserObject.tags_str.split(",");
             for (String tag : split) {
                 if (TextUtils.isEmpty(tag)) {

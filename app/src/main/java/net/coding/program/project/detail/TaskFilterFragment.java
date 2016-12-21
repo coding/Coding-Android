@@ -31,13 +31,17 @@ public class TaskFilterFragment extends LoadingFragment {
 
     //final String urlTaskLabels = Global.HOST_API + "/v2/tasks/search_filters";
 
-    //数量项目外https://coding.net/api/tasks/count
+    //项目外
     protected final String urlTaskCountAll = Global.HOST_API + "/tasks/count";
     protected final String urlTaskLabel = Global.HOST_API + "/projects/tasks/labels?role=";
-
+    //项目外特定项目
     protected final String urlProjectTaskCount = Global.HOST_API + "/project/%s/tasks/counts";
     protected final String urlProjectTaskLabels = Global.HOST_API + "/project/%s/tasks/labels?role=";
 
+    //项目内
+    protected final String urlPOwnerCount = Global.HOST_API + "/project/%s/task/count";
+    protected final String urlPWatcherCount = Global.HOST_API + "project/{projectId}/task/count";
+    protected final String urlPCreatorCount = Global.HOST_API + "/project/%s/task/count";
 
     //任务筛选
     protected TextView toolBarTitle;

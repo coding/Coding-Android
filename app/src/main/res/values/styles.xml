@@ -168,6 +168,31 @@
         <item name="colorPrimaryDark">@color/black</item>
     </style>
 
+    <style name="ThemeProject" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:colorControlNormal">@color/green</item>
+
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
+        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
+
+        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+
+        <!--<item name="android:background">@drawable/gray_drawable</item>-->
+
+        <item name="colorPrimary">@drawable/color_primary</item>
+        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
+
+    </style>
+
     <!--弹出菜单字体颜色-->
     <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@color/font_2</item>

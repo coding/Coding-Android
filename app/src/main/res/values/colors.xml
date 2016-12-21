@@ -106,6 +106,7 @@
     <color name="color_4E90BF">#4E90BF</color>
     <color name="color_EEEEEE">@color/divide</color>
     <color name="color_28303B">#28303B</color>
+    <color name="color_f8f8f8">#f8f8f8</color>
 
     <color name="popDialogBg">#99000000</color>
 
