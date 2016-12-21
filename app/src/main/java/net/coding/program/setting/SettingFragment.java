@@ -3,6 +3,7 @@ package net.coding.program.setting;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import net.coding.program.R;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.event.EventMessage;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
@@ -30,6 +32,8 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.util.regex.Pattern;
+
+import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_setting)
 public class SettingFragment extends BaseFragment {
@@ -173,10 +177,12 @@ public class SettingFragment extends BaseFragment {
     @Click
     void loginOut() {
         showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
-            XGPushManager.registerPush(getActivity(), "*");
-            AccountInfo.loginOut(getActivity());
-            startActivity(new Intent(getActivity(), GuideActivity.class));
-            getActivity().finish();
+            FragmentActivity activity = getActivity();
+            XGPushManager.registerPush(activity, "*");
+            AccountInfo.loginOut(activity);
+            startActivity(new Intent(activity, GuideActivity.class));
+            EventBus.getDefault().post(new EventMessage(EventMessage.Type.loginOut));
+            activity.finish();
         });
     }
 }

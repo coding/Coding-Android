@@ -39,6 +39,7 @@ import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
+import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventShowBottom;
@@ -579,6 +580,11 @@ public class MainActivity extends BaseActivity {
         } else if (object instanceof EventPosition) {
             EventPosition eventPosition = (EventPosition) object;
             toolbarProjectTitle.setText(eventPosition.title);
+        } else if (object instanceof EventMessage) {
+            EventMessage eventMessage = (EventMessage) object;
+            if (eventMessage.type == EventMessage.Type.loginOut) {
+                finish();
+            }
         }
     }
 
