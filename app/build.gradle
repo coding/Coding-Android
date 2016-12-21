@@ -95,6 +95,8 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.44.android'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+
+    compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
 }
 
 buildscript {
