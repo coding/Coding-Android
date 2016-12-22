@@ -6,6 +6,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -133,7 +134,12 @@ public class MergeObject implements Serializable {
         title = json.optString("title");
         iid = json.optInt("iid");
         author_id = json.optInt("author_id");
-        body = json.optJSONArray("body").getString(0);
+        JSONArray body = json.optJSONArray("body");
+        if (body != null && body.length() > 0) {
+            this.body = body.getString(0);
+        } else {
+            this.body = "";
+        }
         merge_status = json.optString("merge_status");
         path = ProjectObject.translatePath(json.optString("path", ""));
         created_at = json.optLong("created_at");

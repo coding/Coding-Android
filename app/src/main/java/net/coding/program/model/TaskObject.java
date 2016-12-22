@@ -192,8 +192,16 @@ public class TaskObject {
         public String description = "";
 
         public SingleTask(JSONObject json) throws JSONException {
+            this(json, false);
+        }
+
+        public SingleTask(JSONObject json, boolean useRaw) throws JSONException {
             comments = json.optInt("comments");
-            content = Html.fromHtml(json.optString("content")).toString();
+            this.content = json.optString("content", "");
+            if (!useRaw) {
+                this.content = Html.fromHtml(content).toString();
+            }
+
             created_at = json.optLong("created_at");
 
             if (json.has("creator")) {

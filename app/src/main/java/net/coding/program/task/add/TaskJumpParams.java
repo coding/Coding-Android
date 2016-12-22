@@ -16,4 +16,22 @@ public class TaskJumpParams implements Serializable {
         projectName = project;
         taskId = task;
     }
+    
+    public TaskJumpParams(String projectPath, int taskId) {
+        String userPrefix = "/t/";
+        String projectPrefix = "/p/";
+        int userStart = projectPath.indexOf(userPrefix);
+        if (userStart == -1) {
+            userStart = 0;
+        }
+        int projectStart = projectPath.indexOf(projectPrefix);
+        if (projectStart < userStart) {
+            projectStart = userStart;
+        }
+
+        userKey = projectPath.substring(userStart + userPrefix.length(), projectStart);
+        projectName = projectPath.substring(projectStart + projectPrefix.length(), projectPath.length());
+        this.taskId = String.valueOf(taskId);
+    }
+    
 }

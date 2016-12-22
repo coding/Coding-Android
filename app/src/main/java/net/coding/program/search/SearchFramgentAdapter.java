@@ -12,9 +12,10 @@ public class SearchFramgentAdapter extends FragmentStatePagerAdapter {
 
 
     private static final String[] TITLES = {"项目", "任务", "讨论", "冒泡", "文件", "用户", "合并请求", "pull请求"};
-    private static final String[] tab = {"projects", "tasks", "project_topics", "tweets", "files", "friends", "merge_requests", "pull_requests"};
-    private String key;
+    public static final String MERGE_REQUEST = "merge_requests";
+    private static final String[] tab = {"projects", "tasks", "project_topics", "tweets", "files", "friends", MERGE_REQUEST, "pull_requests"};
 
+    private String key;
 
     public SearchFramgentAdapter(FragmentManager fm, String key) {
         super(fm);
@@ -25,7 +26,6 @@ public class SearchFramgentAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return TITLES[position];
     }
-
 
     @Override
     public Fragment getItem(int position) {

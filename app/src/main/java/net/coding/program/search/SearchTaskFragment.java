@@ -11,6 +11,7 @@ import net.coding.program.common.adapter.SearchReslutAdapter;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.TaskObject;
 import net.coding.program.task.add.TaskAddActivity_;
+import net.coding.program.task.add.TaskJumpParams;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -59,7 +60,8 @@ public class SearchTaskFragment extends RefreshBaseFragment {
 
     @ItemClick
     final void listView(TaskObject.SingleTask itemData) {
-        TaskAddActivity_.intent(this).mSingleTask(itemData).start();
+        TaskJumpParams params = new TaskJumpParams(itemData.project.project_path, itemData.getId());
+        TaskAddActivity_.intent(this).mJumpParams(params).start();
     }
 
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
@@ -125,7 +127,7 @@ public class SearchTaskFragment extends RefreshBaseFragment {
                 JSONArray array = respanse.getJSONObject("data").getJSONObject("tasks").getJSONArray("list");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    TaskObject.SingleTask oneData = new TaskObject.SingleTask(item);
+                    TaskObject.SingleTask oneData = new TaskObject.SingleTask(item, true);
                     mData.add(oneData);
                 }
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);

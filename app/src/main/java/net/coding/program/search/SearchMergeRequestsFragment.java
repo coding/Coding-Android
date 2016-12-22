@@ -29,7 +29,7 @@ import java.util.ArrayList;
 @EFragment(R.layout.fragment_search_list)
 public class SearchMergeRequestsFragment extends RefreshBaseFragment {
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
-    final String url = Global.HOST_API + "/esearch/all?q=%s";
+    final String url = Global.HOST_API + "/esearch/%s?q=%s";
     final String tmp = "&types=%s&pageSize=10";
     ArrayList<MergeObject> mData = new ArrayList<>();
     String page = "&page=%s";
@@ -111,7 +111,8 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
 
     private String getUrl(int pos) {
         String tag = "";
-        tag = String.format(url, getKeyword()) + String.format(tmp, getTabPrams()) + String.format(page, pos + "");
+        String type = tabPrams.equals(SearchFramgentAdapter.MERGE_REQUEST) ? "mr" : "pr";
+        tag = String.format(url, type, getKeyword()) + String.format(tmp, getTabPrams()) + String.format(page, pos + "");
         return tag;
     }
 
@@ -134,12 +135,7 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
                 if (pos == 1) {
                     mData.clear();
                 }
-                JSONArray array;
-                if (getUrl(pos).contains("merge_requests")) {
-                    array = respanse.getJSONObject("data").getJSONObject("merge_requests").getJSONArray("list");
-                } else {
-                    array = respanse.getJSONObject("data").getJSONObject("pull_requests").getJSONArray("list");
-                }
+                JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
                     MergeObject oneData = new MergeObject(item);
