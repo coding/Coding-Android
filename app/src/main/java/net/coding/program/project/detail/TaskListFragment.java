@@ -179,6 +179,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     String checkHostFilter() {
         String host = "";
         int userId = mMembers.user_id;
+
+        //关注，创建可以返回数据
+        if (userId == 0 && !TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
+            userId = MyApp.sUserObject.id;
+        }
+
         if (!TextUtils.isEmpty(mMeAction) && userId != 0) {
             host += String.format("%s=%s&", mMeAction, userId);
         }
