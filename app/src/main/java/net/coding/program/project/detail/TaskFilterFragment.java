@@ -13,7 +13,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.event.EventFilterDetail;
 import net.coding.program.model.FilterModel;
-import net.coding.program.model.TaskCountModel;
 import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskProjectCountModel;
 
@@ -34,6 +33,11 @@ public class TaskFilterFragment extends LoadingFragment {
     //项目外
     protected final String urlTaskCountAll = Global.HOST_API + "/tasks/count";
     protected final String urlTaskLabel = Global.HOST_API + "/projects/tasks/labels?role=";
+    protected final String urlTaskSomeCount_owner = Global.HOST_API + "/tasks/search?project_id=%s&owner=%s";
+    protected final String urlTaskSomeCount_watcher = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
+    protected final String urlTaskSomeCount_creator = Global.HOST_API + "/tasks/search?project_id=%s&creator=%s";
+    protected final String urlTaskSomeOther = Global.HOST_API + "/project/%s/tasks/counts";
+
     //项目外特定项目
     protected final String urlProjectTaskCount = Global.HOST_API + "/project/%s/tasks/counts";
     protected final String urlProjectTaskLabels = Global.HOST_API + "/project/%s/tasks/labels?role=";
@@ -61,7 +65,7 @@ public class TaskFilterFragment extends LoadingFragment {
     protected FilterModel mFilterModel;
     protected int statusIndex = 0;////筛选的index
 
-    protected TaskCountModel mTaskCountModel;
+    //数量关联的唯一对象
     protected TaskProjectCountModel mTaskProjectCountModel;
 
 
@@ -101,20 +105,20 @@ public class TaskFilterFragment extends LoadingFragment {
                 "我关注的",
                 "我创建的"
         };
-
-        if (mTaskCountModel != null) {
-            filterTxtCount = new String[]{
-                    String.format(" (%d)", mTaskCountModel.processing + mTaskCountModel.done),
-                    String.format(" (%d)", mTaskCountModel.watchAll),
-                    String.format(" (%d)", mTaskCountModel.create)
-            };
-        }
+//
+//        if (mTaskCountModel != null) {
+//            filterTxtCount = new String[]{
+//                    String.format(" (%d)", mTaskCountModel.processing + mTaskCountModel.done),
+//                    String.format(" (%d)", mTaskCountModel.watchAll),
+//                    String.format(" (%d)", mTaskCountModel.create)
+//            };
+//        }
 
         if (mTaskProjectCountModel != null) {
             filterTxtCount = new String[]{
-                    String.format(" (%d)", mTaskProjectCountModel.ownerProcessing + mTaskProjectCountModel.ownerDone),
-                    String.format(" (%d)", mTaskProjectCountModel.watcherProcessing + mTaskProjectCountModel.watcherDone),
-                    String.format(" (%d)", mTaskProjectCountModel.creatorProcessing + mTaskProjectCountModel.creatorDone)
+                    String.format(" (%d)", mTaskProjectCountModel.owner),
+                    String.format(" (%d)", mTaskProjectCountModel.watcher),
+                    String.format(" (%d)", mTaskProjectCountModel.creator)
             };
         }
 
@@ -162,18 +166,18 @@ public class TaskFilterFragment extends LoadingFragment {
             mFilterModel.labelModels = taskLabelModels;
         }
 
-        if (mTaskCountModel != null) {
-            if (statusIndex == 0) {
-                mFilterModel.statusTaskDoing = mTaskCountModel.processing;
-                mFilterModel.statusTaskDone = mTaskCountModel.done;
-            } else if (statusIndex == 1) {
-                mFilterModel.statusTaskDoing = mTaskCountModel.watchAllProcessing;
-                mFilterModel.statusTaskDone = mTaskCountModel.getWatcherDoneCount();
-            } else if (statusIndex == 2) {
-                mFilterModel.statusTaskDoing = mTaskCountModel.createProcessing;
-                mFilterModel.statusTaskDone = mTaskCountModel.getCreatorDoneCount();
-            }
-        }
+//        if (mTaskCountModel != null) {
+//            if (statusIndex == 0) {
+//                mFilterModel.statusTaskDoing = mTaskCountModel.processing;
+//                mFilterModel.statusTaskDone = mTaskCountModel.done;
+//            } else if (statusIndex == 1) {
+//                mFilterModel.statusTaskDoing = mTaskCountModel.watchAllProcessing;
+//                mFilterModel.statusTaskDone = mTaskCountModel.getWatcherDoneCount();
+//            } else if (statusIndex == 2) {
+//                mFilterModel.statusTaskDoing = mTaskCountModel.createProcessing;
+//                mFilterModel.statusTaskDone = mTaskCountModel.getCreatorDoneCount();
+//            }
+//        }
 
         if (mTaskProjectCountModel != null) {
             if (statusIndex == 0) {

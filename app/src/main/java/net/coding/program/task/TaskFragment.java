@@ -3,10 +3,8 @@ package net.coding.program.task;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -26,6 +24,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskCountModel;
 import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
+import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.project.detail.TaskFilterFragment;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TaskListFragment_;
@@ -81,6 +80,22 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         adapter = new PageTaskFragment(getChildFragmentManager());
         pager.setPageMargin(pageMargin);
         pager.setAdapter(adapter);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                load(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         tabs.setVisibility(View.INVISIBLE);
         actionDivideLine.setVisibility(View.INVISIBLE);
@@ -93,9 +108,36 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     protected void initFilterViews() {
         super.initFilterViews();
         setHasOptionsMenu(true);
-        getNetwork(urlTaskCountAll, urlTaskCountAll);
-        getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
+        load(0);
     }
+
+    private void load(int index) {
+        mTaskProjectCountModel = new TaskProjectCountModel();
+
+        if (index == 0) {
+            //全部项目
+            getNetwork(urlTaskCountAll, urlTaskCountAll);
+        } else {
+            ProjectObject mProjectObject = mData.get(index);
+            int userid = MyApp.sUserObject.id;
+            //某个项目
+            getNetwork(String.format(urlTaskSomeCount_owner, mProjectObject.getId(), userid), urlTaskSomeCount_owner);
+            getNetwork(String.format(urlTaskSomeCount_watcher, mProjectObject.getId(), userid), urlTaskSomeCount_watcher);
+            getNetwork(String.format(urlTaskSomeCount_creator, mProjectObject.getId(), userid), urlTaskSomeCount_creator);
+            getNetwork(String.format(urlTaskSomeOther, mProjectObject.getId()), urlTaskSomeOther);
+        }
+        loadLabels();
+    }
+
+    private void loadLabels() {
+        if (tabs.getCurrentPosition() == 0) {
+            getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
+        } else {
+            ProjectObject mProjectObject = mData.get(tabs.getCurrentPosition());
+            getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+        }
+    }
+
 
     @Override
     public void onRefresh() {
@@ -153,15 +195,60 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         } else if (tag.equals(urlTaskCountAll)) {
             showLoading(false);
             if (code == 0) {
-                mTaskCountModel = JSONUtils.getData(respanse.getString("data"), TaskCountModel.class);
+                TaskCountModel mTaskCountModel = JSONUtils.getData(respanse.getString("data"), TaskCountModel.class);
+                mTaskProjectCountModel.owner = mTaskCountModel.processing + mTaskCountModel.done;
+                mTaskProjectCountModel.ownerDone = mTaskCountModel.done;
+                mTaskProjectCountModel.ownerProcessing = mTaskCountModel.processing;
+
+                mTaskProjectCountModel.watcher = mTaskCountModel.watchAll;
+                mTaskProjectCountModel.watcherDone = mTaskCountModel.watchAll - mTaskCountModel.watchAllProcessing;
+                mTaskProjectCountModel.watcherProcessing = mTaskCountModel.watchAllProcessing;
+
+                mTaskProjectCountModel.creator = mTaskCountModel.create;
+                mTaskProjectCountModel.creatorDone = mTaskCountModel.create - mTaskCountModel.createProcessing;
+                mTaskProjectCountModel.creatorProcessing = mTaskCountModel.createProcessing;
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(urlTaskLabel)) {
+        } else if (tag.equals(urlTaskLabel) || tag.equals(urlProjectTaskLabels)) {
             showLoading(false);
             if (code == 0) {
                 taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
                 Collections.sort(taskLabelModels, new PinyinComparator());
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlTaskSomeCount_owner)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskProjectCountModel.owner = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlTaskSomeCount_watcher)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskProjectCountModel.watcher = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlTaskSomeCount_creator)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskProjectCountModel.creator = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlTaskSomeOther)) {
+            showLoading(false);
+            if (code == 0) {
+                TaskProjectCountModel item = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+                mTaskProjectCountModel.ownerDone = item.ownerDone;
+                mTaskProjectCountModel.ownerProcessing = item.ownerProcessing;
+                mTaskProjectCountModel.creatorDone = item.creatorDone;
+                mTaskProjectCountModel.creatorProcessing = item.creatorProcessing;
+                mTaskProjectCountModel.watcherDone = item.watcherDone;
+                mTaskProjectCountModel.watcherProcessing = item.watcherProcessing;
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -325,6 +412,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     protected void sureFilter() {
         super.sureFilter();
         //筛选了状态，相应的筛选标签也变化
-        getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
+        //getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
+        loadLabels();
     }
 }

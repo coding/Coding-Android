@@ -153,9 +153,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
             loadAllLabels();
         } else {
-            if (mMembersAll.size() <= index) {
-                return;
-            }
             TaskObject.Members members = mMembersAll.get(index);
 
             //某个成员
@@ -167,7 +164,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     private void loadAllLabels() {
         int cur = tabs.getCurrentPosition();
         if (cur != 0) {
-            TaskObject.Members members = mMembersAll.get(cur + 1);
+            TaskObject.Members members = mMembersAll.get(cur);
             getNetwork(String.format(urlSome_Label, mProjectObject.getId(), members.user_id), urlSome_Label);
         } else {
             if (statusIndex == 0) {
@@ -285,10 +282,16 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
             showLoading(false);
             if (code == 0) {
                 ProjectTaskUserCountModel item = JSONUtils.getData(respanse.getString("data"), ProjectTaskUserCountModel.class);
+
+                mTaskProjectCountModel.owner = item.memberDone + item.memberProcessing;
                 mTaskProjectCountModel.ownerDone = item.memberDone;
                 mTaskProjectCountModel.ownerProcessing = item.memberProcessing;
+
                 mTaskProjectCountModel.creatorDone = item.creatorDone;
+                mTaskProjectCountModel.creator = item.creatorDone + item.creatorProcessing;
                 mTaskProjectCountModel.creatorProcessing = item.creatorProcessing;
+
+                mTaskProjectCountModel.watcher = item.watcherDone + item.watcherProcessing;
                 mTaskProjectCountModel.watcherDone = item.watcherDone;
                 mTaskProjectCountModel.watcherProcessing = item.watcherProcessing;
             } else {
