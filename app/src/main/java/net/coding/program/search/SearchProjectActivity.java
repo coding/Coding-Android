@@ -24,6 +24,7 @@ import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.util.DensityUtil;
+import net.coding.program.third.PagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -39,7 +40,8 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     @ViewById
     View emptyView;
     @ViewById
-    net.coding.program.common.PagerSlidingTabStrip tabs;
+    PagerSlidingTabStrip tabs;
+
     @ViewById(R.id.pager)
     ViewPager pager;
     @ViewById
@@ -71,7 +73,8 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         pager.setPageMargin(pageMargin);
         tabs.setTextSize(DensityUtil.dip2px(this, 16));
         tabs.setTabPaddingLeftRight(DensityUtil.dip2px(this, 20));
-        setTabsValue();
+//        setTabsValue();
+
         emptyListView.setOnItemClickListener(this);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
@@ -95,7 +98,7 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         // 设置Tab的分割线是透明的
         tabs.setDividerColor(Color.TRANSPARENT);
 
-        tabs.setTextSelectedColor(this.getResources().getColor(R.color.user_info_tags_bg_2));
+//        tabs.setTextSelectedColor(this.getResources().getColor(R.color.user_info_tags_bg_2));
         // 设置Tab底部线的高度
         tabs.setUnderlineHeight((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 1, dm));
@@ -153,6 +156,9 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         pager.setAdapter(new SearchFramgentAdapter(getSupportFragmentManager(), condition));
         pager.setOffscreenPageLimit(8);
         tabs.setViewPager(pager);
+//        tabs.setShouldExpand(false);
+        setTabsValue();
+
         tabs.notifyDataSetChanged();
         editText.setText(condition);
         editText.setSelection(condition.length());
