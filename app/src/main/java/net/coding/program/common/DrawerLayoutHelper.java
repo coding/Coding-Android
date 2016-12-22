@@ -46,15 +46,14 @@ public class DrawerLayoutHelper {
 
     /**
      * @param context
-     * @param projectInner 是不是显示标签数量
      * @param drawerLayout
      * @param filterModel
      * @param filterListener
      */
-    public void initData(Context context, boolean projectInner, DrawerLayout drawerLayout, FilterModel filterModel, FilterListener filterListener) {
+    public void initData(Context context, DrawerLayout drawerLayout, FilterModel filterModel, FilterListener filterListener) {
         this.mContext = context;
         this.mFilterModel = filterModel;
-        this.showLabelCount = !projectInner;
+        this.showLabelCount = false;
         font2 = mContext.getResources().getColor(R.color.font_2);
         green = mContext.getResources().getColor(R.color.green);
 
