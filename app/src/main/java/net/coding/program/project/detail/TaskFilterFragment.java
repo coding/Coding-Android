@@ -192,7 +192,7 @@ public class TaskFilterFragment extends LoadingFragment {
             }
         }
 
-        DrawerLayoutHelper.getInstance().initData(getContext(), isProjectInner(), drawerLayout, mFilterModel, new FilterListener() {
+        DrawerLayoutHelper.getInstance().initData(getContext(), false, drawerLayout, mFilterModel, new FilterListener() {
             @Override
             public void callback(FilterModel filterModel) {
                 mFilterModel = filterModel;

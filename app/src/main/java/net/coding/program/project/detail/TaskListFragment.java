@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.FlowLabelLayout;
@@ -311,10 +309,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     public void taskFragmentLoading(boolean isLoading) {
-        Fragment parentFragment = getParentFragment();
-        if (parentFragment instanceof LoadingFragment) {
-            ((LoadingFragment) parentFragment).showLoading(isLoading);
-        }
+//        Fragment parentFragment = getParentFragment();
+//        if (parentFragment instanceof LoadingFragment) {
+//            ((LoadingFragment) parentFragment).showLoading(isLoading);
+//        }
     }
 
     @Override
