@@ -38,10 +38,9 @@ public class TaskFilterFragment extends LoadingFragment {
     protected final String urlProjectTaskCount = Global.HOST_API + "/project/%s/tasks/counts";
     protected final String urlProjectTaskLabels = Global.HOST_API + "/project/%s/tasks/labels?role=";
 
-    //项目内
-    protected final String urlPOwnerCount = Global.HOST_API + "/project/%s/task/count";
-    protected final String urlPWatcherCount = Global.HOST_API + "project/{projectId}/task/count";
-    protected final String urlPCreatorCount = Global.HOST_API + "/project/%s/task/count";
+    //项目内 全部成员
+    protected final String urlALL_P_WatcherCount = Global.HOST_API + "project/{projectId}/task/count";
+    protected final String urlALL_P_CreatorCount = Global.HOST_API + "/project/%s/task/count";
 
     //任务筛选
     protected TextView toolBarTitle;
