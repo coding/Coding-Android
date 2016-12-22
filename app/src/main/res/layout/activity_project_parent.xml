@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="end">
 
-    <include layout="@layout/activity_project"/>
+    <include layout="@layout/activity_project_content"/>
 
     <include
         layout="@layout/dialog_task_filter"

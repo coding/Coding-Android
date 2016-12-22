@@ -21,7 +21,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.util.ViewUtils;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -102,9 +101,8 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @Override
     protected void initFilterViews() {
         super.initFilterViews();
-        toolBarTitle = (TextView) ViewUtils.findActionBarTitle(getActivity().getWindow().getDecorView());
+        toolBarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
         if (toolBarTitle != null) {
-            toolBarTitle.setBackgroundResource(R.drawable.maopao_spinner);
             toolBarTitle.setOnClickListener(v -> {
                 meActionFilter();
             });

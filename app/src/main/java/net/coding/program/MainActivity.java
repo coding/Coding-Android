@@ -333,7 +333,7 @@ public class MainActivity extends BaseActivity {
         }
 
         updateNotifyFromService();
-
+        isOpenDrawerLayout(false);
         switch (position) {
             case 0://防止重复加载数据
 //                fragment = new ProjectFragment_();
@@ -356,6 +356,7 @@ public class MainActivity extends BaseActivity {
             case 1:
 //                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
                 fragment = new TaskFragment_();
+                isOpenDrawerLayout(true);
                 break;
             case 2:
                 // 进入冒泡页面，单独处理
@@ -473,6 +474,16 @@ public class MainActivity extends BaseActivity {
             }
         }
         super.onNewIntent(intent);
+    }
+
+    private void isOpenDrawerLayout(boolean isOpen) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer == null) return;
+        if (isOpen) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 
     @Override

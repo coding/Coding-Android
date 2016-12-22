@@ -113,6 +113,10 @@ public class DrawerLayoutHelper {
                 continue;
             }
             labelModels.add(item.name);
+            //兼容新接口
+            if (item.all == 0) {
+                item.all = item.count;
+            }
 
             TextView labelItem = (TextView) layoutInflater.inflate(R.layout.dialog_task_filter_label_item, null);
             String str = String.format("%s (%d/%d)", item.name, item.processing, item.all);

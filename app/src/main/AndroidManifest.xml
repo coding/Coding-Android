@@ -228,6 +228,7 @@
             android:name=".project.detail.ProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_project"
+            android:theme="@style/ThemeProject"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import net.coding.program.FileUrlActivity;
@@ -19,6 +19,7 @@ import net.coding.program.project.detail.merge.ProjectMergeFragment_;
 import net.coding.program.project.detail.merge.ProjectPullFragment_;
 import net.coding.program.project.detail.readme.ReadmeFragment_;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -95,13 +96,19 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     ));
     private NetworkImpl networkImpl;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    protected void initProjectActivity() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setActionBarTitle("");
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (mJumpParam != null) {
             urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
-            setActionBarTitle(mJumpParam.mProject);
+            //setActionBarTitle(mJumpParam.mProject);
 
             networkImpl = new NetworkImpl(this, this);
             networkImpl.initSetting();
@@ -109,7 +116,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             getNetwork(urlProject, urlProject);
 
         } else if (mProjectObject != null) {
-            setActionBarTitle(mProjectObject.name);
+            //setActionBarTitle(mProjectObject.name);
             initData();
 
         } else {
@@ -216,7 +223,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         public ProjectJumpParam(String path) {
-            String[] regexs = new String[] {
+            String[] regexs = new String[]{
                     "^/u/(.*?)/p/(.*?)(?:/git)?$",
                     "^/user/(.*)/project/(.*)$",
                     "^/t/(.*?)/p/(.*?)(?:/git)?$",
@@ -254,15 +261,4 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             typeHome
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer != null && drawer.isDrawerOpen(GravityCompat.END)) {
-            drawer.closeDrawer(GravityCompat.END);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
 }

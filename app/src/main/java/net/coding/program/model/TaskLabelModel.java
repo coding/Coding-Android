@@ -9,5 +9,6 @@ public class TaskLabelModel {
     public String project_id;
     public String name;
     public int all;
+    public int count;
     public int processing;
 }
