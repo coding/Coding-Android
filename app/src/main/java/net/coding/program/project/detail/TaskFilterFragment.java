@@ -39,8 +39,20 @@ public class TaskFilterFragment extends LoadingFragment {
     protected final String urlProjectTaskLabels = Global.HOST_API + "/project/%s/tasks/labels?role=";
 
     //项目内 全部成员
-    protected final String urlALL_P_WatcherCount = Global.HOST_API + "project/{projectId}/task/count";
-    protected final String urlALL_P_CreatorCount = Global.HOST_API + "/project/%s/task/count";
+    //全部任务-标签-数量
+    /**
+     * 「全部任务」数量 = processing + done
+     * 「我创建的」数量 = create
+     * 进行中已完成的数量也有了
+     */
+    protected final String urlALL_Count = Global.HOST_API + "/project/%s/task/count";
+    protected final String urlALL_WATCH_Count = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
+    //全部任务」的标签
+    protected final String urlALL_Label = Global.HOST_API + "/user/%s/project/%s/task/label?withCount=true";
+
+    //某个成员的任务数量
+    protected final String urlSome_Count = Global.HOST_API + "/project/%s/user/%s/tasks/counts";
+    protected final String urlSome_Label = Global.HOST_API + "/project/%s/user/%s/tasks/labels";
 
     //任务筛选
     protected TextView toolBarTitle;
@@ -51,6 +63,7 @@ public class TaskFilterFragment extends LoadingFragment {
 
     protected TaskCountModel mTaskCountModel;
     protected TaskProjectCountModel mTaskProjectCountModel;
+
 
     protected String getRole() {
         if (statusIndex >= mMeActions.length) {
@@ -84,7 +97,7 @@ public class TaskFilterFragment extends LoadingFragment {
         int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
         String[] filterTxtCount = new String[0];
         String[] filterTxt = new String[]{
-                "我的任务",
+                isProjectInner() ? "全部任务" : "我的任务",
                 "我关注的",
                 "我创建的"
         };
@@ -175,7 +188,7 @@ public class TaskFilterFragment extends LoadingFragment {
             }
         }
 
-        DrawerLayoutHelper.getInstance().initData(getContext(), drawerLayout, mFilterModel, new FilterListener() {
+        DrawerLayoutHelper.getInstance().initData(getContext(), isProjectInner(), drawerLayout, mFilterModel, new FilterListener() {
             @Override
             public void callback(FilterModel filterModel) {
                 mFilterModel = filterModel;
@@ -206,5 +219,9 @@ public class TaskFilterFragment extends LoadingFragment {
     @Override
     public void onRefresh() {
 
+    }
+
+    protected boolean isProjectInner() {
+        return false;
     }
 }

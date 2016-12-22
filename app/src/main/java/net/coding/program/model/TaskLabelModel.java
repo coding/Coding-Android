@@ -6,9 +6,13 @@ package net.coding.program.model;
  */
 public class TaskLabelModel {
     public String color;
-    public String project_id;
+    public long project_id;
     public String name;
     public int all;
     public int count;
     public int processing;
+
+    public int owner_id;
+    public int task_count;
+    public int merge_request_count;
 }

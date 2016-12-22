@@ -180,8 +180,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     //检查是否有筛选条件
     String checkHostFilter() {
         String host = "";
-        if (!TextUtils.isEmpty(mMeAction)) {
-            int userId = AccountInfo.loadAccount(getActivity()).id;
+        int userId = mMembers.user_id;
+        if (!TextUtils.isEmpty(mMeAction) && userId != 0) {
             host += String.format("%s=%s&", mMeAction, userId);
         }
         if (!TextUtils.isEmpty(mStatus) && !mStatus.equals("0")) {

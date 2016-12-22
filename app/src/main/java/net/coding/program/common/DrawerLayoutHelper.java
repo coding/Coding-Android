@@ -34,6 +34,7 @@ public class DrawerLayoutHelper {
     private FilterModel mFilterModel;
     private int font2;
     private int green;
+    private boolean showLabelCount;
 
     public DrawerLayoutHelper() {
 
@@ -43,9 +44,17 @@ public class DrawerLayoutHelper {
         return new DrawerLayoutHelper();
     }
 
-    public void initData(Context context, DrawerLayout drawerLayout, FilterModel filterModel, FilterListener filterListener) {
+    /**
+     * @param context
+     * @param projectInner 是不是显示标签数量
+     * @param drawerLayout
+     * @param filterModel
+     * @param filterListener
+     */
+    public void initData(Context context, boolean projectInner, DrawerLayout drawerLayout, FilterModel filterModel, FilterListener filterListener) {
         this.mContext = context;
         this.mFilterModel = filterModel;
+        this.showLabelCount = !projectInner;
         font2 = mContext.getResources().getColor(R.color.font_2);
         green = mContext.getResources().getColor(R.color.green);
 
@@ -119,7 +128,7 @@ public class DrawerLayoutHelper {
             }
 
             TextView labelItem = (TextView) layoutInflater.inflate(R.layout.dialog_task_filter_label_item, null);
-            String str = String.format("%s (%d/%d)", item.name, item.processing, item.all);
+            String str = showLabelCount ? String.format("%s (%d/%d)", item.name, item.processing, item.all) : item.name;
             labelItem.setText(str);
             setLeftDrawable(labelItem, item.color, item.name.equals(mFilterModel.label));
             labelItem.setOnClickListener(v -> {
