@@ -36,7 +36,7 @@
 
     <include
         android:id="@+id/blankLayout"
-        layout="@layout/view_exception"
+        layout="@layout/view_blank_common"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

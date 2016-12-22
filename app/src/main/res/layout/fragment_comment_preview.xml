@@ -13,15 +13,15 @@
         android:id="@+id/title"
         android:textColor="@color/font_2"
         android:maxLines="2"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginTop="12dp"
-        android:layout_marginRight="12dp" />
+        android:layout_marginRight="@dimen/padding_15" />
 
     <WebView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_15"
         android:id="@+id/content"
         android:background="@color/transparent"
         android:layout_below="@+id/icon"

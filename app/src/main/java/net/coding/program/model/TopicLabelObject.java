@@ -22,7 +22,11 @@ public class TopicLabelObject implements Serializable {
         name = json.optString("name", "");
         count = json.optInt("count", 0);
         String colorString = json.optString("color", "#222222");
-        color = Color.parseColor(colorString);
+        try {
+            color = Color.parseColor(colorString);
+        } catch (IllegalArgumentException e){
+            color = 0xff222222;
+        }
     }
 
     public TopicLabelObject(int id, String name, int color) {

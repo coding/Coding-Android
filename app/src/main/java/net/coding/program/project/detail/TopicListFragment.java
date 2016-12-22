@@ -80,23 +80,17 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     View blankLayout;
     @AnimationRes
     Animation dropdown_in, dropdown_out, dropdown_mask_out;
-    View.OnClickListener onClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globaKey = (String) v.getTag();
-            Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-            intent.putExtra("globalKey", globaKey);
-            startActivity(intent);
-        }
+    View.OnClickListener onClickUser = v -> {
+        String globaKey = (String) v.getTag();
+        Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
+        intent.putExtra("globalKey", globaKey);
+        startActivity(intent);
     };
     private ArrayList<TopicObject> mData = new ArrayList<>();
     private String urlGet;
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+
+    View.OnClickListener onClickRetry = v -> onRefresh();
+
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -175,6 +169,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
         }
 
         listViewAddHeaderSection(listView);
+        listView.setVisibility(View.INVISIBLE);
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(baseAdapter);
@@ -250,8 +245,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             }
 
             BlankViewDisplay.setBlank(mData.size(), TopicListFragment.this, true, blankLayout, onClickRetry);
-
-
+            listView.setVisibility(mData.size() > 0 ? View.VISIBLE : View.INVISIBLE);
             baseAdapter.notifyDataSetChanged();
         } else {
             showErrorMsg(code, respanse);

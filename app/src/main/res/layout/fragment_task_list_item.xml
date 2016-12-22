@@ -21,7 +21,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/checkbox"
         android:src="@drawable/ic_default_user" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="11dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@+id/icon"
         android:ellipsize="end"
@@ -109,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:lines="1"
                 android:drawableLeft="@drawable/icon_task_des"
                 android:drawablePadding="4dp"
                 android:text="描述"

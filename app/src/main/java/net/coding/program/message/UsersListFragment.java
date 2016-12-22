@@ -18,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.FootUpdate;
+import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -43,12 +44,8 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static net.coding.program.R.id;
-import static net.coding.program.R.layout;
-import static net.coding.program.R.menu;
-
-@EFragment(layout.fragment_users_list)
-@OptionsMenu(menu.message_users_list)
+@EFragment(R.layout.fragment_users_list)
+@OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     public static final String HOST_MARK_MESSAGE = Global.HOST_API + "/message/conversations/%s/read";
@@ -99,15 +96,15 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(layout.fragment_message_user_list_item, parent, false);
+                convertView = mInflater.inflate(R.layout.fragment_message_user_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.icon =
-                        (ImageView) convertView.findViewById(id.icon);
+                        (ImageView) convertView.findViewById(R.id.icon);
                 holder.icon.setFocusable(false);
-                holder.title = (TextView) convertView.findViewById(id.title);
-                holder.content = (TextView) convertView.findViewById(id.comment);
-                holder.time = (TextView) convertView.findViewById(id.time);
-                holder.badge = (BadgeView) convertView.findViewById(id.badge);
+                holder.title = (TextView) convertView.findViewById(R.id.title);
+                holder.content = (TextView) convertView.findViewById(R.id.comment);
+                holder.time = (TextView) convertView.findViewById(R.id.time);
+                holder.badge = (BadgeView) convertView.findViewById(R.id.badge);
                 holder.badge.setFocusable(false);
                 convertView.setTag(holder);
             } else {
@@ -160,16 +157,13 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
         mFootUpdate.init(listView, mInflater, this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Message.MessageObject user = mData.get((int) id);
-                Intent intent = new Intent(getActivity(), MessageListActivity_.class);
-                intent.putExtra("mUserObject", user.friend);
-                startActivity(intent);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Message.MessageObject user = mData.get((int) id);
+            Intent intent = new Intent(getActivity(), MessageListActivity_.class);
+            intent.putExtra("mUserObject", user.friend);
+            startActivity(intent);
 
-                postMarkReaded(user.friend.global_key);
-            }
+            postMarkReaded(user.friend.global_key);
         });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -261,17 +255,17 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     }
 
     private void initHead() {
-        View v = mInflater.inflate(layout.fragment_message_user_list_head, listView, false);
+        View v = mInflater.inflate(R.layout.fragment_message_user_list_head, listView, false);
 
-        v.findViewById(id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
-        v.findViewById(id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
-        v.findViewById(id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity(4));
+        v.findViewById(R.id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
+        v.findViewById(R.id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
+        v.findViewById(R.id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity(4));
 
-        badgeAt = (BadgeView) v.findViewById(id.badgeAt);
+        badgeAt = (BadgeView) v.findViewById(R.id.badgeAt);
         badgeAt.setVisibility(View.INVISIBLE);
-        badgeComment = (BadgeView) v.findViewById(id.badgeComment);
+        badgeComment = (BadgeView) v.findViewById(R.id.badgeComment);
         badgeComment.setVisibility(View.INVISIBLE);
-        badgeSystem = (BadgeView) v.findViewById(id.badgeSystem);
+        badgeSystem = (BadgeView) v.findViewById(R.id.badgeSystem);
         badgeSystem.setVisibility(View.INVISIBLE);
 
         listView.addHeaderView(v, null, false);

@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/rootScrollView"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -67,7 +68,8 @@
                     </LinearLayout>
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/userIcon"
                         android:layout_width="83dp"
                         android:layout_height="83dp"
@@ -92,8 +94,7 @@
                             android:background="@drawable/login_edit"
                             android:hint="用户名/手机/邮箱"
                             android:inputType="textEmailAddress"
-                            android:maxLines="1"
-                            android:singleLine="true"
+                            android:lines="1"
                             android:textColor="@color/font_white"
                             android:textColorHint="@color/font_white_disable"
                             android:textCursorDrawable="@null"

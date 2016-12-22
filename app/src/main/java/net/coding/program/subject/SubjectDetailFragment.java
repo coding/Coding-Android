@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.Subject;
@@ -78,8 +79,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
 
         mAllJoinedPeopleLayout = (FlowLayout) mListHeaderView.findViewById(R.id.subject_detail_all_join);
 
-
-        listView.addHeaderView(mListHeaderView);
+        listView.setNormalHeader(mListHeaderView);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     @Override
     protected String createUrl() {
         if (subjectDescObject != null) {
-            if (id == UPDATE_ALL_INT) {
+            if (id == LoadingFragment.UPDATE_ALL_INT) {
                 return String.format(maopaoUrlFirstFormat, subjectDescObject.id);
             } else
                 return String.format(maopaoUrlFormat, subjectDescObject.id, id);
@@ -143,7 +143,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
                 if (json != null) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
                     mIsToMaopaoTopic = true;
-                    if (id == UPDATE_ALL_INT) {
+                    if (id == LoadingFragment.UPDATE_ALL_INT) {
                         mData.clear();
                         mData.add(0, item);
                         id = item.id;

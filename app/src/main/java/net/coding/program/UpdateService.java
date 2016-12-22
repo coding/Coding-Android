@@ -22,7 +22,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.setting.UpdateTipActivity;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -83,7 +83,6 @@ public class UpdateService extends Service {
     private void downloadApp() {
         try {
             if (enqueue == 0) {
-
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mUpdateInfo.url))
                         .setTitle("Coding")
                         .setDescription("下载Coding" + mUpdateInfo.versionName)

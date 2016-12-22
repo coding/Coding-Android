@@ -251,8 +251,6 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
             TaskListFragment fragment = (TaskListFragment) super.instantiateItem(container, position);
             fragment.setParent(TaskFragment.this);
 
-            Log.d("", "init p " + position);
-
             return fragment;
         }
 

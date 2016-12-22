@@ -16,22 +16,15 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayout"
+            <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+                android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.twotoasters.jazzylistview.JazzyListView
-                    android:id="@+id/listView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/divide"
-                    android:divider="@null"
-                    android:dividerHeight="6dp"
-                    android:footerDividersEnabled="false"
-                    android:scrollingCache="false" />
-
-            </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent"
+                android:background="@color/divide"
+                android:divider="@null"
+                android:dividerHeight="6dp"
+                android:footerDividersEnabled="false"
+                android:scrollingCache="false" />
 
             <include
                 android:id="@+id/blankLayout"
@@ -64,7 +57,7 @@
     <net.coding.program.common.widget.LoadingView
         android:id="@+id/baseLoadingView"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </FrameLayout>

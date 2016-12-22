@@ -49,12 +49,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
     private MyRecyclerAdapter mAdapter;
 
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+    View.OnClickListener onClickRetry = v -> onRefresh();
 
     @AfterViews
     void initView() {
@@ -126,9 +121,6 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
             if (code == 0) {
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
-//                    mAdapter = new MyRecyclerAdapter(mData, userPoint, getImageLoad(),
-//                            getActivity());
-//                    mallListHeaderGridView.setAdapter(mAdapter);
                     mAdapter.setUserPoint(userPoint);
                     mAdapter.removeAll();
                 }
@@ -180,20 +172,16 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
 
         private int space;
 
-        public SpaceItemDecoration(int space) {
+        SpaceItemDecoration(int space) {
             this.space = space;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                                    RecyclerView.State state) {
-
             outRect.left = space;
             outRect.right = space;
             outRect.bottom = space / 2;
-
-//            if(parent.getChildLayoutPosition(view) == 0)
-//                outRect.top = space;
         }
     }
 }

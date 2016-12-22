@@ -100,7 +100,7 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
         return childData;
     }
 
-    void stuffChildData(ArrayList<ProjectObject> child, String type) {
+    private void stuffChildData(ArrayList<ProjectObject> child, String type) {
         for (int i = 0; i < projectFragment.mData.size(); ++i) {
             ProjectObject item = projectFragment.mData.get(i);
             if (item.current_user_role.equals(type)) {
@@ -109,7 +109,7 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
         }
     }
 
-    void stuffPrivateProjectChildData(ArrayList<ProjectObject> child) {
+    private void stuffPrivateProjectChildData(ArrayList<ProjectObject> child) {
         for (int i = 0; i < projectFragment.mData.size(); ++i) {
             ProjectObject item = projectFragment.mData.get(i);
             if (!item.isPublic()) {

@@ -11,7 +11,7 @@ import net.coding.program.MyApp;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.event.EventNotifyBottomBar;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;

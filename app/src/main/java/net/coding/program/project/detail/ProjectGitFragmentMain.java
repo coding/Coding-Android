@@ -110,7 +110,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             }
 
             BranchItem data = (BranchItem) getChild(groupPosition, childPosition);
-            ((TextView) convertView).setText(data.name);
+            ((TextView) convertView.findViewById(R.id.name)).setText(data.name);
 
             return convertView;
         }
@@ -144,14 +144,11 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         } else {
             versionList.setIndicatorBoundsRelative(left, right);
         }
-        versionList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
-                switchVersion(data.name);
-                showList(versionLayout.getVisibility() != View.VISIBLE);
-                return true;
-            }
+        versionList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+            BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
+            switchVersion(data.name);
+            showList(versionLayout.getVisibility() != View.VISIBLE);
+            return true;
         });
     }
 

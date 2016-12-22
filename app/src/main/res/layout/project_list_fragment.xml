@@ -15,6 +15,7 @@
             android:background="@color/divide"
             android:clipToPadding="false"
             android:dividerHeight="0.5dp"
+            android:divider="@drawable/divide_line_project_item"
             android:drawSelectorOnTop="true"
             android:overScrollMode="never"
             android:scrollbarStyle="outsideOverlay" />

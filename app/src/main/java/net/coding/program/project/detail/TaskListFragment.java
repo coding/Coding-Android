@@ -26,6 +26,7 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.event.EventFilterDetail;
 import net.coding.program.model.AccountInfo;
@@ -311,10 +312,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     public void taskFragmentLoading(boolean isLoading) {
-        Fragment parentFragment = getParentFragment();
-        if (parentFragment instanceof LoadingFragment) {
-            ((LoadingFragment) parentFragment).showLoading(isLoading);
-        }
+        BlankViewHelp.setBlankLoading(blankLayout, isLoading);
     }
 
     @Override
@@ -396,16 +394,9 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 TaskObject.SingleTask task = param.mTask;
                 task.status = param.mStatus;
 
-//                if (mParent != null) {
-//                    mNeedUpdate = false;
-//                    mParent.taskListParentUpdate();
-//                }
-
             } else {
                 Toast.makeText(getActivity(), "修改任务失败", Toast.LENGTH_SHORT).show();
             }
-
-//            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -502,11 +493,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
             holder.mRefId.setText(data.getNumber());
             holder.mName.setText(data.creator.name);
-            holder.mTime.setText(Global.dayToNow(data.created_at));
+            holder.mTime.setText(Global.dayToNow(data.created_at, false));
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
-            int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 12); // item 左边空 100 dp，右边空12dp
+            int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 15); // item 左边空 100 dp，右边空15dp
             if (!data.deadline.isEmpty()) {
                 flowWidth -= Global.dpToPx(55);
             }

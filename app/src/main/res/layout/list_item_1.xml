@@ -37,7 +37,7 @@
             android:id="@+id/badge"
             android:layout_width="9dp"
             android:layout_height="9dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/ic_notify"
             android:gravity="center"
             android:visibility="invisible" />

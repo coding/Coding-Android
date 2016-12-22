@@ -38,6 +38,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -53,7 +54,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.cookie.Cookie;
+import cz.msebera.android.httpclient.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -472,6 +473,10 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     private void download(String url) {
         try {
+            if (!PermissionUtil.writeExtralStorage(this)) {
+                return;
+            }
+
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
 
             PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);

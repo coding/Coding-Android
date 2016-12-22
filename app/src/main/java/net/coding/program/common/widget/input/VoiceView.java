@@ -1,5 +1,6 @@
 package net.coding.program.common.widget.input;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -25,6 +26,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.SoundWaveView;
 import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.message.AmrAudioRecorder;
@@ -178,6 +180,10 @@ public class VoiceView extends FrameLayout {
 
     @LongClick
     boolean voiceRecordButton() {
+        if (!PermissionUtil.checkMicrophone((Activity) getContext())) {
+            return true;
+        }
+
         if (activity instanceof ContentAreaImages.VoicePlayCallBack) {
             ContentAreaImages.VoicePlayCallBack voicePlayCallBack = (ContentAreaImages.VoicePlayCallBack) activity;
             voicePlayCallBack.onStopPlay();
@@ -287,7 +293,6 @@ public class VoiceView extends FrameLayout {
             isRecoding = true;
         }
     }
-
 
     private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack() {
         @Override

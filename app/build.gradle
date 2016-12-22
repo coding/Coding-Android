@@ -16,7 +16,7 @@ android {
         renderscriptTargetApi 19
         multiDexEnabled true
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
     }
 
     productFlavors {
@@ -55,7 +55,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'com.loopj.android:android-async-http:1.4.6'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
@@ -86,16 +86,17 @@ dependencies {
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
     compile 'com.android.support:design:23.1.1'
-    compile project(':scrollanimationlibrary')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    compile files('libs/Xg_sdk_v2.42_20160111_1539.jar')
     compile files('libs/Xg_sdk_v2.45_20160510_1845.jar')
     compile project(':bottom-bar')
 
     compile 'com.alibaba:fastjson:1.1.44.android'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+
+    compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
 }
 
 buildscript {
@@ -124,4 +125,12 @@ apt {
     arguments {
         androidManifestFile variant.outputs[0]?.processResources?.manifestFile
     }
+}
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
+    }
+}
+dependencies {
+    compile(name:'checknetwork', ext:'aar')
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -44,7 +45,6 @@ import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.GitFileObject;
 
-import org.apache.http.cookie.Cookie;
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
@@ -63,6 +63,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import cz.msebera.android.httpclient.cookie.Cookie;
 import pl.droidsonroids.gif.GifDrawable;
 
 /**
@@ -107,6 +108,37 @@ public class Global {
 
     public static String dayFromTime(long time) {
         return DayFormatTime.format(time);
+    }
+
+    private static final String LOG_PREFIX = "coding_";
+    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
+    private static final int MAX_LOG_TAG_LENGTH = 23;
+
+    public static String makeLogTag(Class cls) {
+        return makeLogTag(cls.getSimpleName());
+    }
+
+    public static String makeLogTag(String str) {
+        if (str.length() > MAX_LOG_TAG_LENGTH - LOG_PREFIX_LENGTH) {
+            return LOG_PREFIX + str.substring(0, MAX_LOG_TAG_LENGTH - LOG_PREFIX_LENGTH - 1);
+        }
+
+        return LOG_PREFIX + str;
+    }
+
+
+    public static String getExtraString(Context context) {
+        String FEED_EXTRA = "";
+        if (FEED_EXTRA.isEmpty()) {
+            try {
+                PackageInfo pInfo = context.getPackageManager().getPackageInfo("net.coding.program", 0);
+                String appVersion = pInfo.versionName;
+                String phoneModel = Build.MODEL;
+                FEED_EXTRA = String.format("Coding_Android/%s (Android %s; %s)", appVersion, Build.VERSION.SDK_INT, phoneModel);
+            } catch (Exception e) {}
+        }
+
+        return FEED_EXTRA;
     }
 
     public static long longFromDay(String day) throws ParseException {
@@ -166,6 +198,7 @@ public class Global {
     }
 
     public static void syncCookie(Context context) {
+
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         List<Cookie> cookies = cookieStore.getCookies();
 

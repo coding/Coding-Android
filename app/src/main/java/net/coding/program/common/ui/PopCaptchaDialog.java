@@ -18,8 +18,9 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.util.SingleToast;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 16/6/6.

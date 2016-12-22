@@ -32,14 +32,10 @@
 
         <include
             layout="@layout/common_image_download"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:visibility="visible" />
 
         <include
             layout="@layout/common_file_detail_action"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:visibility="visible" />
     </LinearLayout>
 

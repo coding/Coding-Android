@@ -7,10 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.widget.RefreshBaseActivity;
-import net.coding.program.model.MallBannerObject;
 import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
@@ -37,12 +35,6 @@ public class MallIndexActivity extends RefreshBaseActivity {
 
     @ViewById
     View blankLayout;
-
-    final String BANNER_URL = Global.HOST_API + "/gifts/sliders";
-
-    final String TAG_BANNER = "TAG_BANNER";
-
-    private ArrayList<MallBannerObject> mBannerData = new ArrayList<>();
 
     @OptionsItem
     void action_order() {

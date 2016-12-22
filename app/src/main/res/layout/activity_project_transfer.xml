@@ -41,7 +41,7 @@
             android:layout_width="@dimen/task_add_user_icon_width"
             android:layout_height="@dimen/task_add_user_icon_width"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_task_user" />
 

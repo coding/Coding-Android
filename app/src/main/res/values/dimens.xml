@@ -101,7 +101,7 @@
     <dimen name="emoji_switch_button_width">60dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_item_space_height">14dp</dimen>
-    <dimen name="list_item_space_width">12dp</dimen>
+    <dimen name="list_item_space_width">15dp</dimen>
 
     <dimen name="folder_list_item_height">70dp</dimen>
 
@@ -113,4 +113,5 @@
     <dimen name="flexible_space_image_height">240dp</dimen>
     <dimen name="tab_height">48dp</dimen>
     <dimen name="divide_height">0.5dp</dimen>
+    <dimen name="bottom_layout_high">60dp</dimen>
 </resources>

@@ -4,22 +4,27 @@
     android:layout_height="wrap_content">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
         android:paddingBottom="16dp"
         android:paddingLeft="42dp"
-        android:paddingRight="12dp"
+        android:paddingRight="15dp"
         android:paddingTop="16dp"
         android:text="23232"
-        android:textSize="20sp"
-        android:id="@+id/title" />
+        android:textSize="20sp" />
 
     <View
-        android:layout_gravity="center_vertical"
+        android:id="@+id/icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginLeft="12dp"
-        android:background="@drawable/icon_git_branch"
-        android:id="@+id/icon" />
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/icon_git_branch" />
+
+    <View
+        style="@style/DivideLine"
+        android:layout_marginLeft="15dp"
+        android:layout_gravity="bottom" />
 </FrameLayout>

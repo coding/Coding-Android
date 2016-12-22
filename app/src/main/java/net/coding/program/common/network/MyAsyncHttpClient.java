@@ -15,6 +15,9 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.RequestData;
 
 import java.util.HashMap;
+import java.util.List;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 import static net.coding.program.common.util.LogUtils.makeLogTag;
 
@@ -97,6 +100,32 @@ public class MyAsyncHttpClient {
 
         client.setTimeout(60 * 1000);
         return client;
+    }
+
+    public static String getCookie(Context context, String url) {
+        String host;
+        if (url.startsWith(Global.HOST)) {
+            host = Global.HOST;
+        } else if (url.startsWith(Global.HOST)) {
+            host = Global.HOST;
+        } else {
+            return "";
+        }
+
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        List<Cookie> cookies = cookieStore.getCookies();
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie eachCookie = cookies.get(i);
+            String domain = eachCookie.getDomain();
+            if (domain.startsWith(".")) {
+                domain = domain.substring(1, domain.length());
+            }
+            if (eachCookie.getName().toLowerCase().equals("sid") && host.endsWith(domain)) {
+                return String.format("%s=%s;", eachCookie.getName(), eachCookie.getValue());
+            }
+        }
+
+        return "";
     }
 
     public static HashMap<String, String> getMapHeaders() {

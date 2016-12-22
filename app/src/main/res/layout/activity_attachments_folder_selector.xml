@@ -8,6 +8,8 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="@dimen/padding_15"
+        android:divider="@drawable/divide_line_project_item"
         android:layout_above="@+id/rl_btn_layout"
         android:footerDividersEnabled="false" />
 

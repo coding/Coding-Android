@@ -2,6 +2,7 @@ package net.coding.program.setting;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import net.coding.program.login.phone.CountryPickActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.PhoneCountry;
 import net.coding.program.model.UserObject;
+import net.coding.program.user.UserPointActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -59,8 +61,12 @@ public class ValidePhoneActivity extends BackActivity {
 
     PhoneCountry pickCountry = PhoneCountry.getChina();
 
+    boolean isFirstSet = false;
+
     @AfterViews
     final void initValidePhoneActivity() {
+        isFirstSet = MyApp.sUserObject.phone.isEmpty();
+
         ViewStyleUtil.editTextBindButton(loginButton, editPhone, editCode);
         user = AccountInfo.loadAccount(this);
         sendPhoneMessage.setEditPhone(editPhone);
@@ -97,7 +103,6 @@ public class ValidePhoneActivity extends BackActivity {
                 }
             }
         });
-
 
         bindCountry();
     }
@@ -169,11 +174,27 @@ public class ValidePhoneActivity extends BackActivity {
                 user.setPhone(editPhone.getTextString(), pickCountry.getCountryCode());
                 AccountInfo.saveAccount(this, user);
                 MyApp.sUserObject = user;
-                finish();
+
+                if (isFirstSet) {
+                    popRewardDialog();
+                } else {
+                    finish();
+                }
             } else {
                 showProgressBar(false);
                 showErrorMsgMiddle(code, respanse);
             }
         }
+    }
+
+    private void popRewardDialog() {
+        View root = getLayoutInflater().inflate(R.layout.bind_phone_reward_dialog, null);
+        new AlertDialog.Builder(this)
+                .setView(root)
+                .setCancelable(false)
+                .show();
+
+        root.findViewById(R.id.leftButton).setOnClickListener(v -> UserPointActivity_.intent(this).start());
+        root.findViewById(R.id.rightButton).setOnClickListener(v -> ValidePhoneActivity.this.finish());
     }
 }

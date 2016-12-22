@@ -21,10 +21,11 @@ import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 
-import org.apache.http.cookie.Cookie;
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -185,6 +186,10 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
 
     private void download(ArrayList<AttachmentFileObject> mFileObjects) {
         try {
+            if (!PermissionUtil.writeExtralStorage(this)) {
+                return;
+            }
+
             for (AttachmentFileObject mFileObject : mFileObjects) {
                 final String urlDownload = Global.HOST_API + "%s/files/%s/download";
                 String url = String.format(urlDownload, getProjectPath(), mFileObject.file_id);
