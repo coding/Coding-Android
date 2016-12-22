@@ -24,9 +24,12 @@ import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.ProjectTaskCountModel;
+import net.coding.program.model.ProjectTaskUserCountModel;
 import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.TaskProjectCountModel;
+import net.coding.program.model.UserObject;
 import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
@@ -77,6 +80,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     MemberTaskCount mMemberTask = new MemberTaskCount();
     private MyPagerAdapter adapter;
     private DrawerLayout drawer;
+    private UserObject account;
 
     @AfterViews
     protected final void initProjectTaskFragment() {
@@ -87,11 +91,29 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         tabs.setLayoutInflater(mInflater);
         tabs.setVisibility(View.INVISIBLE);
 
+        account = AccountInfo.loadAccount(getActivity());
+
         HOST_TASK_MEMBER = String.format(HOST_TASK_MEMBER, mProjectObject.getId());
         refresh();
 
         adapter = new MyPagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapter);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                loadData(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
@@ -106,10 +128,51 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
             toolBarTitle.setOnClickListener(v -> {
                 meActionFilter();
             });
-            toolBarTitle.setText("我的任务");
+            toolBarTitle.setText("全部任务");
         }
-        getNetwork(String.format(urlProjectTaskCount, mProjectObject.getId()), urlProjectTaskCount);
-        getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+
+
+        loadData(0);
+    }
+
+    @Override
+    protected boolean isProjectInner() {
+        return true;
+    }
+
+    private void loadData(int index) {
+
+        mTaskProjectCountModel = new TaskProjectCountModel();
+
+        if (index == 0) {
+            //全部成员
+            //「全部任务」数量 - 进行中，已完成的 「我创建的」数量 = create
+            getNetwork(String.format(urlProjectTaskCount, mProjectObject.getId()), urlProjectTaskCount);
+            getNetwork(String.format(urlALL_Count, mProjectObject.getId()), urlALL_Count);
+            getNetwork(String.format(urlALL_WATCH_Count, mProjectObject.getId(), account.id), urlALL_WATCH_Count);
+
+            loadAllLabels();
+        } else {
+            TaskObject.Members members = mMembersAll.get(index);
+
+            //某个成员
+            getNetwork(String.format(urlSome_Count, mProjectObject.getId(), members.user_id), urlSome_Count);
+            getNetwork(String.format(urlSome_Label, mProjectObject.getId(), members.user_id), urlSome_Label);
+        }
+    }
+
+    private void loadAllLabels() {
+        int cur = tabs.getCurrentPosition();
+        if (cur != 0) {
+            TaskObject.Members members = mMembersAll.get(cur);
+            getNetwork(String.format(urlSome_Label, mProjectObject.getId(), members.user_id), urlSome_Label);
+        } else {
+            if (statusIndex == 0) {
+                getNetwork(String.format(urlALL_Label, mProjectObject.owner_user_name, mProjectObject.name), urlALL_Label);
+            } else {
+                getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+            }
+        }
     }
 
     private void refresh() {
@@ -173,11 +236,68 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         } else if (tag.equals(urlProjectTaskCount)) {
             showLoading(false);
             if (code == 0) {
-                mTaskProjectCountModel = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+                TaskProjectCountModel projectTaskCountModel = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+                mTaskProjectCountModel.creatorDone = projectTaskCountModel.creatorDone;
+                mTaskProjectCountModel.creatorProcessing = projectTaskCountModel.creatorProcessing;
+                mTaskProjectCountModel.watcherDone = projectTaskCountModel.watcherDone;
+                mTaskProjectCountModel.watcherProcessing = projectTaskCountModel.watcherProcessing;
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlALL_Count)) {
+            showLoading(false);
+            if (code == 0) {
+                ProjectTaskCountModel projectTaskCountModel = JSONUtils.getData(respanse.getString("data"), ProjectTaskCountModel.class);
+                mTaskProjectCountModel.owner = projectTaskCountModel.done + projectTaskCountModel.processing;
+                mTaskProjectCountModel.ownerDone = projectTaskCountModel.done;
+                mTaskProjectCountModel.ownerProcessing = projectTaskCountModel.processing;
+                mTaskProjectCountModel.creator = projectTaskCountModel.create;
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlALL_WATCH_Count)) {
+            showLoading(false);
+            if (code == 0) {
+                mTaskProjectCountModel.watcher = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
             } else {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(urlProjectTaskLabels)) {
+            showLoading(false);
+            if (code == 0) {
+                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                Collections.sort(taskLabelModels, new PinyinComparator());
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlALL_Label)) {
+            showLoading(false);
+            if (code == 0) {
+                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                Collections.sort(taskLabelModels, new PinyinComparator());
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlSome_Count)) {
+            showLoading(false);
+            if (code == 0) {
+                ProjectTaskUserCountModel item = JSONUtils.getData(respanse.getString("data"), ProjectTaskUserCountModel.class);
+
+                mTaskProjectCountModel.owner = item.memberDone + item.memberProcessing;
+                mTaskProjectCountModel.ownerDone = item.memberDone;
+                mTaskProjectCountModel.ownerProcessing = item.memberProcessing;
+
+                mTaskProjectCountModel.creatorDone = item.creatorDone;
+                mTaskProjectCountModel.creator = item.creatorDone + item.creatorProcessing;
+                mTaskProjectCountModel.creatorProcessing = item.creatorProcessing;
+
+                mTaskProjectCountModel.watcher = item.watcherDone + item.watcherProcessing;
+                mTaskProjectCountModel.watcherDone = item.watcherDone;
+                mTaskProjectCountModel.watcherProcessing = item.watcherProcessing;
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlSome_Label)) {
             showLoading(false);
             if (code == 0) {
                 taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
@@ -311,9 +431,17 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
             bundle.putSerializable("mMembersArray", mUsersInfo);
             bundle.putSerializable("mMemberPos", position);
             bundle.putBoolean("mShowAdd", true);
-//            bundle.putString("mMeAction", "");
-//            bundle.putString("mStatus", "");
-//            bundle.putString("mLabel", "");
+
+            bundle.putString("mMeAction", mMeActions[statusIndex]);
+            if (mFilterModel != null) {
+                bundle.putString("mStatus", mFilterModel.status + "");
+                bundle.putString("mLabel", mFilterModel.label);
+                bundle.putString("mKeyword", mFilterModel.keyword);
+            } else {
+                bundle.putString("mStatus", "");
+                bundle.putString("mLabel", "");
+                bundle.putString("mKeyword", "");
+            }
             fragment.setParent(ProjectTaskFragment.this);
 
             fragment.setArguments(bundle);
@@ -346,6 +474,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @Override
     protected void sureFilter() {
         super.sureFilter();
-        getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+        loadAllLabels();
     }
 }

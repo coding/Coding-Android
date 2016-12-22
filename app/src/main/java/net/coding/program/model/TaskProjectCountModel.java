@@ -5,10 +5,16 @@ package net.coding.program.model;
  * 项目内 「我的任务、我关注的、我创建的」中「进行中的、已完成的」的数量
  */
 public class TaskProjectCountModel {
-    public int ownerDone;
-    public int ownerProcessing;
-    public int creatorDone;
-    public int creatorProcessing;
-    public int watcherDone;
-    public int watcherProcessing;
+
+    public long owner;
+    public long ownerDone;
+    public long ownerProcessing;
+
+    public long creator;
+    public long creatorDone;
+    public long creatorProcessing;
+
+    public long watcher;
+    public long watcherDone;
+    public long watcherProcessing;
 }

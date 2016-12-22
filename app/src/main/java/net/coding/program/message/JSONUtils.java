@@ -30,4 +30,7 @@ public class JSONUtils {
     public static String getJSONString(String key, String jsonStringString) {
         return JSONObject.parseObject(jsonStringString).getString(key);
     }
+    public static long getJSONLong(String key, String jsonStringString) {
+        return JSONObject.parseObject(jsonStringString).getLong(key);
+    }
 }

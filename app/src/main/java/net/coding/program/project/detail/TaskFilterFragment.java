@@ -13,7 +13,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.event.EventFilterDetail;
 import net.coding.program.model.FilterModel;
-import net.coding.program.model.TaskCountModel;
 import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskProjectCountModel;
 
@@ -34,13 +33,30 @@ public class TaskFilterFragment extends LoadingFragment {
     //项目外
     protected final String urlTaskCountAll = Global.HOST_API + "/tasks/count";
     protected final String urlTaskLabel = Global.HOST_API + "/projects/tasks/labels?role=";
+    protected final String urlTaskSomeCount_owner = Global.HOST_API + "/tasks/search?project_id=%s&owner=%s";
+    protected final String urlTaskSomeCount_watcher = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
+    protected final String urlTaskSomeCount_creator = Global.HOST_API + "/tasks/search?project_id=%s&creator=%s";
+    protected final String urlTaskSomeOther = Global.HOST_API + "/project/%s/tasks/counts";
+
     //项目外特定项目
     protected final String urlProjectTaskCount = Global.HOST_API + "/project/%s/tasks/counts";
     protected final String urlProjectTaskLabels = Global.HOST_API + "/project/%s/tasks/labels?role=";
 
     //项目内 全部成员
-    protected final String urlALL_P_WatcherCount = Global.HOST_API + "project/{projectId}/task/count";
-    protected final String urlALL_P_CreatorCount = Global.HOST_API + "/project/%s/task/count";
+    //全部任务-标签-数量
+    /**
+     * 「全部任务」数量 = processing + done
+     * 「我创建的」数量 = create
+     * 进行中已完成的数量也有了
+     */
+    protected final String urlALL_Count = Global.HOST_API + "/project/%s/task/count";
+    protected final String urlALL_WATCH_Count = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
+    //全部任务」的标签
+    protected final String urlALL_Label = Global.HOST_API + "/user/%s/project/%s/task/label?withCount=true";
+
+    //某个成员的任务数量
+    protected final String urlSome_Count = Global.HOST_API + "/project/%s/user/%s/tasks/counts";
+    protected final String urlSome_Label = Global.HOST_API + "/project/%s/user/%s/tasks/labels";
 
     //任务筛选
     protected TextView toolBarTitle;
@@ -49,8 +65,9 @@ public class TaskFilterFragment extends LoadingFragment {
     protected FilterModel mFilterModel;
     protected int statusIndex = 0;////筛选的index
 
-    protected TaskCountModel mTaskCountModel;
+    //数量关联的唯一对象
     protected TaskProjectCountModel mTaskProjectCountModel;
+
 
     protected String getRole() {
         if (statusIndex >= mMeActions.length) {
@@ -84,24 +101,24 @@ public class TaskFilterFragment extends LoadingFragment {
         int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
         String[] filterTxtCount = new String[0];
         String[] filterTxt = new String[]{
-                "我的任务",
+                isProjectInner() ? "全部任务" : "我的任务",
                 "我关注的",
                 "我创建的"
         };
-
-        if (mTaskCountModel != null) {
-            filterTxtCount = new String[]{
-                    String.format(" (%d)", mTaskCountModel.processing + mTaskCountModel.done),
-                    String.format(" (%d)", mTaskCountModel.watchAll),
-                    String.format(" (%d)", mTaskCountModel.create)
-            };
-        }
+//
+//        if (mTaskCountModel != null) {
+//            filterTxtCount = new String[]{
+//                    String.format(" (%d)", mTaskCountModel.processing + mTaskCountModel.done),
+//                    String.format(" (%d)", mTaskCountModel.watchAll),
+//                    String.format(" (%d)", mTaskCountModel.create)
+//            };
+//        }
 
         if (mTaskProjectCountModel != null) {
             filterTxtCount = new String[]{
-                    String.format(" (%d)", mTaskProjectCountModel.ownerProcessing + mTaskProjectCountModel.ownerDone),
-                    String.format(" (%d)", mTaskProjectCountModel.watcherProcessing + mTaskProjectCountModel.watcherDone),
-                    String.format(" (%d)", mTaskProjectCountModel.creatorProcessing + mTaskProjectCountModel.creatorDone)
+                    String.format(" (%d)", mTaskProjectCountModel.owner),
+                    String.format(" (%d)", mTaskProjectCountModel.watcher),
+                    String.format(" (%d)", mTaskProjectCountModel.creator)
             };
         }
 
@@ -149,18 +166,18 @@ public class TaskFilterFragment extends LoadingFragment {
             mFilterModel.labelModels = taskLabelModels;
         }
 
-        if (mTaskCountModel != null) {
-            if (statusIndex == 0) {
-                mFilterModel.statusTaskDoing = mTaskCountModel.processing;
-                mFilterModel.statusTaskDone = mTaskCountModel.done;
-            } else if (statusIndex == 1) {
-                mFilterModel.statusTaskDoing = mTaskCountModel.watchAllProcessing;
-                mFilterModel.statusTaskDone = mTaskCountModel.getWatcherDoneCount();
-            } else if (statusIndex == 2) {
-                mFilterModel.statusTaskDoing = mTaskCountModel.createProcessing;
-                mFilterModel.statusTaskDone = mTaskCountModel.getCreatorDoneCount();
-            }
-        }
+//        if (mTaskCountModel != null) {
+//            if (statusIndex == 0) {
+//                mFilterModel.statusTaskDoing = mTaskCountModel.processing;
+//                mFilterModel.statusTaskDone = mTaskCountModel.done;
+//            } else if (statusIndex == 1) {
+//                mFilterModel.statusTaskDoing = mTaskCountModel.watchAllProcessing;
+//                mFilterModel.statusTaskDone = mTaskCountModel.getWatcherDoneCount();
+//            } else if (statusIndex == 2) {
+//                mFilterModel.statusTaskDoing = mTaskCountModel.createProcessing;
+//                mFilterModel.statusTaskDone = mTaskCountModel.getCreatorDoneCount();
+//            }
+//        }
 
         if (mTaskProjectCountModel != null) {
             if (statusIndex == 0) {
@@ -175,7 +192,7 @@ public class TaskFilterFragment extends LoadingFragment {
             }
         }
 
-        DrawerLayoutHelper.getInstance().initData(getContext(), drawerLayout, mFilterModel, new FilterListener() {
+        DrawerLayoutHelper.getInstance().initData(getContext(), isProjectInner(), drawerLayout, mFilterModel, new FilterListener() {
             @Override
             public void callback(FilterModel filterModel) {
                 mFilterModel = filterModel;
@@ -206,5 +223,9 @@ public class TaskFilterFragment extends LoadingFragment {
     @Override
     public void onRefresh() {
 
+    }
+
+    protected boolean isProjectInner() {
+        return false;
     }
 }

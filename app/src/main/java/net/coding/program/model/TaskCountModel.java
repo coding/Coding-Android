@@ -12,17 +12,5 @@ public class TaskCountModel {
     public long watchAllProcessing;//「我关注的」中「进行中的」任务数
     public long create;//「我创建的」任务数
     public long createProcessing;//「我创建的」中「进行中的」任务数
-
     public int all;
-    public int allProcessing;
-
-    //注： - 「我关注的」中「已完成的」数量 = watchAll - watchAllProcessing - 「
-    public long getWatcherDoneCount() {
-        return watchAll - watchAllProcessing;
-    }
-
-    // 我创建的」中「已完成的」数量 = create - createProcessing
-    public long getCreatorDoneCount() {
-        return create - createProcessing;
-    }
 }
