@@ -23,7 +23,7 @@ Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会
 
 ##一些觉得有必要提一下的
 因为不想写一堆绑定函数，所以项目用了 [androidannotations](https://github.com/excilys/androidannotations)，如果以前没用过最好先看看。
-显示图片用的[universal-image-loader](https://github.com/nostra13/Android-Universal-Image-Loader)，网络库用的[android-async-http](https://github.com/loopj/android-async-http)，因为登录以后保存的cookie都在[android-async-http](https://github.com/loopj/android-async-http)，有些图片需要登录后的cookie才能取到（例如项目文档里面的图片），这种情况就会用先用[android-async-http](https://github.com/loopj/android-async-http)下载图片（AttachmentimagePagerFragment.java）。
+显示图片用的[universal-image-loader](https://github.com/nostra13/Android-Universal-Image-Loader)，网络库用的[android-async-http](https://github.com/loopj/android-async-http)，因为登录以后保存的cookie都在[android-async-http](https://github.com/loopj/android-async-http)，有些图片需要登录后的cookie才能取到（例如项目文件里面的图片），这种情况就会用先用[android-async-http](https://github.com/loopj/android-async-http)下载图片（AttachmentimagePagerFragment.java）。
 
 - Application用的是MyApp.java，用静态变量保存了用户信息，屏幕长宽等信息（理论上来说不是好的做法，但是这些基本都是只读的数据，而且并不大，所以就这么做了）。
 

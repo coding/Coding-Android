@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BaseActivity;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_search_project)
-public class SearchProjectActivity extends BaseActivity implements TextView.OnEditorActionListener, TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
+public class SearchProjectActivity extends BaseActivity implements TextView.OnEditorActionListener, TextWatcher, AdapterView.OnItemClickListener {
 
     private static final String TAG = SearchProjectActivity.class.getSimpleName();
     @ViewById
@@ -66,7 +67,11 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     void init() {
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         btnCancel = (Button) this.findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(this);
+        btnCancel.setOnClickListener(v -> {
+            Global.popSoftkeyboard(this, editText, false);
+            onBackPressed();
+        });
+
         editText = (EditText) this.findViewById(R.id.editText);
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
@@ -118,7 +123,11 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     private void initSearchFooterView() {
         View footerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_footer, null);
         mSearchFooterClearAllView = (TextView) footerView.findViewById(R.id.subject_search_hot_footer_clear);
-        mSearchFooterClearAllView.setOnClickListener(mOnClickListener);
+        mSearchFooterClearAllView.setOnClickListener(v -> {
+            SearchProjectCache.getInstance(SearchProjectActivity.this).clearCache();
+            loadSearchCache();
+        });
+
         mSearchFooterDivider = footerView.findViewById(R.id.subject_search_hot_footer_divider);
         mSearchFooterDivider.setVisibility(View.GONE);
         emptyListView.addFooterView(footerView, null, false);
@@ -172,28 +181,6 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         search(mSearchHistoryList.get(position));
-    }
-
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.subject_search_hot_footer_clear:
-                    SearchProjectCache.getInstance(SearchProjectActivity.this).clearCache();
-                    loadSearchCache();
-                    break;
-            }
-        }
-    };
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnCancel:
-                onBackPressed();
-                break;
-        }
     }
 
     @Override

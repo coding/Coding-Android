@@ -149,7 +149,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             spinnerFragments.add(insertPos, ProjectTaskFragment_.class);
             project_activity_action_list.add(insertPos, "项目任务");
 
-            // 私有项目添加项目文档
+            // 私有项目添加项目文件
             final int insertAttPos = 3;
             spinnerIcons.add(insertAttPos, R.drawable.ic_spinner_attachment);
             spinnerFragments.add(insertAttPos, ProjectAttachmentFragment_.class);

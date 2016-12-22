@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class SearchFramgentAdapter extends FragmentStatePagerAdapter {
 
 
-    private static final String[] TITLES = {"项目", "任务", "讨论", "冒泡", "文档", "用户", "合并请求", "pull请求"};
+    private static final String[] TITLES = {"项目", "任务", "讨论", "冒泡", "文件", "用户", "合并请求", "pull请求"};
     private static final String[] tab = {"projects", "tasks", "project_topics", "tweets", "files", "friends", "merge_requests", "pull_requests"};
     private String key;
 

@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 展示某一项目文档目录下面HTML文件和Markdown类型文件的Activity
+ * 展示某一项目文件目录下面HTML文件和Markdown类型文件的Activity
  * HTML文件就纯展示
  * Markdown文件拿到生成的HTML代码之后，使用了从网页版Coding中扒来的css样式,直接写在markdown-html模板里
  * Created by yangzhen

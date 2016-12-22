@@ -40,7 +40,7 @@ import java.io.File;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * 展示某一项目文档目录下面文件的BsseActivity
+ * 展示某一项目文件目录下面文件的BsseActivity
  * Created by yangzhen
  */
 @EActivity
