@@ -180,14 +180,29 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         String host = "";
         int userId = mMembers.user_id;
 
-        //关注，创建可以返回数据
-        if (userId == 0 && !TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
-            userId = MyApp.sUserObject.id;
+        //项目内 不是全部任务
+        if (mShowAdd && userId != 0) {
+            if (!TextUtils.isEmpty(mMeAction)) {
+                host += String.format("owner=%s&", userId);
+            }
+            //关注，创建可以返回数据
+            if (!TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
+                if (!TextUtils.isEmpty(mMeAction)) {
+                    host += String.format("%s=%s&", mMeAction, MyApp.sUserObject.id);
+                }
+            }
+        } else if (mShowAdd) {
+            //项目内 全部任务
+            if (!TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
+                host += String.format("%s=%s&", mMeAction, MyApp.sUserObject.id);
+            }
+        } else {
+            //项目外
+            if (!TextUtils.isEmpty(mMeAction) && userId != 0) {
+                host += String.format("%s=%s&", mMeAction, userId);
+            }
         }
 
-        if (!TextUtils.isEmpty(mMeAction) && userId != 0) {
-            host += String.format("%s=%s&", mMeAction, userId);
-        }
         if (!TextUtils.isEmpty(mStatus) && !mStatus.equals("0")) {
             host += String.format("status=%s&", mStatus);
         }
