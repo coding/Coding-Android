@@ -34,7 +34,7 @@
                 android:id="@+id/editText"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:layout_marginRight="12dp"
+                android:layout_marginRight="@dimen/padding_15"
                 android:layout_weight="1"
                 android:background="@drawable/transparent"
                 android:ellipsize="end"

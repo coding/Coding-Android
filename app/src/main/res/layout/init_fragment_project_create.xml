@@ -71,8 +71,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
         android:minHeight="48dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <TextView
             android:layout_width="wrap_content"

@@ -29,13 +29,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginStart="29dp"
             android:layout_marginTop="3dp"
-            android:layout_toLeftOf="@+id/iconRight"
             android:layout_toRightOf="@+id/projectIcon"
-            android:layout_toStartOf="@+id/iconRight"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/font_2"
             android:textSize="18sp" />
 

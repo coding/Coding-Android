@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +16,6 @@ import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
-import com.twotoasters.jazzylistview.effects.SlideInEffect;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -26,6 +24,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
@@ -147,11 +146,14 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     }
 
     @Override
-    protected void initMaopaoType() {
-        listView.setTransitionEffect(new UpSlideInEffect());
+    protected boolean getShowAnimator() {
+        return true;
+    }
 
+    @Override
+    protected void initMaopaoType() {
         if (mType == Type.friends) {
-            id = UPDATE_ALL_INT;
+            id = LoadingFragment.UPDATE_ALL_INT;
             lastTime = 0;
         }
 
@@ -160,7 +162,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
 
         if (mType != Type.user) {
-            floatButton.attachToListView(listView);
+            floatButton.attachToRecyclerView(listView.mRecyclerView);
         } else {
             floatButton.hide(false);
         }
@@ -173,7 +175,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
 
         addDoubleClickActionbar();
-
 
         getNetwork(createUrl(), getMaopaoUrlFormat());
     }
@@ -195,8 +196,9 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
                     mLastTime = nowTime;
 
                     if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
-                        if (!isRefreshing()) {
-                            setRefreshing(true);
+                        if (listView.mSwipeRefreshLayout != null &&
+                                !listView.mSwipeRefreshLayout.isRefreshing()) {
+                            listView.setRefreshing(true);
                             onRefresh();
                         }
                     }
@@ -253,7 +255,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         bannerName = (TextView) bannerLayout.findViewById(R.id.bannerName);
         bannerTitle = (TextView) bannerLayout.findViewById(R.id.bannerTitle);
 
-        listView.addHeaderView(bannerLayout);
+        listView.setNormalHeader(bannerLayout);
 
         ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -277,7 +279,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                enableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+                listView.enableDefaultSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
     }
@@ -350,23 +352,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     }
 
     ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
-
-    // listview 向上滑才有动画
-    class UpSlideInEffect extends SlideInEffect {
-        @Override
-        public void initView(View item, int position, int scrollDirection) {
-            if (scrollDirection > 0) {
-                super.initView(item, position, scrollDirection);
-            }
-        }
-
-        @Override
-        public void setupAnimation(View item, int position, int scrollDirection, ViewPropertyAnimator animator) {
-            if (scrollDirection > 0) {
-                super.setupAnimation(item, position, scrollDirection, animator);
-            }
-        }
-    }
 
     class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
         ImageView imageView;

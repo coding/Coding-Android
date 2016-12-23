@@ -202,14 +202,15 @@ public class AccountInfo {
 //        if (!ZhongQiuGuideActivity.isZhongqiu()) {
 //            return false;
 //        }
-        // todo 4.0 特有, 下个版本删除, MARK_GUIDE_FEATURES 一定要修改
+        // 4.0 特有, 下个版本删除, MARK_GUIDE_FEATURES 一定要修改
 
-        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
-        if (result == null) {
-            return true;
-        }
-
-        return result;
+//        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
+//        if (result == null) {
+//            return true;
+//        }
+//
+//        return result;
+        return false;
     }
 
     public static void markGuideReaded(Context context) {
@@ -792,15 +793,4 @@ public class AccountInfo {
             return code;
         }
     }
-
-    static class Pair implements Serializable {
-        public String first;
-        public String second;
-
-        Pair(String first, String second) {
-            this.first = first;
-            this.second = second;
-        }
-    }
-
 }

@@ -1,6 +1,6 @@
 package net.coding.program.project.detail;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONObject;
 
 /**

@@ -44,7 +44,9 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_1" />
+    <View
+        android:background="@drawable/divide_line_user_list"
+        style="@style/DivideLine" />
 
     <LinearLayout
         android:id="@+id/commentLayout"
@@ -85,7 +87,9 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_1" />
+    <View
+        android:background="@drawable/divide_line_user_list"
+        style="@style/DivideLine" />
 
     <LinearLayout
         android:id="@+id/systemLayout"
@@ -124,6 +128,8 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_1" />
+    <View
+        android:background="@drawable/divide_line_user_list"
+        style="@style/DivideLine" />
 
 </LinearLayout>

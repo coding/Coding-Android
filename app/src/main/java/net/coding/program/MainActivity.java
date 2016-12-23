@@ -31,14 +31,17 @@ import com.roughike.bottombar.BottomBar;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
+import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
+import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventShowBottom;
@@ -63,6 +66,7 @@ import org.androidannotations.annotations.res.StringArrayRes;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import network.coding.net.checknetwork.CheckNetworkIntentService;
 
 @EActivity(R.layout.activity_main_parent)
 public class MainActivity extends BaseActivity {
@@ -125,6 +129,7 @@ public class MainActivity extends BaseActivity {
         // qq push
         updateNotifyService();
         pushInXiaomi();
+        startNetworkCheckService();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
@@ -148,6 +153,18 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidRegister();
 
         EventBus.getDefault().register(this);
+    }
+
+    private void startNetworkCheckService() {
+        Intent intent = new Intent(this, CheckNetworkIntentService.class);
+        String extra = Global.getExtraString(this);
+        intent.putExtra("PARAM_APP", extra);
+
+        intent.putExtra("PARAM_GK", MyApp.sUserObject.global_key);
+        String sid = MyAsyncHttpClient.getCookie(this, Global.HOST);
+        intent.putExtra("PARAM_COOKIE", sid);
+
+        startService(intent);
     }
 
     @Override
@@ -273,15 +290,13 @@ public class MainActivity extends BaseActivity {
 
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                Log.d("", ft == null ? "is null" : "is good");
+                Log.d(TAG, ft == null ? "is null" : "is good");
                 ft.replace(R.id.container, fragment, strings[position]);
                 ft.commit();
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -591,6 +606,11 @@ public class MainActivity extends BaseActivity {
         } else if (object instanceof EventPosition) {
             EventPosition eventPosition = (EventPosition) object;
             toolbarProjectTitle.setText(eventPosition.title);
+        } else if (object instanceof EventMessage) {
+            EventMessage eventMessage = (EventMessage) object;
+            if (eventMessage.type == EventMessage.Type.loginOut) {
+                finish();
+            }
         }
     }
 

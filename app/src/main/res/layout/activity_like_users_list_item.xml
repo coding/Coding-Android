@@ -9,7 +9,7 @@
         android:layout_height="66dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/padding_15"
-        android:paddingRight="12dp">
+        android:paddingRight="@dimen/padding_15">
 
 
         <net.coding.program.maopao.LikeUserImage

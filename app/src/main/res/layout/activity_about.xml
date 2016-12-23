@@ -51,20 +51,21 @@
             android:background="@drawable/list_item_selector"
             android:gravity="center_vertical"
             android:minHeight="48dp"
-            android:padding="12dp">
+            android:paddingBottom="@dimen/padding_12"
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15"
+            android:paddingTop="@dimen/padding_12">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
                 android:text="给 Coding 好评"
                 android:textColor="@color/font_2"
                 android:textSize="18sp" />
 
         </RelativeLayout>
 
-        <View
-            style="@style/DivideLine" />
+        <View style="@style/DivideLine" />
 
         <RelativeLayout
             android:id="@+id/checkUpdate"
@@ -73,7 +74,7 @@
             android:background="@drawable/list_item_selector"
             android:gravity="center_vertical"
             android:minHeight="48dp"
-            android:padding="12dp">
+            android:paddingLeft="@dimen/padding_15">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,8 +96,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
-        android:paddingBottom="15dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/codingWebsite"

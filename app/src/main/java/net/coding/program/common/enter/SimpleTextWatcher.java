@@ -5,6 +5,7 @@ import android.text.TextWatcher;
 
 /**
  * Created by chaochen on 15/1/15.
+ * 简化匿名类
  */
 public class SimpleTextWatcher implements TextWatcher {
     @Override

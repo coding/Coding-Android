@@ -12,7 +12,10 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/round_icon_path"
-        android:layout_margin="12dp" />
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginTop="@dimen/padding_12"
+        android:layout_marginBottom="@dimen/padding_12" />
 
     <TextView
         android:id="@+id/name"

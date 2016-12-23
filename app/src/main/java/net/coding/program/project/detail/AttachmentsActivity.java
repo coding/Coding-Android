@@ -52,7 +52,7 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -216,11 +216,11 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     holder.checkBox.setChecked(false);
                 }
                 //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, R.id.icon);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(58);
+                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(62);
             } else {
                 holder.checkBox.setVisibility(View.GONE);
                 //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).removeRule(RelativeLayout.LEFT_OF);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = 0;
+                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(15);
             }
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 

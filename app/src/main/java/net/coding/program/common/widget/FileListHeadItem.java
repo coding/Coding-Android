@@ -22,10 +22,11 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.UploadStyle;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 16/2/27.
@@ -117,7 +118,7 @@ public class FileListHeadItem extends FrameLayout {
             }
 
             @Override
-            public void onProgress(int bytesWritten, int totalSize) {
+            public void onProgress(long bytesWritten, long totalSize) {
                 setProgress((int) (bytesWritten * 1.0 / totalSize * 100));
             }
         };

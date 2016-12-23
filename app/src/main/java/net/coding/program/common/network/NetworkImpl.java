@@ -21,7 +21,8 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.user.UserDetailActivity;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,7 +81,6 @@ public class NetworkImpl {
             private final int HTTP_CODE_RELOGIN = 1000;
             private final int HTTP_CODE_RELOGIN_2FA = 3207;
             private final int HTTP_CODE_NEED_ACTIVITY = 1035;
-
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

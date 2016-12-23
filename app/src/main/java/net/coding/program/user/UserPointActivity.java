@@ -43,15 +43,8 @@ public class UserPointActivity extends BackActivity {
     protected final void initUserPointActivity() {
         View head = mInflater.inflate(R.layout.user_point_list_head, null);
         pointsAll = (TextView) head.findViewById(R.id.pointAll);
-        head.findViewById(R.id.itemShop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                WebActivity_.intent(UserPointActivity.this)
-//                        .url(Global.HOST + "/shop")
-//                        .start();
-                MallIndexActivity_.intent(UserPointActivity.this).start();
-            }
-        });
+        head.findViewById(R.id.itemShop).setOnClickListener(v ->
+                MallIndexActivity_.intent(UserPointActivity.this).start());
         listView.addHeaderView(head, null, false);
 
         View footShade = mInflater.inflate(R.layout.divide_shade_up, null);

@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:text="蝈蝈"
     android:textColor="@color/font_9"
-    android:textSize="12dp"
+    android:textSize="12sp"
     tools:showIn="@layout/fragment_task_list_item" />

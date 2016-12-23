@@ -20,7 +20,7 @@
         android:background="#bb000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingRight="12dp">
+        android:paddingRight="@dimen/padding_15">
 
         <View
             android:layout_width="0dp"

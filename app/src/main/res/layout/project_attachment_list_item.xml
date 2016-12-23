@@ -14,7 +14,7 @@
             android:layout_width="@dimen/folder_icon_width"
             android:layout_height="@dimen/folder_icon_width"
             android:layout_centerVertical="true"
-            android:layout_margin="12dp"
+            android:layout_margin="15dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_project_git_folder2" />
 
@@ -30,15 +30,14 @@
             android:text="Medium Text"
             android:textColor="@color/font_2"
             android:textSize="17sp"
-            android:layout_toLeftOf="@+id/more"
-            android:layout_toStartOf="@+id/more" />
+            android:layout_toLeftOf="@+id/more" />
 
         <RelativeLayout
             android:id="@+id/more"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentRight="true"
-            android:padding="12dp">
+            android:padding="15dp">
 
             <ImageView
                 android:layout_width="13dp"
@@ -57,7 +56,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="13dp"
             android:button="@drawable/checkbox_attachment"
             android:checked="false"

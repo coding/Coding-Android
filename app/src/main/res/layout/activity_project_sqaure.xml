@@ -36,7 +36,7 @@
             android:layout_height="31dp"
             android:background="@color/font_black_e"
             android:gravity="center_vertical"
-            android:paddingLeft="12dp"
+            android:paddingLeft="@dimen/padding_15"
             android:text="全部项目"
             android:textColor="@color/font_9" />
 

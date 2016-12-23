@@ -40,17 +40,15 @@ public class MergeListFragment extends BaseLoadMoreFragment {
     View blankLayout;
     private MergeAdapter mMergeAdapter;
     private String mUrlMerge;
-    private View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-            loadMore();
-        }
+    private View.OnClickListener onClickRetry = v -> {
+        onRefresh();
+        loadMore();
     };
 
     @AfterViews
     protected final void initMergeListFragment() {
         listViewAddHeaderSection(listView);
+        listView.setVisibility(View.INVISIBLE);
         initRefreshLayout();
         disableRefreshing();
 
@@ -59,7 +57,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         } else {
             mUrlMerge = mProjectObject.getHttpMergeExamine(mType == TYPE_OPEN, mMineType);
         }
-        mMergeAdapter = new MergeAdapter(new ArrayList<Merge>(), this, getImageLoad());
+        mMergeAdapter = new MergeAdapter(new ArrayList<>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);
         loadMore();
 
@@ -100,6 +98,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
 
             updateLoadingState(code, tag, mMergeAdapter.getCount());
 
+            listView.setVisibility(mMergeAdapter.getCount() > 0 ? View.VISIBLE : View.INVISIBLE);
             BlankViewDisplay.setBlank(mMergeAdapter.getCount(), this, code == 0, blankLayout, onClickRetry);
         }
     }

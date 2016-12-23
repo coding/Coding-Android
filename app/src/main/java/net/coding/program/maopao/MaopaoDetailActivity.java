@@ -297,15 +297,6 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         prepareAddComment(mMaopaoObject, false);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//            if (maopaoOwnerGlobal.equals(MyApp.sUserObject.global_key)) {
-//                getMenuInflater().inflate(R.menu.maopao_detail, menu);
-//            }
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
     void initHead() {
         if (mListHead == null) {
             mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, listView, false);
@@ -333,36 +324,16 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClient(this, mMaopaoObject.content));
 
-        mListHead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prepareAddComment(mMaopaoObject, true);
-            }
-        });
+        mListHead.setOnClickListener(v -> prepareAddComment(mMaopaoObject, true));
 
-        mListHead.findViewById(R.id.shareBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                action_share_third();
-            }
-        });
+        mListHead.findViewById(R.id.shareBtn).setOnClickListener(v -> action_share_third());
 
         reward = (TextView) mListHead.findViewById(R.id.rewardCount);
 
-        reward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MaopaoListBaseFragment.popReward(MaopaoDetailActivity.this, v, null);
-            }
-        });
+        reward.setOnClickListener(v -> MaopaoListBaseFragment.popReward(MaopaoDetailActivity.this, v, null));
 
         commentBtn = (TextView) mListHead.findViewById(R.id.commentBtn);
-        commentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prepareAddComment(mMaopaoObject, true);
-            }
-        });
+        commentBtn.setOnClickListener(v -> prepareAddComment(mMaopaoObject, true));
 
         commentBtn.setText(String.valueOf(mMaopaoObject.comments));
         reward.setText(String.valueOf(mMaopaoObject.rewards));
@@ -376,24 +347,21 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         likeBtn = (CheckBox) mListHead.findViewById(R.id.likeBtn);
         likeBtn.setChecked(mMaopaoObject.liked);
         likeBtn.setText(String.valueOf(mMaopaoObject.likes));
-        likeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mMaopaoObject == null) {
-                    showMiddleToast(R.string.maopao_load_fail_like);
-                    return;
-                }
-
-                boolean like = ((CheckBox) v).isChecked();
-                String type = like ? "like" : "unlike";
-                if (like) {
-                    View good = mListHead.findViewById(R.id.maopaoGood);
-                    MaopaoLikeAnimation.playAnimation(good, v);
-                }
-                String uri = String.format(HOST_GOOD, mMaopaoObject.id, type);
-
-                postNetwork(uri, new RequestParams(), HOST_GOOD, 0, mMaopaoObject);
+        likeBtn.setOnClickListener(v -> {
+            if (mMaopaoObject == null) {
+                showMiddleToast(R.string.maopao_load_fail_like);
+                return;
             }
+
+            boolean like = ((CheckBox) v).isChecked();
+            String type = like ? "like" : "unlike";
+            if (like) {
+                View good = mListHead.findViewById(R.id.maopaoGood);
+                MaopaoLikeAnimation.playAnimation(good, v);
+            }
+            String uri = String.format(HOST_GOOD, mMaopaoObject.id, type);
+
+            postNetwork(uri, new RequestParams(), HOST_GOOD, 0, mMaopaoObject);
         });
 
 

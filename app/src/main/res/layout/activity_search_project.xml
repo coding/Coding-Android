@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_EEEEEE"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/activity_search_project_actionbar" />
 
@@ -20,6 +19,89 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <!--没有搜索内容也没有历史记录-->
+    <LinearLayout
+        android:layout_width="180dp"
+        android:id="@+id/allEmptyView"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="51dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/font_9"
+            android:textSize="14sp"
+            android:text="搜索更多内容" />
+
+        <View
+            style="@style/DivideLine"
+            android:layout_height="2dp"
+            android:layout_marginTop="15dp" />
+
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:layout_marginLeft="0dp"
+                android:drawableTop="@mipmap/ic_search_project"
+                android:text="项目" />
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:drawableTop="@mipmap/ic_search_task"
+                android:text="任务" />
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:drawableTop="@mipmap/ic_search_topic"
+                android:text="讨论" />
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:layout_marginRight="0dp"
+                android:drawableTop="@mipmap/ic_search_maopao"
+                android:text="冒泡" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:layout_marginLeft="0dp"
+                android:drawableTop="@mipmap/ic_search_user"
+                android:text="文件" />
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:drawableTop="@mipmap/ic_search_user"
+                android:text="用户" />
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:drawableTop="@mipmap/ic_search_mr"
+                android:text="合并请求" />
+
+            <TextView
+                style="@style/searchEmptyIcon"
+                android:layout_marginRight="0dp"
+                android:drawableTop="@mipmap/ic_search_pr"
+                android:text="Pull 请求" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/emptyListView"
         android:layout_width="match_parent"
@@ -29,9 +111,9 @@
         android:divider="@color/color_DDDDDD"
         android:dividerHeight="0.5dp"
         android:drawSelectorOnTop="true"
+        android:footerDividersEnabled="false"
         android:listSelector="@color/transparent"
         android:overScrollMode="never"
-        android:footerDividersEnabled="false"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="none"
         android:visibility="gone" />
