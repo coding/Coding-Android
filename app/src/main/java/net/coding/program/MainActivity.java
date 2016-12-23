@@ -497,7 +497,7 @@ public class MainActivity extends BaseActivity {
      * @param position
      */
     private void taskOper(int position) {
-        isOpenDrawerLayout(position == 2);
+        isOpenDrawerLayout(position == 1);
     }
 
     private void isOpenDrawerLayout(boolean isOpen) {
