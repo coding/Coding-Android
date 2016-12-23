@@ -1,7 +1,6 @@
 package net.coding.program.common.adapter;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,7 +32,6 @@ public class SearchTopicAdapter extends BaseAdapter {
         this.mData = mData;
         this.context = context;
         this.key = key;
-
     }
 
     @Override
@@ -59,7 +57,7 @@ public class SearchTopicAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.nameTask = (TextView) convertView.findViewById(R.id.nameTask);
             holder.iconTask = (ImageView) convertView.findViewById(R.id.iconTask);
-            holder.descTask = (TextView) convertView.findViewById(R.id.descTask);
+//            holder.descTask = (TextView) convertView.findViewById(R.id.descTask);
             holder.bottomName = (TextView) convertView.findViewById(R.id.bottomName);
             holder.bottomTime = (TextView) convertView.findViewById(R.id.bottomTime);
             holder.bottomHeartCount = (TextView) convertView.findViewById(R.id.bottomHeartCount);
@@ -71,7 +69,7 @@ public class SearchTopicAdapter extends BaseAdapter {
         }
         TopicObject bean = mData.get(position);
         HoloUtils.setHoloText(holder.nameTask, key, bean.title);
-        HoloUtils.setHoloText(holder.descTask, key, Html.fromHtml(bean.content).toString());
+//        HoloUtils.setHoloText(holder.descTask, key, Html.fromHtml(bean.content).toString());
         holder.bottomName.setText(bean.owner.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         holder.bottomTime.setText(format.format(bean.created_at));
@@ -127,7 +125,7 @@ public class SearchTopicAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView nameTask;
-        TextView descTask;
+//        TextView descTask;
         TextView bottomName;
         TextView bottomTime;
         TextView bottomCommentCount;

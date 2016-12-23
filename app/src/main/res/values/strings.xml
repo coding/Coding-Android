@@ -9,7 +9,7 @@
     <string name="title_activity_task_add">添加任务</string>
     <string name="title_activity_members">项目成员列表</string>
     <string name="title_activity_watcher_list">关注者列表</string>
-    <string name="title_activity_attachment">项目文档列表</string>
+    <string name="title_activity_attachment">项目文件列表</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_my_created">我创建的</string>

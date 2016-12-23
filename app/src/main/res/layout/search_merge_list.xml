@@ -64,25 +64,25 @@
         android:textColor="@color/color_4E90BF"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/txtContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtTitle"
-        android:layout_below="@+id/txtMergeName"
-        android:layout_marginTop="6.5dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:minLines="1"
-        android:text="kshdkahsdkj"
-        android:textColor="@color/font_6"
-        android:textSize="15sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/txtContent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/txtTitle"-->
+        <!--android:layout_below="@+id/txtMergeName"-->
+        <!--android:layout_marginTop="6.5dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:maxLines="2"-->
+        <!--android:minLines="1"-->
+        <!--android:text="kshdkahsdkj"-->
+        <!--android:textColor="@color/font_6"-->
+        <!--android:textSize="15sp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtTitle"
-        android:layout_below="@+id/txtContent"
+        android:layout_below="@+id/txtMergeName"
         android:layout_marginTop="19dp"
         android:orientation="horizontal">
 

@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- * 在文档做移动操作时，选择文档目录的Activity
+ * 在文件做移动操作时，选择文件目录的Activity
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_folder_selector)

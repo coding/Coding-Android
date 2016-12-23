@@ -56,7 +56,6 @@ public class SearchReslutAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.nameTask = (TextView) convertView.findViewById(R.id.nameTask);
             holder.iconTask = (ImageView) convertView.findViewById(R.id.iconTask);
-            holder.descTask = (TextView) convertView.findViewById(R.id.descTask);
             holder.bottomName = (TextView) convertView.findViewById(R.id.bottomName);
             holder.bottomTime = (TextView) convertView.findViewById(R.id.bottomTime);
             holder.bottomHeartCount = (TextView) convertView.findViewById(R.id.bottomHeartCount);
@@ -67,21 +66,18 @@ public class SearchReslutAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         TaskObject.SingleTask bean = mData.get(position);
-        HoloUtils.setHoloText(holder.nameTask, key, bean.creator.name);
-        HoloUtils.setHoloText(holder.descTask, key, bean.description);
-        holder.bottomName.setText(bean.owner.name);
+        HoloUtils.setHoloText(holder.nameTask, key, bean.content);
+        holder.bottomName.setText(bean.creator.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         holder.bottomTime.setText(format.format(bean.created_at));
         holder.bottomCommentCount.setText(bean.comments + "");
         holder.bottomHeartCount.setText("");
-        ImageLoader.getInstance().displayImage(bean.creator.avatar, holder.iconTask, ImageLoadTool.optionsImage);
+        ImageLoader.getInstance().displayImage(bean.owner.avatar, holder.iconTask, ImageLoadTool.optionsImage);
         return convertView;
     }
 
-
     static class ViewHolder {
         TextView nameTask;
-        TextView descTask;
         TextView bottomName;
         TextView bottomTime;
         TextView bottomCommentCount;

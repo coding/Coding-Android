@@ -23,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * 展示某一项目文档目录下面TXT文件的Activity
+ * 展示某一项目文件目录下面TXT文件的Activity
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_text)

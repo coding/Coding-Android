@@ -47,7 +47,7 @@ import java.util.HashMap;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * 展示某一项目文档目录下面图片文件的Activity
+ * 展示某一项目文件目录下面图片文件的Activity
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_image)

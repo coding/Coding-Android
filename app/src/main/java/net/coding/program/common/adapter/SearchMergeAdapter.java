@@ -57,7 +57,7 @@ public class SearchMergeAdapter extends BaseAdapter {
         CircleImageView personImg = ViewHolder.get(convertView, R.id.personImg);
         TextView txtMergeName = ViewHolder.get(convertView, R.id.txtMergeName);
         TextView txtMergeBranch = ViewHolder.get(convertView, R.id.txtMergeBranch);
-        TextView txtContent = ViewHolder.get(convertView, R.id.txtContent);
+//        TextView txtContent = ViewHolder.get(convertView, R.id.txtContent);
         TextView txtBottomName = ViewHolder.get(convertView, R.id.txtBottomName);
         TextView bottomTime = ViewHolder.get(convertView, R.id.bottomTime);
         TextView bottomStatus = ViewHolder.get(convertView, R.id.bottomStatus);
@@ -69,7 +69,7 @@ public class SearchMergeAdapter extends BaseAdapter {
         txtMergeName.setText(bean.getSrcBranch());
 
         txtMergeBranch.setText(bean.getDesBranch());
-        HoloUtils.setHoloText(txtContent, key, bean.getBody());
+//        HoloUtils.setHoloText(txtContent, key, bean.getBody());
         txtBottomName.setText(bean.getTitleIId() + "  " + bean.getAuthor().name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         bottomTime.setText(format.format(bean.getCreated_at()));

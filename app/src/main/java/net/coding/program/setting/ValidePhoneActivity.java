@@ -65,7 +65,8 @@ public class ValidePhoneActivity extends BackActivity {
 
     @AfterViews
     final void initValidePhoneActivity() {
-        isFirstSet = MyApp.sUserObject.phone.isEmpty();
+        // TODO: 2016/12/22 这个版本不上这个功能
+//        isFirstSet = MyApp.sUserObject.phone.isEmpty();
 
         ViewStyleUtil.editTextBindButton(loginButton, editPhone, editCode);
         user = AccountInfo.loadAccount(this);

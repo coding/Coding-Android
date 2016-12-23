@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by yangzhen on 2014/10/25.
- * 项目文档中的文件
+ * 项目文件中的文件
  */
 public class AttachmentFileObject implements Serializable {
 

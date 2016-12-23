@@ -27,28 +27,12 @@
         android:textColor="@color/font_2"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/descTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/nameTask"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/iconTask"
-        android:ellipsize="end"
-        android:lineSpacingMultiplier="1.5"
-        android:maxLines="2"
-        android:minLines="1"
-        android:text="wad"
-        android:textColor="@color/font_6"
-        android:textSize="15sp" />
-
     <include
         android:id="@+id/bottom_layout"
         layout="@layout/inlcude_search_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/descTask"
+        android:layout_below="@+id/nameTask"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="19dp" />
 </RelativeLayout>

@@ -65,7 +65,7 @@ import java.util.regex.Pattern;
 import static net.coding.program.common.Global.HOST_API;
 
 /**
- * 展示某一项目文档目录下面文件的Activity
+ * 展示某一项目文件目录下面文件的Activity
  * 原本没有二级目录，这个Activity是只用来处理AttachmentFileObject的
  * 之后加了二级目录，那么有些实现方式就不太合适了
  * Created by yangzhen
@@ -299,8 +299,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     /**
      * 弹出框
      */
-    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文档目录的底部弹出框
-    private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文档文件的底部弹出框
+    private DialogUtil.BottomPopupWindow mAttachmentPopupWindow = null;//文件目录的底部弹出框
+    private DialogUtil.BottomPopupWindow mAttachmentFilePopupWindow = null;//文件文件的底部弹出框
     private int selectedPosition;
     protected View.OnClickListener onMoreClickListener = new View.OnClickListener() {
         @Override
@@ -618,9 +618,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
 
     /**
-     * 获取当前文档列表中的所有图片文档，提供给AttachmentsPicDetailActivity
+     * 获取当前文件列表中的所有图片文件，提供给AttachmentsPicDetailActivity
      *
-     * @return 当前文档列表中的所有图片文档
+     * @return 当前文件列表中的所有图片文件
      */
     private ArrayList<AttachmentFileObject> getPicFiles() {
         ArrayList<AttachmentFileObject> picFiles = new ArrayList<>();
