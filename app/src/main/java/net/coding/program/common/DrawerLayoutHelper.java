@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -59,8 +60,30 @@ public class DrawerLayoutHelper {
         green = mContext.getResources().getColor(R.color.green);
 
         this.drawerLayout = drawerLayout;
+        this.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
 
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                Global.hideSoftKeyboard((Activity) mContext);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         View reset = drawerLayout.findViewById(R.id.tv_reset);
+
+
         reset.setOnClickListener(v -> {
             if (filterListener != null) {
                 filterListener.callback(new FilterModel());
@@ -72,6 +95,18 @@ public class DrawerLayoutHelper {
 
         iniStatus(filterListener, etSearch);
         iniLabels(filterListener, etSearch);
+    }
+
+    private void setActionDown(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Global.hideSoftKeyboard(((Activity) mContext));
+                }
+                return false;
+            }
+        });
     }
 
     @NonNull
@@ -148,7 +183,7 @@ public class DrawerLayoutHelper {
                 }
                 dismiss();
             });
-
+            setActionDown(labelItem);
             llLabels.addView(labelItem);
 
         }
@@ -172,7 +207,7 @@ public class DrawerLayoutHelper {
                 }
             }
             taskView.setText(txt);
-
+            setActionDown(taskView);
             int status = i + 1;
             taskView.setOnClickListener(v -> {
                 String keyword = etSearch.getText().toString();
