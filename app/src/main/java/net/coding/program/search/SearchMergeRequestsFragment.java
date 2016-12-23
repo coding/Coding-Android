@@ -9,7 +9,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchMergeAdapter;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.Merge;
 import net.coding.program.model.MergeObject;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 
@@ -79,23 +78,8 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
             return;
         }
 
-        Merge merge = new Merge();
-        merge.setId(itemData.getId());
-        merge.setSrcBranch(itemData.getSrcBranch());
-        merge.setDesBranch(itemData.getDesBranch());
-        merge.setCreated_at(itemData.getCreatedAt());
-        merge.setAuthor(itemData.getAuthor());
-        merge.setAction_at(itemData.getAction_at());
-        merge.setMerge_status(itemData.merge_status);
-        merge.setContent(itemData.getBody());
-        merge.setIid(itemData.getIid());
-        merge.setTitle(itemData.getTitle());
-        merge.setPath(itemData.getPath());
-        Merge.ActionAuthor userObject = new Merge.ActionAuthor();
-        userObject.name = itemData.getAuthor().name;
-        merge.setAction_author(userObject);
-        MergeDetailActivity_.intent(this).mMerge(merge).start();
-
+        String url = String.format("%s%s", Global.HOST_API, itemData.getPath());
+        MergeDetailActivity_.intent(this).mMergeUrl(url).start();
     }
 
     public String getKeyword() {
