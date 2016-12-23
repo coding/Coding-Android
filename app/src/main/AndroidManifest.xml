@@ -572,9 +572,7 @@
             android:name=".search.SearchProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:screenOrientation="portrait" />
 
         <service android:name=".UpdateService" />
 

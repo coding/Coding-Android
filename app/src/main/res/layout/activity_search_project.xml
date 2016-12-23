@@ -4,7 +4,7 @@
     android:background="@color/color_EEEEEE"
     android:orientation="vertical">
 
-    <include layout="@layout/activity_search_project_actionbar" />
+    <!--<include layout="@layout/activity_search_project_actionbar" />-->
 
     <net.coding.program.third.PagerSlidingTabStrip
         android:id="@+id/tabs"

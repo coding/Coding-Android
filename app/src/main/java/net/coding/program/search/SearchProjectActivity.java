@@ -14,16 +14,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
-import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.third.PagerSlidingTabStrip;
 
@@ -35,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_search_project)
-public class SearchProjectActivity extends BaseActivity implements TextView.OnEditorActionListener, TextWatcher, AdapterView.OnItemClickListener {
+public class SearchProjectActivity extends BackActivity implements TextView.OnEditorActionListener, TextWatcher, AdapterView.OnItemClickListener {
 
     private static final String TAG = SearchProjectActivity.class.getSimpleName();
     @ViewById
@@ -60,19 +58,22 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     // 历史搜索的记录
     private List<String> mSearchHistoryList = new ArrayList<String>();
     private String mSearchData = "";
-    private Button btnCancel;
     private EditText editText;
+    private View btnCancel;
 
     @AfterViews
     void init() {
+        View actionBar = getLayoutInflater().inflate(R.layout.activity_search_project_actionbar, null);
+        getSupportActionBar().setCustomView(actionBar);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        btnCancel = (Button) this.findViewById(R.id.btnCancel);
+        btnCancel = actionBar.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(v -> {
-            Global.popSoftkeyboard(this, editText, false);
-            onBackPressed();
+            editText.setText("");
         });
 
-        editText = (EditText) this.findViewById(R.id.editText);
+        editText = (EditText) actionBar.findViewById(R.id.editText);
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
@@ -95,6 +96,46 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
         editText.setOnEditorActionListener(this);
 
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.add_follow_activity, menu);
+//
+//        MenuItem menuItem = menu.findItem(R.id.action_search);
+//        menuItem.expandActionView();
+//        SearchView searchView = (SearchView) menuItem.getActionView();
+//        searchView.onActionViewExpanded();
+//        searchView.setIconified(false);
+//        searchView.setQueryHint("用户名，邮箱，昵称");
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                search(s);
+//                return true;
+//            }
+//        });
+//
+//        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                onBackPressed();
+//                return false;
+//            }
+//        });
+//
+//        return true;
+//    }
 
     private void setTabsValue() {
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -187,7 +228,7 @@ public class SearchProjectActivity extends BaseActivity implements TextView.OnEd
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             String tmp = editText.getText().toString();
-            if (tmp == null || TextUtils.isEmpty(tmp)) {
+            if (TextUtils.isEmpty(tmp)) {
                 emptyListView.setVisibility(View.VISIBLE);
                 pager.setVisibility(View.GONE);
                 tabs.setVisibility(View.GONE);
