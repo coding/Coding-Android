@@ -3,7 +3,6 @@
     android:layout_height="55dp"
     android:background="@color/color_primary"
     android:gravity="center_vertical"
-
     android:orientation="horizontal">
 
     <EditText
@@ -41,8 +40,9 @@
 
     <ImageView
         android:id="@+id/btnCancel"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="invisible"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_actionbar_cancel"

@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BackActivity;
@@ -71,6 +72,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         btnCancel = actionBar.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(v -> {
             editText.setText("");
+            Global.popSoftkeyboard(this, editText, true);
         });
 
         editText = (EditText) actionBar.findViewById(R.id.editText);
@@ -249,17 +251,19 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s == null || TextUtils.isEmpty(s)) {
+        if (TextUtils.isEmpty(s)) {
             emptyListView.setVisibility(View.VISIBLE);
             pager.setVisibility(View.GONE);
             tabs.setVisibility(View.GONE);
             mSearchData = "";
             loadSearchCache();
+            btnCancel.setVisibility(View.INVISIBLE);
+        } else {
+            btnCancel.setVisibility(View.VISIBLE);
         }
     }
 }
