@@ -104,7 +104,6 @@ public class DrawerLayoutHelper {
     }
 
     private void iniLabels(FilterListener filterListener, EditText etSearch) {
-
         if (mFilterModel == null || mFilterModel.labelModels == null || mFilterModel.labelModels.size() == 0) {
             return;
         }
