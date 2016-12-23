@@ -18,11 +18,9 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.util.DensityUtil;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
@@ -32,8 +30,10 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.model.BaseComment;
@@ -77,7 +77,7 @@ public class MergeDetailActivity extends BackActivity {
     public static final int RESULT_MERGE = 2;
     public static final int RESULT_RESUSE_REFRESOURCE = 3;
 
-//    private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
+    //    private static final String HOST_MERGE_COMMENTS = "HOST_MERGE_COMMENTS";
     private static final String HOST_MERGE_REFUSE = "HOST_MERGE_REFUSE";
     private static final String HOST_MERGE_CANNEL = "HOST_MERGE_CANNEL";
     private static final String HOST_MERGE_DETAIL = "HOST_MERGE_DETAIL";
@@ -87,6 +87,7 @@ public class MergeDetailActivity extends BackActivity {
 
     @Extra
     ProjectObject mProject;
+
     @Extra
     Merge mMerge;
 
@@ -94,19 +95,8 @@ public class MergeDetailActivity extends BackActivity {
     String mMergeUrl;
 
     @ViewById
-    View actionLayout;
-    @ViewById
-    View actionAccept;
-    @ViewById
-    View actionRefuse;
-    @ViewById
-    View actionCancel;
-    @ViewById
-    View actionAuth;
-    @ViewById
-    View actionCancelAuth;
-    @ViewById
-    View blankLayout;
+    View actionLayout, actionAccept, actionRefuse, actionCancel, actionAuth, actionCancelAuth, blankLayout;
+
     @ViewById
     ListView listView;
 
@@ -117,24 +107,16 @@ public class MergeDetailActivity extends BackActivity {
     private ArrayList<Merge.Reviewer> reviewerList = new ArrayList<>();
     private ArrayList<DynamicObject.DynamicMergeRequest> dynamicList = new ArrayList<>();
 
-    Comparator<DynamicObject.DynamicBaseObject> mDynamicSorter = new Comparator<DynamicObject.DynamicBaseObject>() {
-        @Override
-        public int compare(DynamicObject.DynamicBaseObject lhs, DynamicObject.DynamicBaseObject rhs) {
-            return (int) (lhs.created_at - rhs.created_at);
-        }
-    };
+    Comparator<DynamicObject.DynamicBaseObject> mDynamicSorter = (lhs, rhs) -> (int) (lhs.created_at - rhs.created_at);
 
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             final BaseComment item = (BaseComment) v.getTag();
             if (item.isMy()) {
-                showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = mMerge.getHttpDeleteComment(item.id);
-                        deleteNetwork(url, HOST_DELETE_COMMENT, item);
-                    }
+                showDialog("merge", "删除评论?", (dialog, which) -> {
+                    String url = mMerge.getHttpDeleteComment(item.id);
+                    deleteNetwork(url, HOST_DELETE_COMMENT, item);
                 });
             } else {
                 String name = item.owner.name;
@@ -220,18 +202,15 @@ public class MergeDetailActivity extends BackActivity {
                 if (type == 2) {
                     holder.mContent2.setText(data.content(myImageGetter));
                     holder.mContent2.setVisibility(View.VISIBLE);
-                    holder.mContent2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DiffFile.DiffSingleFile fileData =
-                                    ((DynamicObject.DynamicMergeRequestCommentCommit) data).getDiffSingleFile();
-                            MergeFileDetailActivity_
-                                    .intent(MergeDetailActivity.this)
-                                    .mProjectPath(mMerge.getProjectPath())
-                                    .mergeIid(mMerge.getIid())
-                                    .mSingleFile(fileData)
-                                    .start();
-                        }
+                    holder.mContent2.setOnClickListener(v -> {
+                        DiffFile.DiffSingleFile fileData =
+                                ((DynamicObject.DynamicMergeRequestCommentCommit) data).getDiffSingleFile();
+                        MergeFileDetailActivity_
+                                .intent(MergeDetailActivity.this)
+                                .mProjectPath(mMerge.getProjectPath())
+                                .mergeIid(mMerge.getIid())
+                                .mSingleFile(fileData)
+                                .start();
                     });
                 } else {
                     holder.mContent2.setVisibility(View.GONE);
@@ -247,6 +226,7 @@ public class MergeDetailActivity extends BackActivity {
         public TextView mContent2;
         private View timeLineUp;
         private View timeLineDown;
+
         public DynamicHolder(View convertView) {
             mIcon = (ImageView) convertView.findViewById(R.id.icon);
             mContent = (TextView) convertView.findViewById(R.id.content);
@@ -362,7 +342,7 @@ public class MergeDetailActivity extends BackActivity {
         int granted = mMerge.getGranted();
 
         boolean showCancel = mMerge.authorIsMe();
-        boolean showMerge = canEdit || ( granted == 1 &&  mMerge.authorIsMe());
+        boolean showMerge = canEdit || (granted == 1 && mMerge.authorIsMe());
         boolean showRefuse = canEdit;
         boolean showAuth = canEdit && granted == 0 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
         boolean showCancelAuth = canEdit && granted == 1 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
@@ -378,7 +358,7 @@ public class MergeDetailActivity extends BackActivity {
 
 
     /**
-     * @param accept  这个参数可以为 null，代表不可合并，但是显示合并按钮，并 50% 透明
+     * @param accept 这个参数可以为 null，代表不可合并，但是显示合并按钮，并 50% 透明
      */
     private void setActionStyle(Boolean accept, boolean refuse, boolean cancel, boolean auth, boolean cancelAuth) {
         if (!refuse && accept != null && !accept && !cancel && !auth && !cancelAuth) {
@@ -405,7 +385,7 @@ public class MergeDetailActivity extends BackActivity {
     protected final void actionAccept(View view) {
         if (view.getTag() == null) {
             MergeAcceptActivity_.intent(this).mMergeDetail(mMergeDetail).startForResult(RESULT_MERGE);
-        } else  {
+        } else {
             showDialog("提示", "Coding 不能帮你在线自动合并这个请求。", null, null, "知道了", null);
         }
     }
@@ -759,9 +739,9 @@ public class MergeDetailActivity extends BackActivity {
                             activityJson = ((JSONArray) object).getJSONObject(0);
                             if (activityJson.has("diff_html")) {
                                 isCommentCommit = true;
-                                activityJson.put("action" , "comment_commit");
+                                activityJson.put("action", "comment_commit");
                             } else {
-                                activityJson.put("action" , "comment");
+                                activityJson.put("action", "comment");
                             }
                         } else if (object instanceof JSONObject) {  //  activity 的结构是  data : [ activity , activity]
                             activityJson = (JSONObject) object;
@@ -927,7 +907,7 @@ public class MergeDetailActivity extends BackActivity {
             } else {
                 shouldShowCount = reviewerList.size();
             }
-            for (int i = 0; i < shouldShowCount ; i ++) {
+            for (int i = 0; i < shouldShowCount; i++) {
                 Merge.Reviewer reviewer = reviewerList.get(i);
                 if (reviewer.user.global_key.equals(mMerge.getAuthor().global_key)) {
                     continue;
@@ -951,7 +931,7 @@ public class MergeDetailActivity extends BackActivity {
                 } else {
                     reviewersLayout.addView(circleImageView, lp);
                 }
-                addedCount ++;
+                addedCount++;
                 iconfromNetwork(circleImageView, reviewer.user.avatar);
             }
             if (shouldShowMore) {

@@ -405,14 +405,21 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     @Override
     public void onBackPressed() {
         if (message.getText().toString().isEmpty() && adapter.getCount() <= 1) {
-            finish();
+            finishAndHideKeyboard();
         } else {
-            showDialog("冒泡", "保存为草稿？", (dialog, which) -> finish(),
+            showDialog("冒泡", "保存为草稿？", (dialog, which) -> finishAndHideKeyboard(),
                     (dialog, which) -> finishWithoutSave(),
                     "保存",
                     "不保存"
             );
         }
+    }
+
+    private void finishAndHideKeyboard() {
+        mEnterLayout.content.postDelayed(() -> {
+            Global.popSoftkeyboard(MaopaoAddActivity.this, mEnterLayout.content, false);
+            finish();
+        }, 50);
     }
 
     @OptionsItem
@@ -475,7 +482,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
         mEnterLayout.clearContent();
         mData.clear();
-        finish();
+        finishAndHideKeyboard();
     }
 
     @Override

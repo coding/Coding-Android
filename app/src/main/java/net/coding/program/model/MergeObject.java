@@ -86,6 +86,10 @@ public class MergeObject implements Serializable {
                 merge_status.equals(STYLE_REFUSE);
     }
 
+    public boolean isMergeCannel() {
+        return merge_status.equals(STYLE_CANNEL);
+    }
+
     public void setCreated_at(long created_at) {
         this.created_at = created_at;
     }

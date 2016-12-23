@@ -75,6 +75,10 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
 
     @ItemClick
     final void listView(MergeObject itemData) {
+        if (itemData.isMergeCannel()) {
+            return;
+        }
+
         Merge merge = new Merge();
         merge.setId(itemData.getId());
         merge.setSrcBranch(itemData.getSrcBranch());
@@ -91,6 +95,7 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
         userObject.name = itemData.getAuthor().name;
         merge.setAction_author(userObject);
         MergeDetailActivity_.intent(this).mMerge(merge).start();
+
     }
 
     public String getKeyword() {
