@@ -1,5 +1,6 @@
 package net.coding.program.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -78,8 +79,9 @@ public class DrawerLayoutHelper {
         EditText etSearch = (EditText) drawerLayout.findViewById(R.id.et_search);
 
         if (mFilterModel != null && !TextUtils.isEmpty(mFilterModel.keyword)) {
-            etSearch.setText(mFilterModel.keyword);
+            mFilterModel.keyword = "";
         }
+        etSearch.setText("");
         etSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (filterListener != null) {
@@ -92,6 +94,14 @@ public class DrawerLayoutHelper {
             }
             return false;
         });
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Global.hideSoftKeyboard(((Activity) mContext));
+                }
+            }
+        });
         return etSearch;
     }
 
@@ -101,6 +111,8 @@ public class DrawerLayoutHelper {
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
         }
+
+        Global.hideSoftKeyboard(((Activity) mContext));
     }
 
     private void iniLabels(FilterListener filterListener, EditText etSearch) {
