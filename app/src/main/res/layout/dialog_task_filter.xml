@@ -79,10 +79,9 @@
 
                     <com.flyco.roundview.RoundRelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="15dp">
+                        android:layout_marginRight="20dp">
 
                         <EditText
                             android:id="@+id/et_search"

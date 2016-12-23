@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.BlankViewHelp;
@@ -182,9 +180,30 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     String checkHostFilter() {
         String host = "";
         int userId = mMembers.user_id;
-        if (!TextUtils.isEmpty(mMeAction) && userId != 0) {
-            host += String.format("%s=%s&", mMeAction, userId);
+
+        //项目内 不是全部任务
+        if (mShowAdd && userId != 0) {
+            if (!TextUtils.isEmpty(mMeAction)) {
+                host += String.format("owner=%s&", userId);
+            }
+            //关注，创建可以返回数据
+            if (!TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
+                if (!TextUtils.isEmpty(mMeAction)) {
+                    host += String.format("%s=%s&", mMeAction, MyApp.sUserObject.id);
+                }
+            }
+        } else if (mShowAdd) {
+            //项目内 全部任务
+            if (!TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
+                host += String.format("%s=%s&", mMeAction, MyApp.sUserObject.id);
+            }
+        } else {
+            //项目外
+            if (!TextUtils.isEmpty(mMeAction) && userId != 0) {
+                host += String.format("%s=%s&", mMeAction, userId);
+            }
         }
+
         if (!TextUtils.isEmpty(mStatus) && !mStatus.equals("0")) {
             host += String.format("status=%s&", mStatus);
         }
