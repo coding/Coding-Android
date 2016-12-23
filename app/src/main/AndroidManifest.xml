@@ -216,7 +216,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustUnspecified|stateHidden"
             android:theme="@style/ActionbarSpannerTheme1" />
         <activity
             android:name=".LoginActivity_"

@@ -6,21 +6,20 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="right"
         android:background="@color/white">
-
-        <View
-            style="@style/DivideLine"
-            android:layout_above="@+id/rl_bottom"/>
 
         <RelativeLayout
             android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_gravity="bottom">
+
+            <View
+                style="@style/DivideLine"/>
 
             <TextView
                 android:id="@+id/tv_reset"
@@ -37,9 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/rl_bottom"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_marginBottom="51dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -69,6 +66,7 @@
                 android:background="@drawable/actionbar_shadow"/>
 
             <ScrollView
+                android:id="@+id/sv_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -134,7 +132,7 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

@@ -347,8 +347,8 @@ public class MainActivity extends BaseActivity {
             ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
         }
 
+        taskOper(position);
         updateNotifyFromService();
-        isOpenDrawerLayout(false);
         switch (position) {
             case 0://防止重复加载数据
 //                fragment = new ProjectFragment_();
@@ -371,7 +371,6 @@ public class MainActivity extends BaseActivity {
             case 1:
 //                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
                 fragment = new TaskFragment_();
-                isOpenDrawerLayout(true);
                 break;
             case 2:
                 // 进入冒泡页面，单独处理
@@ -422,6 +421,7 @@ public class MainActivity extends BaseActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
+
 
     void visibleTitle(View title) {
         View[] titles = {
@@ -489,6 +489,15 @@ public class MainActivity extends BaseActivity {
             }
         }
         super.onNewIntent(intent);
+    }
+
+    /**
+     * 任务列表特殊处理
+     * 1.drawerLayout 手势
+     * @param position
+     */
+    private void taskOper(int position) {
+        isOpenDrawerLayout(position == 2);
     }
 
     private void isOpenDrawerLayout(boolean isOpen) {
