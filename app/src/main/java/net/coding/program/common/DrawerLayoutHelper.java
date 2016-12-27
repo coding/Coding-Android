@@ -85,7 +85,8 @@ public class DrawerLayoutHelper {
 
 
         reset.setOnClickListener(v -> {
-            if (filterListener != null) {
+            //假如有搜索条件才重置
+            if (filterListener != null && (!TextUtils.isEmpty(filterModel.keyword) || !TextUtils.isEmpty(filterModel.label) || filterModel.status != 0)) {
                 filterListener.callback(new FilterModel());
             }
             dismiss();
@@ -113,9 +114,9 @@ public class DrawerLayoutHelper {
     private EditText initKeyword(FilterListener filterListener) {
         EditText etSearch = (EditText) drawerLayout.findViewById(R.id.et_search);
 
-        if (mFilterModel != null && !TextUtils.isEmpty(mFilterModel.keyword)) {
-            mFilterModel.keyword = "";
-        }
+//        if (mFilterModel != null && !TextUtils.isEmpty(mFilterModel.keyword)) {
+//            mFilterModel.keyword = "";
+//        }
         etSearch.setText("");
         etSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
