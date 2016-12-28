@@ -11,15 +11,30 @@ android {
     }
 
     defaultConfig {
-        useLibrary 'org.apache.http.legacy'
-        applicationId "net.coding.program"
+//        useLibrary 'org.apache.http.legacy'
+//        applicationId "net.coding.program"
         renderscriptTargetApi 19
         multiDexEnabled true
         minSdkVersion 15
         targetSdkVersion 23
     }
 
+//    flavorDimensions("person", "enterprise")
+
     productFlavors {
+
+        person {
+            dimension "person"
+            applicationId "net.coding.program"
+        }
+        enterprise {
+            dimension "enterprise"
+            applicationId "net.coding.program.enterprise"
+//            manifest.srcFile 'AndroidManifest.xml'
+
+
+        }
+
         dev {
             // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
             // to pre-dex each module and produce an APK that can be tested on
@@ -123,9 +138,23 @@ dependencies {
 
 apt {
     arguments {
-        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+//        androidManifestFile variant.outputs[0].processResources.manifestFile
+//        resourcePackageName "$android.defaultConfig.applicationId"
+//        resourcePackageName 'coding.net.program'
+
+
+//        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+        // if you have multiple outputs (when using splits), you may want to have other index than 0
+
+        // you should set your package name here if you are using different application IDs
+//        resourcePackageName "$android.defaultConfig.applicationId"
+        resourcePackageName "net.coding.program"
+
+        logLevel "TRACE"
+        logAppenderConsole "true"
     }
 }
+
 repositories {
     flatDir {
         dirs 'libs' //this way we can find the .aar file in libs folder

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Coding</string>
+    <string name="app_name_enterprise">Coding 企业版</string>
     <string name="action_settings">设置</string>
     <string name="action_refrush">刷新</string>
     <string name="title_activity_my_activity2">MyActivity2</string>
@@ -11,6 +12,7 @@
     <string name="title_activity_watcher_list">关注者列表</string>
     <string name="title_activity_attachment">项目文件列表</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_test_enterprise">Test 企业版</string>
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_my_created">我创建的</string>
     <string name="title_activity_help">帮助与反馈</string>

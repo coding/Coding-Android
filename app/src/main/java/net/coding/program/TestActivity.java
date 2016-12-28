@@ -33,7 +33,7 @@ public class TestActivity extends AppCompatActivity {
 
     public void click3(View v) {
 //        EntranceActivity_.intent(this).start();
-        MainActivity_.intent(this).start();
+//        MainActivity_.intent(this).start();
     }
 
     int mColor = 0xffff5722;

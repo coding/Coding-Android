@@ -3,6 +3,7 @@
     android:id = "@+id/message_list_list_item_right"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="10dp">
 
@@ -27,7 +28,7 @@
         android:layout_marginRight="12dp"
         android:src="@drawable/ic_lancher" />
 
-    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,9 +77,9 @@
             android:minHeight="@dimen/image_single_min_width"
             android:minWidth="@dimen/image_single_min_width"
             android:scaleType="centerCrop"
-            custom:microSize="@dimen/image_single_micro_width"
-            custom:minHeight="@dimen/image_single_min_size"
-            custom:minWidth="@dimen/image_single_min_size" />
+            app:microSize="@dimen/image_single_micro_width"
+            app:minHeight="@dimen/image_single_min_size"
+            app:minWidth="@dimen/image_single_min_size" />
 
         <LinearLayout
             android:id="@+id/imagesLayout0"
