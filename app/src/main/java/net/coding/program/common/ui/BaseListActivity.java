@@ -40,7 +40,7 @@ public abstract class BaseListActivity extends BackActivity implements FootUpdat
 
     public abstract ActivityParam getActivityParam();
 
-//    private static final String TAG_HTTP_BASE_LIST_ACTIVITY = "TAG_HTTP_BASE_LIST_ACTIVITY";
+    //    private static final String TAG_HTTP_BASE_LIST_ACTIVITY = "TAG_HTTP_BASE_LIST_ACTIVITY";
     private static final String TAG_LOAD_MORE = "TAG_LOAD_MORE";
 
     @Override
@@ -138,11 +138,11 @@ public abstract class BaseListActivity extends BackActivity implements FootUpdat
     }
 
     public interface BaseViewHold {
-        public int getLayout();
+        int getLayout();
 
-        public void init(View v, ImageLoadTool imageLoadTool);
+        void init(View v, ImageLoadTool imageLoadTool);
 
-        public void setData(Object data);
+        void setData(Object data);
     }
 
 }

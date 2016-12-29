@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -307,7 +308,11 @@ public class MainActivity extends BaseActivity {
             onNavigationDrawerItemSelected(0);
         }
 
-        bottomBar.setOnTabSelectListener(tabId -> {
+        bottomBar.setOnTabSelectListener(getBottomBarListener());
+    }
+
+    protected OnTabSelectListener getBottomBarListener() {
+        return tabId -> {
             int[] tabs = new int[]{
                     R.id.tabProject,
                     R.id.tabTask,
@@ -321,7 +326,7 @@ public class MainActivity extends BaseActivity {
                     onNavigationDrawerItemSelected(i);
                 }
             }
-        });
+        };
     }
 
     public void hideActionBarShadow() {
@@ -494,9 +499,10 @@ public class MainActivity extends BaseActivity {
     /**
      * 任务列表特殊处理
      * 1.drawerLayout 手势
+     *
      * @param position
      */
-    private void taskOper(int position) {
+    protected void taskOper(int position) {
         isOpenDrawerLayout(position == 1);
     }
 
