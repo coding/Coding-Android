@@ -12,6 +12,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.PushReceiver;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.compatible.CodingCompat;
 
 public class MyPushReceiver extends BroadcastReceiver {
 
@@ -40,7 +41,7 @@ public class MyPushReceiver extends BroadcastReceiver {
             if (MyApp.getMainActivityState()) {
                 URLSpanNoUnderline.openActivityByUri(context, url, true);
             } else {
-                Intent mainIntent = new Intent(context, MainActivity_.class);
+                Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                mainIntent.putExtra("mPushUrl", url);
                 context.startActivity(mainIntent);

@@ -36,6 +36,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
@@ -51,12 +52,13 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Calendar;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -441,7 +443,7 @@ public class LoginActivity extends BaseActivity {
 
                 sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 finish();
-                startActivity(new Intent(LoginActivity.this, MainActivity_.class));
+                startActivity(new Intent(LoginActivity.this, CodingCompat.instance().getMainActivity()));
             } else {
                 showProgressBar(false);
                 showErrorMsg(code, respanse);

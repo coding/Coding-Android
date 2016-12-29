@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 
-import net.coding.program.MainActivity_;
+import net.coding.program.compatible.CodingCompat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +23,7 @@ public class InitProUtils {
 
     //跳转到主界面并刷新项目列表
     public static void intentToMain(Context context) {
-        Intent intent = new Intent(context, MainActivity_.class);
+        Intent intent = new Intent(context, CodingCompat.instance().getMainActivity());
         intent.putExtra("action", FLAG_REFRESH);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);

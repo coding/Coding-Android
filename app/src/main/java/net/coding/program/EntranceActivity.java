@@ -22,6 +22,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
@@ -93,7 +94,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 }
 
                 default: {
-                    Intent mainIntent = new Intent(this, MainActivity_.class);
+                    Intent mainIntent = new Intent(this, CodingCompat.instance().getMainActivity());
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mainIntent.putExtra("mPushUrl", uriData);
                     startActivity(mainIntent);
@@ -250,7 +251,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 //            if (AccountInfo.needDisplayGuide(this)) {
 //                intent = new Intent(this, FeatureActivity_.class);
 //            } else {
-            intent = new Intent(this, MainActivity_.class);
+            intent = new Intent(this, CodingCompat.instance().getMainActivity());
 //            }
         }
 

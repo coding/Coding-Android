@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.MainActivity;
-import net.coding.program.MainActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -24,6 +23,7 @@ import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -148,7 +148,7 @@ public class EmailRegisterActivity extends BackActivity {
 
         AccountInfo.saveLastLoginName(activity, user.name);
 
-        activity.startActivity(new Intent(activity, MainActivity_.class));
+        activity.startActivity(new Intent(activity, CodingCompat.instance().getMainActivity()));
 
         activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
         activity.setResult(Activity.RESULT_OK);

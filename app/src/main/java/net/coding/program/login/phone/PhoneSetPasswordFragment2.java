@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MainActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -26,6 +25,7 @@ import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -144,7 +144,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
                 getActivity().sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
                 getActivity().finish();
-                startActivity(new Intent(getActivity(), MainActivity_.class));
+                startActivity(new Intent(getActivity(), CodingCompat.instance().getMainActivity()));
             }
 
             @Override
