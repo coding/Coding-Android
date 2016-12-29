@@ -4,27 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
@@ -40,7 +31,6 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
@@ -48,12 +38,10 @@ import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.maopao.MaopaoListFragment_;
+import net.coding.program.main.MainProjectFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.project.ProjectFragment;
-import net.coding.program.project.ProjectFragment_;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.TaskFragment_;
@@ -75,8 +63,6 @@ public class MainActivity extends BaseActivity {
     public static final String TAG = "MainActivity";
     public static final String BroadcastPushStyle = "BroadcastPushStyle";
 
-    String mTitle;
-
     @Extra
     String mPushUrl;
     @StringArrayRes
@@ -85,13 +71,13 @@ public class MainActivity extends BaseActivity {
     String maopao_action_types[];
     @ViewById
     BottomBar bottomBar;
-    @ViewById
-    AppBarLayout appbar;
-    @ViewById
-    View actionBarCompShadow;
-
-    TextView toolbarTitle;
-    TextView toolbarProjectTitle;
+//    @ViewById
+//    AppBarLayout appbar;
+//    @ViewById
+//    View actionBarCompShadow;
+//    TextView toolbarTitle;
+//    TextView toolbarProjectTitle;
+//private Spinner toolbarMaopaoTitle;
 
     private static boolean sNeedWarnEmailNoValidLogin = false;
 
@@ -114,7 +100,6 @@ public class MainActivity extends BaseActivity {
     };
     int mSelectPos = 0;
     MaopaoTypeAdapter mSpinnerAdapter;
-    private Spinner toolbarMaopaoTitle;
     private long exitTime = 0;
 
     @Override
@@ -138,8 +123,7 @@ public class MainActivity extends BaseActivity {
         mFirstEnter = (savedInstanceState == null);
 
         if (savedInstanceState != null) {
-            mSelectPos = savedInstanceState.getInt("pos", 0);
-            mTitle = savedInstanceState.getString("mTitle");
+            mSelectPos = savedInstanceState.getInt("pos", R.id.tabProject);
         }
 
         if (mPushUrl != null) {
@@ -242,70 +226,69 @@ public class MainActivity extends BaseActivity {
         startService(intent);
 
         mSpinnerAdapter = new MaopaoTypeAdapter(getLayoutInflater(), maopao_action_types);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         setActionBarTitle("");
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            actionBarCompShadow.setVisibility(View.VISIBLE);
-        } else {
-            actionBarCompShadow.setVisibility(View.GONE);
-        }
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
-        toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
-        toolbarProjectTitle = (TextView) findViewById(R.id.toolbarProjectTitle);
-        toolbarProjectTitle.setOnClickListener(clickProjectTitle);
-        toolbarMaopaoTitle = (Spinner) findViewById(R.id.toolbarMaopaoTitle);
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            actionBarCompShadow.setVisibility(View.VISIBLE);
+//        } else {
+//            actionBarCompShadow.setVisibility(View.GONE);
+//        }
 
-        toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
-        toolbarMaopaoTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            String[] strings = getResources().getStringArray(R.array.maopao_action_types);
+//        toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
+//        toolbarProjectTitle = (TextView) findViewById(R.id.toolbarProjectTitle);
+//        toolbarProjectTitle.setOnClickListener(clickProjectTitle);
+//        toolbarMaopaoTitle = (Spinner) findViewById(R.id.toolbarMaopaoTitle);
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment;
-                Bundle bundle = new Bundle();
-                mSpinnerAdapter.setCheckPos(position);
+//        toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
+//        toolbarMaopaoTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            String[] strings = getResources().getStringArray(R.array.maopao_action_types);
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Fragment fragment;
+//                Bundle bundle = new Bundle();
+//                mSpinnerAdapter.setCheckPos(position);
+//
+//                switch (position) {
+//                    case 1:
+//                        fragment = new MaopaoListFragment_();
+//                        bundle.putSerializable("mType", MaopaoListFragment.Type.friends);
+//                        break;
+//
+//                    case 2:
+//                        fragment = new MaopaoListFragment_();
+//                        bundle.putSerializable("mType", MaopaoListFragment.Type.hot);
+//                        break;
+//
+//                    case 0:
+//                    default:
+//                        fragment = new MaopaoListFragment_();
+//                        bundle.putSerializable("mType", MaopaoListFragment.Type.time);
+//
+//                        break;
+//                }
+//
+//                fragment.setArguments(bundle);
+//
+//                FragmentManager fm = getSupportFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                Log.d(TAG, ft == null ? "is null" : "is good");
+//                ft.replace(R.id.container, fragment, strings[position]);
+//                ft.commit();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
-                switch (position) {
-                    case 1:
-                        fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", MaopaoListFragment.Type.friends);
-                        break;
-
-                    case 2:
-                        fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", MaopaoListFragment.Type.hot);
-                        break;
-
-                    case 0:
-                    default:
-                        fragment = new MaopaoListFragment_();
-                        bundle.putSerializable("mType", MaopaoListFragment.Type.time);
-
-                        break;
-                }
-
-                fragment.setArguments(bundle);
-
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                Log.d(TAG, ft == null ? "is null" : "is good");
-                ft.replace(R.id.container, fragment, strings[position]);
-                ft.commit();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-
-        mTitle = drawer_title[0];
 
         if (mFirstEnter) {
-            onNavigationDrawerItemSelected(0);
+            // todo 打开第一个页面
+//            onNavigationDrawerItemSelected(0);
         }
 
         bottomBar.setOnTabSelectListener(getBottomBarListener());
@@ -321,155 +304,142 @@ public class MainActivity extends BaseActivity {
                     R.id.tabMy
             };
 
-            for (int i = 0; i < tabs.length; ++i) {
-                if (tabs[i] == tabId) {
-                    onNavigationDrawerItemSelected(i);
-                }
+            Fragment fragment = null;
+            // android 5.0 以下系统阴影太浓，设置为没有阴影
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//                actionBarCompShadow.setVisibility(View.VISIBLE);
+//            } else {
+//                ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
+//            }
+
+            taskOper(tabId);
+            updateNotifyFromService();
+            switch (tabId) {
+                case R.id.tabProject://防止重复加载数据
+//                fragment = new ProjectFragment_();
+//                    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//                    boolean containFragment = false;
+//                    if (fragments != null) {
+//                        for (Fragment item : fragments) {
+//                            if (item instanceof ProjectFragment_) {
+//                                containFragment = true;
+//                                break;
+//                            }
+//                        }
+//                    }
+//
+//                    if (!containFragment) {
+//                        fragment = new ProjectFragment_();
+//                    }
+//                    toolbarProjectTitle.setText("全部项目");
+//
+//                    Class cc = MainSettingFragment_.class;
+//                    getSupportFragmentManager().findFragmentByTag(cc.getName());
+                    fragment = new MainProjectFragment_();
+                    break;
+
+                case R.id.tabTask:
+                    fragment = new TaskFragment_();
+                    break;
+
+                case R.id.tabMaopao:// 进入冒泡页面，单独处理
+                    break;
+
+                case R.id.tabMessage:
+                    fragment = new UsersListFragment_();
+                    break;
+
+                case R.id.tabMy:
+                    fragment = new MainSettingFragment_();
+                    break;
+            }
+
+            if (tabId == R.id.tabMaopao) {
+//                List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//                boolean containFragment = false;
+//                for (Fragment item : fragments) {
+//                    if (item instanceof MaopaoListFragment) {
+//                        containFragment = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (!containFragment) {
+//                    int pos = toolbarMaopaoTitle.getSelectedItemPosition();
+//                    toolbarMaopaoTitle.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
+//                }
+//
+//                visibleTitle(toolbarMaopaoTitle);
+            } else if (tabId == R.id.tabProject) {
+                setTab(tabId, "我的项目");
+            } else if (tabId == R.id.tabTask) {
+                setTab(tabId, "我的任务");
+            } else {
+//                toolbarTitle.setVisibility(View.VISIBLE);
+//                visibleTitle(toolbarTitle);
+            }
+
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }
         };
+    }
+
+    private void setTab(int tabId, String actionName) {
+//        toolbarProjectTitle.setText(actionName);
+//        toolbarProjectTitle.setTag(tabId);
+//        visibleTitle(toolbarProjectTitle);
     }
 
     public void hideActionBarShadow() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            if (actionBarCompShadow != null) {
-                actionBarCompShadow.setVisibility(View.GONE);
-            }
-        } else {
-            if (appbar != null) {
-                ViewCompat.setElevation(appbar, 0);
-            }
-        }
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            if (actionBarCompShadow != null) {
+//                actionBarCompShadow.setVisibility(View.GONE);
+//            }
+//        } else {
+//            if (appbar != null) {
+//                ViewCompat.setElevation(appbar, 0);
+//            }
+//        }
     }
-
-    // todo 切换保存状态
-    public void onNavigationDrawerItemSelected(int position) {
-        mSelectPos = position;
-        Fragment fragment = null;
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            actionBarCompShadow.setVisibility(View.VISIBLE);
-        } else {
-            ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
-        }
-
-        taskOper(position);
-        updateNotifyFromService();
-        switch (position) {
-            case 0://防止重复加载数据
-//                fragment = new ProjectFragment_();
-                List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                boolean containFragment = false;
-                if (fragments != null) {
-                    for (Fragment item : fragments) {
-                        if (item instanceof ProjectFragment_) {
-                            containFragment = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!containFragment) {
-                    fragment = new ProjectFragment_();
-                }
-                toolbarProjectTitle.setText("全部项目");
-                break;
-            case 1:
-//                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(20);
-                fragment = new TaskFragment_();
-                break;
-            case 2:
-                // 进入冒泡页面，单独处理
-                break;
-
-            case 3:
-//                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(300);
-                fragment = new UsersListFragment_();
-                break;
-
-            case 4:
-//                bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(0);
-                fragment = new MainSettingFragment_();
-                break;
-        }
-
-        if (position == 2) {
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-            boolean containFragment = false;
-            for (Fragment item : fragments) {
-                if (item instanceof MaopaoListFragment) {
-                    containFragment = true;
-                    break;
-                }
-            }
-
-            if (!containFragment) {
-                int pos = toolbarMaopaoTitle.getSelectedItemPosition();
-                toolbarMaopaoTitle.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
-            }
-
-            visibleTitle(toolbarMaopaoTitle);
-        } else if (position == 0 || position == 1) {
-            if (position == 0) {
-                toolbarProjectTitle.setText("我的项目");
-            }
-            if (position == 1) {
-                toolbarProjectTitle.setText("我的任务");
-            }
-            toolbarProjectTitle.setTag(position);
-            visibleTitle(toolbarProjectTitle);
-        } else {
-            toolbarTitle.setVisibility(View.VISIBLE);
-            visibleTitle(toolbarTitle);
-        }
-
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-        }
-    }
-
 
     void visibleTitle(View title) {
-        View[] titles = {
-                toolbarTitle,
-                toolbarProjectTitle,
-                toolbarMaopaoTitle,
-        };
-
-        for (View item : titles) {
-            if (title == item) {
-                item.setVisibility(View.VISIBLE);
-            } else {
-                item.setVisibility(View.GONE);
-            }
-        }
+//        View[] titles = {
+//                toolbarTitle,
+//                toolbarProjectTitle,
+//                toolbarMaopaoTitle,
+//        };
+//
+//        for (View item : titles) {
+//            if (title == item) {
+//                item.setVisibility(View.VISIBLE);
+//            } else {
+//                item.setVisibility(View.GONE);
+//            }
+//        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("pos", mSelectPos);
-//        outState.putSerializable("mPushOpened", mPushOpened);
-        outState.putString("mTitle", mTitle);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mSelectPos = savedInstanceState.getInt("pos", 0);
-        mTitle = savedInstanceState.getString("mTitle");
         restoreActionBar();
     }
 
     public void restoreActionBar() {
-        mTitle = drawer_title[mSelectPos];
-        if (mSelectPos == 0 || mSelectPos == 1) {
-            visibleTitle(toolbarProjectTitle);
-        } else if (mSelectPos == 2) {
-            visibleTitle(toolbarMaopaoTitle);
-        } else {
-            visibleTitle(toolbarTitle);
-            toolbarTitle.setText(mTitle);
-        }
+//        if (mSelectPos == R.id.tabProject || mSelectPos == R.id.tabTask) {
+//            visibleTitle(toolbarProjectTitle);
+//        } else if (mSelectPos == R.id.tabMaopao) {
+//            visibleTitle(toolbarMaopaoTitle);
+//        } else {
+//            visibleTitle(toolbarTitle);
+//        }
     }
 
     @Override
@@ -503,7 +473,7 @@ public class MainActivity extends BaseActivity {
      * @param position
      */
     protected void taskOper(int position) {
-        isOpenDrawerLayout(position == 1);
+        isOpenDrawerLayout(position == R.id.tabTask);
     }
 
     private void isOpenDrawerLayout(boolean isOpen) {
@@ -620,7 +590,7 @@ public class MainActivity extends BaseActivity {
             }
         } else if (object instanceof EventPosition) {
             EventPosition eventPosition = (EventPosition) object;
-            toolbarProjectTitle.setText(eventPosition.title);
+//            toolbarProjectTitle.setText(eventPosition.title);
         } else if (object instanceof EventMessage) {
             EventMessage eventMessage = (EventMessage) object;
             if (eventMessage.type == EventMessage.Type.loginOut) {

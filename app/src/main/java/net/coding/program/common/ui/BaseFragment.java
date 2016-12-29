@@ -87,6 +87,9 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         return null;
     }
 
+    protected void setActionBar(String name) {
+    }
+
     protected void setActionBarShadow(int dp) {
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {

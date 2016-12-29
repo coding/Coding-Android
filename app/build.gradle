@@ -142,7 +142,6 @@ apt {
 //        resourcePackageName "$android.defaultConfig.applicationId"
 //        resourcePackageName 'coding.net.program'
 
-
 //        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
         // if you have multiple outputs (when using splits), you may want to have other index than 0
 
@@ -161,5 +160,8 @@ repositories {
     }
 }
 dependencies {
-    compile(name:'checknetwork', ext:'aar')
+    compile 'com.android.support:support-v4:23.+'
+}
+dependencies {
+    compile(name: 'checknetwork', ext: 'aar')
 }
