@@ -106,7 +106,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
-    protected void setActionBarTitle(String title) {
+    public void setActionBarTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);

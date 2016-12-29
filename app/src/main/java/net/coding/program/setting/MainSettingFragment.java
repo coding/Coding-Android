@@ -1,12 +1,14 @@
 package net.coding.program.setting;
 
 
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AccountInfo;
@@ -42,8 +44,17 @@ public class MainSettingFragment extends BaseFragment {
     @ViewById
     ImageView userIcon;
 
+    @ViewById
+    TextView toolbarTitle;
+
+    @ViewById
+    Toolbar toolbar;
+
     @AfterViews
     void initMainSettingFragment() {
+        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbarTitle.setText("我的");
+
         UserObject me = MyApp.sUserObject;
         userName.setText(me.name);
         userGK.setText(String.format("个性后缀：%s", me.global_key));

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,11 +56,11 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
 
     @ViewById
-    MyPagerSlidingTabStrip tabs;
+    protected MyPagerSlidingTabStrip tabs;
     @ViewById(R.id.pagerTaskFragment)
-    ViewPager pager;
+    protected ViewPager pager;
     @ViewById
-    View actionDivideLine;
+    protected View actionDivideLine;
 
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mAllData = new ArrayList<>();
@@ -69,7 +68,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     private PageTaskFragment adapter;
 
     @AfterViews
-    void initTaskFragment() {
+    protected void initTaskFragment() {
         pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
 

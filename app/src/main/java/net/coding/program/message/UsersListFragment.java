@@ -4,6 +4,7 @@ package net.coding.program.message;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
@@ -62,6 +64,9 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
     BadgeView badgeAt;
     BadgeView badgeComment;
+
+    @ViewById
+    Toolbar toolbar;
 
     //    private void postMarkReaded(String globalKey) {
 //        String url = String.format(HOST_MARK_MESSAGE, globalKey);
@@ -149,6 +154,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @AfterViews
     protected void init() {
+        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+
         initRefreshLayout();
 
         myImageGetter = new MyImageGetter(getActivity());

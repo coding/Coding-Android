@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context="net.coding.program.setting.MainSettingFragment">
 
+    <include layout="@layout/main_message_actionbar" />
+
     <include layout="@layout/divide_top_15" />
 
     <RelativeLayout

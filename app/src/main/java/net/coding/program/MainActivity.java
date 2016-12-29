@@ -38,13 +38,13 @@ import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
-import net.coding.program.main.MainProjectFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.setting.MainSettingFragment_;
-import net.coding.program.task.TaskFragment_;
+import net.coding.program.task.MainTaskFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -339,7 +339,7 @@ public class MainActivity extends BaseActivity {
                     break;
 
                 case R.id.tabTask:
-                    fragment = new TaskFragment_();
+                    fragment = new MainTaskFragment_();
                     break;
 
                 case R.id.tabMaopao:// 进入冒泡页面，单独处理

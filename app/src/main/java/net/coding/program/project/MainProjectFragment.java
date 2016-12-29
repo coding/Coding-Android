@@ -1,4 +1,4 @@
-package net.coding.program.main;
+package net.coding.program.project;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.project.ProjectFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

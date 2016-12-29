@@ -3,14 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="net.coding.program.project.MainProjectFragment">
+    tools:context="net.coding.program.task.MainTaskFragment">
 
     <include layout="@layout/main_project_actionbar" />
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp" />
+    <include layout="@layout/fragment_task" />
 
 </LinearLayout>
