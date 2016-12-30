@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -65,6 +67,22 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
 
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setProgress(30);
+    }
+
+    protected void setToolbar(String title) {
+        try {
+            View rootLayout = getView();
+            if (rootLayout != null) {
+                Toolbar toolbar = (Toolbar) rootLayout.findViewById(R.id.toolbar);
+                BaseActivity activity = (BaseActivity) getActivity();
+                activity.setSupportActionBar(toolbar);
+                activity.setActionBarTitle("");
+                TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+                toolbarTitle.setText(title);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void listViewAddHeaderSection(ListView listView) {

@@ -2,14 +2,11 @@ package net.coding.program.message;
 
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,7 +23,6 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
@@ -65,21 +61,13 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     BadgeView badgeAt;
     BadgeView badgeComment;
 
-    @ViewById
-    Toolbar toolbar;
-
     //    private void postMarkReaded(String globalKey) {
 //        String url = String.format(HOST_MARK_MESSAGE, globalKey);
 //        postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, -1, globalKey);
 //    }
     BadgeView badgeSystem;
     boolean mUpdateAll = false;
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+
     MyImageGetter myImageGetter;
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -153,8 +141,8 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     }
 
     @AfterViews
-    protected void init() {
-        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+    protected void initUsersListFragment() {
+        setToolbar("消息");
 
         initRefreshLayout();
 
@@ -173,24 +161,18 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             postMarkReaded(user.friend.global_key);
         });
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final Message.MessageObject msg = mData.get((int) id);
-                final String format = "删除你和%s之间的所有私信?";
-                String title = String.format(format, msg.friend.name);
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            final Message.MessageObject msg = mData.get((int) id);
+            final String format = "删除你和%s之间的所有私信?";
+            String title = String.format(format, msg.friend.name);
 
-                showDialog("私信", title, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final String hostDeleteAll = Global.HOST_API + "/message/conversations/%s";
-                        String url = String.format(hostDeleteAll, msg.friend.id);
-                        deleteNetwork(url, TAG_DELETE_MESSAGE, msg);
-                    }
-                });
+            showDialog("私信", title, (dialog, which) -> {
+                final String hostDeleteAll = Global.HOST_API + "/message/conversations/%s";
+                String url = String.format(hostDeleteAll, msg.friend.id);
+                deleteNetwork(url, TAG_DELETE_MESSAGE, msg);
+            });
 
-                return true;
-            }
+            return true;
         });
 
         initData();
