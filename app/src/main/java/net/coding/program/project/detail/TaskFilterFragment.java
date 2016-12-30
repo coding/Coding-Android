@@ -77,7 +77,7 @@ public class TaskFilterFragment extends LoadingFragment {
     }
 
     protected void initFilterViews() {
-        toolBarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
+        toolBarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
     }
 
     // 用于处理推送

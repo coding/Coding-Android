@@ -3,10 +3,10 @@
     <item name="green" type="color">#FF3BBD79</item>
     <item name="gray" type="color">#FF323A45</item>
     <item name="color_primary" type="drawable">#FFF8F8F8</item>
-    <item name="text_color_primary" type="drawable">#000000</item>
+    <item name="text_color_primary" type="drawable">#222222</item>
     <item name="color_primary_dark" type="drawable">#494E57</item>
     <item name="color_primary" type="color">#FFF8F8F8</item>
-    <item name="text_color_primary" type="color">#000000</item>
+    <item name="text_color_primary" type="color">#222222</item>
     <item name="color_primary_dark" type="color">#494E57</item>
     <item name="color_bottom_bar" type="color">#F8F8F8</item>
 
