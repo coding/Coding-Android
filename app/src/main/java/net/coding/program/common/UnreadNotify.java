@@ -11,13 +11,14 @@ import net.coding.program.MyApp;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.event.EventNotifyBottomBar;
 
-import cz.msebera.android.httpclient.Header;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
+import cz.msebera.android.httpclient.Header;
+
 
 /**
  * Created by chaochen on 14-9-27.

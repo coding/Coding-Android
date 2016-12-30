@@ -31,10 +31,8 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
-import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
@@ -51,10 +49,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import network.coding.net.checknetwork.CheckNetworkIntentService;
 
 @EActivity(R.layout.activity_main_parent)
@@ -506,10 +506,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private View.OnClickListener clickProjectTitle = v -> {
-        EventBus.getDefault().post(new EventFilter(v.getTag()));
-    };
-
     class MaopaoTypeAdapter extends BaseAdapter {
 
         final int spinnerIcons[] = new int[]{
@@ -578,24 +574,25 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void onEventMainThread(Object object) {
-        if (object instanceof EventNotifyBottomBar) {
-            updateNotify();
-        } else if (object instanceof EventShowBottom) {
-            EventShowBottom showBottom = (EventShowBottom) object;
-            if (showBottom.showBottom) {
-                bottomBar.setVisibility(View.VISIBLE);
-            } else {
-                bottomBar.setVisibility(View.GONE);
-            }
-        } else if (object instanceof EventPosition) {
-            EventPosition eventPosition = (EventPosition) object;
-//            toolbarProjectTitle.setText(eventPosition.title);
-        } else if (object instanceof EventMessage) {
-            EventMessage eventMessage = (EventMessage) object;
-            if (eventMessage.type == EventMessage.Type.loginOut) {
-                finish();
-            }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBottomBarNotify(EventNotifyBottomBar notify) {
+        updateNotify();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBottomBar(EventShowBottom showBottom) {
+        if (showBottom.showBottom) {
+            bottomBar.setVisibility(View.VISIBLE);
+        } else {
+            bottomBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventLoginOut(EventMessage eventMessage) {
+        if (eventMessage.type == EventMessage.Type.loginOut) {
+            finish();
         }
     }
 

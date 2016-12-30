@@ -1,6 +1,7 @@
 package net.coding.program.task;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -36,6 +37,9 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,8 +48,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 
 @EFragment(R.layout.fragment_task)
@@ -377,8 +379,8 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         EventBus.getDefault().register(this);
     }
 
@@ -389,11 +391,8 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     }
 
     // 用于处理推送
-    public void onEventMainThread(Object object) {
-        if (!(object instanceof EventFilter)) {
-            return;
-        }
-        EventFilter eventFilter = (EventFilter) object;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventFilter eventFilter) {
         //确定是我的任务筛选
         if (eventFilter.index == 1) {
             meActionFilter();

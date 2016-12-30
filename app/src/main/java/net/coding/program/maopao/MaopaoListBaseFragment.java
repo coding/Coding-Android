@@ -60,7 +60,7 @@ import net.coding.program.third.EmojiFilter;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +69,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.recyclerview.internal.ViewHelper;
 
 /**
@@ -132,12 +132,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
     protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
 
-    View.OnClickListener onClickRetry = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
+    View.OnClickListener onClickRetry = v -> onRefresh();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

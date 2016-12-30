@@ -38,6 +38,9 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +48,6 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_project)
 public class ProjectFragment extends BaseFragment implements ViewPager.OnPageChangeListener,
@@ -89,19 +90,17 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         EventBus.getDefault().unregister(this);
     }
 
-    // 用于处理推送
-    public void onEventMainThread(Object object) {
-        if (object instanceof EventFilter) {
-            EventFilter eventFilter = (EventFilter) object;
-            //确定是我的项目筛选
-            if (eventFilter.index == 0) {
-                action_filter();
-            }
-        } else if (object instanceof EventPosition) {
-            EventPosition event = (EventPosition) object;
-            int position = event.position;
-            pager.setCurrentItem(position, false);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvnetFilter(EventFilter eventFilter) {
+        if (eventFilter.index == 0) {
+            action_filter();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProject(EventPosition event) {
+        int position = event.position;
+        pager.setCurrentItem(position, false);
     }
 
     @AfterViews

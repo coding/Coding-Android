@@ -16,12 +16,12 @@ import net.coding.program.model.FilterModel;
 import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskProjectCountModel;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by anfs on 16/12/2016.

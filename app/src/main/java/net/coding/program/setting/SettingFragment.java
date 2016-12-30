@@ -29,11 +29,11 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_setting)
 public class SettingFragment extends BaseFragment {

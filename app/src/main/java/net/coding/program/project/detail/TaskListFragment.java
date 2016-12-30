@@ -40,6 +40,9 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +52,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.WeakHashMap;
 
-import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -645,17 +647,15 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     }
 
     //筛选后刷新
-    public void onEventMainThread(Object object) {
-        if (object instanceof EventFilterDetail) {
-            EventFilterDetail eventFilter = (EventFilterDetail) object;
-            mMeAction = eventFilter.meAction;
-            mStatus = eventFilter.status;
-            mLabel = eventFilter.label;
-            mKeyword = eventFilter.keyword;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventFilterDetail eventFilter) {
+        mMeAction = eventFilter.meAction;
+        mStatus = eventFilter.status;
+        mLabel = eventFilter.label;
+        mKeyword = eventFilter.keyword;
 
-            //重新加载所有
-            mUpdateAll = true;
-            initUrlAndLoadData();
-        }
+        //重新加载所有
+        mUpdateAll = true;
+        initUrlAndLoadData();
     }
 }

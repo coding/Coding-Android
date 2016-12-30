@@ -1,6 +1,7 @@
 package net.coding.program.project;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -32,12 +33,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -145,16 +148,9 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
     }
 
-    // 用于处理推送
-    public void onEventMainThread(EventRefresh event) {
-        if (event.refresh) {
-            notifyEmputy();
-        }
-    }
-
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         EventBus.getDefault().register(this);
     }
 
@@ -162,6 +158,14 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     public void onDetach() {
         super.onDetach();
         EventBus.getDefault().unregister(this);
+    }
+
+    // 用于处理推送
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRefresh(EventRefresh event) {
+        if (event.refresh) {
+            notifyEmputy();
+        }
     }
 
     @Override
