@@ -210,5 +210,6 @@
     <string name="filter_label_bug">Bug</string>
     <string name="filter_label_function">功能</string>
     <string name="filter_label_survey">调研</string>
+    <string name="exit_app">再按一次退出Coding</string>
 
 </resources>

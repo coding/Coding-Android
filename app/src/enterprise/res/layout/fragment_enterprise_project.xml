@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.EnterpriseProjectFragment">
+
+    <include layout="@layout/main_message_actionbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/divide"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:footerDividersEnabled="false"
+                android:scrollingCache="false" />
+
+
+            <include
+                android:id="@+id/blankLayout"
+                layout="@layout/view_exception"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+        <include layout="@layout/actionbar_shadow" />
+    </FrameLayout>
+
+</LinearLayout>

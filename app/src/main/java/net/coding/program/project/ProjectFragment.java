@@ -192,9 +192,6 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     @OnActivityResult(RESULT_PROJECT_SEARCH_PICK)
     final void resultPickSearch(int result, Intent intent) {
         if (result == Activity.RESULT_OK) {
-//            ProjectObject projectObject = (ProjectObject) intent.getSerializableExtra("data");
-//            Intent intent1 = new Intent();
-//            intent1.putExtra("data", proj);
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }

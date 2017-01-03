@@ -22,4 +22,9 @@ public class CodingCompat implements ClassCompatInterface {
     public Class<?> getMainActivity() {
         return substance.getMainActivity();
     }
+
+    @Override
+    public Class<?> getMainProjectFragment() {
+        return substance.getMainProjectFragment();
+    }
 }

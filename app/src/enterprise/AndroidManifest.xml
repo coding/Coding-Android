@@ -215,7 +215,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarSpannerTheme1"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"

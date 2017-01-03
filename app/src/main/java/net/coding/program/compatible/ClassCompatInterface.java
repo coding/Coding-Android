@@ -7,4 +7,7 @@ package net.coding.program.compatible;
 public interface ClassCompatInterface {
 
     Class<?> getMainActivity();
+
+    Class<?> getMainProjectFragment();
+
 }

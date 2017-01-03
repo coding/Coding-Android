@@ -1,55 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent">
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/divide"
-            android:clipToPadding="false"
-            android:dividerHeight="0.5dp"
-            android:divider="@drawable/divide_line_project_item"
-            android:drawSelectorOnTop="true"
-            android:overScrollMode="never"
-            android:scrollbarStyle="outsideOverlay" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/project_create_layout"
+        tools:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_F6F6F6"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:visibility="visible"
         android:visibility="gone">
 
         <View
             android:layout_width="3.5dp"
             android:layout_height="16dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="17dp"
+            android:layout_marginTop="16dp"
             android:background="@color/color_3BBD79" />
+
         <TextView
             android:id="@+id/tv_msg_tip"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@color/color_F6F6F6"
             android:layout_marginLeft="30dp"
+            android:background="@color/color_F6F6F6"
             android:gravity="center_vertical"
             android:text=""
-            android:textSize="16sp"
-            android:textColor="@color/font_9" />
+            android:textColor="@color/font_9"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/icon"

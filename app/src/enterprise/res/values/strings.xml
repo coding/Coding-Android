@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+
+    <string name="hello_blank_fragment"></string>
+    <string name="exit_app">再按一次退出Coding企业版</string>
+</resources>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -50,6 +48,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.androidannotations.api.builder.FragmentBuilder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -292,52 +291,23 @@ public class MainActivity extends BaseActivity {
 //            onNavigationDrawerItemSelected(0);
         }
 
-        bottomBar.setOnTabSelectListener(getBottomBarListener());
+        bottomBar.setOnTabSelectListener(tabId -> switchTab(tabId));
     }
 
-    protected OnTabSelectListener getBottomBarListener() {
-        return tabId -> {
-            int[] tabs = new int[]{
-                    R.id.tabProject,
-                    R.id.tabTask,
-                    R.id.tabMaopao,
-                    R.id.tabMessage,
-                    R.id.tabMy
-            };
+    protected void switchTab(int tabId) {
+        taskOper(tabId);
+        updateNotifyFromService();
+        switch (tabId) {
+            case R.id.tabProject:
+                switchProject();
+                break;
 
-            Fragment fragment = null;
-            // android 5.0 以下系统阴影太浓，设置为没有阴影
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//                actionBarCompShadow.setVisibility(View.VISIBLE);
-//            } else {
-//                ViewCompat.setElevation(appbar, GlobalUnit.ACTIONBAR_SHADOW);
-//            }
+            case R.id.tabTask:
+                switchFragment(MainTaskFragment_.FragmentBuilder_.class);
+                break;
 
-            taskOper(tabId);
-            updateNotifyFromService();
-            switch (tabId) {
-                case R.id.tabProject://防止重复加载数据
-                    fragment = new MainProjectFragment_();
-                    break;
-
-                case R.id.tabTask:
-                    fragment = new MainTaskFragment_();
-                    break;
-
-                case R.id.tabMaopao:// 进入冒泡页面，单独处理
-                    // todo
-                    break;
-
-                case R.id.tabMessage:
-                    fragment = new UsersListFragment_();
-                    break;
-
-                case R.id.tabMy:
-                    fragment = new MainSettingFragment_();
-                    break;
-            }
-
-            if (tabId == R.id.tabMaopao) {
+            case R.id.tabMaopao:// 进入冒泡页面，单独处理
+                // todo
 //                List<Fragment> fragments = getSupportFragmentManager().getFragments();
 //                boolean containFragment = false;
 //                for (Fragment item : fragments) {
@@ -351,24 +321,49 @@ public class MainActivity extends BaseActivity {
 //                    int pos = toolbarMaopaoTitle.getSelectedItemPosition();
 //                    toolbarMaopaoTitle.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
 //                }
-//
-            }
+                break;
 
-            if (fragment != null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-            }
-        };
+            case R.id.tabMessage:
+                switchFragment(UsersListFragment_.FragmentBuilder_.class);
+                break;
+
+            case R.id.tabMy:
+                switchFragment(MainSettingFragment_.FragmentBuilder_.class);
+                break;
+        }
     }
 
-    protected void switchFragment(Class c) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
+    protected void switchProject() {
+        switchFragment(MainProjectFragment_.FragmentBuilder_.class);
+    }
 
-        Fragment fragment = manager.findFragmentByTag(c.getName());
-        if (fragment == null) {
-            
+
+    final protected void switchFragment(Class<?> cls) {
+        String tag = cls.getName();
+        Fragment showFragment = getSupportFragmentManager().findFragmentByTag(tag);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (showFragment == null) {
+            try {
+                showFragment = (Fragment) ((FragmentBuilder) cls.newInstance()).build();
+                fragmentTransaction.add(R.id.container, showFragment, tag);
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
+        } else {
+            fragmentTransaction.show(showFragment);
         }
 
+        List<Fragment> allFragments = getSupportFragmentManager().getFragments();
+        if (allFragments != null) {
+            for (Fragment item : allFragments) {
+                if (item != showFragment) {
+                    fragmentTransaction.hide(item);
+                }
+            }
+        }
+
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -432,9 +427,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void exitApp() {
-
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-            showButtomToast("再按一次退出Coding");
+            showButtomToast(R.string.exit_app);
             exitTime = System.currentTimeMillis();
         } else {
             finish();
