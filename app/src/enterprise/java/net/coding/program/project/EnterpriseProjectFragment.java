@@ -72,6 +72,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 //        mFootUpdate.showLoading();
 //        listView.setLoadMoreView(mFootUpdate.getView());
 
+        listData = AccountInfo.loadProjects(getActivity());
         projectAdapter = new ProjectAdapter(listData);
         listView.setAdapter(projectAdapter);
 
@@ -220,7 +221,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
         @Override
         protected void withBindHolder(ProjectHolder holder, ProjectObject data, int position) {
-            ProjectObject item = (ProjectObject) getItem(position);
+            ProjectObject item = getItem(position);
 
             holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
             String ownerName = item.owner_user_name;
@@ -239,7 +240,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
             holder.fLayoutAction.setVisibility(View.VISIBLE);
             holder.rootLayout.setTag(item);
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
-
         }
 
         @Override

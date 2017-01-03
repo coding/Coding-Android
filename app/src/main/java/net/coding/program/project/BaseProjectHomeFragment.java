@@ -30,20 +30,22 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     public static final String HOST_VISTIT = Global.HOST_API + "/project/%d/update_visit";
     protected boolean isUpdateDynamic = false;
+
     @FragmentArg
     ProjectObject mProjectObject;
+
+    @FragmentArg
+    boolean needReload = true;
+
     @ViewById
-    View recommendIcon;
+    View recommendIcon, projectHeaderLayout;
+
     @ViewById
     ImageView projectIcon;
+
     @ViewById
-    TextView projectName;
-    @ViewById
-    TextView description;
-    @ViewById
-    TextView projectAuthor;
-    @ViewById
-    View projectHeaderLayout;
+    TextView projectName, description, projectAuthor;
+
     BadgeView dynamicBadge;
     private boolean isBackToRefresh = false;
 
@@ -65,13 +67,10 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     private void isEnableProjectSet(View view) {
         if (mProjectObject.isMy()) {
-            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
-                    intent.putExtra("projectObject", mProjectObject);
-                    startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
-                }
+            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
+                intent.putExtra("projectObject", mProjectObject);
+                startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
             });
 
         } else {

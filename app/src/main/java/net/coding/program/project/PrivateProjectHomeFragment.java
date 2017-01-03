@@ -8,8 +8,8 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -25,85 +25,67 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
     @ViewById
     View codeLayout0, codeLayout1;
 
+    protected ProjectFunction[] getItems() {
+        return new ProjectFunction[] {
+                ProjectFunction.dynamic,
+                ProjectFunction.task,
+                ProjectFunction.topic,
+                ProjectFunction.document,
+                ProjectFunction.code,
+                ProjectFunction.member,
+                ProjectFunction.readme,
+                ProjectFunction.merge
+        };
+    }
+
     @AfterViews
     protected void initPrivateProjectHomeFragment() {
-        final String buttonTitle[] = new String[]{
-                "动态",
-                "任务",
-                "讨论",
-                "文件",
-                "代码",
-                "成员",
-                "Readme",
-                "Merge Request"
-        };
+//        final String buttonTitle[] = getItemsTitle();
+//        final int buttonIcon[] = getItemsIcon();
+//        final int buttonId[] = getItemsId();
 
-        final int buttonIcon[] = new int[]{
-                R.drawable.project_button_icon_dynamic,
-                R.drawable.project_button_icon_task,
-                R.drawable.project_button_icon_topic,
-                R.drawable.project_button_icon_docment,
-                R.drawable.project_button_icon_code,
-                R.drawable.project_button_icon_member,
-                R.drawable.project_button_icon_readme,
-                R.drawable.project_button_icon_merge,
-        };
+        final ProjectFunction[] items = getItems();
 
-        final int buttonId[] = new int[]{
-                R.id.itemDynamic,
-                R.id.itemTask,
-                R.id.itemTopic,
-                R.id.itemDocment,
-                R.id.itemCode,
-                R.id.itemMember,
-                R.id.itemReadme,
-                R.id.itemMerge
-        };
+        for (ProjectFunction item : items) {
+            View view = getView().findViewById(item.id);
+            view.findViewById(R.id.icon).setBackgroundResource(item.icon);
+            ((TextView) view.findViewById(R.id.title)).setText(item.title);
 
-        for (int i = 0; i < buttonId.length; ++i) {
-            View item = getView().findViewById(buttonId[i]);
-            item.findViewById(R.id.icon).setBackgroundResource(buttonIcon[i]);
-            ((TextView) item.findViewById(R.id.title)).setText(buttonTitle[i]);
-            final int pos = i;
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (buttonId[pos]) {
-                        case R.id.itemDynamic:
-                            updateDynamic();
-                            break;
+            view.setOnClickListener(v -> {
+                switch (v.getId()) {
+                    case R.id.itemDynamic:
+                        updateDynamic();
+                        break;
 
-                        case R.id.itemTask:
-                            break;
+                    case R.id.itemTask:
+                        break;
 
-                        case R.id.itemCode:
-                            break;
+                    case R.id.itemCode:
+                        break;
 
-                        case R.id.itemReadme:
-                            break;
+                    case R.id.itemReadme:
+                        break;
 
-                        case R.id.itemMerge:
-                            markUsed(RedPointTip.Type.Merge320);
-                            break;
+                    case R.id.itemMerge:
+                        markUsed(RedPointTip.Type.Merge320);
+                        break;
 
-                        case R.id.itemDocment:
-                            markUsed(RedPointTip.Type.File320);
-                            break;
-                    }
-
-                    ProjectActivity_.intent(PrivateProjectHomeFragment.this)
-                            .mProjectObject(mProjectObject)
-                            .mJumpType(ProjectActivity.PRIVATE_JUMP_TYPES[pos])
-                            .start();
+                    case R.id.itemDocment:
+                        markUsed(RedPointTip.Type.File320);
+                        break;
                 }
 
+                ProjectActivity_.intent(PrivateProjectHomeFragment.this)
+                        .mProjectObject(mProjectObject)
+                        .mJumpType(ProjectFunction.idToEnum(v.getId()))
+                        .start();
             });
 
-            if (buttonId[i] == R.id.itemDynamic) {
-                dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
+            if (item.id == R.id.itemDynamic) {
+                dynamicBadge = (BadgeView) view.findViewById(R.id.badge);
                 Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
             } else {
-                Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
+                Global.setBadgeView((BadgeView) view.findViewById(R.id.badge), 0);
             }
         }
 

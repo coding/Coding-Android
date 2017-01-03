@@ -17,7 +17,6 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.merge.ProjectMergeFragment_;
 import net.coding.program.project.detail.merge.ProjectPullFragment_;
-import net.coding.program.project.detail.readme.ReadmeFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -29,32 +28,12 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_project_parent)
 public class ProjectActivity extends BackActivity implements NetworkCallback {
-
-    public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
-            ProjectJumpParam.JumpType.typeDynamic,
-            ProjectJumpParam.JumpType.typeTask,
-            ProjectJumpParam.JumpType.typeTopic,
-            ProjectJumpParam.JumpType.typeDocument,
-            ProjectJumpParam.JumpType.typeCode,
-            ProjectJumpParam.JumpType.typeMember,
-            ProjectJumpParam.JumpType.typeReadme,
-            ProjectJumpParam.JumpType.typeMerge
-    };
-    public static final ProjectJumpParam.JumpType[] PUBLIC_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
-            ProjectJumpParam.JumpType.typeDynamic,
-            ProjectJumpParam.JumpType.typeTopic,
-            ProjectJumpParam.JumpType.typeCode,
-            ProjectJumpParam.JumpType.typeMember,
-            ProjectJumpParam.JumpType.typeReadme,
-            ProjectJumpParam.JumpType.typeMerge
-    };
 
     @Extra
     ProjectObject mProjectObject;
@@ -63,37 +42,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     ProjectJumpParam mJumpParam;
 
     @Extra
-    ProjectJumpParam.JumpType mJumpType = ProjectJumpParam.JumpType.typeDynamic;
+    ProjectFunction mJumpType = ProjectFunction.dynamic;
 
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
-    ArrayList<String> project_activity_action_list = new ArrayList<>(Arrays.asList(
-            "项目动态",
-            "项目讨论",
-            "项目代码",
-            "项目成员",
-            "readme",
-            "mergerequest"
-    ));
     String urlProject;
 
-    //    MaopaoTypeAdapter mSpinnerAdapter;
-    ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
-            R.drawable.ic_spinner_dynamic,
-            R.drawable.ic_spinner_topic,
-            R.drawable.ic_spinner_git,
-            R.drawable.ic_spinner_user,
-            R.drawable.ic_spinner_user,
-            R.drawable.ic_spinner_user
-    ));
-
-    ArrayList<Class> spinnerFragments = new ArrayList<Class>(Arrays.asList(
-            ProjectDynamicParentFragment_.class,
-            TopicFragment_.class,
-            ProjectGitFragmentMain_.class,
-            MembersListFragment_.class,
-            ReadmeFragment_.class,
-            ProjectPullFragment_.class
-    ));
     private NetworkImpl networkImpl;
 
     @AfterViews
@@ -117,7 +70,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
         } else if (mProjectObject != null) {
             //setActionBarTitle(mProjectObject.name);
-            initData();
+            selectFragment();
 
         } else {
             finish();
@@ -129,7 +82,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         if (tag.equals(urlProject)) {
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                initData();
+                selectFragment();
             } else {
                 Toast.makeText(this, Global.getErrorMsg(respanse), Toast.LENGTH_LONG).show();
             }
@@ -141,47 +94,12 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         networkImpl.loadData(uri, null, tag, -1, null, NetworkImpl.Request.Get);
     }
 
-    private void initData() {
-        // 私有项目才有任务
-        if (!mProjectObject.isPublic()) {
-            final int insertPos = 1;
-            spinnerIcons.add(insertPos, R.drawable.ic_spinner_task);
-            spinnerFragments.add(insertPos, ProjectTaskFragment_.class);
-            project_activity_action_list.add(insertPos, "项目任务");
-
-            // 私有项目添加项目文件
-            final int insertAttPos = 3;
-            spinnerIcons.add(insertAttPos, R.drawable.ic_spinner_attachment);
-            spinnerFragments.add(insertAttPos, ProjectAttachmentFragment_.class);
-            project_activity_action_list.add(insertAttPos, "项目文件");
-        }
-        selectFragment(getJumpPos());
-    }
-
-    private int getJumpPos() {
-        if (mProjectObject.isPublic()) {
-            for (int i = 0; i < PUBLIC_JUMP_TYPES.length; ++i) {
-                if (PUBLIC_JUMP_TYPES[i] == mJumpType) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = 0; i < PRIVATE_JUMP_TYPES.length; ++i) {
-                if (PRIVATE_JUMP_TYPES[i] == mJumpType) {
-                    return i;
-                }
-            }
-        }
-
-        return 0;
-    }
-
-    private void selectFragment(int position) {
+    private void selectFragment() {
         Fragment fragment;
         Bundle bundle = new Bundle();
 
         try {
-            Class fragmentClass = spinnerFragments.get(position);
+            Class fragmentClass = mJumpType.fragment;
             if (fragmentClass == ProjectPullFragment_.class && !mProjectObject.isPublic()) {
                 fragmentClass = ProjectMergeFragment_.class;
             }
@@ -193,7 +111,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             fragment.setArguments(bundle);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container, fragment, project_activity_action_list.get(position));
+            ft.replace(R.id.container, fragment, fragmentClass.getName());
             ft.commit();
 
             mFragments.add(new WeakReference(fragment));
@@ -247,18 +165,6 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             }
 
             return false;
-        }
-
-        public enum JumpType {
-            typeDynamic,
-            typeTask,
-            typeTopic,
-            typeDocument,
-            typeCode,
-            typeMember,
-            typeReadme,
-            typeMerge,
-            typeHome
         }
     }
 }

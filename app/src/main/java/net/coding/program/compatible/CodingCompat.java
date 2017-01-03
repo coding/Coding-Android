@@ -1,5 +1,9 @@
 package net.coding.program.compatible;
 
+import android.support.v4.app.Fragment;
+
+import net.coding.program.model.ProjectObject;
+
 /**
  * Created by chenchao on 2016/12/28.
  */
@@ -26,5 +30,10 @@ public class CodingCompat implements ClassCompatInterface {
     @Override
     public Class<?> getMainProjectFragment() {
         return substance.getMainProjectFragment();
+    }
+
+    @Override
+    public Fragment getProjectHome(ProjectObject projectObject, boolean needReload) {
+        return substance.getProjectHome(projectObject, needReload);
     }
 }

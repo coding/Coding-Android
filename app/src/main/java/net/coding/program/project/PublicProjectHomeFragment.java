@@ -17,6 +17,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.git.ForksListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,10 +37,12 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     ProjectMarkButton mButtonStar;
     ProjectMarkButton mButtonWatch;
     ProjectMarkButton mButtonFork;
+
     String mUrlStar;
     String mUrlUnstar;
     String mUrlWatch;
     String mUrlUnwatch;
+
     private String httpProjectObject;
     private String forkUrl;
 
@@ -55,7 +58,12 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         initHead3(mRoot);
 
         httpProjectObject = mProjectObject.getHttpProjectObject();
-        getNetwork(httpProjectObject);
+
+        if (needReload) {
+            getNetwork(httpProjectObject);
+        } else {
+            initHead2();
+        }
     }
 
     @Override
@@ -209,30 +217,27 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             item.findViewById(R.id.icon).setBackgroundResource(buttonBackgrounds[i]);
             ((TextView) item.findViewById(R.id.title)).setText(titles[i]);
             final int pos = i;
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (buttons[pos]) {
-                        case R.id.itemDynamic:
-                            updateDynamic();
-                            break;
+            item.setOnClickListener(v -> {
+                switch (buttons[pos]) {
+                    case R.id.itemDynamic:
+                        updateDynamic();
+                        break;
 
-                        case R.id.itemCode:
-                            break;
+                    case R.id.itemCode:
+                        break;
 
-                        case R.id.itemReadme:
-                            break;
+                    case R.id.itemReadme:
+                        break;
 
-                        case R.id.itemMerge:
-                            markUsed(RedPointTip.Type.Merge320);
-                            break;
-                    }
-
-                    ProjectActivity_.intent(PublicProjectHomeFragment.this)
-                            .mProjectObject(mProjectObject)
-                            .mJumpType(ProjectActivity.PUBLIC_JUMP_TYPES[pos])
-                            .start();
+                    case R.id.itemMerge:
+                        markUsed(RedPointTip.Type.Merge320);
+                        break;
                 }
+
+                ProjectActivity_.intent(PublicProjectHomeFragment.this)
+                        .mProjectObject(mProjectObject)
+                        .mJumpType(ProjectFunction.idToEnum(v.getId()))
+                        .start();
             });
 
             if (titles[i].equals("动态")) {

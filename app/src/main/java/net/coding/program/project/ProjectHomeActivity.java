@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
@@ -26,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_project_home)
-//@OptionsMenu(R.menu.menu_project_home)
 public class ProjectHomeActivity extends BaseActivity {
 
     public static final String BROADCAST_CLOSE = ProjectHomeActivity.class.getName() + ".close";
@@ -58,7 +58,7 @@ public class ProjectHomeActivity extends BaseActivity {
         }
 
         if (mProjectObject != null) {
-            initFragment();
+            initFragment(true);
         } else if (mJumpParam != null) {
             mProjectUrl = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
             getNetwork(mProjectUrl, mProjectUrl);
@@ -96,7 +96,7 @@ public class ProjectHomeActivity extends BaseActivity {
         if (tag.equals(mProjectUrl)) {
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                initFragment();
+                initFragment(false);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -109,23 +109,13 @@ public class ProjectHomeActivity extends BaseActivity {
         }
     }
 
-    private void initFragment() {
+    private void initFragment(boolean needRelaod) {
         if (mNeedUpdateList) {
             String url = String.format(PrivateProjectHomeFragment.HOST_VISTIT, mProjectObject.getId());
             getNetwork(url, PrivateProjectHomeFragment.HOST_VISTIT);
         }
 
-        Fragment fragment;
-        if (mProjectObject.isPublic()) {
-            fragment = PublicProjectHomeFragment_.builder()
-                    .mProjectObject(mProjectObject)
-                    .build();
-        } else {
-            fragment = PrivateProjectHomeFragment_.builder()
-                    .mProjectObject(mProjectObject)
-                    .build();
-        }
-
+        Fragment fragment = CodingCompat.instance().getProjectHome(mProjectObject, needRelaod);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container, fragment)

@@ -30,6 +30,7 @@ import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 import net.coding.program.project.detail.topic.TopicListDetailActivity;
@@ -136,7 +137,7 @@ public class URLSpanNoUnderline extends URLSpan {
                     matcher.group(1), matcher.group(2)
             );
             intent.putExtra("mJumpParam", param);
-            intent.putExtra("mJumpType", ProjectActivity.ProjectJumpParam.JumpType.typeTopic);
+            intent.putExtra("mJumpType", ProjectFunction.topic);
             context.startActivity(intent);
             return true;
         }
