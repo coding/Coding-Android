@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,16 +46,14 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     protected NetworkImpl networkImpl;
     protected LayoutInflater mInflater;
     protected FootUpdate mFootUpdate = new FootUpdate();
-    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globalKey = (String) v.getTag();
 
-            Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-            intent.putExtra("globalKey", globalKey);
-            startActivity(intent);
-        }
+    protected View.OnClickListener mOnClickUser = v -> {
+        String globalKey = (String) v.getTag();
+        Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
+        intent.putExtra("globalKey", globalKey);
+        startActivity(intent);
     };
+
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;
 
@@ -79,6 +80,16 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
                 activity.setActionBarTitle("");
                 TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
                 toolbarTitle.setText(title);
+
+                View actionBarCompShadow = rootLayout.findViewById(R.id.actionBarCompShadow);
+                AppBarLayout appbarLayout = (AppBarLayout) rootLayout.findViewById(R.id.appbarLayout);
+                // android 5.0 以下系统阴影太浓，设置为没有阴影
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    actionBarCompShadow.setVisibility(View.VISIBLE);
+                } else {
+                    actionBarCompShadow.setVisibility(View.GONE);
+                    ViewCompat.setElevation(appbarLayout, GlobalUnit.ACTIONBAR_SHADOW);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

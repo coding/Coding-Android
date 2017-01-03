@@ -10,7 +10,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -161,6 +160,9 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         }
     }
 
+    public void hideActionBarShadow() {
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         postLabelJson(tag, code, respanse);
@@ -184,11 +186,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 actionDivideLine.setVisibility(View.VISIBLE);
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
-
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity) {
-                    ((MainActivity) activity).hideActionBarShadow();
-                }
+                hideActionBarShadow();
 
             } else {
                 showErrorMsg(code, respanse);

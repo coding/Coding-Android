@@ -1,6 +1,9 @@
 package net.coding.program.task;
 
 
+import android.os.Build;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +23,12 @@ import org.greenrobot.eventbus.ThreadMode;
 public class MainTaskFragment extends TaskFragment {
 
     @ViewById
+    AppBarLayout appbarLayout;
+
+    @ViewById
+    View actionBarCompShadow;
+
+    @ViewById
     TextView toolbarTitle;
 
     @AfterViews
@@ -35,5 +44,17 @@ public class MainTaskFragment extends TaskFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventPosition eventPosition) {
         toolbarTitle.setText(eventPosition.title);
+    }
+
+    public void hideActionBarShadow() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (actionBarCompShadow != null) {
+                actionBarCompShadow.setVisibility(View.GONE);
+            }
+        } else {
+            if (appbarLayout != null) {
+                ViewCompat.setElevation(appbarLayout, 0);
+            }
+        }
     }
 }

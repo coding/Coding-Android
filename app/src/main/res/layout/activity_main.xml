@@ -59,17 +59,12 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:id="@+id/actionBarCompShadow"
-                android:background="@drawable/actionbar_shadow" />
+            <include layout="@layout/actionbar_shadow" />
         </FrameLayout>
 
         <View style="@style/DivideLine" />

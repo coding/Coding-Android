@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -316,25 +317,6 @@ public class MainActivity extends BaseActivity {
             updateNotifyFromService();
             switch (tabId) {
                 case R.id.tabProject://防止重复加载数据
-//                fragment = new ProjectFragment_();
-//                    List<Fragment> fragments = getSupportFragmentManager().getFragments();
-//                    boolean containFragment = false;
-//                    if (fragments != null) {
-//                        for (Fragment item : fragments) {
-//                            if (item instanceof ProjectFragment_) {
-//                                containFragment = true;
-//                                break;
-//                            }
-//                        }
-//                    }
-//
-//                    if (!containFragment) {
-//                        fragment = new ProjectFragment_();
-//                    }
-//                    toolbarProjectTitle.setText("全部项目");
-//
-//                    Class cc = MainSettingFragment_.class;
-//                    getSupportFragmentManager().findFragmentByTag(cc.getName());
                     fragment = new MainProjectFragment_();
                     break;
 
@@ -343,6 +325,7 @@ public class MainActivity extends BaseActivity {
                     break;
 
                 case R.id.tabMaopao:// 进入冒泡页面，单独处理
+                    // todo
                     break;
 
                 case R.id.tabMessage:
@@ -369,14 +352,6 @@ public class MainActivity extends BaseActivity {
 //                    toolbarMaopaoTitle.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
 //                }
 //
-//                visibleTitle(toolbarMaopaoTitle);
-            } else if (tabId == R.id.tabProject) {
-                setTab(tabId, "我的项目");
-            } else if (tabId == R.id.tabTask) {
-                setTab(tabId, "我的任务");
-            } else {
-//                toolbarTitle.setVisibility(View.VISIBLE);
-//                visibleTitle(toolbarTitle);
             }
 
             if (fragment != null) {
@@ -385,38 +360,15 @@ public class MainActivity extends BaseActivity {
         };
     }
 
-    private void setTab(int tabId, String actionName) {
-//        toolbarProjectTitle.setText(actionName);
-//        toolbarProjectTitle.setTag(tabId);
-//        visibleTitle(toolbarProjectTitle);
-    }
+    protected void switchFragment(Class c) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
 
-    public void hideActionBarShadow() {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            if (actionBarCompShadow != null) {
-//                actionBarCompShadow.setVisibility(View.GONE);
-//            }
-//        } else {
-//            if (appbar != null) {
-//                ViewCompat.setElevation(appbar, 0);
-//            }
-//        }
-    }
+        Fragment fragment = manager.findFragmentByTag(c.getName());
+        if (fragment == null) {
+            
+        }
 
-    void visibleTitle(View title) {
-//        View[] titles = {
-//                toolbarTitle,
-//                toolbarProjectTitle,
-//                toolbarMaopaoTitle,
-//        };
-//
-//        for (View item : titles) {
-//            if (title == item) {
-//                item.setVisibility(View.VISIBLE);
-//            } else {
-//                item.setVisibility(View.GONE);
-//            }
-//        }
     }
 
     @Override
@@ -429,23 +381,6 @@ public class MainActivity extends BaseActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mSelectPos = savedInstanceState.getInt("pos", 0);
-        restoreActionBar();
-    }
-
-    public void restoreActionBar() {
-//        if (mSelectPos == R.id.tabProject || mSelectPos == R.id.tabTask) {
-//            visibleTitle(toolbarProjectTitle);
-//        } else if (mSelectPos == R.id.tabMaopao) {
-//            visibleTitle(toolbarMaopaoTitle);
-//        } else {
-//            visibleTitle(toolbarTitle);
-//        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        restoreActionBar();
-        return super.onCreateOptionsMenu(menu);
     }
 
     //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
