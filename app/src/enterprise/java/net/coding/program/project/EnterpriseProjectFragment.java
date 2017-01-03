@@ -107,7 +107,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @OnActivityResult(InitProUtils.REQUEST_PRO_UPDATE)
     void onResultRefresh() {
-       onRefresh();
+        onRefresh();
     }
 
     @Override
@@ -209,7 +209,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
         @Override
         protected int getNormalLayoutResId() {
-            return R.layout.project_all_list_item;
+            return R.layout.enterprise_project_all_list_item;
         }
 
         @Override
@@ -223,18 +223,13 @@ public class EnterpriseProjectFragment extends BaseFragment {
             ProjectObject item = (ProjectObject) getItem(position);
 
             holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
-            holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
             String ownerName = item.owner_user_name;
             holder.content.setText(ownerName);
-            if (!item.isPublic()) {
-                holder.name.setVisibility(View.VISIBLE);
-                holder.name.setText(item.name);
-                holder.name2.setVisibility(View.INVISIBLE);
-            } else {
-                holder.name2.setVisibility(View.VISIBLE);
-                holder.name2.setText(item.name);
-                holder.name.setVisibility(View.INVISIBLE);
-            }
+
+            holder.name2.setVisibility(View.VISIBLE);
+            holder.name2.setText(item.name);
+            holder.name.setVisibility(View.INVISIBLE);
+
             holder.desc.setText(item.getDescription());
             setClickEvent(holder.fLayoutAction, position);
             int count = item.un_read_activities_count;
@@ -286,7 +281,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
         TextView content;
         TextView desc;
         BadgeView badge;
-        View privateIcon;
         ImageView privatePin;
         View fLayoutAction;
         View rootLayout;
@@ -302,7 +296,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
             image = (ImageView) view.findViewById(R.id.icon);
             content = (TextView) view.findViewById(R.id.comment);
             badge = (BadgeView) view.findViewById(R.id.badge);
-            privateIcon = view.findViewById(R.id.privateIcon);
             fLayoutAction = view.findViewById(R.id.flayoutAction);
             desc = (TextView) view.findViewById(R.id.txtDesc);
             privatePin = (ImageView) view.findViewById(R.id.privatePin);
