@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -42,10 +43,23 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_user_detail)
 public class UserDetailActivity extends UserDetailCommonActivity {
 
-    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
+    public final String HOST_FOLLOW = getHostFollow();
+
+    public final String HOST_UNFOLLOW = getHostUnfollow();
+
     public final int RESULT_EDIT = 0;
+
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+
+    @NonNull
+    public static String getHostFollow() {
+        return Global.HOST_API + "/user/follow?";
+    }
+
+    @NonNull
+    public static String getHostUnfollow() {
+        return Global.HOST_API + "/user/unfollow?";
+    }
 
     @Extra
     String globalKey;

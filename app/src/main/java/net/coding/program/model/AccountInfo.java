@@ -55,8 +55,9 @@ public class AccountInfo {
     private static final String USER_TASKS = "USER_TASKS_%d_%d";
     private static final String USER_NO_SEND_MESSAGE = "USER_NO_SEND_MESSAGE";
     private static final String BACKGROUNDS = "BACKGROUNDS";
-    private static final String FILE_PUSH = "FILE_PUSH";
+    private static final String ACCOUNT_SETTING = "FILE_PUSH";
     private static final String KEY_NEED_PUSH = "KEY_NEED_PUSH";
+    private static final String KEY_ENTERPRISE = "KEY_ENTERPRISE";
 
     private static final String KEY_CUSTOM_HOST = "KEY_CUSTOM_HOST";
     private static final String KEY_MAOPAO_BANNER = "KEY_MAOPAO_BANNER";
@@ -375,22 +376,34 @@ public class AccountInfo {
     }
 
     public static boolean getNeedPush(Context ctx) {
-        SharedPreferences sp = ctx.getSharedPreferences(FILE_PUSH, Context.MODE_PRIVATE);
+        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
         return sp.getBoolean(KEY_NEED_PUSH, true);
     }
 
     public static void setNeedPush(Context ctx, boolean push) {
-        SharedPreferences sp = ctx.getSharedPreferences(FILE_PUSH, Context.MODE_PRIVATE);
+        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean(KEY_NEED_PUSH, push);
-        editor.commit();
+        editor.apply();
+    }
+
+    public static String getEnterpriseName(Context ctx) {
+        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
+        return sp.getString(KEY_ENTERPRISE, "");
+    }
+
+    public static void setEnterpriseName(Context ctx, String name) {
+        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(KEY_ENTERPRISE, name);
+        editor.apply();
     }
 
     public static void setCheckLoginBackground(Context ctx) {
         Calendar calendar = Calendar.getInstance();
         SharedPreferences.Editor editor = ctx.getSharedPreferences(GLOBAL_SETTING, Context.MODE_PRIVATE).edit();
         editor.putLong(GLOBAL_SETTING_BACKGROUND, calendar.getTimeInMillis());
-        editor.commit();
+        editor.apply();
     }
 
     // 距离上次检查24小时后再检查

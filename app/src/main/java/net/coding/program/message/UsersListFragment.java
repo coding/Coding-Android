@@ -46,7 +46,12 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    public static final String HOST_MARK_MESSAGE = Global.HOST_API + "/message/conversations/%s/read";
+    public final String HOST_MARK_MESSAGE = getHostMarkMessage();
+
+    public static String getHostMarkMessage() {
+        return Global.HOST_API + "/message/conversations/%s/read";
+    }
+
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
     final String HOST_MESSAGE_USERS = Global.HOST_API + "/message/conversations?pageSize=10";
     final String HOST_UNREAD_AT = Global.HOST_API + "/notification/unread-count?type=0";

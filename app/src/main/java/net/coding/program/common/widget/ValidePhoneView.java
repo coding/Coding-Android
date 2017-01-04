@@ -23,19 +23,37 @@ import org.json.JSONObject;
  */
 public class ValidePhoneView extends TextView {
 
-    public static final String REGISTER_SEND_MESSAGE_URL = Global.HOST_API + "/account/register/generate_phone_code";
-    public static final String RESET_SEND_MESSAGE_URL = Global.HOST_API + "/account/password/forget";
-    public static final String CHANGE_PHONE = Global.HOST_API + "/account/phone/change/code";
+    public final String REGISTER_SEND_MESSAGE_URL = getHostRegisterSendMessage();
 
-    public static final String URL_RESET_PASSWORD = Global.HOST_API + "/account/password/reset";
+    public final String RESET_SEND_MESSAGE_URL = getHostSendMessage();
+
+    public final String CHANGE_PHONE = getHostPhone();
+
+    public static String getHostPhone() {
+        return Global.HOST_API + "/account/phone/change/code";
+    }
+
+    public final String URL_RESET_PASSWORD = getHostResetPasswrd();
+
+    public static String getHostResetPasswrd() {
+        return Global.HOST_API + "/account/password/reset";
+    }
+
     private MyJsonResponse parseJson;
 
     OnTextChange editPhone;
     String inputPhone = "";
 
     PhoneCountry pickCountry = PhoneCountry.getChina();
-
     private String url = Global.HOST_API + "/user/generate_phone_code";
+
+    public static String getHostSendMessage() {
+        return Global.HOST_API + "/account/password/forget";
+    }
+
+    public static String getHostRegisterSendMessage() {
+        return Global.HOST_API + "/account/register/generate_phone_code";
+    }
 
     public ValidePhoneView(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -59,10 +59,10 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private static final int ID_ORDER_REPLY_TIME = 51;
     private static final int ID_ORDER_PUBLISH_TIME = 49;
     private static final int ID_ORDER_HOT = 53;
-    private static final String URI_TOPICS = Global.HOST_API + "/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
-    private static final String URI_TYPE_COUNTS = Global.HOST_API + "/user/%s/project/%s/topics/count";
-    private static final String URI_ALL_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels?withCount=true";
-    private static final String URI_MY_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels/my";
+    private final String URI_TOPICS = Global.HOST_API + "/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
+    private final String URI_TYPE_COUNTS = Global.HOST_API + "/user/%s/project/%s/topics/count";
+    private final String URI_ALL_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels?withCount=true";
+    private final String URI_MY_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels/my";
     // 刷新页面后如果当前标签不再存在，则自动变回【全部标签】再刷新
     private static final String URI_ALL_LABELS_THEN_RELOAD = "URI_ALL_LABELS_THEN_RELOAD";
     private static final String URI_MY_LABELS_THEN_RELOAD = "URI_MY_LABELS_THEN_RELOAD";

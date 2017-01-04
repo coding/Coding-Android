@@ -113,9 +113,9 @@ public class NetworkImpl {
                         PopCaptchaDialog.pop(appContext);
                     }
 
-                    if (tag.equals(UserDetailActivity.HOST_FOLLOW)) {
+                    if (tag.equals(UserDetailActivity.getHostFollow())) {
                         umengEvent(UmengEvent.USER, "关注好友");
-                    } else if (tag.equals(UserDetailActivity.HOST_UNFOLLOW)) {
+                    } else if (tag.equals(UserDetailActivity.getHostUnfollow())) {
                         umengEvent(UmengEvent.USER, "取消关注好友");
                     } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡");
@@ -123,7 +123,7 @@ public class NetworkImpl {
                         umengEvent(UmengEvent.MAOPAO, "添加冒泡评论");
                     } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO_COMMENT)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡评论");
-                    } else if (tag.equals(MaopaoListFragment.HOST_GOOD)) {
+                    } else if (tag.equals(MaopaoListFragment.getHostGood())) {
                         if (finalUrl.endsWith("like")) {
                             umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
                         } else {

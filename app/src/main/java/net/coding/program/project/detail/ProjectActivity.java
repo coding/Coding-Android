@@ -65,7 +65,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         if (mJumpParam != null) {
-            urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
+            urlProject = String.format(FileUrlActivity.getHostProject(), mJumpParam.mUser, mJumpParam.mProject);
             //setActionBarTitle(mJumpParam.mProject);
 
             networkImpl = new NetworkImpl(this, this);

@@ -60,7 +60,7 @@ public class ProjectHomeActivity extends BaseActivity {
         if (mProjectObject != null) {
             initFragment(true);
         } else if (mJumpParam != null) {
-            mProjectUrl = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
+            mProjectUrl = String.format(FileUrlActivity.getHostProject(), mJumpParam.mUser, mJumpParam.mProject);
             getNetwork(mProjectUrl, mProjectUrl);
         } else {
             finish();
@@ -100,7 +100,7 @@ public class ProjectHomeActivity extends BaseActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(PrivateProjectHomeFragment.HOST_VISTIT)) {
+        } else if (tag.equals(PrivateProjectHomeFragment.getHostVisit())) {
             if (code == 0) {
                 sendBroadcast(new Intent(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT));
             } else {
@@ -111,8 +111,8 @@ public class ProjectHomeActivity extends BaseActivity {
 
     private void initFragment(boolean needRelaod) {
         if (mNeedUpdateList) {
-            String url = String.format(PrivateProjectHomeFragment.HOST_VISTIT, mProjectObject.getId());
-            getNetwork(url, PrivateProjectHomeFragment.HOST_VISTIT);
+            String url = String.format(PrivateProjectHomeFragment.getHostVisit(), mProjectObject.getId());
+            getNetwork(url, PrivateProjectHomeFragment.getHostVisit());
         }
 
         Fragment fragment = CodingCompat.instance().getProjectHome(mProjectObject, needRelaod);

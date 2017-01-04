@@ -57,8 +57,18 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EActivity(R.layout.activity_users_list)
 public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
 
-    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
+    public final String HOST_FOLLOW = getHostFollow();
+
+    public static String getHostFollow() {
+        return Global.HOST_API + "/user/follow?";
+    }
+
+    public final String HOST_UNFOLLOW = getHostUnfollow();
+
+    public static String getHostUnfollow() {
+        return Global.HOST_API + "/user/unfollow?";
+    }
+
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
     public static final String RESULT_EXTRA_NAME = "name";
@@ -192,7 +202,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                     }
                     params.put("content", text);
                     params.put("receiver_global_key", user.global_key);
-                    postNetwork(MessageListActivity.HOST_MESSAGE_SEND, params, TAG_RELAY_MESSAGE);
+                    postNetwork(MessageListActivity.getSendMessage(), params, TAG_RELAY_MESSAGE);
                     showProgressBar(true, "发送中...");
                 });
             });

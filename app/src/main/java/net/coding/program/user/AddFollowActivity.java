@@ -165,7 +165,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             }
             baseAdapter.notifyDataSetChanged();
 
-        } else if (tag.equals(UsersListActivity.HOST_FOLLOW)) {
+        } else if (tag.equals(UsersListActivity.getHostFollow())) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "关注他人");
                 mNeedUpdate = true;
@@ -175,7 +175,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 showButtomToast(R.string.follow_fail);
             }
             baseAdapter.notifyDataSetChanged();
-        } else if (tag.equals(UsersListActivity.HOST_UNFOLLOW)) {
+        } else if (tag.equals(UsersListActivity.getHostUnfollow())) {
             umengEvent(UmengEvent.USER, "取消关注");
 
             if (code == 0) {
@@ -359,9 +359,9 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                             RequestParams params = new RequestParams();
                             params.put("users", user.global_key);
                             if (((CheckBox) v).isChecked()) {
-                                postNetwork(UsersListActivity.HOST_FOLLOW, params, UsersListActivity.HOST_FOLLOW, -1, user);
+                                postNetwork(UsersListActivity.getHostFollow(), params, UsersListActivity.getHostFollow(), -1, user);
                             } else {
-                                postNetwork(UsersListActivity.HOST_UNFOLLOW, params, UsersListActivity.HOST_UNFOLLOW, -1, user);
+                                postNetwork(UsersListActivity.getHostUnfollow(), params, UsersListActivity.getHostUnfollow(), -1, user);
                             }
                         }
                     });

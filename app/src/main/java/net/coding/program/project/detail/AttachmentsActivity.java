@@ -52,7 +52,6 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import static net.coding.program.common.Global.HOST_API;
+import cz.msebera.android.httpclient.Header;
+
 
 /**
  * 展示某一项目文件目录下面文件的Activity
@@ -72,7 +72,7 @@ import static net.coding.program.common.Global.HOST_API;
  */
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
-    public static final String HOST_PROJECT_ID = HOST_API + "/project/%d";
+    public final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
     final public static int FILE_MOVE_CODE = 12;
@@ -89,7 +89,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     AttachmentFolderObject mAttachmentFolderObject;
     //    ProjectObject mProjectObject;
     String urlFiles = "";
-    String urlUpload = HOST_API + "/project/%s/file/upload";
+    String urlUpload = Global.HOST_API + "/project/%s/file/upload";
     ArrayList<AttachmentFileObject> mFilesArray = new ArrayList<>();
     protected CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -118,12 +118,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     View.OnClickListener mClickReload = v -> loadMore();
 //    private AttachmentFolderObject sourceFolder;
 
-    private String HOST_FILE_DELETE = HOST_API + "/project/%s/file/delete?%s";
-    private String HOST_FILE_MOVETO = HOST_API + "/project/%s/files/moveto/%s?%s";
-    private String HOST_FILECOUNT = HOST_API + "/project/%s/folders/all_file_count";
-    private String HOST_FOLDER_NAME = HOST_API + "/project/%s/dir/%s/name/%s";
-    private String HOST_FOLDER_NEW = HOST_API + "/project/%s/mkdir";
-    private String HOST_FOLDER_DELETE_FORMAT = HOST_API + "/project/%s/rmdir/%s";
+    private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
+    private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
+    private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
+    private String HOST_FOLDER_NAME = Global.HOST_API + "/project/%s/dir/%s/name/%s";
+    private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
+    private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
 
     private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
@@ -482,7 +482,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         setActionBarTitle(mAttachmentFolderObject.name);
 
         if (mAttachmentFolderObject.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
-            String template = HOST_API + "/project/%s/shared_files?height=90&width=90&pageSize=9999";
+            String template = Global.HOST_API + "/project/%s/shared_files?height=90&width=90&pageSize=9999";
             urlFiles = String.format(template, mProjectObjectId);
         } else {
             String template = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
@@ -905,7 +905,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     private String getHttpFileExist(String name, AttachmentFolderObject folder) {
         String encodeName = Global.encodeUtf8(name);
-        return HOST_API +
+        return Global.HOST_API +
                 mProject.getProjectPath() +
                 "/dir/" +
                 folder.file_id +
@@ -1296,7 +1296,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                         showButtomToast("名字不能为空");
                     } else {
                         if (!newName.equals(folderObject.getName())) {
-                            String urlTemplate = HOST_API + "/project/%d/files/%s/rename";
+                            String urlTemplate = Global.HOST_API + "/project/%d/files/%s/rename";
                             String url = String.format(urlTemplate, mProjectObjectId, folderObject.file_id);
                             RequestParams params = new RequestParams();
                             params.put("name", newName);

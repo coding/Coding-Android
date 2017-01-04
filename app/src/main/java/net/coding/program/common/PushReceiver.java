@@ -85,7 +85,7 @@ public class PushReceiver extends XGPushBaseReceiver {
             String url = jsonCustom.optString("param_url", "");
 
             // 如果本地没有 2FA，就不显示这个推送
-            if (url.equals(PushUrl.URL_2FA)) {
+            if (url.equals(PushUrl.getHost2FA())) {
                 String authUri = AccountInfo.loadAuth(context, MyApp.sUserObject.global_key);
                 if (authUri.isEmpty()) {
                     return;

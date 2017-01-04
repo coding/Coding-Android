@@ -58,7 +58,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         ViewStyleUtil.editTextBindButton(loginButton, phoneEdit, phoneCaptchaEdit, passwordEdit,
                 repasswordEdit);
 
-        sendCode.setUrl(ValidePhoneView.RESET_SEND_MESSAGE_URL);
+        sendCode.setUrl(ValidePhoneView.getHostSendMessage());
         sendCode.setPhoneString(account);
 
         phoneEdit.addTextChangedListener(new SimpleTextWatcher() {
@@ -94,7 +94,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         }
 
         RequestParams params = new RequestParams();
-        String url = ValidePhoneView.URL_RESET_PASSWORD;
+        String url = ValidePhoneView.getHostResetPasswrd();
         String sha1Password = SimpleSHA1.sha1(password);
         params.put("password", sha1Password);
         params.put("confirm", sha1Password);

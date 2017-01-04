@@ -28,7 +28,12 @@ import org.json.JSONObject;
 @EFragment(R.layout.fragment_public_project_home)
 public abstract class BaseProjectHomeFragment extends BaseFragment {
 
-    public static final String HOST_VISTIT = Global.HOST_API + "/project/%d/update_visit";
+    public final String HOST_VISTIT = getHostVisit();
+
+    public static String getHostVisit() {
+        return Global.HOST_API + "/project/%d/update_visit";
+    }
+
     protected boolean isUpdateDynamic = false;
 
     @FragmentArg
@@ -124,7 +129,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     }
 
     protected final void updateDynamic() {
-        String s = String.format(BaseProjectHomeFragment.HOST_VISTIT, mProjectObject.getId());
+        String s = String.format(BaseProjectHomeFragment.getHostVisit(), mProjectObject.getId());
         getNetwork(s, HOST_VISTIT, 0, mProjectObject.getId());
     }
 

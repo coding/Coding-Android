@@ -24,7 +24,7 @@ import org.json.JSONObject;
 @EFragment(R.layout.fragment_menu_project)
 public class MenuProjectFragment extends BaseFragment {
 
-    private static final String URL_PROJECT_COUNT = Global.HOST_API + "/project_count";
+    private final String URL_PROJECT_COUNT = Global.HOST_API + "/project_count";
     public static final int POS_MY_CREATE = 2;
 
     @ViewById

@@ -47,8 +47,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
 
-    private static final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
-    private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
+    private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
+    private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
     private static final String TAG = ProjectListFragment.class.getSimpleName();
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();

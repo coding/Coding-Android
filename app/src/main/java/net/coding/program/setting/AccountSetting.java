@@ -35,7 +35,7 @@ public class AccountSetting extends BackActivity {
         suffix.setText(userObject.global_key);
         updatePhoneDisplay();
 
-        MyAsyncHttpClient.get(this, EntranceActivity.HOST_CURRENT, new MyJsonResponse(this) {
+        MyAsyncHttpClient.get(this, EntranceActivity.getHostCurrent(), new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 if (isFinishing()) {

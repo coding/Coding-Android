@@ -115,17 +115,18 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     public final static int TAG_COMMENT = R.id.comment;
     public final static int TAG_COMMENT_TEXT = R.id.commentArea;
 
-    public static final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
-    public static final String URI_COMMENT = Global.HOST_API + "/tweet/%s/comment";
+    public final String HOST_GOOD = getHostGood();
+
+    public final String URI_COMMENT = Global.HOST_API + "/tweet/%s/comment";
+
     public static final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
     public static final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
-
     static final int RESULT_EDIT_MAOPAO = 100;
+
     static final int RESULT_AT = 101;
-
     private MyImageGetter myImageGetter;
-    private int mPxImageWidth;
 
+    private int mPxImageWidth;
     boolean mNoMore = false;
 
     protected MyAdapter mAdapter;
@@ -133,6 +134,10 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
 
     View.OnClickListener onClickRetry = v -> onRefresh();
+
+    public static String getHostGood() {
+        return Global.HOST_API + "/tweet/%s/%s";
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

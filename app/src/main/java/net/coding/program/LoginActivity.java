@@ -64,8 +64,8 @@ import cz.msebera.android.httpclient.Header;
 public class LoginActivity extends BaseActivity {
 
     public static final String EXTRA_BACKGROUND = "background";
-    public static String HOST_USER = Global.HOST_API + "/user/key/%s";
-    private static String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
+    public String HOST_USER = Global.HOST_API + "/user/key/%s";
+    private String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
     private final String TAG_LOGIN = "TAG_LOGIN";

@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class UserDetailCommonActivity extends BackActivity {
 
-    private static final String USER_ACTIVENESS = Global.HOST_API + "/user/activeness/data/";
+    private final String USER_ACTIVENESS = Global.HOST_API + "/user/activeness/data/";
 
     ImageView icon;
     TextView name;

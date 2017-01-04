@@ -35,8 +35,8 @@ import java.util.List;
  */
 @EFragment(R.layout.fragment_subject_list)
 public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
-    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
+    public final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
+    public final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
     final String subjectUserListUrlFormat = Global.HOST_API + "/tweet_topic/%s/joined?pageSize=10";
     final String subjectUserListTag = "subject_user_list_tag";
 

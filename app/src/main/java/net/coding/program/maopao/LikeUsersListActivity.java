@@ -40,7 +40,12 @@ public class LikeUsersListActivity extends BackActivity {
     @ViewById
     ListView listView;
 
-    public static final String HOST_LIKES_USER = Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
+    public final String HOST_LIKES_USER = getHostLikesUser();
+
+    public static String getHostLikesUser() {
+        return Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
+    }
+
     public String UriLikeUsers = HOST_LIKES_USER;
 
     private ArrayList<DynamicObject.User> mData = new ArrayList<>();
@@ -95,9 +100,9 @@ public class LikeUsersListActivity extends BackActivity {
                         RequestParams params = new RequestParams();
                         params.put("users", data.global_key);
                         if (((CheckBox) v).isChecked()) {
-                            postNetwork(UserDetailActivity.HOST_FOLLOW, params, UserDetailActivity.HOST_FOLLOW, position, null);
+                            postNetwork(UserDetailActivity.getHostFollow(), params, UserDetailActivity.getHostFollow(), position, null);
                         } else {
-                            postNetwork(UserDetailActivity.HOST_UNFOLLOW, params, UserDetailActivity.HOST_UNFOLLOW, position, null);
+                            postNetwork(UserDetailActivity.getHostUnfollow(), params, UserDetailActivity.getHostUnfollow(), position, null);
                         }
                     }
                 });

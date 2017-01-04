@@ -619,8 +619,8 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     private void deleteTask() {
         showDialog("任务", "删除任务？", (dialog, which) -> {
             TaskObject.SingleTask task = mSingleTask;
-            String url = String.format(TaskListFragment.hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
-            deleteNetwork(url, TaskListFragment.hostTaskDelete);
+            String url = String.format(TaskListFragment.getHostTaskDelete(), task.project.owner_user_name, task.project.name, task.getId());
+            deleteNetwork(url, TaskListFragment.getHostTaskDelete());
             showProgressBar(true, "删除任务中...");
         });
     }
@@ -912,7 +912,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(TaskListFragment.hostTaskDelete)) {
+        } else if (tag.equals(TaskListFragment.getHostTaskDelete())) {
             showProgressBar(false);
             if (code == 0) {
                 umengEvent(UmengEvent.TASK, "删除任务");

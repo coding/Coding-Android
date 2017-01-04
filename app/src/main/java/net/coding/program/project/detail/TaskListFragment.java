@@ -58,7 +58,12 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
 
-    public static final String hostTaskDelete = Global.HOST_API + "/user/%s/project/%s/task/%s";
+    public final String hostTaskDelete = getHostTaskDelete();
+
+    public static String getHostTaskDelete() {
+        return Global.HOST_API + "/user/%s/project/%s/task/%s";
+    }
+
     final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     //统计，已完成，进行中数量
     final String urlTaskCountProject = Global.HOST_API + "/project/%d/task/user/count";

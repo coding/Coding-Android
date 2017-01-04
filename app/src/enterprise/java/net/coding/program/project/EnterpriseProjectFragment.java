@@ -41,8 +41,8 @@ import java.util.List;
 public class EnterpriseProjectFragment extends BaseFragment {
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
-    private static final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
-    private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
+    private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
+    private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
 
     int msectionId = 0;
 

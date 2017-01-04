@@ -410,7 +410,7 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
-        String s = PushUrl.URL_2FA;
+        String s = PushUrl.getHost2FA();
         if (uriString.equals(s)) {
             intent.setClass(context, AuthListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

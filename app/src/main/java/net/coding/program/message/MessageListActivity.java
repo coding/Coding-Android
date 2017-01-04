@@ -77,8 +77,10 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     private static final int RESULT_REQUEST_PHOTO = 1005;
     private static final int PAGESIZE = 20;
-    public static final String HOST_MESSAGE_SEND = Global.HOST_API + "/message/send?";
+    public final String HOST_MESSAGE_SEND = getSendMessage();
+
     final String hostDeleteMessage = Global.HOST_API + "/message/%s";
+
     final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
     final String TAG_SEND_VOICE = "TAG_SEND_VOICE";
     final String TAG_MARK_VOICE_PLAYED = "TAG_MARK_VOICE_PLAYED";
@@ -86,7 +88,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
     final String HOST_MARK_VOICE_PLAYED = Global.HOST_API + "/message/conversations/%s/play";
     private final int REFRUSH_TIME = 3 * 1000;
-
     @Extra
     UserObject mUserObject;
 
@@ -98,20 +99,24 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     String mGlobalKey;
 
 //    @ViewById
-//    MainInputView inputView;
 
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
+
     String url = "";
     ClickSmallImage clickImage = new ClickSmallImage(this);
-
     @ViewById
     ListView listView;
+
     @ViewById
     View blankLayout;
-
 //    EnterVoiceLayout mEnterLayout;
 
     WeakRefHander mWeakRefHandler;
+
+    //    MainInputView inputView;
+    public static String getSendMessage() {
+        return Global.HOST_API + "/message/send?";
+    }
 
     int mLastId = 0;
     View.OnClickListener onClickRetry = new View.OnClickListener() {
@@ -591,8 +596,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                     mData.clear();
 
                     // 标记信息已读
-                    String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
-                    postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
+                    String url = String.format(UsersListFragment.getHostMarkMessage(), mGlobalKey);
+                    postNetwork(url, new RequestParams(), UsersListFragment.getHostMarkMessage());
                 }
 
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
