@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.FileUrlActivity;
@@ -22,6 +23,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +50,9 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     String urlProject;
 
     private NetworkImpl networkImpl;
+
+    @ViewById
+    TextView toolbarProjectTitle;
 
     @AfterViews
     protected void initProjectActivity() {
@@ -115,6 +120,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             ft.commit();
 
             mFragments.add(new WeakReference(fragment));
+
+            toolbarProjectTitle.setText(mJumpType.title);
+            if (mJumpType != ProjectFunction.task) {
+                toolbarProjectTitle.setBackgroundResource(0);
+            }
 
         } catch (Exception e) {
             Global.errorLog(e);
