@@ -217,7 +217,7 @@
             android:theme="@style/ActionbarSpannerTheme1"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".LoginActivity_"
+            android:name=".user.EnterpriseLoginActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
@@ -833,6 +833,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.EmailSetPasswordActivity_"
+            android:label="@string/title_activity_email_set_password"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.phone.EnterpriseEmailSetPasswordActivity_"
             android:label="@string/title_activity_email_set_password"
             android:screenOrientation="portrait" />
         <activity

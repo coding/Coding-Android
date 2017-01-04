@@ -39,11 +39,7 @@
                         app:topLine="false" />
 
                     <include
-                        layout="@layout/divide_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="@dimen/padding_15"
-                        android:layout_marginRight="@dimen/padding_15" />
+                        layout="@layout/divideline_15" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -73,7 +69,6 @@
                             app:topLine="false" />
 
                     </LinearLayout>
-
 
                     <include
                         layout="@layout/divide_1"
@@ -133,7 +128,7 @@
 
                 </LinearLayout>
 
-                <include layout="@layout/divide_10_top_bottom" />
+                <include layout="@layout/divide_bottom_15" />
 
                 <Button
                     android:id="@+id/loginButton"

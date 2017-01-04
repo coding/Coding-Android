@@ -37,7 +37,7 @@
                     app:hint="用户名(个性后缀)"
                     app:topLine="false" />
 
-                <include layout="@layout/divide_10_top_bottom" />
+                <include layout="@layout/divide_bottom_15" />
 
 
             </LinearLayout>

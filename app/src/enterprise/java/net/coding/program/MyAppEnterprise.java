@@ -1,6 +1,6 @@
 package net.coding.program;
 
-import net.coding.program.compatible.ClassCompatImp;
+import net.coding.program.compatible.EnterpriseCompatImp;
 import net.coding.program.compatible.CodingCompat;
 
 /**
@@ -14,6 +14,6 @@ public class MyAppEnterprise extends MyApp {
     public void onCreate() {
         super.onCreate();
 
-        CodingCompat.init(new ClassCompatImp());
+        CodingCompat.init(new EnterpriseCompatImp());
     }
 }

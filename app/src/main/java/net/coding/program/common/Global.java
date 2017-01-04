@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
+import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
@@ -126,6 +127,13 @@ public class Global {
         return LOG_PREFIX + str;
     }
 
+    public static Spanned createBlueHtml(String begin, String middle, String end) {
+        return createColorHtml(begin, middle, end, "#4F95E8");
+    }
+
+    public static Spanned createColorHtml(String begin, String middle, String end, String color) {
+        return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
+    }
 
     public static String getExtraString(Context context) {
         String FEED_EXTRA = "";

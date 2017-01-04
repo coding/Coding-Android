@@ -39,7 +39,7 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <include layout="@layout/divideline_12" />
+    <include layout="@layout/divideline_15" />
 
     <RelativeLayout
         android:layout_width="match_parent"

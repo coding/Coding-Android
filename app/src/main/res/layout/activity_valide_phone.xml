@@ -114,7 +114,7 @@
 
                 </LinearLayout>
 
-                <include layout="@layout/divide_10_top_bottom" />
+                <include layout="@layout/divide_bottom_15" />
 
                 <Button
                     android:id="@+id/loginButton"
