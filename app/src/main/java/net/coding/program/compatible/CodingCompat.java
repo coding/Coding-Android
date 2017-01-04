@@ -36,4 +36,14 @@ public class CodingCompat implements ClassCompatInterface {
     public Fragment getProjectHome(ProjectObject projectObject, boolean needReload) {
         return substance.getProjectHome(projectObject, needReload);
     }
+
+    @Override
+    public Class getGuideActivity() {
+        return substance.getGuideActivity();
+    }
+
+    @Override
+    public Class getLoginActivity() {
+        return substance.getLoginActivity();
+    }
 }

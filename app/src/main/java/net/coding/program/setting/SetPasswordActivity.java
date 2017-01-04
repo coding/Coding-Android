@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.LoginActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -15,6 +14,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.compatible.CodingCompat;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -104,7 +104,7 @@ public class SetPasswordActivity extends BackActivity {
                 .setMessage("修改密码后需要重新登录")
                 .setNegativeButton("确定", (dialog1, which) -> {
                     finish();
-                    startActivity(new Intent(SetPasswordActivity.this, LoginActivity_.class));
+                    startActivity(new Intent(SetPasswordActivity.this, CodingCompat.instance().getLoginActivity()));
                 })
                 .setCancelable(false)
                 .show();

@@ -20,7 +20,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.MarketingHelp;
@@ -242,7 +241,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
-            intent = new Intent(this, GuideActivity.class);
+            intent = new Intent(this, CodingCompat.instance().getGuideActivity());
             if (background != null) {
                 intent.putExtra(LoginActivity.EXTRA_BACKGROUND, background);
             }

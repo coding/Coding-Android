@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import com.prolificinteractive.parallaxpager.ParallaxContainer;
 
 import net.coding.program.LoginActivity;
-import net.coding.program.LoginActivity_;
 import net.coding.program.R;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.PhoneRegisterActivity_;
 
 public class ParallaxFragment extends Fragment implements ViewPager.OnPageChangeListener {
@@ -59,7 +59,7 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LoginActivity_.class);
+                Intent intent = new Intent(getActivity(), CodingCompat.instance().getLoginActivity());
                 Uri uri = ((GuideActivity) getActivity()).getUri();
                 if (uri != null) {
                     intent.putExtra(LoginActivity.EXTRA_BACKGROUND, uri);

@@ -2,7 +2,9 @@ package net.coding.program.compatible;
 
 import android.support.v4.app.Fragment;
 
+import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity_;
+import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
@@ -38,5 +40,15 @@ public class DefaultCompatImp implements ClassCompatInterface {
                     .needReload(needReload)
                     .build();
         }
+    }
+
+    @Override
+    public Class getGuideActivity() {
+        return GuideActivity.class;
+    }
+
+    @Override
+    public Class getLoginActivity() {
+        return LoginActivity_.class;
     }
 }

@@ -17,4 +17,7 @@ public interface ClassCompatInterface {
 
     Fragment getProjectHome(ProjectObject projectObject, boolean needRelaod);
 
+    Class getGuideActivity();
+
+    Class getLoginActivity();
 }

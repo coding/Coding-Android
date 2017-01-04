@@ -10,10 +10,10 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
-import net.coding.program.LoginActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.SetGlobalKeyActivity;
 import net.coding.program.login.SetGlobalKeyActivity_;
 import net.coding.program.maopao.MaopaoListBaseFragment;
@@ -21,12 +21,12 @@ import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.user.UserDetailActivity;
 
-import cz.msebera.android.httpclient.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
 
 public class NetworkImpl {
     public static final int ERROR_PERMISSION_DENIED = 1400;
@@ -88,7 +88,7 @@ public class NetworkImpl {
                     int code = response.getInt("code");
 
                     if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {
-                        appContext.startActivity(new Intent(appContext, LoginActivity_.class));
+                        appContext.startActivity(new Intent(appContext, CodingCompat.instance().getLoginActivity()));
                     }  else if (code == HTTP_CODE_NEED_ACTIVITY) {
                         if (!SetGlobalKeyActivity.isShowing()) {
                             Intent activityIntent = new Intent(appContext, SetGlobalKeyActivity_.class);

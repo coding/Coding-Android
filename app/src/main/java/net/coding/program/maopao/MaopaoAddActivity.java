@@ -29,7 +29,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import net.coding.program.ImagePagerActivity_;
 import net.coding.program.ImagePagerFragment;
-import net.coding.program.LoginActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -48,6 +47,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.item.LocationCoord;
 import net.coding.program.message.EmojiFragment;
 import net.coding.program.model.AccountInfo;
@@ -533,7 +533,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         super.onCreate(savedInstanceState);
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
-            Intent intent = new Intent(this, LoginActivity_.class);
+            Intent intent = new Intent(this, CodingCompat.instance().getLoginActivity());
             this.startActivity(intent);
         }
 
