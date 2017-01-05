@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.LoginActivity_;
@@ -9,6 +10,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
+import net.coding.program.user.MyDetailActivity_;
 
 /**
  * Created by chenchao on 2016/12/29.
@@ -50,5 +52,10 @@ public class DefaultCompatImp implements ClassCompatInterface {
     @Override
     public Class getLoginActivity() {
         return LoginActivity_.class;
+    }
+
+    @Override
+    public void launchMyDetailActivity(Context context) {
+        MyDetailActivity_.intent(context).start();
     }
 }

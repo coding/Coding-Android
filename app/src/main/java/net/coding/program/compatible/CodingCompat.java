@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.model.ProjectObject;
@@ -45,5 +46,10 @@ public class CodingCompat implements ClassCompatInterface {
     @Override
     public Class getLoginActivity() {
         return substance.getLoginActivity();
+    }
+
+    @Override
+    public void launchMyDetailActivity(Context context) {
+        substance.launchMyDetailActivity(context);
     }
 }

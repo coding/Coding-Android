@@ -9,12 +9,12 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.user.ServiceInfo;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
 import net.coding.program.user.AddFollowActivity_;
-import net.coding.program.user.MyDetailActivity_;
 import net.coding.program.user.UserPointActivity_;
 import net.coding.program.user.team.TeamListActivity_;
 
@@ -113,7 +113,7 @@ public class MainSettingFragment extends BaseFragment {
 
     @Click
     void userLayout() {
-        MyDetailActivity_.intent(this).start();
+        CodingCompat.instance().launchMyDetailActivity(getActivity());
     }
 
     @Click

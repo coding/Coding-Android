@@ -948,6 +948,10 @@
             android:label="@string/title_activity_my_detail"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".user.EnterpriseMyDetailActivity_"
+            android:label="@string/title_activity_my_detail"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".common.activity.WebviewDetailActivity_"
             android:label="@string/title_activity_comment_detail"
             android:screenOrientation="portrait" />

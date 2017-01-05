@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.model.ProjectObject;
@@ -20,4 +21,7 @@ public interface ClassCompatInterface {
     Class getGuideActivity();
 
     Class getLoginActivity();
+
+    void launchMyDetailActivity(Context context);
+
 }

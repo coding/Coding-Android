@@ -25,6 +25,7 @@ import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.ListItem1;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
@@ -83,7 +84,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
             if (globalKey.equals(MyApp.sUserObject.global_key)) {
                 isMe = true;
 
-                MyDetailActivity_.intent(this).start();
+                CodingCompat.instance().launchMyDetailActivity(this);
                 finish();
                 return;
             }
@@ -95,7 +96,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 if (name.equals(MyApp.sUserObject.name)) {
                     isMe = true;
 
-                    MyDetailActivity_.intent(this).start();
+                    CodingCompat.instance().launchMyDetailActivity(this);
                     finish();
                     return;
                 }

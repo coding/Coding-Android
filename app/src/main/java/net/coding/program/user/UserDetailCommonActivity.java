@@ -216,7 +216,6 @@ public class UserDetailCommonActivity extends BackActivity {
     }
 
     protected void setViewPageData() {
-
     }
 
     /**
