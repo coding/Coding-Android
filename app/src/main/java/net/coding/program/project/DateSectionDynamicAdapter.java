@@ -1,20 +1,16 @@
 package net.coding.program.project;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LongClickLinkMovementMethod;
@@ -23,9 +19,7 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.login.auth.Utilities;
-import net.coding.program.maopao.item.ContentAreaMuchImages;
 import net.coding.program.model.DynamicObject;
-import net.coding.program.user.UserDetailActivity_;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,46 +38,24 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
     private MyImageGetter myImageGetter;
     public boolean  mNoMore = false;
     private int mLastId;
-    FootUpdate.LoadMore mLoadMoreObj;
+    private FootUpdate.LoadMore mLoadMoreObj;
     private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("HH:mm");
-    String sToday = "";
-    String sYesterday = "";
+    private String sToday = "";
+    private String sYesterday = "";
 
-    private Context mContext;
-    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globalKey = (String) v.getTag();
-
-            Intent intent = new Intent(mContext, UserDetailActivity_.class);
-            intent.putExtra("globalKey", globalKey);
-            mContext.startActivity(intent);
+    private View.OnClickListener onClickJump = v -> {
+        String s = (String) v.getTag();
+        if (s.isEmpty()) {
+            return;
         }
-    };
 
-
-    View.OnClickListener onClickJump = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = (String) v.getTag();
-            if (s.isEmpty()) {
-                return;
-            }
-
-            URLSpanNoUnderline.openActivityByUri(v.getContext(), s, false);
-        }
+        URLSpanNoUnderline.openActivityByUri(v.getContext(), s, false);
     };
-    View.OnClickListener onClickParent = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ((ViewGroup) v.getParent()).callOnClick();
-        }
-    };
+    private View.OnClickListener onClickParent = v -> ((ViewGroup) v.getParent()).callOnClick();
     private ArrayList<Long> mSectionTitle = new ArrayList<>();
     private ArrayList<Integer> mSectionId = new ArrayList<>();
 
     public DateSectionDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
-        mContext = context;
         mInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoadTool();
         myImageGetter = imageGetter;
@@ -212,7 +184,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         }
 
         if (holder.mIcon != null) {
-            holder.mIcon.setOnClickListener(mOnClickUser);
+            holder.mIcon.setOnClickListener(Global.clickUser);
             mImageLoader.loadImage(holder.mIcon, data.user.avatar);
             holder.mIcon.setTag(data.user.global_key);
         }
@@ -293,7 +265,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         super.notifyDataSetChanged();
     }
 
-    class HeaderViewHolder {
+    private class HeaderViewHolder {
         TextView mHead;
     }
 
@@ -317,8 +289,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         super.setData(data);
     }
 
-
-    protected int getListSectionResourceId() {
+    private int getListSectionResourceId() {
         return R.layout.fragment_project_dynamic_list_head;
     }
 

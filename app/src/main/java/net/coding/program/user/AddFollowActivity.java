@@ -27,6 +27,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.project.ProjectServiceInfo;
@@ -89,10 +90,8 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             baseAdapter = new FollowAdapter(this, true, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 UserObject userObject = mData.get((int) id);
-                UserDetailActivity_
-                        .intent(AddFollowActivity.this)
-                        .globalKey(userObject.global_key)
-                        .startForResult(RESULT_USER_DETAIL);
+                CodingCompat.instance().launchUserDetailActivity(this, userObject.global_key,
+                        RESULT_USER_DETAIL);
             });
         } else {
             urlAddUser = Global.HOST_API + mProjectObject.getProjectPath() + "/members/gk/add";

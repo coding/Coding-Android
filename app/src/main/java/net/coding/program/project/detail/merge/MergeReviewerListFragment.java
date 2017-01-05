@@ -24,11 +24,11 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.Merge;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.MembersSelectActivity_;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -263,8 +263,8 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                             deleteNetwork(mMerge.getHttpReviewGood(), TAG_URL_REVIEW_BAD, reviewer);
                         }
                     } else {
-                        UserDetailActivity_.intent(MergeReviewerListFragment.this)
-                                .globalKey(reviewer.user.global_key).start();
+                        CodingCompat.instance().launchUserDetailActivity(getActivity(),
+                                reviewer.user.global_key);
                     }
 
                 }

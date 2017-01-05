@@ -14,7 +14,6 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -58,7 +57,7 @@ public class ForksListActivity extends BaseListActivity {
             title = (TextView) v.findViewById(R.id.name);
             content = (TextView) v.findViewById(R.id.comment);
             mImageTool = imageLoadTool;
-            icon.setOnClickListener(mClickIcon);
+            icon.setOnClickListener(Global.clickUser);
         }
 
         public void setData(Object item) {
@@ -68,14 +67,6 @@ public class ForksListActivity extends BaseListActivity {
             mImageTool.loadImage(icon, data.getOwner().avatar);
             icon.setTag(data.getOwner().global_key);
         }
-
-        View.OnClickListener mClickIcon = v -> {
-            String globalKey = (String) v.getTag();
-            UserDetailActivity_.intent(v.getContext())
-                    .globalKey(globalKey)
-                    .start();
-        };
-
     }
 
 }

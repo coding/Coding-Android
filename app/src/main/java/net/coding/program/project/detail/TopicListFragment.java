@@ -24,7 +24,6 @@ import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -80,12 +79,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     View blankLayout;
     @AnimationRes
     Animation dropdown_in, dropdown_out, dropdown_mask_out;
-    View.OnClickListener onClickUser = v -> {
-        String globaKey = (String) v.getTag();
-        Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-        intent.putExtra("globalKey", globaKey);
-        startActivity(intent);
-    };
+
     private ArrayList<TopicObject> mData = new ArrayList<>();
     private String urlGet;
 
@@ -114,7 +108,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 convertView = mInflater.inflate(R.layout.fragment_project_topic_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(onClickUser);
+                holder.icon.setOnClickListener(Global.clickUser);
 
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.time = (TextView) convertView.findViewById(R.id.time);

@@ -27,8 +27,8 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.common.util.SingleToast;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.RequestData;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,15 +41,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     protected LayoutInflater mInflater;
     protected FootUpdate mFootUpdate = new FootUpdate();
-    protected View.OnClickListener mOnClickUser = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String globalKey = (String) v.getTag();
-
-            UserDetailActivity_.intent(BaseActivity.this)
-                    .globalKey(globalKey)
-                    .start();
-        }
+    protected View.OnClickListener mOnClickUser = v -> {
+        String globalKey = (String) v.getTag();
+        CodingCompat.instance().launchUserDetailActivity(BaseActivity.this, globalKey);
     };
     SingleToast mSingleToast;
 

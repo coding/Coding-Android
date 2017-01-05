@@ -7,6 +7,7 @@ import net.coding.program.model.ProjectObject;
 
 /**
  * Created by chenchao on 2016/12/28.
+ * 实现同 coding 普通版有差异的地方
  */
 
 public class CodingCompat implements ClassCompatInterface {
@@ -52,4 +53,20 @@ public class CodingCompat implements ClassCompatInterface {
     public void launchMyDetailActivity(Context context) {
         substance.launchMyDetailActivity(context);
     }
+
+    @Override
+    public void launchUserDetailActivity(Context context, String globalKey) {
+        substance.launchUserDetailActivity(context, globalKey);
+    }
+
+    @Override
+    public void launchUserDetailActivity(Context context, String globalKey, int result) {
+        substance.launchUserDetailActivity(context, globalKey, result);
+    }
+
+    @Override
+    public void launchUserDetailActivity(Fragment fragment, String globalKey, int result) {
+        substance.launchUserDetailActivity(fragment, globalKey, result);
+    }
 }
+

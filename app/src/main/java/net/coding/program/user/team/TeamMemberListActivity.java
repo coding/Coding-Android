@@ -1,15 +1,17 @@
 package net.coding.program.user.team;
 
 import android.view.View;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.team.TeamListObject;
 import net.coding.program.model.team.TeamMember;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -42,9 +44,7 @@ public class TeamMemberListActivity extends BackActivity {
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(((parent, view, position, id) -> {
             TeamMember teamMember = (TeamMember) listAdapter.getItem((int) id);
-            UserDetailActivity_.intent(TeamMemberListActivity.this)
-                    .globalKey(teamMember.user.global_key)
-                    .start();
+            CodingCompat.instance().launchUserDetailActivity(this, teamMember.user.global_key);
         }));
 
         final String url = String.format("%s/team/%s/members", Global.HOST_API, teamListObject.globalkey);

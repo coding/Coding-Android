@@ -26,6 +26,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -209,9 +210,8 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         } else {
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 String globalKey = ((UserObject) parent.getItemAtPosition(position)).global_key;
-                UserDetailActivity_.intent(UsersListActivity.this)
-                        .globalKey(globalKey)
-                        .startForResult(RESULT_REQUEST_DETAIL);
+                CodingCompat.instance().launchUserDetailActivity(this,
+                        globalKey, RESULT_REQUEST_DETAIL);
             });
         }
     }

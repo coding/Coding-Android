@@ -13,9 +13,9 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.UserObject;
 import net.coding.program.subject.adapter.SubjectUserListAdapter;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -91,7 +91,7 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
 
     @ItemClick
     final void listView(UserObject itemData) {
-        UserDetailActivity_.intent(this).globalKey(itemData.global_key).startForResult(RESULT_USER_DETAIL);
+        CodingCompat.instance().launchUserDetailActivity(this, itemData.global_key, RESULT_USER_DETAIL);
     }
 
     @OnActivityResult(RESULT_USER_DETAIL)

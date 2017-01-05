@@ -26,13 +26,13 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectHomeActivity;
 import net.coding.program.user.AddFollowActivity_;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -214,9 +214,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             getActivity().finish();
         } else if (dataType == DataType.User) {
             if (object instanceof UserObject) {
-                UserDetailActivity_.intent(this)
-                        .globalKey(((UserObject) object).global_key)
-                        .start();
+                String globalKey = ((UserObject) object).global_key;
+                CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
             }
         } else {
             UserDynamicActivity_

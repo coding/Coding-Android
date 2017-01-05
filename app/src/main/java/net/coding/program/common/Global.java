@@ -45,6 +45,7 @@ import net.coding.program.login.auth.Login2FATipActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.GitFileObject;
+import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
@@ -808,5 +809,12 @@ public class Global {
                     .comment((String) object)
                     .start();
         }
+    };
+
+    public static View.OnClickListener clickUser = v -> {
+        String globalKey = (String) v.getTag();
+        UserDetailActivity_.intent(v.getContext())
+                .globalKey(globalKey)
+                .start();
     };
 }

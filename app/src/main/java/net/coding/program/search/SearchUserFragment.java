@@ -9,8 +9,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchUserAdapter;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.UserObject;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -57,7 +57,8 @@ public class SearchUserFragment extends RefreshBaseFragment {
 
     @ItemClick
     final void listView(UserObject itemData) {
-        UserDetailActivity_.intent(this).globalKey(itemData.global_key.replace("<em>", "").replace("</em>", "")).start();
+        String globalKey = itemData.global_key.replace("<em>", "").replace("</em>", "");
+        CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
     }
 
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {

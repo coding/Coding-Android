@@ -1,9 +1,7 @@
 package net.coding.program.maopao;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -16,10 +14,10 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
 import net.coding.program.user.UserDetailActivity;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -117,13 +115,9 @@ public class LikeUsersListActivity extends BackActivity {
         UriLikeUsers = String.format(UriLikeUsers, id);
 
         listView.setAdapter(baseAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(LikeUsersListActivity.this, UserDetailActivity_.class);
-                intent.putExtra("globalKey", mData.get((int) id).global_key);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((parent, view, position, id1) -> {
+            CodingCompat.instance().launchUserDetailActivity(LikeUsersListActivity.this,
+                            mData.get((int) id1).global_key);
         });
 
         getNetwork(UriLikeUsers, UriLikeUsers);

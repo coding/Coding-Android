@@ -9,6 +9,7 @@ import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
 import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.EnterpriseMyDetailActivity_;
+import net.coding.program.user.EnterpriseUserDetailActivity_;
 
 /**
  * Created by chenchao on 2016/12/28.
@@ -47,5 +48,20 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     @Override
     public void launchMyDetailActivity(Context context) {
         EnterpriseMyDetailActivity_.intent(context).start();
+    }
+
+    @Override
+    public void launchUserDetailActivity(Context context, String globalKey) {
+        EnterpriseUserDetailActivity_.intent(context).globalKey(globalKey).start();
+    }
+
+    @Override
+    public void launchUserDetailActivity(Context context, String globalKey, int result) {
+        EnterpriseUserDetailActivity_.intent(context).globalKey(globalKey).startForResult(result);
+    }
+
+    @Override
+    public void launchUserDetailActivity(Fragment fragment, String globalKey, int result) {
+        EnterpriseUserDetailActivity_.intent(fragment).globalKey(globalKey).startForResult(result);
     }
 }

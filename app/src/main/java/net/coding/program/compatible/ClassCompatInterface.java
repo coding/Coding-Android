@@ -24,4 +24,8 @@ public interface ClassCompatInterface {
 
     void launchMyDetailActivity(Context context);
 
+    void launchUserDetailActivity(Context context, String globalKey);
+    void launchUserDetailActivity(Context context, String globalKey, int result);
+    void launchUserDetailActivity(Fragment fragment, String globalKey, int result);
+
 }

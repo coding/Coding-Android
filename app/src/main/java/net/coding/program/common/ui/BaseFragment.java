@@ -3,7 +3,6 @@ package net.coding.program.common.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -31,7 +30,7 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.network.UmengFragment;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.user.UserDetailActivity_;
+import net.coding.program.compatible.CodingCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,9 +48,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
 
     protected View.OnClickListener mOnClickUser = v -> {
         String globalKey = (String) v.getTag();
-        Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-        intent.putExtra("globalKey", globalKey);
-        startActivity(intent);
+        CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
     };
 
     private ImageLoadTool imageLoadTool = new ImageLoadTool();

@@ -11,6 +11,7 @@ import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
 import net.coding.program.user.MyDetailActivity_;
+import net.coding.program.user.UserDetailActivity_;
 
 /**
  * Created by chenchao on 2016/12/29.
@@ -57,5 +58,20 @@ public class DefaultCompatImp implements ClassCompatInterface {
     @Override
     public void launchMyDetailActivity(Context context) {
         MyDetailActivity_.intent(context).start();
+    }
+
+    @Override
+    public void launchUserDetailActivity(Context context, String globalKey) {
+        UserDetailActivity_.intent(context).globalKey(globalKey).start();
+    }
+
+    @Override
+    public void launchUserDetailActivity(Context context, String globalKey, int result) {
+        UserDetailActivity_.intent(context).globalKey(globalKey).startForResult(result);
+    }
+
+    @Override
+    public void launchUserDetailActivity(Fragment fragment, String globalKey, int result) {
+        UserDetailActivity_.intent(fragment).globalKey(globalKey).startForResult(result);
     }
 }

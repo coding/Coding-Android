@@ -14,6 +14,7 @@ import net.coding.program.ImagePagerActivity_;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.push.PushUrl;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.auth.AuthListActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
@@ -120,9 +121,7 @@ public class URLSpanNoUnderline extends URLSpan {
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             String global = matcher.group(1);
-            intent.setClass(context, UserDetailActivity_.class);
-            intent.putExtra("globalKey", global);
-            context.startActivity(intent);
+            CodingCompat.instance().launchUserDetailActivity(context, global);
             return true;
         }
 

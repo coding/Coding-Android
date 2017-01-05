@@ -49,7 +49,6 @@ import net.coding.program.project.git.CommitListActivity_;
 import net.coding.program.task.add.CommentHolder;
 import net.coding.program.task.add.RefResourceActivity;
 import net.coding.program.task.add.RefResourceActivity_;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -912,14 +911,10 @@ public class MergeDetailActivity extends BackActivity {
                 if (reviewer.user.global_key.equals(mMerge.getAuthor().global_key)) {
                     continue;
                 }
+
                 CircleImageView circleImageView = new CircleImageView(this);
-                circleImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        UserDetailActivity_.intent(MergeDetailActivity.this)
-                                .globalKey(reviewer.user.global_key).start();
-                    }
-                });
+                circleImageView.setOnClickListener(Global.clickUser);
+                circleImageView.setTag(reviewer.user.global_key);
 
                 if ("invitee".equals(reviewer.volunteer) && reviewer.value > 0) {
                     FrameLayout container = new FrameLayout(this);
