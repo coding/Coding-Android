@@ -101,6 +101,7 @@
                     <TextView
                         android:id="@+id/tv_follow_state"
                         android:layout_width="wrap_content"
+                        android:drawablePadding="5dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
@@ -153,7 +154,7 @@
             tools:text="广东，深圳市" />
 
         <TextView
-            android:id="@+id/first"
+            android:id="@+id/moreDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/location"

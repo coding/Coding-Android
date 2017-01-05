@@ -128,7 +128,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        needCaptcha();
+//        needCaptcha();
 
         editName.addTextChangedListener(textWatcher);
         editPassword.addTextChangedListener(textWatcher);

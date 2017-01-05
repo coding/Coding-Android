@@ -15,8 +15,7 @@ import org.json.JSONObject;
 public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
 
     public final int RESULT_EDIT = 0;
-
-    private final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+    private final String TAG_HOST_USER_INFO = "TAG_HOST_USER_INFO";
 
     @AfterViews
     void initMyDetailActivity() {
@@ -29,12 +28,12 @@ public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
         });
 
         final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
-        getNetwork(HOST_USER_INFO + MyApp.sUserObject.global_key, HOST_USER_INFO);
+        getNetwork(HOST_USER_INFO + MyApp.sUserObject.global_key, TAG_HOST_USER_INFO);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_USER_INFO)) {
+        if (tag.equals(TAG_HOST_USER_INFO)) {
             if (code == 0) {
                 mUserObject = new UserObject(respanse.getJSONObject("data"));
                 bindUI(mUserObject);
