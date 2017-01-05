@@ -1,6 +1,7 @@
 package net.coding.program;
 
 import net.coding.program.project.EnterpriseProjectFragment_;
+import net.coding.program.setting.EnterpriseMainSettingFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -15,5 +16,10 @@ public class EnterpriseMainActivity extends MainActivity {
     @Override
     protected void switchProject() {
         switchFragment(EnterpriseProjectFragment_.FragmentBuilder_.class);
+    }
+
+    @Override
+    protected void switchSetting() {
+        switchFragment(EnterpriseMainSettingFragment_.FragmentBuilder_.class);
     }
 }

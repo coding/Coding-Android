@@ -328,9 +328,13 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tabMy:
-                switchFragment(MainSettingFragment_.FragmentBuilder_.class);
+                switchSetting();
                 break;
         }
+    }
+
+    protected void switchSetting() {
+        switchFragment(MainSettingFragment_.FragmentBuilder_.class);
     }
 
     protected void switchProject() {

@@ -43,6 +43,8 @@ import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.EnterpriseEmailSetPasswordActivity_;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.EnterpriseDetail;
+import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
 
@@ -63,13 +65,15 @@ import cz.msebera.android.httpclient.Header;
 public class EnterpriseLoginActivity extends BaseActivity {
 
     private final String TAG_HOST_USER = "TAG_HOST_USER";
+    private final String TAG_HOST_ENTERPRISE_DETAIL = "TAG_HOST_ENTERPRISE_DETAIL";
+    private final String TAG_HOST_IS_ADMIN = "TAG_HOST_IS_ADMIN";
+    private final String TAG_HOST_USER_NEED_2FA = "TAG_HOST_USER_NEED_2FA";
 
     public static final String EXTRA_BACKGROUND = "background";
     private String TAG_HOST_NEED_CAPTCHA = "TAG_HOST_NEED_CAPTCHA";
     final float radius = 8;
     final double scaleFactor = 16;
     private final String TAG_LOGIN = "TAG_LOGIN";
-    private final String TAG_HOST_USER_NEED_2FA = "TAG_HOST_USER_NEED_2FA";
 
     final private int RESULT_CLOSE = 100;
 
@@ -367,6 +371,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
         }
     }
 
+    private UserObject currentUserInfo = null;
+    private EnterpriseDetail enterpriseDetail = null;
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_LOGIN)) {
@@ -395,20 +402,30 @@ public class EnterpriseLoginActivity extends BaseActivity {
             }
         } else if (tag.equals(TAG_HOST_USER)) {
             if (code == 0) {
+                currentUserInfo = new UserObject(respanse.getJSONObject("data"));
+
+                String url = String.format("%s/team/%s/get", Global.HOST_API, enterpriseEdit.getTextString());
+                getNetwork(url, TAG_HOST_ENTERPRISE_DETAIL);
+            } else {
                 showProgressBar(false);
-                UserObject user = new UserObject(respanse.getJSONObject("data"));
-                AccountInfo.saveAccount(this, user);
-                MyAppEnterprise.sUserObject = user;
-                AccountInfo.saveReloginInfo(this, user);
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_HOST_ENTERPRISE_DETAIL)) {
+            if (code == 0) {
+                enterpriseDetail = new EnterpriseDetail(respanse.optJSONObject("data"));
 
-                Global.syncCookie(this);
+                String url = String.format("%s/team/%s/is_admin", Global.HOST_API, enterpriseEdit.getTextString());
+                getNetwork(url, TAG_HOST_IS_ADMIN);
+            } else {
+                showProgressBar(false);
+                showErrorMsg(code, respanse);
+            }
 
-                String name = editName.getText().toString();
-                AccountInfo.saveLastLoginName(this, name);
-
-                sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
-                finish();
-                startActivity(new Intent(this, CodingCompat.instance().getMainActivity()));
+        } else if (tag.equals(TAG_HOST_IS_ADMIN)) { // 判断是否管理员
+            if (code == 0) {
+                showProgressBar(false);
+                enterpriseDetail.isAdmin = respanse.optBoolean("data", false);
+                jumpMainActivity();
             } else {
                 showProgressBar(false);
                 showErrorMsg(code, respanse);
@@ -424,6 +441,23 @@ public class EnterpriseLoginActivity extends BaseActivity {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    private void jumpMainActivity() throws JSONException {
+        EnterpriseInfo.instance().update(this, enterpriseDetail);
+
+        AccountInfo.saveAccount(this, currentUserInfo);
+        MyAppEnterprise.sUserObject = currentUserInfo;
+        AccountInfo.saveReloginInfo(this, currentUserInfo);
+
+        Global.syncCookie(this);
+
+        String name = editName.getText().toString();
+        AccountInfo.saveLastLoginName(this, name);
+
+        sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+        finish();
+        startActivity(new Intent(this, CodingCompat.instance().getMainActivity()));
     }
 
     private void loginFail(int code, JSONObject respanse, boolean needCaptcha) {
@@ -444,6 +478,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         getNetwork(String.format(HOST_USER, user.global_key), TAG_HOST_USER);
         showProgressBar(true, R.string.logining);
     }
+
 
     @Override
     public void onBackPressed() {

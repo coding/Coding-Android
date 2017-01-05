@@ -6,6 +6,7 @@ import net.coding.program.common.Global;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.compatible.EnterpriseCompatImp;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.EnterpriseInfo;
 
 /**
  * Created by cc191954 on 14-8-9.
@@ -20,6 +21,8 @@ public class MyAppEnterprise extends MyApp {
 
         String enterpriseName = AccountInfo.getEnterpriseName(this);
         setHost(enterpriseName);
+
+        EnterpriseInfo.instance().init(this);
 
         CodingCompat.init(new EnterpriseCompatImp());
     }

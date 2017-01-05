@@ -41,6 +41,7 @@ public class AccountInfo {
     private static final String AUTH_URI_DATAS = "AUTH_URI_DATAS";
     private static final String PROJECT_MEMBER = "PROJECT_MEMBER";
     private static final String MESSAGE_DRAFT = "MESSAGE_DRAFT";
+    private static final String ENTERPRISE_DETAIL = "ENTERPRISE_DETAIL";
     private static final String GLOBAL_SETTING = "GLOBAL_SETTING";
     private static final String GLOBAL_SETTING_BACKGROUND = "GLOBAL_SETTING_BACKGROUND";
 
@@ -493,6 +494,19 @@ public class AccountInfo {
 
     public static ArrayList<TaskObject.SingleTask> loadTasks(Context context, int projectId, int userId) {
         return new DataCache<TaskObject.SingleTask>().load(context, String.format(USER_TASKS, projectId, userId));
+    }
+
+    public static void saveEnterpriseDetail(Context context, EnterpriseDetail data) {
+        new DataCache<CustomHost>().saveGlobal(context, data, ENTERPRISE_DETAIL);
+    }
+
+    public static EnterpriseDetail loadEnterpriseDetail(Context context) {
+        EnterpriseDetail detail = new DataCache<EnterpriseDetail>().loadGlobalObject(context, ENTERPRISE_DETAIL);
+        if (detail == null) {
+            detail = new EnterpriseDetail();
+        }
+
+        return detail;
     }
 
     public static void saveNoSendMessage(Context context, MessageListActivity.MyMessage message) {
