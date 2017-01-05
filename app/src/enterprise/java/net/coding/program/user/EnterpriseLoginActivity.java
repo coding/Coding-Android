@@ -62,13 +62,15 @@ import cz.msebera.android.httpclient.Header;
 @EActivity(R.layout.enterprise_activity_login)
 public class EnterpriseLoginActivity extends BaseActivity {
 
+    private final String TAG_HOST_USER = "TAG_HOST_USER";
+
     public static final String EXTRA_BACKGROUND = "background";
-    public String HOST_USER = Global.HOST_API + "/user/key/%s";
-    private String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
+    private String TAG_HOST_NEED_CAPTCHA = "TAG_HOST_NEED_CAPTCHA";
     final float radius = 8;
     final double scaleFactor = 16;
     private final String TAG_LOGIN = "TAG_LOGIN";
-    final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
+    private final String TAG_HOST_USER_NEED_2FA = "TAG_HOST_USER_NEED_2FA";
+
     final private int RESULT_CLOSE = 100;
 
     @Extra
@@ -248,7 +250,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
     }
 
     private void needCaptcha() {
-        getNetwork(HOST_NEED_CAPTCHA, HOST_NEED_CAPTCHA);
+        getNetwork(Global.HOST_API + "/captcha/login", TAG_HOST_NEED_CAPTCHA);
     }
 
     private void downloadValifyPhoto() {
@@ -287,7 +289,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         RequestParams params = new RequestParams();
         params.put("code", input);
-        postNetwork(HOST_USER_NEED_2FA, params, HOST_USER_NEED_2FA);
+        postNetwork(Global.HOST_API + "/check_two_factor_auth_code", params, TAG_HOST_USER_NEED_2FA);
         showProgressBar(true, "登录中");
 
         Global.popSoftkeyboard(this, edit2FA, false);
@@ -311,14 +313,14 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
             RequestParams params = new RequestParams();
 
+            params.put("account", name);
             params.put("password", SimpleSHA1.sha1(password));
             if (captchaLayout.getVisibility() == View.VISIBLE) {
                 params.put("j_captcha", captcha);
             }
             params.put("remember_me", true);
 
-            String HOST_LOGIN = Global.HOST_API + "/v2/account/login";
-            params.put("account", name);
+            String HOST_LOGIN = String.format("http://%s.coding.test/api/v2/account/login", enterpriseEdit.getTextString());
 
             postNetwork(HOST_LOGIN, params, TAG_LOGIN);
             showProgressBar(true, R.string.logining);
@@ -369,10 +371,12 @@ public class EnterpriseLoginActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_LOGIN)) {
             if (code == 0) {
+                MyAppEnterprise.setHost(enterpriseEdit.getTextString());
                 EnterpriseMainActivity_.setNeedWarnEmailNoValidLogin();
                 loginSuccess(respanse);
                 umengEvent(UmengEvent.USER, "普通登录");
             } else if (code == 3205) {
+                MyAppEnterprise.setHost(enterpriseEdit.getTextString());
                 EnterpriseMainActivity_.setNeedWarnEmailNoValidLogin();
                 umengEvent(UmengEvent.USER, "2fa登录");
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
@@ -383,13 +387,13 @@ public class EnterpriseLoginActivity extends BaseActivity {
                 loginFail(code, respanse, true);
             }
 
-        } else if (tag.equals(HOST_USER_NEED_2FA)) {
+        } else if (tag.equals(TAG_HOST_USER_NEED_2FA)) {
             if (code == 0) {
                 loginSuccess(respanse);
             } else {
                 loginFail(code, respanse, false);
             }
-        } else if (tag.equals(HOST_USER)) {
+        } else if (tag.equals(TAG_HOST_USER)) {
             if (code == 0) {
                 showProgressBar(false);
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
@@ -410,7 +414,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
                 showErrorMsg(code, respanse);
             }
 
-        } else if (tag.equals(HOST_NEED_CAPTCHA)) {
+        } else if (tag.equals(TAG_HOST_NEED_CAPTCHA)) {
             if (code == 0) {
                 if (respanse.getBoolean("data")) {
                     captchaLayout.setVisibility(View.VISIBLE);
@@ -435,7 +439,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     private void loginSuccess(JSONObject respanse) throws JSONException {
         UserObject user = new UserObject(respanse.getJSONObject("data"));
-        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
+
+        String HOST_USER = Global.HOST_API + "/user/key/%s";
+        getNetwork(String.format(HOST_USER, user.global_key), TAG_HOST_USER);
         showProgressBar(true, R.string.logining);
     }
 

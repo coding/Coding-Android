@@ -18,15 +18,20 @@ public class MyAppEnterprise extends MyApp {
     public void onCreate() {
         super.onCreate();
 
-        String host = "http://e.coding.test";
         String enterpriseName = AccountInfo.getEnterpriseName(this);
+        setHost(enterpriseName);
+
+        CodingCompat.init(new EnterpriseCompatImp());
+    }
+
+    public static void setHost(String enterpriseName) {
+        String host = "http://e.coding.test";
         if (!TextUtils.isEmpty(enterpriseName)) {
             host = String.format("http://%s.coding.test", enterpriseName);
         }
 
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
-
-        CodingCompat.init(new EnterpriseCompatImp());
     }
+
 }
