@@ -32,10 +32,17 @@
                 android:icon="@drawable/ic_menu_add_task"
                 android:title="创建任务"
                 app:showAsAction="always" />
+
             <item
                 android:id="@+id/actionSendMessage"
-                android:icon="@drawable/ic_menu_add_friend"
-                android:title="添加好友"
+                android:icon="@drawable/ic_menu_send_message"
+                android:title="发消息"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/action2fa"
+                android:icon="@drawable/ic_menu_add_task_2fa"
+                android:title="@string/title_activity_login2_fatip"
                 app:showAsAction="always" />
         </menu>
     </item>

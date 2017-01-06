@@ -13,14 +13,19 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.readystatesoftware.viewbadger.BadgeView;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.init.create.ProjectCreateActivity_;
+import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -190,16 +195,26 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @OptionsItem
     void actionCreateProject() {
-
+        ProjectCreateActivity_.intent(this).start();
     }
 
     @OptionsItem
     void actionCreateTask() {
-
+        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
     }
 
     @OptionsItem
     void actionSendMessage() {
+        TextWatcherAt.startActivityAt(getActivity(), this, 0);
+    }
+
+    @OptionsItem
+    void action2fa() {
+        if (!PermissionUtil.checkCamera(getActivity())) {
+            return;
+        }
+
+        Global.start2FAActivity(getActivity());
     }
 
     protected class ProjectAdapter extends easyRegularAdapter<ProjectObject, ProjectHolder> {
