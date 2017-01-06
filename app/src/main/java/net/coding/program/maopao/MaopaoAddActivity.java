@@ -70,6 +70,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+// // TODO: 2017/1/6 选图片的地方都需要先判断是否获取了存储权限
 @EActivity(R.layout.activity_maopao_add)
 public class MaopaoAddActivity extends BackActivity implements StartActivity, EmojiFragment.EnterEmojiLayout {
 

@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.model.ProjectObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by chenchao on 2016/12/28.
  * 实现同 coding 普通版有差异的地方
@@ -67,6 +69,11 @@ public class CodingCompat implements ClassCompatInterface {
     @Override
     public void launchUserDetailActivity(Fragment fragment, String globalKey, int result) {
         substance.launchUserDetailActivity(fragment, globalKey, result);
+    }
+
+    @Override
+    public void launchAddMemberActivity(Fragment fragment, ProjectObject projectObject, ArrayList<String> pickGlobalKeys, int result) {
+        substance.launchAddMemberActivity(fragment, projectObject, pickGlobalKeys, result);
     }
 }
 

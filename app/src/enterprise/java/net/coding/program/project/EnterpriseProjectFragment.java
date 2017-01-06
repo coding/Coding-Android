@@ -20,7 +20,6 @@ import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -101,8 +100,9 @@ public class EnterpriseProjectFragment extends BaseFragment {
         Object object = v.getTag();
         if (object instanceof ProjectObject) {
             ProjectObject item = (ProjectObject) object;
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.project_path);
-            ProjectHomeActivity_.intent(this).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+            ProjectHomeActivity_.intent(this)
+                    .mProjectObject(item)
+                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
         }
     };
 

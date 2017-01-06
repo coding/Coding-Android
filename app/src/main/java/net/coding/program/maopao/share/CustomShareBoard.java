@@ -325,6 +325,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
             case R.id.codingFriend:
                 umengEvent(UmengEvent.MAOPAO, "分享到好友");
+                // todo add 转发私信
                 UsersListActivity_.intent(mActivity)
                         .type(UsersListActivity.Friend.Follow)
                         .hideFollowButton(true)

@@ -20,6 +20,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
+import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -27,7 +28,6 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
 import net.coding.program.user.UsersListActivity;
-import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -273,11 +273,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @OptionsItem
     void action_add() {
-        UsersListActivity_.intent(this)
-                .type(UsersListActivity.Friend.Follow)
-                .selectType(true)
-                .hideFollowButton(true)
-                .startForResult(RESULT_SELECT_USER);
+        TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
     }
 
     @OnActivityResult(RESULT_SELECT_USER)

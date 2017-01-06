@@ -8,6 +8,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
@@ -17,6 +18,8 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_project_private)
 @OptionsMenu(R.menu.menu_fragment_project_home)
@@ -24,6 +27,8 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
     @ViewById
     View codeLayout0, codeLayout1;
+
+    public static final String TAG_HOST_PROJECT = "TAG_HOST_PROJECT";
 
     protected ProjectFunction[] getItems() {
         return new ProjectFunction[] {
@@ -87,9 +92,21 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
             } else {
                 Global.setBadgeView((BadgeView) view.findViewById(R.id.badge), 0);
             }
+
         }
 
         updateRedPoinitStyle();
+
+        bindUI();
+
+        if (needReload) {
+            getNetwork(mProjectObject.getHttpProjectObject(), TAG_HOST_PROJECT);
+        }
+
+    }
+
+    private void bindUI() {
+        Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
 
         if (mProjectObject.canReadCode()) {
             codeLayout0.setVisibility(View.VISIBLE);
@@ -97,6 +114,19 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         } else {
             codeLayout0.setVisibility(View.GONE);
             codeLayout1.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(TAG_HOST_PROJECT)) {
+            if (code == 0) {
+                mProjectObject = new ProjectObject(respanse.optJSONObject("data"));
+                bindUI();
+            }
+        } else {
+            super.parseJson(code, respanse, tag, pos, data);
         }
     }
 

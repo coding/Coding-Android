@@ -36,6 +36,8 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
 
         itemManager.setVisibility(visible);
         itemManagerDivide.setVisibility(visible);
+
+        setHasOptionsMenu(false);
     }
 
     @Click

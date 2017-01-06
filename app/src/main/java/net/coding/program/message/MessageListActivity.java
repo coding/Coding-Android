@@ -430,6 +430,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     private void relayMessage(Message.MessageObject message) {
+        // // TODO add 转发私信
         UsersListActivity_.intent(this)
                 .type(UsersListActivity.Friend.Follow)
                 .hideFollowButton(true)

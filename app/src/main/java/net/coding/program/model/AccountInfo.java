@@ -388,18 +388,6 @@ public class AccountInfo {
         editor.apply();
     }
 
-    public static String getEnterpriseName(Context ctx) {
-        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
-        return sp.getString(KEY_ENTERPRISE, "");
-    }
-
-    public static void setEnterpriseName(Context ctx, String name) {
-        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(KEY_ENTERPRISE, name);
-        editor.apply();
-    }
-
     public static void setCheckLoginBackground(Context ctx) {
         Calendar calendar = Calendar.getInstance();
         SharedPreferences.Editor editor = ctx.getSharedPreferences(GLOBAL_SETTING, Context.MODE_PRIVATE).edit();

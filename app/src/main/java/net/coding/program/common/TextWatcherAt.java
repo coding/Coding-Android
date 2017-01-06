@@ -46,6 +46,7 @@ public class TextWatcherAt implements TextWatcher {
     }
 
     public static void startActivityAt(Context context, StartActivity startActivity, int result) {
+        // todo add 选人
         Intent intent;
         intent = new Intent(context, UsersListActivity_.class);
         intent.putExtra("type", UsersListActivity.Friend.Follow);

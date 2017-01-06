@@ -32,7 +32,6 @@ import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectHomeActivity;
-import net.coding.program.user.AddFollowActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -63,7 +62,6 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     public enum Type {
         Member,
         Pick,
-        Team
     }
 
     public enum DataType {
@@ -418,9 +416,13 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     @OptionsItem
     void action_add() {
-        Intent intent = new Intent(getActivity(), AddFollowActivity_.class);
-        intent.putExtra("mProjectObject", mProjectObject);
-        startActivityForResult(intent, RESULT_ADD_USER);
+        ArrayList<String> picks = new ArrayList<>();
+        if (mSearchData != null && mSearchData.size() > 0 && mSearchData.get(0) instanceof TaskObject.Members) {
+            for (Object item : mSearchData) {
+                picks.add(((TaskObject.Members) item).user.global_key);
+            }
+        }
+        CodingCompat.instance().launchAddMemberActivity(this, mProjectObject, picks, RESULT_ADD_USER);
     }
 
     @OnActivityResult(RESULT_ADD_USER)

@@ -461,6 +461,11 @@
             android:label="@string/title_activity_add_follow"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".user.EnterpriseAddMemberActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_enterprise_add_member"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".user.EnterpriseUserDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_detail"

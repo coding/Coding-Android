@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import net.coding.program.common.Global;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.compatible.EnterpriseCompatImp;
-import net.coding.program.model.AccountInfo;
 import net.coding.program.model.EnterpriseInfo;
 
 /**
@@ -19,7 +18,9 @@ public class MyAppEnterprise extends MyApp {
     public void onCreate() {
         super.onCreate();
 
-        String enterpriseName = AccountInfo.getEnterpriseName(this);
+        EnterpriseInfo.instance().init(this);
+
+        String enterpriseName = EnterpriseInfo.instance().getGlobalkey();
         setHost(enterpriseName);
 
         EnterpriseInfo.instance().init(this);

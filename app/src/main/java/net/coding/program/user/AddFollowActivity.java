@@ -277,7 +277,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         return true;
     }
 
-    void search(String s) {
+    protected void search(String s) {
         if (s == null || s.replaceAll(" ", "").replaceAll("　", "").isEmpty()) {
             if (mProjectObject != null) {
                 friendLayout.setVisibility(View.VISIBLE);
