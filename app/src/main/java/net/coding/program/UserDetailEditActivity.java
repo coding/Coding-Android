@@ -229,7 +229,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         listViewAddFootSection(listView);
         user = AccountInfo.loadAccount(this);
 
-        View head = mInflater.inflate(R.layout.activity_user_info_head, null, false);
+        View head = mInflater.inflate(R.layout.activity_user_info_head, listView, false);
         icon = (ImageView) head.findViewById(R.id.icon);
         icon.setOnClickListener(new ClickSmallImage(this));
         iconfromNetwork(icon, user.avatar);

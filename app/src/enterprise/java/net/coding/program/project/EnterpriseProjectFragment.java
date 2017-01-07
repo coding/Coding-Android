@@ -240,7 +240,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
             holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
             String ownerName = item.owner_user_name;
-            holder.content.setText(ownerName);
 
             holder.name2.setVisibility(View.VISIBLE);
             holder.name2.setText(item.name);
@@ -293,7 +292,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
         TextView name;
         ImageView image;
         TextView name2;
-        TextView content;
         TextView desc;
         BadgeView badge;
         ImageView privatePin;
@@ -309,7 +307,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
             rootLayout = view;
             name = (TextView) view.findViewById(R.id.name);
             image = (ImageView) view.findViewById(R.id.icon);
-            content = (TextView) view.findViewById(R.id.comment);
             badge = (BadgeView) view.findViewById(R.id.badge);
             fLayoutAction = view.findViewById(R.id.flayoutAction);
             desc = (TextView) view.findViewById(R.id.txtDesc);

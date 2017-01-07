@@ -14,42 +14,46 @@ import java.util.List;
  * 检查权限
  */
 public class PermissionUtil {
-    public static boolean writeExtralStorage(Activity activity) {
-        final int result = 2001;
-        final String[] permission = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
 
-        return checkPermission(activity, result, permission, "开启存储空间权限后才能下载");
+    public static final int RESULT_CAMERA = 2002;
+    public static final int RESULT_MICROPHONE = 2003;
+    public static final int RESULT_LOCATION = 2004;
+    public static final int RESULT_STORAGE = 2001;
+    public static final int RESULT_CAMERA_STORAGE = 2005;
+
+    public static final String[] PERMISSION_STORAGE = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    public static boolean writeExtralStorage(Activity activity) {
+
+        return checkPermission(activity, RESULT_STORAGE, PERMISSION_STORAGE, "开启存储空间权限后才能下载");
     }
 
     public static boolean checkCamera(Activity activity) {
-        final int result = 2002;
         final String[] permission = {
                 Manifest.permission.CAMERA
         };
 
-        return checkPermission(activity, result, permission, "开启相机权限后才能使用");
+        return checkPermission(activity, RESULT_CAMERA, permission, "开启相机权限后才能使用");
     }
 
     public static boolean checkMicrophone(Activity activity) {
-        final int result = 2003;
         final String[] permission = {
                 Manifest.permission.RECORD_AUDIO
         };
 
-        return checkPermission(activity, result, permission, "开启麦克风权限后才能使用");
+        return checkPermission(activity, RESULT_MICROPHONE, permission, "开启麦克风权限后才能使用");
     }
 
     public static boolean checkLocation(Activity activity) {
-        final int result = 2004;
         final String[] permission = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         };
 
-        return checkPermission(activity, result, permission, "开启位置信息权限后才能使用");
+        return checkPermission(activity, RESULT_LOCATION, permission, "开启位置信息权限后才能使用");
     }
 
     private static boolean checkPermission(Activity activity, int result, String[] permission, String tipString) {

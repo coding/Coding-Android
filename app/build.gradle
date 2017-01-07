@@ -16,7 +16,7 @@ android {
         renderscriptTargetApi 19
         multiDexEnabled true
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 21
     }
 
 //    flavorDimensions("person", "enterprise")
@@ -110,6 +110,8 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.44.android'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
 }

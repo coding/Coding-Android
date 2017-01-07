@@ -169,20 +169,6 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/icon"
-            android:layout_alignLeft="@+id/privateIcon"
-            android:layout_alignWithParentIfMissing="true"
-            android:singleLine="true"
-            android:text="chenchao"
-            android:textColor="@color/font_9"
-            android:textSize="15sp"
-            android:visibility="visible" />
-
-
         <FrameLayout
             android:id="@+id/flayoutAction"
             android:layout_width="80dp"

@@ -2,7 +2,6 @@ package net.coding.program.common.base;
 
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -19,6 +18,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.TopicEditFragment;
 
@@ -122,16 +122,21 @@ public class MDEditFragment extends BaseFragment {
 
     @Click
     public void mdPhoto(View v) {
+        if (!PermissionUtil.writeExtralStorage(getActivity())) {
+            return;
+        }
+
+        popPickDialog();
+    }
+
+    private void popPickDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("上传图片")
-                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            camera();
-                        } else {
-                            photo();
-                        }
+                .setItems(R.array.camera_gallery, (dialog, which) -> {
+                    if (which == 0) {
+                        camera();
+                    } else {
+                        photo();
                     }
                 }).show();
     }

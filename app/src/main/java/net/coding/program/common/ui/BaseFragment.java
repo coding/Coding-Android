@@ -1,22 +1,27 @@
 package net.coding.program.common.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -29,11 +34,15 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.network.UmengFragment;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.compatible.CodingCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cc191954 on 14-8-11.
@@ -197,6 +206,45 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initSetting();
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    protected boolean writeExtralStorage() {
+        final String[] PERMISSION_STORAGE = new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+        };
+        return checkPermission(PermissionUtil.RESULT_CAMERA_STORAGE, PERMISSION_STORAGE);
+    }
+
+    protected boolean checkPermission(int result, String[] permission) {
+        return checkPermission(result, permission, "");
+    }
+
+    protected boolean checkPermission(int result, String[] permission, String tipString) {
+        List<String> needApply = new ArrayList<>();
+        for (String item : permission) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), item) != PackageManager.PERMISSION_GRANTED) {
+                needApply.add(item);
+            }
+        }
+
+        if (needApply.isEmpty()) {
+            return true;
+        }
+
+        String[] applys = new String[needApply.size()];
+        applys = needApply.toArray(applys);
+
+        if (!TextUtils.isEmpty(tipString)) {
+            Toast.makeText(getActivity(), tipString, Toast.LENGTH_SHORT).show();
+        }
+        requestPermissions(
+                applys,
+                result
+        );
+
+        return false;
     }
 
     @Override

@@ -79,6 +79,7 @@
         <item name="android:actionMenuTextColor">@color/font_6</item>
 
         <item name="colorPrimary">@drawable/color_primary</item>
+        <item name="actionMenuTextColor">@color/font_green</item>
     </style>
 
     <!--没有icon的actionbar -->

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/divide_line"
+        android:background="@color/stand_bg"
         android:dividerHeight="0.5dp" />
 
 </FrameLayout>
