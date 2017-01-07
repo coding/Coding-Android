@@ -43,9 +43,9 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     public static final String MASTER = "master";
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
+
     @FragmentArg
     String mProjectPath;
-//    ProjectObject mProjectObject;
 
     @FragmentArg
     GitFileInfoObject mGitFileInfoObject;

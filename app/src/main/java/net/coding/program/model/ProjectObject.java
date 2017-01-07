@@ -19,6 +19,7 @@ public class ProjectObject implements Serializable {
     public String owner_user_home = "";
     public String owner_user_name = "";
     public String owner_user_picture = "";
+    // todo 企业版里面去掉了 /u 感觉很多地方都要修改了
     public String project_path = ""; // "/u/cc/p/hell"
     public String ssh_url = "";
     public String current_user_role = "";

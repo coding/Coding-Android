@@ -38,13 +38,11 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     private final String HOST_LIST_TAG = Global.HOST_API + "%s/git/list_tags";
 
     @ViewById
+    View versionLayout, expandableIndicator;
+    @ViewById
     TextView versionButton;
     @ViewById
-    View versionLayout;
-    @ViewById
     ExpandableListView versionList;
-    @ViewById
-    View expandableIndicator;
 
     private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList<>(), new ArrayList<>()};
     ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
