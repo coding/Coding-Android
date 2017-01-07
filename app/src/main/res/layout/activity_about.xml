@@ -101,35 +101,23 @@
 
         <TextView
             android:id="@+id/codingWebsite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="官网：https://coding.net"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="官网：https://coding.net" />
 
         <TextView
             android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="E-mail：support@coding.net"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="E-mail：support@coding.net" />
 
         <TextView
             android:id="@+id/weibo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微博：Coding"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="微博：Coding" />
 
         <TextView
             android:id="@+id/wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信：扣钉Coding"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="微信：扣钉Coding" />
 
     </LinearLayout>
 

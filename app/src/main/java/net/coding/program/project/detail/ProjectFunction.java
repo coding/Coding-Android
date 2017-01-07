@@ -1,6 +1,7 @@
 package net.coding.program.project.detail;
 
 import net.coding.program.R;
+import net.coding.program.project.detail.merge.ProjectMergeFragment_;
 import net.coding.program.project.detail.merge.ProjectPullFragment_;
 import net.coding.program.project.detail.readme.ReadmeFragment_;
 
@@ -16,7 +17,8 @@ public enum ProjectFunction {
     code(R.id.itemCode, R.drawable.project_button_icon_code, "代码", ProjectGitFragmentMain_.class),
     member(R.id.itemMember, R.drawable.project_button_icon_member, "成员", MembersListFragment_.class),
     readme(R.id.itemReadme, R.drawable.project_button_icon_readme, "Readme", ReadmeFragment_.class),
-    merge(R.id.itemMerge, R.drawable.project_button_icon_merge, "Merge Request", ProjectPullFragment_.class);
+    merge(R.id.itemMerge, R.drawable.project_button_icon_merge, "Merge Request", ProjectMergeFragment_.class),
+    pullRequest(R.id.itemMerge, R.drawable.project_button_icon_merge, "Pull Request", ProjectPullFragment_.class);
 
     public int id;
     public int icon;

@@ -184,41 +184,26 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             .mProjectObject(mProjectObject)
             .start();
 
+    protected ProjectFunction[] getItems() {
+        return new ProjectFunction[] {
+                ProjectFunction.dynamic,
+                ProjectFunction.topic,
+                ProjectFunction.code,
+                ProjectFunction.member,
+                ProjectFunction.readme,
+                ProjectFunction.pullRequest
+        };
+    }
+
     private void initHead3(View root) {
-        final int[] buttons = new int[]{
-                R.id.itemDynamic,
-                R.id.itemTopic,
-                R.id.itemCode,
-                R.id.itemMember,
-                R.id.itemReadme,
-                R.id.itemMerge
-        };
+        final ProjectFunction[] items = getItems();
 
-        final int[] buttonBackgrounds = new int[]{
-                R.drawable.project_button_icon_dynamic,
-                R.drawable.project_button_icon_topic,
-                R.drawable.project_button_icon_code,
-                R.drawable.project_button_icon_member,
-                R.drawable.project_button_icon_readme,
-                R.drawable.project_button_icon_merge
-        };
-
-        final String[] titles = new String[]{
-                "动态",
-                "讨论",
-                "代码",
-                "成员",
-                "Readme",
-                "Pull Request"
-        };
-
-        for (int i = 0; i < buttons.length; ++i) {
-            View item = root.findViewById(buttons[i]);
-            item.findViewById(R.id.icon).setBackgroundResource(buttonBackgrounds[i]);
-            ((TextView) item.findViewById(R.id.title)).setText(titles[i]);
-            final int pos = i;
-            item.setOnClickListener(v -> {
-                switch (buttons[pos]) {
+        for (ProjectFunction item : items) {
+            View view = root.findViewById(item.id);
+            view.findViewById(R.id.icon).setBackgroundResource(item.icon);
+            ((TextView) view.findViewById(R.id.title)).setText(item.title);
+            view.setOnClickListener(v -> {
+                switch (v.getId()) {
                     case R.id.itemDynamic:
                         updateDynamic();
                         break;
@@ -240,11 +225,11 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                         .start();
             });
 
-            if (titles[i].equals("动态")) {
-                dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
+            if (item == ProjectFunction.dynamic) {
+                dynamicBadge = (BadgeView) view.findViewById(R.id.badge);
                 Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
             } else {
-                Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
+                Global.setBadgeView((BadgeView) view.findViewById(R.id.badge), 0);
             }
         }
 

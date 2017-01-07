@@ -14,13 +14,13 @@
         android:background="@drawable/icon_user_monkey_circle" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
         android:id="@+id/versionLayout"
-        android:layout_marginTop="14dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/icon"
-        android:gravity="center"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -33,13 +33,13 @@
 
         <TextView
             android:id="@+id/version"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            tools:text="V1.0"
+            android:layout_marginLeft="10dp"
             android:textColor="@color/font_2"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="V1.0" />
     </LinearLayout>
 
 
@@ -108,50 +108,30 @@
 
         <TextView
             android:id="@+id/codingWebsite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="官网：https://e.coding.net"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="官网：https://e.coding.net" />
 
         <TextView
             android:id="@+id/phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="免费电话：400-026-3464"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="免费电话：400-026-3464" />
 
         <TextView
             android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="E-mail：support@coding.net"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="E-mail：support@coding.net" />
 
         <TextView
             android:id="@+id/weibo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            style="@style/aboutBottomText"
             android:text="微博：Coding"
-            android:textColor="@color/font_6"
-            android:textSize="12sp"
             android:visibility="gone" />
 
 
         <TextView
             android:id="@+id/wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            style="@style/aboutBottomText"
             android:text="微信：扣钉Coding"
-            android:textColor="@color/font_6"
-            android:textSize="12sp"
             android:visibility="gone" />
 
     </LinearLayout>

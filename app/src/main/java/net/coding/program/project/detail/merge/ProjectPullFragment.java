@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
 
@@ -32,23 +31,18 @@ public class ProjectPullFragment extends BaseFragment {
 
     @AfterViews
     protected final void initProjectMergeFragment() {
-        String title = ProjectObject.getTitle(mProjectObject.isPublic());
-        ((BaseActivity) getActivity()).getSupportActionBar().setTitle(title);
         mAdapter = new PullPagerAdapter(getChildFragmentManager(), mProjectObject);
         viewPager.setAdapter(mAdapter);
 
-        ((RadioGroup) getView().findViewById(R.id.checkGroup)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.checkClose) {
-                    mAdapter.setState(1);
-                } else {
-                    mAdapter.setState(0);
-                }
-                mAdapter.notifyDataSetChanged();
+        ((RadioGroup) getView().findViewById(R.id.checkGroup))
+                .setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.checkClose) {
+                mAdapter.setState(1);
+            } else {
+                mAdapter.setState(0);
             }
+            mAdapter.notifyDataSetChanged();
         });
-
     }
 
     @Override

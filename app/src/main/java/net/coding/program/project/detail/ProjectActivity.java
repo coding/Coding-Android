@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -16,8 +17,6 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.merge.ProjectMergeFragment_;
-import net.coding.program.project.detail.merge.ProjectPullFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -53,6 +52,9 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
     @ViewById
     TextView toolbarProjectTitle;
+
+    @ViewById(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     @AfterViews
     protected void initProjectActivity() {
@@ -104,11 +106,13 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         Bundle bundle = new Bundle();
 
         try {
-            Class fragmentClass = mJumpType.fragment;
-            if (fragmentClass == ProjectPullFragment_.class && !mProjectObject.isPublic()) {
-                fragmentClass = ProjectMergeFragment_.class;
+            if (mJumpType == ProjectFunction.task) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            } else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
 
+            Class fragmentClass = mJumpType.fragment;
             fragment = (Fragment) fragmentClass.newInstance();
 
             bundle.putSerializable("mProjectObject", mProjectObject);
