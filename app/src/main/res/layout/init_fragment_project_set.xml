@@ -70,16 +70,12 @@
         android:id="@+id/itemTransfer"
         layout="@layout/init_common_item" />
 
-    <include
-        layout="@layout/divideline_15" />
+    <include layout="@layout/divideline_15" />
 
     <include
         android:id="@+id/item"
         layout="@layout/init_common_item" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

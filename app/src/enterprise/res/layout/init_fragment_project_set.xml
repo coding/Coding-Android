@@ -75,9 +75,6 @@
         android:id="@+id/item"
         layout="@layout/init_common_item" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divide_15_top" />
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

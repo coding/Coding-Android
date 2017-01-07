@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/stand_bg"
+    android:gravity="center_vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="15sp"
+        android:textColor="@color/font_2"
+        android:layout_toRightOf="@id/icon"
+        tools:text="Mediumc Text" />
+
+    <CheckBox
+        android:id="@+id/followed"
+        android:layout_width="71dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:button="@null"
+        android:focusable="false" />
+
+    <View
+        style="@style/DivideLine"
+        android:layout_alignLeft="@id/name"
+        android:layout_marginBottom="0dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
