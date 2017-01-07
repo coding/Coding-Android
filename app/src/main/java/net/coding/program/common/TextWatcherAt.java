@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.MembersSelectActivity_;
-import net.coding.program.user.UsersListActivity;
-import net.coding.program.user.UsersListActivity_;
 
 /**
  * Created by chaochen on 14-10-29.
@@ -46,13 +45,7 @@ public class TextWatcherAt implements TextWatcher {
     }
 
     public static void startActivityAt(Context context, StartActivity startActivity, int result) {
-        // todo add 选人
-        Intent intent;
-        intent = new Intent(context, UsersListActivity_.class);
-        intent.putExtra("type", UsersListActivity.Friend.Follow);
-        intent.putExtra("selectType", true);
-        intent.putExtra("hideFollowButton", true);
-        startActivity.startActivityForResult(intent, result);
+        CodingCompat.instance().launchPickUser(context, startActivity, result);
     }
 
     @Override

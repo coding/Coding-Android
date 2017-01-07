@@ -88,7 +88,13 @@ public class MyAsyncHttpClient {
     public static AsyncHttpClient createClient(Context context) {
         AsyncHttpClient client = new AsyncHttpClient();
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+
+        // todo 临时，方便进入生产环境
+//        BasicClientCookie devCookie = new BasicClientCookie("e_edv", "1");
+//        cookieStore.addCookie(devCookie);
+
         client.setCookieStore(cookieStore);
+
         if (!Global.HOST.equals(Global.DEFAULT_HOST)) {
             AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(context);
             client.addHeader("Authorization", customHost.getCode()); // 有可能会有密码

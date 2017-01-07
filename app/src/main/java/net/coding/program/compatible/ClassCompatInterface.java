@@ -3,6 +3,7 @@ package net.coding.program.compatible;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
 
 import java.util.ArrayList;
@@ -33,4 +34,6 @@ public interface ClassCompatInterface {
     void launchUserDetailActivity(Fragment fragment, String globalKey, int result);
 
     void launchAddMemberActivity(Fragment fragment, ProjectObject projectObject, ArrayList<String> pickGlobalKeys, int result);
+
+    void launchPickUser(Context context, StartActivity startActivity, int result);
 }

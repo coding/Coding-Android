@@ -3,6 +3,7 @@ package net.coding.program.compatible;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
 
 import java.util.ArrayList;
@@ -74,6 +75,11 @@ public class CodingCompat implements ClassCompatInterface {
     @Override
     public void launchAddMemberActivity(Fragment fragment, ProjectObject projectObject, ArrayList<String> pickGlobalKeys, int result) {
         substance.launchAddMemberActivity(fragment, projectObject, pickGlobalKeys, result);
+    }
+
+    @Override
+    public void launchPickUser(Context context, StartActivity startActivity, int result) {
+        substance.launchPickUser(context, startActivity, result);
     }
 }
 

@@ -973,6 +973,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarSpannerTheme1"
             android:windowSoftInputMode="stateAlwaysVisible|adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".user.PickUserActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_pick_user_activity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity_;
+import net.coding.program.common.StartActivity;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.MainProjectFragment_;
@@ -14,6 +15,8 @@ import net.coding.program.project.PublicProjectHomeFragment_;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.MyDetailActivity_;
 import net.coding.program.user.UserDetailActivity_;
+import net.coding.program.user.UsersListActivity;
+import net.coding.program.user.UsersListActivity_;
 
 import java.util.ArrayList;
 
@@ -84,5 +87,15 @@ public class DefaultCompatImp implements ClassCompatInterface {
         Intent intent = new Intent(fragment.getActivity(), AddFollowActivity_.class);
         intent.putExtra("mProjectObject", projectObject);
         fragment.startActivityForResult(intent, result);
+    }
+
+    @Override
+    public void launchPickUser(Context context, StartActivity startActivity, int result) {
+        Intent intent;
+        intent = new Intent(context, UsersListActivity_.class);
+        intent.putExtra("type", UsersListActivity.Friend.Follow);
+        intent.putExtra("selectType", true);
+        intent.putExtra("hideFollowButton", true);
+        startActivity.startActivityForResult(intent, result);
     }
 }

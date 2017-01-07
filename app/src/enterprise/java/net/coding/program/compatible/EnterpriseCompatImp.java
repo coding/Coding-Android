@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.EnterpriseMainActivity_;
+import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
@@ -12,6 +13,7 @@ import net.coding.program.user.EnterpriseAddMemberActivity_;
 import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.EnterpriseMyDetailActivity_;
 import net.coding.program.user.EnterpriseUserDetailActivity_;
+import net.coding.program.user.PickUserActivity_;
 
 import java.util.ArrayList;
 
@@ -75,5 +77,12 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
         intent.putExtra("projectObject", projectObject);
         intent.putExtra("pickedGlobalKeys", pickGlobalKeys);
         fragment.startActivityForResult(intent, result);
+    }
+
+    @Override
+    public void launchPickUser(Context context, StartActivity startActivity, int result) {
+        Intent intent = new Intent(context, PickUserActivity_.class);
+        startActivity.startActivityForResult(intent, result);
+
     }
 }

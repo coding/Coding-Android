@@ -12,10 +12,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.EnterpriseInfo;
-import net.coding.program.model.EnterpriseUserObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.project.ProjectServiceInfo;
@@ -24,16 +21,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_enterprise_add_member)
-public class EnterpriseAddMemberActivity extends BackActivity {
+public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity {
 
-    private static final String TAG_HOST_MEMBERS = "TAG_HOST_MEMBERS";
     private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
     private static final String TAG_HOST_ADD_USER = "TAG_HOST_ADD_USER";
     private static final String TAG_HOST_DELETE_USER = "TAG_HOST_DELETE_USER";
@@ -50,42 +45,35 @@ public class EnterpriseAddMemberActivity extends BackActivity {
     TextView maxUserCount;
 
     @ViewById
-    ListView listView;
-
-    ArrayList<UserObject> listData = new ArrayList<>();
+    protected ListView listView;
 
     ProjectServiceInfo serviceInfo;
 
     @AfterViews
     void initEnterpriseAddMemberActivity() {
         listView.setAdapter(adapter);
-        String host = String.format("%s/team/%s/members", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
-        getNetwork(host, TAG_HOST_MEMBERS);
         loadServiceInfo();
     }
 
     @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(TAG_HOST_MEMBERS)) {
-            if (code == 0) {
-                listData.clear();
-                JSONArray jsonArray = respanse.optJSONArray("data");
-                for (int i = 0; i < jsonArray.length(); ++i) {
-                    EnterpriseUserObject user = new EnterpriseUserObject(jsonArray.optJSONObject(i));
-                    listData.add(user.user);
-                }
-                for (String item : pickedGlobalKeys) {
-                    for (UserObject user : listData) {
-                        if (item.equals(user.global_key)) {
-                            pickedData.add(user);
-                            break;
-                        }
-                    }
-                }
+    protected void parseUserJson(JSONObject respanse) {
+        super.parseUserJson(respanse);
 
-                adapter.notifyDataSetChanged();
+        for (String item : pickedGlobalKeys) {
+            for (UserObject user : listData) {
+                if (item.equals(user.global_key)) {
+                    pickedData.add(user);
+                    break;
+                }
             }
-        } else if (tag.equals(TAG_HOST_ADD_USER)) {
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(TAG_HOST_ADD_USER)) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "添加成员");
 
