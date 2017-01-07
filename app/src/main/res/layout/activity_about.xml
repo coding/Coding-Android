@@ -5,12 +5,12 @@
     android:background="@color/divide"
     tools:context="net.coding.program.setting.AboutActivity">
 
-    <View
+    <ImageView
         android:id="@+id/icon"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/icon_user_monkey_circle" />
 
     <TextView
@@ -111,8 +111,7 @@
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="E-mail：link@coding.net"
+            android:text="E-mail：support@coding.net"
             android:textColor="@color/font_6"
             android:textSize="12sp" />
 

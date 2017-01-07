@@ -5,40 +5,48 @@
     android:background="@color/divide"
     tools:context="net.coding.program.setting.AboutActivity">
 
-    <View
+    <ImageView
         android:id="@+id/icon"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/icon_user_monkey_circle" />
 
-    <TextView
-        android:id="@+id/t1"
+    <LinearLayout
         android:layout_width="wrap_content"
+        android:id="@+id/versionLayout"
+        android:layout_marginTop="14dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/icon"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="Coding-让开发更简单"
-        android:textColor="#000000"
-        android:textSize="18sp" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/t1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="222"
-        android:textColor="@color/font_6"
-        android:textSize="13sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Coding 企业版"
+            android:textColor="@color/font_2"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            tools:text="V1.0"
+            android:textColor="@color/font_2"
+            android:textSize="13sp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/version"
+        android:layout_below="@+id/versionLayout"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
@@ -59,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="给 Coding 好评"
+                android:text="去评分"
                 android:textColor="@color/font_2"
                 android:textSize="18sp" />
 
@@ -96,14 +104,23 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingBottom="15dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/codingWebsite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="官网：https://coding.net"
+            android:layout_marginBottom="5dp"
+            android:text="官网：https://e.coding.net"
+            android:textColor="@color/font_6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="免费电话：400-026-3464"
             android:textColor="@color/font_6"
             android:textSize="12sp" />
 
@@ -111,8 +128,8 @@
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="E-mail：link@coding.net"
+            android:layout_marginBottom="5dp"
+            android:text="E-mail：support@coding.net"
             android:textColor="@color/font_6"
             android:textSize="12sp" />
 
@@ -120,17 +137,22 @@
             android:id="@+id/weibo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="微博：Coding"
             android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
+
 
         <TextView
             android:id="@+id/wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="微信：扣钉Coding"
             android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
