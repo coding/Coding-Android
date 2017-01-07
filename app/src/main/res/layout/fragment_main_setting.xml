@@ -154,6 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_account"
+        app:itemShowBottomLine="false"
         app:itemTitle="我的账户" />
 
     <include layout="@layout/divide_middle_15" />
@@ -188,6 +189,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_about"
+        app:itemShowBottomLine="false"
         app:itemTitle="关于 Coding" />
 
     <include layout="@layout/divide_bottom_15" />
