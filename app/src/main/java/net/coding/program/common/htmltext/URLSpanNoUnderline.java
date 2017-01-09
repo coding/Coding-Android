@@ -75,14 +75,7 @@ public class URLSpanNoUnderline extends URLSpan {
     }
 
     public static boolean openActivityByUri(Context context, String uri, boolean newTask, boolean defaultIntent, boolean share) {
-        // 应对修改企业版路径以 /p/project 开头的问题
-        if (uri.startsWith("/p/")) {
-            uri = String.format("/u/%s%s", EnterpriseInfo.instance().getGlobalkey(), uri);
-        } else if (uri.startsWith(Global.HOST + "/p/")) {
-            int pathStart = Global.HOST.length();
-            String uriPath = uri.substring(pathStart, uri.length());
-            uri = String.format("/u/%s%s", EnterpriseInfo.instance().getGlobalkey(), uriPath);
-        }
+        uri = Global.transformEnterpriseUri(uri);
 
         final String ProjectPath = "/u/([\\w.-]+)/p/([\\w\\.-]+)";
         final String Host = Global.HOST;

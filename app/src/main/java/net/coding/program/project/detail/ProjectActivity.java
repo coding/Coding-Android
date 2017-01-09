@@ -155,16 +155,16 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         public ProjectJumpParam(String path) {
+            path = Global.transformEnterpriseUri(path);
             String[] regexs = new String[]{
                     "^/u/(.*?)/p/(.*?)(?:/git)?$",
                     "^/user/(.*)/project/(.*)$",
                     "^/t/(.*?)/p/(.*?)(?:/git)?$",
                     "^/team/(.*)/p/(.*)$"
             };
-
             for (String item : regexs) {
                 if (isMatch(path, item)) {
-                    break;
+                    return;
                 }
             }
         }

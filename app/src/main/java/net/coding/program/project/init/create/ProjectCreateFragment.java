@@ -63,18 +63,18 @@ public class ProjectCreateFragment extends BaseFragment {
 
     ProjectInfo projectInfo;
     MenuItem mMenuSave;
+
     @ViewById
     ImageView projectIcon;
     @ViewById
-    EditText projectName;
-    @ViewById
-    EditText description;
+    EditText projectName, description;
     @ViewById
     CheckBox generateReadme;
     @ViewById
     View item;
     @ViewById
     TextView projectTypeText;
+
     private Uri fileUri;
     private Uri fileCropUri;
     private String defaultIconUrl;
@@ -204,7 +204,7 @@ public class ProjectCreateFragment extends BaseFragment {
 
         int itemId_ = item.getItemId();
         if (itemId_ == R.id.action_finish) {
-            action_done();
+            actionDone();
             return true;
         }
         return false;
@@ -233,7 +233,7 @@ public class ProjectCreateFragment extends BaseFragment {
         }
     }
 
-    private void action_done() {
+    private void actionDone() {
         initProjectInfo();
     }
 
