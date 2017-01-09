@@ -593,8 +593,9 @@ public class DynamicObject {
 
         @Override
         public Spanned title() {
-            final String format = "%s %s 文件";
-            String title = String.format(format, user.getHtml(), action_msg);
+            String actionType = action.endsWith("dir") ? "文件夹" : "文件"; // create_dir
+            final String format = "%s %s %s";
+            String title = String.format(format, user.getHtml(), action_msg, actionType);
             return Global.changeHyperlinkColor(title);
         }
 
