@@ -1,6 +1,8 @@
 package net.coding.program.project;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,11 +23,14 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.UserObject;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
+import net.coding.program.user.UsersListActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -47,6 +52,8 @@ public class EnterpriseProjectFragment extends BaseFragment {
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
     private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
     private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
+
+    private final int RESULT_SELECT_USER = 2001;
 
     int msectionId = 0;
 
@@ -205,9 +212,18 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @OptionsItem
     void actionSendMessage() {
-        TextWatcherAt.startActivityAt(getActivity(), this, 0);
+        TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
     }
 
+    @OnActivityResult(RESULT_SELECT_USER)
+    void onSelectUser(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            UserObject user = (UserObject) data.getSerializableExtra(UsersListActivity.RESULT_EXTRA_USESR);
+            if (user != null) {
+                MessageListActivity_.intent(this).mUserObject(user).start();
+            }
+        }
+    }
     @OptionsItem
     void action2fa() {
         if (!PermissionUtil.checkCamera(getActivity())) {

@@ -102,7 +102,10 @@ public class ProjectObject implements Serializable {
     }
 
     public static String translatePath(String path) {
-        return path.replace("/u/", "/user/").replace("/t/", "/user/").replace("/p/", "/project/");
+        return Global.transformEnterpriseUri(path)
+                .replace("/u/", "/user/")
+                .replace("/t/", "/user/")
+                .replace("/p/", "/project/");
     }
 
     public static String translatePathToOld(String path) {
