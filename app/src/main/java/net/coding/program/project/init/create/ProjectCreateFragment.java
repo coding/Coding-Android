@@ -31,6 +31,7 @@ import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
@@ -263,6 +264,12 @@ public class ProjectCreateFragment extends BaseFragment {
 
     private void createProject() {
         RequestParams params = new RequestParams();
+        String teamGK = EnterpriseInfo.instance().getGlobalkey();
+        if (!TextUtils.isEmpty(teamGK)) {
+            params.put("teamGK", teamGK);
+            params.put("joinTeam", true);
+        }
+
         params.put("name", projectInfo.name);
         params.put("description", projectInfo.description);
         params.put("type", projectInfo.type);
