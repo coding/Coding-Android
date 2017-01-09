@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Coding</string>
-    <string name="app_name_enterprise">Coding 企业版</string>
     <string name="action_settings">设置</string>
     <string name="action_refrush">刷新</string>
     <string name="title_activity_my_activity2">MyActivity2</string>

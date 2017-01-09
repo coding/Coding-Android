@@ -311,6 +311,7 @@ public class LocalFileListActivity extends BackActivity {
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
             common_files_delete.setVisibility(View.GONE);
+            editMode = false;
             adapter.notifyDataSetChanged();
         }
     };

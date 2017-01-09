@@ -3,7 +3,6 @@ package net.coding.program.project.detail.file;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -76,24 +75,16 @@ public class LocalProjectFileActivity extends BackActivity {
             singleProjectFiles.add(file);
         }
 
-//        String ss = "";
-//        for (String s : data.keySet()) {
-//            ss += s;
-//        }
-//        Log.d("", ss);
         listViewAddHeaderSection(listView);
         setStrings = createListData();
         adapter = new LocalAdapter();
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = (String) adapterView.getItemAtPosition(i);
-                LocalFileListActivity_.intent(LocalProjectFileActivity.this)
-                        .title(item)
-                        .files(data.get(item))
-                        .startForResult(RESULT_FILE_LIST);
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            String item = (String) adapterView.getItemAtPosition(i);
+            LocalFileListActivity_.intent(LocalProjectFileActivity.this)
+                    .title(item)
+                    .files(data.get(item))
+                    .startForResult(RESULT_FILE_LIST);
         });
 
     }
