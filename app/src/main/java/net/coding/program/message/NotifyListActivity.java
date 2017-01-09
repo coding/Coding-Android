@@ -153,7 +153,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
             Pair<Integer, Integer> iconItem = sHashMap.get(itemType);
             if (iconItem == null) {
-                iconItem = new Pair<>(R.drawable.ic_notify_unknown, 0xFF14A9DA);
+                iconItem = new Pair<>(R.drawable.ic_notify_project_payment, 0xFF14A9DA);
             }
 
             holder.icon.setImageResource(iconItem.first);

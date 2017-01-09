@@ -29,9 +29,6 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
     @ViewById
     IndexableListView listView;
 
-    ArrayList<UserObject> mData = new ArrayList<>();
-    ArrayList<UserObject> mSearchData = new ArrayList<>();
-
     UserAdapter adapter = new UserAdapter();
 
     @AfterViews
@@ -56,11 +53,15 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
     }
 
     @Override
+    protected void searchItem(String s) {
+        super.searchItem(s);
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void parseUserJson(JSONObject respanse) {
         super.parseUserJson(respanse);
-
-        mData.addAll(listData);
-        mSearchData.addAll(mData);
         adapter.notifyDataSetChanged();
     }
 
@@ -74,11 +75,11 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
             mSectionTitle.clear();
             mSectionId.clear();
 
-            if (mData.size() > 0) {
+            if (allListData.size() > 0) {
                 String lastLetter = "";
 
-                for (int i = 0; i < mData.size(); ++i) {
-                    UserObject item = mData.get(i);
+                for (int i = 0; i < allListData.size(); ++i) {
+                    UserObject item = allListData.get(i);
                     if (!item.getFirstLetter().equals(lastLetter)) {
                         lastLetter = item.getFirstLetter();
                         mSectionTitle.add(item.getFirstLetter());
@@ -90,12 +91,12 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
 
         @Override
         public int getCount() {
-            return mSearchData.size();
+            return listData.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mSearchData.get(position);
+            return listData.get(position);
         }
 
         @Override
@@ -112,17 +113,20 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.divideTitle = (TextView) convertView.findViewById(R.id.divideTitle);
+                holder.divideLine = convertView.findViewById(R.id.divide_line);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            final UserObject data = mSearchData.get(position);
+            final UserObject data = listData.get(position);
 
             if (isSection(position)) {
                 holder.divideTitle.setVisibility(View.VISIBLE);
                 holder.divideTitle.setText(data.getFirstLetter());
+                holder.divideLine.setVisibility(View.GONE);
             } else {
                 holder.divideTitle.setVisibility(View.GONE);
+                holder.divideLine.setVisibility(View.VISIBLE);
             }
 
             holder.name.setText(data.name);
@@ -146,8 +150,8 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
                 return true;
             }
 
-            String currentItem = mData.get(pos).getFirstLetter();
-            String preItem = mData.get(pos - 1).getFirstLetter();
+            String currentItem = allListData.get(pos).getFirstLetter();
+            String preItem = allListData.get(pos - 1).getFirstLetter();
             return !currentItem.equals(preItem);
         }
 
@@ -216,6 +220,7 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
         ImageView icon;
         TextView name;
         TextView divideTitle;
+        View divideLine;
     }
 
 }

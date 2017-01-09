@@ -21,7 +21,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  */
 @EActivity(R.layout.activity_attachments_folder_selector)
 @OptionsMenu(R.menu.project_attachment_folder_selector)
-public class AttachmentsFolderSelectorActivity extends BaseActivity implements FootUpdate.LoadMore {
+public class AttachmentsFolderSelectorActivity extends BackActivity implements FootUpdate.LoadMore {
     private static String TAG = AttachmentsFolderSelectorActivity.class.getSimpleName();
     private final String STRING_OUT_FOLDER = "移出目录";
     @Extra
@@ -73,14 +73,8 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
     private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
+
     BaseAdapter adapter = new BaseAdapter() {
-        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AttachmentFolderObject data = mData.get((Integer) buttonView.getTag());
-                data.isSelected = isChecked;
-            }
-        };
 
         @Override
         public int getCount() {
@@ -160,13 +154,13 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 mData.addAll(mAttachmentFolderObject.sub_folders);
                 adapter.notifyDataSetChanged();
                 //isTopFolder = false;
-                getSupportActionBar().setTitle(mAttachmentFolderObject.name);
+                setActionBarTitle(mAttachmentFolderObject.name);
             } else {
                 mAttachmentFolderObject = null;
                 mData.clear();
                 mData.addAll(mDefaultData);
                 adapter.notifyDataSetChanged();
-                getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
+                setActionBarTitle(R.string.title_activity_attachment_folder_selector);
                 ///isTopFolder = true;
             }
 
@@ -183,8 +177,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
 
     @AfterViews
     protected final void initAttachmentsFolderSelectorActivity() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
+        setActionBarTitle(R.string.title_activity_attachment_folder_selector);
 
         setBottomBtn();
 

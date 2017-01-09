@@ -10,6 +10,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/divide_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="77dp"
+            android:layout_marginRight="@dimen/padding_12"
+            android:background="@color/divide_line"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/divideTitle"
             android:layout_width="match_parent"
@@ -45,15 +54,6 @@
                 tools:text="Medium Text" />
 
         </LinearLayout>
-
-        <View
-            android:id="@+id/divide_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_marginRight="@dimen/padding_12"
-            android:background="@color/divide_line"
-            android:visibility="gone" />
 
     </LinearLayout>
 

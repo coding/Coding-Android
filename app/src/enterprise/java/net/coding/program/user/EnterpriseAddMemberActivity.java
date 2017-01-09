@@ -72,6 +72,12 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
     }
 
     @Override
+    protected void searchItem(String s) {
+        super.searchItem(s);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_HOST_ADD_USER)) {
             if (code == 0) {
@@ -155,6 +161,7 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followed);
+                holder.bottomDivideLine = convertView.findViewById(R.id.bottomDivideLine);
                 holder.mutual.setVisibility(View.VISIBLE);
                 holder.mutual.setOnClickListener(clickMutual);
 
@@ -173,6 +180,8 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
             holder.mutual.setChecked(isPicked);
             holder.mutual.setTag(R.id.followed, data);
 
+            holder.bottomDivideLine.setVisibility(position == (getCount() - 1) ? View.GONE : View.VISIBLE);
+
             return convertView;
         }
     };
@@ -181,5 +190,6 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
         ImageView icon;
         TextView name;
         CheckBox mutual;
+        View bottomDivideLine;
     }
 }

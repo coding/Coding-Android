@@ -106,13 +106,6 @@ public class CountryPickActivity extends BackActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
-
-//        MenuItem menuItem = menu.findItem(R.id.action_search);
-////        menuItem.expandActionView();
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.onActionViewExpanded();
-//        searchView.setIconified(false);
-//        searchView.setQueryHint("");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -126,18 +119,6 @@ public class CountryPickActivity extends BackActivity {
             }
         });
 
-//        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                onBackPressed();
-//                return false;
-//            }
-//        });
 
         return true;
     }
