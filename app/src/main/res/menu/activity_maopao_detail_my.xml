@@ -15,7 +15,7 @@
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_del_maopao"
-                android:title="删除冒泡"
+                android:title="@string/delete_maopao"
                 android:icon="@drawable/ic_menu_delete"
                 app:showAsAction="always" />
         </menu>

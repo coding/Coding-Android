@@ -3,8 +3,10 @@ package net.coding.program.common.ui;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -254,6 +256,11 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showDialog(title, msg, clickOk, clickCancel, "确定", "取消");
     }
 
+    protected void showDialog(@StringRes int messageId, DialogInterface.OnClickListener clickOk) {
+        showDialog("", getString(messageId), clickOk, null);
+    }
+
+
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCancel,
                               String okButton,
@@ -270,9 +277,15 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
                 .setMessage(msg);
+
+        if (!TextUtils.isEmpty(title)) {
+            builder.setTitle(title);
+        }
+
         if (okButton != null) {
             builder.setPositiveButton(okButton, clickOk);
         }
+
         if (cancelButton != null) {
             builder.setNegativeButton(cancelButton, clickCancel);
         }

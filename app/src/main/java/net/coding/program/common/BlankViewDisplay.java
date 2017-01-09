@@ -119,7 +119,7 @@ public class BlankViewDisplay {
                     text = "晚了一步\n文件已经被人删除了";
                 } else if (fragment instanceof ProjectMaopaoActivity) {
                     iconId = R.drawable.ic_exception_blank_task;
-                    text = "暂时没有项目内冒泡哦～";
+                    text = v.getContext().getString(R.string.project_maopao_list_empty);
                 }
             } else {
                 iconId = R.drawable.ic_exception_no_network;

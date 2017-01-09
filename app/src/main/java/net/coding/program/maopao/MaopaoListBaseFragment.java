@@ -535,7 +535,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
     View.OnClickListener onClickDeleteMaopao = v -> {
         final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
-        showDialog("冒泡", "删除冒泡？", (dialog, which) -> {
+        showDialog(R.string.delete_maopao, (dialog, which) -> {
             String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
             deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
                     -1, maopaoId);

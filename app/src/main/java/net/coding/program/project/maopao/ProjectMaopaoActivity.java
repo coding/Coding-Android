@@ -2,6 +2,7 @@ package net.coding.program.project.maopao;
 
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import net.coding.program.FootUpdate;
@@ -51,17 +52,32 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
 
     private int lastId = RefreshBaseActivity.UPDATE_ALL_INT;
 
+    protected List<Maopao.MaopaoObject> listData = new ArrayList<>();
+    protected BaseAdapter projectMaopaoAdapter;
+
+    View.OnClickListener clickListItem = v -> {
+        Object object = v.getTag();
+        if (object instanceof Maopao.MaopaoObject) {
+            Maopao.MaopaoObject maopao = (Maopao.MaopaoObject) object;
+            MaopaoDetailActivity.ClickParam clickParam = new MaopaoDetailActivity.ClickParam(projectObject.owner_user_name,
+                    projectObject.name, String.valueOf(maopao.id));
+            MaopaoDetailActivity_.intent(ProjectMaopaoActivity.this)
+                    .mClickParam(clickParam)
+                    .startForResult(RESULT_EDIT);
+        }
+    };
+
     View.OnClickListener clickDelete = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             new AlertDialog.Builder(v.getContext())
-                    .setMessage("删除冒泡?")
+                    .setMessage(R.string.delete_maopao)
                     .setPositiveButton("确定", (dialog, which) -> deleteMaopao(v))
                     .setNegativeButton("取消", null)
                     .show();
         }
 
-        public void deleteMaopao(View v) {
+        void deleteMaopao(View v) {
             Maopao.MaopaoObject maopao = (Maopao.MaopaoObject) v.getTag();
 
             String url = String.format(Global.HOST_API + "/project/%s/tweet/%s", projectObject.getId(), maopao.id);
@@ -88,18 +104,27 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
         }
     };
 
-    private List<Maopao.MaopaoObject> listData = new ArrayList<>();
-    ProjectMaopaoAdapter projectMaopaoAdapter = new ProjectMaopaoAdapter(listData, this, clickDelete);
-
     @AfterViews
     void initProjectMaopaoActivity() {
         if (projectObject != null) {
             setActionBarTitle(projectObject.name);
         }
 
+        initAdapter();
+
         listView.setVisibility(View.INVISIBLE);
+        initListItemClick();
 
         listView.setAdapter(projectMaopaoAdapter);
+
+        onRefresh();
+    }
+
+    protected void initAdapter() {
+        projectMaopaoAdapter = new ProjectMaopaoAdapter(listData, this, clickDelete, clickListItem);
+    }
+
+    protected void initListItemClick() {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Maopao.MaopaoObject maopao = listData.get((int)id);
             MaopaoDetailActivity.ClickParam clickParam = new MaopaoDetailActivity.ClickParam(projectObject.owner_user_name,
@@ -108,8 +133,6 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
                     .mClickParam(clickParam)
                     .startForResult(RESULT_EDIT);
         });
-
-        onRefresh();
     }
 
     @Override

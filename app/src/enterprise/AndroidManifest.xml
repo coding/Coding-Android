@@ -914,6 +914,11 @@
             android:name=".project.maopao.ProjectMaopaoActivity_"
             android:label="@string/title_activity_project_maopao"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".project.maopao.EnterpriseProjectMaopaoActivity_"
+            android:label="@string/title_activity_project_maopao"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".project.maopao.ProjectMaopaoAddActivity_"
             android:label="@string/title_activity_project_maopao_add"

@@ -201,6 +201,8 @@
     <string name="title_activity_country_pick">选择国家和地区</string>
     <string name="title_activity_project_maopao">项目内冒泡</string>
     <string name="title_activity_project_maopao_add">创建项目内冒泡</string>
+    <string name="project_maopao_list_empty">暂时没有项目内冒泡哦～</string>
+    <string name="input_project_maopao_content">输入冒泡内容</string>
     <string name="title_activity_topic_comment_detail">讨论详情</string>
     <string name="title_activity_team_list">团队</string>
     <string name="title_activity_team_list_detail">团队首页</string>
@@ -212,5 +214,6 @@
     <string name="filter_label_function">功能</string>
     <string name="filter_label_survey">调研</string>
     <string name="exit_app">再按一次退出Coding</string>
-
+    <string name="add_project_maopao">新建项目内冒泡</string>
+    <string name="delete_maopao">删除冒泡</string>
 </resources>

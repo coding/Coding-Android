@@ -129,13 +129,22 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     TextView commentBtn;
     TextView reward;
 
-    View.OnClickListener onClickDeleteMaopao = v -> action_delete_maopao();
+    View.OnClickListener onClickDeleteMaopao = v -> actionDeleteMaopao();
 
-    private void action_delete_maopao() {
+    private void actionDeleteMaopao() {
         final int maopaoId = mMaopaoObject.id;
-        showDialog("冒泡", "删除冒泡？", (dialog, which) -> {
-            final String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%d";
-            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
+        showDialog(R.string.delete_maopao, (dialog, which) -> {
+            final String url;
+            if (mClickParam != null && mClickParam.isProjectMaopao()) {
+                if (mProjectObject != null) {
+                    url = String.format(Global.HOST_API + "/project/%s/tweet/%s", mProjectObject.getId(), maopaoId);
+                } else {
+                    return;
+                }
+            } else {
+                url = String.format(Global.HOST_API + "/tweet/%s", maopaoId);
+            }
+            deleteNetwork(url, TAG_DELETE_MAOPAO);
         });
     }
 
@@ -228,7 +237,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 close();
                 return true;
             case R.id.action_del_maopao:
-                action_delete_maopao();
+                actionDeleteMaopao();
                 return true;
 
 //            case R.id.action_inform:
@@ -621,9 +630,9 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             this.maopaoId = maopaoId;
         }
 
-        public ClickParam(String name, String projectName, String maopaoId) {
+        public ClickParam(String userGK, String projectName, String maopaoId) {
+            this.name = userGK;
             this.projectName = projectName;
-            this.name = name;
             this.maopaoId = maopaoId;
         }
 

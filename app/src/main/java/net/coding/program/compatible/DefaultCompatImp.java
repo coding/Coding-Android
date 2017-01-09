@@ -12,6 +12,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
+import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.MyDetailActivity_;
 import net.coding.program.user.UserDetailActivity_;
@@ -97,5 +98,12 @@ public class DefaultCompatImp implements ClassCompatInterface {
         intent.putExtra("selectType", true);
         intent.putExtra("hideFollowButton", true);
         startActivity.startActivityForResult(intent, result);
+    }
+
+    @Override
+    public void launchProjectMaopao(Fragment fragment, ProjectObject projectObject) {
+        ProjectMaopaoActivity_.intent(fragment)
+                .projectObject(projectObject)
+                .start();
     }
 }

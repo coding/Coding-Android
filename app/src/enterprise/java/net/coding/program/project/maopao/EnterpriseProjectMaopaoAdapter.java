@@ -23,7 +23,7 @@ import java.util.List;
  * Created by chenchao on 16/7/21.
  * 项目内冒泡的 adapter
  */
-class ProjectMaopaoAdapter extends BaseAdapter {
+class EnterpriseProjectMaopaoAdapter extends BaseAdapter {
 
     List<Maopao.MaopaoObject> listData;
     FootUpdate.LoadMore loadMore;
@@ -32,12 +32,12 @@ class ProjectMaopaoAdapter extends BaseAdapter {
 
     ClickSmallImage onClickImage;
     MyImageGetter myImageGetter;
-    ImageLoadTool imageLoadTool;
 
+    ImageLoadTool imageLoadTool;
     int mPxImageWidth;
 
-    public ProjectMaopaoAdapter(List<Maopao.MaopaoObject> listData, ProjectMaopaoActivity activity,
-                                View.OnClickListener clickDelete, View.OnClickListener clickListItem) {
+    public EnterpriseProjectMaopaoAdapter(List<Maopao.MaopaoObject> listData, ProjectMaopaoActivity activity,
+                                          View.OnClickListener clickDelete, View.OnClickListener clickListItem) {
         this.listData = listData;
         this.loadMore = activity;
         this.clickDelete = clickDelete;
@@ -68,7 +68,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_project_maopao, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.enterprise_list_item_project_maopao, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -80,7 +80,6 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         holder.name.setText(data.owner.name);
         holder.time.setText(Global.getTimeDetail(data.created_at));
         holder.content.setText(Global.changeHyperlinkColor(data.content.replace("<p>", "").replace("</p>", "").replace("</blockquote>", "").replace("<blockquote>", "")));
-        holder.comment.setText(String.format("%s条评论", data.comments));
         holder.delete.setTag(data);
         if (data.owner_id == MyApp.sUserObject.id) {
             holder.delete.setVisibility(View.VISIBLE);
@@ -104,7 +103,6 @@ class ProjectMaopaoAdapter extends BaseAdapter {
             name = (TextView) v.findViewById(R.id.name);
             time = (TextView) v.findViewById(R.id.time);
             content = (TextView) v.findViewById(R.id.content);
-            comment = (TextView) v.findViewById(R.id.comment);
             delete = v.findViewById(R.id.delete);
             delete.setOnClickListener(clickDelete);
             contentArea = new ContentArea(v, clickListItem, onClickImage, myImageGetter, imageLoadTool, mPxImageWidth);
@@ -114,7 +112,6 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         TextView name;
         TextView time;
         TextView content;
-        TextView comment;
         View delete;
 
         ContentArea contentArea;

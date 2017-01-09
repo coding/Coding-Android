@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
@@ -284,6 +285,14 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         AlertDialog dialog = builder.setTitle(title)
                 .setMessage(msg)
+                .setPositiveButton("确定", clickOk)
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
+    protected void showDialog(@StringRes int messageId, DialogInterface.OnClickListener clickOk) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(messageId)
                 .setPositiveButton("确定", clickOk)
                 .setNegativeButton("取消", null)
                 .show();

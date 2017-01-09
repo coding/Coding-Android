@@ -9,6 +9,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
+import net.coding.program.project.maopao.EnterpriseProjectMaopaoActivity_;
 import net.coding.program.user.EnterpriseAddMemberActivity_;
 import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.EnterpriseMyDetailActivity_;
@@ -83,6 +84,12 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     public void launchPickUser(Context context, StartActivity startActivity, int result) {
         Intent intent = new Intent(context, PickUserActivity_.class);
         startActivity.startActivityForResult(intent, result);
+    }
 
+    @Override
+    public void launchProjectMaopao(Fragment fragment, ProjectObject projectObject) {
+        EnterpriseProjectMaopaoActivity_.intent(fragment)
+                .projectObject(projectObject)
+                .start();
     }
 }

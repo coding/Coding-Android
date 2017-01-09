@@ -8,10 +8,10 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
-import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -148,9 +148,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
     @OptionsItem
     void actionMaopao() {
-        ProjectMaopaoActivity_.intent(this)
-                .projectObject(mProjectObject)
-                .start();
+        CodingCompat.instance().launchProjectMaopao(this, mProjectObject);
     }
 
 //    @OptionsItem

@@ -13,7 +13,7 @@ public class ProjectMaopaoEditFragment extends TopicEditFragment {
 
     @AfterViews
     void initProjectMaopaoEditFragment() {
-        edit.setHint("输入冒泡内容 ");
+        edit.setHint(R.string.input_project_maopao_content);
     }
 
     @Override

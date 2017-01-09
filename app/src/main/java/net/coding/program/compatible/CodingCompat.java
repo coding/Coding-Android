@@ -81,5 +81,10 @@ public class CodingCompat implements ClassCompatInterface {
     public void launchPickUser(Context context, StartActivity startActivity, int result) {
         substance.launchPickUser(context, startActivity, result);
     }
+
+    @Override
+    public void launchProjectMaopao(Fragment fragment, ProjectObject projectObject) {
+        substance.launchProjectMaopao(fragment, projectObject);
+    }
 }
 

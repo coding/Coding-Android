@@ -4,7 +4,7 @@
     tools:context=".MyActivity">
     <item
         android:id="@+id/actionAdd"
-        android:title="新建项目内冒泡"
+        android:title="@string/add_project_maopao"
         android:icon="@drawable/ic_menu_add"
         app:showAsAction="always" />
 

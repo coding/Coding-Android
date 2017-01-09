@@ -36,4 +36,6 @@ public interface ClassCompatInterface {
     void launchAddMemberActivity(Fragment fragment, ProjectObject projectObject, ArrayList<String> pickGlobalKeys, int result);
 
     void launchPickUser(Context context, StartActivity startActivity, int result);
+
+    void launchProjectMaopao(Fragment fragment, ProjectObject projectObject);
 }
