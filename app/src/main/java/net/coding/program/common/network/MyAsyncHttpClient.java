@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.cookie.Cookie;
+import cz.msebera.android.httpclient.impl.cookie.BasicClientCookie;
 
 import static net.coding.program.common.util.LogUtils.makeLogTag;
 
@@ -90,8 +91,9 @@ public class MyAsyncHttpClient {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
 
         // todo 临时，方便进入生产环境
-//        BasicClientCookie devCookie = new BasicClientCookie("e_edv", "1");
-//        cookieStore.addCookie(devCookie);
+        BasicClientCookie devCookie = new BasicClientCookie("e_edv", "1");
+        devCookie.setDomain(".coding.net");
+        cookieStore.addCookie(devCookie);
 
         client.setCookieStore(cookieStore);
 
@@ -123,6 +125,9 @@ public class MyAsyncHttpClient {
         for (int i = 0; i < cookies.size(); i++) {
             Cookie eachCookie = cookies.get(i);
             String domain = eachCookie.getDomain();
+            if (domain == null) {
+                domain = "";
+            }
             if (domain.startsWith(".")) {
                 domain = domain.substring(1, domain.length());
             }

@@ -324,7 +324,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
             }
             params.put("remember_me", true);
 
-            String HOST_LOGIN = String.format("http://%s.coding.test/api/v2/account/login", enterpriseEdit.getTextString());
+            String HOST_LOGIN = String.format("https://%s.coding.net/api/v2/account/login", enterpriseEdit.getTextString());
 
             postNetwork(HOST_LOGIN, params, TAG_LOGIN);
             showProgressBar(true, R.string.logining);

@@ -29,9 +29,9 @@ public class MyAppEnterprise extends MyApp {
     }
 
     public static void setHost(String enterpriseName) {
-        String host = "http://e.coding.test";
+        String host = "https://e.coding.net";
         if (!TextUtils.isEmpty(enterpriseName)) {
-            host = String.format("http://%s.coding.test", enterpriseName);
+            host = String.format("https://%s.coding.net", enterpriseName);
         }
 
         Global.HOST = host;
