@@ -43,9 +43,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.IconTextView;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.Maopao;
-import net.coding.program.user.UsersListActivity;
-import net.coding.program.user.UsersListActivity_;
 
 public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
@@ -325,12 +324,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
             case R.id.codingFriend:
                 umengEvent(UmengEvent.MAOPAO, "分享到好友");
-                // todo add 转发私信
-                UsersListActivity_.intent(mActivity)
-                        .type(UsersListActivity.Friend.Follow)
-                        .hideFollowButton(true)
-                        .relayString(mShareData.link)
-                        .start();
+                CodingCompat.instance().launchPickUser(mActivity, mShareData.link);
                 dismiss();
                 break;
 

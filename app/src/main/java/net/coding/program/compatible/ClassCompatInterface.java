@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
@@ -38,4 +39,6 @@ public interface ClassCompatInterface {
     void launchPickUser(Context context, StartActivity startActivity, int result);
 
     void launchProjectMaopao(Fragment fragment, ProjectObject projectObject);
+
+    void launchPickUser(Activity activity, String relayString);
 }

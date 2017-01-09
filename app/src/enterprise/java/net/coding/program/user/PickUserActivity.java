@@ -41,6 +41,10 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
         listView.setFastScrollEnabled(true);
         listView.setFastScrollAlwaysVisible(true);
 
+        initListItemClick();
+    }
+
+    protected void initListItemClick() {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent();
             UserObject user = (UserObject) parent.getItemAtPosition(position);

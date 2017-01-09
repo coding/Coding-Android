@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -100,10 +101,22 @@ public class DefaultCompatImp implements ClassCompatInterface {
         startActivity.startActivityForResult(intent, result);
     }
 
+
+
     @Override
     public void launchProjectMaopao(Fragment fragment, ProjectObject projectObject) {
         ProjectMaopaoActivity_.intent(fragment)
                 .projectObject(projectObject)
                 .start();
     }
+
+    @Override
+    public void launchPickUser(Activity activity, String relayString) {
+        UsersListActivity_.intent(activity)
+                .type(UsersListActivity.Friend.Follow)
+                .hideFollowButton(true)
+                .relayString(relayString)
+                .start();
+    }
+
 }

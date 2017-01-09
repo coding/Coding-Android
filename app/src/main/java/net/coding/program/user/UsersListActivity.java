@@ -397,8 +397,6 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         } else if (tag.equals(TAG_RELAY_MESSAGE)) {
             showProgressBar(false);
             if (code == 0) {
-//                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
-//                UsersListFragment.ReadedUserId.setReadedUser(item.friend.global_key, item);
                 showMiddleToast("发送成功");
                 finish();
             } else {

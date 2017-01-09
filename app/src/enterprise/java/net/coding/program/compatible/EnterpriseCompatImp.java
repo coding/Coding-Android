@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.EnterpriseMyDetailActivity_;
 import net.coding.program.user.EnterpriseUserDetailActivity_;
 import net.coding.program.user.PickUserActivity_;
+import net.coding.program.user.PickUserRelayMessageActivity_;
 
 import java.util.ArrayList;
 
@@ -90,6 +92,13 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     public void launchProjectMaopao(Fragment fragment, ProjectObject projectObject) {
         EnterpriseProjectMaopaoActivity_.intent(fragment)
                 .projectObject(projectObject)
+                .start();
+    }
+
+    @Override
+    public void launchPickUser(Activity activity, String relayString) {
+        PickUserRelayMessageActivity_.intent(activity)
+                .relayString(relayString)
                 .start();
     }
 }

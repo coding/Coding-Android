@@ -978,6 +978,11 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_pick_user_activity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.PickUserRelayMessageActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_pick_user_activity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

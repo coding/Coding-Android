@@ -1,5 +1,6 @@
 package net.coding.program.compatible;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
@@ -86,5 +87,11 @@ public class CodingCompat implements ClassCompatInterface {
     public void launchProjectMaopao(Fragment fragment, ProjectObject projectObject) {
         substance.launchProjectMaopao(fragment, projectObject);
     }
+
+    @Override
+    public void launchPickUser(Activity activity, String relayString) {
+       substance.launchPickUser(activity, relayString);
+    }
+
 }
 

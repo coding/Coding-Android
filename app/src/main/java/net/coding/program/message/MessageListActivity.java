@@ -46,14 +46,13 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.EmojiFilter;
-import net.coding.program.user.UsersListActivity;
-import net.coding.program.user.UsersListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -430,12 +429,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     private void relayMessage(Message.MessageObject message) {
-        // // TODO add 转发私信
-        UsersListActivity_.intent(this)
-                .type(UsersListActivity.Friend.Follow)
-                .hideFollowButton(true)
-                .relayString(message.content)
-                .start();
+        CodingCompat.instance().launchPickUser(this, message.content);
     }
 
     private void deleteMessage(Message.MessageObject msg) {
