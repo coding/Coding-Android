@@ -536,7 +536,7 @@
             android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".setting.HelpActivity_"
-            android:label="@string/empty"
+            android:label="@string/title_activity_help"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity

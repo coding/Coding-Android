@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/stand_bg"
-    android:foreground="?attr/selectableItemBackground"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -24,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="66dp"
             android:gravity="center_vertical"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingLeft="15dp"
             android:paddingRight="30dp">
 

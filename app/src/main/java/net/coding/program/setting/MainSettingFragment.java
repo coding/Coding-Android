@@ -108,7 +108,8 @@ public class MainSettingFragment extends BaseFragment {
     @Click
     void itemHelp() {
         final String url = "https://coding.net/help";
-        HelpActivity_.intent(this).url(url).title("帮助与反馈").start();
+        String title = getString(R.string.title_activity_help);
+        HelpActivity_.intent(this).url(url).title(title).start();
     }
 
     @Click

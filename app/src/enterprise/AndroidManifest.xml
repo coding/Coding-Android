@@ -572,11 +572,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity
-            android:name=".setting.HelpActivity_"
-            android:label="@string/empty"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar" />
-        <activity
             android:name=".search.SearchProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"

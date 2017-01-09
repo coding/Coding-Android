@@ -2,5 +2,6 @@
 
     <string name="hello_blank_fragment"></string>
     <string name="exit_app">再按一次退出Coding企业版</string>
-    <string name="title_pick_user_activity">选择用户</string>
+    <string name="title_pick_user_activity">企业成员</string>
+    <string name="title_activity_help">帮助中心</string>
 </resources>
