@@ -3,8 +3,14 @@ package net.coding.program.project;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,21 +42,21 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @EFragment(R.layout.fragment_enterprise_project)
-@OptionsMenu(R.menu.enterprise_main_project)
 public class EnterpriseProjectFragment extends BaseFragment {
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
-    private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
+    private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%s";
     private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
 
     private final int RESULT_SELECT_USER = 2001;
@@ -61,8 +67,18 @@ public class EnterpriseProjectFragment extends BaseFragment {
     UltimateRecyclerView listView;
 
     ArrayList<ProjectObject> listData = new ArrayList<>();
+    ArrayList<ProjectObject> allListData = new ArrayList<>();
 
     ProjectAdapter projectAdapter;
+    private Comparator<ProjectObject> comparator = (lhs, rhs) -> {
+        if (lhs.isPin() && !rhs.isPin()) {
+            return 1;
+        } else if (!lhs.isPin() && rhs.isPin()) {
+            return -1;
+        } else {
+            return 0;
+        }
+    };
 
     @AfterViews
     void initEnterpriseProjectFramgent() {
@@ -83,25 +99,32 @@ public class EnterpriseProjectFragment extends BaseFragment {
 //        mFootUpdate.showLoading();
 //        listView.setLoadMoreView(mFootUpdate.getView());
 
-        listData = AccountInfo.loadProjects(getActivity());
+        allListData.clear();
+        listData.clear();
+        allListData.addAll(AccountInfo.loadProjects(getActivity()));
+        listData.addAll(allListData);
+
         projectAdapter = new ProjectAdapter(listData);
         listView.setAdapter(projectAdapter);
 
         projectActionUtil = new ProjectActionUtil(getActivity().getBaseContext());
         projectActionUtil.setListener(pos -> {
-            final int projectId = listData.get(pos).getId();
-            if (listData.get(pos).isPin()) {
+            ProjectObject project = listData.get(pos);
+            final int projectId = project.getId();
+            if (project.isPin()) {
                 String pinDeleteUrl = String.format(URL_PIN_DELETE, projectId);
-                deleteNetwork(pinDeleteUrl, URL_PIN_DELETE, -1, projectId);
+                deleteNetwork(pinDeleteUrl, URL_PIN_DELETE, -1, project);
             } else {
                 RequestParams params = new RequestParams();
                 params.put("ids", projectId);
-                postNetwork(URL_PIN_SET, params, URL_PIN_SET, -1, projectId);
+                postNetwork(URL_PIN_SET, params, URL_PIN_SET, -1, project);
             }
 
             projectActionUtil.close();
         });
         onRefresh();
+
+        setHasOptionsMenu(true);
     }
 
     private void onRefresh() {
@@ -118,6 +141,57 @@ public class EnterpriseProjectFragment extends BaseFragment {
         }
     };
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.enterprise_main_project, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.actionSearch);
+        searchItem.setIcon(R.drawable.ic_menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        try { // 更改搜索按钮的icon
+            int searchImgId = getResources().getIdentifier("android:id/actionSearch", null, null);
+            ImageView v = (ImageView) searchView.findViewById(searchImgId);
+            v.setImageResource(R.drawable.ic_menu_search);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchItem(s);
+                return true;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void searchItem(String s) {
+        s = s.toLowerCase();
+        projectAdapter.notifyDataSetChanged();
+
+        listData.clear();
+        if (TextUtils.isEmpty(s)) {
+            listData.addAll(allListData);
+        } else {
+            for (ProjectObject item : allListData) {
+                if (item.name.toLowerCase().contains(s)) {
+                    listData.add(item);
+                }
+            }
+        }
+
+        projectAdapter.notifyDataSetChanged();
+    }
+
     @OnActivityResult(InitProUtils.REQUEST_PRO_UPDATE)
     void onResultRefresh() {
         onRefresh();
@@ -127,18 +201,19 @@ public class EnterpriseProjectFragment extends BaseFragment {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(host)) {
             if (code == 0) {
+                allListData.clear();
                 listData.clear();
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
                 int pinCount = 0;
                 for (int i = 0; i < array.length(); ++i) {
-                    JSONObject item = array.getJSONObject(i);
-                    ProjectObject oneData = new ProjectObject(item);
+                    ProjectObject oneData = new ProjectObject(array.getJSONObject(i));
                     if (oneData.isPin()) {
-                        listData.add(pinCount++, oneData);
+                        allListData.add(pinCount++, oneData);
                     } else {
-                        listData.add(oneData);
+                        allListData.add(oneData);
                     }
                 }
+                listData.addAll(allListData);
 
                 msectionId = 0;
                 for (ProjectObject item : listData) {
@@ -149,7 +224,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
                 }
 
 
-                AccountInfo.saveProjects(getActivity(), listData);
+                AccountInfo.saveProjects(getActivity(), allListData);
                 projectAdapter.notifyDataSetChanged();
 
             } else {
@@ -157,43 +232,25 @@ public class EnterpriseProjectFragment extends BaseFragment {
             }
         } else if (tag.equals(URL_PIN_SET)) {
             if (code == 0) {
-                int id = (int) data;
-                updatePin(id, true);
+                updatePin((ProjectObject) data, true);
             } else {
                 showErrorMsg(code, respanse);
             }
 
         } else if (tag.equals(URL_PIN_DELETE)) {
             if (code == 0) {
-                int id = (int) data;
-                updatePin(id, false);
+                updatePin((ProjectObject) data, false);
             } else {
                 showErrorMsg(code, respanse);
             }
         }
     }
 
-    private void updatePin(int id, boolean pin) {
-        setPin(id, pin);
-    }
+    private void updatePin(ProjectObject project, boolean pin) {
+        project.setPin(pin);
 
-    public void setPin(int id, boolean pin) {
-        for (int i = 0; i < listData.size(); ++i) {
-            if (listData.get(i).getId() == id) {
-                listData.get(i).setPin(pin);
-
-                ProjectObject item = listData.remove(i);
-                if (pin) {
-                    ++msectionId;
-                    listData.add(0, item);
-                } else {
-                    --msectionId;
-                    listData.add(msectionId, item);
-                }
-                projectAdapter.notifyDataSetChanged();
-                break;
-            }
-        }
+        Collections.sort(allListData, comparator);
+        searchItem("");
     }
 
     @Override
@@ -224,6 +281,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
             }
         }
     }
+
     @OptionsItem
     void action2fa() {
         if (!PermissionUtil.checkCamera(getActivity())) {

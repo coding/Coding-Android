@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -102,6 +103,30 @@ public class MainActivity extends BaseActivity {
     MaopaoTypeAdapter mSpinnerAdapter;
     private long exitTime = 0;
 
+    private boolean mKeyboardUp;
+
+    private void setListenerToRootView() {
+        final View rootView = getWindow().getDecorView().findViewById(R.id.drawer_layout);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                final int headerHeight = Global.dpToPx(100);// getActionBarHeight() + getStatusBarHeight();
+                int rootViewHeight = rootView.getRootView().getHeight();
+                int rootHeight = rootView.getHeight();
+                int heightDiff = rootViewHeight - rootHeight;
+                if (heightDiff > headerHeight) {
+                    if (!mKeyboardUp) {
+                        mKeyboardUp = true;
+                    }
+                } else {
+                    mKeyboardUp = false;
+                }
+
+                bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +163,7 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidRegister();
 
         EventBus.getDefault().register(this);
+
     }
 
     private void startNetworkCheckService() {
@@ -227,6 +253,8 @@ public class MainActivity extends BaseActivity {
 
         mSpinnerAdapter = new MaopaoTypeAdapter(getLayoutInflater(), maopao_action_types);
         setActionBarTitle("");
+
+//        setListenerToRootView();
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);

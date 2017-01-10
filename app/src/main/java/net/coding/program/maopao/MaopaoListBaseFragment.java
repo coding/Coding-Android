@@ -249,7 +249,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             return false;
         });
 
-//        mEnterLayout = new EnterEmojiLayout(getActivity(), onClickSendText, EnterLayout.Type.TextOnly, EnterEmojiLayout.EmojiType.SmallOnly);
         mEnterLayout.setClickSend(onClickSendText);
         mEnterLayout.addTextWatcher(new TextWatcherAt(getActivity(), this, RESULT_AT));
         mEnterLayout.hide();

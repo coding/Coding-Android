@@ -972,7 +972,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarSpannerTheme1"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".user.PickUserActivity_"
             android:icon="@drawable/ic_lancher"
