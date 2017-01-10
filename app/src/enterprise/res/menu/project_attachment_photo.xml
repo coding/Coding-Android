@@ -27,6 +27,13 @@
                 android:icon="@drawable/ic_menu_delete"
                 android:title="删除文件"
                 app:showAsAction="always" />
+
+            <item
+                android:id="@+id/action_open_by_other"
+                android:icon="@drawable/ic_menu_open_by_other"
+                android:title="用其它应用打开"
+                app:showAsAction="always" />
+
         </menu>
 
     </item>
