@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.loopj.android.http.PersistentCookieStore;
+
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
@@ -81,6 +83,9 @@ public class AccountInfo {
         }
 
         AccountInfo.setNeedPush(ctx, true);
+
+        PersistentCookieStore cookieStore = new PersistentCookieStore(ctx);
+        cookieStore.clear();
 
         NotificationManager notificationManager = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
