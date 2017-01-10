@@ -10,11 +10,6 @@
         app:showAsAction="withText|always">
 
         <menu>
-            <item
-                android:id="@+id/action_link_public"
-                android:icon="@drawable/ic_menu_share_link"
-                android:title="@string/public_link"
-                app:showAsAction="always" />
 
             <item
                 android:id="@+id/action_info"
