@@ -360,7 +360,7 @@ public class Global {
     }
 
     public static Spannable changeHyperlinkColor(String content, int color, MyImageGetter imageGetter) {
-        return Global.changeHyperlinkColor(content, imageGetter, null);
+        return Global.changeHyperlinkColor(content, imageGetter, null, color);
     }
 
     public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {

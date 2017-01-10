@@ -119,6 +119,11 @@ public class DynamicObject {
             String content = String.format(format, black(pull_request_title));
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
+
+        @Override
+        public String jump() {
+            return makeJump(depot.path);
+        }
     }
 
     public static class MySmalltaskComment {
@@ -269,10 +274,11 @@ public class DynamicObject {
             return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
 
-//        @Override
-//        public String jump() {
-//            return "不支持跳转到 MergeRequestBean";
-//        }
+        @Override
+        public String jump() {
+            return makeJump(mergeRequestBaseDelegate.merge_request_path);
+        }
+
     }
 
     public static class MergeRequestComment extends DynamicBaseObject implements Serializable {
