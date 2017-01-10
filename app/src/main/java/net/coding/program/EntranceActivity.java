@@ -130,7 +130,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
             }
         });
 
-        if (MyApp.sUserObject.global_key.isEmpty() && AccountInfo.isLogin(this)) {
+        if (AccountInfo.isLogin(this)) {
             getNetwork(HOST_CURRENT, HOST_CURRENT);
             mNeedUpdateUser = true;
         }

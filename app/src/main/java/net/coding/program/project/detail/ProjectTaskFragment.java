@@ -55,7 +55,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_project_task_filter)
 @OptionsMenu(R.menu.fragment_project_task)
-public class ProjectTaskFragment extends TaskFilterFragment implements TaskListParentUpdate, TaskListFragment.FloatButton {
+public class ProjectTaskFragment extends TaskFilterFragment implements TaskListParentUpdate {
 
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
 
@@ -360,16 +360,8 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         TaskAddActivity_.intent(this)
                 .mSingleTask(task)
                 .mUserOwner(member.user)
+                .canPickProject(false)
                 .startForResult(ListModify.RESULT_EDIT_LIST);
-    }
-
-    @Override
-    public void showFloatButton(boolean show) {
-        if (show) {
-            floatButton.show();
-        } else {
-            floatButton.hide();
-        }
     }
 
     private static class MemberTaskCount {

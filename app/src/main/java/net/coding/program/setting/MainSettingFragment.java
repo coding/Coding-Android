@@ -50,6 +50,11 @@ public class MainSettingFragment extends BaseFragment {
         userName.setText(me.name);
         userGK.setText(String.format("个性后缀：%s", me.global_key));
         iconfromNetwork(userIcon, me.avatar);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         bindData();
         loadUser();
@@ -131,4 +136,5 @@ public class MainSettingFragment extends BaseFragment {
     void actionAddFollow() {
         AddFollowActivity_.intent(this).start();
     }
+
 }

@@ -439,10 +439,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         putNetwork(String.format(URL_TASK_SATUS, id), params, URL_TASK_SATUS, new TaskParam(mData.get(pos), completeStatus));
     }
 
-    public interface FloatButton {
-        void showFloatButton(boolean show);
-    }
-
     static class TaskParam {
         TaskObject.SingleTask mTask;
         int mStatus;

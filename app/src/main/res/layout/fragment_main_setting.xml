@@ -15,6 +15,7 @@
         android:layout_height="wrap_content">
 
         <include layout="@layout/divide_top_15" />
+
         <include layout="@layout/actionbar_shadow" />
 
     </FrameLayout>
@@ -56,9 +57,7 @@
             android:textSize="13sp"
             tools:text="个性后缀" />
 
-
-        <View xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <View
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_alignParentRight="true"
