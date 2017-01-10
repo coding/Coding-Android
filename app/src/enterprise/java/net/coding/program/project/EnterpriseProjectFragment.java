@@ -171,6 +171,8 @@ public class EnterpriseProjectFragment extends BaseFragment {
             }
         });
 
+        searchItem.setVisible(false);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

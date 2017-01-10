@@ -54,11 +54,12 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.cookie.Cookie;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 @EActivity(R.layout.activity_attachments_download)
 public class AttachmentsDownloadDetailActivity extends BackActivity {

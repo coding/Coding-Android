@@ -25,10 +25,10 @@ import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 
-import cz.msebera.android.httpclient.cookie.Cookie;
-
 import java.io.File;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
 
 /**
  * Created by chenchao on 15/8/24.

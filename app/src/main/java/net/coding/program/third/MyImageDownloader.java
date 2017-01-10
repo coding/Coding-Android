@@ -30,16 +30,11 @@ public class MyImageDownloader extends BaseImageDownloader {
             PersistentCookieStore cookieStore = new PersistentCookieStore(context);
             List<Cookie> cookies = cookieStore.getCookies();
 
-            String sid = "";
+            String cookieString = "";
             for (Cookie item : cookies) {
-                if (item.getName().equals("sid")) {
-                    sid = "sid=" + item.getValue();
-                    break;
-                }
+                cookieString += String.format("%s=%s; ", item.getName(), item.getValue());
             }
-
-            sid += "; e_edv=1;";
-            conn.setRequestProperty("Cookie", sid);
+            conn.setRequestProperty("Cookie", cookieString);
         }
 
         return conn;

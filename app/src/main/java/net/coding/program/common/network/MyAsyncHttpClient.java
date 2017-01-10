@@ -91,9 +91,20 @@ public class MyAsyncHttpClient {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
 
         // todo 临时，方便进入生产环境
-        BasicClientCookie devCookie = new BasicClientCookie("e_edv", "1");
-        devCookie.setDomain(".coding.net");
-        cookieStore.addCookie(devCookie);
+        List<Cookie> cookies = cookieStore.getCookies();
+        boolean isAdd = false;
+        for (Cookie item : cookies) {
+            if (item.getName().equals("e_dev")) {
+                isAdd = true;
+                break;
+            }
+        }
+        if (!isAdd) {
+            BasicClientCookie devCookie = new BasicClientCookie("e_dev", "1");
+            devCookie.setDomain(".coding.net");
+            cookieStore.addCookie(devCookie);
+        }
+
 
         client.setCookieStore(cookieStore);
 
