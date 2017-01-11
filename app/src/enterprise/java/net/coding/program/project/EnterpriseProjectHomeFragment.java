@@ -1,6 +1,9 @@
 package net.coding.program.project;
 
+import android.view.View;
+
 import net.coding.program.R;
+import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.project.detail.ProjectFunction;
 
 import org.androidannotations.annotations.EFragment;
@@ -24,5 +27,14 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
                 ProjectFunction.readme,
                 ProjectFunction.merge
         };
+    }
+
+    @Override
+    protected void initProjectSettingEntrance(View view) {
+        if (EnterpriseInfo.instance().isAdmin()) { // todo 管理员可以直接修改项目
+            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
+        } else {
+            super.initProjectSettingEntrance(view);
+        }
     }
 }

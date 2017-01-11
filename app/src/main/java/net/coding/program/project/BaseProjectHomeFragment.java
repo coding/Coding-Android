@@ -54,6 +54,12 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     BadgeView dynamicBadge;
     private boolean isBackToRefresh = false;
 
+    protected View.OnClickListener clickProjectSetting = v -> {
+        Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
+        intent.putExtra("projectObject", mProjectObject);
+        startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
+    };
+
     @AfterViews
     protected final void initBaseProjectHomeFragment() {
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
@@ -67,16 +73,13 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
             description.setText(mProjectObject.description);
         }
 
-        isEnableProjectSet(projectHeaderLayout);
+        initProjectSettingEntrance(projectHeaderLayout);
     }
 
-    private void isEnableProjectSet(View view) {
+     protected void initProjectSettingEntrance(View view) {
         if (mProjectObject.isMy()) {
-            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
-                intent.putExtra("projectObject", mProjectObject);
-                startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
-            });
+
+            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
 
         } else {
             //fix bug -gone掉后页面会乱
