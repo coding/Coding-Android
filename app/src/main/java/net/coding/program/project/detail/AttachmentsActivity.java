@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.ActionMode;
@@ -99,8 +100,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     };
     boolean mNoMore = false;
+
     @ViewById
     ListView listView;
+    @ViewById
+    protected SwipeRefreshLayout swipeRefreshLayout;
+
     //    @ViewById
 //    RelativeLayout uploadLayout;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
@@ -479,6 +484,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     @AfterViews
     final void initAttachmentsActivity() {
 //        uploadLayout.setVisibility(View.GONE);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            initSetting();
+            loadMore();
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+
         setActionBarTitle(mAttachmentFolderObject.name);
 
         if (mAttachmentFolderObject.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
@@ -640,8 +652,14 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, final Object data) throws JSONException {
         if (tag.equals(urlFiles)) {
+            swipeRefreshLayout.setRefreshing(false);
+
             if (code == 0) {
                 JSONArray files = respanse.getJSONObject("data").getJSONArray("list");
+
+                if (isLoadingFirstPage(urlFiles)) {
+                    mFilesArray.clear();
+                }
 
                 if (mFilesArray.size() == 0) {
                     ArrayList<AttachmentFolderObject> subFolders = mAttachmentFolderObject.sub_folders;

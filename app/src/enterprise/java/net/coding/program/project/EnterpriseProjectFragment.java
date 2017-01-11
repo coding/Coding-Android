@@ -70,11 +70,12 @@ public class EnterpriseProjectFragment extends BaseFragment {
     ArrayList<ProjectObject> allListData = new ArrayList<>();
 
     ProjectAdapter projectAdapter;
+
     private Comparator<ProjectObject> comparator = (lhs, rhs) -> {
         if (lhs.isPin() && !rhs.isPin()) {
-            return 1;
-        } else if (!lhs.isPin() && rhs.isPin()) {
             return -1;
+        } else if (!lhs.isPin() && rhs.isPin()) {
+            return 1;
         } else {
             return 0;
         }

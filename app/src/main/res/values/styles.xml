@@ -37,6 +37,7 @@
     <!--<item name="actionBarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item-->
     <style name="CommonActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:elevation">2dp</item>
+        <item name="app:elevation">2dp</item>
         <item name="elevation">2dp</item>
     </style>
 
