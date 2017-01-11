@@ -191,7 +191,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
         // 项目内冒泡
         // https://coding.net/t/superrocket/p/TestPrivate?pp=2417
-        final String projectMaopao = String.format("^%s%s\\?pp=([\\d]+)", Host, ProjectPath);
+        final String projectMaopao = String.format("^(?:%s)?%s\\?pp=([\\d]+)", Host, ProjectPath);
         pattern = Pattern.compile(projectMaopao);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
