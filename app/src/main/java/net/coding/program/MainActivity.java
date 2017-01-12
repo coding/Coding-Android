@@ -106,25 +106,34 @@ public class MainActivity extends BaseActivity {
     private boolean mKeyboardUp;
 
     private void setListenerToRootView() {
-        final View rootView = getWindow().getDecorView().findViewById(R.id.drawer_layout);
+        final View rootView = getWindow().getDecorView().findViewById(R.id.frameLayout);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                final int headerHeight = Global.dpToPx(100);// getActionBarHeight() + getStatusBarHeight();
+                final int headerHeight = Global.dpToPx(150);// getActionBarHeight() + getStatusBarHeight() + bottomBar();
                 int rootViewHeight = rootView.getRootView().getHeight();
                 int rootHeight = rootView.getHeight();
                 int heightDiff = rootViewHeight - rootHeight;
                 if (heightDiff > headerHeight) {
                     if (!mKeyboardUp) {
                         mKeyboardUp = true;
+                        bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
                     }
                 } else {
-                    mKeyboardUp = false;
+                    if (mKeyboardUp) {
+                        mKeyboardUp = false;
+                        setBottomBar();
+                    }
                 }
 
-                bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
             }
         });
+    }
+
+    private void setBottomBar() {
+        bottomBar.postDelayed(() -> {
+            bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
+        }, 300);
     }
 
     @Override
@@ -256,7 +265,7 @@ public class MainActivity extends BaseActivity {
 
         Global.display(this);
 
-//        setListenerToRootView();
+        setListenerToRootView();
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);

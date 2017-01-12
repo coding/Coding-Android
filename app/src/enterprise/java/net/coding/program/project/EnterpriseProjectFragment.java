@@ -147,12 +147,12 @@ public class EnterpriseProjectFragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.enterprise_main_project, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.actionSearch);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setIcon(R.drawable.ic_menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/actionSearch", null, null);
+            int searchImgId = getResources().getIdentifier("android:id/action_button", null, null);
             ImageView v = (ImageView) searchView.findViewById(searchImgId);
             v.setImageResource(R.drawable.ic_menu_search);
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
             }
         });
 
-        searchItem.setVisible(false);
+//        searchItem.setVisible(false);
 
         super.onCreateOptionsMenu(menu, inflater);
     }

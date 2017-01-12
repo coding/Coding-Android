@@ -42,7 +42,6 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
 
     @Click
     void itemManager() {
-
     }
 
 }

@@ -109,11 +109,13 @@
         <!--<item name="android:actionMenuTextColor">@color/white</item>-->
 
         <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="android:textColorPrimary">@drawable/text_color_primary</item>
         <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
 
         <item name="android:divider">@drawable/divide_line</item>
 
+
+        <item name="android:textColorPrimary">@color/font_green</item>
+        <item name="actionMenuTextColor">@color/font_green</item>
 
         <item name="color">@color/white</item>
         <item name="android:windowBackground">@color/stand_bg</item>
@@ -129,7 +131,6 @@
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-        <item name="android:actionMenuTextColor">@color/white</item>
 
 
         <!--抽屉导航的旋转箭头-->
