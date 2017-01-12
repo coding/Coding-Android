@@ -150,6 +150,16 @@ public class Global {
         return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
     }
 
+    public static void display(Context context) {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        String cookieString = "";
+        for (Cookie cookie : cookieStore.getCookies()) {
+            cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
+        }
+
+        Log.d("", "cookie " + cookieString);
+    }
+
     public static String getExtraString(Context context) {
         String FEED_EXTRA = "";
         if (FEED_EXTRA.isEmpty()) {

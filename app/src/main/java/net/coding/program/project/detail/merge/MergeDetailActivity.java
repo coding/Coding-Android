@@ -139,7 +139,9 @@ public class MergeDetailActivity extends BackActivity {
                     deleteNetwork(url, HOST_DELETE_COMMENT, comment);
                 });
             } else {
-
+                String atName = String.format("%s", comment.user.global_key);
+                CommentActivity.CommentParam param = createParam(atName);
+                CommentActivity_.intent(MergeDetailActivity.this).mParam(param).startForResult(RESULT_COMMENT);
             }
         }
     };

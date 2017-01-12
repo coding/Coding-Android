@@ -2,16 +2,13 @@ package net.coding.program.third;
 
 import android.content.Context;
 
-import com.loopj.android.http.PersistentCookieStore;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.network.MyAsyncHttpClient;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.List;
-
-import cz.msebera.android.httpclient.cookie.Cookie;
 
 /**
  * Created by chaochen on 14-10-7.
@@ -27,14 +24,7 @@ public class MyImageDownloader extends BaseImageDownloader {
         HttpURLConnection conn = super.createConnection(url, extra);
 
         if (url.startsWith(Global.HOST)) {
-            PersistentCookieStore cookieStore = new PersistentCookieStore(context);
-            List<Cookie> cookies = cookieStore.getCookies();
-
-            String cookieString = "";
-            for (Cookie item : cookies) {
-                cookieString += String.format("%s=%s; ", item.getName(), item.getValue());
-            }
-            conn.setRequestProperty("Cookie", cookieString);
+            conn.setRequestProperty("Cookie", MyAsyncHttpClient.getLoginCookie(context));
         }
 
         return conn;

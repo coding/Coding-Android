@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
@@ -58,8 +57,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-
-import cz.msebera.android.httpclient.cookie.Cookie;
 
 @EActivity(R.layout.activity_attachments_download)
 public class AttachmentsDownloadDetailActivity extends BackActivity {
@@ -480,14 +477,8 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
 
-            PersistentCookieStore cookieStore = new PersistentCookieStore(AttachmentsDownloadDetailActivity.this);
-            String cookieString = "";
-            for (Cookie cookie : cookieStore.getCookies()) {
-                cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
-            }
-
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.addRequestHeader("Cookie", cookieString);
+            request.addRequestHeader("Cookie", MyAsyncHttpClient.getLoginCookie(this));
             request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));
             request.setTitle(mFileObject.getName());
             // request.setDescription(mFileObject.name);

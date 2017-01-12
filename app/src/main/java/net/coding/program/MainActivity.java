@@ -254,6 +254,8 @@ public class MainActivity extends BaseActivity {
         mSpinnerAdapter = new MaopaoTypeAdapter(getLayoutInflater(), maopao_action_types);
         setActionBarTitle("");
 
+        Global.display(this);
+
 //        setListenerToRootView();
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

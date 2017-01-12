@@ -360,6 +360,9 @@ public class LoginActivity extends BaseActivity {
             }
             params.put("remember_me", true);
 
+            Global.display(this);
+
+
             String HOST_LOGIN = Global.HOST_API + "/v2/account/login";
             params.put("account", name);
 

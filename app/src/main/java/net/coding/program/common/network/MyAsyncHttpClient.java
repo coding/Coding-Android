@@ -3,6 +3,7 @@ package net.coding.program.common.network;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.os.Build;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
@@ -21,6 +22,7 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 import cz.msebera.android.httpclient.impl.cookie.BasicClientCookie;
 
 import static net.coding.program.common.util.LogUtils.makeLogTag;
+
 
 /**
  * Created by chaochen on 14-10-8.
@@ -148,6 +150,30 @@ public class MyAsyncHttpClient {
         }
 
         return "";
+    }
+
+    public static String getLoginCookie(Context context) {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        List<Cookie> cookies = cookieStore.getCookies();
+        String cookieString = "";
+        for (Cookie eachCookie : cookies) {
+            String domain = eachCookie.getDomain();
+            if (domain == null) {
+                domain = "";
+            }
+
+            if (domain.startsWith(".")) {
+                domain = domain.substring(1, domain.length());
+            }
+
+            if (Global.HOST.endsWith(domain)) {
+                cookieString += String.format("%s=%s;", eachCookie.getName(), eachCookie.getValue());
+            }
+        }
+
+        Log.d("", "cookie " + cookieString);
+
+        return cookieString;
     }
 
     public static HashMap<String, String> getMapHeaders() {

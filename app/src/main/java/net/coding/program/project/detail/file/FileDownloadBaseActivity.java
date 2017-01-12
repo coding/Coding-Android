@@ -1,10 +1,7 @@
 package net.coding.program.project.detail.file;
 
 import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -16,12 +13,11 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.loopj.android.http.PersistentCookieStore;
-
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.DownloadManagerPro;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
@@ -30,8 +26,6 @@ import net.coding.program.project.detail.AttachmentsActivity;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.cookie.Cookie;
 
 /**
  * Created by chenchao on 15/8/24.
@@ -197,14 +191,8 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
                 final String urlDownload = Global.HOST_API + "%s/files/%s/download";
                 String url = String.format(urlDownload, getProjectPath(), mFileObject.file_id);
 
-                PersistentCookieStore cookieStore = new PersistentCookieStore(this);
-                String cookieString = "";
-                for (Cookie cookie : cookieStore.getCookies()) {
-                    cookieString += cookie.getName() + "=" + cookie.getValue() + ";";
-                }
-
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                request.addRequestHeader("Cookie", cookieString);
+                request.addRequestHeader("Cookie", MyAsyncHttpClient.getLoginCookie(this));
                 request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(getProjectId()));
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
                 request.setTitle(mFileObject.getName());

@@ -109,6 +109,7 @@
                 android:id="@+id/commentWebviewDetail"
                 android:text="查看详情"
                 android:layout_marginRight="0dp"
+                android:visibility="invisible"
                 style="@style/commentWebviewDetail" />
 
         </RelativeLayout>
