@@ -46,18 +46,27 @@ public class MainSettingFragment extends BaseFragment {
     void initMainSettingFragment() {
         setToolbar("我的");
 
-        UserObject me = MyApp.sUserObject;
-        userName.setText(me.name);
-        userGK.setText(String.format("个性后缀：%s", me.global_key));
-        iconfromNetwork(userIcon, me.avatar);
+        bindDataUserinfo();
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        bindData();
         loadUser();
+        bindDataUserinfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void bindDataUserinfo() {
+        UserObject me = MyApp.sUserObject;
+        userName.setText(me.name);
+        userGK.setText(String.format("个性后缀：%s", me.global_key));
+        iconfromNetwork(userIcon, me.avatar);
     }
 
     private void bindData() {

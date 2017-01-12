@@ -130,7 +130,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
     // 自己的和他人的显示项目有所不同
     private void bindViewType() {
         if (isMe) {
-            getSupportActionBar().setTitle("个人主页");
+            setActionBarTitle("个人主页");
             ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
             ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
             ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
@@ -140,7 +140,6 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         }
         findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
         findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
-
     }
 
     @OptionsItem

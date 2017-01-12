@@ -44,6 +44,13 @@ public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
         operActivenessResult(code, respanse, tag);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        bindUI(MyApp.sUserObject);
+    }
+
     public int getActionBarSize() {
         return Global.dpToPx(48);
     }

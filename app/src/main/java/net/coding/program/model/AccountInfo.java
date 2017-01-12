@@ -93,6 +93,7 @@ public class AccountInfo {
     }
 
     public static void saveAccount(Context ctx, UserObject data) {
+        MyApp.sUserObject = data;
         File file = new File(ctx.getFilesDir(), ACCOUNT);
         if (file.exists()) {
             file.delete();
