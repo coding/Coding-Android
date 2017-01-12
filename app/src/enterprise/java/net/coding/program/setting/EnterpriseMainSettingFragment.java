@@ -29,7 +29,7 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
     @AfterViews
     void initEnterpriseMainSettingFragment() {
         int visible = View.GONE;
-        if (EnterpriseInfo.instance().isAdmin()) {
+        if (EnterpriseInfo.instance().canManagerEnterprise()) {
             visible = View.VISIBLE;
             companyName.setText(EnterpriseInfo.instance().getName());
         }

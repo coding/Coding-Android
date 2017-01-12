@@ -28,7 +28,7 @@ public class EnterpriseDetail implements Serializable {
     public int id;
     public UserObject owner;
 
-    public boolean isAdmin; // 是否管理员，这个字段来自另一个 api，感觉专门写个类没必要
+    private UserIdentity identity = UserIdentity.normal; // 是否管理员，这个字段来自另一个 api，感觉专门写个类没必要
 
     public EnterpriseDetail(JSONObject json) {
         id = json.optInt("id");
@@ -48,11 +48,19 @@ public class EnterpriseDetail implements Serializable {
 
         if (json.has("owner")) {
             owner = new UserObject(json.optJSONObject("owner"));
+
+            if (owner.isMe()) {
+                identity = UserIdentity.owner;
+            }
         }
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public void setIdentity(UserIdentity identity) {
+        this.identity = identity;
+    }
+
+    public UserIdentity getIdentity() {
+        return identity;
     }
 
     public EnterpriseDetail() {}

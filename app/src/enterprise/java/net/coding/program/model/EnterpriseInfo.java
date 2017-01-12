@@ -32,8 +32,13 @@ public class EnterpriseInfo {
         AccountInfo.saveEnterpriseDetail(context, detail);
     }
 
-    public boolean isAdmin() {
-        return detail.isAdmin();
+    public UserIdentity getIdentity() {
+        return detail.getIdentity();
+    }
+
+    public boolean canManagerEnterprise() {
+        UserIdentity identity = detail.getIdentity();
+        return identity == UserIdentity.owner || identity == UserIdentity.manager;
     }
 
     public String getAvatar() {

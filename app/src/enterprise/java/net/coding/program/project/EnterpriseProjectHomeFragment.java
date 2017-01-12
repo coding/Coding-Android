@@ -31,7 +31,7 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
 
     @Override
     protected void initProjectSettingEntrance(View view) {
-        if (EnterpriseInfo.instance().isAdmin()) { // todo 管理员可以直接修改项目
+        if (EnterpriseInfo.instance().canManagerEnterprise()) { // 所有者可以直接修改项目
             view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
         } else {
             super.initProjectSettingEntrance(view);

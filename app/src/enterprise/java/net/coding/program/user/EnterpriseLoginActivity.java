@@ -45,6 +45,7 @@ import net.coding.program.login.phone.EnterpriseEmailSetPasswordActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.EnterpriseDetail;
 import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.model.UserIdentity;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.FastBlur;
 
@@ -424,7 +425,10 @@ public class EnterpriseLoginActivity extends BaseActivity {
         } else if (tag.equals(TAG_HOST_IS_ADMIN)) { // 判断是否管理员
             if (code == 0) {
                 showProgressBar(false);
-                enterpriseDetail.isAdmin = respanse.optBoolean("data", false);
+                 boolean isAdmin = respanse.optBoolean("data", false);
+                if (isAdmin) {
+                    enterpriseDetail.setIdentity(UserIdentity.manager);
+                }
                 jumpMainActivity();
             } else {
                 showProgressBar(false);
