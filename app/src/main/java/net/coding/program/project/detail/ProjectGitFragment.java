@@ -18,6 +18,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.url.UrlCreate;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
@@ -237,6 +238,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 switchVersionSuccess();
             } else {
                 showErrorMsg(code, respanse);
+                showProgressBar(false);
+                boolean result = false;
+                int ERROR_NO_CODE = 1209;
+                if (code == ERROR_NO_CODE) {
+                    result = true;
+                }
+                BlankViewHelp.setBlank(mData.size(), this, result, blankLayout, onClickRetry);
             }
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {

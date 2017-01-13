@@ -1,5 +1,6 @@
 package net.coding.program.project.detail;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.util.BlankViewHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -133,6 +135,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
         String urlTag = String.format(HOST_LIST_TAG, mProjectPath);
         getNetwork(urlTag, HOST_LIST_TAG);
+
         versionList.setAdapter(versionAdapter);
 
         int left = Global.dpToPx(MyApp.sWidthDp - 40);
@@ -149,6 +152,16 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             return true;
         });
     }
+
+    private View.OnClickListener onClickRetry = v -> {
+        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectPath);
+        getNetwork(urlBranches, HOST_LIST_BRANCHES);
+
+        String urlTag = String.format(HOST_LIST_TAG, mProjectPath);
+        getNetwork(urlTag, HOST_LIST_TAG);
+
+        showProgressBar(true);
+    };
 
     @Click
     protected final void versionButton() {
@@ -172,7 +185,12 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 } else {
                     JSONArray branchList = jsonData.optJSONArray("list");
                     if (branchList.length() > 0) {
-                        parseVersion(mDataVers[0], branchList);
+                        BranchItem item = new BranchItem(branchList.optJSONObject(0));
+                        if (TextUtils.isEmpty(item.name)) { //
+                            branchNotExist();
+                        } else {
+                            parseVersion(mDataVers[0], branchList);
+                        }
                     } else {
                         branchNotExist();
                     }
@@ -180,6 +198,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             } else {
                 showErrorMsg(code, respanse);
                 hideDialogLoading();
+                BlankViewHelp.setBlank(0, this, false, blankLayout, onClickRetry);
             }
         } else if (tag.equals(HOST_LIST_TAG)) {
             if (code == 0) {

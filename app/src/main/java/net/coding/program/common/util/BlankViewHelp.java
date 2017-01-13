@@ -37,7 +37,10 @@ public class BlankViewHelp extends BlankViewDisplay {
         v.findViewById(R.id.icon).setVisibility(otherVisable);
         v.findViewById(R.id.message).setVisibility(otherVisable);
         v.findViewById(R.id.btnRetry).setVisibility(otherVisable);
-        v.findViewById(R.id.loadingLayout).setVisibility(loadingVisable);
+        View loadingView = v.findViewById(R.id.loadingLayout);
+        if (loadingView != null) {
+            loadingView.setVisibility(loadingVisable);
+        }
     }
 
 }
