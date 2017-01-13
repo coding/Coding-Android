@@ -222,6 +222,12 @@ public class MergeDetailActivity extends BackActivity {
         }
     };
 
+    private View.OnClickListener clickJumpReviewUsers = v -> {
+        Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
+        intent.putExtra("mMerge", mMerge);
+        startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
+    };
+
     class DynamicHolder {
         public ImageView mIcon;
         public TextView mContent;
@@ -876,7 +882,7 @@ public class MergeDetailActivity extends BackActivity {
             }
         }
         final int roleFinal = role;
-        reviewers.setOnClickListener(new View.OnClickListener() {
+        reviewers.findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (roleFinal == 0) {
@@ -935,29 +941,20 @@ public class MergeDetailActivity extends BackActivity {
                 addedCount++;
                 iconfromNetwork(circleImageView, reviewer.user.avatar);
             }
+
+            ImageView more = new ImageView(this);
+            reviewersLayout.addView(more, lp);
+
             if (shouldShowMore) {
-                ImageView more = new ImageView(this);
-                more.setImageResource(R.drawable.round_more);
-                reviewersLayout.addView(more, lp);
+                more.setBackgroundResource(R.drawable.round_more);
+            } else {
+                more.setBackgroundResource(R.drawable.merge_request_create);
             }
 
             if (addedCount > 0) {
                 findViewById(R.id.reviewer_divide).setVisibility(View.VISIBLE);
                 reviewersLayout.setVisibility(View.VISIBLE);
-                reviewersLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        todo delete
-                        if (1 == 1) {
-                            finishAndUpdateList();
-                            return;
-                        }
-
-                        Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
-                        intent.putExtra("mMerge", mMerge);
-                        startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
-                    }
-                });
+                reviewersLayout.setOnClickListener(clickJumpReviewUsers);
             } else {
                 findViewById(R.id.reviewer_divide).setVisibility(View.GONE);
                 reviewersLayout.setVisibility(View.GONE);
