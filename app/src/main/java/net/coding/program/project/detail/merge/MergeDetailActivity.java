@@ -56,6 +56,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -775,6 +776,9 @@ public class MergeDetailActivity extends BackActivity {
 
     private void finishAndUpdateList() {
         setResult(RESULT_OK);
+
+        EventBus.getDefault().post(MergeListFragment.EVENT_UPDATE);
+
         finish();
     }
 
@@ -943,6 +947,12 @@ public class MergeDetailActivity extends BackActivity {
                 reviewersLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+//                        todo delete
+                        if (1 == 1) {
+                            finishAndUpdateList();
+                            return;
+                        }
+
                         Intent intent = new Intent(MergeDetailActivity.this, MembersSelectActivity_.class);
                         intent.putExtra("mMerge", mMerge);
                         startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);

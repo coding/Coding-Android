@@ -54,6 +54,12 @@ public class ProjectMergeFragment extends BaseFragment {
         tabs.setViewPager(viewPager);
     }
 
+
+    @Override
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MergeListFragment.RESULT_CHANGE) {

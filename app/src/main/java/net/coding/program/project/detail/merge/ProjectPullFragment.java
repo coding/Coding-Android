@@ -1,8 +1,6 @@
 package net.coding.program.project.detail.merge;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -43,15 +41,6 @@ public class ProjectPullFragment extends BaseFragment {
             }
             mAdapter.notifyDataSetChanged();
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MergeListFragment.RESULT_CHANGE) {
-            if (resultCode == Activity.RESULT_OK) {
-                mAdapter.notifyDataSetChanged();
-            }
-        }
     }
 
     private static class PullPagerAdapter extends FragmentStatePagerAdapter {
