@@ -269,6 +269,10 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         networkImpl.loadData(url, params, tag, -1, null, NetworkImpl.Request.Put);
     }
 
+//    protected void putNetwork(String url, RequestParams params, final String tag, Object extra) {
+//        networkImpl.loadData(url, params, tag, -1, extra, NetworkImpl.Request.Put);
+//    }
+
     public void getNetwork(String url) {
         networkImpl.loadData(url, null, url, -1, null, NetworkImpl.Request.Get);
     }

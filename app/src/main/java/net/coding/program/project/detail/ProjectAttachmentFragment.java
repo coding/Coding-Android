@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +34,7 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -329,6 +329,11 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                 pickedFolderObject = null;
                 adapter.notifyDataSetChanged();
 
+                if (data instanceof AttachmentFolderObject) {
+                    AttachmentFolderObject folder = (AttachmentFolderObject) data;
+                    EventBus.getDefault().post(folder.name);
+                }
+
                 onRefresh();
             } else {
                 showErrorMsg(code, respanse);
@@ -545,7 +550,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
 //            AttachmentFileObject source = selectFile.get(selectFile.size() - 1);
 
             String host = String.format("%s/%s/folder/%s/move-to/%s", Global.HOST_API, mProjectObject.getProjectPath(), pickedFolderObject.file_id, selectedFolder.file_id);
-            putNetwork(host, null, TAG_MOVE_FOLDER);
+            putNetwork(host, null, TAG_MOVE_FOLDER, selectedFolder);
         }
     }
 

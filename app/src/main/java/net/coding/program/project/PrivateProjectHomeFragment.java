@@ -105,7 +105,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
     }
 
-    private void bindUI() {
+    protected void bindUI() {
         Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
 
         if (mProjectObject.canReadCode()) {

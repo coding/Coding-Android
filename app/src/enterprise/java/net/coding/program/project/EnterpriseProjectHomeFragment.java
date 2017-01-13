@@ -37,4 +37,5 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
             super.initProjectSettingEntrance(view);
         }
     }
+
 }

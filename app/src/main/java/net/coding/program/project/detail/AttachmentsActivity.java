@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -53,6 +55,9 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -389,6 +394,26 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     };
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventUpdate(String name) {
+        if (!TextUtils.isEmpty(name) && name.equals(mAttachmentFolderObject.name)) {
+            initSetting();
+            loadMore();
+        }
+    }
+
     private void showFolderAction() {
         if (mAttachmentFolderObject.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
             folder_actions_layout.setVisibility(View.GONE);
@@ -709,6 +734,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 umengEvent(UmengEvent.FILE, "移动文件夹");
 
                 showButtomToast("移动成功");
+
+                if (data instanceof AttachmentFolderObject) {
+                    AttachmentFolderObject folder = (AttachmentFolderObject) data;
+                    EventBus.getDefault().post(folder.name);
+                }
+
                 mFilesArray.removeAll(selectFile);
                 adapter.notifyDataSetChanged();
                 setResult(Activity.RESULT_OK);
@@ -1138,7 +1169,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 i++;
             }
 
-            putNetwork(String.format(HOST_FILE_MOVETO, mProjectObjectId, selectedFolder.file_id, param), null, HOST_FILE_MOVETO);
+            putNetwork(String.format(HOST_FILE_MOVETO, mProjectObjectId, selectedFolder.file_id, param), null, HOST_FILE_MOVETO, -1, selectedFolder);
         }
     }
 
@@ -1157,7 +1188,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             AttachmentFileObject source = selectFile.get(selectFile.size() - 1);
 
             String host = String.format("%s/%s/folder/%s/move-to/%s", Global.HOST_API, mProject.getProjectPath(), source.file_id, selectedFolder.file_id);
-            putNetwork(host, null, TAG_MOVE_FOLDER);
+            putNetwork(host, null, TAG_MOVE_FOLDER, -1, selectedFolder);
         }
     }
 
