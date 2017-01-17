@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import net.coding.program.common.ui.PopCaptchaDialog;
+import net.coding.program.common.Global;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.project.detail.PickLabelColorActivity_;
 
@@ -22,7 +23,10 @@ public class TestActivity extends AppCompatActivity {
 
     public void click1(View v) {
 //        test1();
-        PopCaptchaDialog.pop(this);
+//        PopCaptchaDialog.pop(this);
+
+        String url = Global.HOST + "/user/tasks?owner=22";
+        URLSpanNoUnderline.openActivityByUri(this, url, true);
     }
 
     public void click2(View v) {
