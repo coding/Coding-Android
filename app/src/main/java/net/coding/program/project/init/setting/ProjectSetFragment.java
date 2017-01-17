@@ -25,6 +25,7 @@ import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.compatible.UriCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
 
@@ -48,8 +49,10 @@ public class ProjectSetFragment extends BaseFragment {
 
     public static final int RESULT_REQUEST_PHOTO = 3003;
     private static final String TAG = "ProjectSetFragment";
-    final String host = Global.HOST_API + "/project";
     private final int RESULT_REQUEST_PHOTO_CROP = 3006;
+
+    private static final String TAG_SET_PROJECT = "TAG_SET_PROJECT";
+
     ProjectObject mProjectObject;
 
     String iconPath;
@@ -190,18 +193,19 @@ public class ProjectSetFragment extends BaseFragment {
     }
 
     private void action_done() {
+        final String host = UriCompat.createProject();
         RequestParams params = new RequestParams();
         params.put("name", mProjectObject.name);
         params.put("description", description.getText().toString().trim());
         params.put("id", mProjectObject.getId());
         params.put("default_branch", "master");
-        putNetwork(host, params, host, null);
+        putNetwork(host, params, TAG_SET_PROJECT, null);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         showProgressBar(false);
-        if (tag.equals(host)) {
+        if (tag.equals(TAG_SET_PROJECT)) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "修改项目");
                 showButtomToast("修改成功");
@@ -243,7 +247,7 @@ public class ProjectSetFragment extends BaseFragment {
                     iconPath = FileUtil.getPath(getActivity(), fileCropUri);
                     projectIcon.setImageURI(fileCropUri);
                     showProgressBar(true, "正在上传图片...");
-                    String uploadUrl = host + "/" + mProjectObject.getId() + "/project_icon";
+                    String uploadUrl = UriCompat.createProject() + "/" + mProjectObject.getId() + "/project_icon";
                     RequestParams params = new RequestParams();
                     params.put("file", new File(iconPath));
                     postNetwork(uploadUrl, params, uploadUrl);

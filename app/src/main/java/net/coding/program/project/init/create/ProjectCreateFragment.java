@@ -1,7 +1,6 @@
 package net.coding.program.project.init.create;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -31,7 +30,7 @@ import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.compatible.UriCompat;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
@@ -55,10 +54,11 @@ import java.io.File;
 @OptionsMenu(R.menu.menu_fragment_create)
 public class ProjectCreateFragment extends BaseFragment {
 
+    private static final String TAG_CREATE_PROJECT = "TAG_CREATE_PROJECT";
+
     public static final int RESULT_REQUEST_PHOTO = 2003;
     public static final int RESULT_REQUEST_PICK_TYPE = 2004;
     private static final String TAG = "ProjectCreateFragment";
-    final String host = Global.HOST_API + "/project";
     private final int RESULT_REQUEST_PHOTO_CROP = 2006;
     String currentType = ProjectTypeActivity.TYPE_PRIVATE;
 
@@ -263,12 +263,8 @@ public class ProjectCreateFragment extends BaseFragment {
     }
 
     private void createProject() {
+        final String host = UriCompat.createProject();
         RequestParams params = new RequestParams();
-        String teamGK = EnterpriseInfo.instance().getGlobalkey();
-        if (!TextUtils.isEmpty(teamGK)) {
-            params.put("teamGK", teamGK);
-            params.put("joinTeam", true);
-        }
 
         params.put("name", projectInfo.name);
         params.put("description", projectInfo.description);
@@ -290,15 +286,14 @@ public class ProjectCreateFragment extends BaseFragment {
             Log.d(TAG, "" + e.toString());
         }
 
-        postNetwork(host, params, host);
+        postNetwork(host, params, TAG_CREATE_PROJECT);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         showProgressBar(false);
-        if (tag.equals(host)) {
+        if (tag.equals(TAG_CREATE_PROJECT)) {
             if (code == 0) {
-//                InitProUtils.intentToMain(getActivity());
                 umengEvent(UmengEvent.PROJECT, "新建项目");
                 String path = respanse.optString("data");
                 ProjectHomeActivity_
@@ -318,15 +313,9 @@ public class ProjectCreateFragment extends BaseFragment {
     private void showWarningDialog() {
         LayoutInflater factory = LayoutInflater.from(getActivity());
         final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry2, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        AlertDialog dialog = builder.setTitle("提示")
+        new AlertDialog.Builder(getActivity()).setTitle("提示")
                 .setView(textEntryView)
-                .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton("关闭", (dialog1, which) -> dialog1.dismiss())
                 .show();
     }
 
