@@ -114,6 +114,8 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    compile 'com.orhanobut:logger:1.15'
+
 }
 
 buildscript {

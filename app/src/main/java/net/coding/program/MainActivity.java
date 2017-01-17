@@ -93,12 +93,8 @@ public class MainActivity extends BaseActivity {
     }
 
     boolean mFirstEnter = true;
-    BroadcastReceiver mUpdatePushReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateNotifyService();
-        }
-    };
+    BroadcastReceiver mUpdatePushReceiver;
+
     int mSelectPos = 0;
     MaopaoTypeAdapter mSpinnerAdapter;
     private long exitTime = 0;
@@ -142,14 +138,7 @@ public class MainActivity extends BaseActivity {
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
 
-        IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
-        registerReceiver(mUpdatePushReceiver, intentFilter);
-
-//        XGPushConfig.enableDebug(this, true);
-        // qq push
-        updateNotifyService();
-        pushInXiaomi();
-        startNetworkCheckService();
+        startExtraService();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
@@ -173,6 +162,31 @@ public class MainActivity extends BaseActivity {
 
         EventBus.getDefault().register(this);
 
+    }
+
+    protected void startExtraService() {
+        // 检查客户端是否有更新
+        Intent intent = new Intent(this, UpdateService.class);
+        intent.putExtra(UpdateService.EXTRA_BACKGROUND, true);
+        intent.putExtra(UpdateService.EXTRA_WIFI, true);
+        intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
+        startService(intent);
+
+        // 信鸽 push 服务会发 broadcast
+        mUpdatePushReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateNotifyService();
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
+        registerReceiver(mUpdatePushReceiver, intentFilter);
+
+//        XGPushConfig.enableDebug(this, true);
+        // qq push
+        updateNotifyService();
+        pushInXiaomi();
+        startNetworkCheckService();
     }
 
     private void startNetworkCheckService() {
@@ -229,9 +243,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(mUpdatePushReceiver);
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
+
+        if (mUpdatePushReceiver != null) {
+            unregisterReceiver(mUpdatePushReceiver);
+            mUpdatePushReceiver = null;
+        }
+
+        EventBus.getDefault().unregister(this);
     }
 
     // 信鸽文档推荐调用，防止在小米手机上收不到推送
@@ -254,12 +273,6 @@ public class MainActivity extends BaseActivity {
 
     @AfterViews
     final void initMainActivity() {
-        Intent intent = new Intent(this, UpdateService.class);
-        intent.putExtra(UpdateService.EXTRA_BACKGROUND, true);
-        intent.putExtra(UpdateService.EXTRA_WIFI, true);
-        intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
-        startService(intent);
-
         mSpinnerAdapter = new MaopaoTypeAdapter(getLayoutInflater(), maopao_action_types);
         setActionBarTitle("");
 

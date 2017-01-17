@@ -22,4 +22,8 @@ public class EnterpriseMainActivity extends MainActivity {
     protected void switchSetting() {
         switchFragment(EnterpriseMainSettingFragment_.FragmentBuilder_.class);
     }
+
+    protected void startExtraService() {
+        // 不启动服务
+    }
 }
