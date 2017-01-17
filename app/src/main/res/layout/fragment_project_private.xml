@@ -18,8 +18,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/divide_top_15" />
-
             <include layout="@layout/project_home_list_head_head" />
 
             <TextView

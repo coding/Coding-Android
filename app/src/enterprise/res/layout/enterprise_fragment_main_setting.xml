@@ -14,59 +14,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/divide_top_15" />
+
+        <RelativeLayout
+            android:id="@+id/userLayout"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:background="@color/stand_bg"
+            android:foreground="?attr/selectableItemBackground">
+
+            <net.coding.program.common.widget.CircleImageView
+                android:id="@+id/userIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/userIcon"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/userIcon"
+                android:textColor="@color/font_2"
+                android:textSize="16sp"
+                tools:text="Man" />
+
+            <TextView
+                android:id="@+id/userGK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/userIcon"
+                android:layout_marginBottom="3dp"
+                android:layout_toRightOf="@id/userIcon"
+                android:textColor="@color/font_6"
+                android:textSize="13sp"
+                tools:text="个性后缀" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/padding_15"
+                android:background="@drawable/user_home_arrow"
+                tools:showIn="@layout/activity_user_detail" />
+
+        </RelativeLayout>
 
         <include layout="@layout/actionbar_shadow" />
 
     </FrameLayout>
-
-    <RelativeLayout
-        android:id="@+id/userLayout"
-        android:layout_width="match_parent"
-        android:layout_height="86dp"
-        android:background="@color/stand_bg"
-        android:foreground="?attr/selectableItemBackground">
-
-        <net.coding.program.common.widget.CircleImageView
-            android:id="@+id/userIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
-
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/userIcon"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@id/userIcon"
-            android:textColor="@color/font_2"
-            android:textSize="16sp"
-            tools:text="Man" />
-
-        <TextView
-            android:id="@+id/userGK"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/userIcon"
-            android:layout_marginBottom="3dp"
-            android:layout_toRightOf="@id/userIcon"
-            android:textColor="@color/font_6"
-            android:textSize="13sp"
-            tools:text="个性后缀" />
-
-        <View
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_15"
-            android:background="@drawable/user_home_arrow"
-            tools:showIn="@layout/activity_user_detail" />
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

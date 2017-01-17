@@ -115,8 +115,8 @@
     <dimen name="divide_height">0.5dp</dimen>
     <dimen name="bottom_layout_high">60dp</dimen>
 
-    <dimen name="list_header_space">15dp</dimen>
-    <dimen name="list_footer_space">15dp</dimen>
+    <dimen name="list_header_space">0dp</dimen>
+    <dimen name="list_footer_space">0dp</dimen>
     <dimen name="list_footer_shadow_space">15dp</dimen>
     <dimen name="list_divide_line_height">0.5dp</dimen>
 
