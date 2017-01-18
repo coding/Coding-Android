@@ -342,6 +342,11 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
 
     }
 
+    /**
+     * 重命名文件
+     * @param position
+     * @param folderObject
+     */
     private void doRename(final int position, final AttachmentFolderObject folderObject) {
         if (folderObject.file_id.equals("0")) {
             showButtomToast("默认文件夹无法重命名");
@@ -378,6 +383,9 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         input.requestFocus();
     }
 
+    /**
+     * 新建文件夹
+     */
     private void doNowFolder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //final EditText input = new EditText(getActivity());
@@ -414,6 +422,9 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * 删除文件夹
+     */
     void action_delete() {
         selectFolder = new ArrayList<>();
         for (AttachmentFolderObject folderObject : mData) {
@@ -432,6 +443,10 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                 .show();
     }
 
+    /**
+     * 删除单个文件
+     * @param selectedFolderObject
+     */
     void action_delete_single(AttachmentFolderObject selectedFolderObject) {
         if (selectedFolderObject == null)
             return;

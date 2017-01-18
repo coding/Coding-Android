@@ -11,14 +11,14 @@ import java.util.ArrayList;
  * Created by yangzhen on 2014/10/25.
  */
 public class AttachmentFolderObject implements Serializable {
-    public long created_at;
-    public String file_id = "";
-    public String name = "";
-    public String owner_id = "";
-    public String parent_id = "";
-    public int type;
-    public long updated_at;
-    public int count;
+    public long created_at;//创建时间
+    public String file_id = "";//文件ID
+    public String name = "";//文件名称
+    public String owner_id = "";//
+    public String parent_id = "";//
+    public int type;//文件类型
+    public long updated_at;//更新时间
+    public int count;//文件数量
     public boolean isSelected = false;
 
     public static final String SHARE_FOLDER_ID = "-1";
