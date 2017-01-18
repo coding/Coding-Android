@@ -94,6 +94,34 @@
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
 
+
+        <activity
+            android:name=".EntranceActivity_"
+            android:icon="@drawable/app_icon"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:host="coding.net"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+                <data
+                    android:host="m.coding.net"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

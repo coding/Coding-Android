@@ -44,7 +44,6 @@ import net.coding.program.login.auth.AuthListActivity;
 import net.coding.program.login.auth.Login2FATipActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.GitFileObject;
 import net.coding.program.user.UserDetailActivity_;
 
@@ -127,19 +126,6 @@ public class Global {
         }
 
         return LOG_PREFIX + str;
-    }
-
-    // 应对修改企业版路径以 /p/project 开头的问题
-    public static String transformEnterpriseUri(String uri) {
-        if (uri.startsWith("/p/")) {
-            uri = String.format("/u/%s%s", EnterpriseInfo.instance().getGlobalkey(), uri);
-        } else if (uri.startsWith(Global.HOST + "/p/")) {
-            int pathStart = Global.HOST.length();
-            String uriPath = uri.substring(pathStart, uri.length());
-            uri = String.format("/u/%s%s", EnterpriseInfo.instance().getGlobalkey(), uriPath);
-        }
-
-        return uri;
     }
 
     public static Spanned createBlueHtml(String begin, String middle, String end) {

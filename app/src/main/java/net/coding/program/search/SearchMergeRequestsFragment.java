@@ -14,6 +14,7 @@ import net.coding.program.project.detail.merge.MergeDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -34,7 +35,10 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
     String page = "&page=%s";
     int pos = 1;
     private String keyword = "";
-    private String tabPrams;
+
+    @InstanceState
+    protected String tabPrams;
+
     private boolean hasMore = true;
     private boolean isLoading = true;
     @ViewById

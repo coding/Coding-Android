@@ -24,12 +24,12 @@ public class EnterpriseInfo {
     }
 
     public void init(Context context) {
-        detail = AccountInfo.loadEnterpriseDetail(context);
+        detail = EnterpriseAccountInfo.loadEnterpriseDetail(context);
     }
 
     public void update(Context context, EnterpriseDetail detail) {
         this.detail = detail;
-        AccountInfo.saveEnterpriseDetail(context, detail);
+        EnterpriseAccountInfo.saveEnterpriseDetail(context, detail);
     }
 
     public UserIdentity getIdentity() {

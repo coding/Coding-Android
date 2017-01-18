@@ -11,6 +11,7 @@ import android.widget.Toast;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.FileUrlActivity_;
 import net.coding.program.ImagePagerActivity_;
+import net.coding.program.MyApp;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.push.PushUrl;
@@ -21,7 +22,6 @@ import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
-import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.AttachmentsActivity_;
@@ -42,7 +42,6 @@ import net.coding.program.subject.SubjectDetailActivity_;
 import net.coding.program.task.AllTasksActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.task.add.TaskJumpParams;
-import net.coding.program.user.UserDetailActivity_;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,7 +74,7 @@ public class URLSpanNoUnderline extends URLSpan {
     }
 
     public static boolean openActivityByUri(Context context, String uri, boolean newTask, boolean defaultIntent, boolean share) {
-        uri = Global.transformEnterpriseUri(uri);
+        uri = MyApp.transformEnterpriseUri(uri);
 
         final String ProjectPath = "/u/([\\w.-]+)/p/([\\w\\.-]+)";
         final String Host = Global.HOST;

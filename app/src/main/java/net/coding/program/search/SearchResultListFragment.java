@@ -24,6 +24,7 @@ import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -43,14 +44,18 @@ public class SearchResultListFragment extends RefreshBaseFragment {
     ArrayList<ProjectObject> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
-    private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
+
     @ViewById
     ListView listView;
+
     @ViewById(R.id.emptyView)
     LinearLayout emptyView;
+
+    @InstanceState
+    protected String keyword = "";
 
     MyAdapter adapter;
 

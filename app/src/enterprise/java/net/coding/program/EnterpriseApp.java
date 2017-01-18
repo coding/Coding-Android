@@ -1,5 +1,6 @@
 package net.coding.program;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import net.coding.program.common.Global;
@@ -12,7 +13,7 @@ import net.coding.program.model.EnterpriseInfo;
  * 用来做一些初始化工作，比如设置 host，
  * 初始化图片库配置
  */
-public class MyAppEnterprise extends MyApp {
+public class EnterpriseApp extends MyApp {
 
     @Override
     public void onCreate() {
@@ -28,11 +29,13 @@ public class MyAppEnterprise extends MyApp {
         CodingCompat.init(new EnterpriseCompatImp());
     }
 
-    public static void setHost(String enterpriseName) {
+    public static void setHost(@NonNull String enterpriseName) {
         String host = "https://e.coding.net";
         if (!TextUtils.isEmpty(enterpriseName)) {
             host = String.format("https://%s.coding.net", enterpriseName);
+            setEnterpriseGK(enterpriseName);
         }
+        setEnterpriseGK(enterpriseName);
 
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";

@@ -2,8 +2,8 @@ package net.coding.program.compatible;
 
 import android.text.TextUtils;
 
+import net.coding.program.MyApp;
 import net.coding.program.common.Global;
-import net.coding.program.model.EnterpriseInfo;
 
 /**
  * Created by chenchao on 2017/1/17.
@@ -14,7 +14,7 @@ public class UriCompat {
 
     public static String createProject() {
         final String host;
-        String teamGK = EnterpriseInfo.instance().getGlobalkey();
+        String teamGK = MyApp.getEnterpriseGK();
         if (TextUtils.isEmpty(teamGK)) {
             host = Global.HOST_API + "/project";
         } else {
@@ -22,4 +22,5 @@ public class UriCompat {
         }
         return host;
     }
+
 }
