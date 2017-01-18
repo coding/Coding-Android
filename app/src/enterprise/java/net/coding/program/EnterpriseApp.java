@@ -13,7 +13,7 @@ import net.coding.program.model.EnterpriseInfo;
  * 用来做一些初始化工作，比如设置 host，
  * 初始化图片库配置
  */
-public class MyAppEnterprise extends MyApp {
+public class EnterpriseApp extends MyApp {
 
     @Override
     public void onCreate() {

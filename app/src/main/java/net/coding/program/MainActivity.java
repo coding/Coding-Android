@@ -11,13 +11,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
 import com.tencent.android.tpush.XGPushManager;
@@ -36,6 +31,7 @@ import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
+import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.project.MainProjectFragment_;
@@ -68,17 +64,8 @@ public class MainActivity extends BaseActivity {
     String mPushUrl;
     @StringArrayRes
     String drawer_title[];
-    @StringArrayRes
-    String maopao_action_types[];
     @ViewById
     BottomBar bottomBar;
-//    @ViewById
-//    AppBarLayout appbar;
-//    @ViewById
-//    View actionBarCompShadow;
-//    TextView toolbarTitle;
-//    TextView toolbarProjectTitle;
-//private Spinner toolbarMaopaoTitle;
 
     private static boolean sNeedWarnEmailNoValidLogin = false;
 
@@ -95,8 +82,6 @@ public class MainActivity extends BaseActivity {
     boolean mFirstEnter = true;
     BroadcastReceiver mUpdatePushReceiver;
 
-    int mSelectPos = 0;
-    MaopaoTypeAdapter mSpinnerAdapter;
     private long exitTime = 0;
 
     private boolean mKeyboardUp;
@@ -144,10 +129,6 @@ public class MainActivity extends BaseActivity {
         loginBackground.update();
 
         mFirstEnter = (savedInstanceState == null);
-
-        if (savedInstanceState != null) {
-            mSelectPos = savedInstanceState.getInt("pos", R.id.tabProject);
-        }
 
         if (mPushUrl != null) {
             URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
@@ -273,69 +254,11 @@ public class MainActivity extends BaseActivity {
 
     @AfterViews
     final void initMainActivity() {
-        mSpinnerAdapter = new MaopaoTypeAdapter(getLayoutInflater(), maopao_action_types);
         setActionBarTitle("");
 
         Global.display(this);
 
         setListenerToRootView();
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            actionBarCompShadow.setVisibility(View.VISIBLE);
-//        } else {
-//            actionBarCompShadow.setVisibility(View.GONE);
-//        }
-
-//        toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
-//        toolbarProjectTitle = (TextView) findViewById(R.id.toolbarProjectTitle);
-//        toolbarProjectTitle.setOnClickListener(clickProjectTitle);
-//        toolbarMaopaoTitle = (Spinner) findViewById(R.id.toolbarMaopaoTitle);
-
-//        toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
-//        toolbarMaopaoTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            String[] strings = getResources().getStringArray(R.array.maopao_action_types);
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Fragment fragment;
-//                Bundle bundle = new Bundle();
-//                mSpinnerAdapter.setCheckPos(position);
-//
-//                switch (position) {
-//                    case 1:
-//                        fragment = new MaopaoListFragment_();
-//                        bundle.putSerializable("mType", MaopaoListFragment.Type.friends);
-//                        break;
-//
-//                    case 2:
-//                        fragment = new MaopaoListFragment_();
-//                        bundle.putSerializable("mType", MaopaoListFragment.Type.hot);
-//                        break;
-//
-//                    case 0:
-//                    default:
-//                        fragment = new MaopaoListFragment_();
-//                        bundle.putSerializable("mType", MaopaoListFragment.Type.time);
-//
-//                        break;
-//                }
-//
-//                fragment.setArguments(bundle);
-//
-//                FragmentManager fm = getSupportFragmentManager();
-//                FragmentTransaction ft = fm.beginTransaction();
-//                Log.d(TAG, ft == null ? "is null" : "is good");
-//                ft.replace(R.id.container, fragment, strings[position]);
-//                ft.commit();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
 
 
         if (mFirstEnter) {
@@ -358,21 +281,8 @@ public class MainActivity extends BaseActivity {
                 switchFragment(MainTaskFragment_.FragmentBuilder_.class);
                 break;
 
-            case R.id.tabMaopao:// 进入冒泡页面，单独处理
-                // todo
-//                List<Fragment> fragments = getSupportFragmentManager().getFragments();
-//                boolean containFragment = false;
-//                for (Fragment item : fragments) {
-//                    if (item instanceof MaopaoListFragment) {
-//                        containFragment = true;
-//                        break;
-//                    }
-//                }
-//
-//                if (!containFragment) {
-//                    int pos = toolbarMaopaoTitle.getSelectedItemPosition();
-//                    toolbarMaopaoTitle.getOnItemSelectedListener().onItemSelected(null, null, pos, pos);
-//                }
+            case R.id.tabMaopao:
+                switchFragment(MainMaopaoFragment_.FragmentBuilder_.class);
                 break;
 
             case R.id.tabMessage:
@@ -422,17 +332,6 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("pos", mSelectPos);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mSelectPos = savedInstanceState.getInt("pos", 0);
-    }
 
     //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
     @Override
@@ -488,74 +387,6 @@ public class MainActivity extends BaseActivity {
             exitTime = System.currentTimeMillis();
         } else {
             finish();
-        }
-    }
-
-    class MaopaoTypeAdapter extends BaseAdapter {
-
-        final int spinnerIcons[] = new int[]{
-                R.drawable.ic_spinner_maopao_time,
-                R.drawable.ic_spinner_maopao_friend,
-                R.drawable.ic_spinner_maopao_hot,
-        };
-
-        int checkPos = 0;
-        private LayoutInflater inflater;
-        private String[] project_activity_action_list;
-
-        public MaopaoTypeAdapter(LayoutInflater inflater, String[] titles) {
-            this.inflater = inflater;
-            this.project_activity_action_list = titles;
-        }
-
-        public void setCheckPos(int pos) {
-            checkPos = pos;
-        }
-
-        @Override
-        public int getCount() {
-            return spinnerIcons.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.spinner_layout_head, parent, false);
-            }
-
-            ((TextView) convertView).setText(project_activity_action_list[position]);
-
-            return convertView;
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.spinner_layout_item, parent, false);
-            }
-
-            TextView title = (TextView) convertView.findViewById(R.id.title);
-            title.setText(project_activity_action_list[position]);
-
-            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-            icon.setImageResource(spinnerIcons[position]);
-
-            if (checkPos == position) {
-                convertView.setBackgroundColor(getResources().getColor(R.color.divide));
-            } else {
-                convertView.setBackgroundColor(getResources().getColor(R.color.transparent));
-            }
-            return convertView;
         }
     }
 
