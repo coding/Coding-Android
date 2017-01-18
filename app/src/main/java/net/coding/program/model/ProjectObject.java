@@ -102,7 +102,7 @@ public class ProjectObject implements Serializable {
     }
 
     public static String translatePath(String path) {
-        return Global.transformEnterpriseUri(path)
+        return MyApp.transformEnterpriseUri(path)
                 .replace("/u/", "/user/")
                 .replace("/t/", "/user/")
                 .replace("/p/", "/project/");

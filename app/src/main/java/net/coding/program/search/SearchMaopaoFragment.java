@@ -14,6 +14,7 @@ import net.coding.program.model.Maopao;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,6 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
     String page = "&page=%s";
     int pos = 1;
     ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
-    private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
@@ -41,6 +41,8 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
     @ViewById
     ListView listView;
 
+    @InstanceState
+    protected String keyword = "";
 
     SearchMaopaoAdapter adapter;
 

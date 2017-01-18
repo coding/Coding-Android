@@ -25,9 +25,6 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.MyImageDownloader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -90,27 +87,27 @@ public class MyApp extends MultiDexApplication {
         return "";
     }
 
-    private static String getSystemProperty(String propName) {
-        String line;
-        BufferedReader input = null;
-        try {
-            Process p = Runtime.getRuntime().exec("getprop " + propName);
-            input = new BufferedReader(new InputStreamReader(p.getInputStream()), 1024);
-            line = input.readLine();
-            input.close();
-        } catch (IOException ex) {
-            Log.e("", "Unable to read sysprop " + propName, ex);
-            return null;
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    Log.e("", "Exception while closing InputStream", e);
-                }
-            }
+    // 应对修改企业版路径以 /p/project 开头的问题
+    public static String transformEnterpriseUri(String uri) {
+        if (uri.startsWith("/p/")) {
+            uri = String.format("/u/%s%s", enterpriseGK, uri);
+        } else if (uri.startsWith(Global.HOST + "/p/")) {
+            int pathStart = Global.HOST.length();
+            String uriPath = uri.substring(pathStart, uri.length());
+            uri = String.format("/u/%s%s", enterpriseGK, uriPath);
         }
-        return line;
+
+        return uri;
+    }
+
+    private static String enterpriseGK = "";
+
+    public static String getEnterpriseGK() {
+        return enterpriseGK;
+    }
+
+    public static void setEnterpriseGK(String enterpriseGK) {
+        MyApp.enterpriseGK = enterpriseGK;
     }
 
     @Override

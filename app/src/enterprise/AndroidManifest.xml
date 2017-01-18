@@ -241,21 +241,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <data
-                    android:host="coding.net"
-                    android:pathPattern="/.*"
-                    android:scheme="https" />
-                <data
-                    android:host="m.coding.net"
-                    android:pathPattern="/.*"
-                    android:scheme="https" />
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".task.add.TaskAddActivity_"
