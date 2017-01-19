@@ -14,8 +14,8 @@ public class AttachmentFolderObject implements Serializable {
     public long created_at;//创建时间
     public String file_id = "";//文件ID
     public String name = "";//文件名称
-    public String owner_id = "";//
-    public String parent_id = "";//
+    public String owner_id = "";//创建者ID
+    public String parent_id = "";//文件夹ID
     public int type;//文件类型
     public long updated_at;//更新时间
     public int count;//文件数量
