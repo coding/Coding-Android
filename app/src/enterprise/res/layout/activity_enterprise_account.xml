@@ -67,14 +67,14 @@
         android:layout_height="wrap_content"
         app:itemIcon="@drawable/user_home_project"
         app:itemShowBottomLine="true"
-        app:itemTitle="项目管理" />
+        app:itemTitle="@string/title_manage_project_activity" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemMember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@drawable/project_button_icon_member"
-        app:itemTitle="成员管理" />
+        app:itemTitle="@string/title_manage_member_activity" />
 
     <include layout="@layout/divide_bottom_15" />
 

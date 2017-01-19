@@ -54,11 +54,11 @@ public class EnterpriseAccountActivity extends BackActivity {
 
     @Click
     void itemProject() {
-
+        ManageProjectListActivity_.intent(this).start();
     }
 
     @Click
     void itemMember() {
-
+        ManageMemberActivity_.intent(this).start();
     }
 }

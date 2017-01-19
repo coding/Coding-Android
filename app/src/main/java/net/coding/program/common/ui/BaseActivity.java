@@ -325,6 +325,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url), animate);
     }
 
+    protected void iconfromNetwork(ImageView view, String url, DisplayImageOptions options) {
+        imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url), options);
+    }
+
     protected void imagefromNetwork(ImageView view, String url) {
         imageLoadTool.loadImageFromUrl(view, url);
     }

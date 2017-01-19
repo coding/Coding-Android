@@ -972,6 +972,13 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_enterprise_account_activity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.ManageProjectListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_project_activity" />
+        <activity android:name=".setting.ManageMemberActivity_"
+        android:icon="@drawable/ic_lancher"
+        android:label="@string/title_manage_member_activity" />
     </application>
 
 </manifest>
