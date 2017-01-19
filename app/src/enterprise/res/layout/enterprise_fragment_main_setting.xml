@@ -188,10 +188,9 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="TA的项目"
             android:textColor="@color/font_6"
             android:textSize="13sp"
-            tools:text="企业账户管理中心" />
+            android:text="企业账户管理中心" />
 
         <include
             android:id="@+id/arrow"
