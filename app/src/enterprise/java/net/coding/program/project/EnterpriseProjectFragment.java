@@ -364,18 +364,18 @@ public class EnterpriseProjectFragment extends BaseFragment {
         });
     }
 
-    class ProjectHolder extends UltimateRecyclerviewViewHolder {
+    public static class ProjectHolder extends UltimateRecyclerviewViewHolder {
 
-        TextView name;
-        ImageView image;
-        TextView name2;
-        TextView desc;
-        BadgeView badge;
-        ImageView privatePin;
-        View fLayoutAction;
-        View rootLayout;
+        public TextView name;
+        public ImageView image;
+        public TextView name2;
+        public TextView desc;
+        public BadgeView badge;
+        public ImageView privatePin;
+        public View fLayoutAction;
+        public View rootLayout;
 
-        ProjectHolder(View view, boolean isHeader) {
+        public ProjectHolder(View view, boolean isHeader) {
             super(view);
         }
 

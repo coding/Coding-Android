@@ -1,5 +1,6 @@
 package net.coding.program.model.team;
 
+import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
 
 import org.json.JSONObject;
@@ -31,6 +32,17 @@ public class TeamMember implements Serializable {
         role = json.optInt("role");
         alias = json.optString("alias", "");
         default2faMethod = json.optString("default2faMethod", "");
+    }
+
+
+    public TaskObject.Members.Type getType() {
+        for (TaskObject.Members.Type item : TaskObject.Members.Type.values()) {
+            if (item.getType() == role) {
+                return item;
+            }
+        }
+
+        return TaskObject.Members.Type.member;
     }
 
 }

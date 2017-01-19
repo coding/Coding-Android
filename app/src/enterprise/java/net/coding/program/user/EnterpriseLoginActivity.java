@@ -23,8 +23,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tencent.android.tpush.XGPushManager;
 
+import net.coding.program.EnterpriseApp;
 import net.coding.program.EnterpriseMainActivity_;
-import net.coding.program.MyAppEnterprise;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -379,12 +379,12 @@ public class EnterpriseLoginActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_LOGIN)) {
             if (code == 0) {
-                MyAppEnterprise.setHost(enterpriseEdit.getTextString());
+                EnterpriseApp.setHost(enterpriseEdit.getTextString());
                 EnterpriseMainActivity_.setNeedWarnEmailNoValidLogin();
                 loginSuccess(respanse);
                 umengEvent(UmengEvent.USER, "普通登录");
             } else if (code == 3205) {
-                MyAppEnterprise.setHost(enterpriseEdit.getTextString());
+                EnterpriseApp.setHost(enterpriseEdit.getTextString());
                 EnterpriseMainActivity_.setNeedWarnEmailNoValidLogin();
                 umengEvent(UmengEvent.USER, "2fa登录");
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
@@ -451,7 +451,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         EnterpriseInfo.instance().update(this, enterpriseDetail);
 
         AccountInfo.saveAccount(this, currentUserInfo);
-        MyAppEnterprise.sUserObject = currentUserInfo;
+        EnterpriseApp.sUserObject = currentUserInfo;
         AccountInfo.saveReloginInfo(this, currentUserInfo);
 
         Global.syncCookie(this);

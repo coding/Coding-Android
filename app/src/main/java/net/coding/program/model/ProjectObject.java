@@ -23,7 +23,7 @@ public class ProjectObject implements Serializable {
     public String project_path = ""; // "/u/cc/p/hell"
     public String ssh_url = "";
     public String current_user_role = "";
-    public int current_user_role_id;
+    public int current_user_role_id; // 0 表示不是项目成员
     public String depot_path = "";
     public String description = "";
     public String git_url = "";
@@ -45,6 +45,7 @@ public class ProjectObject implements Serializable {
     private int type;
     private String fork_path = "";
     private DynamicObject.Owner owner;
+    public int member_num;
 
     public ProjectObject(JSONObject json) throws JSONException {
         backend_project_path = json.optString("backend_project_path", "").replace("/team/", "/user/");
@@ -80,6 +81,7 @@ public class ProjectObject implements Serializable {
         if (json.has("owner")) {
             owner = new DynamicObject.Owner(json.optJSONObject("owner"));
         }
+        member_num = json.optInt("member_num");
     }
 
     public ProjectObject() {
@@ -95,6 +97,10 @@ public class ProjectObject implements Serializable {
 
     public boolean canManagerMember() {
         return TaskObject.Members.Type.canManagerMember(current_user_role_id);
+    }
+
+    public boolean isJoined() {
+        return current_user_role_id > 0;
     }
 
     public void setType(int type) {

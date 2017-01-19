@@ -42,6 +42,7 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
 
     @Click
     void itemManager() {
+        EnterpriseAccountActivity_.intent(this).start();
     }
 
 }
