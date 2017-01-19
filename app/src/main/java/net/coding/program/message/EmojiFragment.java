@@ -210,6 +210,53 @@ public class EmojiFragment extends Fragment {
                     } else {
                         String name = (String) adapterIcon.getItem((int) id);
 
+                        if (name.equals("leftwards_arrow_with_hook")) {
+                            mEnterLayout.enterAction();
+                            return;
+                        }
+
+                        if(name.equals("one") || name.equals("two")
+                                || name.equals("three") || name.equals("four")
+                                || name.equals("five") || name.equals("six")
+                                || name.equals("seven") || name.equals("eight")
+                                || name.equals("nine") || name.equals("zero")){
+                            switch (name) {
+                                case "one":
+                                    name = "1";
+                                    break;
+                                case "two":
+                                    name = "2";
+                                    break;
+                                case "three":
+                                    name = "3";
+                                    break;
+                                case "four":
+                                    name = "4";
+                                    break;
+                                case "five":
+                                    name = "5";
+                                    break;
+                                case "six":
+                                    name = "6";
+                                    break;
+                                case "seven":
+                                    name = "7";
+                                    break;
+                                case "eight":
+                                    name = "8";
+                                    break;
+                                case "nine":
+                                    name = "9";
+                                    break;
+                                case "zero":
+                                    name = "0";
+                                    break;
+                            }
+
+                            mEnterLayout.numberAction(name);
+                            return;
+                        }
+
                         if (name.equals("my100")) {
                             name = "100";
                         } else if (name.equals("a00001")) {

@@ -231,6 +231,7 @@ public class EnterEmojiLayout extends EnterLayout {
             "mailbox_with_no_mail",
             "loudspeaker",
             "leftwards_arrow_with_hook",
+            "ic_keyboard_delete"
     }};
 
     protected final View rootView;
@@ -858,7 +859,7 @@ public class EnterEmojiLayout extends EnterLayout {
         @Override
         public Fragment getItem(int position) {
             EmojiFragment fragment = new EmojiFragment();
-            fragment.init(springfestivalIcons[position], myImageGetter, EnterEmojiLayout.this, EmojiFragment.Type.SPRING_FESTIVAL);
+            fragment.init(springfestivalIcons[position], myImageGetter, EnterEmojiLayout.this, EmojiFragment.Type.Small);
             return fragment;
         }
 

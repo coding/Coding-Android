@@ -248,6 +248,16 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     }
 
     @Override
+    public void numberAction(String number) {
+
+    }
+
+    @Override
+    public void enterAction() {
+
+    }
+
+    @Override
     public String getContent() {
         return editText.getText().toString();
     }

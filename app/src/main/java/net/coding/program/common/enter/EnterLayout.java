@@ -299,6 +299,20 @@ public abstract class EnterLayout implements InputAction {
         content.dispatchKeyEvent(event);
     }
 
+    @Override
+    public void numberAction(String number){
+        int insertPos = content.getSelectionStart();
+        Editable editable = content.getText();
+        editable.insert(insertPos, number);
+    }
+
+    @Override
+    public void enterAction(){
+        int insertPos = content.getSelectionStart();
+        Editable editable = content.getText();
+        editable.insert(insertPos, "\n");
+    }
+
     public void clearContent() {
         content.setText("");
     }

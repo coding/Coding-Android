@@ -8,4 +8,8 @@ public interface InputAction {
     void deleteOneChar();
 
     void insertEmoji(String s);
+
+    void numberAction(String number);
+
+    void enterAction();
 }
