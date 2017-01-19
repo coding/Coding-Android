@@ -83,6 +83,19 @@
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />
 
+        <ImageView
+            android:layout_width="@dimen/emoji_switch_button_width"
+            android:layout_height="match_parent"
+            android:id="@+id/selectSpringFestival"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_emoji_monkey"
+            android:scaleType="centerInside" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/emoji_line" />
+
     </RadioGroup>
 
 </LinearLayout>

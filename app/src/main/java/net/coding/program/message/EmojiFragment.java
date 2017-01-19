@@ -23,7 +23,7 @@ import java.util.HashMap;
 public class EmojiFragment extends Fragment {
 
     public enum Type {
-        Small, Big, Zhongqiu
+        Small, Big, Zhongqiu,SPRING_FESTIVAL
     }
 
     private LayoutInflater mInflater;

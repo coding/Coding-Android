@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -37,6 +38,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
+
+import static net.coding.program.R.drawable.point_right;
 
 /**
  * Created by chaochen on 14-10-31.
@@ -197,6 +200,39 @@ public class EnterEmojiLayout extends EnterLayout {
             "festival_emoji_08"
     }};
 
+    static String springfestivalIcons[][] = new String[][]{{
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "zero",
+            "point_right",
+            "eyes",
+            "pencil",
+            "monkey",
+            "monkey_face",
+            "see_no_evil",
+            "a00001",
+            "a00002",
+            "poultry_leg",
+            "leftwards_arrow_with_hook",
+            "ic_keyboard_delete"
+    },{
+            "poop",
+            "question",
+            "banana",
+            "ghost",
+            "scream",
+            "mailbox_with_no_mail",
+            "loudspeaker",
+            "leftwards_arrow_with_hook",
+    }};
+
     protected final View rootView;
     protected int rootViewHigh = 0;
     protected ViewGroup mInputBox;//文本输入框所在的布局容器
@@ -210,9 +246,11 @@ public class EnterEmojiLayout extends EnterLayout {
     private EmojiPagerAdapter mEmojiPagerAdapter;
     private MonkeyPagerAdapter mMonkeyPagerAdapter;
     private ZhongqiuPagerAdapter mZhongqiuPagerAdapter;
+    private SpringFestivalPagerAdapter mSpringFestivalPagerAdapter;
     private View selectEmoji;
     private View selectMonkey;
     private View selectZhongqiu;
+    private View selectSpringFestival;
 
     private MyImageGetter myImageGetter;
     private Activity mActivity;
@@ -347,6 +385,7 @@ public class EnterEmojiLayout extends EnterLayout {
         mEmojiPagerAdapter = new EmojiPagerAdapter(fragmentManager);
         mMonkeyPagerAdapter = new MonkeyPagerAdapter(fragmentManager);
         mZhongqiuPagerAdapter = new ZhongqiuPagerAdapter(fragmentManager);
+        mSpringFestivalPagerAdapter = new SpringFestivalPagerAdapter(fragmentManager);
 
         emojiKeyboardIndicator = (LinearLayout) mActivity.findViewById(R.id.emojiKeyboardIndicator);
 
@@ -400,6 +439,22 @@ public class EnterEmojiLayout extends EnterLayout {
                 }
 
                 setPressEmojiType(EmojiFragment.Type.Zhongqiu);
+            }
+        });
+
+        /**
+         * 春节表情处理
+         */
+        selectSpringFestival = mActivity.findViewById(R.id.selectSpringFestival);
+        selectSpringFestival.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setIndicatorCount(springfestivalIcons.length);
+                if (viewPager.getAdapter() != mSpringFestivalPagerAdapter) {
+                    viewPager.setAdapter(mSpringFestivalPagerAdapter);
+                    pageChange.resetPos();
+                }
+                setPressEmojiType(EmojiFragment.Type.SPRING_FESTIVAL);
             }
         });
 
@@ -666,8 +721,10 @@ public class EnterEmojiLayout extends EnterLayout {
             setEmojiButtonBackground(selectEmoji);
         } else if (type == EmojiFragment.Type.Big) {
             setEmojiButtonBackground(selectMonkey);
-        } else {
+        } else if(type == EmojiFragment.Type.Zhongqiu){
             setEmojiButtonBackground(selectZhongqiu);
+        }else{
+            setEmojiButtonBackground(selectSpringFestival);
         }
     }
 
@@ -675,7 +732,7 @@ public class EnterEmojiLayout extends EnterLayout {
         final int colorNormal = 0x00000000;
         final int colorPress = 0xffe8e8e8;
 
-        View[] views = new View[]{selectEmoji, selectMonkey, selectZhongqiu};
+        View[] views = new View[]{selectEmoji, selectMonkey, selectZhongqiu, selectSpringFestival};
         for (View item : views) {
             if (view == item) {
                 item.setBackgroundColor(colorPress);
@@ -780,6 +837,34 @@ public class EnterEmojiLayout extends EnterLayout {
         @Override
         public int getCount() {
             return zhongqiuIcons.length;
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {
+        }
+    }
+
+    class SpringFestivalPagerAdapter extends FragmentStatePagerAdapter {
+
+        SpringFestivalPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            EmojiFragment fragment = new EmojiFragment();
+            fragment.init(springfestivalIcons[position], myImageGetter, EnterEmojiLayout.this, EmojiFragment.Type.SPRING_FESTIVAL);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return springfestivalIcons.length;
         }
 
         @Override
