@@ -975,9 +975,11 @@
         <activity
             android:name=".setting.ManageProjectListActivity_"
             android:icon="@drawable/ic_lancher"
+            android:screenOrientation="portrait"
             android:label="@string/title_manage_project_activity" />
         <activity android:name=".setting.ManageMemberActivity_"
         android:icon="@drawable/ic_lancher"
+            android:screenOrientation="portrait"
         android:label="@string/title_manage_member_activity" />
     </application>
 
