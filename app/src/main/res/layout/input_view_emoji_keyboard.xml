@@ -57,6 +57,20 @@
         <ImageView
             android:layout_width="@dimen/emoji_switch_button_width"
             android:layout_height="match_parent"
+            android:id="@+id/codeButton"
+            android:gravity="center_vertical"
+            android:src="@drawable/code_emoji"
+            android:scaleType="centerInside" />
+
+        <View
+            android:id="@+id/selectMonkeyDivideLine3"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/emoji_line" />
+
+        <ImageView
+            android:layout_width="@dimen/emoji_switch_button_width"
+            android:layout_height="match_parent"
             android:id="@+id/monkeyButton"
             android:gravity="center_vertical"
             android:src="@drawable/ic_emoji_monkey"
@@ -81,6 +95,8 @@
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />
+
+
 
     </RadioGroup>
 

@@ -45,9 +45,10 @@ public class EmojiKeyboard extends FrameLayout {
     private EmojiPagerAdapter mEmojiPagerAdapter;
     private MonkeyPagerAdapter mMonkeyPagerAdapter;
     private ZhongqiuPagerAdapter mZhongqiuPagerAdapter;
+    private CodePagerAdapter mCodePagerAdapter;
 
     @ViewById
-    View emojiButton, monkeyButton, zhongqiuButton;
+    View emojiButton, monkeyButton, zhongqiuButton, codeButton;
 
     PageChangeListener pageChange = new PageChangeListener();
 
@@ -65,6 +66,7 @@ public class EmojiKeyboard extends FrameLayout {
         mEmojiPagerAdapter = new EmojiPagerAdapter(fragmentManager);
         mMonkeyPagerAdapter = new MonkeyPagerAdapter(fragmentManager);
         mZhongqiuPagerAdapter = new ZhongqiuPagerAdapter(fragmentManager);
+        mCodePagerAdapter = new CodePagerAdapter(fragmentManager);
     }
 
     public void showEmojiOnly() {
@@ -120,6 +122,17 @@ public class EmojiKeyboard extends FrameLayout {
         setPressEmojiType(EmojiFragment.Type.Zhongqiu);
     }
 
+    @Click
+    void codeButton() {
+        setIndicatorCount(codeIcons.length);
+        if (viewPager.getAdapter() != mCodePagerAdapter) {
+            viewPager.setAdapter(mCodePagerAdapter);
+            pageChange.resetPos();
+        }
+
+        setPressEmojiType(EmojiFragment.Type.CODE);
+    }
+
 
     private void setPressEmojiType(EmojiFragment.Type type) {
 
@@ -127,8 +140,10 @@ public class EmojiKeyboard extends FrameLayout {
             setEmojiButtonBackground(emojiButton);
         } else if (type == EmojiFragment.Type.Big) {
             setEmojiButtonBackground(monkeyButton);
-        } else {
+        } else if(type == EmojiFragment.Type.Zhongqiu){
             setEmojiButtonBackground(zhongqiuButton);
+        }else {
+            setEmojiButtonBackground(codeButton);
         }
     }
 
@@ -136,7 +151,7 @@ public class EmojiKeyboard extends FrameLayout {
         final int colorNormal = 0x00000000;
         final int colorPress = 0xffe8e8e8;
 
-        View[] views = new View[]{emojiButton, monkeyButton, zhongqiuButton};
+        View[] views = new View[]{emojiButton, monkeyButton, zhongqiuButton, codeButton};
         for (View item : views) {
             if (view == item) {
                 item.setBackgroundColor(colorPress);
@@ -263,6 +278,34 @@ public class EmojiKeyboard extends FrameLayout {
         @Override
         public int getCount() {
             return zhongqiuIcons.length;
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {
+        }
+    }
+
+    class CodePagerAdapter extends FragmentStatePagerAdapter {
+
+        CodePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            EmojiFragment fragment = new EmojiFragment();
+            fragment.init(codeIcons[position], myImageGetter, inputAction, EmojiFragment.Type.Small);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return codeIcons.length;
         }
 
         @Override
@@ -425,5 +468,51 @@ public class EmojiKeyboard extends FrameLayout {
             "festival_emoji_06",
             "festival_emoji_07",
             "festival_emoji_08"
+    }};
+
+   private static String codeIcons[][] = new String[][]{{
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "zero",
+            "point_right",
+            "eyes",
+            "pencil",
+            "monkey",
+            "monkey_face",
+            "see_no_evil",
+            "a00001",
+            "a00002",
+            "poultry_leg",
+            "leftwards_arrow_with_hook",
+            "ic_keyboard_delete"
+    },{
+            "poop",
+            "question",
+            "banana",
+            "ghost",
+            "scream",
+            "mailbox_with_no_mail",
+            "loudspeaker",
+            "leftwards_arrow_with_hook",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "ic_keyboard_delete",
     }};
 }

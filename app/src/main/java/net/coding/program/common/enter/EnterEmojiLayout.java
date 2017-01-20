@@ -25,7 +25,6 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -38,8 +37,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
-
-import static net.coding.program.R.drawable.point_right;
 
 /**
  * Created by chaochen on 14-10-31.
@@ -231,7 +228,19 @@ public class EnterEmojiLayout extends EnterLayout {
             "mailbox_with_no_mail",
             "loudspeaker",
             "leftwards_arrow_with_hook",
-            "ic_keyboard_delete"
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "ic_keyboard_delete",
     }};
 
     protected final View rootView;
@@ -455,7 +464,7 @@ public class EnterEmojiLayout extends EnterLayout {
                     viewPager.setAdapter(mSpringFestivalPagerAdapter);
                     pageChange.resetPos();
                 }
-                setPressEmojiType(EmojiFragment.Type.SPRING_FESTIVAL);
+                setPressEmojiType(EmojiFragment.Type.CODE);
             }
         });
 

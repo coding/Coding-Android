@@ -23,7 +23,7 @@ import java.util.HashMap;
 public class EmojiFragment extends Fragment {
 
     public enum Type {
-        Small, Big, Zhongqiu,SPRING_FESTIVAL
+        Small, Big, Zhongqiu, CODE
     }
 
     private LayoutInflater mInflater;
@@ -210,6 +210,10 @@ public class EmojiFragment extends Fragment {
                     } else {
                         String name = (String) adapterIcon.getItem((int) id);
 
+                        if(name.isEmpty()){
+                            return;
+                        }
+
                         if (name.equals("leftwards_arrow_with_hook")) {
                             mEnterLayout.enterAction();
                             return;
@@ -307,9 +311,16 @@ public class EmojiFragment extends Fragment {
             }
 
             String iconName = mEmojiData[position];
-            holder.icon.setBackgroundDrawable(myImageGetter.getDrawable(iconName));
+            if(!iconName.isEmpty()){
+                holder.icon.setBackgroundDrawable(myImageGetter.getDrawable(iconName));
+            }
 
             return convertView;
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+            return !mEmojiData[position].isEmpty() && super.isEnabled(position);
         }
 
         class ViewHolder {

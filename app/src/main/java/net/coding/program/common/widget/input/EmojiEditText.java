@@ -107,6 +107,18 @@ public class EmojiEditText extends EditText {
         editable.setSpan(new EmojiconSpan(mActivity, s), insertPos, insertPos + replaced.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
+    public void numberAction(String number) {
+        int insertPos = getSelectionStart();
+        Editable editable = getText();
+        editable.insert(insertPos, number);
+    }
+
+    public void enterAction() {
+        int insertPos = getSelectionStart();
+        Editable editable = getText();
+        editable.insert(insertPos, "\n");
+    }
+
     public boolean isPopSystemInput() {
         int rootViewHigh = rootView.getHeight();
         final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点

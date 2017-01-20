@@ -17,15 +17,14 @@
             android:minHeight="150dp"
             android:orientation="horizontal">
 
-
             <EditText
                 android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:maxHeight="200dp"
                 android:gravity="top|left"
                 android:hint="来，发个冒泡吧~"
+                android:maxHeight="200dp"
                 android:minLines="5"
                 android:paddingLeft="@dimen/padding_15"
                 android:paddingRight="@dimen/padding_15"
