@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="130"
-    android:versionName="4.1">
+    android:versionCode="131"
+    android:versionName="4.2.0">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -93,7 +93,6 @@
         <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
-
 
         <activity
             android:name=".EntranceActivity_"
