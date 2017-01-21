@@ -18,5 +18,8 @@ public class AllThirdKeys {
     public static final String geotable = "";
     public static final String ak = "";
     public static final String sk = "";
+
+
+
 }
 

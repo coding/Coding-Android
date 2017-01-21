@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="130"
-    android:versionName="4.1">
+    android:versionCode="10"
+    android:versionName="1.0">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -184,7 +184,7 @@
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
             android:exported="true">
             <intent-filter>
-                <action android:name="net.coding.program.PUSH_ACTION" />
+                <action android:name="net.coding.program.enterprise.PUSH_ACTION" />
             </intent-filter>
         </service>
         <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->

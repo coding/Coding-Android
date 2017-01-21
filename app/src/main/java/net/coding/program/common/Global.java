@@ -136,6 +136,15 @@ public class Global {
         return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
     }
 
+//    public static String getAppPackage(Context context) {
+//        try {
+//            return context.getPackageName();
+//            PackageManager pm = context.getPackageManager();
+//            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
+//            version.setText(packageInfo.packageName);
+//        } catch (NameNotFoundException e) {}
+//    }
+
     public static void display(Context context) {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         String cookieString = "";
