@@ -162,7 +162,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 //                    startActivity(mainIntent);
 
                     Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
-                    resultIntent.setPackage("net.coding.program");
+                    resultIntent.setPackage(getPackageName());
                     resultIntent.putExtra("data", url);
                     sendBroadcast(resultIntent);
                     finish();

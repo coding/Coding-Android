@@ -160,7 +160,7 @@ public class PushReceiver extends XGPushBaseReceiver {
         sLastNotify = time;
 
         Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
-        resultIntent.setPackage("net.coding.program");
+        resultIntent.setPackage(context.getPackageName());
         resultIntent.putExtra("data", url);
         resultIntent.putExtra("id", id);
 

@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  */
 public class URLSpanNoUnderline extends URLSpan {
 
-    public static final String PATTERN_URL_MESSAGE = "^(?:https?://[\\w.]*)?/user/messages/history/([\\w-]+)$";
+    public static final String PATTERN_URL_MESSAGE = "^(?:https?://[\\w.]*)?/user/messages/history/([\\w.-]+)$";
     private int color;
 
     public URLSpanNoUnderline(String url, int color) {

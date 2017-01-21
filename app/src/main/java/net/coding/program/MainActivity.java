@@ -124,6 +124,7 @@ public class MainActivity extends BaseActivity {
         ZhongQiuGuideActivity.showHolidayGuide(this);
 
         startExtraService();
+        startPushService();
 
         LoginBackground loginBackground = new LoginBackground(this);
         loginBackground.update();
@@ -153,6 +154,11 @@ public class MainActivity extends BaseActivity {
         intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
         startService(intent);
 
+        // 检查客户端的网络状况
+        startNetworkCheckService();
+    }
+
+    private void startPushService() {
         // 信鸽 push 服务会发 broadcast
         mUpdatePushReceiver = new BroadcastReceiver() {
             @Override
@@ -167,7 +173,6 @@ public class MainActivity extends BaseActivity {
         // qq push
         updateNotifyService();
         pushInXiaomi();
-        startNetworkCheckService();
     }
 
     private void startNetworkCheckService() {
