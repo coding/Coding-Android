@@ -19,12 +19,10 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/divide"
-                android:divider="@drawable/divide_line_user_list"
-                android:dividerHeight="@dimen/divide_height"
-                android:footerDividersEnabled="false"
-                android:headerDividersEnabled="false" />
+                android:divider="@null"
+                android:dividerHeight="0dp" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
