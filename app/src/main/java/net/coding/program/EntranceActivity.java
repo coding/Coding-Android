@@ -161,11 +161,12 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 //                    mainIntent.putExtra("mPushUrl", url);
 //                    startActivity(mainIntent);
 
-                    Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
-                    resultIntent.setPackage(getPackageName());
-                    resultIntent.putExtra("data", url);
-                    sendBroadcast(resultIntent);
-                    finish();
+                    // TODO: 2017/1/22 必须改
+//                    Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
+//                    resultIntent.setPackage(getPackageName());
+//                    resultIntent.putExtra("data", url);
+//                    sendBroadcast(resultIntent);
+//                    finish();
 
                 } catch (Exception e) {
                     Global.errorLog(e);

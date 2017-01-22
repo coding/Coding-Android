@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.roughike.bottombar.BottomBar;
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -124,13 +125,17 @@ public class MainActivity extends BaseActivity {
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
 
-        startExtraService();
-        startPushService();
 
         if (PermissionUtil.writeExtralStorage(this)) {
             LoginBackground loginBackground = new LoginBackground(this);
             loginBackground.update();
         }
+
+        if (PermissionUtil.checkPhoneState(this)) {
+            startPushService();
+        }
+
+        startExtraService();
 
         mFirstEnter = (savedInstanceState == null);
 
@@ -172,7 +177,7 @@ public class MainActivity extends BaseActivity {
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
-//        XGPushConfig.enableDebug(this, true);
+        XGPushConfig.enableDebug(this, true);
         // qq push
         updateNotifyService();
         pushInXiaomi();

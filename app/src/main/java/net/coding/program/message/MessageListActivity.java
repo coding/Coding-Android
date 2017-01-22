@@ -25,7 +25,6 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
-import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
@@ -38,7 +37,6 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.ui.BackActivity;
@@ -343,7 +341,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             initControl();
         }
 
-        MyPushReceiver.closeNotify(this, URLSpanNoUnderline.createMessageUrl(mGlobalKey));
+        // // TODO: 2017/1/22 必须改
+//        MyPushReceiver.closeNotify(this, URLSpanNoUnderline.createMessageUrl(mGlobalKey));
 
         GlobalSetting.getInstance().setMessageNoNotify(mGlobalKey);
 

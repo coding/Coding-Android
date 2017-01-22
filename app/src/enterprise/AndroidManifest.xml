@@ -169,7 +169,7 @@
             android:persistent="true"
             android:process=":xg_service_v2" />
 
-        <receiver android:name=".common.PushReceiver">
+        <receiver android:name=".common.EnterprisePushReceiver">
             <intent-filter>
 
                 <!-- 接收消息透传 -->
@@ -596,11 +596,11 @@
             android:screenOrientation="portrait" />
 
         <receiver
-            android:name=".MyPushReceiver"
+            android:name=".EnterpriseMyPushReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
+                <action android:name="net.coding.program.EnterpriseMyPushReceiver.PushClickBroadcast" />
             </intent-filter>
         </receiver>
 

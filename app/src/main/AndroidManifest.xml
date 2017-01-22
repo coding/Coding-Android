@@ -509,15 +509,6 @@
             android:label="@string/title_activity_project_home"
             android:screenOrientation="portrait" />
 
-        <receiver
-            android:name=".MyPushReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".user.UserDetailMoreActivity_"
             android:label="@string/title_activity_user_detail_more"

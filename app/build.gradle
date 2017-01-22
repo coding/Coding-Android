@@ -104,18 +104,14 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    compile files('libs/Xg_sdk_v2.45_20160510_1845.jar')
     compile project(':bottom-bar')
-
     compile 'com.alibaba:fastjson:1.1.44.android'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
-
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
-
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
-
+    compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
 }
 
 buildscript {

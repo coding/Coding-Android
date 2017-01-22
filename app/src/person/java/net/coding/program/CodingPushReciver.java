@@ -1,4 +1,4 @@
-package net.coding.program.common;
+package net.coding.program;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,15 +8,15 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
-import net.coding.program.MyApp;
-import net.coding.program.MyPushReceiver;
-import net.coding.program.R;
+import net.coding.program.common.Global;
+import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.push.PushUrl;
 import net.coding.program.message.UsersListFragment;
@@ -28,10 +28,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by chaochen on 14-12-5.
- */
-public class PushReceiver extends XGPushBaseReceiver {
+public class CodingPushReciver extends XGPushBaseReceiver {
 
     public static String sNotify[] = new String[5];
     static int notifyId = 0;
@@ -60,6 +57,7 @@ public class PushReceiver extends XGPushBaseReceiver {
                 return;
             }
 
+            Logger.d("ccccc" + message);
             // 这个写法是为了方便调试，因为信鸽的后台不能输入 customContent
             JSONObject jsonCustom = null;
             try {
@@ -159,7 +157,7 @@ public class PushReceiver extends XGPushBaseReceiver {
         }
         sLastNotify = time;
 
-        Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
+        Intent resultIntent = new Intent(CodingMyPushReceiver.PushClickBroadcast);
         resultIntent.setPackage(context.getPackageName());
         resultIntent.putExtra("data", url);
         resultIntent.putExtra("id", id);
