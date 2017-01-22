@@ -8,6 +8,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity_;
@@ -78,6 +79,10 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                     case R.id.itemDocment:
                         markUsed(RedPointTip.Type.File320);
                         break;
+                }
+
+                if (!PermissionUtil.writeExtralStorage(getActivity())) {
+                    return;
                 }
 
                 ProjectActivity_.intent(PrivateProjectHomeFragment.this)

@@ -38,6 +38,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.PermissionUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -75,6 +76,10 @@ public class ImagePagerActivity extends BackActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mPagerPosition = savedInstanceState.getInt(SAVE_INSTANCE_INDEX, mPagerPosition);
+        }
+
+        if (!PermissionUtil.writeExtralStorage(this)) {
+            finish();
         }
     }
 

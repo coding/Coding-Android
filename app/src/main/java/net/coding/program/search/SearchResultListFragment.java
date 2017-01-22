@@ -190,7 +190,12 @@ public class SearchResultListFragment extends RefreshBaseFragment {
             holder.privateIcon.setVisibility(item.getType() == 1 ? View.INVISIBLE : View.VISIBLE);
 
 
-            String name = item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
+            String name = "";
+            try {
+                name = item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
+            } catch (Exception e) {
+                Global.errorLog(e);
+            }
             holder.content.setText(name);
             HoloUtils.setHoloText(holder.desc, keyword, item.getDescription());
             holder.tv_follow_count.setText(item.getWatch_count() + "");
