@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="66dp"
     android:background="@drawable/list_item_selector"
-    android:paddingBottom="10dp">
+    android:minHeight="66dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -73,4 +72,8 @@
         android:textColor="@color/font_9"
         android:textSize="16sp" />
 
+    <View
+        style="@style/DivideLine"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/divide_line_user_list" />
 </RelativeLayout>
