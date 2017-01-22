@@ -12,6 +12,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.photopick.PhotoPickDetailActivity;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.maopao.item.ContentAreaMuchImages;
 
@@ -64,6 +65,10 @@ public class ImageCommentLayout {
         v.findViewById(R.id.commentImageButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!PermissionUtil.writeExtralStorage(activity)) {
+                    return;
+                }
+
                 Intent intent = new Intent(mActivity, PhotoPickActivity.class);
                 intent.putExtra(PhotoPickActivity.EXTRA_PICKED, mArrayImages);
                 mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);

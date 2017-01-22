@@ -11,7 +11,6 @@ import net.coding.program.MyApp;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +18,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chaochen on 15/1/5.

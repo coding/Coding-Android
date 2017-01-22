@@ -26,6 +26,7 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventShowBottom;
@@ -126,8 +127,10 @@ public class MainActivity extends BaseActivity {
         startExtraService();
         startPushService();
 
-        LoginBackground loginBackground = new LoginBackground(this);
-        loginBackground.update();
+        if (PermissionUtil.writeExtralStorage(this)) {
+            LoginBackground loginBackground = new LoginBackground(this);
+            loginBackground.update();
+        }
 
         mFirstEnter = (savedInstanceState == null);
 

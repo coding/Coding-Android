@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.maopao.MaopaoAddActivity;
 
 import java.util.ArrayList;

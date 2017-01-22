@@ -43,6 +43,7 @@ import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
@@ -450,6 +451,10 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     public void photo() {
+        if (!PermissionUtil.writeExtralStorage(this)) {
+            return;
+        }
+
         Intent intent = new Intent(this, PhotoPickActivity.class);
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }

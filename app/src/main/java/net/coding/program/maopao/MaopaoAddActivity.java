@@ -279,6 +279,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     }
 
     private void startPhotoPickActivity() {
+        if (!PermissionUtil.writeExtralStorage(this)) {
+            return;
+        }
+
         int count = PHOTO_MAX_COUNT - mData.size();
         if (count <= 0) {
             showButtomToast(String.format("最多能添加%s张图片", PHOTO_MAX_COUNT));
