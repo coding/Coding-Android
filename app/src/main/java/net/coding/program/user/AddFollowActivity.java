@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -128,16 +129,19 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     }
 
     public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
-        maxUserCount.setVisibility(View.VISIBLE);
-        int count = serviceInfo.maxmember - serviceInfo.member;
-        if (count > 0) {
-            maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
-            maxUserCount.setTextColor(0xff666666);
+        if (TextUtils.isEmpty(MyApp.getEnterpriseGK())) {
+            maxUserCount.setVisibility(View.VISIBLE);
+            int count = serviceInfo.maxmember - serviceInfo.member;
+            if (count > 0) {
+                maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
+                maxUserCount.setTextColor(0xff666666);
+            } else {
+                maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
+                maxUserCount.setTextColor(0xfff34a4a);
+            }
         } else {
-            maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
-            maxUserCount.setTextColor(0xfff34a4a);
+            maxUserCount.setVisibility(View.GONE);
         }
-
     }
 
     @Override
