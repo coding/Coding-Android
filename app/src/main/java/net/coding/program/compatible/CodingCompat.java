@@ -93,5 +93,15 @@ public class CodingCompat implements ClassCompatInterface {
        substance.launchPickUser(activity, relayString);
     }
 
+    @Override
+    public void closeNotify(Context context, String url) {
+        substance.closeNotify(context, url);
+    }
+
+    @Override
+    public void closePushReceiverActivity(Activity context, String url){
+        substance.closePushReceiverActivity(context, url);
+    }
+
 }
 

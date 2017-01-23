@@ -155,18 +155,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 try {
                     JSONObject json = new JSONObject(custom);
                     String url = json.getString("param_url");
-
-//                    Intent mainIntent = new Intent(this, MainActivity_.class);
-//                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    mainIntent.putExtra("mPushUrl", url);
-//                    startActivity(mainIntent);
-
-                    // TODO: 2017/1/22 必须改
-//                    Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
-//                    resultIntent.setPackage(getPackageName());
-//                    resultIntent.putExtra("data", url);
-//                    sendBroadcast(resultIntent);
-//                    finish();
+                    CodingCompat.instance().closePushReceiverActivity(EntranceActivity.this, url);
 
                 } catch (Exception e) {
                     Global.errorLog(e);

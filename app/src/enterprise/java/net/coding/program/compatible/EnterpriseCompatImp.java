@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.EnterpriseMainActivity_;
+import net.coding.program.EnterpriseMyPushReceiver;
 import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.EnterpriseProjectFragment_;
@@ -100,5 +101,19 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
         PickUserRelayMessageActivity_.intent(activity)
                 .relayString(relayString)
                 .start();
+    }
+
+    @Override
+    public void closeNotify(Context context, String url) {
+        EnterpriseMyPushReceiver.closeNotify(context, url);
+    }
+
+    @Override
+    public void closePushReceiverActivity(Activity context, String url) {
+        Intent resultIntent = new Intent(EnterpriseMyPushReceiver.PushClickBroadcast);
+        resultIntent.setPackage(context.getPackageName());
+        resultIntent.putExtra("data", url);
+        context.sendBroadcast(resultIntent);
+        context.finish();
     }
 }

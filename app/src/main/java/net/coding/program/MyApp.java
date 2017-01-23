@@ -19,8 +19,6 @@ import net.coding.program.common.Unread;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.compatible.CodingCompat;
-import net.coding.program.compatible.DefaultCompatImp;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.third.MyImageDownloader;
@@ -149,8 +147,6 @@ public class MyApp extends MultiDexApplication {
 
         RedPointTip.init(this);
         GlobalUnit.init();
-
-        CodingCompat.init(new DefaultCompatImp());
     }
 
     private void loadBaiduMap() {
