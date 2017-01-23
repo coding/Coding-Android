@@ -190,6 +190,14 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".CodingMyPushReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="net.coding.program.CodingMyPushReceiver.PushClickBroadcast" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
