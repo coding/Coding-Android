@@ -73,7 +73,8 @@ public class ManageProjectListActivity extends BackActivity {
 
         @Override
         protected ProjectHolder newViewHolder(View view) {
-            view.setOnClickListener(clickItem);
+            // // TODO: 2017/1/23 获取的 current_user_role_id 有问题。/api/team/codingapp/projects
+//            view.setOnClickListener(clickItem);
             return new ProjectHolder(view);
         }
 

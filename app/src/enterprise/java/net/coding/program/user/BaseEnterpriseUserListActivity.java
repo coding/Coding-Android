@@ -64,8 +64,9 @@ public abstract class BaseEnterpriseUserListActivity extends BackActivity {
             allListData.add(user.user);
         }
 
-        Collections.sort(allListData, (lhs, rhs) -> lhs.name.compareToIgnoreCase(rhs.name));
+        Collections.sort(allListData);
         listData.addAll(allListData);
+
     }
 
 

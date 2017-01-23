@@ -3,9 +3,9 @@ package net.coding.program.setting;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
-import net.coding.program.EntranceActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
@@ -35,7 +35,8 @@ public class AccountSetting extends BackActivity {
         suffix.setText(userObject.global_key);
         updatePhoneDisplay();
 
-        MyAsyncHttpClient.get(this, EntranceActivity.getHostCurrent(), new MyJsonResponse(this) {
+        String host = Global.HOST_API + "/current_user";
+        MyAsyncHttpClient.get(this, host, new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 if (isFinishing()) {

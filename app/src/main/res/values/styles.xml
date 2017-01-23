@@ -145,7 +145,7 @@
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
@@ -171,7 +171,7 @@
     <!--商城界面主题-->
     <style name="ThemeMall" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorPrimaryDark">@color/white</item>
     </style>
 
     <style name="ThemeProject" parent="Theme.AppCompat.Light.NoActionBar">

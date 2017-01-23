@@ -22,7 +22,7 @@ public class FileUtil {
 
     public final static String DOWNLOAD_PATH = "download_path";
     public final static String DOWNLOAD_SETTING_HINT = "download_setting_hint";
-    public final static String DOWNLOAD_FOLDER = "Coding";
+    public final static String DOWNLOAD_FOLDER = "CodingEnterprise";
 
     public static File getDestinationInExternalPublicDir(String dirType, String fileName) {
         File file = Environment.getExternalStoragePublicDirectory(dirType);

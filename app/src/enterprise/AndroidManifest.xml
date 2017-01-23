@@ -235,6 +235,11 @@
             android:name=".EntranceActivity_"
             android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
+        <activity
+            android:name=".EnterpriseEntranceActivity_"
+            android:icon="@drawable/app_icon"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
