@@ -152,7 +152,7 @@ public class DrawerLayoutHelper {
     }
 
     private void iniLabels(FilterListener filterListener, EditText etSearch) {
-        if (mFilterModel == null || mFilterModel.labelModels == null || mFilterModel.labelModels.size() == 0) {
+        if (mFilterModel == null || mFilterModel.labelModels == null) {
             return;
         }
 
@@ -174,7 +174,7 @@ public class DrawerLayoutHelper {
             }
 
             TextView labelItem = (TextView) layoutInflater.inflate(R.layout.dialog_task_filter_label_item, null);
-            String str = showLabelCount ? String.format("%s (%d/%d)", item.name, item.processing, item.all) : item.name;
+            String str = showLabelCount ? String.format("%s (%s/%s)", item.name, item.processing, item.all) : item.name;
             labelItem.setText(str);
             setLeftDrawable(labelItem, item.color, item.name.equals(mFilterModel.label));
             labelItem.setOnClickListener(v -> {

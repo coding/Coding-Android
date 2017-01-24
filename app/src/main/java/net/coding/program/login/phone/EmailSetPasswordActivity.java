@@ -27,17 +27,25 @@ public class EmailSetPasswordActivity extends BackActivity {
     String account = "";
 
     @ViewById
-    LoginEditText emailEdit, captchaEdit;
+    protected LoginEditText emailEdit, captchaEdit;
 
     @ViewById
-    TextView loginButton;
+    protected TextView loginButton;
 
     @AfterViews
     void initEmailSetPasswordActivity() {
         emailEdit.setText(account);
         captchaEdit.requestFocus();
 
+        initViewStyle();
+    }
+
+    protected void initViewStyle() {
         ViewStyleUtil.editTextBindButton(loginButton, emailEdit, captchaEdit);
+    }
+
+    protected String getUrl() {
+        return Global.HOST_API + "/account/password/forget";
     }
 
     @Click
@@ -48,7 +56,7 @@ public class EmailSetPasswordActivity extends BackActivity {
             return;
         }
 
-        String url = Global.HOST_API + "/account/password/forget";
+        String url = getUrl();
         RequestParams params = new RequestParams();
         params.put("account", emailString);
         params.put("j_captcha", captchaString);

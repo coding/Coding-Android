@@ -31,6 +31,7 @@ import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.UriCompat;
+import net.coding.program.event.EventRefresh;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
@@ -41,6 +42,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -295,6 +297,8 @@ public class ProjectCreateFragment extends BaseFragment {
         if (tag.equals(TAG_CREATE_PROJECT)) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "新建项目");
+
+                EventBus.getDefault().post(new EventRefresh(true));
                 String path = respanse.optString("data");
                 ProjectHomeActivity_
                         .intent(this)

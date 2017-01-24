@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
@@ -55,7 +56,7 @@ public class EmojiKeyboard extends FrameLayout {
     private CheckBox checkBoxEmoji;
 
     @ViewById
-    View emojiKeyboardLayout;
+    View emojiKeyboardLayout, codeButtonLeftLine;
 
     public EmojiKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -82,6 +83,11 @@ public class EmojiKeyboard extends FrameLayout {
     void initEmojiKeyboard() {
         viewPager.setOnPageChangeListener(pageChange);
         emojiButton();
+
+        if (MyApp.isEnterprise()) {
+            codeButton.setVisibility(GONE);
+            codeButtonLeftLine.setVisibility(GONE);
+        }
     }
 
     public void setInputAction(InputAction action) {

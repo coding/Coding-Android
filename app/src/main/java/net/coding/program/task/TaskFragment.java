@@ -17,6 +17,7 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.event.EventFilter;
+import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -395,6 +396,12 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         if (eventFilter.index == 1) {
             meActionFilter();
         }
+    }
+
+    // 用于处理推送
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainRefresh(EventRefreshTask event) {
+        getNetwork(host, host);
     }
 
     @OptionsItem

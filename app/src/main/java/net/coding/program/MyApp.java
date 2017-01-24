@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -106,6 +107,10 @@ public class MyApp extends MultiDexApplication {
 
     public static void setEnterpriseGK(String enterpriseGK) {
         MyApp.enterpriseGK = enterpriseGK;
+    }
+
+    public static boolean isEnterprise() {
+        return !TextUtils.isEmpty(enterpriseGK);
     }
 
     @Override

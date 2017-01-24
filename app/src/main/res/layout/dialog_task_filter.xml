@@ -108,12 +108,12 @@
                         style="@style/TextViewFilterTag"
 
                         android:drawableRight="@drawable/ic_task_status_list_check"
-                        android:text="@string/title_activity_all_tasks"/>
+                        android:text="进行中"/>
 
                     <TextView
                         android:id="@+id/tv_task_done"
                         style="@style/TextViewFilterTag"
-                        android:text="@string/title_activity_all_tasks"/>
+                        android:text="已完成"/>
 
                     <View
                         style="@style/DivideLine"

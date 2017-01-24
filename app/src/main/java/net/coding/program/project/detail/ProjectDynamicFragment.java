@@ -249,6 +249,9 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         } else if (itemType.equals("ProjectFileComment")) {
             baseObject = new DynamicObject.DynamicProjectFileComment(json);
 
+        } else if (itemType.equals("Wiki")) {
+            baseObject = new DynamicObject.Wiki(json);
+
         } else {
             Log.e("", "新的动态类型 " + itemType);
             baseObject = new DynamicObject.DynamicBaseObject(json);

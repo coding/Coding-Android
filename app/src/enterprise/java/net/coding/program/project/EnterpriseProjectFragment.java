@@ -2,6 +2,7 @@ package net.coding.program.project;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.event.EventRefresh;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -43,6 +45,9 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,6 +133,18 @@ public class EnterpriseProjectFragment extends BaseFragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void onRefresh() {
         getNetwork(host, host);
     }
@@ -141,6 +158,14 @@ public class EnterpriseProjectFragment extends BaseFragment {
                     .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
         }
     };
+
+    // 用于处理推送
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRefresh(EventRefresh event) {
+        if (event.refresh) {
+            onRefresh();
+        }
+    }
 
 
     @Override

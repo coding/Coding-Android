@@ -291,7 +291,8 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tabTask:
-                switchFragment(MainTaskFragment_.FragmentBuilder_.class);
+//                switchFragment();
+                switchTaskFragment();
                 break;
 
             case R.id.tabMaopao:
@@ -316,6 +317,9 @@ public class MainActivity extends BaseActivity {
         switchFragment(MainProjectFragment_.FragmentBuilder_.class);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    }
 
     final protected void switchFragment(Class<?> cls) {
         String tag = cls.getName();
@@ -345,6 +349,44 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
+
+    final protected void switchTaskFragment() {
+        deleteLastTaskFragment();
+
+        Class<?> cls = MainTaskFragment_.FragmentBuilder_.class;
+        String tag = cls.getName();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment showFragment = null;
+        try {
+            showFragment = (Fragment) ((FragmentBuilder) cls.newInstance()).build();
+            fragmentTransaction.add(R.id.container, showFragment, tag);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+        List<Fragment> allFragments = getSupportFragmentManager().getFragments();
+        if (allFragments != null) {
+            for (Fragment item : allFragments) {
+                if (item != showFragment) {
+                    fragmentTransaction.hide(item);
+                }
+            }
+        }
+
+        fragmentTransaction.commit();
+    }
+
+    private void deleteLastTaskFragment() {
+        Class<?> cls = MainTaskFragment_.FragmentBuilder_.class;
+        String tag = cls.getName();
+        Fragment showFragment = getSupportFragmentManager().findFragmentByTag(tag);
+
+        if (showFragment != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.remove(showFragment);
+            fragmentTransaction.commit();
+        }
+    }
 
     //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
     @Override

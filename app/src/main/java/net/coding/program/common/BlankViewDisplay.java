@@ -1,5 +1,6 @@
 package net.coding.program.common;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -120,6 +121,9 @@ public class BlankViewDisplay {
                 } else if (fragment instanceof ProjectMaopaoActivity) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = v.getContext().getString(R.string.project_maopao_list_empty);
+                } else {
+                    iconId = R.drawable.ic_exception_blank_task;
+                    text = "还什么都没有~";
                 }
             } else {
                 iconId = R.drawable.ic_exception_no_network;
@@ -131,7 +135,16 @@ public class BlankViewDisplay {
             } else {
                 iconId = R.drawable.ic_exception_no_network;
             }
-            text = tipString;
+
+            if (TextUtils.isEmpty(tipString)) {
+                if (request) {
+                    text = "还什么都没有~";
+                } else {
+                    text = "获取数据失败";
+                }
+            } else {
+                text = tipString;
+            }
         }
 
         v.findViewById(R.id.icon).setBackgroundResource(iconId);

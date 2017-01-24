@@ -50,6 +50,7 @@
             android:scaleType="centerInside" />
 
         <View
+            android:id="@+id/codeButtonLeftLine"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />

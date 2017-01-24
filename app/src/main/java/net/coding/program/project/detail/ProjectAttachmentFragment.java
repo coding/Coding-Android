@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -246,7 +248,9 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                 shareFolder.file_id = AttachmentFolderObject.SHARE_FOLDER_ID;
                 shareFolder.setCount(fileCountMap.get(shareFolder.file_id));
                 shareFolder.name = "分享中";
-                mData.add(shareFolder);
+                if (TextUtils.isEmpty(MyApp.getEnterpriseGK())) {
+                    mData.add(shareFolder);
+                }
 
                 AttachmentFolderObject defaultFolder = new AttachmentFolderObject();
                 defaultFolder.setCount(fileCountMap.get(defaultFolder.file_id));

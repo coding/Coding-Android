@@ -1,6 +1,7 @@
 package net.coding.program.login.phone;
 
 import net.coding.program.R;
+import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,5 +25,13 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
     @AfterViews
     void initEnterpriseEmailSetPasswordActivity() {
         enterpriseEdit.setText(enterpriseName);
+    }
+
+    protected String getUrl() {
+        return String.format("https://%s.coding.net/api%s", enterpriseEdit.getTextString(), "/account/password/forget");
+    }
+
+    protected void initViewStyle() {
+        ViewStyleUtil.editTextBindButton(loginButton, emailEdit, captchaEdit, enterpriseEdit);
     }
 }

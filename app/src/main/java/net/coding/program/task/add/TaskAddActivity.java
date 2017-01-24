@@ -42,6 +42,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.event.EventRefreshTask;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.DynamicObject;
@@ -66,6 +67,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,6 +109,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             R.drawable.ic_task_priority_2,
             R.drawable.ic_task_priority_3
     };
+    private final String MSG_ADD_TASK_SUCCESS = "新建任务成功";
 
     View listFooter;
 
@@ -835,6 +838,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
         if (!msg.isEmpty()) {
             showButtomToast(msg);
+            if (msg.equals(MSG_ADD_TASK_SUCCESS)) {
+                EventBus.getDefault().post(new EventRefreshTask());
+            }
         }
 
         finish();
@@ -846,7 +852,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             showProgressBar(false);
             if (code == 0) {
                 umengEvent(UmengEvent.TASK, "新建任务");
-                closeActivity("新建任务成功");
+                closeActivity(MSG_ADD_TASK_SUCCESS);
             } else {
                 showErrorMsg(code, respanse);
             }

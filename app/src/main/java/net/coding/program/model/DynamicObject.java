@@ -90,6 +90,34 @@ public class DynamicObject {
         }
     }
 
+    public static class Wiki extends DynamicBaseObject implements Serializable {
+
+        private static final long serialVersionUID = -3237817303362954197L;
+
+        int wiki_iid;
+        String wiki_path = "";
+        String wiki_title = "";
+
+        public Wiki(JSONObject json) throws JSONException {
+            super(json);
+            wiki_iid = json.optInt("wiki_iid", 0);
+            wiki_path = json.optString("wiki_path", "");
+            wiki_title = json.optString("wiki_title", "");
+        }
+
+        @Override
+        public Spanned title() {
+            final String format = "%s %s Wiki";
+            String title = String.format(format, user.getHtml(), action_msg);
+            return Global.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return new SpannableString(wiki_title);
+        }
+    }
+
     public static class PullRequestBean extends DynamicBaseObject implements Serializable {
         Depot depot;
         String pull_request_title;
@@ -848,6 +876,7 @@ public class DynamicObject {
         String commitId;
         String path;
         DiffFile.DiffSingleFile diffFile;
+
         public DynamicMergeRequestCommentCommit(JSONObject json) throws JSONException {
             super(json);
             commitId = json.optString("commitId");
