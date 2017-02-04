@@ -44,7 +44,7 @@ public class MainSettingFragment extends BaseFragment {
 
     @AfterViews
     void initMainSettingFragment() {
-        setToolbar("我的");
+        setToolbar("我的", R.id.mainSettingToolbar);
 
         bindDataUserinfo();
     }

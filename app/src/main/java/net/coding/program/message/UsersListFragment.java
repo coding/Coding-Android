@@ -147,7 +147,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @AfterViews
     protected void initUsersListFragment() {
-        setToolbar("消息");
+        setToolbar("消息", R.id.usersListToolbar);
 
         initRefreshLayout();
 

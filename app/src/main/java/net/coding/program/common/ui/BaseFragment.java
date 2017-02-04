@@ -77,11 +77,11 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
         mProgressDialog.setProgress(30);
     }
 
-    protected void setToolbar(String title) {
+    protected void setToolbar(String title, int toolbarId) {
         try {
             View rootLayout = getView();
             if (rootLayout != null) {
-                Toolbar toolbar = (Toolbar) rootLayout.findViewById(R.id.toolbar);
+                Toolbar toolbar = (Toolbar) rootLayout.findViewById(toolbarId);
                 BaseActivity activity = (BaseActivity) getActivity();
                 activity.setSupportActionBar(toolbar);
                 activity.setActionBarTitle("");

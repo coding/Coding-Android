@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.roughike.bottombar.BottomBar;
-import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -177,7 +176,7 @@ public class MainActivity extends BaseActivity {
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
-        XGPushConfig.enableDebug(this, true);
+//        XGPushConfig.enableDebug(this, true);
         // qq push
         updateNotifyService();
         pushInXiaomi();
@@ -413,7 +412,9 @@ public class MainActivity extends BaseActivity {
      * @param position
      */
     protected void taskOper(int position) {
-        isOpenDrawerLayout(position == R.id.tabTask);
+        // todo 有 bug ，暂时不显示任务过滤
+//        isOpenDrawerLayout(position == R.id.tabTask);
+        isOpenDrawerLayout(false);
     }
 
     private void isOpenDrawerLayout(boolean isOpen) {

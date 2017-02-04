@@ -33,7 +33,7 @@ public class MainTaskFragment extends TaskFragment {
 
     @AfterViews
     void initMainTaskFragment() {
-        setToolbar("我的任务");
+        setToolbar("我的任务", R.id.mainTaskToolbar);
     }
 
     @Click
@@ -56,5 +56,18 @@ public class MainTaskFragment extends TaskFragment {
                 ViewCompat.setElevation(appbarLayout, 0);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+//        View filterButton = getView().findViewById(R.id.action_filter);
+//        if (filterButton != null) {
+//            filterButton.setVisibility(View.INVISIBLE);
+//        }
+
+
     }
 }

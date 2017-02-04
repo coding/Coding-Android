@@ -88,7 +88,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @AfterViews
     void initEnterpriseProjectFramgent() {
-        setToolbar("我的项目");
+        setToolbar("我的项目", R.id.enterpriseProjectToolbar);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(manager);

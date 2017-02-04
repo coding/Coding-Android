@@ -25,7 +25,7 @@ public class MainProjectFragment extends BaseFragment {
 
     @AfterViews
     void initMainProjectFragment() {
-        setToolbar("我的项目");
+        setToolbar("我的项目", R.id.mainProjectToolbar);
 
         Fragment fragment = new ProjectFragment_();
         getChildFragmentManager().beginTransaction()
