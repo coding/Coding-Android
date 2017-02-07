@@ -145,6 +145,7 @@
             android:layout_alignBaseline="@+id/name"
             android:layout_alignBottom="@+id/name"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
             android:drawablePadding="5dp"

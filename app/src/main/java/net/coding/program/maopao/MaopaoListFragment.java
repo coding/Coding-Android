@@ -98,7 +98,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     @AfterViews
     protected void initMaopaoListFragment() {
-        initMaopaoListBaseFragmen();
+        initMaopaoListBaseFragmen(mType);
 
         if (getActivity() instanceof MyDetailActivity) {
             setHasOptionsMenu(false);

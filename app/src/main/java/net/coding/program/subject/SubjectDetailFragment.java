@@ -11,6 +11,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.maopao.MaopaoListBaseFragment;
+import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.Subject;
 import net.coding.program.model.UserObject;
@@ -67,7 +68,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     @AfterViews
     protected void init() {
         mIsToMaopaoTopic = true;
-        initMaopaoListBaseFragmen();
+        initMaopaoListBaseFragmen(null);
     }
 
     @Override

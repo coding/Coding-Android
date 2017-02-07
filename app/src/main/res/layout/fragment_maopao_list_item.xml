@@ -13,6 +13,7 @@
     android:paddingRight="@dimen/padding_12">
 
     <View
+        android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:background="@color/divide"
         android:layout_marginLeft="-15dp"
@@ -20,6 +21,7 @@
         android:layout_height="6dp" />
 
     <include
+        android:id="@+id/view_divider2"
         layout="@layout/divide_shade_down"
         android:layout_width="match_parent"
         android:layout_height="2dp"

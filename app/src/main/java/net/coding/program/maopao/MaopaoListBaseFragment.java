@@ -133,6 +133,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
     protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
 
+    private MaopaoListFragment.Type mType;//冒泡类型
+
     View.OnClickListener onClickRetry = v -> onRefresh();
 
     public static String getHostGood() {
@@ -174,7 +176,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         myImageGetter = new MyImageGetter(getActivity());
     }
 
-    protected void initMaopaoListBaseFragmen() {
+    protected void initMaopaoListBaseFragmen(MaopaoListFragment.Type type) {
+        this.mType = type;
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(manager);
 
@@ -771,7 +774,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
         public MyHolder(View convertView) {
             super(convertView);
-
+            holder.divider = convertView.findViewById(R.id.view_divider);
+            holder.divider2 = convertView.findViewById(R.id.view_divider2);
             holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
 
             holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
@@ -855,6 +859,10 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         protected void withBindHolder(MyHolder holderLayout, Maopao.MaopaoObject data, int position) {
             ViewHolder holder = holderLayout.holder;
 
+            if(mType != null && mType == MaopaoListFragment.Type.user && position == 0){
+                holder.divider.setVisibility(View.GONE);
+                holder.divider2.setVisibility(View.GONE);
+            }
             holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
             holder.likeUsersArea.displayLikeUser();
 
@@ -1063,5 +1071,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
         View maopaoGoodView;
         View maopaoDelete;
+        View divider;
+        View divider2;
     }
 }
