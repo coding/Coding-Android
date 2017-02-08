@@ -253,6 +253,8 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 showErrorMsg(code, respanse);
             }
         }
+
+        actionFilter(false);
     }
 
     private void jsonToAllData(JSONArray jsonArray) throws JSONException {
@@ -406,7 +408,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
     @OptionsItem
     protected final void action_filter() {
-        actionFilter();
+        actionFilter(true);
     }
 
     @Override

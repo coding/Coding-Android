@@ -413,10 +413,14 @@ public class MainActivity extends BaseActivity {
      */
     protected void taskOper(int position) {
         // todo 有 bug ，暂时不显示任务过滤
-//        isOpenDrawerLayout(position == R.id.tabTask);
-        isOpenDrawerLayout(false);
+        isOpenDrawerLayout(position == R.id.tabTask);
+//        isOpenDrawerLayout(false);
     }
 
+    /**
+     * 判断是否打开DrawerLayout
+     * @param isOpen
+     */
     private void isOpenDrawerLayout(boolean isOpen) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer == null) return;

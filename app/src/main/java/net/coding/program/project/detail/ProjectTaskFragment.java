@@ -460,7 +460,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
     @OptionsItem
     protected final void action_filter() {
-        actionFilter();
+        actionFilter(true);
     }
 
     @Override

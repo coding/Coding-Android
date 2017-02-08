@@ -154,7 +154,7 @@ public class TaskFilterFragment extends LoadingFragment {
         EventBus.getDefault().post(new EventFilterDetail(mMeActions[statusIndex], mFilterModel));
     }
 
-    protected final void actionFilter() {
+    protected final void actionFilter(boolean openDrawer) {
         DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         if (drawerLayout == null) {
             return;
@@ -201,7 +201,9 @@ public class TaskFilterFragment extends LoadingFragment {
             }
         });
 
-        drawerLayout.openDrawer(GravityCompat.END);
+        if(openDrawer){
+            drawerLayout.openDrawer(GravityCompat.END);
+        }
     }
 
     private void changeFilterIcon(boolean isFilter) {
