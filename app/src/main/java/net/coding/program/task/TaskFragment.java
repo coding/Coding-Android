@@ -166,6 +166,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        actionFilter(false);
         postLabelJson(tag, code, respanse);
         if (tag.equals(host)) {
             if (code == 0) {
@@ -188,7 +189,6 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
                 hideActionBarShadow();
-
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -254,7 +254,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
             }
         }
 
-        actionFilter(false);
+//        actionFilter(false);
     }
 
     private void jsonToAllData(JSONArray jsonArray) throws JSONException {
