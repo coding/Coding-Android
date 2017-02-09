@@ -181,7 +181,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        action_filter();
         if (tag.equals(HOST_MEMBERS)) {
             hideDialogLoading();
             if (code == 0) {
@@ -307,7 +306,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                 showErrorMsg(code, respanse);
             }
         }
-
+        setDrawerData();
     }
 
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
@@ -461,7 +460,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
     @OptionsItem
     protected final void action_filter() {
-        actionFilter(false);
+        actionFilter();
     }
 
     @Override

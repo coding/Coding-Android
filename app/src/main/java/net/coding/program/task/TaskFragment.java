@@ -20,6 +20,7 @@ import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.model.FilterModel;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskCountModel;
 import net.coding.program.model.TaskLabelModel;
@@ -166,7 +167,6 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
     @Override
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
-        actionFilter(false);
         postLabelJson(tag, code, response);
         if (tag.equals(host)) {
             if (code == 0) {
@@ -255,7 +255,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 showErrorMsg(code, response);
             }
         }
-
+        setDrawerData();
     }
 
     private void jsonToAllData(JSONArray jsonArray) throws JSONException {
@@ -409,7 +409,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
     @OptionsItem
     protected final void action_filter() {
-        actionFilter(true);
+        actionFilter();
     }
 
     @Override

@@ -154,30 +154,12 @@ public class TaskFilterFragment extends LoadingFragment {
         EventBus.getDefault().post(new EventFilterDetail(mMeActions[statusIndex], mFilterModel));
     }
 
-    protected final void actionFilter(boolean openDrawer) {
-        DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        if (drawerLayout == null) {
-            return;
-        }
-
+    protected void setDrawerData(){
         if (mFilterModel == null) {
             mFilterModel = new FilterModel(taskLabelModels);
         } else {
             mFilterModel.labelModels = taskLabelModels;
         }
-
-//        if (mTaskCountModel != null) {
-//            if (statusIndex == 0) {
-//                mFilterModel.statusTaskDoing = mTaskCountModel.processing;
-//                mFilterModel.statusTaskDone = mTaskCountModel.done;
-//            } else if (statusIndex == 1) {
-//                mFilterModel.statusTaskDoing = mTaskCountModel.watchAllProcessing;
-//                mFilterModel.statusTaskDone = mTaskCountModel.getWatcherDoneCount();
-//            } else if (statusIndex == 2) {
-//                mFilterModel.statusTaskDoing = mTaskCountModel.createProcessing;
-//                mFilterModel.statusTaskDone = mTaskCountModel.getCreatorDoneCount();
-//            }
-//        }
 
         if (mTaskProjectCountModel != null) {
             if (statusIndex == 0) {
@@ -192,7 +174,16 @@ public class TaskFilterFragment extends LoadingFragment {
             }
         }
 
-        DrawerLayoutHelper.getInstance().initData(getActivity(), drawerLayout, mFilterModel, new FilterListener() {
+        updateDrawer(mFilterModel);
+    }
+
+    private DrawerLayout drawerLayout;
+    private void updateDrawer(FilterModel filterModel){
+        drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        if (drawerLayout == null) {
+            return;
+        }
+        DrawerLayoutHelper.getInstance().initData(getActivity(), drawerLayout, filterModel, new FilterListener() {
             @Override
             public void callback(FilterModel filterModel) {
                 mFilterModel = filterModel;
@@ -200,10 +191,10 @@ public class TaskFilterFragment extends LoadingFragment {
                 changeFilterIcon(mFilterModel.isFilter());
             }
         });
+    }
 
-        if(openDrawer){
-            drawerLayout.openDrawer(GravityCompat.END);
-        }
+    protected final void actionFilter() {
+        drawerLayout.openDrawer(GravityCompat.END);
     }
 
     private void changeFilterIcon(boolean isFilter) {

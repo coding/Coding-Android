@@ -215,4 +215,10 @@
     <string name="exit_app">再按一次退出Coding</string>
     <string name="add_project_maopao">新建项目内冒泡</string>
     <string name="delete_maopao">删除冒泡</string>
+
+    <!--DrawerLayout-->
+    <string name="doing_count">进行中 (%d)</string>
+    <string name="done_count">已完成 (%d)</string>
+    <string name="doing">进行中</string>
+    <string name="done">已完成</string>
 </resources>
