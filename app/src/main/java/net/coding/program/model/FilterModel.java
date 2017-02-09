@@ -37,7 +37,7 @@ public class FilterModel {
         return status != 0 || label != null && keyword != null;
     }
 
-    public long statusTaskDoing;
-    public long statusTaskDone;
-    public List<TaskLabelModel> labelModels;
+    public long statusTaskDoing;//进行中任务数
+    public long statusTaskDone;//已完成任务数
+    public List<TaskLabelModel> labelModels;//任务标签列表
 }

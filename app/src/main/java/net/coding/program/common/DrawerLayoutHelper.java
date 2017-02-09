@@ -199,6 +199,7 @@ public class DrawerLayoutHelper {
             TextView taskView = (TextView) drawerLayout.findViewById(taskViews[i]);
             String txt = taskStr[i];
             if (i == 0) {
+
                 if (mFilterModel != null && mFilterModel.statusTaskDoing > 0) {
                     txt += String.format(" (%d)", mFilterModel.statusTaskDoing);
                 }

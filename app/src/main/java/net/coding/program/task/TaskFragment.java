@@ -165,23 +165,23 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     }
 
     @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+    public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
         actionFilter(false);
-        postLabelJson(tag, code, respanse);
+        postLabelJson(tag, code, response);
         if (tag.equals(host)) {
             if (code == 0) {
-                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                JSONArray jsonArray = response.getJSONObject("data").getJSONArray("list");
 
                 jsonToAllData(jsonArray);
 
                 getNetwork(urlTaskCount, urlTaskCount);
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskCount)) {
             showLoading(false);
             if (code == 0) {
-                JSONArray jsonArray = respanse.getJSONArray("data");
+                JSONArray jsonArray = response.getJSONArray("data");
                 jsonToData(jsonArray);
 
                 tabs.setVisibility(View.VISIBLE);
@@ -190,12 +190,12 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 adapter.notifyDataSetChanged();
                 hideActionBarShadow();
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskCountAll)) {
             showLoading(false);
             if (code == 0) {
-                TaskCountModel mTaskCountModel = JSONUtils.getData(respanse.getString("data"), TaskCountModel.class);
+                TaskCountModel mTaskCountModel = JSONUtils.getData(response.getString("data"), TaskCountModel.class);
                 mTaskProjectCountModel.owner = mTaskCountModel.processing + mTaskCountModel.done;
                 mTaskProjectCountModel.ownerDone = mTaskCountModel.done;
                 mTaskProjectCountModel.ownerProcessing = mTaskCountModel.processing;
@@ -207,42 +207,44 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 mTaskProjectCountModel.creator = mTaskCountModel.create;
                 mTaskProjectCountModel.creatorDone = mTaskCountModel.create - mTaskCountModel.createProcessing;
                 mTaskProjectCountModel.creatorProcessing = mTaskCountModel.createProcessing;
+
+
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskLabel) || tag.equals(urlProjectTaskLabels)) {
             showLoading(false);
             if (code == 0) {
-                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                taskLabelModels = JSONUtils.getList(response.getString("data"), TaskLabelModel.class);
                 Collections.sort(taskLabelModels, new PinyinComparator());
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskSomeCount_owner)) {
             showLoading(false);
             if (code == 0) {
-                mTaskProjectCountModel.owner = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+                mTaskProjectCountModel.owner = JSONUtils.getJSONLong("totalRow", response.getString("data"));
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskSomeCount_watcher)) {
             showLoading(false);
             if (code == 0) {
-                mTaskProjectCountModel.watcher = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+                mTaskProjectCountModel.watcher = JSONUtils.getJSONLong("totalRow", response.getString("data"));
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskSomeCount_creator)) {
             showLoading(false);
             if (code == 0) {
-                mTaskProjectCountModel.creator = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+                mTaskProjectCountModel.creator = JSONUtils.getJSONLong("totalRow", response.getString("data"));
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         } else if (tag.equals(urlTaskSomeOther)) {
             showLoading(false);
             if (code == 0) {
-                TaskProjectCountModel item = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+                TaskProjectCountModel item = JSONUtils.getData(response.getString("data"), TaskProjectCountModel.class);
                 mTaskProjectCountModel.ownerDone = item.ownerDone;
                 mTaskProjectCountModel.ownerProcessing = item.ownerProcessing;
                 mTaskProjectCountModel.creatorDone = item.creatorDone;
@@ -250,11 +252,10 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 mTaskProjectCountModel.watcherDone = item.watcherDone;
                 mTaskProjectCountModel.watcherProcessing = item.watcherProcessing;
             } else {
-                showErrorMsg(code, respanse);
+                showErrorMsg(code, response);
             }
         }
 
-//        actionFilter(false);
     }
 
     private void jsonToAllData(JSONArray jsonArray) throws JSONException {
