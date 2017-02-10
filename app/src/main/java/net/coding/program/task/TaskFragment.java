@@ -132,11 +132,12 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     }
 
     private void loadLabels() {
-        if (tabs.getCurrentPosition() == 0) {
-            getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
-        } else {
-            ProjectObject mProjectObject = mData.get(tabs.getCurrentPosition());
+        int cur = tabs.getCurrentPosition();
+        if (cur != 0) {
+            ProjectObject mProjectObject = mData.get(cur);
             getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
+        } else {
+            getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
         }
     }
 
@@ -255,6 +256,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 showErrorMsg(code, response);
             }
         }
+        //设置DrawerLayout的数据
         setDrawerData();
     }
 

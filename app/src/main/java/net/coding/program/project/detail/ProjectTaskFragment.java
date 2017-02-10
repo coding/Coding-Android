@@ -306,6 +306,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                 showErrorMsg(code, respanse);
             }
         }
+        //设置DrawerLayout的数据
         setDrawerData();
     }
 
