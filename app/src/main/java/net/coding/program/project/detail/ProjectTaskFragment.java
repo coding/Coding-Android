@@ -162,7 +162,8 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     }
 
     private void loadAllLabels() {
-        int cur = tabs.getCurrentPosition();
+//        int cur = tabs.getCurrentPosition();
+        int cur = pager.getCurrentItem();
         if (cur != 0) {
             TaskObject.Members members = mMembersAll.get(cur);
             getNetwork(String.format(urlSome_Label, mProjectObject.getId(), members.user_id), urlSome_Label);

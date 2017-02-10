@@ -132,7 +132,8 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     }
 
     private void loadLabels() {
-        int cur = tabs.getCurrentPosition();
+//        int cur = tabs.getCurrentPosition();
+        int cur = pager.getCurrentItem();
         if (cur != 0) {
             ProjectObject mProjectObject = mData.get(cur);
             getNetwork(String.format(urlProjectTaskLabels, mProjectObject.getId()) + getRole(), urlProjectTaskLabels);
