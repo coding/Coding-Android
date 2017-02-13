@@ -216,9 +216,17 @@
     <string name="add_project_maopao">新建项目内冒泡</string>
     <string name="delete_maopao">删除冒泡</string>
 
+    <!--通用-->
+    <string name="search">搜索</string>
+
     <!--DrawerLayout-->
     <string name="doing_count">进行中 (%d)</string>
     <string name="done_count">已完成 (%d)</string>
     <string name="doing">进行中</string>
     <string name="done">已完成</string>
+
+    <!--代码模块-->
+    <string name="create_file">创建文本文件</string>
+    <string name="create_catalog">创建目录</string>
+    <string name="upload_picture">上传图片</string>
 </resources>
