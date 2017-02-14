@@ -1,21 +1,22 @@
 package net.coding.program.project.detail;
 
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.BlankViewHelp;
+import net.coding.program.project.git.ForksListActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -24,9 +25,10 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by chaochen on 15/1/30.
@@ -40,84 +42,127 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     private final String HOST_LIST_TAG = Global.HOST_API + "%s/git/list_tags";
 
     @ViewById
-    View versionLayout, expandableIndicator;
+    View versionLayout, expandableIndicator, linearLayout, tvBranches, tvTags;
     @ViewById
     TextView versionButton;
+//    @ViewById
+//    ExpandableListView versionList;
     @ViewById
-    ExpandableListView versionList;
+    ListView versionListView;
 
     private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList<>(), new ArrayList<>()};
-    ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
+    private List<BranchItem> mData = new ArrayList<>();
+    private List<BranchItem> mBranchesData = new ArrayList<>();
+    private List<BranchItem> mTagsData = new ArrayList<>();
+
+//    ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
+//        @Override
+//        public int getGroupCount() {
+//            return mDataVers.length;
+//        }
+//
+//        @Override
+//        public int getChildrenCount(int groupPosition) {
+//            return mDataVers[groupPosition].size();
+//        }
+//
+//        @Override
+//        public Object getGroup(int groupPosition) {
+//            return "";
+//        }
+//
+//        @Override
+//        public Object getChild(int groupPosition, int childPosition) {
+//            return mDataVers[groupPosition].get(childPosition);
+//        }
+//
+//        @Override
+//        public long getGroupId(int groupPosition) {
+//            return groupPosition;
+//        }
+//
+//        @Override
+//        public long getChildId(int groupPosition, int childPosition) {
+//            return childPosition;
+//        }
+//
+//        @Override
+//        public boolean hasStableIds() {
+//            return false;
+//        }
+//
+//        @Override
+//        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup
+//        parent) {
+//            ViewGroupHolder holder;
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_group, parent, false);
+//                holder = new ViewGroupHolder(convertView);
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (ViewGroupHolder) convertView.getTag();
+//            }
+//
+//            final String[] datas = new String[]{"branches", "tags"};
+//            final int[] iconsId = new int[]{R.drawable.icon_git_branch, R.drawable.icon_git_tag};
+//
+//            holder.title.setText(datas[groupPosition]);
+//            holder.icon.setBackgroundResource(iconsId[groupPosition]);
+//
+//            return convertView;
+//        }
+//
+//        @Override
+//        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_child, parent, false);
+//            }
+//
+//            BranchItem data = (BranchItem) getChild(groupPosition, childPosition);
+//            ((TextView) convertView.findViewById(R.id.name)).setText(data.name);
+//
+//            return convertView;
+//        }
+//
+//        @Override
+//        public boolean isChildSelectable(int groupPosition, int childPosition) {
+//            return true;
+//        }
+//
+//    };
+
+    BaseAdapter adapter = new BaseAdapter() {
         @Override
-        public int getGroupCount() {
-            return mDataVers.length;
+        public int getCount() {
+            return mData.size();
         }
 
         @Override
-        public int getChildrenCount(int groupPosition) {
-            return mDataVers[groupPosition].size();
+        public Object getItem(int position) {
+            return mData.get(position);
         }
 
         @Override
-        public Object getGroup(int groupPosition) {
-            return "";
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            return mDataVers[groupPosition].get(childPosition);
-        }
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-        @Override
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
-
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            ViewGroupHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_group, parent, false);
-                holder = new ViewGroupHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewGroupHolder) convertView.getTag();
-            }
-
-            final String[] datas = new String[]{"branches", "tags"};
-            final int[] iconsId = new int[]{R.drawable.icon_git_branch, R.drawable.icon_git_tag};
-
-            holder.title.setText(datas[groupPosition]);
-            holder.icon.setBackgroundResource(iconsId[groupPosition]);
-
-            return convertView;
-        }
-
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            ViewHolder holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_child, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
 
-            BranchItem data = (BranchItem) getChild(groupPosition, childPosition);
-            ((TextView) convertView.findViewById(R.id.name)).setText(data.name);
+            BranchItem data = mData.get(position);
+            holder.title.setText(data.name);
 
             return convertView;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
         }
 
     };
@@ -136,21 +181,32 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         String urlTag = String.format(HOST_LIST_TAG, mProjectPath);
         getNetwork(urlTag, HOST_LIST_TAG);
 
-        versionList.setAdapter(versionAdapter);
+        versionListView.setAdapter(adapter);
+        versionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BranchItem data = (BranchItem) adapter.getItem(position);
 
-        int left = Global.dpToPx(MyApp.sWidthDp - 40);
-        int right = Global.dpToPx(MyApp.sWidthDp - 12);
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            versionList.setIndicatorBounds(left, right);
-        } else {
-            versionList.setIndicatorBoundsRelative(left, right);
-        }
-        versionList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
-            switchVersion(data.name);
-            showList(versionLayout.getVisibility() != View.VISIBLE);
-            return true;
+                switchVersion(data.name);
+                showList(versionLayout.getVisibility() != View.VISIBLE);
+            }
         });
+
+        updateTab(tvBranches);
+//        versionList.setAdapter(versionAdapter);
+//        int left = Global.dpToPx(MyApp.sWidthDp - 40);
+//        int right = Global.dpToPx(MyApp.sWidthDp - 12);
+//        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            versionList.setIndicatorBounds(left, right);
+//        } else {
+//            versionList.setIndicatorBoundsRelative(left, right);
+//        }
+//        versionList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+//            BranchItem data = (BranchItem) versionAdapter.getChild(groupPosition, childPosition);
+//            switchVersion(data.name);
+//            showList(versionLayout.getVisibility() != View.VISIBLE);
+//            return true;
+//        });
     }
 
     private View.OnClickListener onClickRetry = v -> {
@@ -173,6 +229,18 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         showList(versionLayout.getVisibility() != View.VISIBLE);
     }
 
+    @Click
+    protected final void tvBranches(){
+        updateTab(tvBranches);
+        setData(mBranchesData);
+    }
+
+    @Click
+    protected final void tvTags(){
+        updateTab(tvTags);
+        setData(mTagsData);
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_LIST_BRANCHES)) {
@@ -189,7 +257,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                         if (TextUtils.isEmpty(item.name)) { //
                             branchNotExist();
                         } else {
-                            parseVersion(mDataVers[0], branchList);
+                            parseVersion(mDataVers[0], branchList, tag);
                         }
                     } else {
                         branchNotExist();
@@ -202,7 +270,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             }
         } else if (tag.equals(HOST_LIST_TAG)) {
             if (code == 0) {
-                parseVersion(mDataVers[1], respanse.optJSONArray("data"));
+                parseVersion(mDataVers[1], respanse.optJSONArray("data"), tag);
             } else {
                 showErrorMsg(code, respanse);
                 hideDialogLoading();
@@ -229,7 +297,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         versionButton.setText(mVersion);
     }
 
-    private void parseVersion(ArrayList<BranchItem> data, JSONArray jsonArray) {
+    private void parseVersion(List<BranchItem> data, JSONArray jsonArray, String tag) {
         data.clear();
         int len = jsonArray.length();
         for (int i = 0; i < len; ++i) {
@@ -241,7 +309,22 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             }
         }
 
-        ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
+        if(tag.equals(HOST_LIST_BRANCHES)){
+            mBranchesData.clear();
+            mBranchesData.addAll(data);
+            setData(mBranchesData);
+        }else if(tag.equals(HOST_LIST_TAG)){
+            mTagsData.clear();
+            mTagsData.addAll(data);
+        }
+
+//        ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
+    }
+
+    private void setData(List<BranchItem> datas){
+        mData.clear();
+        mData.addAll(datas);
+        adapter.notifyDataSetChanged();
     }
 
     private void showList(boolean show) {
@@ -284,7 +367,9 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             });
         }
 
-        versionList.startAnimation(animation);
+        linearLayout.setAnimation(animation);
+//        versionListView.setAnimation(animation);
+//        versionList.startAnimation(animation);
         versionLayout.startAnimation(fadeIn);
 
         if (show) {
@@ -292,13 +377,36 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         }
     }
 
+    private void updateTab(View view){
+        switch (view.getId()){
+            case R.id.tvBranches:
+                tvBranches.setSelected(true);
+                tvTags.setSelected(false);
+            break;
+            case R.id.tvTags:
+                tvBranches.setSelected(false);
+                tvTags.setSelected(true);
+                break;
+        }
+    }
+
     private static class ViewGroupHolder {
         View icon;
         TextView title;
 
-        public ViewGroupHolder(View parent) {
+        public ViewGroupHolder(android.view.View parent) {
             icon = parent.findViewById(R.id.icon);
             title = (TextView) parent.findViewById(R.id.title);
+        }
+    }
+
+    private static class ViewHolder{
+        TextView title;
+        ImageView icon;
+
+        public ViewHolder(android.view.View parent) {
+            icon = (ImageView) parent.findViewById(R.id.icon);
+            title = (TextView) parent.findViewById(R.id.name);
         }
     }
 
@@ -306,6 +414,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         String name = "";// "raml-doc",
         boolean is_default_branch; // false,
         boolean is_protected; // false
+        boolean isSelect = false;//是否选中
 
         BranchItem(JSONObject json) {
             name = json.optString("name", "");
