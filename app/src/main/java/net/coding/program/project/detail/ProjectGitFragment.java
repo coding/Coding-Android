@@ -95,9 +95,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             GitFileInfoObject data = mData.get(position);
             holder.name.setText(data.name);
             if (data.isTree()) {
-                holder.icon.setImageResource(R.drawable.ic_project_git_folder);
-            } else {
-                holder.icon.setImageResource(R.drawable.ic_project_git_file);
+                holder.icon.setImageResource(R.drawable.ic_project_code_folder);
+            }else if(data.isExecutable()){
+                holder.icon.setImageResource(R.drawable.ic_project_code_exe);
+            } else if (data.isGitLink()) {
+                holder.icon.setImageResource(R.drawable.ic_project_code_sub_module);
+            }else {
+                holder.icon.setImageResource(R.drawable.ic_project_code_file);
             }
 
             if (data.lastCommitDate == 0) {
