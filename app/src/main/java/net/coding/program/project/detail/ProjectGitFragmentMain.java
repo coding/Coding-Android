@@ -162,6 +162,13 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             BranchItem data = mData.get(position);
             holder.title.setText(data.name);
 
+            if (mVersion.equals(data.name)) {
+                holder.title.setSelected(true);
+                holder.icon.setVisibility(View.VISIBLE);
+            }else{
+                holder.title.setSelected(false);
+                holder.icon.setVisibility(View.GONE);
+            }
             return convertView;
         }
 
@@ -186,8 +193,8 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BranchItem data = (BranchItem) adapter.getItem(position);
-
                 switchVersion(data.name);
+                adapter.notifyDataSetChanged();
                 showList(versionLayout.getVisibility() != View.VISIBLE);
             }
         });
@@ -414,7 +421,6 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         String name = "";// "raml-doc",
         boolean is_default_branch; // false,
         boolean is_protected; // false
-        boolean isSelect = false;//是否选中
 
         BranchItem(JSONObject json) {
             name = json.optString("name", "");
