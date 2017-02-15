@@ -22,10 +22,6 @@
                 android:title="@string/create_file"
                 app:showAsAction="ifRoom" />
             <item
-                android:id="@+id/action_create_catalog"
-                android:title="@string/create_catalog"
-                app:showAsAction="ifRoom" />
-            <item
                 android:id="@+id/action_upload_picture"
                 android:title="@string/upload_picture"
                 app:showAsAction="ifRoom" />

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestParams;
+
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -19,6 +21,7 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
+import net.coding.program.dialog.AlertDialogMessage;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
@@ -34,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 /**
  * Created by yangzhen on 2014/10/25.
@@ -44,6 +48,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     public static final String MASTER = "master";
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
+    private static final String HOST_GIT_NEW_FILE = "HOST_GIT_TREE_NEW_FILE";
+    private static final String HOST_GIT_UPLOAD_FILE = "HOST_GIT_TREE_UPLOAD_FILE";
 
     @FragmentArg
     String mProjectPath;
@@ -60,6 +66,9 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     private ArrayList<GitFileInfoObject> mData = new ArrayList<>();
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
+    private String host_git_new_file = "";
+    private String host_git_tree_upload_file = "";
+
     private String commentFormat = "%s 发布于%s";
     private boolean mTooManyFiles = false;
 
@@ -127,8 +136,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @AfterViews
     protected final void initProjectGitFragment() {
+        System.out.println("mVersion:"+mVersion);
         initRefreshLayout();
         showDialogLoading();
+
+        System.out.println("mGit:"+mGitFileInfoObject);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -180,6 +192,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     }
 
     @OptionsItem
+    protected final void action_code_search(){
+    }
+
+    @OptionsItem
     protected final void action_history() {
         String peek = pathStack.peek();
         if (peek.isEmpty() && mVersion.isEmpty()) {
@@ -190,6 +206,43 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, peek);
         BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
 //        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
+    }
+
+    @OptionsItem
+    protected final void action_create_file(){
+        AlertDialogMessage dialogMessage = new AlertDialogMessage(getActivity());
+        String title = this.getString(R.string.create_file);
+        String hint = this.getString(R.string.create_file_hint);
+        dialogMessage.initDialog(title, hint, new AlertDialogMessage.OnBottomClickListener() {
+            @Override
+            public void onPositiveButton(String newName) {
+                //^[a-zA-Z0-9\u4e00-\u9fa5\./_-]+$
+//                String name = "^[a-zA-Z0-9\\u4e00-\\u9fa5\./_-]+$";
+                String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
+                Pattern namePattern = Pattern.compile(namePatternStr);
+                if (newName.equals("")) {
+                    showButtomToast("名字不能为空");
+                }else {
+                    System.out.println("mGitFileInfoObject:"+mGitFileInfoObject);
+                    host_git_new_file = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
+                    RequestParams params = new RequestParams();
+                    params.put("title", newName);
+                    params.put("content", "");
+                    params.put("message", "new file" +""+ newName);
+                    params.put("lastCommitSha", mGitFileInfoObject.lastCommitId);
+                    postNetwork(host_git_new_file, params, HOST_GIT_NEW_FILE);
+                }
+            }
+
+            @Override
+            public void onNegativeButton() {
+
+            }
+        });
+    }
+
+    @OptionsItem
+    protected final void action_upload_picture(){
     }
 
     @Override
@@ -261,6 +314,9 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                         mData.add(fileInfoObject);
                     }
 
+                    JSONObject jsonObject = jsonData.optJSONObject("lastCommit");
+                    String commitId = jsonData.optString("commitId");
+
                     mTooManyFiles = true;
                     hideDialogLoading();
                     setRefreshing(false);
@@ -279,6 +335,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 } else {
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
                 }
+            }
+        }else if(tag.equals(HOST_GIT_NEW_FILE)){
+            if(code == 0){
+                System.out.println("请求成功");
+            }else{
+                System.out.println("请求失败");
+                showErrorMsg(code, respanse);
             }
         }
     }

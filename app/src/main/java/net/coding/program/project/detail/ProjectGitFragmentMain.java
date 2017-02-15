@@ -298,6 +298,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     @Override
     protected void switchVersionSuccess() {
+        System.out.println("mGitFileInfoObject:"+mGitFileInfoObject);
         showButtomToast(String.format("已切换到 %s", mVersion));
         versionButton.setText(mVersion);
     }
