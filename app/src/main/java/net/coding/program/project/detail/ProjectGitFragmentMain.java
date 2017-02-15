@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.BlankViewHelp;
-import net.coding.program.project.git.ForksListActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -194,7 +192,6 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BranchItem data = (BranchItem) adapter.getItem(position);
                 switchVersion(data.name);
-                adapter.notifyDataSetChanged();
                 showList(versionLayout.getVisibility() != View.VISIBLE);
             }
         });
@@ -295,6 +292,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     private void switchVersion(String name) {
         mVersion = name;
+        adapter.notifyDataSetChanged();
         onRefresh();
     }
 
