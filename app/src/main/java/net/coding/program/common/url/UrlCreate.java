@@ -36,6 +36,13 @@ public class UrlCreate {
                 projectPath, version, filePath);
     }
 
+    public static String gitUploadFile(String projectPath, String version, String path){
+        final String HOST_GIT_UPLOAD_FILE_PREPARE = Global.HOST_API + "%s/git/upload/%s%s";
+        String filePath = encode2Pager(path);
+        return String.format(HOST_GIT_UPLOAD_FILE_PREPARE,
+                projectPath, version, filePath);
+    }
+
     // 重编码2次，git服务器那边要求的
     private static String encode2Pager(String path) {
         if (path == null || path.isEmpty()) {

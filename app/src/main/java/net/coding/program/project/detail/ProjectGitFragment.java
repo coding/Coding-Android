@@ -1,5 +1,8 @@
 package net.coding.program.project.detail;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,24 +24,31 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
+import net.coding.program.common.util.FileUtil;
 import net.coding.program.dialog.AlertDialogMessage;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitLastCommitObject;
+import net.coding.program.model.GitUploadPrepareObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
+
+import static net.coding.program.project.detail.AttachmentsActivity.FILE_SELECT_CODE;
 
 /**
  * Created by yangzhen on 2014/10/25.
@@ -49,10 +59,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     public static final String MASTER = "master";
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
+    private static final String HOST_GIT_NEW_FILE_PREPARE = "HOST_GIT_NEW_FILE_PREPARE";
     private static final String HOST_GIT_NEW_FILE = "HOST_GIT_TREE_NEW_FILE";
+    private static final String HOST_GIT_UPLOAD_FILE_PREPARE = "HOST_GIT_UPLOAD_FILE_PREPARE";
     private static final String HOST_GIT_UPLOAD_FILE = "HOST_GIT_TREE_UPLOAD_FILE";
-
-    private GitLastCommitObject lastCommitObject;
 
     @FragmentArg
     String mProjectPath;
@@ -69,8 +79,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     private ArrayList<GitFileInfoObject> mData = new ArrayList<>();
     private String host_git_tree_url = "";
     private String host_git_treeinfo_url = "";
+    private String host_git_new_file_prepare = "";
     private String host_git_new_file = "";
-    private String host_git_tree_upload_file = "";
+    private String host_git_upload_file_prepare = "";
+    private String host_git_upload_file = "";
 
     private String commentFormat = "%s 发布于%s";
     private boolean mTooManyFiles = false;
@@ -210,38 +222,16 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_create_file(){
-        AlertDialogMessage dialogMessage = new AlertDialogMessage(getActivity());
-        String title = this.getString(R.string.create_file);
-        String hint = this.getString(R.string.create_file_hint);
-        dialogMessage.initDialog(title, hint, new AlertDialogMessage.OnBottomClickListener() {
-            @Override
-            public void onPositiveButton(String newName) {
-                String namePatternStr = getString(R.string.file_name_pattern);
-                Pattern namePattern = Pattern.compile(namePatternStr);
-                if (newName.equals("")) {
-                    showButtomToast(getString(R.string.name_not_null));
-                }  else if (!namePattern.matcher(newName).find()) {
-                    showButtomToast(getString(R.string.file_name_error));
-                } else {
-                    host_git_new_file = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
-                    RequestParams params = new RequestParams();
-                    params.put("title", newName);
-                    params.put("content", "");
-                    params.put("message", "new file" +""+ newName);
-                    params.put("lastCommitSha", lastCommitObject.commitId);
-                    postNetwork(host_git_new_file, params, HOST_GIT_NEW_FILE);
-                }
-            }
-
-            @Override
-            public void onNegativeButton() {
-
-            }
-        });
+        //获取commitId
+        host_git_new_file_prepare = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
+        getNetwork(host_git_new_file_prepare, HOST_GIT_NEW_FILE_PREPARE);
     }
 
     @OptionsItem
     protected final void action_upload_picture(){
+        //获取lastCommitId
+        host_git_upload_file_prepare = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
+        getNetwork(host_git_upload_file_prepare, HOST_GIT_UPLOAD_FILE_PREPARE);
     }
 
     @Override
@@ -260,11 +250,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }
 
         initSetting();
-//        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
-//        getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
-
-        host_git_tree_url = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
-        getNetwork(host_git_tree_url, HOST_GIT_TREE);
+        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
+        getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
     }
 
     @Override
@@ -308,8 +295,6 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
-                JSONObject jsonObject = jsonData.optJSONObject("lastCommit");
-                lastCommitObject = new GitLastCommitObject(jsonObject);
                 if (jsonData.optBoolean("too_many_files")) {
                     showTooManyFilesAlert();
                     JSONArray jsonArray = jsonData.optJSONArray("files");
@@ -337,12 +322,105 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
                 }
             }
+        }else if(tag.equals(HOST_GIT_NEW_FILE_PREPARE)){
+            if(code == 0){
+                JSONObject jsonData = respanse.optJSONObject("data");
+                JSONObject jsonObject = jsonData.optJSONObject("lastCommit");
+                GitLastCommitObject lastCommitObject = new GitLastCommitObject(jsonObject);
+                newFile(lastCommitObject);
+            }else{
+                showErrorMsg(code, respanse);
+            }
         }else if(tag.equals(HOST_GIT_NEW_FILE)){
             if(code == 0){
                 onRefresh();
             }else{
                 showErrorMsg(code, respanse);
             }
+        }else if(tag.equals(HOST_GIT_UPLOAD_FILE_PREPARE)){
+            if(code == 0){
+                JSONObject jsonData = respanse.optJSONObject("data");
+                uploadPrepareObject = new GitUploadPrepareObject(jsonData);
+                uploadFile();
+            }else{
+                showErrorMsg(code, respanse);
+            }
+        }else if(tag.equals(HOST_GIT_UPLOAD_FILE)){
+            if (code == 0) {
+                showButtomToast("上传成功");
+                onRefresh();
+            }else {
+                showErrorMsg(code, respanse);
+            }
+        }
+    }
+
+    //新建文件
+    private void newFile(GitLastCommitObject lastCommitObject) {
+        AlertDialogMessage dialogMessage = new AlertDialogMessage(getActivity());
+        String title = this.getString(R.string.create_file);
+        String hint = this.getString(R.string.create_file_hint);
+        dialogMessage.initDialog(title, hint, new AlertDialogMessage.OnBottomClickListener() {
+            @Override
+            public void onPositiveButton(String newName) {
+                String namePatternStr = getString(R.string.file_name_pattern);
+                Pattern namePattern = Pattern.compile(namePatternStr);
+                if (newName.equals("")) {
+                    showButtomToast(getString(R.string.name_not_null));
+                }  else if (!namePattern.matcher(newName).find()) {
+                    showButtomToast(getString(R.string.file_name_error));
+                } else {
+                    host_git_new_file = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
+                    RequestParams params = new RequestParams();
+                    params.put("title", newName);
+                    params.put("content", "");
+                    params.put("message", "new file" +""+ newName);
+                    params.put("lastCommitSha", lastCommitObject.commitId);
+                    postNetwork(host_git_new_file, params, HOST_GIT_NEW_FILE);
+                }
+            }
+
+            @Override
+            public void onNegativeButton() {
+
+            }
+        });
+    }
+
+    //上传文件
+    private void uploadFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            showButtomToast("请安装文件管理器");
+        }
+    }
+
+    @OnActivityResult(FILE_SELECT_CODE)
+    void onResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            String path = FileUtil.getPath(getActivity(), uri);
+            File selectedFile = new File(path);
+            postUploadFile(selectedFile);
+        }
+    }
+
+    private GitUploadPrepareObject uploadPrepareObject;
+    private  void postUploadFile(File selectedFile){
+        host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
+        RequestParams params = new RequestParams();
+        try {
+            params.put("files", selectedFile);
+            params.put("message", "");
+            params.put("lastCommitSha", uploadPrepareObject.lastCommit);
+            postNetwork(host_git_upload_file, params, HOST_GIT_UPLOAD_FILE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
