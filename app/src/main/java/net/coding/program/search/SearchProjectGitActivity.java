@@ -2,21 +2,18 @@ package net.coding.program.search;
 
 import org.androidannotations.annotations.EActivity;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.url.UrlCreate;
-import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.project.detail.ProjectGitFragment;
-import net.coding.program.search.recyclerview.adapter.SearchProjectGitAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Extra;
@@ -27,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.coding.program.R.id.recyclerView;
 
 @EActivity(R.layout.activity_search_project_git)
 public class SearchProjectGitActivity extends BackActivity implements TextWatcher {
@@ -42,7 +41,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
     String mVersion = ProjectGitFragment.MASTER;
 
     @ViewById
-    RecyclerView recyclerView;
+    ListView listView;
 
     private EditText editText;
     private View btnCancel;
@@ -65,9 +64,6 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         editText = (EditText) actionBar.findViewById(R.id.editText);
         editText.addTextChangedListener(this);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new SearchProjectGitAdapter(this));
 
         initNetWork();
     }
@@ -119,5 +115,6 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
                 searchNames.add(fileName);
             }
         }
+
     }
 }

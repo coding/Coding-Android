@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.search.SearchProjectGitActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </ListView>
 
 </RelativeLayout>
