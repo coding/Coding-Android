@@ -23,6 +23,7 @@ import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.dialog.AlertDialogMessage;
 import net.coding.program.model.GitFileInfoObject;
+import net.coding.program.model.GitLastCommitObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
 
@@ -50,6 +51,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
     private static final String HOST_GIT_NEW_FILE = "HOST_GIT_TREE_NEW_FILE";
     private static final String HOST_GIT_UPLOAD_FILE = "HOST_GIT_TREE_UPLOAD_FILE";
+
+    private GitLastCommitObject lastCommitObject;
 
     @FragmentArg
     String mProjectPath;
@@ -136,11 +139,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @AfterViews
     protected final void initProjectGitFragment() {
-        System.out.println("mVersion:"+mVersion);
         initRefreshLayout();
         showDialogLoading();
-
-        System.out.println("mGit:"+mGitFileInfoObject);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -223,13 +223,12 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 if (newName.equals("")) {
                     showButtomToast("名字不能为空");
                 }else {
-                    System.out.println("mGitFileInfoObject:"+mGitFileInfoObject);
                     host_git_new_file = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
                     RequestParams params = new RequestParams();
                     params.put("title", newName);
                     params.put("content", "");
                     params.put("message", "new file" +""+ newName);
-                    params.put("lastCommitSha", mGitFileInfoObject.lastCommitId);
+                    params.put("lastCommitSha", lastCommitObject.commitId);
                     postNetwork(host_git_new_file, params, HOST_GIT_NEW_FILE);
                 }
             }
@@ -261,8 +260,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }
 
         initSetting();
-        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
-        getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
+//        host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());
+//        getNetwork(host_git_treeinfo_url, HOST_GIT_TREEINFO);
+
+        host_git_tree_url = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
+        getNetwork(host_git_tree_url, HOST_GIT_TREE);
     }
 
     @Override
@@ -284,8 +286,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 if (isLoadingFirstPage(tag)) {
                     mData.clear();
                 }
-                JSONArray getFileInfos = respanse.getJSONObject("data").getJSONArray("infos");
-
+                JSONObject dataObject = respanse.getJSONObject("data");
+                JSONArray getFileInfos = dataObject.getJSONArray("infos");
                 for (int i = 0; i < getFileInfos.length(); ++i) {
                     GitFileInfoObject fileInfoObject = new GitFileInfoObject(getFileInfos.getJSONObject(i));
                     mData.add(fileInfoObject);
@@ -306,6 +308,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         } else if (tag.equals(HOST_GIT_TREE)) {
             if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
+                JSONObject jsonObject = jsonData.optJSONObject("lastCommit");
+                lastCommitObject = new GitLastCommitObject(jsonObject);
                 if (jsonData.optBoolean("too_many_files")) {
                     showTooManyFilesAlert();
                     JSONArray jsonArray = jsonData.optJSONArray("files");
@@ -313,9 +317,6 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                         GitFileInfoObject fileInfoObject = new GitFileInfoObject(jsonArray.optJSONObject(i));
                         mData.add(fileInfoObject);
                     }
-
-                    JSONObject jsonObject = jsonData.optJSONObject("lastCommit");
-                    String commitId = jsonData.optString("commitId");
 
                     mTooManyFiles = true;
                     hideDialogLoading();
@@ -338,9 +339,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
         }else if(tag.equals(HOST_GIT_NEW_FILE)){
             if(code == 0){
-                System.out.println("请求成功");
+                onRefresh();
             }else{
-                System.out.println("请求失败");
                 showErrorMsg(code, respanse);
             }
         }
