@@ -216,13 +216,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         dialogMessage.initDialog(title, hint, new AlertDialogMessage.OnBottomClickListener() {
             @Override
             public void onPositiveButton(String newName) {
-                //^[a-zA-Z0-9\u4e00-\u9fa5\./_-]+$
-//                String name = "^[a-zA-Z0-9\\u4e00-\\u9fa5\./_-]+$";
-                String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
+                String namePatternStr = getString(R.string.file_name_pattern);
                 Pattern namePattern = Pattern.compile(namePatternStr);
                 if (newName.equals("")) {
-                    showButtomToast("名字不能为空");
-                }else {
+                    showButtomToast(getString(R.string.name_not_null));
+                }  else if (!namePattern.matcher(newName).find()) {
+                    showButtomToast(getString(R.string.file_name_error));
+                } else {
                     host_git_new_file = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
                     RequestParams params = new RequestParams();
                     params.put("title", newName);

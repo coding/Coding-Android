@@ -234,5 +234,7 @@
     <string name="create_file_hint">请输入文件名称</string>
     <string name="create_catalog_hint">请输入目录名称</string>
     <string name="file_name_error">文件名不能含有特殊符号</string>
+    <string name="name_not_null">名字不能为空</string>
+    <string name="file_name_pattern">^[a-zA-Z0-9\\u4e00-\\u9fa5\\./_-]+$</string>
 
 </resources>
