@@ -15,7 +15,6 @@
         android:layout_marginRight="66dp"
         android:layout_marginEnd="66dp"
         android:background="@color/transparent"
-        android:hint="@string/search_hint"
         android:imeOptions="actionSearch"
         android:maxLines="1"
         android:textColor="@color/font_2"

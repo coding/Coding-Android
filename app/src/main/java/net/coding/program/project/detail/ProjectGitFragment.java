@@ -31,6 +31,9 @@ import net.coding.program.model.GitLastCommitObject;
 import net.coding.program.model.GitUploadPrepareObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
+import net.coding.program.search.SearchProjectActivity_;
+import net.coding.program.search.SearchProjectGitActivity;
+import net.coding.program.search.SearchProjectGitActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -48,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
+import static com.rampo.updatechecker.UpdateChecker.start;
 import static net.coding.program.project.detail.AttachmentsActivity.FILE_SELECT_CODE;
 
 /**
@@ -83,6 +87,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     private String host_git_new_file = "";
     private String host_git_upload_file_prepare = "";
     private String host_git_upload_file = "";
+
 
     private String commentFormat = "%s 发布于%s";
     private boolean mTooManyFiles = false;
@@ -124,6 +129,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 holder.icon.setImageResource(R.drawable.ic_project_code_exe);
             } else if (data.isGitLink()) {
                 holder.icon.setImageResource(R.drawable.ic_project_code_sub_module);
+            }else if (data.isImage()) {
+                holder.icon.setImageResource(R.drawable.ic_git_img);
             }else {
                 holder.icon.setImageResource(R.drawable.ic_project_code_file);
             }
@@ -205,6 +212,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_code_search(){
+        SearchProjectGitActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).peek(pathStack.peek()).start();
+        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
 
     @OptionsItem

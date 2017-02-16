@@ -237,4 +237,7 @@
     <string name="name_not_null">名字不能为空</string>
     <string name="file_name_pattern">^[a-zA-Z0-9\\u4e00-\\u9fa5\\./_-]+$</string>
 
+    <!--搜索相关-->
+    <string name="search_hint">项目、任务、讨论、冒泡</string>
+
 </resources>

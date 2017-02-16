@@ -29,6 +29,14 @@ public class UrlCreate {
                 projectPath, version, filePath);
     }
 
+    public static String gitTreeList(String projectPath, String version, String path) {
+        final String HOST_GIT_TREE_LIST = Global.HOST_API + "%s/git/treelist/%s%s";
+
+        String filePath = pathEncode2(path);
+        return String.format(HOST_GIT_TREE_LIST,
+                projectPath, version, filePath);
+    }
+
     public static String gitNewFile(String projectPath, String version, String path){
         final String HOST_GIT_NEW_FILE = Global.HOST_API + "%s/git/new/%s%s";
         String filePath = encode2Pager(path);

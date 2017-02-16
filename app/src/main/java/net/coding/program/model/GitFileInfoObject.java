@@ -13,6 +13,7 @@ public class GitFileInfoObject implements Serializable {
     private final static String MODE_FILE = "file";
     private final static String MODE_EXECUTABLE = "executable";
     private static final String MODE_GIT_LINK = "git_link";
+    private static final String MODE_IMAGE = "image";
     public long lastCommitDate;
     public String lastCommitId = "";
     public String lastCommitMessage = "";
@@ -56,5 +57,9 @@ public class GitFileInfoObject implements Serializable {
 
     public boolean isExecutable(){
         return mode.equals(MODE_EXECUTABLE);
+    }
+
+    public boolean isImage(){
+        return mode.equals(MODE_IMAGE);
     }
 }
