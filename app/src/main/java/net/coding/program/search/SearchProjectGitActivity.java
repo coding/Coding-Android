@@ -6,8 +6,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -24,8 +28,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.coding.program.R.id.recyclerView;
 
 @EActivity(R.layout.activity_search_project_git)
 public class SearchProjectGitActivity extends BackActivity implements TextWatcher {
@@ -46,8 +48,38 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
     private EditText editText;
     private View btnCancel;
 
+    private TextView tvLength;
+
     private List<String> fileNames = new ArrayList<>();
     private List<String> searchNames = new ArrayList<>();
+
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return searchNames.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return searchNames.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.search_project_git_item, parent,false);
+            }
+            String name = searchNames.get(position);
+            final TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
+            tvName.setText(name);
+            return convertView;
+        }
+    };
 
     @AfterViews
     void init(){
@@ -64,6 +96,16 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         editText = (EditText) actionBar.findViewById(R.id.editText);
         editText.addTextChangedListener(this);
 
+        View hView = mInflater.inflate(R.layout.search_project_git_header, null);
+        tvLength = (TextView) hView.findViewById(R.id.tv_length);
+        listView.addHeaderView(hView);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
 
         initNetWork();
     }
@@ -116,5 +158,11 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
             }
         }
 
+        updateView(name);
+    }
+
+    private void updateView(String name) {
+        tvLength.setText(name);
+        adapter.notifyDataSetChanged();
     }
 }
