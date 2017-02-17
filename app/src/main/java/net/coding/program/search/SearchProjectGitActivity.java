@@ -1,11 +1,13 @@
 package net.coding.program.search;
 
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,7 +21,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileInfoObject;
-import net.coding.program.project.detail.GitTreeActivity_;
 import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectGitFragment;
 
@@ -32,8 +33,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static net.coding.program.common.Global.HOST_API;
 
 @EActivity(R.layout.activity_search_project_git)
 public class SearchProjectGitActivity extends BackActivity implements TextWatcher {
@@ -58,6 +60,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
 
     private List<String> fileNames = new ArrayList<>();
     private List<String> searchNames = new ArrayList<>();
+    private String searchName;
 
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -80,9 +83,21 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.search_project_git_item, parent,false);
             }
-            String name = searchNames.get(position);
+
             final TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-            tvName.setText(name);
+            String name = searchNames.get(position);
+            SpannableString s = new SpannableString(name);
+            int color = getResources().getColor(R.color.color_FDF2CB);
+
+            Pattern p = Pattern.compile(searchName);
+            Matcher m = p.matcher(s);
+            while (m.find()){
+                int start = m.start();
+                int end = m.end();
+                s.setSpan(new BackgroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            tvName.setText(s);
+
             return convertView;
         }
     };
@@ -106,6 +121,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         tvLength = (TextView) hView.findViewById(R.id.tv_length);
         listView.addHeaderView(hView);
         listView.setAdapter(adapter);
+        listView.setHeaderDividersEnabled(false);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -180,6 +196,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
 
     @Override
     public void afterTextChanged(Editable s) {
+        searchName = s.toString();
         if (TextUtils.isEmpty(s)) {
             btnCancel.setVisibility(View.INVISIBLE);
         } else {
