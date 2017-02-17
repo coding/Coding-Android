@@ -1,5 +1,6 @@
 package net.coding.program.search;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import android.text.Editable;
@@ -17,6 +18,9 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.url.UrlCreate;
+import net.coding.program.model.GitFileInfoObject;
+import net.coding.program.project.detail.GitTreeActivity_;
+import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectGitFragment;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.coding.program.common.Global.HOST_API;
 
 @EActivity(R.layout.activity_search_project_git)
 public class SearchProjectGitActivity extends BackActivity implements TextWatcher {
@@ -103,7 +109,10 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                GitFileInfoObject selectedFile = new GitFileInfoObject();
+                selectedFile.name = searchNames.get(position);
+                GitViewActivity_.intent(SearchProjectGitActivity.this).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+                finish();
             }
         });
 
@@ -131,6 +140,34 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         }
     }
 
+    private void searchFile(String name) {
+        if(!TextUtils.isEmpty(name)){
+            tvLength.setVisibility(View.VISIBLE);
+            for (String fileName : fileNames) {
+                if (fileName.contains(name)) {
+                    searchNames.add(fileName);
+                }
+            }
+            updateView(name);
+        }else{
+            tvLength.setVisibility(View.GONE);
+            clearNames();
+        }
+
+    }
+
+    private void updateView(String name) {
+        String size = String.valueOf(searchNames.size());
+        String headStr = this.getString(R.string.search_head, size , name);
+        tvLength.setText(headStr);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void clearNames(){
+        searchNames.clear();
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         searchNames.clear();
@@ -147,22 +184,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
             btnCancel.setVisibility(View.INVISIBLE);
         } else {
             btnCancel.setVisibility(View.VISIBLE);
-            searchFile(s.toString());
         }
-    }
-
-    private void searchFile(String name) {
-        for (String fileName : fileNames) {
-            if (fileName.contains(name)) {
-                searchNames.add(fileName);
-            }
-        }
-
-        updateView(name);
-    }
-
-    private void updateView(String name) {
-        tvLength.setText(name);
-        adapter.notifyDataSetChanged();
+        searchFile(s.toString());
     }
 }

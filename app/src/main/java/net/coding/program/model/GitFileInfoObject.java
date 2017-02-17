@@ -23,6 +23,9 @@ public class GitFileInfoObject implements Serializable {
     public String path = "";
     public String name = "";
 
+    public GitFileInfoObject() {
+    }
+
     public GitFileInfoObject(JSONObject json) throws JSONException {
         lastCommitDate = json.optLong("lastCommitDate");
         lastCommitId = json.optString("lastCommitId");

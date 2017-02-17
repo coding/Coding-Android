@@ -8,12 +8,13 @@
         android:id="@+id/tv_length"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:gravity="center"
         android:textSize="14sp"
         android:textColor="@color/color_B5B5B5"
-        android:text="共搜到8个与build相关的文件"/>
+        android:text="@string/search_head"/>
 
     <View
         style="@style/DivideLine"/>
