@@ -238,6 +238,11 @@ public class Merge implements Serializable {
         return merge_status.equals(STYLE_ACCEPT);
     }
 
+    public boolean isMergeRefuse() {
+        return merge_status.equals(STYLE_REFUSE);
+    }
+
+    //已处理
     public boolean isMergeTreate() {
         return merge_status.equals(STYLE_ACCEPT) ||
                 merge_status.equals(STYLE_REFUSE);

@@ -239,6 +239,6 @@
 
     <!--搜索相关-->
     <string name="search_hint">项目、任务、讨论、冒泡</string>
-    <string name="search_head">共搜到%1$s个与%2$s相关的文件</string>
+    <string name="search_head">共搜到%1$s个与“%2$s”相关的文件</string>
 
 </resources>
