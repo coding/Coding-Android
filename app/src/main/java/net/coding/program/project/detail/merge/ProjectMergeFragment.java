@@ -36,12 +36,15 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
     @ViewById
     RadioGroup rgRoot;
     @ViewById
+    RadioGroup prRoot;
+    @ViewById
     View blankLayout;
 
     private TextView toolbarTitle;
 
     private String[] status;
     private String[] statusEng;
+    private String[] prStatus;
 
     private MergeAdapter mMergeAdapter;
     private String mUrlMerge;
@@ -59,18 +62,31 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         toolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
-                    rgRoot.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.INVISIBLE);
-                }else {
-                    rgRoot.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
+                if (mProjectObject.is_public) {
+                    if(prRoot.getVisibility() == View.GONE||prRoot.getVisibility() == View.INVISIBLE){
+                        prRoot.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.INVISIBLE);
+                        rgRoot.setVisibility(View.GONE);
+                    }else {
+                        prRoot.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                    }
+                }else{
+                    if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
+                        rgRoot.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.INVISIBLE);
+                        prRoot.setVisibility(View.GONE);
+                    }else {
+                        rgRoot.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
 
         status = getResources().getStringArray(R.array.merge_status);
         statusEng = getResources().getStringArray(R.array.merge_status_english);
+        prStatus = getResources().getStringArray(R.array.pr_status);
 
         listViewAddHeaderSection(listView);
         listView.setVisibility(View.INVISIBLE);
@@ -165,6 +181,25 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         actionStatus(4);
     }
 
+
+    @Click
+    void merge_all_pr() {//全部
+        mUrlMerge = mProjectObject.getMergesFilterAll();
+        setToolbarTitle(prStatus[0]);
+        onRefresh();
+        setPrMenuViewGone();
+    }
+
+    @Click
+    void merge_open() {//已处理
+        actionPrStatus(true, 1);
+    }
+
+    @Click
+    void merge_close() {//未处理
+        actionPrStatus(false, 2);
+    }
+
     @Override
     public void onRefresh() {
         initSetting();
@@ -190,8 +225,19 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         setMenuViewGone();
     }
 
+    private void actionPrStatus(boolean isOpen, int position) {
+        mUrlMerge = mProjectObject.getHttpMerge(!isOpen);
+        setToolbarTitle(prStatus[position]);
+        onRefresh();
+        setPrMenuViewGone();
+    }
+
     private void setMenuViewGone(){
         rgRoot.setVisibility(View.GONE);
+    }
+
+    private void setPrMenuViewGone(){
+        prRoot.setVisibility(View.GONE);
     }
 
     private void setToolbarTitle(String title){

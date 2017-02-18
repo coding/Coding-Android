@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rgRoot"
+    android:id="@+id/prRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_FAFAFA"
     android:orientation="vertical">
 
     <RadioButton
-        android:id="@+id/merge_all"
+        android:id="@+id/merge_all_pr"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
@@ -15,55 +15,31 @@
         android:button="@null"
         android:checked="true"
         android:gravity="center_vertical"
-        android:text="@string/merge_all_MR"
+        android:text="@string/merge_all"
         android:textColor="@drawable/text_menu_selector"
         android:textSize="16sp" />
 
     <RadioButton
-        android:id="@+id/merge_can_merge"
+        android:id="@+id/merge_open"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:button="@null"
         android:gravity="center_vertical"
-        android:text="@string/merge_can"
+        android:text="@string/merge_open"
         android:textColor="@drawable/text_menu_selector"
         android:textSize="16sp" />
 
     <RadioButton
-        android:id="@+id/merge_can_not_merge"
+        android:id="@+id/merge_close"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center_vertical"
         android:button="@null"
-        android:text="@string/merge_not"
-        android:textColor="@drawable/text_menu_selector"
-        android:textSize="16sp" />
-
-    <RadioButton
-        android:id="@+id/merge_refuse"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:button="@null"
-        android:text="@string/merge_refuse"
-        android:textColor="@drawable/text_menu_selector"
-        android:textSize="16sp" />
-
-    <RadioButton
-        android:id="@+id/merge_accept"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:button="@null"
-        android:gravity="center_vertical"
-        android:text="@string/merge_accept"
+        android:text="@string/merge_close"
         android:textColor="@drawable/text_menu_selector"
         android:textSize="16sp" />
 </RadioGroup>

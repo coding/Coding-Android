@@ -248,5 +248,7 @@
     <string name="merge_not">不可自动合并</string>
     <string name="merge_refuse">已拒绝</string>
     <string name="merge_accept">已合并</string>
+    <string name="merge_open">已处理</string>
+    <string name="merge_close">未处理</string>
 
 </resources>

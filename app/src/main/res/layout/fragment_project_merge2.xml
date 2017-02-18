@@ -9,4 +9,8 @@
     <include
         layout="@layout/view_merge_menu"
         android:visibility="gone" />
+
+    <include
+        layout="@layout/view_public_merge_menu"
+        android:visibility="gone" />
 </FrameLayout>
