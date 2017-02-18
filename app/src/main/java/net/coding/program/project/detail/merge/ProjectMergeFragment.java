@@ -129,7 +129,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MERGE)) {
             setRefreshing(false);
-//            hideDialogLoading();
+            hideDialogLoading();
             if (code == 0) {
                 if (isLoadingFirstPage(HOST_MERGE)) {
                     mMergeAdapter.clearData();
@@ -208,6 +208,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     @Override
     public void loadMore() {
+        showDialogLoading();
         getNextPageNetwork(mUrlMerge, HOST_MERGE);
     }
 
