@@ -1,57 +1,97 @@
 package net.coding.program.project.detail.merge;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.base.BaseLoadMoreFragment;
+import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.model.Merge;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 @EFragment(R.layout.fragment_project_merge2)
-public class ProjectMergeFragment extends BaseFragment {
+public class ProjectMergeFragment extends BaseLoadMoreFragment {
+    public static final int RESULT_CHANGE = 1;
+    private static final String HOST_MERGE = "HOST_MERGE";
 
-    @ViewById
-    protected ViewPager viewPager;
     @FragmentArg
     ProjectObject mProjectObject;
     @ViewById
-    RadioGroup checkGroup;
+    RadioGroup rgRoot;
     @ViewById
-    WechatTab tabs;
+    View blankLayout;
 
-    private MergePagerAdapter mAdapter;
+    private TextView toolbarTitle;
+
+    private String[] status;
+    private String[] statusEng;
+
+    private MergeAdapter mMergeAdapter;
+    private String mUrlMerge;
+    private View.OnClickListener onClickRetry = v -> {
+        onRefresh();
+        loadMore();
+    };
 
     @AfterViews
     protected final void initProjectMergeFragment() {
-        mAdapter = new MergePagerAdapter(getChildFragmentManager(), mProjectObject);
-        viewPager.setAdapter(mAdapter);
-
-        ((RadioGroup) getView().findViewById(R.id.checkGroup)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        View actionBar = getActivity().getLayoutInflater().inflate(R.layout.merge_toolbar, null);
+        ((BaseActivity) getActivity()).getSupportActionBar().setCustomView(actionBar);
+        ((BaseActivity) getActivity()).getSupportActionBar().setDisplayShowCustomEnabled(true);
+        toolbarTitle = (TextView) actionBar.findViewById(R.id.toolbarTitle);
+        toolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.checkClose) {
-                    mAdapter.setState(1);
-                } else {
-                    mAdapter.setState(0);
+            public void onClick(View v) {
+                if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
+                    rgRoot.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.INVISIBLE);
+                }else {
+                    rgRoot.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 }
-
-                mAdapter.notifyDataSetChanged();
             }
         });
 
-        tabs.setViewPager(viewPager);
+        status = getResources().getStringArray(R.array.merge_status);
+        statusEng = getResources().getStringArray(R.array.merge_status_english);
+
+        listViewAddHeaderSection(listView);
+        listView.setVisibility(View.INVISIBLE);
+        initRefreshLayout();
+
+        mMergeAdapter = new MergeAdapter(new ArrayList<>(), this, getImageLoad());
+        listView.setAdapter(mMergeAdapter);
+
+        mUrlMerge = mProjectObject.getMergesFilterAll();
+        loadMore();
+    }
+
+    @Click
+    void toolbarTitle(View v) {
+        if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
+            rgRoot.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.INVISIBLE);
+        }else {
+            rgRoot.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -62,67 +102,100 @@ public class ProjectMergeFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MergeListFragment.RESULT_CHANGE) {
-            if (resultCode == Activity.RESULT_OK) {
-                mAdapter.notifyDataSetChanged();
+//        if (requestCode == RESULT_CHANGE) {
+//            if (resultCode == Activity.RESULT_OK) {
+//                mMergeAdapter.notifyDataSetChanged();
+//            }
+//        }
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(HOST_MERGE)) {
+            setRefreshing(false);
+//            hideDialogLoading();
+            if (code == 0) {
+                if (isLoadingFirstPage(HOST_MERGE)) {
+                    mMergeAdapter.clearData();
+                }
+
+                JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
+                ArrayList<Merge> parseData = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); ++i) {
+                    parseData.add(new Merge(jsonArray.getJSONObject(i)));
+                }
+
+                mMergeAdapter.appendDataUpdate(parseData);
+            } else {
+                showErrorMsg(code, respanse);
             }
+
+            updateLoadingState(code, tag, mMergeAdapter.getCount());
+
+            listView.setVisibility(mMergeAdapter.getCount() > 0 ? View.VISIBLE : View.INVISIBLE);
+            BlankViewDisplay.setBlank(mMergeAdapter.getCount(), this, code == 0, blankLayout, onClickRetry);
         }
     }
 
-    private static class MergePagerAdapter extends FragmentStatePagerAdapter {
-
-        private ProjectObject mProjectObject;
-        private int mStatus = 0;
-
-        ProjectObject.MergeExamine[] mine = new ProjectObject.MergeExamine[]{
-                ProjectObject.MergeExamine.review,
-                ProjectObject.MergeExamine.mine,
-                ProjectObject.MergeExamine.other
-        };
-
-        String[] titles = new String[]{
-                "我评审的",
-                "我发布的",
-                "全部的"
-        };
-
-        public MergePagerAdapter(FragmentManager fm, ProjectObject projectObject) {
-            super(fm);
-            mProjectObject = projectObject;
-        }
-
-        public void setState(int status) {
-            if (mStatus == status) {
-                return;
-            }
-
-            mStatus = status;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return MergeListFragment_
-                    .builder()
-                    .mProjectObject(mProjectObject)
-                    .mType(mStatus)
-                    .mMineType(mine[position])
-                    .build();
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public int getCount() {
-            return mine.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
+    @Click
+    void merge_all() {//全部
+        mUrlMerge = mProjectObject.getMergesFilterAll();
+        setToolbarTitle(status[0]);
+        onRefresh();
+        setMenuViewGone();
     }
+
+    @Click
+    void merge_can_merge() {//可合并
+        actionStatus(1);
+    }
+
+    @Click
+    void merge_can_not_merge() {//不可自动合并
+        actionStatus(2);
+    }
+
+    @Click
+    void merge_refuse() {//已拒绝
+        actionStatus(3);
+    }
+
+    @Click
+    void merge_accept() {//已合并
+        actionStatus(4);
+    }
+
+    @Override
+    public void onRefresh() {
+        initSetting();
+        loadMore();
+    }
+
+    @Override
+    public void loadMore() {
+        getNextPageNetwork(mUrlMerge, HOST_MERGE);
+    }
+
+    @ItemClick
+    protected final void listView(Merge merge) {
+        Fragment fragment = getParentFragment();
+        if (fragment == null) fragment = this;
+        MergeDetailActivity_.intent(fragment).mMerge(merge).startForResult(RESULT_CHANGE);
+    }
+
+    private void actionStatus(int position) {
+        mUrlMerge = mProjectObject.getMergesFilterStatus(statusEng[position]);
+        setToolbarTitle(status[position]);
+        onRefresh();
+        setMenuViewGone();
+    }
+
+    private void setMenuViewGone(){
+        rgRoot.setVisibility(View.GONE);
+    }
+
+    private void setToolbarTitle(String title){
+        toolbarTitle.setText(title);
+    }
+
 }

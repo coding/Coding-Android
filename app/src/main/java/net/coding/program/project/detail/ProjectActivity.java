@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -126,10 +127,16 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
             mFragments.add(new WeakReference(fragment));
 
-            toolbarProjectTitle.setText(mJumpType.title);
+            if (mJumpType != ProjectFunction.merge) {
+                toolbarProjectTitle.setText(mJumpType.title);
+            }else{
+                toolbarProjectTitle.setVisibility(View.GONE);
+            }
+
             if (mJumpType != ProjectFunction.task) {
                 toolbarProjectTitle.setBackgroundResource(0);
             }
+
 
         } catch (Exception e) {
             Global.errorLog(e);

@@ -225,6 +225,22 @@
         <item>已发货</item>
     </string-array>
 
+    <string-array name="merge_status">
+        <item>全部 MR</item>
+        <item>可合并</item>
+        <item>不可自动合并</item>
+        <item>已拒绝</item>
+        <item>已合并</item>
+    </string-array>
+
+    <string-array name="merge_status_english">
+        <item>all</item>
+        <item>CANMERGE</item>
+        <item>CANNOTMERGE</item>
+        <item>REFUSED</item>
+        <item>ACCEPTED</item>
+    </string-array>
+
     <!--<string-array name="commnet_my">-->
     <!--<item>复制</item>-->
     <!--<item>回复</item>-->
