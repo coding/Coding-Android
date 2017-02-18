@@ -31,8 +31,6 @@ import net.coding.program.model.GitLastCommitObject;
 import net.coding.program.model.GitUploadPrepareObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
-import net.coding.program.search.SearchProjectActivity_;
-import net.coding.program.search.SearchProjectGitActivity;
 import net.coding.program.search.SearchProjectGitActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -46,12 +44,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import static com.rampo.updatechecker.UpdateChecker.start;
 import static net.coding.program.project.detail.AttachmentsActivity.FILE_SELECT_CODE;
 
 /**
@@ -212,7 +208,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_code_search(){
-        SearchProjectGitActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).peek(pathStack.peek()).start();
+        SearchProjectGitActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
 

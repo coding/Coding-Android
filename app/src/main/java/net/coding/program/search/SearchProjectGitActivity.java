@@ -1,7 +1,5 @@
 package net.coding.program.search;
 
-import org.androidannotations.annotations.EActivity;
-
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -20,11 +18,13 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.url.UrlCreate;
+import net.coding.program.common.util.StringUtil;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectGitFragment;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
@@ -45,9 +45,6 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
     String mProjectPath;
 
     @Extra
-    String peek;
-
-    @Extra
     String mVersion = ProjectGitFragment.MASTER;
 
     @ViewById
@@ -60,7 +57,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
 
     private List<String> fileNames = new ArrayList<>();
     private List<String> searchNames = new ArrayList<>();
-    private String searchName;
+    private String inputName;
 
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -89,7 +86,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
             SpannableString s = new SpannableString(name);
             int color = getResources().getColor(R.color.color_FDF2CB);
 
-            Pattern p = Pattern.compile(searchName);
+            Pattern p = Pattern.compile(inputName, Pattern.CASE_INSENSITIVE);
             Matcher m = p.matcher(s);
             while (m.find()){
                 int start = m.start();
@@ -125,8 +122,8 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GitFileInfoObject selectedFile = new GitFileInfoObject();
-                selectedFile.name = searchNames.get(position);
+                String path = ((String) parent.getAdapter().getItem(position));
+                GitFileInfoObject selectedFile = new GitFileInfoObject(path);
                 GitViewActivity_.intent(SearchProjectGitActivity.this).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
                 finish();
             }
@@ -136,7 +133,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
     }
 
     private void initNetWork() {
-        String host_git_tree_list = UrlCreate.gitTreeList(mProjectPath, mVersion, peek);
+        String host_git_tree_list = UrlCreate.gitTreeList(mProjectPath, mVersion);
         getNetwork(host_git_tree_list, HOST_GIT_TREE_LIST);
     }
 
@@ -160,7 +157,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         if(!TextUtils.isEmpty(name)){
             tvLength.setVisibility(View.VISIBLE);
             for (String fileName : fileNames) {
-                if (fileName.contains(name)) {
+                if (StringUtil.isExist(fileName, name)) {
                     searchNames.add(fileName);
                 }
             }
@@ -196,7 +193,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
 
     @Override
     public void afterTextChanged(Editable s) {
-        searchName = s.toString();
+        inputName = s.toString();
         if (TextUtils.isEmpty(s)) {
             btnCancel.setVisibility(View.INVISIBLE);
         } else {
