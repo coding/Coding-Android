@@ -350,7 +350,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 showErrorMsg(code, respanse);
             }
         }else if(tag.equals(HOST_GIT_UPLOAD_FILE)){
-            hideDialogLoading();
+            showProgressBar(false);
             if (code == 0) {
                 showButtomToast("上传成功");
                 onRefresh();
@@ -417,7 +417,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     private GitUploadPrepareObject uploadPrepareObject;
     private  void postUploadFile(File selectedFile){
-        showDialogLoading();
+        showProgressBar(true, getString(R.string.upload_ing));
         host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
         RequestParams params = new RequestParams();
         try {

@@ -250,5 +250,6 @@
     <string name="merge_accept">已合并</string>
     <string name="merge_open">已处理</string>
     <string name="merge_close">未处理</string>
+    <string name="upload_ing">上传中...</string>
 
 </resources>
