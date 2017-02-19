@@ -124,7 +124,8 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String path = ((String) parent.getAdapter().getItem(position));
                 GitFileInfoObject selectedFile = new GitFileInfoObject(path);
-                GitViewActivity_.intent(SearchProjectGitActivity.this).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+                GitViewActivity_.intent(SearchProjectGitActivity.this).mProjectPath(mProjectPath)
+                        .mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
                 finish();
             }
         });

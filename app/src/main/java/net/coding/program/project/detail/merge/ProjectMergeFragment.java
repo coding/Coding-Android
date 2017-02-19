@@ -97,17 +97,29 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
         mUrlMerge = mProjectObject.getMergesFilterAll();
         loadMore();
+        showDialogLoading();
     }
 
     @Click
     void toolbarTitle(View v) {
-        if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
-            rgRoot.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.INVISIBLE);
-        }else {
-            rgRoot.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+        if (mProjectObject.is_public) {
+            if(prRoot.getVisibility() == View.GONE||prRoot.getVisibility() == View.INVISIBLE){
+                prRoot.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.INVISIBLE);
+            }else {
+                prRoot.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+            }
+        }else{
+            if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
+                rgRoot.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.INVISIBLE);
+            }else {
+                rgRoot.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+            }
         }
+
     }
 
 
@@ -122,9 +134,9 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        hideDialogLoading();
         if (tag.equals(HOST_MERGE)) {
             setRefreshing(false);
-//            hideDialogLoading();
             if (code == 0) {
                 if (isLoadingFirstPage(HOST_MERGE)) {
                     mMergeAdapter.clearData();
@@ -151,48 +163,50 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
     @Click
     void merge_all() {//全部
         mUrlMerge = mProjectObject.getMergesFilterAll();
-        setToolbarTitle(status[0]);
-        onRefresh();
-        setMenuViewGone();
+        actionStatus(status[0]);
     }
 
     @Click
     void merge_can_merge() {//可合并
-        actionStatus(1);
+        mUrlMerge = mProjectObject.getMergesFilterStatus(statusEng[1]);
+        actionStatus(status[1]);
     }
 
     @Click
     void merge_can_not_merge() {//不可自动合并
-        actionStatus(2);
+        mUrlMerge = mProjectObject.getMergesFilterStatus(statusEng[2]);
+        actionStatus(status[2]);
     }
 
     @Click
     void merge_refuse() {//已拒绝
-        actionStatus(3);
+        mUrlMerge = mProjectObject.getMergesFilterStatus(statusEng[3]);
+        actionStatus(status[3]);
     }
 
     @Click
     void merge_accept() {//已合并
-        actionStatus(4);
+        mUrlMerge = mProjectObject.getMergesFilterStatus(statusEng[4]);
+        actionStatus(status[4]);
     }
 
 
     @Click
     void merge_all_pr() {//全部
         mUrlMerge = mProjectObject.getMergesFilterAll();
-        setToolbarTitle(prStatus[0]);
-        onRefresh();
-        setPrMenuViewGone();
+        actionPrStatus(prStatus[0]);
     }
 
     @Click
     void merge_open() {//已处理
-        actionPrStatus(true, 1);
+        mUrlMerge = mProjectObject.getHttpMerge(false);
+        actionPrStatus(prStatus[1]);
     }
 
     @Click
     void merge_close() {//未处理
-        actionPrStatus(false, 2);
+        mUrlMerge = mProjectObject.getHttpMerge(true);
+        actionPrStatus(prStatus[2]);
     }
 
     @Override
@@ -213,18 +227,18 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         MergeDetailActivity_.intent(fragment).mMerge(merge).startForResult(RESULT_CHANGE);
     }
 
-    private void actionStatus(int position) {
-        mUrlMerge = mProjectObject.getMergesFilterStatus(statusEng[position]);
-        setToolbarTitle(status[position]);
+    private void actionStatus(String title) {
+        setToolbarTitle(title);
         onRefresh();
         setMenuViewGone();
+        showDialogLoading();
     }
 
-    private void actionPrStatus(boolean isOpen, int position) {
-        mUrlMerge = mProjectObject.getHttpMerge(!isOpen);
-        setToolbarTitle(prStatus[position]);
+    private void actionPrStatus(String title) {
+        setToolbarTitle(title);
         onRefresh();
         setPrMenuViewGone();
+        showDialogLoading();
     }
 
     private void setMenuViewGone(){

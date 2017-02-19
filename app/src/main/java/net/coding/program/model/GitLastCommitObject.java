@@ -15,6 +15,6 @@ public class GitLastCommitObject implements Serializable {
     public String commitId;
 
     public GitLastCommitObject(JSONObject json) throws JSONException {
-        commitId = json.optString("commitId");
+        commitId = json.optString("lastCommit");
     }
 }

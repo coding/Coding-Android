@@ -227,8 +227,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_create_file(){
-        //获取commitId
-        host_git_new_file_prepare = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
+        //获取lastCommit
+        host_git_new_file_prepare = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
         getNetwork(host_git_new_file_prepare, HOST_GIT_NEW_FILE_PREPARE);
     }
 
@@ -330,8 +330,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }else if(tag.equals(HOST_GIT_NEW_FILE_PREPARE)){
             if(code == 0){
                 JSONObject jsonData = respanse.optJSONObject("data");
-                JSONObject jsonObject = jsonData.optJSONObject("lastCommit");
-                GitLastCommitObject lastCommitObject = new GitLastCommitObject(jsonObject);
+                GitLastCommitObject lastCommitObject = new GitLastCommitObject(jsonData);
                 newFile(lastCommitObject);
             }else{
                 showErrorMsg(code, respanse);
@@ -351,6 +350,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 showErrorMsg(code, respanse);
             }
         }else if(tag.equals(HOST_GIT_UPLOAD_FILE)){
+            hideDialogLoading();
             if (code == 0) {
                 showButtomToast("上传成功");
                 onRefresh();
@@ -417,6 +417,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     private GitUploadPrepareObject uploadPrepareObject;
     private  void postUploadFile(File selectedFile){
+        showDialogLoading();
         host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
         RequestParams params = new RequestParams();
         try {
