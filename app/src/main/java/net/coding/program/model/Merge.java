@@ -47,6 +47,7 @@ public class Merge implements Serializable {
     private String content = "";
     private boolean srcExist;
     private String body_plan = "";
+    private String body;
     private int granted = 0;
 
     public Merge(JSONObject json) {
@@ -70,6 +71,7 @@ public class Merge implements Serializable {
         srcExist = json.optBoolean("srcExist");
         content = json.optString("content", "");
         body_plan = json.optString("body_plan", "");
+        body = json.optString("body","");
         granted = json.optInt("granted", 0);
     }
 
@@ -258,6 +260,14 @@ public class Merge implements Serializable {
 
     public long getAction_at() {
         return action_at;
+    }
+
+    public String getBody() {
+        if (!body.isEmpty()) {
+            return body;
+        }
+
+        return body_plan;
     }
 
     private String getHostPublicHead(String end) {

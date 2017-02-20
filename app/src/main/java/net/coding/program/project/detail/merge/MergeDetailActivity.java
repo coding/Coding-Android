@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.text.Spannable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -127,8 +128,7 @@ public class MergeDetailActivity extends BackActivity {
     };
 
     private MergeDetail mMergeDetail;
-    private TextView mergeContent;
-    private View mergeContentDivide;
+    private WebView contentWeb;
 
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
@@ -534,10 +534,8 @@ public class MergeDetailActivity extends BackActivity {
         }
 
         // 取到 detail 后再显示
-        mergeContent = (TextView) head.findViewById(R.id.mergeContent);
-        mergeContent.setVisibility(View.GONE);
-        mergeContentDivide = head.findViewById(R.id.mergeContentDivide);
-        mergeContentDivide.setVisibility(View.GONE);
+        contentWeb = (WebView) head.findViewById(R.id.comment);
+        contentWeb.setVisibility(View.GONE);
 
         head.findViewById(R.id.itemRefResource).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -626,14 +624,9 @@ public class MergeDetailActivity extends BackActivity {
                 }
 
                 updateBottomBarStyle();
-                Spannable spanContent = Global.changeHyperlinkColor(mMergeDetail.getContent());
-                if (spanContent.length() == 0) {
-                    mergeContent.setVisibility(View.GONE);
-                    mergeContentDivide.setVisibility(View.GONE);
-                } else {
-                    mergeContent.setVisibility(View.VISIBLE);
-                    mergeContentDivide.setVisibility(View.VISIBLE);
-                    mergeContent.setText(spanContent);
+                if(!TextUtils.isEmpty(mMergeDetail.getBody())){
+                    contentWeb.setVisibility(View.VISIBLE);
+                    Global.setWebViewContent(contentWeb, "topic-android.html", mMergeDetail.getBody());
                 }
 
                 refreshReviewers();
