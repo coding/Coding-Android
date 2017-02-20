@@ -230,7 +230,7 @@
             android:label="@string/title_activity_project"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeProject"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".EntranceActivity_"
             android:icon="@drawable/app_icon"
