@@ -20,7 +20,6 @@ import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.FilterModel;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskCountModel;
 import net.coding.program.model.TaskLabelModel;
@@ -304,11 +303,13 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
     @OptionsItem
     protected final void action_add() {
-        ProjectObject projectObject = mData.get(pager.getCurrentItem());
-        TaskAddActivity_.intent(this)
-                .mUserOwner(MyApp.sUserObject)
-                .mProjectObject(projectObject)
-                .startForResult(ListModify.RESULT_EDIT_LIST);
+        if (mData != null && mData.size() > 0) {
+            ProjectObject projectObject = mData.get(pager.getCurrentItem());
+            TaskAddActivity_.intent(this)
+                    .mUserOwner(MyApp.sUserObject)
+                    .mProjectObject(projectObject)
+                    .startForResult(ListModify.RESULT_EDIT_LIST);
+        }
     }
 
     public static class TaskCount {
