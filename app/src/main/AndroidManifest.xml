@@ -158,7 +158,7 @@
             android:label="@string/title_activity_project"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeProject"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".task.add.TaskAddActivity_"
             android:icon="@drawable/ic_lancher"
@@ -389,7 +389,9 @@
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_git_tree"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            />
         <activity
             android:name=".project.detail.GitViewActivity_"
             android:configChanges="orientation"
@@ -476,7 +478,7 @@
         <activity
             android:name=".project.ProjectHomeActivity_"
             android:label="@string/title_activity_project_home"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".user.UserDetailMoreActivity_"
             android:label="@string/title_activity_user_detail_more"
@@ -813,7 +815,8 @@
         <activity android:name=".search.SearchProjectGitActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
 
         </activity>
     </application>
