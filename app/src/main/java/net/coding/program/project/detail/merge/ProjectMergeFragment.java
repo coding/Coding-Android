@@ -61,7 +61,11 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         prStatus = getResources().getStringArray(R.array.pr_status);
 
         toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
-        toolbarTitle.setText(status[0]);
+        if (!mProjectObject.is_public) {
+            toolbarTitle.setText(status[0]);
+        }else{
+            toolbarTitle.setText(prStatus[0]);
+        }
         Drawable drawable= getResources().getDrawable(R.drawable.arrow_drop_down_green);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         toolbarTitle.setCompoundDrawables(null,null,drawable,null);

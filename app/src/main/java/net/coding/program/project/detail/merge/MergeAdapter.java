@@ -51,7 +51,6 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.time.setFocusable(false);
 
             holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
-            holder.discuss.setVisibility(View.GONE);
 
             holder.refId = (TextView) convertView.findViewById(R.id.referenceId);
             holder.refId.setVisibility(View.GONE);
@@ -89,8 +88,8 @@ public class MergeAdapter extends DataAdapter<Merge> {
         holder.title.setText(data.getTitleSpannable());
 
         holder.name.setText(data.getAuthor().name);
-        holder.time.setText(Global.dayToNowCreate(data.getCreatedAt()));
-//        holder.discuss.setText(String.format("%d", data.child_count));
+        holder.time.setText(Global.dayToNow(data.getCreatedAt()));
+        holder.discuss.setText(String.format("%d", data.getCommentCount()));
         holder.mergeId.setText(data.getTitleIId());
         holder.branchSrc.setText(data.getSrcBranch());
         holder.branchDesc.setText(data.getDescBranch());

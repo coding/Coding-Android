@@ -115,6 +115,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.lastCommitName = (TextView) convertView.findViewById(R.id.lastCommitName);
                 holder.comment = (TextView) convertView.findViewById(R.id.comment);
                 convertView.setTag(holder);
             } else {
@@ -134,10 +135,12 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 holder.icon.setImageResource(R.drawable.ic_project_code_file);
             }
 
+            holder.lastCommitName.setText(data.lastCommitter.name);
+
             if (data.lastCommitDate == 0) {
                 holder.comment.setText("");
             } else {
-                holder.comment.setText(String.format(commentFormat, data.lastCommitter.name, Global.dayToNow(data.lastCommitDate)));
+                holder.comment.setText(Global.dayToNow(data.lastCommitDate));
             }
             /*if (position == mData.size() - 1) {
                 loadMore();
@@ -471,6 +474,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     static class ViewHolder {
         ImageView icon;
         TextView name;
+        TextView lastCommitName;
         TextView comment;
     }
 }

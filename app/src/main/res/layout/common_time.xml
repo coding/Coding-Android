@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:drawableLeft="@drawable/ic_clock"
-    android:drawablePadding="2dp"
+    android:drawablePadding="6dp"
     android:text="Small Text"
     android:textColor="@color/font_9"
     android:textSize="12sp"

@@ -112,6 +112,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         });
 
         editText = (EditText) actionBar.findViewById(R.id.editText);
+        editText.requestFocus();
         editText.addTextChangedListener(this);
 
         View hView = mInflater.inflate(R.layout.search_project_git_header, null);

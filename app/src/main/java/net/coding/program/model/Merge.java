@@ -49,6 +49,7 @@ public class Merge implements Serializable {
     private String body_plan = "";
     private String body;
     private int granted = 0;
+    private int commentCount;
 
     public Merge(JSONObject json) {
         id = json.optInt("id");
@@ -73,6 +74,7 @@ public class Merge implements Serializable {
         body_plan = json.optString("body_plan", "");
         body = json.optString("body","");
         granted = json.optInt("granted", 0);
+        commentCount = json.optInt("comment_count", 0);
     }
 
     public void setAuthor(UserObject author) {
@@ -268,6 +270,10 @@ public class Merge implements Serializable {
         }
 
         return body_plan;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
     private String getHostPublicHead(String end) {

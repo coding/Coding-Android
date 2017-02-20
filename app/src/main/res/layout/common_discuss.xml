@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:drawableLeft="@drawable/ic_task_comment"
-    android:drawablePadding="4dp"
+    android:drawablePadding="5dp"
     android:gravity="left"
     android:singleLine="true"
     android:text="333"
