@@ -2,7 +2,6 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,11 +19,14 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
-import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.dialog.AlertDialogMessage;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitLastCommitObject;
@@ -48,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import static net.coding.program.project.detail.AttachmentsActivity.FILE_SELECT_CODE;
+import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
 /**
  * Created by yangzhen on 2014/10/25.
@@ -56,6 +58,7 @@ import static net.coding.program.project.detail.AttachmentsActivity.FILE_SELECT_
 @EFragment(R.layout.common_refresh_listview)
 public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
 
+    public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final String MASTER = "master";
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
@@ -352,7 +355,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }else if(tag.equals(HOST_GIT_UPLOAD_FILE)){
             showProgressBar(false);
             if (code == 0) {
-                showButtomToast("上传成功");
+                showButtomToast(getString(R.string.upload_img_success));
                 onRefresh();
             }else {
                 showErrorMsg(code, respanse);
@@ -394,38 +397,51 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     //上传文件
     private void uploadFile() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
-            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
-                    FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            showButtomToast("请安装文件管理器");
-        }
+        startPhotoPickActivity();
     }
 
-    @OnActivityResult(FILE_SELECT_CODE)
+    private void startPhotoPickActivity() {
+        if (!PermissionUtil.writeExtralStorage(getActivity())) {
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), PhotoPickActivity.class);
+        intent.putExtra(PhotoPickActivity.EXTRA_MAX, PHOTO_MAX_COUNT);
+        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+    }
+
+    @OnActivityResult(RESULT_REQUEST_PICK_PHOTO )
     void onResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            String path = FileUtil.getPath(getActivity(), uri);
-            File selectedFile = new File(path);
-            postUploadFile(selectedFile);
+            try {
+                @SuppressWarnings("unchecked")
+                ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
+                File[] files = new File[pickPhots.size()];
+                for (int i = 0; i < pickPhots.size(); i++) {
+                    ImageInfo item = pickPhots.get(i);
+                    File outputFile = new PhotoOperate(getActivity()).scal(item.path);
+                    files[i] = outputFile;
+                }
+                postUploadFile(files);
+            }catch (Exception e){
+                showProgressBar(false);
+                e.printStackTrace();
+            }
         }
     }
 
     private GitUploadPrepareObject uploadPrepareObject;
-    private  void postUploadFile(File selectedFile){
-        showProgressBar(true, getString(R.string.upload_ing));
-        host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
-        RequestParams params = new RequestParams();
+    private  void postUploadFile(File[] files){
         try {
-            params.put("files", selectedFile);
+            showProgressBar(true, getString(R.string.upload_ing));
+            host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
+            RequestParams params = new RequestParams();
+            params.put("files", files);
             params.put("message", "");
             params.put("lastCommitSha", uploadPrepareObject.lastCommit);
             postNetwork(host_git_upload_file, params, HOST_GIT_UPLOAD_FILE);
         } catch (Exception e) {
+            showProgressBar(false);
             e.printStackTrace();
         }
     }

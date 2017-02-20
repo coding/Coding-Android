@@ -4,6 +4,8 @@
     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
     android:layout_width="wrap_content"
     android:layout_height="55dp"
-    android:background="@drawable/maopao_spinner"
+    android:drawableRight="@drawable/arrow_drop_down_green"
+    android:drawableEnd="@drawable/arrow_drop_down_green"
+    android:drawablePadding="10dp"
     android:text="@string/merge_all_MR"
     android:textColor="@color/color_32BE77" />

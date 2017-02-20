@@ -230,7 +230,7 @@
     <!--代码模块-->
     <string name="create_file">新建文件</string>
     <string name="create_catalog">创建目录</string>
-    <string name="upload_picture">上传文件</string>
+    <string name="upload_picture">上传图片</string>
     <string name="create_file_hint">请输入文件名称</string>
     <string name="create_catalog_hint">请输入目录名称</string>
     <string name="file_name_error">文件名不能含有特殊符号</string>
@@ -250,6 +250,7 @@
     <string name="merge_accept">已合并</string>
     <string name="merge_open">已处理</string>
     <string name="merge_close">未处理</string>
-    <string name="upload_ing">上传中...</string>
+    <string name="upload_ing">正在上传图片...</string>
+    <string name="upload_img_success">上传图片成功</string>
 
 </resources>
