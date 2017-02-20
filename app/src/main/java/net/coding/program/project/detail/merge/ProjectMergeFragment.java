@@ -2,6 +2,7 @@ package net.coding.program.project.detail.merge;
 
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -9,8 +10,8 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.Global;
 import net.coding.program.common.base.BaseLoadMoreFragment;
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.model.Merge;
 import net.coding.program.model.ProjectObject;
 
@@ -55,10 +56,16 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     @AfterViews
     protected final void initProjectMergeFragment() {
-        View actionBar = getActivity().getLayoutInflater().inflate(R.layout.merge_toolbar, null);
-        ((BaseActivity) getActivity()).getSupportActionBar().setCustomView(actionBar);
-        ((BaseActivity) getActivity()).getSupportActionBar().setDisplayShowCustomEnabled(true);
-        toolbarTitle = (TextView) actionBar.findViewById(R.id.toolbarTitle);
+        status = getResources().getStringArray(R.array.merge_status);
+        statusEng = getResources().getStringArray(R.array.merge_status_english);
+        prStatus = getResources().getStringArray(R.array.pr_status);
+
+        toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
+        toolbarTitle.setText(status[0]);
+        Drawable drawable= getResources().getDrawable(R.drawable.arrow_drop_down_green);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        toolbarTitle.setCompoundDrawables(null,null,drawable,null);
+        toolbarTitle.setCompoundDrawablePadding(Global.dpToPx(10));
         toolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,10 +90,6 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
                 }
             }
         });
-
-        status = getResources().getStringArray(R.array.merge_status);
-        statusEng = getResources().getStringArray(R.array.merge_status_english);
-        prStatus = getResources().getStringArray(R.array.pr_status);
 
         listViewAddHeaderSection(listView);
         listView.setVisibility(View.INVISIBLE);
