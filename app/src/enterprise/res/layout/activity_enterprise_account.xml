@@ -9,10 +9,47 @@
     android:orientation="vertical"
     tools:context="net.coding.program.setting.EnterpriseAccountActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#323A45"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/enterprise_account_backgroud">
+
+        <net.coding.program.common.widget.CircleImageView
+            android:id="@+id/companyIcon"
+            android:layout_width="75dp"
+            android:layout_height="75dp" />
+
+        <TextView
+            android:id="@+id/companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="深圳市扣钉网络科技有限公司"
+            android:textSize="17sp"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/itemManager"
         android:layout_width="match_parent"
         android:layout_height="73dp"
+        android:visibility="gone"
         android:background="@drawable/list_item_selector">
 
         <View
@@ -25,7 +62,6 @@
             android:background="@mipmap/ic_setting_order" />
 
         <TextView
-            android:id="@+id/companyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -59,22 +95,24 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_middle_15" />
+    <include layout="@layout/divide_middle_15"/>
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:itemIcon="@drawable/user_home_project"
+        app:itemIcon="@drawable/enterprise_account_project"
         app:itemShowBottomLine="true"
-        app:itemTitle="@string/title_manage_project_activity" />
+        app:itemTitle="@string/title_manage_project_activity"
+        app:itemShowArrow="false"/>
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemMember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:itemIcon="@drawable/project_button_icon_member"
-        app:itemTitle="@string/title_manage_member_activity" />
+        app:itemIcon="@drawable/enterprise_account_member"
+        app:itemTitle="@string/title_manage_member_activity"
+        app:itemShowArrow="false"/>
 
     <include layout="@layout/divide_bottom_15" />
 
