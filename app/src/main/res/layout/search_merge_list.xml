@@ -32,11 +32,11 @@
         android:layout_alignLeft="@+id/txtTitle"
         android:layout_below="@+id/txtTitle"
         android:layout_marginTop="11dp"
-        android:background="@drawable/shape_struts"
+        android:background="@drawable/shape_merge_detail_rectangle"
         android:gravity="center"
         android:text="merss"
         android:singleLine="true"
-        android:textColor="@color/color_4E90BF"
+        android:textColor="@color/merge_gray"
         android:textSize="14sp" />
 
     <View
@@ -47,7 +47,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="22dp"
         android:layout_toRightOf="@+id/txtMergeName"
-        android:background="@drawable/ic_blue_arrow" />
+        android:background="@drawable/merge_detail_arrow" />
 
     <TextView
         android:id="@+id/txtMergeBranch"
@@ -57,11 +57,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="11dp"
         android:layout_toRightOf="@+id/voiceLayout"
-        android:background="@drawable/shape_struts"
+        android:background="@drawable/shape_merge_detail_rectangle"
         android:gravity="center"
         android:singleLine="true"
         android:text="merss"
-        android:textColor="@color/color_4E90BF"
+        android:textColor="@color/merge_gray"
         android:textSize="14sp" />
 
     <!--<TextView-->

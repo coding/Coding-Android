@@ -35,6 +35,8 @@ public class MergeObject implements Serializable {
     private UserObject author;
     private String body;
     private long action_at;
+    private int commentCount;
+
 
 
     public String getBody() {
@@ -79,6 +81,18 @@ public class MergeObject implements Serializable {
 
     public boolean isMergeAccept() {
         return merge_status.equals(STYLE_ACCEPT);
+    }
+
+    public boolean isStyleCannotMerge() {
+        return merge_status.equals(STYLE_CANNOTMERGE);
+    }
+
+    public boolean isStyleCanMerge() {
+        return merge_status.equals(STYLE_CANMERGE);
+    }
+
+    public boolean isMergeRefuse() {
+        return merge_status.equals(STYLE_REFUSE);
     }
 
     public boolean isMergeTreate() {
@@ -151,7 +165,7 @@ public class MergeObject implements Serializable {
         granted_by_id = json.optInt("granted_by_id");
         author = new UserObject(json.optJSONObject("author"));
         action_at = json.optLong("action_at");
-
+        commentCount = json.optInt("comment_count", 0);
     }
 
 
@@ -173,6 +187,10 @@ public class MergeObject implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
     private String color;
