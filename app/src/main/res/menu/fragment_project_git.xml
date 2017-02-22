@@ -25,6 +25,11 @@
                 android:id="@+id/action_upload_picture"
                 android:title="@string/upload_picture"
                 app:showAsAction="always" />
+
+            <item
+                android:id="@+id/action_exit_code"
+                android:title="@string/action_exit_code"
+                app:showAsAction="always" />
             <!--<item-->
                 <!--android:id="@+id/action_copy"-->
                 <!--android:icon="@drawable/ic_menu_link"-->

@@ -28,6 +28,7 @@ import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.dialog.AlertDialogMessage;
+import net.coding.program.event.EventExitCode;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitLastCommitObject;
 import net.coding.program.model.GitUploadPrepareObject;
@@ -41,6 +42,7 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -203,6 +205,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         int icon = R.drawable.ic_menu_history;
         menu.findItem(R.id.action_history).setIcon(icon);
 
+        if (!(getActivity() instanceof GitTreeActivity)) {
+            menu.findItem(R.id.action_exit_code).setVisible(false);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -243,6 +249,12 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         //获取lastCommitId
         host_git_upload_file_prepare = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
         getNetwork(host_git_upload_file_prepare, HOST_GIT_UPLOAD_FILE_PREPARE);
+    }
+
+    @OptionsItem
+    protected final void action_exit_code(){
+        EventExitCode bottom = new EventExitCode();
+        EventBus.getDefault().post(bottom);
     }
 
     @Override
