@@ -242,7 +242,7 @@
     <string name="search_head">共搜到%1$s个与“%2$s”相关的文件</string>
 
     <!--MR-->
-    <string name="merge_default">全部</string>
+    <string name="merge_default">默认</string>
     <string name="merge_all">全部</string>
     <string name="merge_all_MR">全部 MR</string>
     <string name="merge_can">可合并</string>
