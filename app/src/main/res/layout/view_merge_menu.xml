@@ -15,7 +15,7 @@
         android:button="@null"
         android:checked="true"
         android:gravity="center_vertical"
-        android:text="@string/merge_all_MR"
+        android:text="@string/merge_default"
         android:textColor="@drawable/text_menu_selector"
         android:textSize="16sp" />
 
