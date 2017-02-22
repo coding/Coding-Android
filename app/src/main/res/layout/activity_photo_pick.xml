@@ -63,7 +63,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="预览"
-            android:textColor="#ffbbbbbb" />
+            android:textColor="@color/divide_line" />
 
     </LinearLayout>
 

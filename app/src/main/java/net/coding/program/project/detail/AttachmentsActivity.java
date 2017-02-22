@@ -37,9 +37,13 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.FileListHeadItem;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
@@ -65,9 +69,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+
+import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
 
 /**
@@ -78,6 +85,8 @@ import cz.msebera.android.httpclient.Header;
  */
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
+    public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
+
     public final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
@@ -851,6 +860,27 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 showErrorMsg(code, respanse);
             }
         }
+
+        if(isUpload){
+            for (String fileTag : tags) {
+                if (tag.equals(fileTag)) {
+                    String s = respanse.optJSONObject("data").optString("conflict_file");
+                    if (s.isEmpty()) {
+                        uploadFile((File) data);
+                    } else {
+                        File file = (File) data;
+                        showDialog(file.getName(), "存在同名文件，是否覆盖？", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                uploadFile((File) data);
+                            }
+                        });
+                    }
+                }else {
+                    showErrorMsg(code, respanse);
+                }
+            }
+        }
     }
 
     @Click
@@ -858,15 +888,55 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 //        if (isUploading) {
 //            return;
 //        }
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
-            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
-                    FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            showButtomToast("请安装文件管理器");
+
+        showListDialog();
+
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.setType("*/*");
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        try {
+//            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+//                    FILE_SELECT_CODE);
+//        } catch (android.content.ActivityNotFoundException ex) {
+//            showButtomToast("请安装文件管理器");
+//        }
+    }
+
+    private void showListDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(R.array.file_type, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case 0:
+                        startPhotoPickActivity();
+                        break;
+                    case 1:
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("*/*");
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            try {
+                                startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+                                        FILE_SELECT_CODE);
+                            } catch (android.content.ActivityNotFoundException ex) {
+                                showButtomToast("请安装文件管理器");
+                            }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }).show();
+    }
+
+    private void startPhotoPickActivity() {
+        if (!PermissionUtil.writeExtralStorage(this)) {
+            return;
         }
+
+        Intent intent = new Intent(this, PhotoPickActivity.class);
+        intent.putExtra(PhotoPickActivity.EXTRA_MAX, PHOTO_MAX_COUNT);
+        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
     @OnActivityResult(FILE_SELECT_CODE)
@@ -879,9 +949,42 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
+    @OnActivityResult(RESULT_REQUEST_PICK_PHOTO)
+    void onPickResult(int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            try {
+                @SuppressWarnings("unchecked")
+                ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
+                List<File> files = new ArrayList<>();
+                for (ImageInfo pickPhot : pickPhots) {
+                    File outputFile = new PhotoOperate(this).scal(pickPhot.path);
+                    files.add(outputFile);
+//                    uploadFilePrepare(outputFile);
+                }
+                uploadFilePrepareList(files);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void uploadFilePrepare(File selectedFile) {
         String httpHost = getHttpFileExist(selectedFile.getName(), mAttachmentFolderObject);
         getNetwork(httpHost, TAG_HTTP_FILE_EXIST, -1, selectedFile);
+    }
+
+    private List<String> tags = new ArrayList<>();
+    private boolean isUpload = false;
+
+    private void uploadFilePrepareList(List<File> files){
+        isUpload = true;
+        tags.clear();
+        for (File file : files) {
+            String tag = file.getName();
+            tags.add(tag);
+            String httpHost = getHttpFileExist(file.getName(), mAttachmentFolderObject);
+            getNetwork(httpHost, file.getName(), -1, file);
+        }
     }
 
     private void uploadFile(File selectedFile) {

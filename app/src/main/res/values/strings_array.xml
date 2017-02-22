@@ -247,6 +247,11 @@
         <item>未处理</item>
     </string-array>
 
+    <string-array name="file_type">
+        <item>图片</item>
+        <item>其他文件</item>
+    </string-array>
+
     <!--<string-array name="commnet_my">-->
     <!--<item>复制</item>-->
     <!--<item>回复</item>-->

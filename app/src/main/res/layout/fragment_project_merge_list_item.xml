@@ -18,6 +18,7 @@
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/icon"
         android:layout_toRightOf="@+id/icon"
         android:orientation="vertical">
@@ -27,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:lines="1"
             android:singleLine="true"

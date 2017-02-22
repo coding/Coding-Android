@@ -23,7 +23,7 @@
             android:id="@+id/expandableIndicator"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_toRightOf="@id/versionButton"
@@ -67,8 +67,7 @@
             android:id="@+id/versionLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#55666666"
-            android:paddingBottom="242dp"
+            android:background="@color/white"
             android:visibility="invisible">
 
             <LinearLayout
@@ -125,7 +124,7 @@
                 <ListView
                     android:id="@+id/versionListView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@android:color/white"
                     android:divider="@null"
                     android:dividerHeight="0dp" />
