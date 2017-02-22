@@ -63,8 +63,10 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
         if (!mProjectObject.is_public) {
             toolbarTitle.setText(status[0]);
+            mUrlMerge = mProjectObject.getMergesFilter();
         }else{
             toolbarTitle.setText(prStatus[0]);
+            mUrlMerge = mProjectObject.getMergesFilterAll();
         }
         Drawable drawable= getResources().getDrawable(R.drawable.arrow_drop_down_green);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -102,7 +104,6 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         mMergeAdapter = new MergeAdapter(new ArrayList<>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);
 
-        mUrlMerge = mProjectObject.getMergesFilterAll();
         loadMore();
         showDialogLoading();
     }
@@ -169,7 +170,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     @Click
     void merge_all() {//全部
-        mUrlMerge = mProjectObject.getMergesFilterAll();
+        mUrlMerge = mProjectObject.getMergesFilter();
         actionStatus(status[0]);
     }
 

@@ -287,6 +287,11 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path +pull+"all?";
     }
 
+    public String getMergesFilter(){
+        String pull = "/git/merges/";
+        return Global.HOST_API + backend_project_path +pull+"filter?";
+    }
+
     public String getMergesFilterStatus(String status){
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
         String params = String.format("status=%s", status);

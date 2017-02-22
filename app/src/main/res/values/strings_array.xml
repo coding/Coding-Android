@@ -226,7 +226,7 @@
     </string-array>
 
     <string-array name="merge_status">
-        <item>全部 MR</item>
+        <item>默认</item>
         <item>可合并</item>
         <item>不可自动合并</item>
         <item>已拒绝</item>
