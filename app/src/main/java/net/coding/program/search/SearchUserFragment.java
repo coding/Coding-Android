@@ -106,7 +106,6 @@ public class SearchUserFragment extends RefreshBaseFragment {
 
     @Override
     public void onRefresh() {
-        pos = 1;
         loadMore();
     }
 
