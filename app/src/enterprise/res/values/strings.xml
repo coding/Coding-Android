@@ -16,5 +16,7 @@
     <string name="delete_maopao">删除公告</string>
     <string name="enterprise_setting">企业设置</string>
     <string name="enterprise_name">企业名称</string>
+    <string name="enterprise_head">企业头像</string>
+    <string name="person_address">个性域名</string>
 
 </resources>
