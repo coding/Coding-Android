@@ -7,15 +7,18 @@
     tools:context="net.coding.program.setting.EnterpriseNameActivity">
 
     <EditText
+        android:id="@+id/enterpriseNameEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:inputType="text"
-        android:ems="10"
-        android:hint=""
+        android:layout_marginTop="35dp"
         android:background="@drawable/edit"
-        android:id="@+id/enterpriseNameEt" />
+        android:ems="10"
+        android:hint="输入企业名称"
+        android:textColorHint="#38000000"
+        android:textColor="@color/color_3BBD79"
+        android:textSize="16sp"
+        android:inputType="text" />
 
 </RelativeLayout>

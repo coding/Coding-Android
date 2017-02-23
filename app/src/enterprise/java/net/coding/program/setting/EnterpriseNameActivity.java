@@ -1,6 +1,7 @@
 package net.coding.program.setting;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.loopj.android.http.RequestParams;
@@ -36,16 +37,19 @@ public class EnterpriseNameActivity extends BackActivity {
     @AfterViews
     void initView(){
         setActionBarTitle(getString(R.string.enterprise_name));
+        enterpriseNameEt.setText(EnterpriseInfo.instance().getName());
     }
 
     @OptionsItem
     void action_edit_name(){
         String name = enterpriseNameEt.getText().toString();
-        RequestParams params = new RequestParams();
-        params.put("name", name);
-        params.put("introduction", "");
-        params.put("global_key", EnterpriseInfo.instance().getGlobalkey());
-        postNetwork(HOST_CURRENT, params, HOST_UPDATE_NAME);
+        if (!TextUtils.isEmpty(name)) {
+            RequestParams params = new RequestParams();
+            params.put("name", name);
+            params.put("introduction", "");
+            params.put("global_key", EnterpriseInfo.instance().getGlobalkey());
+            postNetwork(HOST_CURRENT, params, HOST_UPDATE_NAME);
+        }
     }
 
     @Override
