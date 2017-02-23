@@ -1,5 +1,6 @@
 package net.coding.program.setting;
 
+import android.app.Activity;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
@@ -20,6 +21,7 @@ import net.coding.program.model.EnterpriseInfo;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
@@ -28,6 +30,8 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_enterprise_account)
 @OptionsMenu(R.menu.enterprise_account_menu)
 public class EnterpriseAccountActivity extends BackActivity {
+
+    private static final int SETTING_REQUEST_CODE = 1000;
 
     @ViewById
     TextView accountState;
@@ -41,8 +45,7 @@ public class EnterpriseAccountActivity extends BackActivity {
     @AfterViews
     void initEnterpriseAccountActivity() {
         initToolbar();
-        ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), companyIcon, ImageLoadTool.options);
-        companyName.setText(EnterpriseInfo.instance().getName());
+        updateUI();
 
         String host = String.format("%s/enterprise/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
         MyAsyncHttpClient.get(this, host, new MyJsonResponse(this) {
@@ -71,6 +74,11 @@ public class EnterpriseAccountActivity extends BackActivity {
         });
     }
 
+    private void updateUI() {
+        ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), companyIcon, ImageLoadTool.options);
+        companyName.setText(EnterpriseInfo.instance().getName());
+    }
+
     private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,6 +100,13 @@ public class EnterpriseAccountActivity extends BackActivity {
 
     @OptionsItem
     void action_setting(){
-        EnterpriseSettingActivity_.intent(this).start();
+        EnterpriseSettingActivity_.intent(this).startForResult(SETTING_REQUEST_CODE);
+    }
+
+    @OnActivityResult(SETTING_REQUEST_CODE)
+    void OnSettingResult(int result){
+        if (result == Activity.RESULT_OK) {
+            updateUI();
+        }
     }
 }
