@@ -2,6 +2,7 @@ package net.coding.program.maopao;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -25,6 +27,7 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.guide.IndicatorView;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.LoadingFragment;
+import net.coding.program.common.util.LoadGifUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
@@ -43,6 +46,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import pl.droidsonroids.gif.GifImageView;
 
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends MaopaoListBaseFragment {
@@ -354,11 +359,11 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
 
     class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
-        ImageView imageView;
+        GifImageView imageView;
 
         @Override
         public View createView(Context context) {
-            imageView = new ImageView(getActivity());
+            imageView = new GifImageView(getActivity());
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -375,7 +380,19 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         @Override
         public void UpdateUI(Context context, int position, BannerObject data) {
             imageView.setTag(R.id.image, position);
-            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions);
+            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions, new SimpleImageLoadingListener(){
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    super.onLoadingComplete(imageUri, view, loadedImage);
+                    if(imageUri.startsWith("http://") || imageUri.startsWith("https://")){
+                        if(imageUri.endsWith(".gif")){
+                            LoadGifUtil gifUtil = new LoadGifUtil(getActivity());
+                            gifUtil.getGifImage(imageView, imageUri);
+                        }
+                    }
+                }
+            });
         }
     }
+
 }
