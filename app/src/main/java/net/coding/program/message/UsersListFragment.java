@@ -272,7 +272,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     }
 
     @OptionsItem
-    void action_add() {
+    void action_message_add() {
         TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
     }
 

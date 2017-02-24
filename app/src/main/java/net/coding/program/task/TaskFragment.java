@@ -302,7 +302,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     }
 
     @OptionsItem
-    protected final void action_add() {
+    protected final void action_setting_add() {
         if (mData != null && mData.size() > 0) {
             ProjectObject projectObject = mData.get(pager.getCurrentItem());
             TaskAddActivity_.intent(this)
