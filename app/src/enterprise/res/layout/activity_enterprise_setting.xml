@@ -109,4 +109,5 @@
 
     </LinearLayout>
 
+    <include layout="@layout/divide_bottom_15"/>
 </LinearLayout>
