@@ -273,7 +273,7 @@ public class UserDetailCommonActivity extends BackActivity {
         List<String> sortMonth2 = new ArrayList<>();
 
         for (int i = 0; i < monthStr.length; i++) {
-            if (i >= month) {
+            if (i > month) {
                 sortMonth2.add(monthStr[i]);
             } else {
                 sortMonth.add(monthStr[i]);
