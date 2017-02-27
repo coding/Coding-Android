@@ -189,7 +189,7 @@ public class UserDetailCommonActivity extends BackActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        operActivenessResult(code, respanse, tag);
+        openActivenessResult(code, respanse, tag);
     }
 
     /**
@@ -199,7 +199,7 @@ public class UserDetailCommonActivity extends BackActivity {
      * @param tag
      * @throws JSONException
      */
-    protected void operActivenessResult(int code, JSONObject respanse, String tag) throws JSONException {
+    protected void openActivenessResult(int code, JSONObject respanse, String tag) throws JSONException {
         if (tag.equals(USER_ACTIVENESS)) {
             baseLoadingView.setVisibility(View.GONE);
             if (code == 0) {

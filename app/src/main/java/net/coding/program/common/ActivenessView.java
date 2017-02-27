@@ -65,7 +65,6 @@ public class ActivenessView extends View {
 
     public void setActiveModel(ActiveModel activeModel) {
         this.activeModel = activeModel;
-        this.activeModel = activeModel;
         int size = activeModel.daily_activeness.size();
         countX = size / 7;
         if (size % 7 != 0) {

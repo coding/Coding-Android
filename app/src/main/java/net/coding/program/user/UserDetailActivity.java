@@ -271,7 +271,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
             }
             displayUserinfo();
         }
-        operActivenessResult(code, respanse, tag);
+        openActivenessResult(code, respanse, tag);
     }
 
 
