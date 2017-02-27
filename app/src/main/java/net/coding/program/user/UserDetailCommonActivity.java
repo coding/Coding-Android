@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 用户信息公共部分
@@ -228,14 +229,15 @@ public class UserDetailCommonActivity extends BackActivity {
             return;
         }
 
-        tv_total_active.setText(activeModel.total_with_seal_top_line + "度");
-        tv_longest_active.setText(activeModel.longest_active_duration.days + "");
-        tv_current_active.setText(activeModel.current_active_duration.days + "");
+        tv_total_active.setText(String.format(Locale.CHINA, "%d度", activeModel.total_with_seal_top_line));
+        tv_longest_active.setText(String.format(Locale.CHINA, "%d", activeModel.longest_active_duration.days));
+        tv_current_active.setText(String.format(Locale.CHINA, "%d", activeModel.current_active_duration.days));
 
         //trendView
         ActivenessView trendView = new ActivenessView(this);
         trendView.setActiveModel(activeModel);
 
+        llTrend.removeAllViews();
         LinearLayout.LayoutParams lp = new
                 LinearLayout.LayoutParams(trendView.getTrendWidth(), trendView.getTrendHeight());
         llTrend.addView(trendView, lp);
