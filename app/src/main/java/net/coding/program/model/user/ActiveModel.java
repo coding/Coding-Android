@@ -13,6 +13,6 @@ public class ActiveModel {
     public long total_with_seal_top_line;
     public String start_date;
     public String end_date;
-    public ActiveDuratioModel longest_active_duration;
-    public ActiveDuratioModel current_active_duration;
+    public ActiveDurationModel longest_active_duration;
+    public ActiveDurationModel current_active_duration;
 }
