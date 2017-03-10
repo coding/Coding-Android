@@ -53,6 +53,7 @@ public class AccountInfo {
     private static final String USER_RELOGIN_INFO = "USER_RELOGIN_INFO2"; // 修改了数据类型，由Pair改为UserObject
     // 上次成功登录时用户输入的用户名，可能是邮箱或个性后缀
     private static final String GLOBAL_LAST_LOGIN_NAME = "GLOBAL_LAST_LOGIN_NAME";
+    private static final String GLOBAL_LAST_COMPANY_NAME = "GLOBAL_LAST_COMPANY_NAME";
     private static final String USER_TASK_PROJECTS = "USER_TASK_PROJECTS";
     private static final String USER_TASKS = "USER_TASKS_%d_%d";
     private static final String USER_NO_SEND_MESSAGE = "USER_NO_SEND_MESSAGE";
@@ -470,6 +471,19 @@ public class AccountInfo {
 
     public static String loadLastLoginName(Context context) {
         String s = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_LOGIN_NAME);
+        if (s == null) {
+            return "";
+        }
+
+        return s;
+    }
+
+    public static void saveLastCompanyName(Context context, String name) {
+        new DataCache<String>().saveGlobal(context, name, GLOBAL_LAST_COMPANY_NAME);
+    }
+
+    public static String loadLastCompanyName(Context context) {
+        String s = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_COMPANY_NAME);
         if (s == null) {
             return "";
         }

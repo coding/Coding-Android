@@ -127,9 +127,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             mFragments.add(new WeakReference(fragment));
 
             toolbarProjectTitle.setText(mJumpType.title);
+
             if (mJumpType != ProjectFunction.task) {
                 toolbarProjectTitle.setBackgroundResource(0);
             }
+
 
         } catch (Exception e) {
             Global.errorLog(e);

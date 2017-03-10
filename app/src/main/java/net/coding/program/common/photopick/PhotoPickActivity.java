@@ -30,7 +30,6 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.maopao.MaopaoAddActivity;
 
 import java.util.ArrayList;
@@ -397,8 +396,8 @@ public class PhotoPickActivity extends BaseActivity implements LoaderManager.Loa
         String format = "完成(%d/%d)";
         mMenuItem.setTitle(String.format(format, mPickData.size(), mMaxPick));
 
-        String formatPreview = "预览(%d/%d)";
-        mPreView.setText(String.format(formatPreview, mPickData.size(), mMaxPick));
+        String formatPreview = "预览";
+        mPreView.setText(formatPreview);
     }
 
     @Override

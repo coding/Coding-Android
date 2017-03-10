@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_enterprise_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.setting.EnterpriseSettingActivity">
+
+    <include layout="@layout/divide_middle_15"/>
+
+    <LinearLayout
+        android:id="@+id/enterpriseHeadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:textColor="@color/color_1E2D42"
+            android:text="@string/enterprise_head"/>
+
+        <net.coding.program.common.widget.CircleImageView
+            android:id="@+id/enterpriseHead"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/ic_loading_logo"/>
+
+        <include
+            android:id="@+id/arrow"
+            layout="@layout/list_item_common_arrow" />
+    </LinearLayout>
+
+    <include layout="@layout/divide_middle_15"/>
+
+    <LinearLayout
+        android:id="@+id/enterpriseName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:textColor="@color/color_1E2D42"
+            android:text="@string/enterprise_name"/>
+
+        <TextView
+            android:id="@+id/enterpriseNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:text="Coding"
+            android:textSize="15sp"
+            android:textColor="@color/font_9"/>
+
+        <include
+            android:id="@+id/arrow"
+            layout="@layout/list_item_common_arrow" />
+    </LinearLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        layout="@layout/divide_1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:textColor="@color/color_1E2D42"
+            android:text="@string/person_address"/>
+
+        <TextView
+            android:id="@+id/personIp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/font_9"
+            android:text="Coding.coding.net"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_bottom_15"/>
+</LinearLayout>

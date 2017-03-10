@@ -282,6 +282,22 @@ public class ProjectObject implements Serializable {
         return fork_path;
     }
 
+    public String getMergesFilterAll(){
+        String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
+        return Global.HOST_API + backend_project_path +pull+"all?";
+    }
+
+    public String getMergesFilter(){
+        String pull = "/git/merges/";
+        return Global.HOST_API + backend_project_path +pull+"filter?";
+    }
+
+    public String getMergesFilterStatus(String status){
+        String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
+        String params = String.format("status=%s", status);
+        return Global.HOST_API + backend_project_path + pull + "filter?"+ params;
+    }
+
     public DynamicObject.Owner getOwner() {
         if (owner == null) {
             owner = new DynamicObject.Owner();

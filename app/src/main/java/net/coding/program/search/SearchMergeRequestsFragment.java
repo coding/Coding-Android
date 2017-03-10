@@ -116,7 +116,6 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
 
     @Override
     public void onRefresh() {
-        pos = 1;
         loadMore();
     }
 

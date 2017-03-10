@@ -9,6 +9,7 @@ import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
+import net.coding.program.common.util.PhoneUtil;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.TaskObject;
@@ -23,7 +24,11 @@ public class ContentAreaBase {
 
     public ContentAreaBase(View convertView, View.OnClickListener onClickContent, Html.ImageGetter imageGetterParamer) {
         content = (TextView) convertView.findViewById(R.id.content);
-        content.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+        if (PhoneUtil.isFlyme()) {
+            content.setMovementMethod(null);
+        }else{
+            content.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+        }
         content.setOnClickListener(onClickContent);
         content.setOnLongClickListener(DialogCopy.getInstance());
 

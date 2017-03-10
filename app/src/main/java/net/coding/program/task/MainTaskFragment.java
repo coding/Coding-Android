@@ -29,7 +29,7 @@ public class MainTaskFragment extends TaskFragment {
     View actionBarCompShadow;
 
     @ViewById
-    TextView toolbarTitle;
+    TextView mainTaskToolbarTitle;
 
     @AfterViews
     void initMainTaskFragment() {
@@ -37,13 +37,13 @@ public class MainTaskFragment extends TaskFragment {
     }
 
     @Click
-    void toolbarTitle(View v) {
+    void mainTaskToolbarTitle(View v) {
         EventBus.getDefault().post(new EventFilter(1));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventPosition eventPosition) {
-        toolbarTitle.setText(eventPosition.title);
+        mainTaskToolbarTitle.setText(eventPosition.title);
     }
 
     public void hideActionBarShadow() {
@@ -70,4 +70,5 @@ public class MainTaskFragment extends TaskFragment {
 
 
     }
+
 }

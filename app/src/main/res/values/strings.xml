@@ -216,9 +216,43 @@
     <string name="add_project_maopao">新建项目内冒泡</string>
     <string name="delete_maopao">删除冒泡</string>
 
+    <!--通用-->
+    <string name="search">搜索</string>
+    <string name="branches">分支</string>
+    <string name="tags">标签</string>
+
     <!--DrawerLayout-->
     <string name="doing_count">进行中 (%d)</string>
     <string name="done_count">已完成 (%d)</string>
     <string name="doing">进行中</string>
     <string name="done">已完成</string>
+
+    <!--代码模块-->
+    <string name="create_file">新建文件</string>
+    <string name="create_catalog">创建目录</string>
+    <string name="upload_picture">上传图片</string>
+    <string name="create_file_hint">请输入文件名称</string>
+    <string name="create_catalog_hint">请输入目录名称</string>
+    <string name="file_name_error">文件名不能含有特殊符号</string>
+    <string name="name_not_null">名字不能为空</string>
+    <string name="action_exit_code">退出代码查看</string>
+    <string name="file_name_pattern">^[a-zA-Z0-9\\u4e00-\\u9fa5\\./_-]+$</string>
+
+    <!--搜索相关-->
+    <string name="search_hint">项目、任务、讨论、冒泡</string>
+    <string name="search_head">共搜到%1$s个与“%2$s”相关的文件</string>
+
+    <!--MR-->
+    <string name="merge_default">默认</string>
+    <string name="merge_all">全部</string>
+    <string name="merge_all_MR">全部 MR</string>
+    <string name="merge_can">可合并</string>
+    <string name="merge_not">不可自动合并</string>
+    <string name="merge_refuse">已拒绝</string>
+    <string name="merge_accept">已合并</string>
+    <string name="merge_open">已处理</string>
+    <string name="merge_close">未处理</string>
+    <string name="upload_ing">正在上传图片...</string>
+    <string name="upload_img_success">上传图片成功</string>
+
 </resources>

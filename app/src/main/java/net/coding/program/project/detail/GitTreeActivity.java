@@ -1,3 +1,4 @@
+
 package net.coding.program.project.detail;
 
 import android.os.Bundle;
@@ -7,10 +8,14 @@ import android.view.MenuItem;
 
 import net.coding.program.R;
 import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.event.EventExitCode;
 import net.coding.program.model.GitFileInfoObject;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 @EActivity(R.layout.activity_project_git_tree)
 public class GitTreeActivity extends UmengActivity {
@@ -28,6 +33,7 @@ public class GitTreeActivity extends UmengActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -66,5 +72,16 @@ public class GitTreeActivity extends UmengActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventExitCode(EventExitCode notify) {
+        finish();
     }
 }

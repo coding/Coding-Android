@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 用户信息公共部分
@@ -189,7 +190,7 @@ public class UserDetailCommonActivity extends BackActivity {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        operActivenessResult(code, respanse, tag);
+        openActivenessResult(code, respanse, tag);
     }
 
     /**
@@ -199,7 +200,7 @@ public class UserDetailCommonActivity extends BackActivity {
      * @param tag
      * @throws JSONException
      */
-    protected void operActivenessResult(int code, JSONObject respanse, String tag) throws JSONException {
+    protected void openActivenessResult(int code, JSONObject respanse, String tag) throws JSONException {
         if (tag.equals(USER_ACTIVENESS)) {
             baseLoadingView.setVisibility(View.GONE);
             if (code == 0) {
@@ -228,14 +229,15 @@ public class UserDetailCommonActivity extends BackActivity {
             return;
         }
 
-        tv_total_active.setText(activeModel.total_with_seal_top_line + "度");
-        tv_longest_active.setText(activeModel.longest_active_duration.days + "");
-        tv_current_active.setText(activeModel.current_active_duration.days + "");
+        tv_total_active.setText(String.format(Locale.CHINA, "%d度", activeModel.total_with_seal_top_line));
+        tv_longest_active.setText(String.format(Locale.CHINA, "%d", activeModel.longest_active_duration.days));
+        tv_current_active.setText(String.format(Locale.CHINA, "%d", activeModel.current_active_duration.days));
 
         //trendView
         ActivenessView trendView = new ActivenessView(this);
         trendView.setActiveModel(activeModel);
 
+        llTrend.removeAllViews();
         LinearLayout.LayoutParams lp = new
                 LinearLayout.LayoutParams(trendView.getTrendWidth(), trendView.getTrendHeight());
         llTrend.addView(trendView, lp);
@@ -271,7 +273,7 @@ public class UserDetailCommonActivity extends BackActivity {
         List<String> sortMonth2 = new ArrayList<>();
 
         for (int i = 0; i < monthStr.length; i++) {
-            if (i >= month) {
+            if (i > month) {
                 sortMonth2.add(monthStr[i]);
             } else {
                 sortMonth.add(monthStr[i]);

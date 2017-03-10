@@ -41,6 +41,7 @@ public class ListItem1 extends FrameLayout {
         int icon = array.getResourceId(R.styleable.ListItem1_itemIcon, R.drawable.user_home_project);
 
         boolean showBottomLine = array.getBoolean(R.styleable.ListItem1_itemShowBottomLine, false);
+        boolean showArrow = array.getBoolean(R.styleable.ListItem1_itemShowArrow, true);
 
         boolean center = array.getBoolean(R.styleable.ListItem1_itemCenter, false);
         array.recycle();
@@ -52,6 +53,10 @@ public class ListItem1 extends FrameLayout {
         if (showBottomLine) {
             View line = findViewById(R.id.bottomLine);
             line.setVisibility(VISIBLE);
+        }
+
+        if (!showArrow) {
+            findViewById(R.id.arrow).setVisibility(GONE);
         }
 
         if (center) {

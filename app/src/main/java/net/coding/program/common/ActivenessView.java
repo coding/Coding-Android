@@ -9,8 +9,10 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.util.DensityUtil;
 import net.coding.program.model.user.ActiveModel;
+
+import static net.coding.program.common.util.DensityUtil.dip2px;
+
 
 /**
  * 活动图
@@ -50,8 +52,8 @@ public class ActivenessView extends View {
         mContext = context;
         paint = new Paint();
 
-        CHUNK_HEIGHT = CHUNK_WIDTH = DensityUtil.dip2px(context, WIDTH);
-        LINE_HEIGHT = DensityUtil.dip2px(context, 1);
+        CHUNK_HEIGHT = CHUNK_WIDTH = dip2px(context, WIDTH);
+        LINE_HEIGHT = dip2px(context, 1);
 
         LINE_WHITE = context.getResources().getColor(R.color.chunkWhite);
         CHUNK_GREY = context.getResources().getColor(R.color.chunkGrey);
@@ -65,7 +67,6 @@ public class ActivenessView extends View {
 
     public void setActiveModel(ActiveModel activeModel) {
         this.activeModel = activeModel;
-        this.activeModel = activeModel;
         int size = activeModel.daily_activeness.size();
         countX = size / 7;
         if (size % 7 != 0) {
@@ -75,11 +76,11 @@ public class ActivenessView extends View {
     }
 
     public int getTrendWidth() {
-        return DensityUtil.dip2px(mContext, countX * WIDTH);
+        return countX * dip2px(mContext, WIDTH);
     }
 
     public int getTrendHeight() {
-        return DensityUtil.dip2px(mContext, WIDTH * COUNT_LINE);
+        return  COUNT_LINE * dip2px(mContext, WIDTH);
     }
 
     @Override

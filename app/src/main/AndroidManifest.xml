@@ -53,8 +53,8 @@
 
 
     <!-- 百度LBS检索 -->
-    <!--READ_PHONE_STATE 是必须的，感觉有点流氓-->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!-- READ_PHONE_STATE 是必须的，感觉有点流氓 -->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -117,7 +117,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 友盟社会化分享需要的组件  end  ———————————————————————————————————————————————————————————————————————————— -->
 
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -137,15 +136,14 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".MainActivity_"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:theme="@style/ActionbarSpannerTheme1" />
+            android:theme="@style/ActionbarSpannerTheme1"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"
@@ -155,12 +153,12 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.ProjectActivity_"
+            android:configChanges="orientation|keyboardHidden"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_project"
+            android:screenOrientation="portrait"
             android:theme="@style/ThemeProject"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".task.add.TaskAddActivity_"
             android:icon="@drawable/ic_lancher"
@@ -267,8 +265,7 @@
             android:icon="@drawable/app_icon"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
             android:name=".maopao.LocationSearchActivity_"
             android:icon="@drawable/app_icon"
@@ -392,7 +389,9 @@
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_git_tree"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            />
         <activity
             android:name=".project.detail.GitViewActivity_"
             android:configChanges="orientation"
@@ -479,8 +478,7 @@
         <activity
             android:name=".project.ProjectHomeActivity_"
             android:label="@string/title_activity_project_home"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".user.UserDetailMoreActivity_"
             android:label="@string/title_activity_user_detail_more"
@@ -814,6 +812,12 @@
             android:name=".common.activity.WebviewDetailActivity_"
             android:label="@string/title_activity_comment_detail"
             android:screenOrientation="portrait" />
+        <activity android:name=".search.SearchProjectGitActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_search_project"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

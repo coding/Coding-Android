@@ -146,6 +146,11 @@ public class EnterpriseLoginActivity extends BaseActivity {
             editPassword.requestFocus();
         }
 
+        String lastCompanyName = AccountInfo.loadLastCompanyName(this);
+        if (!lastCompanyName.isEmpty()) {
+            enterpriseEdit.setText(lastCompanyName);
+        }
+
         loginFail.setText(Global.createBlueHtml("忘记密码？", "找回密码", ""));
     }
 
@@ -458,6 +463,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         String name = editName.getText().toString();
         AccountInfo.saveLastLoginName(this, name);
+
+        String companyName = enterpriseEdit.getText().toString();
+        AccountInfo.saveLastCompanyName(this, companyName);
 
         sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
         finish();

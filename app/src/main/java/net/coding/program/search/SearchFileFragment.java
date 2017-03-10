@@ -108,7 +108,7 @@ public class SearchFileFragment extends RefreshBaseFragment {
 
     @Override
     public void onRefresh() {
-        pos = 1;
+//        pos = 1;
         loadMore();
     }
 

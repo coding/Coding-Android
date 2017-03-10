@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.coding.program"
-    android:versionCode="11"
-    android:versionName="1.0.1">
+    android:versionCode="12"
+    android:versionName="1.5.0">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -230,7 +230,7 @@
             android:label="@string/title_activity_project"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeProject"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".EntranceActivity_"
             android:icon="@drawable/app_icon"
@@ -941,16 +941,28 @@
             android:name=".setting.EnterpriseAccountActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_enterprise_account_activity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AccountTheme" />
         <activity
             android:name=".setting.ManageProjectListActivity_"
             android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_project_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.ManageMemberActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_member_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.EnterpriseSettingActivity_"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".setting.EnterpriseNameActivity_"
             android:screenOrientation="portrait"
-            android:label="@string/title_manage_project_activity" />
-        <activity android:name=".setting.ManageMemberActivity_"
-        android:icon="@drawable/ic_lancher"
-            android:screenOrientation="portrait"
-        android:label="@string/title_manage_member_activity" />
+            android:windowSoftInputMode="stateVisible|adjustResize">
+
+        </activity>
     </application>
 
 </manifest>

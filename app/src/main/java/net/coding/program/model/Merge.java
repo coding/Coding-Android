@@ -47,7 +47,9 @@ public class Merge implements Serializable {
     private String content = "";
     private boolean srcExist;
     private String body_plan = "";
+    private String body;
     private int granted = 0;
+    private int commentCount;
 
     public Merge(JSONObject json) {
         id = json.optInt("id");
@@ -70,7 +72,9 @@ public class Merge implements Serializable {
         srcExist = json.optBoolean("srcExist");
         content = json.optString("content", "");
         body_plan = json.optString("body_plan", "");
+        body = json.optString("body","");
         granted = json.optInt("granted", 0);
+        commentCount = json.optInt("comment_count", 0);
     }
 
     public void setAuthor(UserObject author) {
@@ -238,6 +242,11 @@ public class Merge implements Serializable {
         return merge_status.equals(STYLE_ACCEPT);
     }
 
+    public boolean isMergeRefuse() {
+        return merge_status.equals(STYLE_REFUSE);
+    }
+
+    //已处理
     public boolean isMergeTreate() {
         return merge_status.equals(STYLE_ACCEPT) ||
                 merge_status.equals(STYLE_REFUSE);
@@ -253,6 +262,18 @@ public class Merge implements Serializable {
 
     public long getAction_at() {
         return action_at;
+    }
+
+    public String getBody() {
+        if (!body.isEmpty()) {
+            return body;
+        }
+
+        return body_plan;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
     private String getHostPublicHead(String end) {

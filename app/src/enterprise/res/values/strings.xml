@@ -4,8 +4,8 @@
     <string name="exit_app">再按一次退出Coding企业版</string>
     <string name="title_pick_user_activity">企业成员</string>
     <string name="title_enterprise_account_activity">企业账户</string>
-    <string name="title_manage_project_activity">企业项目</string>
-    <string name="title_manage_member_activity">企业成员</string>
+    <string name="title_manage_project_activity">项目管理</string>
+    <string name="title_manage_member_activity">成员管理</string>
     <string name="title_activity_help">帮助中心</string>
     <string name="add_project_maopao">创建公告</string>
     <string name="title_activity_project_maopao">公告</string>
@@ -14,4 +14,9 @@
     <string name="project_maopao_list_empty">暂时没有项目公告哦～</string>
     <string name="input_project_maopao_content">输入公告内容</string>
     <string name="delete_maopao">删除公告</string>
+    <string name="enterprise_setting">企业设置</string>
+    <string name="enterprise_name">企业名称</string>
+    <string name="enterprise_head">企业头像</string>
+    <string name="person_address">个性域名</string>
+
 </resources>

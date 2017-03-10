@@ -57,6 +57,14 @@ public class MergeDetail implements Serializable {
         return HtmlContent.parseReplacePhoto(content).text;
     }
 
+    public String getBody() {
+        String body = merge_request_description;
+        if (body.isEmpty()) {
+            body = merge_request.getBody();
+        }
+        return body;
+    }
+
     public RequestData getHttpMerge(String message, boolean delSrc) {
         return merge_request.getHttpMerge(message, delSrc);
     }

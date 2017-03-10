@@ -225,6 +225,33 @@
         <item>已发货</item>
     </string-array>
 
+    <string-array name="merge_status">
+        <item>默认</item>
+        <item>可合并</item>
+        <item>不可自动合并</item>
+        <item>已拒绝</item>
+        <item>已合并</item>
+    </string-array>
+
+    <string-array name="merge_status_english">
+        <item>all</item>
+        <item>CANMERGE</item>
+        <item>CANNOTMERGE</item>
+        <item>REFUSED</item>
+        <item>ACCEPTED</item>
+    </string-array>
+
+    <string-array name="pr_status">
+        <item>全部</item>
+        <item>已处理</item>
+        <item>未处理</item>
+    </string-array>
+
+    <string-array name="file_type">
+        <item>图片</item>
+        <item>其他文件</item>
+    </string-array>
+
     <!--<string-array name="commnet_my">-->
     <!--<item>复制</item>-->
     <!--<item>回复</item>-->

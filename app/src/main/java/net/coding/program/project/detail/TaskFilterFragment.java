@@ -77,7 +77,7 @@ public class TaskFilterFragment extends LoadingFragment {
     }
 
     protected void initFilterViews() {
-        toolBarTitle = (TextView) getActivity().findViewById(R.id.toolbarTitle);
+        toolBarTitle = (TextView) getActivity().findViewById(R.id.mainTaskToolbarTitle);
     }
 
     // 用于处理推送
@@ -194,7 +194,9 @@ public class TaskFilterFragment extends LoadingFragment {
     }
 
     protected final void actionFilter() {
-        drawerLayout.openDrawer(GravityCompat.END);
+        if (drawerLayout != null) {
+            drawerLayout.openDrawer(GravityCompat.END);
+        }
     }
 
     private void changeFilterIcon(boolean isFilter) {

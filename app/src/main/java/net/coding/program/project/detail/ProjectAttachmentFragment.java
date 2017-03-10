@@ -26,6 +26,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.dialog.AlertDialogMessage;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 
@@ -44,6 +45,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
+
+import static android.R.id.input;
 
 /**
  * Created by yangzhen on 2014/10/25.
@@ -391,17 +394,10 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
      * 新建文件夹
      */
     private void doNowFolder() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        //final EditText input = new EditText(getActivity());
-        LayoutInflater li = LayoutInflater.from(getActivity());
-        View v1 = li.inflate(R.layout.dialog_input, null);
-        final EditText input = (EditText) v1.findViewById(R.id.value);
-        input.setHint("请输入文件夹名称");
-        builder.setTitle("新建文件夹")
-                .setView(v1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        AlertDialogMessage dialogMessage = new AlertDialogMessage(getActivity());
+        dialogMessage.initDialog("新建文件夹", "请输入文件夹名称", new AlertDialogMessage.OnBottomClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newName = input.getText().toString();
+            public void onPositiveButton(String newName) {
                 String namePatternStr = "[,`~!@#$%^&*:;()''\"\"><|.\\ /=]";
                 Pattern namePattern = Pattern.compile(namePatternStr);
                 if (newName.equals("")) {
@@ -416,9 +412,12 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                     postNetwork(HOST_FOLDER_NEW, params, HOST_FOLDER_NEW);
                 }
             }
-        }).setNegativeButton("取消", null)
-                .show();
-        input.requestFocus();
+
+            @Override
+            public void onNegativeButton() {
+
+            }
+        });
     }
 
     private void setListEditMode(boolean isEditMode) {

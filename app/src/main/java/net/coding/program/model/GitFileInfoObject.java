@@ -11,6 +11,9 @@ import java.io.Serializable;
 public class GitFileInfoObject implements Serializable {
     private final static String MODE_TREE = "tree";
     private final static String MODE_FILE = "file";
+    private final static String MODE_EXECUTABLE = "executable";
+    private static final String MODE_GIT_LINK = "git_link";
+    private static final String MODE_IMAGE = "image";
     public long lastCommitDate;
     public String lastCommitId = "";
     public String lastCommitMessage = "";
@@ -19,6 +22,9 @@ public class GitFileInfoObject implements Serializable {
     public String mode = "";
     public String path = "";
     public String name = "";
+
+    public GitFileInfoObject() {
+    }
 
     public GitFileInfoObject(JSONObject json) throws JSONException {
         lastCommitDate = json.optLong("lastCommitDate");
@@ -46,5 +52,17 @@ public class GitFileInfoObject implements Serializable {
      */
     public boolean isTree() {
         return mode.equals(MODE_TREE);
+    }
+
+    public boolean isGitLink(){
+        return mode.equals(MODE_GIT_LINK);
+    }
+
+    public boolean isExecutable(){
+        return mode.equals(MODE_EXECUTABLE);
+    }
+
+    public boolean isImage(){
+        return mode.equals(MODE_IMAGE);
     }
 }

@@ -120,7 +120,7 @@
         <TextView
             android:id="@+id/email"
             style="@style/aboutBottomText"
-            android:text="E-mail：support@coding.net" />
+            android:text="E-mail：enterprise@coding.net" />
 
         <TextView
             android:id="@+id/weibo"

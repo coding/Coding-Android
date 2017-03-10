@@ -9,7 +9,7 @@
         android:title="筛选"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/action_setting_add"
         android:icon="@drawable/ic_menu_add"
         android:orderInCategory="100"
         android:title="添加"

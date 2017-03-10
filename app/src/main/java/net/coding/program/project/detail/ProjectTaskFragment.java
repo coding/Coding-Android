@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -128,6 +129,11 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
             toolBarTitle.setOnClickListener(v -> {
                 meActionFilter();
             });
+            toolBarTitle.setBackgroundResource(0);
+            Drawable drawable= getResources().getDrawable(R.drawable.arrow_drop_down_green);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            toolBarTitle.setCompoundDrawables(null,null,drawable,null);
+            toolBarTitle.setCompoundDrawablePadding(Global.dpToPx(10));
             toolBarTitle.setText("全部任务");
         }
 
