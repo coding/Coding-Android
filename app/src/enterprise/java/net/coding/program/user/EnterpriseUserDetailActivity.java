@@ -63,7 +63,7 @@ public class EnterpriseUserDetailActivity extends UserDetailCommonActivity {
                 showButtomToast("获取用户信息错误");
             }
         }
-        operActivenessResult(code, respanse, tag);
+        openActivenessResult(code, respanse, tag);
     }
 
     @Override
