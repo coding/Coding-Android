@@ -96,8 +96,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.fragment_message_user_list_item, parent, false);
                 holder = new ViewHolder();
-                holder.icon =
-                        (ImageView) convertView.findViewById(R.id.icon);
+                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.icon.setFocusable(false);
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.content = (TextView) convertView.findViewById(R.id.comment);

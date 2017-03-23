@@ -66,9 +66,14 @@ android {
 }
 
 dependencies {
+    def supportVersion = '25.2.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+
+    compile "com.android.support:cardview-v7:$supportVersion"
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:support-v4:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
+
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
@@ -82,10 +87,8 @@ dependencies {
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
-    compile 'com.android.support:support-v13:23.1.1'
     compile 'com.ms-square:etsyblur:0.1.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'com.android.support:cardview-v7:23.1.1'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.prolificinteractive:parallaxpager:2.2.1'
@@ -101,7 +104,6 @@ dependencies {
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
-    compile 'com.android.support:design:23.1.1'
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
@@ -109,7 +111,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.44.android'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
     compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
@@ -139,29 +141,15 @@ dependencies {
 
 apt {
     arguments {
-//        androidManifestFile variant.outputs[0].processResources.manifestFile
-//        resourcePackageName "$android.defaultConfig.applicationId"
-//        resourcePackageName 'coding.net.program'
-
-//        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
-        // if you have multiple outputs (when using splits), you may want to have other index than 0
-
-        // you should set your package name here if you are using different application IDs
-//        resourcePackageName "$android.defaultConfig.applicationId"
         resourcePackageName "net.coding.program"
 
-//        logLevel "TRACE"
-//        logAppenderConsole "true"
     }
 }
 
 repositories {
     flatDir {
-        dirs 'libs' //this way we can find the .aar file in libs folder
+        dirs 'libs'
     }
-}
-dependencies {
-    compile 'com.android.support:support-v4:23.+'
 }
 dependencies {
     compile(name: 'checknetwork', ext: 'aar')
