@@ -1,6 +1,26 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+
+dependencies {
+    def AAVersion = '4.3.0'
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+}
 
 android {
     compileSdkVersion 25
@@ -12,15 +32,19 @@ android {
 
     defaultConfig {
 //        useLibrary 'org.apache.http.legacy'
-//        applicationId "net.coding.program"
         renderscriptTargetApi 19
         multiDexEnabled true
         minSdkVersion 15
         // todo 注意检查 coding 和企业版用的是不一样的版本号
         targetSdkVersion 23
-    }
 
-//    flavorDimensions("person", "enterprise")
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // coding 和 coding 企业版 必须使用相同的包名，否则 androidannotations 生成代码会失败
+                arguments = [resourcePackageName: "net.coding.program"]
+            }
+        }
+    }
 
     productFlavors {
 
@@ -31,9 +55,6 @@ android {
         enterprise {
             dimension "enterprise"
             applicationId "net.coding.program.enterprise"
-//            manifest.srcFile 'AndroidManifest.xml'
-
-
         }
 
         dev {
@@ -42,6 +63,7 @@ android {
             // Android Lollipop without time consuming dex merging processes.
             minSdkVersion 21
         }
+
         prod {
             // The actual minSdkVersion for the application.
             minSdkVersion 15
@@ -115,35 +137,6 @@ dependencies {
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
     compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
-    }
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-dependencies {
-    def AAVersion = '4.1.0'
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-}
-
-apt {
-    arguments {
-        resourcePackageName "net.coding.program"
-
-    }
 }
 
 repositories {
