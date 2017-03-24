@@ -2,12 +2,12 @@
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     tools:showIn="@layout/enterprise_activity_login">
 
-    <net.coding.program.common.widget.LoginEditText
+    <net.coding.program.common.widget.LoginEditTextNew
         android:id="@+id/enterpriseEdit"
         style="@style/EmailEdit"
         app:hint="企业域名"

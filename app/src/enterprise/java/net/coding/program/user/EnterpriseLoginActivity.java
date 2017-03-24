@@ -36,7 +36,7 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
-import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.common.widget.LoginEditTextNew;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
@@ -82,12 +82,15 @@ public class EnterpriseLoginActivity extends BaseActivity {
     Uri background;
 
     @ViewById
-    LoginEditText enterpriseEdit;
+    LoginEditTextNew enterpriseEdit;
 
     @ViewById
     ImageView imageValify;
     @ViewById
-    LoginEditText editName, editPassword;
+    LoginEditTextNew editName, editPassword;
+
+    @ViewById
+    View enterpriseLine, valifyLine;
 
     @ViewById
     EditText editValify, edit2FA;
@@ -151,7 +154,17 @@ public class EnterpriseLoginActivity extends BaseActivity {
             enterpriseEdit.setText(lastCompanyName);
         }
 
-        loginFail.setText(Global.createBlueHtml("忘记密码？", "找回密码", ""));
+        enterpriseEdit.setOnFocusChangeListener(((v, hasFocus) -> {
+            enterpriseLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
+        }));
+
+        editValify.setOnFocusChangeListener(((v, hasFocus) -> {
+            valifyLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
+        }));
+    }
+
+    private void setLineColor(View line) {
+
     }
 
     @Click

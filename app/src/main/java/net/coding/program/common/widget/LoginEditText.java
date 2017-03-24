@@ -33,7 +33,7 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
     private static final String TAG = "LoginEditText";
 
     private EditText editText;
-    private View topLine;
+    protected View topLine;
     private ImageView imageValidfy;
     private boolean showPassword = false;
 
@@ -42,8 +42,12 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         init(context, attrs);
     }
 
+    protected int getLayoutId() {
+        return R.layout.login_edit_text;
+    }
+
     private void init(final Context context, AttributeSet attrs) {
-        inflate(context, R.layout.login_edit_text, this);
+        inflate(context, getLayoutId(), this);
         editText = (EditText) findViewById(R.id.editText);
         topLine = findViewById(R.id.topLine);
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LoginEditText, 0, 0);
@@ -159,4 +163,8 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         return editText.getText().toString();
     }
 
+
+    public void setEditForcsChange(OnFocusChangeListener focusChange) {
+        editText.setOnFocusChangeListener(focusChange);
+    }
 }

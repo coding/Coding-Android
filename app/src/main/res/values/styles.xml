@@ -386,6 +386,12 @@
         <item name="android:background">@color/divide_line</item>
     </style>
 
+    <style name="LoginBottomLine" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divide_line</item>
+    </style>
+
     <style name="DivideLine_15" parent="DivideLine">
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
         <item name="android:layout_marginRight">0dp</item>

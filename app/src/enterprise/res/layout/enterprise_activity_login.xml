@@ -4,56 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
         tools:showIn="@layout/fragment_main_project">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-            <TextView
-                android:id="@+id/toolbarTitle"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="登录"
-                android:textColor="@color/text_color_primary" />
-
-            <LinearLayout
-                android:id="@+id/login_2fa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="15dp"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/ic_login_2fa"
-                    android:visibility="invisible" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/login_2fa"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:text="@string/title_activity_login2_fatip"
                     android:textColor="@color/font_green"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 
@@ -77,13 +60,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/divide"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
                         android:orientation="vertical"
                         android:paddingBottom="@dimen/activity_vertical_margin">
 
@@ -91,29 +74,42 @@
                             android:id="@+id/loginLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white"
                             android:orientation="vertical"
                             android:visibility="visible">
 
+
+                            <TextView
+                                android:id="@+id/toolbarTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="15dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="28dp"
+                                android:gravity="center_vertical"
+                                android:text="登录"
+                                android:textColor="#272C33"
+                                android:textSize="28sp" />
+
                             <include layout="@layout/enterprise_name_layout" />
 
-                            <include layout="@layout/divideline_15" />
+                            <View
+                                android:id="@+id/enterpriseLine"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                style="@style/LoginBottomLine" />
 
-                            <net.coding.program.common.widget.LoginEditText
+                            <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/editName"
                                 style="@style/EmailEdit"
-                                app:hint="用户名/手机/邮箱"
-                                app:topLine="false" />
+                                app:hint="用户名/手机/邮箱" />
 
-                            <include layout="@layout/divideline_15" />
-
-                            <net.coding.program.common.widget.LoginEditText
+                            <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/editPassword"
                                 style="@style/EmailEdit"
                                 app:hint="密码"
                                 app:loginInput="password"
-                                app:showPassword="true"
-                                app:topLine="false" />
+                                app:showPassword="true" />
 
                             <RelativeLayout
                                 android:id="@+id/captchaLayout"
@@ -126,6 +122,7 @@
                                     android:id="@+id/editValify"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:focusable="true"
                                     android:background="@drawable/login_edit"
                                     android:hint="验证码"
                                     android:singleLine="true"
@@ -140,6 +137,17 @@
                                     android:layout_height="30dp"
                                     android:layout_alignParentRight="true"
                                     android:scaleType="fitCenter" />
+
+
+                                <View
+                                    android:id="@+id/captchaLine"
+                                    style="@style/LoginBottomLine" />
+
+                                <View
+                                    android:id="@+id/valifyLine"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    style="@style/LoginBottomLine" />
 
                             </RelativeLayout>
                         </LinearLayout>
@@ -180,24 +188,31 @@
                                 app:dark="true" />
                         </LinearLayout>
 
-
-                        <include layout="@layout/divide_bottom_15" />
-
-                        <Button
-                            android:id="@+id/loginButton"
-                            style="?android:textAppearanceButton"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="@dimen/padding_15"
-                            android:layout_marginRight="@dimen/padding_15"
-                            android:background="@drawable/login_button"
-                            android:text="登录"
-                            android:textColor="@drawable/font_login_button"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:layout_marginTop="15dp">
 
+                            <TextView
+                                android:id="@+id/loginFail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="15dp"
+                                android:text="找回密码"
+                                android:textColor="@color/font_green"
+                                android:textSize="14sp" />
+
+                            <android.support.design.widget.FloatingActionButton
+                                android:id="@+id/loginButton"
+                                android:layout_width="@dimen/float_button"
+                                android:layout_height="@dimen/float_button"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginLeft="@dimen/padding_15"
+                                android:background="@color/font_green"
+                                android:layout_marginRight="@dimen/padding_15"
+                                android:layout_marginTop="10dp" />
+
+                        </RelativeLayout>
                     </LinearLayout>
 
 
@@ -206,17 +221,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/loginFail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
-                            android:gravity="center"
-                            android:text="找回密码"
-                            android:textColor="@color/font_6"
-                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/register"
