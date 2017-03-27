@@ -17,7 +17,7 @@ public class LoginEditTextNew extends LoginEditText {
     public LoginEditTextNew(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        setOnFocusChangeListener(((v, hasFocus) -> {
+        setOnEditFocusChange(((v, hasFocus) -> {
             topLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
         }));
     }

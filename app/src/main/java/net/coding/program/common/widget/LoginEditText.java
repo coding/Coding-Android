@@ -32,7 +32,7 @@ import cz.msebera.android.httpclient.Header;
 public class LoginEditText extends FrameLayout implements OnTextChange {
     private static final String TAG = "LoginEditText";
 
-    private EditText editText;
+    protected EditText editText;
     protected View topLine;
     private ImageView imageValidfy;
     private boolean showPassword = false;
@@ -163,8 +163,7 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         return editText.getText().toString();
     }
 
-
-    public void setEditForcsChange(OnFocusChangeListener focusChange) {
+    public void setOnEditFocusChange(OnFocusChangeListener focusChange) {
         editText.setOnFocusChangeListener(focusChange);
     }
 }

@@ -154,17 +154,13 @@ public class EnterpriseLoginActivity extends BaseActivity {
             enterpriseEdit.setText(lastCompanyName);
         }
 
-        enterpriseEdit.setOnFocusChangeListener(((v, hasFocus) -> {
+        enterpriseEdit.setOnEditFocusChange(((v, hasFocus) -> {
             enterpriseLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
         }));
 
         editValify.setOnFocusChangeListener(((v, hasFocus) -> {
             valifyLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
         }));
-    }
-
-    private void setLineColor(View line) {
-
     }
 
     @Click

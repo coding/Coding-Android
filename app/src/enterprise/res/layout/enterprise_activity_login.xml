@@ -11,6 +11,7 @@
         android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:theme="@style/TranslateActionbar"
         tools:showIn="@layout/fragment_main_project">
 
         <android.support.v7.widget.Toolbar
@@ -207,9 +208,10 @@
                                 android:layout_width="@dimen/float_button"
                                 android:layout_height="@dimen/float_button"
                                 android:layout_alignParentRight="true"
-                                android:layout_marginLeft="@dimen/padding_15"
                                 android:background="@color/font_green"
-                                android:layout_marginRight="@dimen/padding_15"
+                                app:elevation="6dp"
+                                app:borderWidth="0dp"
+                                app:backgroundTint="@color/font_green"
                                 android:layout_marginTop="10dp" />
 
                         </RelativeLayout>
