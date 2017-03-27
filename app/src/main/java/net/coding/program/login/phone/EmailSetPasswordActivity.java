@@ -1,6 +1,6 @@
 package net.coding.program.login.phone;
 
-import android.widget.TextView;
+import android.view.View;
 
 import com.loopj.android.http.RequestParams;
 
@@ -30,7 +30,7 @@ public class EmailSetPasswordActivity extends BackActivity {
     protected LoginEditText emailEdit, captchaEdit;
 
     @ViewById
-    protected TextView loginButton;
+    protected View loginButton;
 
     @AfterViews
     void initEmailSetPasswordActivity() {

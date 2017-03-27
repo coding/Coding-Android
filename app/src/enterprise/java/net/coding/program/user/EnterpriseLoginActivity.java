@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -26,6 +27,7 @@ import com.tencent.android.tpush.XGPushManager;
 import net.coding.program.EnterpriseApp;
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.enter.SimpleTextWatcher;
@@ -41,6 +43,7 @@ import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
+import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.EnterpriseEmailSetPasswordActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.EnterpriseDetail;
@@ -70,7 +73,10 @@ public class EnterpriseLoginActivity extends BaseActivity {
     private final String TAG_HOST_IS_ADMIN = "TAG_HOST_IS_ADMIN";
     private final String TAG_HOST_USER_NEED_2FA = "TAG_HOST_USER_NEED_2FA";
 
+    private static final int RESULT_CLOSE_2FA = 1;
+
     public static final String EXTRA_BACKGROUND = "background";
+    private final String CLOSE_2FA_TIP = "关闭两步验证";
     private String TAG_HOST_NEED_CAPTCHA = "TAG_HOST_NEED_CAPTCHA";
     final float radius = 8;
     final double scaleFactor = 16;
@@ -82,18 +88,24 @@ public class EnterpriseLoginActivity extends BaseActivity {
     Uri background;
 
     @ViewById
+    ImageView backButton;
+
+    @ViewById
+    TextView login2faMenu;
+
+    @ViewById
     LoginEditTextNew enterpriseEdit;
 
     @ViewById
     ImageView imageValify;
     @ViewById
-    LoginEditTextNew editName, editPassword;
+    LoginEditTextNew editName, editPassword, edit2FA;
 
     @ViewById
     View enterpriseLine, valifyLine;
 
     @ViewById
-    EditText editValify, edit2FA;
+    EditText editValify;
     @ViewById
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
 
@@ -131,8 +143,13 @@ public class EnterpriseLoginActivity extends BaseActivity {
     }
 
     @AfterViews
-    void init() {
+    void initEnterpriseLoginActivity() {
 //        needCaptcha();
+        Drawable back = getResources().getDrawable(R.drawable.ic_arrow_back);
+        backButton.setImageDrawable(Global.tintDrawable(back, (CodingColor.fontGreen)));
+//        Drawable back = getResources().getDrawable(R.drawable.ic_notify);
+//        backButton.setImageDrawable(back);
+//        backButton.setImageResource(R.drawable.ic_notify);
 
         editName.addTextChangedListener(textWatcher);
         editPassword.addTextChangedListener(textWatcher);
@@ -154,13 +171,13 @@ public class EnterpriseLoginActivity extends BaseActivity {
             enterpriseEdit.setText(lastCompanyName);
         }
 
-        enterpriseEdit.setOnEditFocusChange(((v, hasFocus) -> {
-            enterpriseLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
-        }));
+        enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
+        editValify.setOnFocusChangeListener(createEditLineFocus(valifyLine));
+    }
 
-        editValify.setOnFocusChangeListener(((v, hasFocus) -> {
-            valifyLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
-        }));
+    @Click
+    void backButton() {
+        onBackPressed();
     }
 
     @Click
@@ -300,18 +317,18 @@ public class EnterpriseLoginActivity extends BaseActivity {
     }
 
     private void login2fa() {
-        String input = edit2FA.getText().toString();
-        if (input.isEmpty()) {
-            showMiddleToast("请输入身份验证器中的验证码");
-            return;
-        }
+            String input = edit2FA.getText().toString();
+            if (input.isEmpty()) {
+                showMiddleToast("请输入身份验证器中的验证码");
+                return;
+            }
 
-        RequestParams params = new RequestParams();
-        params.put("code", input);
-        postNetwork(Global.HOST_API + "/check_two_factor_auth_code", params, TAG_HOST_USER_NEED_2FA);
-        showProgressBar(true, "登录中");
+            RequestParams params = new RequestParams();
+            params.put("code", input);
+            postNetwork(Global.HOST_API + "/check_two_factor_auth_code", params, TAG_HOST_USER_NEED_2FA);
+            showProgressBar(true, "登录中");
 
-        Global.popSoftkeyboard(this, edit2FA, false);
+            Global.popSoftkeyboard(this, edit2FA, false);
     }
 
     private void login() {
@@ -365,8 +382,19 @@ public class EnterpriseLoginActivity extends BaseActivity {
     }
 
     @Click
-    protected final void login_2fa() {
-        Global.start2FAActivity(this);
+    void login2faMenu() {
+        if (login2faMenu.getText().equals(CLOSE_2FA_TIP)) {
+            Close2FAActivity_.intent(this).startForResult(RESULT_CLOSE_2FA);
+        } else {
+            Global.start2FAActivity(this);
+        }
+    }
+
+    @OnActivityResult(RESULT_CLOSE_2FA)
+    void onResultClose2FA(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            show2FA(false);
+        }
     }
 
     private void show2FA(boolean show) {
@@ -380,9 +408,19 @@ public class EnterpriseLoginActivity extends BaseActivity {
                 loginButton();
             }
 
+            loginFail.setVisibility(View.GONE);
+            backButton.setVisibility(View.VISIBLE);
+
+            login2faMenu.setText(CLOSE_2FA_TIP);
+
         } else {
             layout2fa.setVisibility(View.GONE);
             loginLayout.setVisibility(View.VISIBLE);
+
+            loginFail.setVisibility(View.VISIBLE);
+            backButton.setVisibility(View.INVISIBLE);
+
+            login2faMenu.setText("两步验证");
         }
     }
 
@@ -499,7 +537,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
         getNetwork(String.format(HOST_USER, user.global_key), TAG_HOST_USER);
         showProgressBar(true, R.string.logining);
     }
-
 
     @Override
     public void onBackPressed() {

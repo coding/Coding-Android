@@ -71,7 +71,7 @@ public class ValidePhoneActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, editPhone, editCode);
         user = AccountInfo.loadAccount(this);
         sendPhoneMessage.setEditPhone(editPhone);
-        sendPhoneMessage.setUrl(ValidePhoneView.getHostPhone());
+        sendPhoneMessage.setType(ValidePhoneView.Type.valide);
 
         handler2FA = new WeakRefHander(msg -> {
             if (twoFAEdit.getVisibility() == View.VISIBLE) {

@@ -1,5 +1,7 @@
 package net.coding.program.login.phone;
 
+import android.view.View;
+
 import net.coding.program.R;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
@@ -22,9 +24,13 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
     @ViewById
     LoginEditText enterpriseEdit;
 
+    @ViewById
+    View enterpriseLine;
+
     @AfterViews
     void initEnterpriseEmailSetPasswordActivity() {
         enterpriseEdit.setText(enterpriseName);
+        enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
     }
 
     protected String getUrl() {

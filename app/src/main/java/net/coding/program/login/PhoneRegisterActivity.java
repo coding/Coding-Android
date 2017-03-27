@@ -74,7 +74,7 @@ public class PhoneRegisterActivity extends BackActivity {
             textClause.setText(Html.fromHtml(REGIST_TIP));
 
         sendCode.setEditPhone(phoneEdit);
-        sendCode.setUrl(ValidePhoneView.getHostRegisterSendMessage());
+        sendCode.setType(ValidePhoneView.Type.register);
 
         bindCountry();
 

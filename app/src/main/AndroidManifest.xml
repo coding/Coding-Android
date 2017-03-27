@@ -265,7 +265,7 @@
             android:icon="@drawable/app_icon"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".maopao.LocationSearchActivity_"
             android:icon="@drawable/app_icon"
@@ -390,8 +390,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_git_tree"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".project.detail.GitViewActivity_"
             android:configChanges="orientation"
@@ -478,7 +477,7 @@
         <activity
             android:name=".project.ProjectHomeActivity_"
             android:label="@string/title_activity_project_home"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".user.UserDetailMoreActivity_"
             android:label="@string/title_activity_user_detail_more"
@@ -812,12 +811,16 @@
             android:name=".common.activity.WebviewDetailActivity_"
             android:label="@string/title_activity_comment_detail"
             android:screenOrientation="portrait" />
-        <activity android:name=".search.SearchProjectGitActivity_"
+        <activity
+            android:name=".search.SearchProjectGitActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.phone.Close2FAActivity_"
+            android:label="@string/empty"
+            android:theme="@style/ActionbarTranslate"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

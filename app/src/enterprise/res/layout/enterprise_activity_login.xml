@@ -7,41 +7,32 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:theme="@style/TranslateActionbar"
-        tools:showIn="@layout/fragment_main_project">
+        android:layout_height="?attr/actionBarSize">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:elevation="4dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left|center_vertical"
+            android:scaleType="center"
+            android:tint="@color/font_green" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/login_2fa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:text="@string/title_activity_login2_fatip"
-                    android:textColor="@color/font_green"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
+        <TextView
+            android:id="@+id/login2faMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="@string/title_activity_login2_fatip"
+            android:textColor="@color/font_green"
+            android:textSize="15sp" />
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/rootScrollView"
@@ -61,9 +52,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:orientation="vertical">
+                    android:paddingRight="5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -96,9 +87,9 @@
 
                             <View
                                 android:id="@+id/enterpriseLine"
+                                style="@style/LoginBottomLine"
                                 android:layout_marginLeft="15dp"
-                                android:layout_marginRight="15dp"
-                                style="@style/LoginBottomLine" />
+                                android:layout_marginRight="15dp" />
 
                             <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/editName"
@@ -123,8 +114,8 @@
                                     android:id="@+id/editValify"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:focusable="true"
                                     android:background="@drawable/login_edit"
+                                    android:focusable="true"
                                     android:hint="验证码"
                                     android:singleLine="true"
                                     android:textColor="@color/font_white"
@@ -146,9 +137,9 @@
 
                                 <View
                                     android:id="@+id/valifyLine"
+                                    style="@style/LoginBottomLine"
                                     android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
-                                    style="@style/LoginBottomLine" />
+                                    android:layout_marginRight="15dp" />
 
                             </RelativeLayout>
                         </LinearLayout>
@@ -159,34 +150,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:visibility="gone">
+                            android:visibility="gone"
+                            tools:visibility="visible">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/round_rect_2fa"
-                                android:gravity="center"
                                 android:padding="@dimen/padding_12"
-                                android:text="您的帐户开启了两步验证，请输入动态验证码"
-                                android:textColor="#ffEB7A19" />
+                                android:text="您的帐户开启了两步验证，请输入动态验证码登录"
+                                android:textColor="#FF76808E" />
 
-
-                            <net.coding.program.common.LoginEditText
+                            <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/edit2FA"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/login_edit"
-                                android:hint="输入动态验证码"
-                                android:imeOptions="actionUnspecified"
-                                android:inputType="number"
-                                android:maxLines="1"
-                                android:singleLine="true"
-                                android:textColor="@color/font_white"
-                                android:textColorHint="@color/font_white_disable"
-                                android:textCursorDrawable="@null"
-                                android:textSize="18sp"
-                                app:dark="true" />
+                                style="@style/EmailEdit"
+                                app:hint="两步验证码"
+                                app:loginInput="number" />
+
                         </LinearLayout>
 
                         <RelativeLayout
@@ -205,14 +184,10 @@
 
                             <android.support.design.widget.FloatingActionButton
                                 android:id="@+id/loginButton"
-                                android:layout_width="@dimen/float_button"
-                                android:layout_height="@dimen/float_button"
-                                android:layout_alignParentRight="true"
-                                android:background="@color/font_green"
-                                app:elevation="6dp"
-                                app:borderWidth="0dp"
                                 app:backgroundTint="@color/font_green"
-                                android:layout_marginTop="10dp" />
+                                app:borderWidth="0dp"
+                                app:elevation="6dp"
+                                style="@style/loginButton" />
 
                         </RelativeLayout>
                     </LinearLayout>

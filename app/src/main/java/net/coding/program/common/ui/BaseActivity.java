@@ -63,6 +63,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         listView.addHeaderView(listViewHeader, null, false);
     }
 
+    protected View.OnFocusChangeListener createEditLineFocus(View line) {
+        return (v, hasFocus) -> line.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
+    }
+
     /**
      * 载入动画
      */
@@ -157,6 +161,13 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
+        }
+    }
+
+    protected void hideActionbarShade() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setElevation(0);
         }
     }
 

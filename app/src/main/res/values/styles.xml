@@ -10,21 +10,6 @@
         <item name="android:windowBackground">@drawable/transparent</item>
     </style>
 
-    <!--透明的actionbar-->
-    <style name="TranslateActionbar" parent="AppTheme">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="colorPrimary">@color/transparent</item>
-        <item name="color">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
-    </style>
-
-    <style name="WhiteFontTranslateActionbar" parent="TranslateActionbar">
-        <item name="android:textColorPrimary">@color/white</item>
-    </style>
-
     <style name="MyApp.PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@drawable/white</item>
     </style>
@@ -217,6 +202,13 @@
 
     <style name="ActionbarNoIcon" parent="AppTheme">
         <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->
+    </style>
+
+    <style name="ActionbarTranslate" parent="ActionbarNoIcon">
+        <!--<item name="actionBarStyle">@style/ActionbarTranslate</item>-->
+        <item name="elevation">0dp</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/white</item>
     </style>
 
     <style name="ThemeHoloLightDialogAlert" parent="@android:style/Theme.Holo.Light.Dialog">
@@ -488,6 +480,14 @@
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:textColor">@color/font_9</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="loginButton">
+        <item name="android:layout_width">@dimen/float_button</item>
+        <item name="android:layout_height">@dimen/float_button</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@color/font_green</item>
     </style>
 
     <!--正则替换工具-->

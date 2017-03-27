@@ -2,9 +2,9 @@ package net.coding.program.common.widget;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -20,23 +20,22 @@ import org.json.JSONObject;
 
 /**
  * Created by chenchao on 16/1/4.
+ * 发送短信验证码的按钮
  */
-public class ValidePhoneView extends TextView {
+public class ValidePhoneView extends AppCompatTextView {
 
-    public final String REGISTER_SEND_MESSAGE_URL = getHostRegisterSendMessage();
+    public enum Type {
+        normal(Global.HOST_API + "/user/generate_phone_code"),
+        register(Global.HOST_API + "/account/register/generate_phone_code"),
+        setPassword(Global.HOST_API + "/account/password/forget"),
+        close2FA(Global.HOST_API + "/twofa/close/code"),
+        valide(Global.HOST_API + "/account/phone/change/code");
 
-    public final String RESET_SEND_MESSAGE_URL = getHostSendMessage();
+        String url = "";
 
-    public final String CHANGE_PHONE = getHostPhone();
-
-    public static String getHostPhone() {
-        return Global.HOST_API + "/account/phone/change/code";
-    }
-
-    public final String URL_RESET_PASSWORD = getHostResetPasswrd();
-
-    public static String getHostResetPasswrd() {
-        return Global.HOST_API + "/account/password/reset";
+        Type(String url) {
+            this.url = url;
+        }
     }
 
     private MyJsonResponse parseJson;
@@ -45,15 +44,8 @@ public class ValidePhoneView extends TextView {
     String inputPhone = "";
 
     PhoneCountry pickCountry = PhoneCountry.getChina();
-    private String url = Global.HOST_API + "/user/generate_phone_code";
 
-    public static String getHostSendMessage() {
-        return Global.HOST_API + "/account/password/forget";
-    }
-
-    public static String getHostRegisterSendMessage() {
-        return Global.HOST_API + "/account/register/generate_phone_code";
-    }
+    private Type type = Type.normal;
 
     public ValidePhoneView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,8 +69,8 @@ public class ValidePhoneView extends TextView {
         inputPhone = phone;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void startTimer() {
@@ -140,17 +132,19 @@ public class ValidePhoneView extends TextView {
             };
         }
 
-        if (url.equals(RESET_SEND_MESSAGE_URL)) {
+        if (type == Type.setPassword) {
             params.put("account", phoneString);
-        } else if (url.equals(REGISTER_SEND_MESSAGE_URL)) {
+        } else if (type == Type.register) {
             params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("phone", phoneString);
             params.put("from", "coding");
-        } else if (url.equals(CHANGE_PHONE)) {
+        } else if (type == Type.valide) {
             params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("phone", phoneString);
+        } else if (type == Type.close2FA) {
+            params.put("phone", phoneString);
         }
-        client.post(getContext(), url, params, parseJson);
+        client.post(getContext(), type.url, params, parseJson);
 
         countDownTimer.start();
     }
