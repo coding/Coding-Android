@@ -2,7 +2,9 @@ package net.coding.program.login.phone;
 
 import android.view.View;
 
+import net.coding.program.EnterpriseApp;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 
@@ -33,8 +35,10 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
     }
 
+    @Override
     protected String getUrl() {
-        return String.format("https://%s.coding.net/api%s", enterpriseEdit.getTextString(), "/account/password/forget");
+        EnterpriseApp.setHost(enterpriseEdit.getTextString());
+        return String.format("%s%s", Global.HOST_API, "/account/password/forget");
     }
 
     protected void initViewStyle() {

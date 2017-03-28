@@ -24,6 +24,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.TextWatcherAt;
@@ -71,10 +72,14 @@ public class EnterpriseProjectFragment extends BaseFragment {
     @ViewById
     UltimateRecyclerView listView;
 
+    @ViewById
+    View blankLayout;
+
     ArrayList<ProjectObject> listData = new ArrayList<>();
     ArrayList<ProjectObject> allListData = new ArrayList<>();
 
     ProjectAdapter projectAdapter;
+
 
     private Comparator<ProjectObject> comparator = (lhs, rhs) -> {
         if (lhs.isPin() && !rhs.isPin()) {
@@ -99,6 +104,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
         listView.setDefaultOnRefreshListener(() -> onRefresh());
         listView.mSwipeRefreshLayout.setColorSchemeResources(R.color.green);
         listView.setOnLoadMoreListener((itemsCount, maxLastVisiblePosition) -> loadMore());
+
 
 //       上拉加载更多
 //        mFootUpdate.initToRecycler(listView, mInflater, this);
@@ -220,6 +226,8 @@ public class EnterpriseProjectFragment extends BaseFragment {
         projectAdapter.notifyDataSetChanged();
     }
 
+    View.OnClickListener mOnClickRetry = v -> onRefresh();
+
     @OnActivityResult(InitProUtils.REQUEST_PRO_UPDATE)
     void onResultRefresh() {
         onRefresh();
@@ -255,8 +263,11 @@ public class EnterpriseProjectFragment extends BaseFragment {
                 AccountInfo.saveProjects(getActivity(), allListData);
                 projectAdapter.notifyDataSetChanged();
 
+                BlankViewDisplay.setBlank(allListData.size(), this, true, blankLayout, mOnClickRetry);
+
             } else {
                 projectAdapter.notifyDataSetChanged();
+                BlankViewDisplay.setBlank(allListData.size(), this, true, blankLayout, mOnClickRetry);
             }
         } else if (tag.equals(URL_PIN_SET)) {
             if (code == 0) {

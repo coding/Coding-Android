@@ -99,13 +99,11 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @ViewById
     ImageView imageValify;
     @ViewById
-    LoginEditTextNew editName, editPassword, edit2FA;
+    LoginEditTextNew editName, editPassword, editValify, edit2FA;
 
     @ViewById
     View enterpriseLine, valifyLine;
 
-    @ViewById
-    EditText editValify;
     @ViewById
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
 
@@ -113,7 +111,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
     TextView loginFail;
 
     private int clickIconCount = 0;
-    private long lastClickTime = 0;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
@@ -173,6 +170,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
         editValify.setOnFocusChangeListener(createEditLineFocus(valifyLine));
+
     }
 
     @Click
@@ -180,8 +178,11 @@ public class EnterpriseLoginActivity extends BaseActivity {
         onBackPressed();
     }
 
+    private int clickCount = 0;
+    private long lastClickTime = 0;
+
     @Click
-    void userIcon() {
+    void toolbarTitle() {
         long clickTime = Calendar.getInstance().getTimeInMillis();
         long lastTemp = lastClickTime;
         lastClickTime = clickTime;
@@ -266,7 +267,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     @Click
     void imageValify() {
-        editValify.requestFocus();
+        editValify.getEditText().requestFocus();
         downloadValifyPhoto();
     }
 
@@ -333,9 +334,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     private void login() {
         try {
-            String name = editName.getText().toString();
-            String password = editPassword.getText().toString();
-            String captcha = editValify.getText().toString();
+            String name = editName.getTextString();
+            String password = editPassword.getTextString();
+            String captcha = editValify.getTextString();
 
             if (name.isEmpty()) {
                 showMiddleToast("邮箱或用户名不能为空");
@@ -356,7 +357,8 @@ public class EnterpriseLoginActivity extends BaseActivity {
             }
             params.put("remember_me", true);
 
-            String HOST_LOGIN = String.format("https://%s.coding.net/api/v2/account/login", enterpriseEdit.getTextString());
+            EnterpriseApp.setHost(enterpriseEdit.getTextString());
+            String HOST_LOGIN = String.format("%s/v2/account/login", Global.HOST_API);
 
             postNetwork(HOST_LOGIN, params, TAG_LOGIN);
             showProgressBar(true, R.string.logining);

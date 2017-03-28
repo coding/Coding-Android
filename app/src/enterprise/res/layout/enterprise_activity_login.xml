@@ -106,36 +106,30 @@
                             <RelativeLayout
                                 android:id="@+id/captchaLayout"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
+                                android:layout_height="@dimen/login_edit_height"
+                                tools:visibility="visible"
                                 android:visibility="gone">
-
-                                <EditText
-                                    android:id="@+id/editValify"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/login_edit"
-                                    android:focusable="true"
-                                    android:hint="验证码"
-                                    android:singleLine="true"
-                                    android:textColor="@color/font_white"
-                                    android:textColorHint="@color/font_white_disable"
-                                    android:textCursorDrawable="@null"
-                                    android:textSize="18sp" />
 
                                 <ImageView
                                     android:id="@+id/imageValify"
                                     android:layout_width="72dp"
+                                    android:layout_marginRight="15dp"
                                     android:layout_height="30dp"
+                                    tools:src="@drawable/ic_blue_arrow"
+                                    android:layout_centerVertical="true"
                                     android:layout_alignParentRight="true"
                                     android:scaleType="fitCenter" />
 
+                                <net.coding.program.common.widget.LoginEditTextNew
+                                    android:id="@+id/editValify"
+                                    style="@style/EmailEdit"
+                                    android:layout_toLeftOf="@id/imageValify"
+                                    android:layout_marginRight="15dp"
+                                    app:topLine="false"
+                                    app:hint="验证码" />
 
                                 <View
-                                    android:id="@+id/captchaLine"
-                                    style="@style/LoginBottomLine" />
-
-                                <View
+                                    android:layout_alignParentBottom="true"
                                     android:id="@+id/valifyLine"
                                     style="@style/LoginBottomLine"
                                     android:layout_marginLeft="15dp"

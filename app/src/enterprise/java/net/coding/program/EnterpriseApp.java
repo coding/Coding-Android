@@ -32,7 +32,11 @@ public class EnterpriseApp extends MyApp {
     public static void setHost(@NonNull String enterpriseName) {
         String host = "https://e.coding.net";
         if (!TextUtils.isEmpty(enterpriseName)) {
-            host = String.format("https://%s.coding.net", enterpriseName);
+            if (Global.HOST.equals("t") || Global.HOST.startsWith("http://")) {
+                host = String.format("http://%s.staging.coding.test", enterpriseName);
+            } else {
+                host = String.format("https://%s.coding.net", enterpriseName);
+            }
             setEnterpriseGK(enterpriseName);
         }
         setEnterpriseGK(enterpriseName);
@@ -40,5 +44,4 @@ public class EnterpriseApp extends MyApp {
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }
-
 }

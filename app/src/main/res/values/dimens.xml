@@ -58,6 +58,8 @@
 
     <dimen name="folder_icon_width">36dp</dimen>
 
+    <dimen name="login_edit_height">53dp</dimen>
+
     <dimen name="list_section_commit">30dp</dimen>
 
     <dimen name="divide_section_15">15dp</dimen>

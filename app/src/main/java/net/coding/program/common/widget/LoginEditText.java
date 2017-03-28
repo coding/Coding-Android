@@ -159,6 +159,10 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         return editText.getText();
     }
 
+    public EditText getEditText() {
+        return editText;
+    }
+
     public String getTextString() {
         return editText.getText().toString();
     }
