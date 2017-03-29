@@ -2,13 +2,10 @@ package net.coding.program.search;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchReslutAdapter;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.TaskObject;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.task.add.TaskJumpParams;
@@ -16,7 +13,6 @@ import net.coding.program.task.add.TaskJumpParams;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +23,7 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/24.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchTaskFragment extends RefreshBaseFragment {
+public class SearchTaskFragment extends SearchBaseFragment {
 
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/all?q=%s";
@@ -40,10 +36,6 @@ public class SearchTaskFragment extends RefreshBaseFragment {
     private boolean hasMore = true;
     private boolean isLoading = true;
 
-    @ViewById
-    ListView listView;
-    @ViewById(R.id.emptyView)
-    LinearLayout emptyView;
 
     SearchReslutAdapter adapter;
 

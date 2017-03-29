@@ -6,8 +6,9 @@ import android.widget.TextView;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.message.MessageListActivity;
+import net.coding.program.message.NotifyListActivity;
 import net.coding.program.message.UsersListFragment;
 import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.AttachmentsActivity;
@@ -21,7 +22,9 @@ import net.coding.program.project.detail.TopicListFragment;
 import net.coding.program.project.detail.merge.MergeListFragment;
 import net.coding.program.project.detail.merge.MergeReviewerListFragment;
 import net.coding.program.project.maopao.ProjectMaopaoActivity;
+import net.coding.program.subject.SubjectListFragment;
 import net.coding.program.user.UserProjectListFragment;
+import net.coding.program.user.team.TeamListActivity;
 
 /**
  * Created by chaochen on 14-10-24.
@@ -31,18 +34,22 @@ public class BlankViewDisplay {
 
     public static final String MY_PROJECT_BLANK = "您还木有项目呢，赶快起来创建吧～";
     public static final String OTHER_PROJECT_BLANK = "这个人很懒，一个项目都木有～";
-    public static final String MY_SUBJECT_BLANK = "您还没有话题呢～";
-    public static final String OTHER_SUBJECT_BLANK = "这个人很懒，一个话题都木有~";
-    public static final String OTHER_MALL_ORDER_BLANK = "还木有订单呢，\n努力推代码，把猴带回家~";
-    public static final String OTHER_MALL_ORDER_BLANK_UNSEND = "您还木有未发货的订单呢~";
-    public static final String OTHER_MALL_ORDER_BLANK_ALREADYSEND = "您还木有已发货的订单呢~";
-    public static final String OTHER_MALL_EXCHANGE_BLANK = "您还木有可兑换商品呢，\n努力推代码，把洋葱猴带回家~";
+    public static final String MY_SUBJECT_BLANK = "您还没有参与过话题呢～";
+    public static final String OTHER_SUBJECT_BLANK = "TA 还没有参与过话题呢～";
+    public static final String OTHER_MALL_ORDER_BLANK = "还没有订单记录~";
+    public static final String OTHER_MALL_ORDER_BLANK_UNSEND = "没有未发货的订单记录~";
+    public static final String OTHER_MALL_ORDER_BLANK_ALREADYSEND = "没有已发货的订单记录~";
+    public static final String OTHER_MALL_EXCHANGE_BLANK = "还没有可兑换的商品呢~";
 
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
         setBlank(itemSize, fragment, request, v, onClick, "");
     }
 
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick, String tipString) {
+        setBlank(itemSize, fragment, request, v, onClick, tipString, 0);
+    }
+
+    public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick, String tipString, int iconId) {
         // 有些界面不需要显示blank状态
         if (v == null) {
             return;
@@ -56,10 +63,10 @@ public class BlankViewDisplay {
             btn.setOnClickListener(onClick);
         }
 
-        setBlank(itemSize, fragment, request, v, tipString);
+        setBlank(itemSize, fragment, request, v, tipString, iconId);
     }
 
-    private static void setBlank(int itemSize, Object fragment, boolean request, View v, String tipString) {
+    private static void setBlank(int itemSize, Object fragment, boolean request, View v, String tipString, int iconId) {
         boolean show = (itemSize == 0);
         if (!show) {
             v.setVisibility(View.GONE);
@@ -67,7 +74,6 @@ public class BlankViewDisplay {
         }
         v.setVisibility(View.VISIBLE);
 
-        int iconId = R.drawable.ic_exception_no_network;
         String text = "";
 
         if (tipString.isEmpty()) {
@@ -75,19 +81,20 @@ public class BlankViewDisplay {
                 if (fragment instanceof ProjectListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = MY_PROJECT_BLANK;
-
                 } else if (fragment instanceof TaskListFragment) {
                     iconId = R.drawable.ic_exception_blank_task_my;
                     text = "您还没有任务\n赶快为团队做点贡献吧~";
-
+                } else if (fragment instanceof NotifyListActivity) {
+                    iconId = R.drawable.ic_exception_blank_task_my;
                 } else if (fragment instanceof TopicListFragment) {
-                    iconId = R.drawable.ic_exception_blank_task;
+                    iconId = R.drawable.ic_exception_blank_topic;
                     text = "还没有讨论\n创建一个讨论发表对项目的看法吧";
-
-                } else if (fragment instanceof MaopaoListFragment) {
+                } else if (fragment instanceof MaopaoListBaseFragment) {
                     iconId = R.drawable.ic_exception_blank_maopao;
-                    text = "来，冒个泡吧～";
-
+                    text = "还没有发表过冒泡呢～";
+                } else if (fragment instanceof SubjectListFragment) {
+                    iconId = R.drawable.ic_exception_blank_maopao;
+                    text = "还没有参与过话题呢~";
                 } else if (fragment instanceof UsersListFragment) {
                     iconId = R.drawable.ic_exception_blank_message;
                     text = "还没有新消息~";
@@ -124,6 +131,9 @@ public class BlankViewDisplay {
                 } else if (fragment instanceof ProjectDynamicFragment) {
                     iconId = R.drawable.ic_exception_blank_dynamic;
                     text = "暂无相关动态~";
+                } else if (fragment instanceof TeamListActivity) {
+                    iconId = R.drawable.ic_exception_blank_team;
+                    text = "还没有创建团队~";
                 } else {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "还什么都没有~";
@@ -134,7 +144,9 @@ public class BlankViewDisplay {
             }
         } else {
             if (request) {
-                iconId = R.drawable.ic_exception_blank_task;
+                if (iconId == 0) {
+                    iconId = R.drawable.ic_exception_blank_task;
+                }
             } else {
                 iconId = R.drawable.ic_exception_no_network;
             }

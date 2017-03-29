@@ -29,7 +29,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class UserPointActivity extends BackActivity {
 
     private static final String TAG_HTTP_USER_POINT = "TAG_HTTP_USER_POINT";
-
     private static final String TAG_HTTP_ALL_POINTS = "TAG_HTTP_ALL_POINTS";
 
     @ViewById
@@ -41,13 +40,13 @@ public class UserPointActivity extends BackActivity {
 
     @AfterViews
     protected final void initUserPointActivity() {
-        View head = mInflater.inflate(R.layout.user_point_list_head, null);
+        View head = mInflater.inflate(R.layout.user_point_list_head, listView, false);
         pointsAll = (TextView) head.findViewById(R.id.pointAll);
         head.findViewById(R.id.itemShop).setOnClickListener(v ->
                 MallIndexActivity_.intent(UserPointActivity.this).start());
         listView.addHeaderView(head, null, false);
 
-        View footShade = mInflater.inflate(R.layout.divide_shade_up, null);
+        View footShade = mInflater.inflate(R.layout.divide_shade_up, listView, false);
         listView.addFooterView(footShade, null, false);
 
         getNetwork(PointObject.getHttpPointsAll(), TAG_HTTP_ALL_POINTS);

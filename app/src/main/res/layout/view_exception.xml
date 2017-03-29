@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:src="@drawable/ic_exception_no_network"
-        android:layout_above="@id/message"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/ic_exception_no_network" />
 
@@ -23,9 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/icon"
         android:gravity="center"
         android:text="加载失败，请检查下网络"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_blank"
         android:textSize="15sp" />
 
     <Button
@@ -40,4 +42,4 @@
         android:textColor="@color/font_9"
         android:textSize="18sp" />
 
-</LinearLayout>
+</RelativeLayout>

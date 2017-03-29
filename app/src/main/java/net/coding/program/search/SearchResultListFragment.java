@@ -8,7 +8,6 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -16,7 +15,6 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.ProjectActivity;
@@ -26,7 +24,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +34,7 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/21.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchResultListFragment extends RefreshBaseFragment {
+public class SearchResultListFragment extends SearchBaseFragment {
     private static final String TAG = SearchResultListFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/all?q=%s";
     final String tmp = "&types=%s&pageSize=10";
@@ -47,12 +44,6 @@ public class SearchResultListFragment extends RefreshBaseFragment {
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-
-    @ViewById
-    ListView listView;
-
-    @ViewById(R.id.emptyView)
-    LinearLayout emptyView;
 
     @InstanceState
     protected String keyword = "";

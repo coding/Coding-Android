@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -47,6 +49,7 @@ import java.util.ArrayList;
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     public final String HOST_MARK_MESSAGE = getHostMarkMessage();
+    private View listHeader;
 
     public static String getHostMarkMessage() {
         return Global.HOST_API + "/message/conversations/%s/read";
@@ -62,6 +65,10 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    View blankLayout;
+
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
     BadgeView badgeAt;
     BadgeView badgeComment;
@@ -248,20 +255,20 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     }
 
     private void initHead() {
-        View v = mInflater.inflate(R.layout.fragment_message_user_list_head, listView, false);
+        listHeader = mInflater.inflate(R.layout.fragment_message_user_list_head, listView, false);
 
-        v.findViewById(R.id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
-        v.findViewById(R.id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
-        v.findViewById(R.id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity(4));
+        listHeader.findViewById(R.id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
+        listHeader.findViewById(R.id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
+        listHeader.findViewById(R.id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity(4));
 
-        badgeAt = (BadgeView) v.findViewById(R.id.badgeAt);
+        badgeAt = (BadgeView) listHeader.findViewById(R.id.badgeAt);
         badgeAt.setVisibility(View.INVISIBLE);
-        badgeComment = (BadgeView) v.findViewById(R.id.badgeComment);
+        badgeComment = (BadgeView) listHeader.findViewById(R.id.badgeComment);
         badgeComment.setVisibility(View.INVISIBLE);
-        badgeSystem = (BadgeView) v.findViewById(R.id.badgeSystem);
+        badgeSystem = (BadgeView) listHeader.findViewById(R.id.badgeSystem);
         badgeSystem.setVisibility(View.INVISIBLE);
 
-        listView.addHeaderView(v, null, false);
+        listView.addHeaderView(listHeader, null, false);
     }
 
     private void startNotifyListActivity(int type) {
@@ -317,6 +324,20 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            if (mData.isEmpty()) {
+                FrameLayout.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) blankLayout.getLayoutParams();
+                lp.topMargin = listHeader.getHeight();
+                blankLayout.setLayoutParams(lp);
+                listHeader.findViewById(R.id.headerBottomLine).setVisibility(View.GONE);
+                listHeader.findViewById(R.id.headerBottomLineEmpty).setVisibility(View.VISIBLE);
+            } else {
+                listHeader.findViewById(R.id.headerBottomLine).setVisibility(View.VISIBLE);
+                listHeader.findViewById(R.id.headerBottomLineEmpty).setVisibility(View.GONE);
+            }
+
+            BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, v -> loadMore());
+
             mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
             mUpdateAll = false;

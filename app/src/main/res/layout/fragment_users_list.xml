@@ -53,11 +53,51 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/blankLayout"
-            layout="@layout/view_exception"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:gravity="center"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_marginTop="-40dp"
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_exception_no_network"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ic_exception_no_network" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/icon"
+                android:gravity="center"
+                android:text="加载失败，请检查下网络"
+                android:textColor="@color/font_blank"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btnRetry"
+                android:layout_width="163dp"
+                android:layout_height="49dp"
+                android:layout_below="@+id/message"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/button_retry"
+                android:text="点击重试"
+                android:textColor="@color/font_9"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
 
         <include layout="@layout/actionbar_shadow" />
         

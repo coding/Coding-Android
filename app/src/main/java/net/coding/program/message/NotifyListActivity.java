@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -398,11 +399,11 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 
                 String blankTip;
                 if (isShowNoRead) {
-                    blankTip = "没有未读的消息";
+                    blankTip = "没有未读的消息~";
                 } else {
-                    blankTip = "消息列表为空";
+                    blankTip = "您没有收到通知噢~";
                 }
-                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, blankTip);
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, blankTip, R.drawable.ic_exception_blank_notify);
             } else {
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);

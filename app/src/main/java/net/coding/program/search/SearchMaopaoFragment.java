@@ -2,20 +2,16 @@ package net.coding.program.search;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.adapter.SearchMaopaoAdapter;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.Maopao;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +22,7 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/28.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchMaopaoFragment extends RefreshBaseFragment {
+public class SearchMaopaoFragment extends SearchBaseFragment {
     final String url = Global.HOST_API + "/esearch/all?q=%s";
     final String tmp = "&types=%s&pageSize=10";
     String page = "&page=%s";
@@ -35,11 +31,7 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-    private LinearLayout emptyView;
     private MyImageGetter myImageGetter;
-
-    @ViewById
-    ListView listView;
 
     @InstanceState
     protected String keyword = "";
@@ -51,7 +43,6 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
         initRefreshLayout();
         myImageGetter = new MyImageGetter(getActivity());
         setRefreshing(true);
-        emptyView = (LinearLayout) getView().findViewById(R.id.emptyView);
         mFootUpdate.init(listView, mInflater, this);
 
         adapter = new SearchMaopaoAdapter(mData, myImageGetter, getActivity());

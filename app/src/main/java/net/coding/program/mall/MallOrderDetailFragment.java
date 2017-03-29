@@ -210,9 +210,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 if (mType == Type.already_send) {
                     tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
                 } else if (mType == Type.un_send) {
-                    tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_ALREADYSEND;
+                    tip = BlankViewDisplay.OTHER_MALL_ORDER_BLANK_UNSEND;
                 }
-                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip);
+                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, tip, R.drawable.ic_exception_blank_order);
 
                 mAdapter.notifyDataSetChanged();
             } else {

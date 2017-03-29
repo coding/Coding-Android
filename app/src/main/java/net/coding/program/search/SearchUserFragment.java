@@ -2,20 +2,16 @@ package net.coding.program.search;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.adapter.SearchUserAdapter;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +22,7 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/30.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchUserFragment extends RefreshBaseFragment {
+public class SearchUserFragment extends SearchBaseFragment {
 
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/all?q=%s";
@@ -37,10 +33,6 @@ public class SearchUserFragment extends RefreshBaseFragment {
     private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
-    @ViewById
-    ListView listView;
-    @ViewById(R.id.emptyView)
-    LinearLayout emptyView;
 
     SearchUserAdapter adapter;
 

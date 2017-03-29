@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.BackActivity;
@@ -31,12 +32,13 @@ public class TeamListActivity extends BackActivity {
     @ViewById
     ListView listView;
 
+    @ViewById
+    View blankLayout;
+
     ArrayList<TeamListObject> listData = new ArrayList<>();
 
     @AfterViews
     void initTeamListActivity() {
-        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
-        listView.addHeaderView(listViewHeader, null, false);
         View listViewFooter = getLayoutInflater().inflate(R.layout.divide_bottom_15, listView, false);
         listView.addFooterView(listViewFooter, null, false);
         baseAdapter.init(listData);
@@ -69,8 +71,12 @@ public class TeamListActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            BlankViewDisplay.setBlank(listData.size(), this, code == 0, blankLayout, onClickRetry);
         }
     }
+
+    View.OnClickListener onClickRetry = v -> loadData();
 
     @ItemClick
     public void listView(TeamListObject item) {
