@@ -116,9 +116,9 @@ public class TaskFilterFragment extends LoadingFragment {
 
         if (mTaskProjectCountModel != null) {
             filterTxtCount = new String[]{
-                    String.format(" (%d)", mTaskProjectCountModel.owner),
-                    String.format(" (%d)", mTaskProjectCountModel.watcher),
-                    String.format(" (%d)", mTaskProjectCountModel.creator)
+                    String.format(" (%s)", mTaskProjectCountModel.owner),
+                    String.format(" (%s)", mTaskProjectCountModel.watcher),
+                    String.format(" (%s)", mTaskProjectCountModel.creator)
             };
         }
 

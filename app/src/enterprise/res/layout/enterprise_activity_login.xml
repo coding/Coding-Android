@@ -85,12 +85,6 @@
 
                             <include layout="@layout/enterprise_name_layout" />
 
-                            <View
-                                android:id="@+id/enterpriseLine"
-                                style="@style/LoginBottomLine"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginRight="15dp" />
-
                             <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/editName"
                                 style="@style/EmailEdit"

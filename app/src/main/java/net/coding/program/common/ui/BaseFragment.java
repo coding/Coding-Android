@@ -104,8 +104,8 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     }
 
     protected void listViewAddHeaderSection(ListView listView) {
-        View listViewHeader = LayoutInflater.from(getContext()).inflate(R.layout.divide_top_15, listView, false);
-        listView.addHeaderView(listViewHeader, null, false);
+//        View listViewHeader = LayoutInflater.from(getContext()).inflate(R.layout.divide_top_15, listView, false);
+//        listView.addHeaderView(listViewHeader, null, false);
     }
 
     protected void listViewAddFooterSection(ListView listView) {

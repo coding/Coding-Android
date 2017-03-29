@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:scaleType="centerInside"
-            android:src="@drawable/coding_emoji_44" />
+            android:src="@drawable/ic_exception_blank_task" />
 
         <TextView
             android:id="@+id/tv_none"

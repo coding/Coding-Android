@@ -1,12 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string-array name="drawer_title">
-        <item>我的项目</item>
-        <item>我的任务</item>
-        <item />
-        <item>@string/title_activity_message_list</item>
-        <item>我的</item>
-    </string-array>
 
     <string-array name="program_title">
         <item>全部项目</item>

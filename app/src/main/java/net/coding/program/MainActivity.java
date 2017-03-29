@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.roughike.bottombar.BottomBar;
 import com.tencent.android.tpush.XGPushManager;
@@ -63,8 +62,7 @@ public class MainActivity extends BaseActivity {
 
     @Extra
     String mPushUrl;
-    @StringArrayRes
-    String drawer_title[];
+
     @ViewById
     BottomBar bottomBar;
 
@@ -89,26 +87,24 @@ public class MainActivity extends BaseActivity {
 
     private void setListenerToRootView() {
         final View rootView = getWindow().getDecorView().findViewById(R.id.frameLayout);
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                final int headerHeight = Global.dpToPx(150);// getActionBarHeight() + getStatusBarHeight() + bottomBar();
-                int rootViewHeight = rootView.getRootView().getHeight();
-                int rootHeight = rootView.getHeight();
-                int heightDiff = rootViewHeight - rootHeight;
-                if (heightDiff > headerHeight) {
-                    if (!mKeyboardUp) {
-                        mKeyboardUp = true;
-                        bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
-                    }
-                } else {
-                    if (mKeyboardUp) {
-                        mKeyboardUp = false;
-                        setBottomBar();
-                    }
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            // getActionBarHeight() + getStatusBarHeight() + bottomBar();
+            final int headerHeight = Global.dpToPx(150);
+            int rootViewHeight = rootView.getRootView().getHeight();
+            int rootHeight = rootView.getHeight();
+            int heightDiff = rootViewHeight - rootHeight;
+            if (heightDiff > headerHeight) {
+                if (!mKeyboardUp) {
+                    mKeyboardUp = true;
+                    bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
                 }
-
+            } else {
+                if (mKeyboardUp) {
+                    mKeyboardUp = false;
+                    setBottomBar();
+                }
             }
+
         });
     }
 
@@ -123,7 +119,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
-
 
         if (PermissionUtil.writeExtralStorage(this)) {
             LoginBackground loginBackground = new LoginBackground(this);
@@ -150,7 +145,6 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidRegister();
 
         EventBus.getDefault().register(this);
-
     }
 
     protected void startExtraService() {
@@ -272,7 +266,6 @@ public class MainActivity extends BaseActivity {
 
         setListenerToRootView();
 
-
         if (mFirstEnter) {
             // todo 打开第一个页面
 //            onNavigationDrawerItemSelected(0);
@@ -282,7 +275,7 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void switchTab(int tabId) {
-        taskOper(tabId);
+        isOpenDrawerLayout(tabId == R.id.tabTask);
         updateNotifyFromService();
         switch (tabId) {
             case R.id.tabProject:
@@ -405,22 +398,7 @@ public class MainActivity extends BaseActivity {
         super.onNewIntent(intent);
     }
 
-    /**
-     * 任务列表特殊处理
-     * 1.drawerLayout 手势
-     *
-     * @param position
-     */
-    protected void taskOper(int position) {
-        // todo 有 bug ，暂时不显示任务过滤
-        isOpenDrawerLayout(position == R.id.tabTask);
-//        isOpenDrawerLayout(false);
-    }
-
-    /**
-     * 判断是否打开DrawerLayout
-     * @param isOpen
-     */
+    // 判断是否打开DrawerLayout
     private void isOpenDrawerLayout(boolean isOpen) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer == null) return;
@@ -449,7 +427,6 @@ public class MainActivity extends BaseActivity {
             finish();
         }
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventBottomBarNotify(EventNotifyBottomBar notify) {

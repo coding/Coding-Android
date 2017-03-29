@@ -171,9 +171,9 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
             holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
             holder.content.setVisibility(View.INVISIBLE);
             holder.desc.setText(item.getDescription());
-            holder.tv_follow_count.setText(item.getWatch_count() + "");
-            holder.tv_star_count.setText(item.getStar_count() + "");
-            holder.tv_fork_count.setText(item.getFork_count() + "");
+            holder.tv_follow_count.setText(item.getWatchCountString());
+            holder.tv_star_count.setText(item.getStarString());
+            holder.tv_fork_count.setText(item.getForkCountString());
             holder.badge.setVisibility(View.INVISIBLE);
             holder.ll_bottom_menu.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(item.icon, holder.image, ImageLoadTool.optionsRounded2);

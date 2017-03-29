@@ -82,7 +82,6 @@ public class MenuProjectFragment extends BaseFragment {
 
     @Click
     void ll_square() {//项目广场
-//                EventBus.getDefault().post(new EventPosition(6));
         ProjectSquareActivity_.intent(this).start();
     }
 

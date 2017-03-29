@@ -184,6 +184,10 @@ public class ProjectObject implements Serializable {
         return star_count;
     }
 
+    public String getStarString() {
+        return String.valueOf(star_count);
+    }
+
     public void setStar_count(int star_count) {
         this.star_count = star_count;
     }
@@ -192,12 +196,20 @@ public class ProjectObject implements Serializable {
         return watch_count;
     }
 
+    public String getWatchCountString() {
+        return String.valueOf(watch_count);
+    }
+
     public void setWatch_count(int watch_count) {
         this.watch_count = watch_count;
     }
 
     public int getFork_count() {
         return fork_count;
+    }
+
+    public String getForkCountString() {
+        return String.valueOf(fork_count);
     }
 
     public String getDescription() {

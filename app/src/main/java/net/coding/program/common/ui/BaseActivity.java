@@ -59,8 +59,8 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     }
 
     protected void listViewAddHeaderSection(ListView listView) {
-        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
-        listView.addHeaderView(listViewHeader, null, false);
+//        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
+//        listView.addHeaderView(listViewHeader, null, false);
     }
 
     protected View.OnFocusChangeListener createEditLineFocus(View line) {

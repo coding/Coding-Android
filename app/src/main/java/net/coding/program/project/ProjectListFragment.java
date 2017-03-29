@@ -120,7 +120,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ++msectionId;
         }
 
-        listView.setAreHeadersSticky(false);
         View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
         listView.addFooterView(listViewFooter, null, false);
 
@@ -406,16 +405,14 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.divide_top_15, parent, false);
+                convertView = new View(parent.getContext());
             }
-
             return convertView;
         }
 
         @Override
         public long getHeaderId(int position) {
-            return 0;
+            return -1;
         }
-
     }
 }

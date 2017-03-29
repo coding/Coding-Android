@@ -198,9 +198,9 @@ public class SearchResultListFragment extends RefreshBaseFragment {
             }
             holder.content.setText(name);
             HoloUtils.setHoloText(holder.desc, keyword, item.getDescription());
-            holder.tv_follow_count.setText(item.getWatch_count() + "");
-            holder.tv_star_count.setText(item.getStar_count() + "");
-            holder.tv_fork_count.setText(item.getFork_count() + "");
+            holder.tv_follow_count.setText(item.getWatchCountString());
+            holder.tv_star_count.setText(item.getStarString());
+            holder.tv_fork_count.setText(item.getForkCountString());
             holder.badge.setVisibility(View.INVISIBLE);
             if (item.getType() == 1) {
                 holder.name2.setVisibility(View.VISIBLE);

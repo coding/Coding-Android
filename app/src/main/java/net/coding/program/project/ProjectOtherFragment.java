@@ -259,9 +259,9 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
             String ownerName = item.isPublic() ? item.owner_user_name : ("      " + item.owner_user_name);
             holder.content.setText(ownerName);
             holder.desc.setText(item.getDescription());
-            holder.tv_follow_count.setText(item.getWatch_count() + "");
-            holder.tv_star_count.setText(item.getStar_count() + "");
-            holder.tv_fork_count.setText(item.getFork_count() + "");
+            holder.tv_follow_count.setText(item.getWatchCountString());
+            holder.tv_star_count.setText(item.getStarString());
+            holder.tv_fork_count.setText(item.getForkCountString());
 
             if (type == ProjectFragment.Type.Pick) {
                 holder.badge.setVisibility(View.INVISIBLE);
@@ -285,9 +285,8 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.divide_top_15, parent, false);
+                convertView = new View(parent.getContext());
             }
-
             return convertView;
         }
 

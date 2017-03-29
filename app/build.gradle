@@ -19,10 +19,19 @@ apply plugin: 'me.tatarka.retrolambda'
 dependencies {
     def AAVersion = '4.3.0'
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+    // 非常奇怪，格式化会两行合并为一行
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
 }
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'test'
+            keyPassword 'qqqqqq'
+            storeFile file('testKeyStore.jks')
+            storePassword 'qqqqqq'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
     dexOptions {
@@ -69,6 +78,14 @@ android {
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            debuggable false
+            jniDebuggable false
+        }
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            jniDebuggable true
         }
     }
     packagingOptions {
