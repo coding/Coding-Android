@@ -107,11 +107,8 @@
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/loginButton"
-                    app:backgroundTint="@color/font_green"
                     android:layout_gravity="right"
                     android:layout_marginTop="25dp"
-                    app:borderWidth="0dp"
-                    app:elevation="6dp"
                     style="@style/loginButton" />
 
             </LinearLayout>

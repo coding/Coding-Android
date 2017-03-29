@@ -82,11 +82,11 @@ android {
             debuggable false
             jniDebuggable false
         }
-        debug {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-            jniDebuggable true
-        }
+//        debug {
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.config
+//            jniDebuggable true
+//        }
     }
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'

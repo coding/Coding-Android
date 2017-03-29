@@ -487,7 +487,10 @@
         <item name="android:layout_height">@dimen/float_button</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:background">@color/font_green</item>
+        droid.support.design.widget.FloatingActionButton
+        <item name="backgroundTint">@color/float_button_login</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <!--正则替换工具-->

@@ -126,7 +126,7 @@ public class BlankViewDisplay {
                     iconId = R.drawable.ic_exception_no_network;
                     text = "晚了一步\n文件已经被人删除了~";
                 } else if (fragment instanceof ProjectMaopaoActivity) {
-                    iconId = R.drawable.ic_exception_blank_task;
+                    iconId = R.drawable.ic_exception_blank_announcement;
                     text = v.getContext().getString(R.string.project_maopao_list_empty);
                 } else if (fragment instanceof ProjectDynamicFragment) {
                     iconId = R.drawable.ic_exception_blank_dynamic;

@@ -26,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/ic_2fa"
+            android:drawablePadding="15dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:gravity="center"
@@ -172,9 +174,7 @@
 
                             <android.support.design.widget.FloatingActionButton
                                 android:id="@+id/loginButton"
-                                app:backgroundTint="@color/font_green"
-                                app:borderWidth="0dp"
-                                app:elevation="6dp"
+                                android:layout_marginRight="15dp"
                                 style="@style/loginButton" />
 
                         </RelativeLayout>

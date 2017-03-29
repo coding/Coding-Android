@@ -415,6 +415,8 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
             login2faMenu.setText(CLOSE_2FA_TIP);
 
+            login2faMenu.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
         } else {
             layout2fa.setVisibility(View.GONE);
             loginLayout.setVisibility(View.VISIBLE);
@@ -423,6 +425,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
             backButton.setVisibility(View.INVISIBLE);
 
             login2faMenu.setText("两步验证");
+            login2faMenu.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_2fa, 0, 0, 0);
         }
     }
 

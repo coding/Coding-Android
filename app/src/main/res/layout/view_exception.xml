@@ -42,4 +42,12 @@
         android:textColor="@color/font_9"
         android:textSize="18sp" />
 
+    <net.coding.program.common.widget.LoadingView
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 </RelativeLayout>

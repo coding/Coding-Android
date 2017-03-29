@@ -7,7 +7,7 @@ import net.coding.program.common.BlankViewDisplay;
 
 /**
  * Created by chenchao on 2016/12/14.
- * 与 view_blank_common 配套使用
+ * 与 view_exception 配套使用
  */
 
 public class BlankViewHelp extends BlankViewDisplay {
