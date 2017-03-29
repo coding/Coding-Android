@@ -2,14 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical"
     android:visibility="invisible">
 
-    <View
+    <ImageView
+        android:layout_marginTop="-150dp"
         android:id="@+id/icon"
-        android:layout_width="143dp"
-        android:layout_height="143dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:src="@drawable/ic_exception_no_network"
         android:layout_above="@id/message"
         android:layout_centerHorizontal="true"
         android:background="@drawable/ic_exception_no_network" />
@@ -30,7 +33,7 @@
         android:layout_height="49dp"
         android:layout_below="@+id/message"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/button_retry"
         android:text="点击重试"
         android:textColor="@color/font_9"

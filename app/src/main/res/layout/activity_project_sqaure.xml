@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -25,20 +26,10 @@
         android:id="@+id/project_create_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_F6F6F6"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        tools:visibility="visible"
         android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tv_msg_tip"
-            android:layout_width="match_parent"
-            android:layout_height="31dp"
-            android:background="@color/font_black_e"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
-            android:text="全部项目"
-            android:textColor="@color/font_9" />
 
         <ImageView
             android:layout_width="106dp"
@@ -59,8 +50,8 @@
             android:id="@+id/btn_action"
             android:layout_width="140dp"
             android:layout_height="40dp"
-            android:layout_marginTop="21dp"
-            android:background="@color/color_3BBD79"
+            android:layout_marginTop="251dp"
+            android:background="@color/color_enterprise_button"
             android:text="+  创建项目"
             android:textColor="@color/white"
             android:textSize="15sp" />

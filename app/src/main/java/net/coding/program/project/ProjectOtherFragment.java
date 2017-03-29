@@ -61,8 +61,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
     @ViewById
     RelativeLayout project_create_layout;
     @ViewById
-    TextView tv_msg_tip;
-    @ViewById
     Button btn_action;
 
     boolean mRequestOk;
@@ -146,7 +144,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
                     adapter.notifyDataSetChanged();
                 }
                 if (!(mData.size() > 0)) {
-                    tv_msg_tip.setText(getTitle());
                     project_create_layout.setVisibility(View.VISIBLE);
                     if (tag.equals(hostStared)) {
                         btn_action.setText("+  去收藏");

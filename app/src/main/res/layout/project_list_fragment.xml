@@ -33,29 +33,10 @@
         tools:visibility="visible"
         android:visibility="gone">
 
-        <View
-            android:layout_width="3.5dp"
-            android:layout_height="16dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="17dp"
-            android:background="@color/color_3BBD79" />
-        <TextView
-            android:id="@+id/tv_msg_tip"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/color_F6F6F6"
-            android:layout_marginLeft="30dp"
-            android:gravity="center_vertical"
-            android:text=""
-            android:textSize="16sp"
-            android:textColor="@color/font_9" />
-
         <ImageView
             android:id="@+id/icon"
             android:layout_width="106dp"
             android:layout_height="106dp"
-            android:layout_below="@id/tv_msg_tip"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:scaleType="centerInside"
@@ -79,8 +60,8 @@
             android:layout_height="40dp"
             android:layout_below="@+id/tv_none"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="21dp"
-            android:background="@drawable/round_rect_green"
+            android:layout_marginTop="25dp"
+            android:background="@color/color_enterprise_button"
             android:text="+  创建项目"
             android:textColor="@color/white"
             android:textSize="15sp" />

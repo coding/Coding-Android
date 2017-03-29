@@ -74,8 +74,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     SwipeRefreshLayout swipeRefreshLayout;
     @ViewById
     RelativeLayout project_create_layout;
-    @ViewById
-    TextView tv_msg_tip;
+
     MyAdapter myAdapter = null;
     int msectionId = 0;
     private View.OnClickListener mOnClickRetry = v -> onRefresh();
@@ -140,7 +139,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
 
     private void notifyEmputy() {
         if (mData.size() == 0) {
-            tv_msg_tip.setText(getTitle());
             project_create_layout.setVisibility(View.VISIBLE);
             btn_action.setText("+  去创建");
         } else {

@@ -53,10 +53,12 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
     View blankLayout;
     private ArrayList<ProjectObject> mData = new ArrayList<>();
     private MyAdapter adapter;
-    @ViewById
-    LinearLayout project_create_layout;
+
+    @ViewById(R.id.project_create_layout)
+    LinearLayout projectCreateLayout;
     @ViewById
     Button btn_action;
+
     private boolean mRequestOk;
     private boolean requestOk;
 
@@ -206,9 +208,9 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
                     adapter.notifyDataSetChanged();
                 }
                 if (!(mData.size() > 0)) {
-                    project_create_layout.setVisibility(View.VISIBLE);
+                    projectCreateLayout.setVisibility(View.VISIBLE);
                 } else {
-                    project_create_layout.setVisibility(View.GONE);
+                    projectCreateLayout.setVisibility(View.GONE);
                 }
             } else {
                 requestOk = false;

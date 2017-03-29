@@ -77,7 +77,7 @@ public class BlankViewDisplay {
                     text = MY_PROJECT_BLANK;
 
                 } else if (fragment instanceof TaskListFragment) {
-                    iconId = R.drawable.ic_exception_blank_task;
+                    iconId = R.drawable.ic_exception_blank_task_my;
                     text = "您还没有任务\n赶快为团队做点贡献吧~";
 
                 } else if (fragment instanceof TopicListFragment) {
@@ -89,8 +89,8 @@ public class BlankViewDisplay {
                     text = "来，冒个泡吧～";
 
                 } else if (fragment instanceof UsersListFragment) {
-                    iconId = R.drawable.ic_exception_blank_maopao;
-                    text = "快和你的好友打个招呼吧~";
+                    iconId = R.drawable.ic_exception_blank_message;
+                    text = "还没有新消息~";
                 } else if (fragment instanceof ProjectDynamicFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "这里还什么都没有\n赶快起来弄出一点动静吧";
@@ -101,26 +101,29 @@ public class BlankViewDisplay {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "此项目的 Git 仓库为空";
                 } else if (fragment instanceof AttachmentsActivity) {
-                    iconId = R.drawable.ic_exception_blank_task;
-                    text = "此文件夹为空";
+                    iconId = R.drawable.ic_exception_blank_dir;
+                    text = " 这里还没有任何文件~";
                 } else if (fragment instanceof UserProjectListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = OTHER_PROJECT_BLANK;
                 } else if (fragment instanceof MessageListActivity) {
-                    iconId = R.drawable.ic_exception_blank_maopao;
+                    iconId = R.drawable.ic_exception_blank_message;
                     text = "无私信\n打个招呼吧~";
                 } else if (fragment instanceof MergeListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
-                    text = "这里还什么都没有\n赶快起来弄出一点动静吧";
+                    text = "这里还什么都没有\n赶快起来弄出一点动静吧~";
                 } else if (fragment instanceof ImagePagerFragment
                         || fragment instanceof AttachmentsDownloadDetailActivity
                         || fragment instanceof AttachmentsHtmlDetailActivity
                         || fragment instanceof AttachmentsTextDetailActivity) {
                     iconId = R.drawable.ic_exception_no_network;
-                    text = "晚了一步\n文件已经被人删除了";
+                    text = "晚了一步\n文件已经被人删除了~";
                 } else if (fragment instanceof ProjectMaopaoActivity) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = v.getContext().getString(R.string.project_maopao_list_empty);
+                } else if (fragment instanceof ProjectDynamicFragment) {
+                    iconId = R.drawable.ic_exception_blank_dynamic;
+                    text = "暂无相关动态~";
                 } else {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "还什么都没有~";
