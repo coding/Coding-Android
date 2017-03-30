@@ -32,11 +32,11 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="106dp"
-            android:layout_height="106dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/coding_emoji_44" />
+            android:scaleType="center"
+            android:src="@drawable/ic_exception_blank_project" />
 
         <TextView
             android:layout_width="wrap_content"

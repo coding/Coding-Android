@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.ProjectActivity;
 
 import java.util.ArrayList;
 
@@ -45,4 +46,7 @@ public interface ClassCompatInterface {
     void closeNotify(Context context, String url);
 
     void closePushReceiverActivity(Activity context, String url);
+
+    void launchProjectMaopoaList(Context context, ProjectActivity.ProjectJumpParam param);
+
 }

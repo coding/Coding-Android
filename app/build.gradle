@@ -142,7 +142,11 @@ dependencies {
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile project(':bottom-bar')
     compile 'com.alibaba:fastjson:1.1.44.android'
+
+    // 方便显示 view 显示一些样式，不用写 selector
+    // https://github.com/H07000223/FlycoRoundView
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'

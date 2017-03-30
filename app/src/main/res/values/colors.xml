@@ -116,7 +116,7 @@
 
     <color name="popDialogBg">#99000000</color>
 
-    <color name="color_enterprise_button">#425063</color>
+    <color name="color_enterprise_button">#FF425063</color>
 
     <color name="addjob_radio_text_gray">#ffcccccc</color>
     <color name="addjob_text_blue">#ff30A8E1</color>

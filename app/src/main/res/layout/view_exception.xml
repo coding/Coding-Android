@@ -30,17 +30,12 @@
         android:textColor="@color/font_blank"
         android:textSize="15sp" />
 
-    <Button
+    <com.flyco.roundview.RoundTextView
         android:id="@+id/btnRetry"
-        android:layout_width="163dp"
-        android:layout_height="49dp"
         android:layout_below="@+id/message"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/button_retry"
         android:text="点击重试"
-        android:textColor="@color/font_9"
-        android:textSize="18sp" />
+        style="@style/retryButton" />
+
 
     <net.coding.program.common.widget.LoadingView
         android:id="@+id/loadingLayout"

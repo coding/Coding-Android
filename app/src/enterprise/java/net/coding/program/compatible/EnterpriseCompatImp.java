@@ -11,6 +11,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoActivity_;
 import net.coding.program.user.EnterpriseAddMemberActivity_;
 import net.coding.program.user.EnterpriseLoginActivity_;
@@ -115,5 +116,12 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
         resultIntent.putExtra("data", url);
         context.sendBroadcast(resultIntent);
         context.finish();
+    }
+
+    @Override
+    public void launchProjectMaopoaList(Context context, ProjectActivity.ProjectJumpParam param) {
+        EnterpriseProjectMaopaoActivity_.intent(context)
+                .jumpParam(param)
+                .start();
     }
 }

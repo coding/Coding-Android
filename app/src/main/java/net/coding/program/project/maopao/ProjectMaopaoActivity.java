@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import net.coding.program.FileUrlActivity;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -17,6 +18,7 @@ import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.ProjectActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -38,9 +40,13 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
 
     private static final int RESULT_ADD = 1;
     private static final int RESULT_EDIT = 2;
+    private final String TAG_PROJECT = "TAG_PROJECT";
 
     @Extra
     ProjectObject projectObject;
+
+    @Extra
+    ProjectActivity.ProjectJumpParam jumpParam;
 
     @ViewById
     ListView listView;
@@ -107,8 +113,15 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     @AfterViews
     void initProjectMaopaoActivity() {
         if (projectObject != null) {
-            setActionBarTitle(projectObject.name);
+            initList();
+        } else {
+            String mProjectUrl = String.format(FileUrlActivity.getHostProject(), jumpParam.mUser, jumpParam.mProject);
+            getNetwork(mProjectUrl, TAG_PROJECT);
         }
+    }
+
+    private void initList() {
+        setActionBarTitle(projectObject.name);
 
         initAdapter();
 
@@ -146,6 +159,14 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     }
 
     public void onRefresh() {
+        if (projectObject != null) {
+            onRefreshReal();
+        } else {
+            initProjectMaopaoActivity();
+        }
+    }
+
+    private void onRefreshReal() {
         initSetting();
         lastId = RefreshBaseActivity.UPDATE_ALL_INT;
         loadMore();
@@ -180,6 +201,13 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
                 BlankViewDisplay.setBlank(listData.size(), this, false, blankLayout, onClickRetry);
             }
 
+        } else if (tag.equals(TAG_PROJECT)) {
+            if (code == 0) {
+                projectObject = new ProjectObject(respanse.optJSONObject("data"));
+                initProjectMaopaoActivity();
+            } else {
+                BlankViewDisplay.setBlank(listData.size(), this, code == 0, blankLayout, onClickRetry);
+            }
         }
     }
 

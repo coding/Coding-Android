@@ -487,10 +487,23 @@
         <item name="android:layout_height">@dimen/float_button</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginTop">10dp</item>
+        <item name="android:src">@drawable/ic_float_login</item>
         droid.support.design.widget.FloatingActionButton
         <item name="backgroundTint">@color/float_button_login</item>
         <item name="borderWidth">0dp</item>
         <item name="elevation">0dp</item>
+    </style>
+
+    <style name="retryButton">
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="rv_backgroundColor">@color/color_enterprise_button</item>
+        <item name="android:textSize">15sp</item>
+        <item name="rv_cornerRadius">4dp</item>
     </style>
 
     <!--正则替换工具-->

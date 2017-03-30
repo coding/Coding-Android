@@ -202,6 +202,17 @@ public class URLSpanNoUnderline extends URLSpan {
             return true;
         }
 
+        // 冒泡列表
+        // https://codingcorp.coding.net/p/Coding/setting/notice
+        final String projectMaopaoList = String.format("^(?:%s)?%s/setting/notice", Host, ProjectPath);
+        pattern = Pattern.compile(projectMaopaoList);
+        matcher = pattern.matcher(uriString);
+        if (matcher.find()) {
+            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(matcher.group(1), matcher.group(2));
+            CodingCompat.instance().launchProjectMaopoaList(context, param);
+            return true;
+        }
+
             // 冒泡话题
         // https://coding.net/u/8206503/pp/9275
         final String maopaoTopic = "^(?:(?:https://[\\w.]*)?/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";

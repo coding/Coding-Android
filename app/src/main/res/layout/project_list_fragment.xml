@@ -34,12 +34,12 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="106dp"
-            android:layout_height="106dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/coding_emoji_44" />
+            android:scaleType="center"
+            android:src="@drawable/ic_exception_blank_project" />
 
         <TextView
             android:id="@+id/tv_none"
