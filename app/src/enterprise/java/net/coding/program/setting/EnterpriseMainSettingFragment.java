@@ -13,6 +13,7 @@ import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by chenchao on 2017/1/5.
+ * 企业版的设置主界面
  */
 @EFragment(R.layout.enterprise_fragment_main_setting)
 public class EnterpriseMainSettingFragment extends MainSettingFragment {

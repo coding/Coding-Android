@@ -49,7 +49,6 @@
         android:id="@+id/itemManager"
         android:layout_width="match_parent"
         android:layout_height="73dp"
-        android:visibility="gone"
         android:background="@drawable/list_item_selector">
 
         <View

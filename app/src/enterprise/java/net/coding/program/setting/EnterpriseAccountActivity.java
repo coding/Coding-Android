@@ -25,6 +25,7 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.ColorRes;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_enterprise_account)
@@ -42,6 +43,12 @@ public class EnterpriseAccountActivity extends BackActivity {
     @ViewById
     Toolbar toolbar;
 
+    @ColorRes(R.color.font_red)
+    int fontRed;
+
+    @ColorRes(R.color.font_orange)
+    int fontOragne;
+
     @AfterViews
     void initEnterpriseAccountActivity() {
         initToolbar();
@@ -55,15 +62,30 @@ public class EnterpriseAccountActivity extends BackActivity {
 
                 EnterpriseAccount account = new EnterpriseAccount(response.optJSONObject("data"));
                 Spanned countString;
-                if (account.remaindays < 0) {
-                    countString = Global.createColorHtml("", "您的服务已过期，请订购后使用", "", "#F56061");
-                } else if (account.remaindays == 1) {
-                    countString = Global.createColorHtml("", "您的服务预计于明天暂停，请尽快订购", "", "#F56061");
-                } else if (account.trial) {
-                    countString = Global.createColorHtml("试用期剩余 ", String.valueOf(account.remaindays), " 天", "#32BE77");
+
+                if (account.trial) { // 处于试用期
+                    int fontColor = account.remaindays > 5 ? fontOragne : fontRed;
+                    countString = Global.createColorHtml("试用期剩余 ", String.valueOf(account.remaindays), " 天", fontColor);
                 } else {
-                    countString = Global.createColorHtml("账户余额：", account.balance, " 元", "#FB8638");
+                    if (account.payed) {
+                        if (account.remaindays > 5) { // 付费期且未到期
+                            countString = Global.createColorHtml("账户余额：", account.balance, "元", fontOragne);
+                        } else if (account.remaindays > 0) {
+                            countString = Global.createColorHtml("", "您的余额不足，请尽快订购", "", fontRed);
+                        } else { // 付费期已到期
+                            String tip;
+                            if (account.suspendedAt > 0) { // 已暂停
+                                tip = String.format("您的服务已暂停 %s 天，请订购后使用", account.suspendedToToday());
+                            } else { // 处于超时使用阶段
+                                tip = String.format("您的服务已超时使用 %s 天，请订购后使用", account.estimateDate());
+                            }
+                            countString = Global.createColorHtml("", tip, "", fontRed);
+                        }
+                    } else { // 未付费而且试用期已过
+                        countString = Global.createColorHtml("", "您的试用期已结束，请订购后使用", "", fontRed);
+                    }
                 }
+
                 accountState.setText(countString);
             }
 
@@ -83,7 +105,7 @@ public class EnterpriseAccountActivity extends BackActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
-        if(Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             getSupportActionBar().setElevation(0);
         }
     }
@@ -99,12 +121,12 @@ public class EnterpriseAccountActivity extends BackActivity {
     }
 
     @OptionsItem
-    void action_setting(){
+    void action_setting() {
         EnterpriseSettingActivity_.intent(this).startForResult(SETTING_REQUEST_CODE);
     }
 
     @OnActivityResult(SETTING_REQUEST_CODE)
-    void OnSettingResult(int result){
+    void OnSettingResult(int result) {
         if (result == Activity.RESULT_OK) {
             updateUI();
         }

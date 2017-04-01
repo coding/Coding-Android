@@ -135,6 +135,11 @@ public class Global {
         return createColorHtml(begin, middle, end, "#4F95E8");
     }
 
+    public static Spanned createColorHtml(String begin, String middle, String end, int color) {
+        String colorString = String.format("#%06X", 0xFFFFFF & color);
+        return createColorHtml(begin, middle, end, colorString);
+    }
+
     public static Spanned createColorHtml(String begin, String middle, String end, String color) {
         return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
     }
