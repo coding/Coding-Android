@@ -31,16 +31,22 @@ public class EnterpriseApp extends MyApp {
 
     public static void setHost(@NonNull String enterpriseName) {
         String host = "https://e.coding.net";
-        if (!TextUtils.isEmpty(enterpriseName)) {
-            if (Global.HOST.equals("t") || Global.HOST.startsWith("http://")) {
+
+        if (Global.HOST.equals("t") || Global.HOST.startsWith("http://")) {
+            if (TextUtils.isEmpty(enterpriseName)) {
+                host = "http://e.staging.coding.test";
+            } else {
                 host = String.format("http://%s.staging.coding.test", enterpriseName);
+            }
+        } else {
+            if (enterpriseName.isEmpty()) {
+                host = "https://e.coding.net";
             } else {
                 host = String.format("https://%s.coding.net", enterpriseName);
             }
-            setEnterpriseGK(enterpriseName);
         }
-        setEnterpriseGK(enterpriseName);
 
+        setEnterpriseGK(enterpriseName);
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }

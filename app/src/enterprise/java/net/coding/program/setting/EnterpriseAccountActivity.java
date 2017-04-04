@@ -17,6 +17,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.CircleImageView;
 import net.coding.program.model.EnterpriseAccount;
 import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.setting.order.OrderMainActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -43,6 +44,8 @@ public class EnterpriseAccountActivity extends BackActivity {
     @ViewById
     Toolbar toolbar;
 
+    EnterpriseAccount account;
+
     @ColorRes(R.color.font_red)
     int fontRed;
 
@@ -54,13 +57,24 @@ public class EnterpriseAccountActivity extends BackActivity {
         initToolbar();
         updateUI();
 
+        loadDataFromNetwork();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        loadDataFromNetwork();
+    }
+
+    private void loadDataFromNetwork() {
         String host = String.format("%s/enterprise/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
         MyAsyncHttpClient.get(this, host, new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
 
-                EnterpriseAccount account = new EnterpriseAccount(response.optJSONObject("data"));
+                account = new EnterpriseAccount(response.optJSONObject("data"));
                 Spanned countString;
 
                 if (account.trial) { // 处于试用期
@@ -118,6 +132,11 @@ public class EnterpriseAccountActivity extends BackActivity {
     @Click
     void itemMember() {
         ManageMemberActivity_.intent(this).start();
+    }
+
+    @Click
+    void itemManager() {
+        OrderMainActivity_.intent(this).account(account).start();
     }
 
     @OptionsItem

@@ -134,6 +134,9 @@ public class Global {
     public static Spanned createBlueHtml(String begin, String middle, String end) {
         return createColorHtml(begin, middle, end, "#4F95E8");
     }
+    public static Spanned createColorHtml(String s, int color) {
+       return createColorHtml("", s, "", color);
+    }
 
     public static Spanned createColorHtml(String begin, String middle, String end, int color) {
         String colorString = String.format("#%06X", 0xFFFFFF & color);

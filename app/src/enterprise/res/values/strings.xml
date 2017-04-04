@@ -6,6 +6,7 @@
     <string name="title_enterprise_account_activity">企业账户</string>
     <string name="title_manage_project_activity">项目管理</string>
     <string name="title_manage_member_activity">成员管理</string>
+    <string name="title_manage_order_activity">订购状态</string>
     <string name="title_activity_help">帮助中心</string>
     <string name="add_project_maopao">创建公告</string>
     <string name="title_activity_project_maopao">公告</string>
