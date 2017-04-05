@@ -107,7 +107,7 @@
                                 android:visibility="gone">
 
                                 <ImageView
-                                    android:id="@+id/imageValify"
+                                    android:id="@+id/imageValifyMain"
                                     android:layout_width="72dp"
                                     android:layout_marginRight="15dp"
                                     android:layout_height="30dp"
@@ -117,7 +117,7 @@
                                     android:scaleType="fitCenter" />
 
                                 <net.coding.program.common.widget.LoginEditTextNew
-                                    android:id="@+id/editValify"
+                                    android:id="@+id/editValifyMain"
                                     style="@style/EmailEdit"
                                     android:layout_toLeftOf="@id/imageValify"
                                     android:layout_marginRight="15dp"
@@ -126,7 +126,7 @@
 
                                 <View
                                     android:layout_alignParentBottom="true"
-                                    android:id="@+id/valifyLine"
+                                    android:id="@+id/valifyLineMain"
                                     style="@style/LoginBottomLine"
                                     android:layout_marginLeft="15dp"
                                     android:layout_marginRight="15dp" />

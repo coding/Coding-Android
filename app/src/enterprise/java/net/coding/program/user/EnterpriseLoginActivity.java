@@ -96,13 +96,12 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @ViewById
     LoginEditTextNew enterpriseEdit;
 
+    ImageView imageValifyMain;
     @ViewById
-    ImageView imageValify;
-    @ViewById
-    LoginEditTextNew editName, editPassword, editValify, edit2FA;
+    LoginEditTextNew editName, editPassword, editValifyMain, edit2FA;
 
     @ViewById
-    View enterpriseLine, valifyLine;
+    View enterpriseLine, valifyLineMain;
 
     @ViewById
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
@@ -150,7 +149,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         editName.addTextChangedListener(textWatcher);
         editPassword.addTextChangedListener(textWatcher);
-        editValify.addTextChangedListener(textWatcher);
+        editValifyMain.addTextChangedListener(textWatcher);
         upateLoginButton();
 
         androidContent = findViewById(android.R.id.content);
@@ -169,7 +168,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         }
 
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
-        editValify.setOnFocusChangeListener(createEditLineFocus(valifyLine));
+        editValifyMain.setOnFocusChangeListener(createEditLineFocus(valifyLineMain));
 
     }
 
@@ -266,8 +265,8 @@ public class EnterpriseLoginActivity extends BaseActivity {
     }
 
     @Click
-    void imageValify() {
-        editValify.getEditText().requestFocus();
+    void imageValifyMain() {
+        editValifyMain.getEditText().requestFocus();
         downloadValifyPhoto();
     }
 
@@ -297,8 +296,8 @@ public class EnterpriseLoginActivity extends BaseActivity {
         client.get(host, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                imageValify.setImageBitmap(BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length));
-                editValify.setText("");
+                imageValifyMain.setImageBitmap(BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length));
+                editValifyMain.setText("");
             }
 
             @Override
@@ -336,7 +335,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         try {
             String name = editName.getTextString();
             String password = editPassword.getTextString();
-            String captcha = editValify.getTextString();
+            String captcha = editValifyMain.getTextString();
 
             if (name.isEmpty()) {
                 showMiddleToast("邮箱或用户名不能为空");
@@ -564,7 +563,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         }
 
         if (captchaLayout.getVisibility() == View.VISIBLE &&
-                editValify.getText().length() == 0) {
+                editValifyMain.getText().length() == 0) {
             loginButton.setEnabled(false);
             return;
         }
