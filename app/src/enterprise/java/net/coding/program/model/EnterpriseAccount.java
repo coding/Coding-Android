@@ -23,6 +23,7 @@ public class EnterpriseAccount implements Serializable {
     public long createdat;
     public long suspendedAt;
     public boolean trial;
+
     public boolean payed; // 是否充值过
     public long estimateDate;
 

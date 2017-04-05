@@ -81,10 +81,8 @@ public class OrderMainActivity extends BackActivity {
         Spanned balanceContentString = empty;
         String balanceTipString = "";
 
-
-        account.trial = false;
-        account.payed = false;
-
+//        account.trial = false;
+//        account.payed = false;
 
         if (account.trial) { // 处于试用期
             if (account.remaindays > 5) {
