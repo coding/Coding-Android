@@ -10,9 +10,11 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.event.EventRefresh;
@@ -66,11 +68,17 @@ public class OrderMainActivity extends BackActivity {
     @ColorRes(R.color.font_red)
     int fontRed;
 
+    @ViewById
+    ImageView closeTipButton;
+
     private ArrayList<Order> orderList = new ArrayList<>();
     private ArrayList<Billing> billingList = new ArrayList<>();
 
     @AfterViews
     void initOrderMainActivity() {
+        closeTipButton.setImageDrawable(Global.tintDrawable(
+                getResources().getDrawable(R.drawable.delete_edit_login_black), CodingColor.fontYellow));
+
         SimpleDateFormat df = new SimpleDateFormat("yyyy 年 MM月 dd日");
         String timeString = df.format(Long.valueOf(account.estimateDate));
         SpannedString empty = new SpannedString("");

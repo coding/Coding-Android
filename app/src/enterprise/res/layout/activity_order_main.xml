@@ -31,6 +31,7 @@
                     android:id="@+id/closeTipButton"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
+                    android:src="@drawable/delete_edit_login_black"
                     android:layout_alignParentRight="true" />
 
                 <TextView
@@ -77,17 +78,17 @@
                 android:textSize="14sp"
                 tools:text="过期时间 2017 年 2月 25 日，已超时使用 2 天。" />
 
-            <include layout="@layout/divide_middle_15" />
+            <include layout="@layout/divide_middle_15" android:id="@+id/divideSection" />
 
-            <FrameLayout
-                android:id="@+id/containerHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </FrameLayout>
 
         </LinearLayout>
         <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+        <FrameLayout
+            android:id="@+id/containerHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
     <!--<FrameLayout-->

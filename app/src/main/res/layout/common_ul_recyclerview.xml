@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.marshalchen.ultimaterecyclerview.UltimateRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:divider="@null"
+    android:dividerHeight="6dp"
+    android:footerDividersEnabled="false"
+    android:scrollingCache="false" />

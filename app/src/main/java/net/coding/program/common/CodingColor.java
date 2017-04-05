@@ -7,4 +7,5 @@ package net.coding.program.common;
 public class CodingColor {
 
     public static final int fontGreen = 0xff3bbd79;
+    public static final int fontYellow = 0xFFAE9651;
 }
