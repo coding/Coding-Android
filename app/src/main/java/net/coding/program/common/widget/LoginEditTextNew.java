@@ -20,5 +20,11 @@ public class LoginEditTextNew extends LoginEditText {
         setOnEditFocusChange(((v, hasFocus) -> {
             topLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
         }));
+
+        if (editText instanceof LoginAutoCompleteEdit) {
+            ((LoginAutoCompleteEdit) editText).showClear(false);
+        }
+
+        hideDisplayPassword();
     }
 }

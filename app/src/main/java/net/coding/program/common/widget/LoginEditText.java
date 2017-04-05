@@ -36,6 +36,7 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
     protected View topLine;
     private ImageView imageValidfy;
     private boolean showPassword = false;
+    private boolean showPasswordFlag;
 
     public LoginEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -69,8 +70,8 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
                 requestCaptcha();
             }
 
-            boolean showPassword = a.getBoolean(R.styleable.LoginEditText_showPassword, false);
-            if (showPassword) {
+            showPasswordFlag = a.getBoolean(R.styleable.LoginEditText_showPassword, false);
+            if (showPasswordFlag) {
                 imageValidfy = (ImageView) findViewById(R.id.imageValify);
                 imageValidfy.setVisibility(VISIBLE);
                 imageValidfy.setOnClickListener(v -> togglePassword());
@@ -142,6 +143,12 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
 
             }
         });
+    }
+
+    protected void hideDisplayPassword() {
+        if (imageValidfy != null && showPasswordFlag) {
+            imageValidfy.setVisibility(GONE);
+        }
     }
 
     @Override

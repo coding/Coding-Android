@@ -83,7 +83,7 @@ public class EnterpriseAccountActivity extends BackActivity {
                 } else {
                     if (account.payed) {
                         if (account.remaindays > 5) { // 付费期且未到期
-                            countString = Global.createColorHtml("账户余额：", account.balance, "元", fontOragne);
+                            countString = Global.createColorHtml("账户余额：", account.balance, " 元", fontOragne);
                         } else if (account.remaindays > 0) {
                             countString = Global.createColorHtml("", "您的余额不足，请尽快订购", "", fontRed);
                         } else { // 付费期已到期

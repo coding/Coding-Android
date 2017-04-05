@@ -100,7 +100,7 @@
         android:id="@+id/itemProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:itemIcon="@drawable/enterprise_account_project"
+        app:itemIcon="@mipmap/enterprise_account_project"
         app:itemShowBottomLine="true"
         app:itemTitle="@string/title_manage_project_activity"
         app:itemShowArrow="false"/>

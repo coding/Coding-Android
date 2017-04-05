@@ -22,6 +22,7 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
     private static final String TAG = "LoginAutoCompleteEdit";
 
     private boolean mDisableAuto = false;
+    private boolean showClear = true;
 
     private String[] emailSufixs;
 
@@ -86,10 +87,14 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
         }
     }
 
+    public void showClear(boolean show) {
+       showClear = show;
+    }
+
     private Drawable drawable;
 
     private void displayDelete(boolean show) {
-        if (show) {
+        if (show && showClear) {
             setDrawableRight(drawable);
         } else {
             setDrawableRight(null);
@@ -106,7 +111,6 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
             if (getCompoundDrawables()[2] != null) {
                 boolean touchable = event.getX() > (getWidth() - getTotalPaddingRight())
                         && (event.getX() < ((getWidth() - getPaddingRight())));
-
                 if (touchable) {
                     this.setText("");
                 }

@@ -808,7 +808,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.EnterpriseEmailSetPasswordActivity_"
-            android:label="@string/title_activity_email_set_password"
+            android:label="@string/empty"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarTranslate" />
         <activity
