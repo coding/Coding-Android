@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AccountInfo;
@@ -33,6 +34,9 @@ public class LocalProjectFileActivity extends BackActivity {
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    View blankLayout;
 
     Map<String, ArrayList<File>> data = new HashMap<>();
     private LocalAdapter adapter;
@@ -86,6 +90,8 @@ public class LocalProjectFileActivity extends BackActivity {
                     .files(data.get(item))
                     .startForResult(RESULT_FILE_LIST);
         });
+
+        BlankViewDisplay.setBlank(data.size(), this, true, blankLayout, null);
 
     }
 
