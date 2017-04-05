@@ -57,6 +57,9 @@ public class OrderMainActivity extends BackActivity {
     @ViewById
     ViewGroup rootLayout;
 
+    @ViewById
+    ViewPager viewPager;
+
     @ColorRes(R.color.font_orange)
     int fontOragne;
 
@@ -78,6 +81,11 @@ public class OrderMainActivity extends BackActivity {
         Spanned balanceContentString = empty;
         String balanceTipString = "";
 
+
+        account.trial = false;
+        account.payed = false;
+
+
         if (account.trial) { // 处于试用期
             if (account.remaindays > 5) {
                 warnString = Global.createColorHtml("您正在试用 Coding 企业版，试用期剩余 ", String.valueOf(account.remaindays), " 天", fontOragne);
@@ -85,13 +93,14 @@ public class OrderMainActivity extends BackActivity {
                 String content = String.format("您正在试用 Coding 企业版，试用期剩余 %s 天", account.remaindays);
                 warnString = Global.createColorHtml(content, fontOragne);
             }
-            String tipString = String.format("试用期至 %s，剩余 %s 天", timeString, account.remaindays);
+            balanceTipString = String.format("试用期至 %s，剩余 %s 天", timeString, account.remaindays);
 
             if (account.payed) { // 试用期且付过费
-                // // TODO: 2017/4/4
-
+                balanceTitleString = new SpannedString("账户余额（元）");
+                balanceContentString = Global.createColorHtml(account.balance, fontOragne);
+                showOrderAndRecord(true, false);
             } else {
-                getLayoutInflater().inflate(R.layout.order_empty, rootLayout, true);
+                showOrderAndRecord(false, false);
             }
 
         } else {
@@ -107,6 +116,8 @@ public class OrderMainActivity extends BackActivity {
                     balanceContentString = Global.createColorHtml(account.balance, fontOragne);
                     balanceTipString = String.format("余额预计可使用至 %s，剩余 %s 天", df.format(account.estimateDate), account.remaindays);
 
+                    showOrderAndRecord(true, true);
+
                 } else { // 付费期已到期
                     showTip = true;
                     warnString = Global.createColorHtml("您的服务已过期，请订购后使用", fontRed);
@@ -115,8 +126,10 @@ public class OrderMainActivity extends BackActivity {
 
                     if (account.suspendedAt > 0) { // 已暂停
                         balanceTipString = String.format("服务已暂停 %s 天", account.suspendedToToday());
+                        showOrderAndRecord(false, false);
                     } else { // 处于超时使用阶段
                         balanceTipString = String.format("过期时间为 %s，已超时使用 %s 天", df.format(account.estimateDate), account.estimateDate());
+                        showOrderAndRecord(true, true);
                     }
                 }
             } else { // 未付费而且试用期已过
@@ -124,43 +137,56 @@ public class OrderMainActivity extends BackActivity {
                 warnString = Global.createColorHtml("您的试用期已结束，请订购后使用", fontRed);
                 int suspand = account.suspendedToToday();
                 balanceTipString = String.format("服务已暂停 %s 天", suspand);
+
+                showOrderAndRecord(false, false);
             }
         }
 
         setHeader(showTip, warnString, balanceTitleString, balanceContentString, new SpannedString(balanceTipString));
-//
-//        if (!account.payed) {
-//            getLayoutInflater().inflate(R.layout.order_empty, container, true);
-//        } else {
-//            if (account.trial) { // 试用期
-//
-//            } else {
-//                if (account.remaindays > 0) { // 付费期且未过期
-//
-//                } else if (account.) { // 付费期且过期了
-//
-//                }
-//            }
-//            // add list
-//        }
-
-        showOrderAndRecord();
-
-        loadOrderData();
-        loadBillings();
     }
 
-    private void showOrderAndRecord() {
-        ViewPager viewPager = (ViewPager) getLayoutInflater().inflate(R.layout.common_viewpager, rootLayout, false);
-        rootLayout.addView(viewPager);
-        WechatTab tabs = (WechatTab) getLayoutInflater().inflate(R.layout.common_pager_tabs, containerHeader, false);
-        containerHeader.addView(tabs);
+    private void showOrderAndRecord(boolean showOrder, boolean showBilling) {
+        String[] titles;
+        if (showOrder) {
+            if (showBilling) {
+                titles = new String[]{
+                        MyDetailPagerAdapter.TITLE_ORDER,
+                        MyDetailPagerAdapter.TITLE_BILLING
+                };
+            } else {
+                titles = new String[] {MyDetailPagerAdapter.TITLE_ORDER };
 
-        MyDetailPagerAdapter adpter = new MyDetailPagerAdapter(this, getSupportFragmentManager());
+            }
+        } else {
+            titles = new String[] { MyDetailPagerAdapter.TITLE_EMPTY };
+        }
+
+
+        MyDetailPagerAdapter adpter = new MyDetailPagerAdapter(this, getSupportFragmentManager(), titles);
         viewPager.setAdapter(adpter);
-        tabs.setViewPager(viewPager);
-        ViewCompat.setElevation(tabs, 0);
+
+        if (titles.length >= 2) {
+            WechatTab tabs = (WechatTab) getLayoutInflater().inflate(R.layout.common_pager_tabs, containerHeader, false);
+            containerHeader.addView(tabs);
+            tabs.setViewPager(viewPager);
+            ViewCompat.setElevation(tabs, 0);
+
+        } else if (titles.length == 1) {
+            if (titles[0].equals(MyDetailPagerAdapter.TITLE_ORDER)) {
+                View tabs = getLayoutInflater().inflate(R.layout.order_section, containerHeader, false);
+                containerHeader.addView(tabs);
+            }
+        }
+
         ViewCompat.setElevation(findViewById(R.id.appbarLayout), 0);
+
+        if (showOrder) {
+            loadOrderData();
+        }
+
+        if (showBilling) {
+            loadBillings();
+        }
     }
 
     private void setHeader(boolean show, Spanned... spanneds) {
@@ -237,22 +263,27 @@ public class OrderMainActivity extends BackActivity {
 
     private static class MyDetailPagerAdapter extends FragmentPagerAdapter {
 
-        String[] titles = new String[]{
-                "充值订单",
-                "账单流水"
-        };
+        private static final String TITLE_ORDER = "充值订单";
+        private static final String TITLE_BILLING = "账单流水";
+        private static final String TITLE_EMPTY = "TITLE_EMPTY";
+        String[] titles;
 
         Context context;
 
-        public MyDetailPagerAdapter(Context context, FragmentManager fm) {
+        public MyDetailPagerAdapter(Context context, FragmentManager fm, String[] titles) {
             super(fm);
             this.context = context;
+            this.titles = titles;
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return OrderListFragment_.builder().build();
+                if (titles[position].equals(TITLE_EMPTY)) {
+                    return EmptyFragment_.builder().build();
+                } else {
+                    return OrderListFragment_.builder().build();
+                }
             } else {
                 return BillingListFragment_.builder().build();
             }

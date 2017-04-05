@@ -96,5 +96,5 @@
     <!--android:layout_height="200dp">-->
 
     <!--</FrameLayout>-->
-    <!--<include layout="@layout/common_viewpager" />-->
+    <include layout="@layout/common_viewpager" />
 </android.support.design.widget.CoordinatorLayout>

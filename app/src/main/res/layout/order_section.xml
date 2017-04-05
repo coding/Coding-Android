@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/emptyLayout"
+    android:layout_width="match_parent"
+    android:layout_height="44dp" >
+
+    <TextView
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        style="@style/OrderLeft"
+        android:textColor="#323A45"
+        android:text="充值订单" />
+
+</RelativeLayout>

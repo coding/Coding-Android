@@ -102,8 +102,8 @@
     <color name="font_6">#666666</color>
     <color name="font_9">#999999</color>
     <color name="font_blank">#76808E</color>
-    <color name="font_yellow">#FFFAF7D4</color>
-    <color name="font_bg_yellow">#FFAE9651</color>
+    <color name="font_yellow">#FFAE9651</color>
+    <color name="font_bg_yellow">#FFFAF7D4</color>
 
     <color name="font_orange">#FFF78636</color>
     <color name="font_red">#FFF56061</color>
