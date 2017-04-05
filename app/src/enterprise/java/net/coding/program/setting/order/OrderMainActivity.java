@@ -1,17 +1,21 @@
 package net.coding.program.setting.order;
 
 import android.content.Context;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.orhanobut.logger.Logger;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
@@ -43,9 +47,16 @@ public class OrderMainActivity extends BackActivity {
 
     private static final String TAG_ORDERS = "TAG_ORDERS";
     private static final String TAG_BILLINGS = "TAG_BILLINGS";
+    private static final String TAG_INFO = "TAG_INFO";
 
     @Extra
     EnterpriseAccount account;
+
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @ViewById
+    AppBarLayout appbarLayout;
 
     @ViewById
     TextView topWarn, balanceTitle, balanceContent, balanceTip;
@@ -74,11 +85,47 @@ public class OrderMainActivity extends BackActivity {
     private ArrayList<Order> orderList = new ArrayList<>();
     private ArrayList<Billing> billingList = new ArrayList<>();
 
+    AppBarLayout.OnOffsetChangedListener appbarOffsetChange = new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            Logger.d("offset " + verticalOffset);
+//            if (verticalOffset >= 0) {
+//               j
+//            }
+            swipeRefreshLayout.setEnabled(verticalOffset >= 0);
+        }
+    };
+
     @AfterViews
     void initOrderMainActivity() {
         closeTipButton.setImageDrawable(Global.tintDrawable(
                 getResources().getDrawable(R.drawable.delete_edit_login_black), CodingColor.fontYellow));
 
+        initHeader();
+
+//        swipeRefreshLayout.setEnabled(false);
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            String host = String.format("%s/enterprise/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
+            getNetwork(host, TAG_INFO);
+
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        appbarLayout.addOnOffsetChangedListener(appbarOffsetChange);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        appbarLayout.addOnOffsetChangedListener(appbarOffsetChange);
+    }
+
+    private void initHeader() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy 年 MM月 dd日");
         String timeString = df.format(Long.valueOf(account.estimateDate));
         SpannedString empty = new SpannedString("");
@@ -88,9 +135,6 @@ public class OrderMainActivity extends BackActivity {
         Spanned balanceTitleString = empty;
         Spanned balanceContentString = empty;
         String balanceTipString = "";
-
-//        account.trial = false;
-//        account.payed = false;
 
         if (account.trial) { // 处于试用期
             if (account.remaindays > 5) {
@@ -160,11 +204,11 @@ public class OrderMainActivity extends BackActivity {
                         MyDetailPagerAdapter.TITLE_BILLING
                 };
             } else {
-                titles = new String[] {MyDetailPagerAdapter.TITLE_ORDER };
+                titles = new String[]{MyDetailPagerAdapter.TITLE_ORDER};
 
             }
         } else {
-            titles = new String[] { MyDetailPagerAdapter.TITLE_EMPTY };
+            titles = new String[]{MyDetailPagerAdapter.TITLE_EMPTY};
         }
 
 
@@ -244,7 +288,6 @@ public class OrderMainActivity extends BackActivity {
                 }
 
                 EventBus.getDefault().post(new EventRefresh(true));
-                showPagerView();
             } else {
 
             }
@@ -256,15 +299,19 @@ public class OrderMainActivity extends BackActivity {
                     billingList.add(new Billing(json.optJSONObject(i)));
                 }
                 EventBus.getDefault().post(new EventRefresh(true));
-                showPagerView();
             } else {
 
             }
 
+        } else if (tag.equals(TAG_INFO)) {
+            swipeRefreshLayout.setRefreshing(false);
+            if (code == 0) {
+                account = new EnterpriseAccount(respanse.optJSONObject("data"));
+                initHeader();
+            } else {
+                showButtomToast("刷新失败");
+            }
         }
-    }
-
-    private void showPagerView() {
     }
 
     private static class MyDetailPagerAdapter extends FragmentPagerAdapter {
