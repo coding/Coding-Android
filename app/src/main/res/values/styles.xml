@@ -388,6 +388,10 @@
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
         <item name="android:layout_marginRight">0dp</item>
     </style>
+    
+    <style name="DivideLine15LeftRight" parent="DivideLine_15">
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
+    </style>
 
     <style name="DivideLineHomeList" parent="DivideLine">
         <item name="android:layout_marginLeft">35dp</item>
@@ -511,6 +515,21 @@
         <item name="android:layout_marginRight">15dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="OrderLeft">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FF76808E</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+    <style name="OrderRight" parent="OrderLeft">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">#FF323A45</item>
     </style>
 
     <!--正则替换工具-->

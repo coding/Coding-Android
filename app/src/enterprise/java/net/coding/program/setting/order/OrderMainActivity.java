@@ -1,5 +1,11 @@
 package net.coding.program.setting.order;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.view.View;
@@ -9,7 +15,12 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.event.EventRefresh;
 import net.coding.program.model.EnterpriseAccount;
+import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.model.payed.Billing;
+import net.coding.program.model.payed.Order;
+import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -17,11 +28,19 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 @EActivity(R.layout.activity_order_main)
 public class OrderMainActivity extends BackActivity {
+
+    private static final String TAG_ORDERS = "TAG_ORDERS";
+    private static final String TAG_BILLINGS = "TAG_BILLINGS";
 
     @Extra
     EnterpriseAccount account;
@@ -33,13 +52,19 @@ public class OrderMainActivity extends BackActivity {
     View topTip;
 
     @ViewById
-    ViewGroup container;
+    ViewGroup containerHeader;
+
+    @ViewById
+    ViewGroup rootLayout;
 
     @ColorRes(R.color.font_orange)
     int fontOragne;
 
     @ColorRes(R.color.font_red)
     int fontRed;
+
+    private ArrayList<Order> orderList = new ArrayList<>();
+    private ArrayList<Billing> billingList = new ArrayList<>();
 
     @AfterViews
     void initOrderMainActivity() {
@@ -62,12 +87,18 @@ public class OrderMainActivity extends BackActivity {
             }
             String tipString = String.format("试用期至 %s，剩余 %s 天", timeString, account.remaindays);
 
+            if (account.payed) { // 试用期且付过费
+                // // TODO: 2017/4/4
+
+            } else {
+                getLayoutInflater().inflate(R.layout.order_empty, rootLayout, true);
+            }
+
         } else {
             if (account.payed) {
-                if (account.remaindays > 0) {
+                if (account.remaindays > 0) { // 付费期且未到期
                     showTip = false;
-                    if (account.remaindays > 5) { // 付费期且未到期
-
+                    if (account.remaindays > 5) {
                     } else {
                         warnString = Global.createColorHtml("您的账户余额不足，请尽快订购", fontRed);
                     }
@@ -97,12 +128,39 @@ public class OrderMainActivity extends BackActivity {
         }
 
         setHeader(showTip, warnString, balanceTitleString, balanceContentString, new SpannedString(balanceTipString));
+//
+//        if (!account.payed) {
+//            getLayoutInflater().inflate(R.layout.order_empty, container, true);
+//        } else {
+//            if (account.trial) { // 试用期
+//
+//            } else {
+//                if (account.remaindays > 0) { // 付费期且未过期
+//
+//                } else if (account.) { // 付费期且过期了
+//
+//                }
+//            }
+//            // add list
+//        }
 
-        if (!account.payed) {
-            getLayoutInflater().inflate(R.layout.order_empty, container, true);
-        } else {
-            // add list
-        }
+        showOrderAndRecord();
+
+        loadOrderData();
+        loadBillings();
+    }
+
+    private void showOrderAndRecord() {
+        ViewPager viewPager = (ViewPager) getLayoutInflater().inflate(R.layout.common_viewpager, rootLayout, false);
+        rootLayout.addView(viewPager);
+        WechatTab tabs = (WechatTab) getLayoutInflater().inflate(R.layout.common_pager_tabs, containerHeader, false);
+        containerHeader.addView(tabs);
+
+        MyDetailPagerAdapter adpter = new MyDetailPagerAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(adpter);
+        tabs.setViewPager(viewPager);
+        ViewCompat.setElevation(tabs, 0);
+        ViewCompat.setElevation(findViewById(R.id.appbarLayout), 0);
     }
 
     private void setHeader(boolean show, Spanned... spanneds) {
@@ -123,6 +181,92 @@ public class OrderMainActivity extends BackActivity {
     @Click
     void closeTipButton() {
         topTip.setVisibility(View.GONE);
+    }
+
+    private void loadOrderData() {
+        String url = String.format("%s/enterprise/%s/orders", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
+        getNetwork(url, TAG_ORDERS);
+    }
+
+    private void loadBillings() {
+        String url = String.format("%s/enterprise/%s/billings", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
+        getNetwork(url, TAG_BILLINGS);
+    }
+
+    public ArrayList<Order> getOrderList() {
+        return orderList;
+    }
+
+    public ArrayList<Billing> getBillingList() {
+        return billingList;
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(TAG_ORDERS)) {
+            if (code == 0) {
+                orderList.clear();
+                JSONArray json = respanse.optJSONArray("data");
+                for (int i = 0; i < json.length(); ++i) {
+                    orderList.add(new Order(json.optJSONObject(i)));
+                }
+
+                EventBus.getDefault().post(new EventRefresh(true));
+                showPagerView();
+            } else {
+
+            }
+        } else if (tag.equals(TAG_BILLINGS)) {
+            if (code == 0) {
+                billingList.clear();
+                JSONArray json = respanse.optJSONArray("data");
+                for (int i = 0; i < json.length(); ++i) {
+                    billingList.add(new Billing(json.optJSONObject(i)));
+                }
+                EventBus.getDefault().post(new EventRefresh(true));
+                showPagerView();
+            } else {
+
+            }
+
+        }
+    }
+
+    private void showPagerView() {
+    }
+
+    private static class MyDetailPagerAdapter extends FragmentPagerAdapter {
+
+        String[] titles = new String[]{
+                "充值订单",
+                "账单流水"
+        };
+
+        Context context;
+
+        public MyDetailPagerAdapter(Context context, FragmentManager fm) {
+            super(fm);
+            this.context = context;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return OrderListFragment_.builder().build();
+            } else {
+                return BillingListFragment_.builder().build();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
     }
 }
 
