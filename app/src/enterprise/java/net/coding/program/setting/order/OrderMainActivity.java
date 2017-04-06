@@ -140,8 +140,7 @@ public class OrderMainActivity extends BackActivity {
             if (account.remaindays > 5) {
                 warnString = Global.createColorHtml("您正在试用 Coding 企业版，试用期剩余 ", String.valueOf(account.remaindays), " 天", fontOragne);
             } else {
-                String content = String.format("您正在试用 Coding 企业版，试用期剩余 %s 天", account.remaindays);
-                warnString = Global.createColorHtml(content, fontOragne);
+                warnString = Global.createColorHtml("您正在试用 Coding 企业版，试用期剩余 ", String.valueOf(account.remaindays), " 天", fontRed);
             }
             balanceTipString = String.format("试用期至 %s，剩余 %s 天", timeString, account.remaindays);
 

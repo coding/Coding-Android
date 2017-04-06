@@ -487,13 +487,14 @@
     </style>
 
     <style name="loginButton">
-        <item name="android:layout_width">@dimen/float_button</item>
-        <item name="android:layout_height">@dimen/float_button</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:src">@drawable/ic_float_login</item>
         <item name="backgroundTint">@color/float_button_login</item>
         <item name="borderWidth">0dp</item>
+        <item name="fabSize">mini</item>
         <item name="elevation">0dp</item>
     </style>
 

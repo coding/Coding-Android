@@ -15,7 +15,7 @@
 
     <View
         android:id="@+id/divideLine"
-        style="@style/DivideLine15LeftRight"
+        style="@style/DivideLine_15"
         android:layout_below="@id/title" />
 
     <TextView

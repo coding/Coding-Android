@@ -39,7 +39,7 @@ public class EnterpriseAccount implements Serializable {
     }
 
     public int estimateDate() {
-        return -todayToEnd(estimateDate);
+        return Math.abs(todayToEnd(estimateDate));
     }
 
     public int suspendedToToday() {

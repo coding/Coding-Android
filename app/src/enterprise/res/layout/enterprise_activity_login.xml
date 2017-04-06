@@ -27,7 +27,7 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/ic_2fa"
-            android:drawablePadding="15dp"
+            android:drawablePadding="10dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:gravity="center"

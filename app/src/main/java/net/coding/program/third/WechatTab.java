@@ -376,7 +376,17 @@ public class WechatTab extends HorizontalScrollView {
 //            padding = 0;
 //        }
 
-        canvas.drawRect(lineLeft + mMyUnderlinePadding, height - indicatorHeight, lineRight - mMyUnderlinePadding, height, rectPaint);
+        float padding = 0.0f;
+        if (currentTab instanceof TextView) {
+            TextView itemTextView = (TextView) currentTab;
+            float textWidth = itemTextView.getPaint().measureText(itemTextView.getText().toString());
+            padding = (lineRight - lineLeft - textWidth) / 2;
+        }
+        if (padding <= 0.0f) {
+            padding = mMyUnderlinePadding;
+        }
+
+        canvas.drawRect(lineLeft + padding, height - indicatorHeight, lineRight - padding, height, rectPaint);
 
         // draw divider
 

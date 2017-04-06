@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -269,7 +270,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         params.put("lavatar", user.lavatar);
         params.put("name", user.name);
         params.put("sex", user.sex);
-        params.put("phone", user.phone);
+        if (!TextUtils.isEmpty(user.phone)) {
+            params.put("phone", user.phone);
+        }
         params.put("birthday", user.birthday);
         params.put("location", user.location.trim());
         params.put("company", user.company);
