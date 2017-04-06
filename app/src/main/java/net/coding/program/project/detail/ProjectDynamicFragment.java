@@ -240,6 +240,9 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         } else if (itemType.equals("MergeRequestBean")) {
             baseObject = new DynamicObject.MergeRequestBean(json);
 
+        } else if (itemType.equals("ProjectTweet")) {
+            baseObject = new DynamicObject.ProjectTweet(json);
+
         } else if (itemType.equals("TaskComment")) {
             baseObject = new DynamicObject.MyTaskComment(json);
 

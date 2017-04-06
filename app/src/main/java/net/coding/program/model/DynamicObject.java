@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by cc191954 on 14-8-9.
@@ -170,6 +171,46 @@ public class DynamicObject {
             return Global.changeHyperlinkColor(content, BLACK_COLOR, null);
         }
     }
+
+
+    public static class ProjectTweet extends DynamicBaseObject implements Serializable {
+        String content;
+        Project project;
+
+        public ProjectTweet(JSONObject json) throws JSONException {
+            super(json);
+
+            project = new Project(json.getJSONObject("project"));
+            content = json.optString("content", "");
+        }
+
+        @Override
+        public Spanned title() {
+            final String farmat = "%s %s 项目公告";
+            HashMap<String, String> actionMap = new HashMap<>();
+            actionMap.put("delete", "删除了");
+            actionMap.put("update", "更新了");
+            actionMap.put("create", "发布了");
+            String actionString = actionMap.get(action);
+            if (actionString == null) {
+                actionString = "";
+            }
+            String title = String.format(farmat, user.getHtml(),  actionString);
+            return Global.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            String noImageContent = HtmlContent.parseDynamic(content);
+            return Global.changeHyperlinkColor(noImageContent, BLACK_COLOR, imageGetter);
+        }
+
+        @Override
+        public String jump() {
+            return makeJump(project.path + "/setting/notice");
+        }
+    }
+
 
     public static class MyTaskComment extends DynamicBaseObject implements Serializable {
         MySmalltaskComment mTaskComment;

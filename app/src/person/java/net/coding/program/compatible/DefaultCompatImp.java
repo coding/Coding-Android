@@ -14,6 +14,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
+import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.MyDetailActivity_;
@@ -131,5 +132,10 @@ public class DefaultCompatImp implements ClassCompatInterface {
         resultIntent.putExtra("data", url);
         context.sendBroadcast(resultIntent);
         context.finish();
+    }
+
+    @Override
+    public void launchProjectMaopoaList(Context context, ProjectActivity.ProjectJumpParam param) {
+        // coding 可以直接跳转到详情，不需要实现这个
     }
 }

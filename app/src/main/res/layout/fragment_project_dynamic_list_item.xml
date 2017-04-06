@@ -43,6 +43,8 @@
             android:lineSpacingExtra="3dp"
             android:text="1111"
             android:textColor="@color/font_6"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:textSize="14sp" />
 
         <net.coding.program.common.widget.FlowLabelLayout
