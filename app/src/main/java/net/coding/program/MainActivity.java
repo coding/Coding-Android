@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity {
             String emailString = MyApp.sUserObject.email;
             boolean emailValid = MyApp.sUserObject.isEmailValidation();
             if (!emailString.isEmpty() && !emailValid) {
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                         .setTitle("激活邮件")
                         .setMessage(R.string.alert_activity_email2)
                         .setPositiveButton("重发激活邮件", (dialog, which) -> {
@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity {
         if (sNeedWarnEmailNoValidRegister) {
             sNeedWarnEmailNoValidRegister = false;
 
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setTitle("提示")
                     .setMessage(R.string.alert_activity_email)
                     .setPositiveButton("确定", null)
