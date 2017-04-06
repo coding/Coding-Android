@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 
@@ -21,17 +21,21 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@EActivity(R.layout.activity_user_edit)
+@EActivity(R.layout.activity_enterprise_name)
 @OptionsMenu(R.menu.set_password)
-public class SetUserInfoActivity extends BaseActivity {
+public class SetUserInfoActivity extends BackActivity {
 
     final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
+
     @Extra("title")
     String title;
+
     @Extra("row")
     int row;
+
     UserObject user;
-    @ViewById
+
+    @ViewById(R.id.enterpriseNameEt)
     TextView value;
 
     @AfterViews
@@ -47,15 +51,13 @@ public class SetUserInfoActivity extends BaseActivity {
     @OptionsItem
     void submit() {
         RequestParams params = new RequestParams();
-
         setRowValue(value.getText().toString());
 
         try {
-            params.put("phone", user.phone);
             params.put("tags", user.tags);
             params.put("job", user.job);
             params.put("sex", user.sex);
-            params.put("phone", user.phone);
+//            params.put("phone", user.phone);
             params.put("birthday", user.birthday);
             params.put("location", user.location);
             params.put("company", user.company);

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
+
+    <include layout="@layout/divide_top_15" />
 
     <RelativeLayout
         android:paddingLeft="@dimen/padding_15"
@@ -22,8 +26,12 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_alignParentRight="true"
+            app:border_width="0.5dp"
+            app:border_color="@color/divide_line"
             android:id="@+id/icon" />
 
     </RelativeLayout>
 
-</FrameLayout>
+    <include layout="@layout/divide_middle_15" />
+
+</LinearLayout>

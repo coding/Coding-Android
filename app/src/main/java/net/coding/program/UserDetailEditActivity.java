@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +100,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 holder = new ViewHolder();
                 holder.first = (TextView) convertView.findViewById(R.id.first);
                 holder.second = (TextView) convertView.findViewById(R.id.second);
+                holder.third = (TextView) convertView.findViewById(R.id.third);
+                holder.divide = convertView.findViewById(R.id.divide);
+                holder.divideLine = convertView.findViewById(R.id.divideLine);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -109,10 +111,31 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
             holder.first.setText(user_info_list_first[position]);
 
             String seondString = user_info_list_second[position];
+
             if (seondString.isEmpty()) {
                 seondString = "未填写";
             }
+
+            if (position < getCount() - 1) { // 最后一项 个性标签 要换行显示
+                holder.third.setVisibility(View.GONE);
+            } else {
+                holder.third.setVisibility(View.VISIBLE);
+                holder.third.setText(seondString);
+                seondString = "";
+            }
             holder.second.setText(seondString);
+
+            if (position == 7) {
+                holder.divide.setVisibility(View.GONE);
+                holder.divideLine.setVisibility(View.GONE);
+
+            } else if (position == 4 || position == 6) {
+                holder.divide.setVisibility(View.VISIBLE);
+                holder.divideLine.setVisibility(View.GONE);
+            } else {
+                holder.divide.setVisibility(View.GONE);
+                holder.divideLine.setVisibility(View.VISIBLE);
+            }
 
             return convertView;
         }
@@ -226,7 +249,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     protected final void initUserDetailEditActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listViewAddHeaderSection(listView);
         listViewAddFootSection(listView);
         user = AccountInfo.loadAccount(this);
 
@@ -270,9 +292,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         params.put("lavatar", user.lavatar);
         params.put("name", user.name);
         params.put("sex", user.sex);
-        if (!TextUtils.isEmpty(user.phone)) {
-            params.put("phone", user.phone);
-        }
+//        params.put("phone", user.phone);
         params.put("birthday", user.birthday);
         params.put("location", user.location.trim());
         params.put("company", user.company);
@@ -446,6 +466,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     static class ViewHolder {
         TextView first;
         TextView second;
+        TextView third;
+        View divide;
+        View divideLine;
     }
 
 }
