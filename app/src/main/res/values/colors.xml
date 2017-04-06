@@ -42,6 +42,11 @@
 
     <color name="task_list_head">#ffe4e4e4</color>
     <color name="divide">#F2F4F6</color>
+
+    <color name="list_font_disable">#FFA9B3BE</color>
+    <color name="list_font_title">#FF1E2D42</color>
+    <color name="list_font_enable">#FF425063</color>
+
     <drawable name="divide">#F2F4F6</drawable>
 
     <color name="divide_line">#D8DDE4</color>

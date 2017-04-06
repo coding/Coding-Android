@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_enterprise_setting"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:background="@color/divide"
     android:orientation="vertical"
@@ -25,19 +26,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="15sp"
-            android:textColor="@color/color_1E2D42"
+            android:textColor="@color/list_font_title"
             android:text="@string/enterprise_head"/>
 
         <net.coding.program.common.widget.CircleImageView
             android:id="@+id/enterpriseHead"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="12dp"
+            app:border_width="0.5dp"
+            app:border_color="@color/divide_line"
             android:src="@drawable/ic_loading_logo"/>
 
-        <include
-            android:id="@+id/arrow"
-            layout="@layout/list_item_common_arrow" />
     </LinearLayout>
 
     <include layout="@layout/divide_middle_15"/>
@@ -57,22 +56,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="15sp"
-            android:textColor="@color/color_1E2D42"
+            android:textColor="@color/list_font_title"
             android:text="@string/enterprise_name"/>
 
         <TextView
             android:id="@+id/enterpriseNameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:layout_marginEnd="12dp"
             android:text="Coding"
             android:textSize="15sp"
-            android:textColor="@color/font_9"/>
+            android:textColor="@color/list_font_enable"/>
 
-        <include
-            android:id="@+id/arrow"
-            layout="@layout/list_item_common_arrow" />
     </LinearLayout>
 
     <include
@@ -96,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="15sp"
-            android:textColor="@color/color_1E2D42"
+            android:textColor="@color/list_font_title"
             android:text="@string/person_address"/>
 
         <TextView
@@ -104,10 +98,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/font_9"
-            android:text="Coding.coding.net"/>
+            android:textColor="@color/list_font_disable"
+            tools:text="Coding.coding.net"/>
 
     </LinearLayout>
 
     <include layout="@layout/divide_bottom_15"/>
+
 </LinearLayout>
