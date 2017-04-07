@@ -172,7 +172,7 @@
                                 android:textColor="@color/font_green"
                                 android:textSize="14sp" />
 
-                            <android.support.design.widget.FloatingActionButton
+                            <ImageView
                                 android:id="@+id/loginButton"
                                 android:layout_marginRight="15dp"
                                 style="@style/loginButton" />
