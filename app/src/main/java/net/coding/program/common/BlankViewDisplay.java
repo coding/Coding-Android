@@ -98,9 +98,6 @@ public class BlankViewDisplay {
                 } else if (fragment instanceof UsersListFragment) {
                     iconId = R.drawable.ic_exception_blank_message;
                     text = "还没有新消息~";
-                } else if (fragment instanceof ProjectDynamicFragment) {
-                    iconId = R.drawable.ic_exception_blank_task;
-                    text = "这里还什么都没有\n赶快起来弄出一点动静吧";
                 } else if (fragment instanceof MergeReviewerListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = "这里还什么都没有\n赶快起来弄出一点动静吧";
@@ -109,7 +106,7 @@ public class BlankViewDisplay {
                     text = "此项目的 Git 仓库为空";
                 } else if (fragment instanceof AttachmentsActivity) {
                     iconId = R.drawable.ic_exception_blank_dir;
-                    text = " 这里还没有任何文件~";
+                    text = "这里还没有任何文件~";
                 } else if (fragment instanceof UserProjectListFragment) {
                     iconId = R.drawable.ic_exception_blank_task;
                     text = OTHER_PROJECT_BLANK;
@@ -130,7 +127,7 @@ public class BlankViewDisplay {
                     text = v.getContext().getString(R.string.project_maopao_list_empty);
                 } else if (fragment instanceof ProjectDynamicFragment) {
                     iconId = R.drawable.ic_exception_blank_dynamic;
-                    text = "暂无相关动态~";
+                    text = "当前项目暂无相关动态~";
                 } else if (fragment instanceof TeamListActivity) {
                     iconId = R.drawable.ic_exception_blank_team;
                     text = "还没有创建团队~";
