@@ -14,31 +14,23 @@
         android:background="@color/stand_bg"
         android:paddingBottom="17dp">
 
-        <RelativeLayout
-            android:id="@+id/icon_sharow"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
             android:layout_width="77dp"
             android:layout_height="77dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/user_detail_sharow">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/icon"
-                android:layout_width="77dp"
-                android:layout_height="77dp"
-                android:layout_centerInParent="true" />
-
-        </RelativeLayout>
+            app:border_width="0.5dp"
+            app:border_color="@color/divide_line"
+            android:layout_marginLeft="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/icon_sharow"
+            android:layout_toRightOf="@+id/icon"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/name"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,28 +14,21 @@
         android:background="@color/stand_bg"
         android:paddingBottom="17dp">
 
-        <RelativeLayout
-            android:id="@+id/icon_sharow"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
             android:layout_width="77dp"
             android:layout_height="77dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/user_detail_sharow">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/icon"
-                android:layout_width="77dp"
-                android:layout_height="77dp"
-                android:layout_centerInParent="true"/>
-
-        </RelativeLayout>
+            app:border_color="@color/divide_line"
+            app:border_width="0.5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/icon_sharow"
+            android:layout_toRightOf="@+id/icon"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -53,7 +45,7 @@
                     android:layout_weight="1"
                     android:text="粉丝"
                     android:textColor="@color/font_6"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/follows"
@@ -62,7 +54,7 @@
                     android:layout_weight="1"
                     android:text="关注"
                     android:textColor="@color/font_6"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -89,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:text=""/>
+                        android:text="" />
 
                 </com.flyco.roundview.RoundRelativeLayout>
 
@@ -109,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_private_letter"/>
+                        android:src="@drawable/ic_private_letter" />
 
                 </com.flyco.roundview.RoundRelativeLayout>
 
@@ -125,7 +117,6 @@
 
         <TextView
             android:id="@+id/name"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -133,10 +124,11 @@
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_sex_boy"
             android:ellipsize="end"
+            android:gravity="center_vertical"
             android:singleLine="true"
             android:textColor="@color/font_2"
             android:textSize="17sp"
-            tools:text="阿朔"/>
+            tools:text="阿朔" />
 
         <TextView
             android:id="@+id/first"
@@ -154,7 +146,7 @@
             android:text="详细信息"
             android:textColor="@color/font_9"
             android:textSize="13sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <TextView
@@ -170,7 +162,7 @@
         android:textColor="@color/color_hint"
         android:textSize="14sp"
         android:visibility="gone"
-        tools:text="广东，深圳市"/>
+        tools:text="广东，深圳市" />
 
     <HorizontalScrollView
         android:id="@+id/hsl_main"
@@ -186,7 +178,7 @@
             android:id="@+id/ll_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
     <TextView
@@ -201,13 +193,13 @@
         android:textColor="@color/color_hint"
         android:textSize="14sp"
         android:visibility="gone"
-        tools:text="少点套路，多点正常，少点套路，多点正常，至少我可有不忘记初心～少点套路，多点正常，至少我可有不忘记初心～至少我可有不忘记初心～少点套路，多点正常，至少我可有不忘记初心～少点套路，多点正常，至少我可有不忘记初心～"/>
+        tools:text="少点套路，多点正常，少点套路，多点正常，至少我可有不忘记初心～少点套路，多点正常，至少我可有不忘记初心～至少我可有不忘记初心～少点套路，多点正常，至少我可有不忘记初心～少点套路，多点正常，至少我可有不忘记初心～" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="20dp" />
 
-    <include layout="@layout/divide_middle_15"/>
+    <include layout="@layout/divide_middle_15" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -240,19 +232,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="M"/>
+                        android:text="M" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="W"/>
+                        android:text="W" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="F"/>
+                        android:text="F" />
 
                 </LinearLayout>
 
@@ -271,7 +263,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:minHeight="25dp"
-                            android:orientation="horizontal"/>
+                            android:orientation="horizontal" />
                     </net.coding.program.common.SyncHorizontalScrollView>
 
 
@@ -282,10 +274,10 @@
 
                         <LinearLayout
                             android:id="@+id/llTrend"
-                            android:paddingRight="15dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"/>
+                            android:orientation="horizontal"
+                            android:paddingRight="15dp" />
                     </net.coding.program.common.SyncHorizontalScrollView>
                 </LinearLayout>
 
@@ -296,7 +288,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
         </RelativeLayout>
 
@@ -329,7 +321,7 @@
                     android:layout_gravity="center"
                     android:text="0"
                     android:textColor="@color/font_2"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -337,14 +329,14 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:text="过去一年的活跃度"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="@dimen/divide_height"
                 android:layout_height="match_parent"
-                android:background="@color/divide_line"/>
+                android:background="@color/divide_line" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -364,7 +356,7 @@
                     android:layout_gravity="center"
                     android:text="0"
                     android:textColor="@color/font_2"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -372,14 +364,14 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:text="最长连续活跃天数"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="@dimen/divide_height"
                 android:layout_height="match_parent"
-                android:background="@color/divide_line"/>
+                android:background="@color/divide_line" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -399,7 +391,7 @@
                     android:layout_gravity="center"
                     android:text="0"
                     android:textColor="@color/font_2"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -407,7 +399,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:text="当前连续活跃天数"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp" />
 
             </LinearLayout>
 
@@ -416,6 +408,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_middle_15"/>
+    <include layout="@layout/divide_middle_15" />
 
 </LinearLayout>

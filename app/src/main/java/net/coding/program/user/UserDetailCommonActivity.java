@@ -53,7 +53,6 @@ public class UserDetailCommonActivity extends BackActivity {
     TextView tv_longest_active;
     TextView tv_current_active;
     TextView tv_follow_state;
-    View icon_sharow;
     LoadingView baseLoadingView;
     SyncHorizontalScrollView scrollView0;
     SyncHorizontalScrollView scrollView1;
@@ -180,7 +179,6 @@ public class UserDetailCommonActivity extends BackActivity {
         tv_longest_active = (TextView) findViewById(R.id.tv_longest_active);
         tv_follow_state = (TextView) findViewById(R.id.tv_follow_state);
         tv_current_active = (TextView) findViewById(R.id.tv_current_active);
-        icon_sharow = (View) findViewById(R.id.icon_sharow);
         baseLoadingView = (LoadingView) findViewById(R.id.baseLoadingView);
         scrollView0 = (SyncHorizontalScrollView) findViewById(R.id.scrollView0);
         scrollView1 = (SyncHorizontalScrollView) findViewById(R.id.scrollView1);
