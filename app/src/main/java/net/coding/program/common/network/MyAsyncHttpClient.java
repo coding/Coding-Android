@@ -92,15 +92,15 @@ public class MyAsyncHttpClient {
         AsyncHttpClient client = new AsyncHttpClient();
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
 
-        // todo 临时，方便进入生产环境
+        //  临时，方便进入生产环境
         List<Cookie> cookies = cookieStore.getCookies();
-        boolean isAdd = false;
-        for (Cookie item : cookies) {
-            if (item.getName().equals("e_dev")) {
-                isAdd = true;
-                break;
-            }
-        }
+        boolean isAdd = true;
+//        for (Cookie item : cookies) {
+//            if (item.getName().equals("e_dev")) {
+//                isAdd = true;
+//                break;
+//            }
+//        }
         if (!isAdd) {
             BasicClientCookie devCookie = new BasicClientCookie("e_dev", "1");
             devCookie.setDomain(".coding.net");
