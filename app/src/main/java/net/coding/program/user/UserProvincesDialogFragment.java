@@ -32,7 +32,7 @@ public class UserProvincesDialogFragment extends DialogFragment implements Provi
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String title = getArguments().getString(ProvincesPickerDialog.TITLE);
         String location = getArguments().getString(ProvincesPickerDialog.LOCATION);
-        return new ProvincesPickerDialog(getActivity(), this, title, location);
+        return new ProvincesPickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, title, location);
     }
 
     public void setCallBack(ProvincesPickerDialog.OnDateSetListener mCallBack) {

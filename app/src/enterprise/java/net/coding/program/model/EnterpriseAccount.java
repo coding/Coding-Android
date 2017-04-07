@@ -43,7 +43,7 @@ public class EnterpriseAccount implements Serializable {
     }
 
     public int suspendedToToday() {
-        return -todayToEnd(suspendedAt);
+        return Math.abs(todayToEnd(suspendedAt));
     }
 
     private int todayToEnd(long endTime) {

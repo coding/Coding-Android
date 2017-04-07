@@ -3,6 +3,7 @@ package net.coding.program.project.detail;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -265,8 +266,10 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @Override
     public void onRefresh() {
-        if (mTooManyFiles) {
-            showTooManyFilesAlert();
+        if (mTooManyFiles || TextUtils.isEmpty(mVersion)) {
+            if (mTooManyFiles) {
+                showTooManyFilesAlert();
+            }
             hideDialogLoading();
             setRefreshing(false);
             return;

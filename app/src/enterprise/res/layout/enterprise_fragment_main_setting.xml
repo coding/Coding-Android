@@ -28,6 +28,8 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
+                app:border_width="0.5dp"
+                app:border_color="@color/divide_line"
                 android:layout_marginRight="15dp" />
 
             <TextView
@@ -51,15 +53,6 @@
                 android:textColor="@color/font_6"
                 android:textSize="13sp"
                 tools:text="个性后缀" />
-
-            <View
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/padding_15"
-                android:background="@drawable/user_home_arrow"
-                tools:showIn="@layout/activity_user_detail" />
 
         </RelativeLayout>
 
@@ -192,15 +185,6 @@
             android:textSize="13sp"
             android:text="企业账户管理中心" />
 
-        <include
-            android:id="@+id/arrow"
-            layout="@layout/list_item_common_arrow"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp" />
-
     </RelativeLayout>
 
     <include
@@ -212,6 +196,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_local_file"
+        app:itemShowArrow="false"
         app:itemShowBottomLine="false"
         app:itemTitle="本地文件" />
 
@@ -222,6 +207,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_help"
+        app:itemShowArrow="false"
         app:itemShowBottomLine="true"
         app:itemTitle="帮助中心" />
 
@@ -231,6 +217,7 @@
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_setting"
         app:itemShowBottomLine="true"
+        app:itemShowArrow="false"
         app:itemTitle="设置" />
 
     <net.coding.program.common.widget.ListItem1
@@ -239,6 +226,7 @@
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_about"
         app:itemShowBottomLine="false"
+        app:itemShowArrow="false"
         app:itemTitle="关于 Coding" />
 
     <include layout="@layout/divide_bottom_15" />

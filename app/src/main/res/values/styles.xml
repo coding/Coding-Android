@@ -534,7 +534,13 @@
     </style>
 
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColorPrimary">@color/font_2</item>
+        <item name="android:textColorPrimary">#323A45</item>
+        <item name="colorAccent">#2EBE76</item>
+    </style>
+
+    <style name="NumberPick" parent="Theme.AppCompat.Light">
+        <item name="android:textColorPrimary">#323A45</item>
+        <item name="colorControlNormal">#323A45</item>
     </style>
 
     <!--正则替换工具-->

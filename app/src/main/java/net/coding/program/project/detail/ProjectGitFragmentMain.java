@@ -11,8 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.BlankViewHelp;
 
@@ -23,6 +23,7 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,9 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 //    ExpandableListView versionList;
     @ViewById
     ListView versionListView;
+
+    @ViewById(R.id.top)
+    View topLayout; // branch 选择
 
     private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList<>(), new ArrayList<>()};
     private List<BranchItem> mData = new ArrayList<>();
@@ -270,7 +274,12 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             } else {
                 showErrorMsg(code, respanse);
                 hideDialogLoading();
-                BlankViewHelp.setBlank(0, this, false, blankLayout, onClickRetry);
+
+                if (code == 1200) {
+                    setBlank(0, this, true, blankLayout, onClickRetry);
+                } else {
+                    setBlank(0, this, false, blankLayout, onClickRetry);
+                }
             }
         } else if (tag.equals(HOST_LIST_TAG)) {
             if (code == 0) {
@@ -280,6 +289,9 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 hideDialogLoading();
             }
         } else {
+            if (code != 0) {
+                hideDialogLoading();
+            }
             super.parseJson(code, respanse, tag, pos, data);
         }
     }
@@ -287,7 +299,12 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     private void branchNotExist() {
         hideDialogLoading();
         getView().findViewById(R.id.top).setVisibility(View.INVISIBLE);
-        BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
+        setBlank(0, this, true, blankLayout, onClickRetry);
+    }
+
+    private void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
+        topLayout.setVisibility(View.GONE);
+        BlankViewHelp.setBlank(itemSize, fragment, request, v, onClick);
     }
 
     private void switchVersion(String name) {

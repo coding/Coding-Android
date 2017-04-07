@@ -96,7 +96,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.list_item_2_text_align_right, parent, false);
+                convertView = mInflater.inflate(R.layout.list_item_userinfo, parent, false);
                 holder = new ViewHolder();
                 holder.first = (TextView) convertView.findViewById(R.id.first);
                 holder.second = (TextView) convertView.findViewById(R.id.second);

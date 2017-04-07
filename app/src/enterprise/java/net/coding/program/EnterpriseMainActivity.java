@@ -33,7 +33,7 @@ public class EnterpriseMainActivity extends MainActivity {
                 if (enterpriseDetail.isLocked()) {
                     String title = "服务已暂停";
                     String message = "您订购的服务已过期，项目、任务等功能操作与高级权限将会失效。如需正常使用，请前往企业版网站订购。";
-                    new AlertDialog.Builder(this)
+                    new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                             .setTitle(title)
                             .setMessage(message)
                             .setPositiveButton("知道了", null)
