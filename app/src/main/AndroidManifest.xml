@@ -127,16 +127,6 @@
             android:value="Channel" />
 
         <activity
-            android:name=".TestActivity"
-            android:label="@string/title_activity_test"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
             android:name=".MainActivity_"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
@@ -646,10 +636,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/TranslateThemeFull" />
         <activity
-            android:name=".Test2Activity"
-            android:label="@string/title_activity_test2"
-            android:theme="@style/TranslateTheme" />
-        <activity
             android:name=".project.git.ForksListActivity_"
             android:label="@string/title_activity_forks_list"
             android:screenOrientation="portrait" />
@@ -819,8 +805,8 @@
         <activity
             android:name=".login.phone.Close2FAActivity_"
             android:label="@string/empty"
-            android:theme="@style/ActionbarTranslate"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
     </application>
 
 </manifest>
