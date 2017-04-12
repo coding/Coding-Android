@@ -18,6 +18,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,10 @@ public class WikiMainActivity extends BackActivity {
     ViewGroup drawerLayout;
 
     List<Wiki> dataList = new ArrayList<>();
+    AndroidTreeView treeView;
+
+    NodeHolder selectNode = null;
+    TreeNode firstTreeNode = null;
 
     @AfterViews
     void initWikiMainActivity() {
@@ -65,23 +72,58 @@ public class WikiMainActivity extends BackActivity {
                 });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NodeHolder node) {
+        selectNode(node);
+    }
+
     private void buildTree() {
         TreeNode root = TreeNode.root();
         addTreeNode(root, dataList);
 
-        AndroidTreeView treeView = new AndroidTreeView(this, root);
+        treeView = new AndroidTreeView(this, root);
         treeView.setDefaultViewHolder(NodeHolder.class);
-        treeView.setDefaultNodeClickListener((node, value) -> {
-            Wiki wiki = (Wiki) value;
-        });
         drawerLayout.addView(treeView.getView());
 
+        selectNode((NodeHolder) firstTreeNode.getViewHolder());
+    }
+
+    private void selectNode(NodeHolder node) {
+        if (selectNode == node) {
+            return;
+        }
+
+        if (selectNode != null) {
+            selectNode.select(false);
+        }
+
+        selectNode = node;
+
+        if (selectNode != null) {
+            selectNode.select(true);
+        }
     }
 
     private void addTreeNode(TreeNode node, List<Wiki> wikis) {
         for (Wiki item : wikis) {
             TreeNode childNode = new TreeNode(item);
             node.addChild(childNode);
+            if (firstTreeNode == null) {
+                firstTreeNode = childNode;
+            }
+
             addTreeNode(childNode, item.children);
         }
     }

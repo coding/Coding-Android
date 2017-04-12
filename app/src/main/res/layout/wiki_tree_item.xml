@@ -2,29 +2,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:orientation="vertical"
-    android:paddingLeft="20dp">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:scaleType="center"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_arrow_right_small" />
+        android:layout_height="48dp"
+        android:id="@+id/iconLayout">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:scaleType="center"
+            android:src="@drawable/triangle_tree_down" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_toRightOf="@id/icon"
         android:layout_height="48dp"
+        android:gravity="center_vertical|left"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="22dp"
+        android:layout_toRightOf="@id/iconLayout"
         android:textColor="#323A45"
         android:textSize="15sp" />
 
     <View
+        android:id="@+id/bottomLine"
         style="@style/DivideLine"
         android:layout_alignParentBottom="true" />
 
