@@ -41,10 +41,13 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     protected TopicObject topicObject;
     @InstanceState
     protected boolean labelsHasChanged;
+
     String url = "";
     String HOST_TOPIC_DETAIL_CONTENT = Global.HOST_API + "/topic/%d?type=1";
+
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
+
     private TopicData modifyData = new TopicData();
 
     @NonNull

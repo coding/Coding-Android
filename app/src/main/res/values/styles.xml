@@ -378,6 +378,10 @@
         <item name="android:background">@color/divide_line</item>
     </style>
 
+    <style name="TreeDivideLine" parent="DivideLine">
+        <item name="android:background">#FFD8D8D8</item>
+    </style>
+
     <style name="LoginBottomLine" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>

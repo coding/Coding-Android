@@ -1,13 +1,17 @@
 package net.coding.program.project.detail.wiki;
 
 import android.support.annotation.NonNull;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.HttpObserver;
@@ -15,6 +19,7 @@ import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -35,7 +40,13 @@ public class WikiMainActivity extends BackActivity {
     ProjectObject project;
 
     @ViewById
+    DrawerLayout drawerLayoutRoot;
+
+    @ViewById
     ViewGroup drawerLayout;
+
+    @ViewById
+    WebView webView;
 
     List<Wiki> dataList = new ArrayList<>();
     AndroidTreeView treeView;
@@ -47,6 +58,7 @@ public class WikiMainActivity extends BackActivity {
     void initWikiMainActivity() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setActionBarTitle(project.name);
 
@@ -100,6 +112,21 @@ public class WikiMainActivity extends BackActivity {
         selectNode((NodeHolder) firstTreeNode.getViewHolder());
     }
 
+    @Click(R.id.clickEdit)
+    void onClickEdit() {
+
+    }
+
+    @Click(R.id.clickPopDrawer)
+    void onClickPopDrawer() {
+
+    }
+
+    @Click(R.id.clickHistory)
+    void onClickHistory() {
+
+    }
+
     private void selectNode(NodeHolder node) {
         if (selectNode == node) {
             return;
@@ -113,6 +140,11 @@ public class WikiMainActivity extends BackActivity {
 
         if (selectNode != null) {
             selectNode.select(true);
+
+            drawerLayoutRoot.closeDrawer(GravityCompat.START);
+
+            Wiki selectWiki = selectNode.getNodeValue();
+            Global.setWebViewContent(webView, "markdown.html", selectWiki.html);
         }
     }
 

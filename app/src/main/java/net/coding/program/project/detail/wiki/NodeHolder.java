@@ -1,6 +1,7 @@
 package net.coding.program.project.detail.wiki;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by chenchao on 2017/4/11.
+ * wiki 树控件的辅助类
  */
 public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
 
@@ -68,6 +70,10 @@ public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
             EventBus.getDefault().post(NodeHolder.this);
         });
 
+        if (node.getLevel() == 1) {
+            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+        }
+
         return v;
     }
 
@@ -78,6 +84,10 @@ public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
 
     @Override
     public void toggleSelectionMode(boolean editModeEnabled) {
+    }
+
+    public Wiki getNodeValue() {
+        return (Wiki) mNode.getValue();
     }
 
     public void select(boolean select) {
