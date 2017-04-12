@@ -120,6 +120,15 @@
             android:name="UMENG_CHANNEL"
             android:value="Channel" />
 
+
+
+        <activity android:name=".TestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.main" />
+                <category android:name="android.intent.category.launcher" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".setting.EnterpriseNameActivity_"
             android:screenOrientation="portrait"

@@ -25,7 +25,9 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
                 ProjectFunction.code,
                 ProjectFunction.member,
                 ProjectFunction.readme,
-                ProjectFunction.merge
+                ProjectFunction.merge,
+                ProjectFunction.wiki
+
         };
     }
 

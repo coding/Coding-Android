@@ -78,6 +78,12 @@ public class SingleToast {
         toast.show();
     }
 
+    public static void showErrorMsg(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
     public static void showErrorMsg(Context context, int code, JSONObject json) {
         if (code == NetworkImpl.NETWORK_ERROR) {
             SingleToast.showMiddleToast(context, R.string.connect_service_fail);

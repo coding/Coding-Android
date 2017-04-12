@@ -18,6 +18,7 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.project.detail.wiki.WikiMainActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -103,6 +104,13 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     }
 
     private void selectFragment() {
+        if (mJumpType == ProjectFunction.wiki) {
+            WikiMainActivity_.intent(this).project(mProjectObject).start();
+            finish();
+            overridePendingTransition(0, 0);
+            return;
+        }
+
         Fragment fragment;
         Bundle bundle = new Bundle();
 

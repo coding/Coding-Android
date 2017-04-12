@@ -1,0 +1,220 @@
+package net.coding.program.network;
+
+import android.content.Context;
+
+import com.loopj.android.http.PersistentCookieStore;
+
+import net.coding.program.common.Global;
+import net.coding.program.common.network.MyAsyncHttpClient;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import cz.msebera.android.httpclient.cookie.Cookie;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class Network {
+
+    public static String BASE_URL = Global.HOST_API + "/";
+
+    private static final int MAX_STALE = 60 * 60 * 24 * 28; // 无网络时，设置超时为4周
+
+    public enum CacheType {
+        noCache, // 不缓存数据, 仅使用网络
+        useCache, // 有网络就用网络取到的数据, 没有就用 cache
+        onlyCache // 只使用 cache
+    }
+
+    public static CodingRequest getRetrofit(Context context) {
+        return getRetrofit(context, CacheType.noCache);
+    }
+
+    private static String inputStream2String(InputStream is) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
+        StringBuilder buffer = new StringBuilder();
+        String line;
+        while ((line = in.readLine()) != null) {
+            buffer.append(line);
+        }
+        return buffer.toString();
+    }
+
+    public static String getCookie(Context context, String url) {
+        String host;
+        if (url.startsWith(Global.HOST)) {
+            host = Global.HOST;
+        } else {
+            return "";
+        }
+
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        List<Cookie> cookies = cookieStore.getCookies();
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie eachCookie = cookies.get(i);
+            String domain = eachCookie.getDomain();
+            if (domain.startsWith(".")) {
+                domain = domain.substring(1, domain.length());
+            }
+            String itemName = eachCookie.getName();
+            if ((itemName.equalsIgnoreCase("sid") || itemName.equalsIgnoreCase("eid"))
+                    && host.endsWith(domain)) {
+                return String.format("%s=%s;", eachCookie.getName(), eachCookie.getValue());
+            }
+        }
+
+        return "";
+    }
+
+    public static CodingRequest getRetrofit(Context context, CacheType cacheType) {
+        Interceptor interceptorCookie = chain -> {
+            Request request = chain.request();
+
+            request = request.newBuilder().addHeader("accept", "application/json").build();
+
+            String url = request.url().toString();
+            // 不是 coding 和 mart 就不添加 cookie
+            if (url.startsWith(Global.HOST)) {
+                String sid = getCookie(context, url);
+                Request.Builder builder = request.newBuilder()
+                        .addHeader("Cookie", sid);
+
+                HashMap<String, String> headers = MyAsyncHttpClient.getMapHeaders();
+                for (String key : headers.keySet()) {
+                    if (!key.equals("Referer")) {
+                        builder.addHeader(key, headers.get(key));
+                    }
+                }
+
+                if (url.startsWith(Global.HOST)) {
+                    builder.addHeader("Referer", Global.HOST);
+                }
+
+                request = builder.build();
+            }
+
+            Response proceed = chain.proceed(request);
+            if (request.method().equals("GET")) {
+                if (cacheType == CacheType.useCache) {
+                    return proceed.newBuilder()
+                            .removeHeader("Pragma")
+                            .removeHeader("Cache-Control")
+                            .header("Cache-Control", "public, max-age=" + 0)
+                            .build();
+                }
+            }
+
+            return proceed;
+        };
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(generateClient(context, interceptorCookie, cacheType))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        return retrofit.create(CodingRequest.class);
+    }
+
+    static OkHttpClient generateClient(Context context, Interceptor interceptorCookie, CacheType cacheType) {
+        File httpCacheDirectory = new File(context.getCacheDir(), "HttpCache");
+        Cache cache = new Cache(httpCacheDirectory, 100 * 1024 * 1024);
+
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        return okHttpClient
+                .addInterceptor(interceptor)
+                .addNetworkInterceptor(chain -> {
+                    Request request = chain.request();
+
+                    if (request.method().equals("GET")) {
+                        if (cacheType == CacheType.onlyCache) {
+                            request = request.newBuilder()
+                                    .removeHeader("Cache-Control")
+                                    .header("Cache-Control", "public, only-if-cached, max-stale=" + MAX_STALE)
+                                    .build();
+                        } else if (cacheType == CacheType.useCache) {
+                            request = request.newBuilder()
+                                    .removeHeader("Cache-Control")
+                                    .header("Cache-Control", "public, max-age=0")
+                                    .build();
+                        }
+                    }
+
+                    Response proceed = chain.proceed(request);
+                    if (request.method().equals("GET")) {
+                        if (cacheType == CacheType.useCache) {
+                            return proceed.newBuilder()
+                                    .removeHeader("Pragma")
+                                    .removeHeader("Cache-Control")
+                                    .header("Cache-Control", "public, max-age=" + 0)
+                                    .build();
+                        }
+                    }
+
+                    return proceed;
+                })
+                .addInterceptor(interceptorCookie)
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+
+                    if (request.method().equals("GET")) {
+                        if (cacheType == CacheType.onlyCache) {
+                            request = request.newBuilder()
+                                    .removeHeader("Cache-Control")
+                                    .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + MAX_STALE)
+                                    .build();
+                        }
+                    }
+
+                    Response proceed = chain.proceed(request);
+//                    if (request.method().equals("GET")) {
+//                        if (cacheType == CacheType.useCache) {
+//                            return proceed.newBuilder()
+//                                    .removeHeader("Pragma")
+//                                    .removeHeader("Cache-Control")
+//                                    .addHeader("Cache-Control", "public, max-age=" + 0)
+//                                    .build();
+//                        } else if (cacheType == CacheType.noCache) {
+//                            return proceed.newBuilder()
+//                                    .removeHeader("Pragma")
+//                                    .removeHeader("Cache-Control")
+//                                    .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + MAX_STALE)
+//                                    .build();
+//                        }
+//                    }
+
+                    if (request.method().equals("GET")) {
+                        if (cacheType == CacheType.onlyCache) {
+                            proceed = proceed.newBuilder()
+                                    .removeHeader("Pragma")
+                                    .removeHeader("Cache-Control")
+                                    .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + MAX_STALE)
+                                    .build();
+                        }
+                    }
+
+                    return proceed;
+                })
+                .cache(cache)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+    }
+}

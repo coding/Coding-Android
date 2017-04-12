@@ -152,6 +152,17 @@ dependencies {
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
     compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
+    compile 'com.github.bmelnychuk:atv:1.2.+'
+
+    // 网络请求
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 }
 
 repositories {
@@ -161,4 +172,10 @@ repositories {
 }
 dependencies {
     compile(name: 'checknetwork', ext: 'aar')
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
 }
