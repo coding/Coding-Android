@@ -15,6 +15,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.TopicObject;
+import net.coding.program.param.TopicData;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -30,11 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_add)
-public class TopicAddActivity extends BackActivity implements TopicEditFragment.SaveData, TopicLabelBar.Controller {
+public class TopicAddActivity extends BackActivity implements EditPreviewMarkdown, TopicLabelBar.Controller {
 
     final String HOST_TOPIC_NEW = Global.HOST_API + "/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST_API + "/topic/%d";
+
     final int RESULT_LABEL = 1000;
+
     @Extra
     protected ProjectObject projectObject;
     @Extra
@@ -294,27 +297,7 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         }
     }
 
-    public static class TopicData implements Serializable {
-        public ArrayList<TopicLabelObject> labels = new ArrayList<>();
-        public String title = "";
-        public String content = "";
-
-        public TopicData(TopicObject topicObject) {
-            this.title = topicObject.title;
-            this.content = topicObject.content;
-            this.labels = topicObject.labels;
-        }
-
-        public TopicData(String title, String content, ArrayList<TopicLabelObject> labels) {
-            this.title = title;
-            this.content = content;
-            this.labels = labels;
-        }
-
-        public TopicData() {
-        }
-    }
-
+    // // TODO: 2017/4/13 删除，
     public static class TopicDraft implements Serializable {
         String mTitle;
         String mContent;

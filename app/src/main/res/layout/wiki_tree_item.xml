@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:scaleType="center"
-            android:src="@drawable/triangle_tree_down" />
+            android:src="@mipmap/wiki_tree_down" />
 
     </FrameLayout>
 

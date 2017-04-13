@@ -10,8 +10,8 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.param.TopicData;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,12 +19,12 @@ import org.androidannotations.annotations.Extra;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_project_maopao_add)
-public class ProjectMaopaoAddActivity extends BackActivity implements TopicEditFragment.SaveData {
+public class ProjectMaopaoAddActivity extends BackActivity implements EditPreviewMarkdown {
 
     @Extra
     ProjectObject projectObject;
 
-    private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
+    private TopicData modifyData = new TopicData();
 
     ProjectMaopaoEditFragment editFragment;
     ProjectMaopaoPreviewFragment previewFragment;
@@ -67,12 +67,12 @@ public class ProjectMaopaoAddActivity extends BackActivity implements TopicEditF
     }
 
     @Override
-    public void saveData(TopicAddActivity.TopicData data) {
+    public void saveData(TopicData data) {
         modifyData = data;
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
     }
 

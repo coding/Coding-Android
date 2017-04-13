@@ -86,7 +86,6 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
-
         <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
@@ -717,6 +716,7 @@
             android:label="@string/title_activity_pick_label_color"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.main" /> -->
             <!-- <category android:name="android.intent.category.launcher" /> -->
@@ -807,6 +807,11 @@
             android:theme="@style/ActionbarTranslate" />
         <activity
             android:name=".project.detail.wiki.WikiMainActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
+        <activity
+            android:name=".project.detail.wiki.WikiEditActivity_"
             android:label="@string/empty"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />

@@ -191,5 +191,9 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
             return false;
         }
+
+        public String toPath() {
+            return String.format("/user/%s/project/%s", mUser, mProject);
+        }
     }
 }

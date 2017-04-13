@@ -10,8 +10,8 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.param.TopicData;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
 import net.coding.program.task.TaskDespEditFragment;
 import net.coding.program.task.TaskDespEditFragment_;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 @EActivity(R.layout.activity_readme_edit)
-public class ReadmeEditActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
+public class ReadmeEditActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
 
     @Extra
     ProjectObject mProjectObject;
@@ -34,7 +34,7 @@ public class ReadmeEditActivity extends BackActivity implements TaskDescrip, Top
 
     TaskDespEditFragment editFragment;
     Fragment previewFragment;
-    private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected final void initTaskDescriptionActivity() {
@@ -52,12 +52,12 @@ public class ReadmeEditActivity extends BackActivity implements TaskDescrip, Top
     }
 
     @Override
-    public void saveData(TopicAddActivity.TopicData data) {
+    public void saveData(TopicData data) {
         modifyData = data;
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
     }
 

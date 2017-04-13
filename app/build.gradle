@@ -163,6 +163,9 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
+    // 仿 apple 的 segmentied control
+    compile 'info.hoang8f:android-segmented:1.0.6'
 }
 
 repositories {
@@ -172,6 +175,9 @@ repositories {
 }
 dependencies {
     compile(name: 'checknetwork', ext: 'aar')
+}
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
 }
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:+'

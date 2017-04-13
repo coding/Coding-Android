@@ -1,5 +1,6 @@
 package net.coding.program.project.detail.wiki;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +17,9 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.event.EventAction;
 import net.coding.program.event.EventRefresh;
+import net.coding.program.event.WikiEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -61,6 +64,7 @@ public class WikiMainActivity extends BackActivity {
     TreeNode firstTreeNode = null;
 
     MenuItem deleteAction;
+    private TreeNode treeRoot;
 
     @AfterViews
     void initWikiMainActivity() {
@@ -74,21 +78,21 @@ public class WikiMainActivity extends BackActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_wiki, menu);
-        deleteAction = menu.findItem(R.id.action_delete);
+//        getMenuInflater().inflate(R.menu.main_wiki, menu);
+//        deleteAction = menu.findItem(R.id.action_delete);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -102,11 +106,37 @@ public class WikiMainActivity extends BackActivity {
         selectNode(node);
     }
 
-    private void buildTree() {
-        TreeNode root = TreeNode.root();
-        addTreeNode(root, dataList);
 
-        treeViewBuilder = new AndroidTreeView(this, root);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventUpdateSingle(WikiEvent event) {
+        if (event.action == EventAction.modify) {
+            updateTreeData(treeRoot, event.wiki);
+        }
+    }
+
+    private boolean updateTreeData(TreeNode node, Wiki data) {
+        Wiki value = (Wiki) node.getValue();
+        if (value != null && value.id == data.id) {
+            value.update(data);
+            NodeHolder h = (NodeHolder) node.getViewHolder();
+            h.notifyDataSetChanged();
+            selectNode(h);
+            return true;
+        } else {
+            for (TreeNode t : node.getChildren()) {
+                if (updateTreeData(t, data)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void buildTree() {
+        treeRoot = TreeNode.root();
+        addTreeNode(treeRoot, dataList);
+
+        treeViewBuilder = new AndroidTreeView(this, treeRoot);
         treeViewBuilder.setDefaultViewHolder(NodeHolder.class);
 
         treeView = treeViewBuilder.getView();
@@ -118,7 +148,10 @@ public class WikiMainActivity extends BackActivity {
     @Click(R.id.clickEdit)
     void onClickEdit() {
 //        EventBus.getDefault().post(new EventRefresh(true));
-
+        WikiEditActivity_.intent(this)
+                .projectParam(project.generateJumpParam())
+                .wiki(selectNode.getNodeValue())
+                .start();
     }
 
     @Click(R.id.clickPopDrawer)
@@ -190,9 +223,9 @@ public class WikiMainActivity extends BackActivity {
     }
 
     private void selectNode(NodeHolder node) {
-        if (selectNode == node) {
-            return;
-        }
+//        if (selectNode == node) {
+//            return;
+//        }
 
         if (selectNode != null) {
             selectNode.select(false);

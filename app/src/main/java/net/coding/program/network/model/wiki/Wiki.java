@@ -74,4 +74,25 @@ public class Wiki implements Serializable {
     @Expose
     public float order;
 
+    public void update(Wiki wiki) {
+        this.id = wiki.id;
+        this.creator = wiki.creator;
+        this.editor = wiki.editor;
+        this.title = wiki.title;
+        this.content = wiki.content;
+        this.msg = wiki.msg;
+        this.historyId = wiki.historyId;
+        this.currentUserRoleId = wiki.currentUserRoleId;
+        this.iid = wiki.iid;
+        this.html = wiki.html;
+        this.createdAt = wiki.createdAt;
+        this.updatedAt = wiki.updatedAt;
+        this.historiesCount = wiki.historiesCount;
+        this.lastVersion = wiki.lastVersion;
+        this.currentVersion = wiki.currentVersion;
+        this.children = wiki.children;
+        this.parentIid = wiki.parentIid;
+        this.path = wiki.path;
+        this.order = wiki.order;
+    }
 }

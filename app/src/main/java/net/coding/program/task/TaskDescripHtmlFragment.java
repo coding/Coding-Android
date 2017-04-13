@@ -16,7 +16,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -147,7 +147,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
-        String projectPath = ((TopicEditFragment.SaveData) getActivity()).getProjectPath();
+        String projectPath = ((EditPreviewMarkdown) getActivity()).getProjectPath();
         String uri = ProjectObject.getMdPreview(projectPath);
         postNetwork(uri, params, TAG_HTTP_MD_PREVIEW);
     }

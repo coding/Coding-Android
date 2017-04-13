@@ -12,6 +12,9 @@ import java.io.Serializable;
  * 标签的数据结构
  */
 public class TopicLabelObject implements Serializable {
+
+    private static final long serialVersionUID = 3388609672024998882L;
+
     public int id;
     public int count;
     public String name;

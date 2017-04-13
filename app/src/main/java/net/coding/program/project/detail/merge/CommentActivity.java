@@ -7,8 +7,8 @@ import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.RequestData;
-import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.param.TopicData;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDespPreviewFragment_;
 import net.coding.program.third.EmojiFilter;
 
@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 @EActivity(R.layout.activity_comment)
-public class CommentActivity extends BackActivity implements TopicEditFragment.SaveData {
+public class CommentActivity extends BackActivity implements EditPreviewMarkdown {
 
     private static final String HOST_SEND_COMMENT = "HOST_SEND_COMMENT";
 
@@ -30,7 +30,7 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
 
     CommentEditFragment editFragment;
     Fragment previewFragment;
-    private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     void init() {
@@ -57,12 +57,12 @@ public class CommentActivity extends BackActivity implements TopicEditFragment.S
     }
 
     @Override
-    public void saveData(TopicAddActivity.TopicData data) {
+    public void saveData(TopicData data) {
         modifyData = data;
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
     }
 

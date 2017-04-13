@@ -8,9 +8,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.TaskObject;
-import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicAddActivity.TopicData;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.project.detail.EditPreviewMarkdown;
+import net.coding.program.param.TopicData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
+public class TaskDescriptionActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
 
     @Extra
     TaskObject.TaskDescription descriptionData;
@@ -104,7 +103,7 @@ public class TaskDescriptionActivity extends BackActivity implements TaskDescrip
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
     }
 

@@ -2,6 +2,7 @@ package net.coding.program.model;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
+import net.coding.program.project.detail.ProjectActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -265,6 +266,10 @@ public class ProjectObject implements Serializable {
         review, mine, other
     }
 
+    public ProjectActivity.ProjectJumpParam generateJumpParam() {
+        return new ProjectActivity.ProjectJumpParam(backend_project_path);
+    }
+
     public String getHttpMergeExamine(boolean open, MergeExamine mineType) {
         String type = open ? "open" : "closed";
         return Global.HOST_API + backend_project_path + "/git/merges/list/" + mineType + "?&status=" + type;
@@ -328,4 +333,5 @@ public class ProjectObject implements Serializable {
     public static String getHttpProject(String user, String project) {
         return String.format("%s/user/%s/project/%s", Global.HOST_API, user, project);
     }
+
 }

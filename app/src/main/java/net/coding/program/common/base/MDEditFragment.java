@@ -20,7 +20,7 @@ import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -49,7 +49,7 @@ public class MDEditFragment extends BaseFragment {
 
     @AfterViews
     protected final void initBase1() {
-        TopicEditFragment.SaveData projectData = (TopicEditFragment.SaveData) getActivity();
+        EditPreviewMarkdown projectData = (EditPreviewMarkdown) getActivity();
         String path = projectData.getProjectPath();
         String template;
         if (projectData.isProjectPublic()) {

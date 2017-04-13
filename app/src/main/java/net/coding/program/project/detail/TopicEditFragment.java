@@ -7,6 +7,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MDEditFragment;
 import net.coding.program.model.TopicLabelObject;
+import net.coding.program.param.TopicData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -26,12 +27,12 @@ public class TopicEditFragment extends MDEditFragment {
     @ViewById
     protected TopicLabelBar labelBar;
 
-    private TopicAddActivity.TopicData mOldData;
+    private TopicData mOldData;
 
     @AfterViews
     protected void init() {
         hasOptionsMenu();
-        mOldData = ((SaveData) getActivity()).loadData();
+        mOldData = ((EditPreviewMarkdown) getActivity()).loadData();
         Log.e("TopicLabel", String.format("labels %s", mOldData.labels == null ? "null" : String.valueOf(mOldData.labels.size())));
         title.setText(mOldData.title);
         String content = mOldData.content;
@@ -41,24 +42,24 @@ public class TopicEditFragment extends MDEditFragment {
     }
 
     public void updateLabels(List<TopicLabelObject> labels) {
-        if (labelBar != null && getActivity() != null) {
+        if (labelBar != null && getActivity() instanceof TopicLabelBar.Controller) {
             labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
         }
     }
 
     @OptionsItem
     protected void action_preview() {
-        SaveData saveData = (SaveData) getActivity();
-        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
-        saveData.switchPreview();
+        EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
+        editPreviewMarkdown.saveData(new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
+        editPreviewMarkdown.switchPreview();
         Global.popSoftkeyboard(getActivity(), edit, false);
     }
 
     @OptionsItem
     protected void action_save() {
-        SaveData saveData = (SaveData) getActivity();
-        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
-        saveData.exit();
+        EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
+        editPreviewMarkdown.saveData(new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
+        editPreviewMarkdown.exit();
     }
 
     public boolean isContentModify() {
@@ -75,20 +76,4 @@ public class TopicEditFragment extends MDEditFragment {
         return new TopicAddActivity.TopicDraft(title.getText().toString(), edit.getText().toString());
     }
 
-    public interface SaveData {
-        void saveData(TopicAddActivity.TopicData data);
-
-        TopicAddActivity.TopicData loadData();
-
-        void switchPreview();
-
-        void switchEdit();
-
-        void exit();
-
-        String getProjectPath();
-
-        boolean isProjectPublic();
-
-    }
 }

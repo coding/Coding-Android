@@ -9,9 +9,9 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.RequestData;
 import net.coding.program.model.TaskObject;
+import net.coding.program.param.TopicData;
 import net.coding.program.project.detail.AttachmentsActivity;
-import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
 import net.coding.program.task.TaskDespEditFragment;
 import net.coding.program.task.TaskDespEditFragment_;
@@ -27,7 +27,7 @@ import java.io.File;
 
 @EActivity(R.layout.activity_markdown_edit)
 //@OptionsMenu(R.menu.menu_markdown_edit)
-public class MarkdownEditActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
+public class MarkdownEditActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
 
     private static final String TAG_SAVE_CONTENT = "TAG_SAVE_CONTENT";
     private static final String TAG_HTTP_FILE_VIEW = "TAG_HTTP_FILE_VIEW";
@@ -41,7 +41,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
 
     TaskDespEditFragment editFragment;
     Fragment previewFragment;
-    private TopicAddActivity.TopicData modifyData = new TopicAddActivity.TopicData();
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected final void initTaskDescriptionActivity() {
@@ -134,12 +134,12 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, T
     }
 
     @Override
-    public void saveData(TopicAddActivity.TopicData data) {
+    public void saveData(TopicData data) {
         modifyData = data;
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
     }
 
