@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.view.animation.Animation;
 
 import com.tencent.android.tpush.XGPushClickedResult;
@@ -153,12 +152,12 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
                 AccountInfo.saveReloginInfo(this, user);
                 next();
             } else {
-                new AlertDialog.Builder(this).setTitle("更新")
-                        .setMessage("刷新账户信息失败")
-                        .setPositiveButton("重试", (dialog, which) -> getNetwork(HOST_CURRENT, HOST_CURRENT))
-                        .setNegativeButton("关闭程序", (dialog, which) -> finish())
-                        .show();
-
+                showDialog("更新",
+                        "刷新账户信息失败",
+                        (dialog, which) -> getNetwork(HOST_CURRENT, HOST_CURRENT),
+                        (dialog, which) -> finish(),
+                        "重试",
+                        "关闭程序");
             }
         }
     }

@@ -285,7 +285,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
                               String okButton,
                               String cancelButton,
                               String neutralButton) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle(title)
                 .setMessage(msg);
 
@@ -361,13 +361,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
-    public void showDialogLoading(String title) {
-        initDialogLoading();
-        DialogUtil.showProgressDialog(this, mDialogProgressPopWindow, title);
-    }
-
     public void showDialogLoading() {
-        showDialogLoading("");
+        initDialogLoading();
+        DialogUtil.showProgressDialog(this, mDialogProgressPopWindow, "");
     }
 
     public void hideProgressDialog() {

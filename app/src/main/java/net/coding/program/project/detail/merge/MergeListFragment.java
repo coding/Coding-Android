@@ -67,8 +67,6 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         mMergeAdapter = new MergeAdapter(new ArrayList<>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);
         loadMore();
-
-//        showDialogLoading();
     }
 
     @Override

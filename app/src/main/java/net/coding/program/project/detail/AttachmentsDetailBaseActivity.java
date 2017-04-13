@@ -167,7 +167,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(AttachmentsDetailBaseActivity.this);
         builder.setTitle("删除文件").setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
                 .setPositiveButton("确定", (dialog, which) -> {
-                    showDialogLoading("正在删除");
+                    showDialogLoading();
                     deleteNetwork(String.format(HOST_FILE_DELETE, mProjectObjectId, mAttachmentFileObject.file_id), HOST_FILE_DELETE);
                 }).setNegativeButton("取消", null)
                 .show();

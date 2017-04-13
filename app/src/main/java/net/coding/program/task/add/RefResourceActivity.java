@@ -1,6 +1,5 @@
 package net.coding.program.task.add;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -56,12 +55,9 @@ public class RefResourceActivity extends BackActivity {
     void itemLongClick(RefResourceObject item) {
         new AlertDialog.Builder(this)
                 .setItems(new String[]{"取消关联"},
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    deleteRef(item);
-                                }
+                        (dialog, which) -> {
+                            if (which == 0) {
+                                deleteRef(item);
                             }
                         })
                 .show();
