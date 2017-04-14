@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import com.orhanobut.logger.Logger;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
 import net.coding.program.R;
+import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.event.EventAction;
@@ -26,6 +28,7 @@ import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -49,6 +52,9 @@ public class WikiMainActivity extends BackActivity {
 
     @ViewById
     DrawerLayout drawerLayoutRoot;
+
+    @ViewById
+    View blankLayout;
 
     @ViewById
     ViewGroup drawerLayout;
@@ -75,6 +81,8 @@ public class WikiMainActivity extends BackActivity {
         setActionBarTitle(project.name);
 
         onRefrush();
+
+        Global.initWebView(webView);
     }
 
     @Override
@@ -143,6 +151,8 @@ public class WikiMainActivity extends BackActivity {
         drawerLayout.addView(treeView);
 
         selectNode((NodeHolder) firstTreeNode.getViewHolder());
+
+        treeViewBuilder.expandAll();
     }
 
     @Click(R.id.clickEdit)
@@ -223,10 +233,6 @@ public class WikiMainActivity extends BackActivity {
     }
 
     private void selectNode(NodeHolder node) {
-//        if (selectNode == node) {
-//            return;
-//        }
-
         if (selectNode != null) {
             selectNode.select(false);
         }
@@ -238,9 +244,55 @@ public class WikiMainActivity extends BackActivity {
 
             drawerLayoutRoot.closeDrawer(GravityCompat.START);
 
-            Wiki selectWiki = selectNode.getNodeValue();
-            Global.setWebViewContent(webView, "markdown.html", selectWiki.html);
+            loadContent();
         }
+    }
+
+    private void loadContent() {
+        Wiki selectWiki = selectNode.getNodeValue();
+
+        Network.getRetrofit(this)
+                .getWikiDetail(project.owner_user_name, project.name, selectWiki.iid, selectWiki.lastVersion)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<Wiki>(this) {
+                    @Override
+                    public void onSuccess(Wiki data) {
+                        super.onSuccess(data);
+
+                        displayWebviewContent(data.html);
+
+                        Logger.d(data.html);
+
+
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+
+                        BlankViewDisplay.setBlank(0, WikiMainActivity.this, false, blankLayout, v -> onRefrush());
+                    }
+                });
+    }
+
+    String wikiContent = "";
+
+    @Background(serial = "content")
+    void getContent(String html) {
+        wikiContent = "";
+        try {
+            String bubble = Global.readTextFile(getAssets().open("markdown.html"));
+            wikiContent =  bubble.replace("${webview_content}", html);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
+    void displayWebviewContent(String html) {
+        getContent(html);
+        Global.setWebViewContent(webView, wikiContent);
+        BlankViewDisplay.setBlank(html.length(), WikiMainActivity.this, true, blankLayout, v -> onRefrush());
     }
 
     private void addTreeNode(TreeNode node, List<Wiki> wikis) {

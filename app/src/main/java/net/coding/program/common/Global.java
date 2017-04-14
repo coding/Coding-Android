@@ -544,6 +544,16 @@ public class Global {
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
     }
 
+    static public void setWebViewContent(WebView webView, String content) {
+        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(webView.getContext(), content));
+        try {
+            syncCookie(webView.getContext());
+            webView.loadDataWithBaseURL(Global.HOST, content, "text/html", "UTF-8", null);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
     static public void setWebViewContent(WebView webView, String tempate, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);

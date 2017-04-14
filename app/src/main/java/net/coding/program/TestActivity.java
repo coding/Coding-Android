@@ -20,10 +20,12 @@ public class TestActivity extends BackActivity {
 
         findViewById(R.id.button).setOnClickListener(v -> click1());
 
-        click1();
+        click2();
+    }
+    private void click1() {
     }
 
-    private void click1() {
+    private void click2() {
         String urlProject = String.format(FileUrlActivity.getHostProject(), "codingcorp", "TestWiki");
 
         getNetwork(urlProject, urlProject);

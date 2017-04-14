@@ -12,6 +12,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public interface CodingRequest {
@@ -26,4 +27,8 @@ public interface CodingRequest {
     @POST("user/{user}/project/{project}/wiki")
     Observable<HttpResult<Wiki>> postWiki(@Path("user") String user, @Path("project") String project,
                                           @FieldMap Map<String, String> map);
+
+    @GET("user/{user}/project/{project}/wiki/{id}")
+    Observable<HttpResult<Wiki>> getWikiDetail(@Path("user") String user, @Path("project") String project,
+                                                     @Path("id") int id, @Query("version") int version);
 }
