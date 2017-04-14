@@ -24,14 +24,6 @@ dependencies {
 }
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'test'
-            keyPassword 'qqqqqq'
-            storeFile file('testKeyStore.jks')
-            storePassword 'qqqqqq'
-        }
-    }
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
     dexOptions {
@@ -80,7 +72,6 @@ android {
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
             debuggable false
             jniDebuggable false
         }
@@ -101,7 +92,7 @@ android {
 }
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xmaxerrs" << "99999"
+        options.compilerArgs << "-Xmaxerrs" << "99999" // 显示更多的编译错误，默认只显示 100 个
     }
 }
 
