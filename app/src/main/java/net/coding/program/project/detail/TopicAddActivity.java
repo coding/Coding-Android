@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -26,7 +25,6 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,11 +69,10 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
         ActionBar actionBar = getSupportActionBar();
 
         if (isNewTopic()) {
-            ArrayList<TopicDraft> drafts = AccountInfo.loadTopicDraft(this, getProjectPath(), getTopicId());
+            ArrayList<TopicData> drafts = AccountInfo.loadTopicDraft(this, getProjectPath(), getTopicId());
             if (!drafts.isEmpty()) {
-                TopicDraft draft = drafts.get(0);
-                modifyData.content = draft.mContent;
-                modifyData.title = draft.mTitle;
+                TopicData draft = drafts.get(0);
+                modifyData.update(draft);
             }
         }
 
@@ -97,35 +94,21 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
     public void onBackPressed() {
         if (labelsHasChanged || editFragment.isContentModify()) {
             if (isNewTopic()) {
-                showDialog("讨论", "保存为草稿？", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                TopicDraft draft = editFragment.generalDraft();
-                                AccountInfo.saveTopicDraft(TopicAddActivity.this, draft, getProjectPath(), getTopicId());
-                                finish();
-                            }
-                        }, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        }, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                AccountInfo.deleteTopicDraft(TopicAddActivity.this, getProjectPath(), getTopicId());
-                                finish();
-                            }
+                showDialog("讨论", "保存为草稿？", (dialog, which) -> {
+                            TopicData draft = editFragment.generalDraft();
+                            AccountInfo.saveTopicDraft(TopicAddActivity.this, draft, getProjectPath(), getTopicId());
+                            finish();
+                        },
+                        (dialog, which) -> finish(),
+                        (dialog, which) -> {
+                            AccountInfo.deleteTopicDraft(TopicAddActivity.this, getProjectPath(), getTopicId());
+                            finish();
                         },
                         "保存",
                         "取消",
                         "删除草稿");
             } else {
-                showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
+                showDialog("讨论", "确定放弃此次编辑？", (dialog, which) -> finish());
             }
         } else {
             finish();
@@ -294,17 +277,6 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
             previewFragment.updateLabels(modifyData.labels);
             labelsHasChanged = true;
             saveLabelsIfCancel();
-        }
-    }
-
-    // // TODO: 2017/4/13 删除，
-    public static class TopicDraft implements Serializable {
-        String mTitle;
-        String mContent;
-
-        public TopicDraft(String mTitle, String mContent) {
-            this.mTitle = mTitle;
-            this.mContent = mContent;
         }
     }
 }

@@ -122,6 +122,12 @@
                     android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
 
+                 <!--迟早要加-->
+                <include
+                    android:visibility="gone"
+                    android:id="@+id/itemWiki"
+                    layout="@layout/project_home_list_head_button" />
+
             </LinearLayout>
 
         </LinearLayout>

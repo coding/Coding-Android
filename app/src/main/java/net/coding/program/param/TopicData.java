@@ -29,4 +29,10 @@ public class TopicData implements Serializable {
 
     public TopicData() {
     }
+
+    public void update(TopicData other) {
+        this.labels = other.labels;
+        this.title = other.title;
+        this.content = other.content;
+    }
 }

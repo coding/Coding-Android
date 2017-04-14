@@ -48,7 +48,9 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 // coding 和 coding 企业版 必须使用相同的包名，否则 androidannotations 生成代码会失败
-                arguments = [resourcePackageName: "net.coding.program"]
+                arguments = [resourcePackageName : "net.coding.program",
+                             "logLevel"          : "TRACE", // 打印更多 log，AA 生成错误会导致几百个编译错误
+                             "logAppenderConsole": "true"]
             }
         }
     }
@@ -95,6 +97,11 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "99999"
     }
 }
 

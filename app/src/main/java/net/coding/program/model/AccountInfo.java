@@ -14,7 +14,7 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.login.MarketingHelp;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.message.MessageListActivity;
-import net.coding.program.project.detail.TopicAddActivity;
+import net.coding.program.param.TopicData;
 import net.coding.program.user.UsersListActivity;
 
 import org.json.JSONArray;
@@ -426,18 +426,18 @@ public class AccountInfo {
         }
     }
 
-    public static void saveTopicDraft(Context ctx, TopicAddActivity.TopicDraft draft, String projectPath, int topicId) {
-        ArrayList<TopicAddActivity.TopicDraft> data = new ArrayList<>();
+    public static void saveTopicDraft(Context ctx, TopicData draft, String projectPath, int topicId) {
+        ArrayList<TopicData> data = new ArrayList<>();
         data.add(draft);
-        new DataCache<TopicAddActivity.TopicDraft>().save(ctx, data, SimpleSHA1.sha1(projectPath + topicId));
+        new DataCache<TopicData>().save(ctx, data, SimpleSHA1.sha1(projectPath + topicId));
     }
 
-    public static ArrayList<TopicAddActivity.TopicDraft> loadTopicDraft(Context ctx, String projectPath, int topicId) {
-        return new DataCache<TopicAddActivity.TopicDraft>().load(ctx, SimpleSHA1.sha1(projectPath + topicId));
+    public static ArrayList<TopicData> loadTopicDraft(Context ctx, String projectPath, int topicId) {
+        return new DataCache<TopicData>().load(ctx, SimpleSHA1.sha1(projectPath + topicId));
     }
 
     public static void deleteTopicDraft(Context ctx, String projectPath, int topicId) {
-        new DataCache<TopicAddActivity.TopicDraft>().delete(ctx, SimpleSHA1.sha1(projectPath + topicId));
+        new DataCache<TopicData>().delete(ctx, SimpleSHA1.sha1(projectPath + topicId));
     }
 
 

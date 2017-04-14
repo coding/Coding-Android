@@ -47,16 +47,16 @@ public class TopicEditFragment extends MDEditFragment {
         }
     }
 
-    @OptionsItem
-    protected void action_preview() {
+    @OptionsItem(R.id.action_preview)
+    protected void actionPreview() {
         EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
         editPreviewMarkdown.saveData(new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
         editPreviewMarkdown.switchPreview();
         Global.popSoftkeyboard(getActivity(), edit, false);
     }
 
-    @OptionsItem
-    protected void action_save() {
+    @OptionsItem(R.id.action_save)
+    protected void actionSave() {
         EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
         editPreviewMarkdown.saveData(new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
         editPreviewMarkdown.exit();
@@ -72,8 +72,8 @@ public class TopicEditFragment extends MDEditFragment {
                 !edit.getText().toString().equals(mOldData.content);
     }
 
-    public TopicAddActivity.TopicDraft generalDraft() {
-        return new TopicAddActivity.TopicDraft(title.getText().toString(), edit.getText().toString());
+    public TopicData generalDraft() {
+        return new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels);
     }
 
 }

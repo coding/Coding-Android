@@ -24,7 +24,7 @@ import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
-import net.coding.program.third.PagerSlidingTabStrip;
+import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -40,7 +40,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
     @ViewById
     View emptyView;
     @ViewById
-    PagerSlidingTabStrip tabs;
+    WechatTab tabs;
 
     @ViewById(R.id.pager)
     ViewPager pager;
