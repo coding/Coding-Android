@@ -70,6 +70,10 @@ public class TopicPreviewFragment extends BaseFragment {
         super.onDestroy();
     }
 
+    public void switchEdit() {
+        action_edit();
+    }
+
     @OptionsItem
     protected void action_edit() {
         editPreviewMarkdown.switchEdit();

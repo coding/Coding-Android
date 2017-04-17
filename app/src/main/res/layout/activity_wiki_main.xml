@@ -5,6 +5,7 @@
     android:id="@+id/drawerLayoutRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="net.coding.program.project.detail.wiki.WikiMainActivity"
     tools:openDrawer="start">
 
@@ -12,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
@@ -24,13 +24,8 @@
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:minHeight="?attr/actionBarSize"
                     app:layout_scrollFlags="scroll|enterAlways|snap"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    style="@style/Toolbar" />
 
             </android.support.design.widget.AppBarLayout>
 
@@ -40,15 +35,22 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <WebView
-                    android:id="@+id/webView"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="?attr/actionBarSize"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="15dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <include layout="@layout/activity_wiki_detail_header" />
+
+                    <WebView
+                        android:id="@+id/webView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="?attr/actionBarSize"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" />
+
+                </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
 
             <include
@@ -57,32 +59,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
-                android:background="@color/font_green"
+                android:background="@color/bottom_white"
                 app:layout_behavior="net.coding.program.project.detail.wiki.BottomBarBehavior">
 
-                <ImageView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:id="@+id/clickPopDrawer"
-                    android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:id="@+id/clickEdit"
-                    android:layout_height="match_parent" />
+                    <ImageView
+                        android:id="@+id/clickPopDrawer"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="center"
+                        android:src="@mipmap/ic_wiki_dir" />
 
-                <ImageView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:id="@+id/clickHistory"
-                    android:layout_height="match_parent" />
+                    <ImageView
+                        android:id="@+id/clickEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="center"
+                        android:src="@mipmap/ic_wiki_edit" />
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/clickHistory"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="center"
+                        android:src="@mipmap/ic_wiki_history" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/DivideLine" />
+
+            </FrameLayout>
 
         </android.support.design.widget.CoordinatorLayout>
 

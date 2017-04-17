@@ -201,7 +201,6 @@
     </style>
 
     <style name="ActionbarNoIcon" parent="AppTheme">
-        <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->
     </style>
 
     <style name="ActionbarTranslate" parent="ActionbarNoIcon">
@@ -545,6 +544,15 @@
     <style name="NumberPick" parent="Theme.AppCompat.Light">
         <item name="android:textColorPrimary">#323A45</item>
         <item name="colorControlNormal">#323A45</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:id">@+id/toolbar</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
     </style>
 
     <!--正则替换工具-->

@@ -1,13 +1,11 @@
 package net.coding.program.project.detail.wiki;
 
 import android.support.annotation.NonNull;
-import android.view.MenuItem;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.event.EventAction;
-import net.coding.program.event.WikiEvent;
+import net.coding.program.event.EventRefresh;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
@@ -41,8 +39,6 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
 
     private TopicData modifyData = new TopicData();
 
-    MenuItem menuSave;
-
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
 
@@ -64,12 +60,12 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
 
     @Click(R.id.editWiki)
     void editWiki() {
-        switchEdit();
+        previewFragment.switchEdit();
     }
 
     @Click(R.id.previewWiki)
     void previewWiki() {
-        switchPreview();
+        editFragment.switchPreview();
     }
 
     @Override
@@ -133,7 +129,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
                     public void onSuccess(Wiki data) {
                         super.onSuccess(data);
 
-                        EventBus.getDefault().post(new WikiEvent(EventAction.modify, data));
+                        EventBus.getDefault().post(new EventRefresh(true));
                         showProgressBar(false);
 
                         showButtomToast("修改 Wiki 成功");

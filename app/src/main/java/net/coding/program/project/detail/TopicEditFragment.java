@@ -47,6 +47,10 @@ public class TopicEditFragment extends MDEditFragment {
         }
     }
 
+    public void switchPreview() {
+        actionPreview();
+    }
+
     @OptionsItem(R.id.action_preview)
     protected void actionPreview() {
         EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();

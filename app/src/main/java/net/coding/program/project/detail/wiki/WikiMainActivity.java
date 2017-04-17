@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -16,16 +17,14 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.event.EventAction;
+import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.event.EventRefresh;
-import net.coding.program.event.WikiEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -53,6 +52,9 @@ public class WikiMainActivity extends BackActivity {
     DrawerLayout drawerLayoutRoot;
 
     @ViewById
+    NestedScrollView contentFrame;
+
+    @ViewById
     View blankLayout;
 
     @ViewById
@@ -61,15 +63,17 @@ public class WikiMainActivity extends BackActivity {
     @ViewById
     WebView webView;
 
+    ActivityWikiDetailHeaderBinding headerBinding;
+
     List<Wiki> dataList = new ArrayList<>();
+
     AndroidTreeView treeViewBuilder;
     View treeView = null;
 
-    NodeHolder selectNode = null;
     TreeNode firstTreeNode = null;
+    TreeNode treeRoot;
 
-    private TreeNode treeRoot;
-
+    NodeHolder selectNode = null;
     Wiki selectWiki;
 
     @AfterViews
@@ -77,6 +81,8 @@ public class WikiMainActivity extends BackActivity {
         useToolbar();
 
         setActionBarTitle(project.name);
+
+        headerBinding = ActivityWikiDetailHeaderBinding.bind(findViewById(R.id.wikiHeader));
 
         onRefrush();
 
@@ -106,32 +112,34 @@ public class WikiMainActivity extends BackActivity {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventUpdateSingle(WikiEvent event) {
-        if (event.action == EventAction.modify) {
-            updateTreeData(treeRoot, event.wiki);
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEventUpdateSingle(WikiEvent event) {
+//        if (event.action == EventAction.modify) {
+//            updateTreeData(treeRoot, event.wiki);
+//        }
+//    }
 
-    private boolean updateTreeData(TreeNode node, Wiki data) {
-        Wiki value = (Wiki) node.getValue();
-        if (value != null && value.id == data.id) {
-            value.update(data);
-            NodeHolder h = (NodeHolder) node.getViewHolder();
-            h.notifyDataSetChanged();
-            selectNode(h);
-            return true;
-        } else {
-            for (TreeNode t : node.getChildren()) {
-                if (updateTreeData(t, data)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    private boolean updateTreeData(TreeNode node, Wiki data) {
+//        Wiki value = (Wiki) node.getValue();
+//        if (value != null && value.id == data.id) {
+//            value.update(data);
+//            NodeHolder h = (NodeHolder) node.getViewHolder();
+//            h.notifyDataSetChanged();
+//            selectNode(h);
+//            return true;
+//        } else {
+//            for (TreeNode t : node.getChildren()) {
+//                if (updateTreeData(t, data)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     private void buildTree() {
+        firstTreeNode = null;
+
         treeRoot = TreeNode.root();
         addTreeNode(treeRoot, dataList);
 
@@ -151,7 +159,7 @@ public class WikiMainActivity extends BackActivity {
 //        EventBus.getDefault().post(new EventRefresh(true));
         WikiEditActivity_.intent(this)
                 .projectParam(project.generateJumpParam())
-                .wiki(selectNode.getNodeValue())
+                .wiki(selectWiki)
                 .start();
     }
 
@@ -211,19 +219,22 @@ public class WikiMainActivity extends BackActivity {
                     public void onSuccess(Boolean data) {
                         super.onSuccess(data);
                         showProgressBar(false);
+
+                        selectWiki = null;
+                        selectNode = null;
                         onRefrush();
                     }
 
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
                         super.onFail(errorCode, error);
-
                         showProgressBar(false);
                     }
                 });
         showProgressBar(true);
     }
 
+    // 主动选择 item
     private void selectNode(NodeHolder node) {
         if (selectNode != null) {
             selectNode.select(false);
@@ -242,9 +253,8 @@ public class WikiMainActivity extends BackActivity {
 
     private void loadContent() {
         Wiki wiki = selectNode.getNodeValue();
-
         Network.getRetrofit(this)
-                .getWikiDetail(project.owner_user_name, project.name, wiki.iid, wiki.lastVersion)
+                .getWikiDetail(project.owner_user_name, project.name, wiki.iid, -1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Wiki>(this) {
@@ -265,25 +275,27 @@ public class WikiMainActivity extends BackActivity {
                 });
     }
 
-    String wikiContent = "";
+//    String wikiContent = "";
 
-    @Background(serial = "content")
-    void getContent(String html) {
-        wikiContent = "";
-        try {
-            String bubble = Global.readTextFile(getAssets().open("markdown.html"));
-            wikiContent =  bubble.replace("${webview_content}", html);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-    }
+//    @Background(serial = "content")
+//    void getContent(String html) {
+//        wikiContent = "";
+//        try {
+//            String bubble = Global.readTextFile(getAssets().open("markdown.html"));
+//            wikiContent =  bubble.replace("${webview_content}", html);
+//        } catch (Exception e) {
+//            Global.errorLog(e);
+//        }
+//    }
 
     void displayWebviewContent(String html) {
 //        getContent(html);
 //        Global.setWebViewContent(webView, wikiContent);
         Global.setWebViewContent(webView, "markdown.html", html);
         BlankViewDisplay.setBlank(html.length(), WikiMainActivity.this, true, blankLayout, v -> onRefrush());
+        headerBinding.setWiki(selectWiki);
 
+        contentFrame.scrollTo(0, 0);
     }
 
     private void addTreeNode(TreeNode node, List<Wiki> wikis) {
@@ -291,6 +303,10 @@ public class WikiMainActivity extends BackActivity {
             TreeNode childNode = new TreeNode(item);
             node.addChild(childNode);
             if (firstTreeNode == null) {
+                firstTreeNode = childNode;
+            }
+
+            if (selectWiki != null && selectWiki.id == item.id) {
                 firstTreeNode = childNode;
             }
 

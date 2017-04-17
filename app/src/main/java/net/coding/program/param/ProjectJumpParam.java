@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by chenchao on 2017/4/17.
+ * 携带了 project 的 创建者 和 项目名
  */
 public class ProjectJumpParam implements Serializable {
     public String project = "";
