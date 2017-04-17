@@ -1,9 +1,9 @@
 ### Coding Android客户端代码说明
 
-##编译环境
+## 编译环境
 Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会有点慢，加载完毕后要build一下，这些待下划线的类（比如 MainActivity_）会在build之后自动生成。
 
-##包说明
+## 包说明
 >common 基类和工具类  
 >>comment 评论区  
 >>enter 输入框  
@@ -21,7 +21,7 @@ Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会
 >third 一些第三方代码  
 >user 好友界面  
 
-##一些觉得有必要提一下的
+## 一些觉得有必要提一下的
 因为不想写一堆绑定函数，所以项目用了 [androidannotations](https://github.com/excilys/androidannotations)，如果以前没用过最好先看看。
 显示图片用的[universal-image-loader](https://github.com/nostra13/Android-Universal-Image-Loader)，网络库用的[android-async-http](https://github.com/loopj/android-async-http)，因为登录以后保存的cookie都在[android-async-http](https://github.com/loopj/android-async-http)，有些图片需要登录后的cookie才能取到（例如项目文件里面的图片），这种情况就会用先用[android-async-http](https://github.com/loopj/android-async-http)下载图片（AttachmentimagePagerFragment.java）。
 
@@ -58,8 +58,8 @@ Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会
 
 - 推送用的是腾讯的信鸽，之前用的是umeng推送，但有延迟有时候很大，而且用新帐号登录后还能收到旧帐号的推送，多种原因之下就换了。
 
-##用到的一些开源库说明
+## 用到的一些开源库说明
 见我写的[blog](http://blog.coding.net/blog/android-open-source-library)
 
-##License
+## License
 Coding is available under the MIT license. See the LICENSE file for more info.
