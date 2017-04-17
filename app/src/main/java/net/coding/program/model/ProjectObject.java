@@ -2,7 +2,7 @@ package net.coding.program.model;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -266,8 +266,8 @@ public class ProjectObject implements Serializable {
         review, mine, other
     }
 
-    public ProjectActivity.ProjectJumpParam generateJumpParam() {
-        return new ProjectActivity.ProjectJumpParam(backend_project_path);
+    public ProjectJumpParam generateJumpParam() {
+        return new ProjectJumpParam(backend_project_path);
     }
 
     public String getHttpMergeExamine(boolean open, MergeExamine mineType) {

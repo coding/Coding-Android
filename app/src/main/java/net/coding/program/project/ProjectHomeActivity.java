@@ -14,7 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,7 +35,7 @@ public class ProjectHomeActivity extends BaseActivity {
     ProjectObject mProjectObject;
 
     @Extra
-    ProjectActivity.ProjectJumpParam mJumpParam;
+    ProjectJumpParam mJumpParam;
 
     @Extra
     boolean mNeedUpdateList = false; // 需要更新项目列表的排序
@@ -60,7 +60,7 @@ public class ProjectHomeActivity extends BaseActivity {
         if (mProjectObject != null) {
             initFragment(true);
         } else if (mJumpParam != null) {
-            mProjectUrl = String.format(FileUrlActivity.getHostProject(), mJumpParam.mUser, mJumpParam.mProject);
+            mProjectUrl = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
             getNetwork(mProjectUrl, mProjectUrl);
         } else {
             finish();

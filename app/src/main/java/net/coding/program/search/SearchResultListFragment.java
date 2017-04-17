@@ -16,8 +16,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -107,7 +107,7 @@ public class SearchResultListFragment extends SearchBaseFragment {
         itemData.description = itemData.description.replace("<em>", "").replace("</em>", "");
         itemData.name = itemData.name.replace("<em>", "").replace("</em>", "");
         itemData.getOwner().global_key = itemData.project_path.substring(0, itemData.project_path.indexOf("/p/")).replace("/u/", "");
-        ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(itemData.getOwner().global_key,
+        ProjectJumpParam param = new ProjectJumpParam(itemData.getOwner().global_key,
                 itemData.name);
         ProjectHomeActivity_.intent(this).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
     }

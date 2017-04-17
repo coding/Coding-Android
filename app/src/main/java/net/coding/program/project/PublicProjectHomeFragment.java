@@ -14,8 +14,8 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.MembersSelectActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.git.ForksListActivity_;
@@ -107,7 +107,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 JSONObject jsonData = respanse.getJSONObject("data");
                 String projectName = jsonData.optString("name");
                 DynamicObject.Owner owner = new DynamicObject.Owner(jsonData.optJSONObject("owner"));
-                ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(owner.global_key,
+                ProjectJumpParam param = new ProjectJumpParam(owner.global_key,
                         projectName);
                 ProjectHomeActivity_
                         .intent(this)

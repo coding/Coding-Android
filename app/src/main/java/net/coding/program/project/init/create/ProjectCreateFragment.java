@@ -32,8 +32,8 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.UriCompat;
 import net.coding.program.event.EventRefresh;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -302,7 +302,7 @@ public class ProjectCreateFragment extends BaseFragment {
                 String path = respanse.optString("data");
                 ProjectHomeActivity_
                         .intent(this)
-                        .mJumpParam(new ProjectActivity.ProjectJumpParam(path))
+                        .mJumpParam(new ProjectJumpParam(path))
                         .mNeedUpdateList(true)
                         .start();
                 getActivity().finish();

@@ -11,8 +11,8 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.ActivityParamBuilder;
 import net.coding.program.common.ui.BaseListActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.EActivity;
@@ -36,7 +36,7 @@ public class ForksListActivity extends BaseListActivity {
 
     AdapterView.OnItemClickListener mItemClick = (parent, view, position, id) -> {
         ProjectObject projectObject = (ProjectObject) parent.getItemAtPosition(position);
-        ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(projectObject.depot_path);
+        ProjectJumpParam param = new ProjectJumpParam(projectObject.depot_path);
         ProjectHomeActivity_.intent(ForksListActivity.this)
                 .mJumpParam(param)
                 .startForResult(InitProUtils.REQUEST_PRO_UPDATE);

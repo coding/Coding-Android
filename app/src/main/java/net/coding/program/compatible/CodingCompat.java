@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 
 import java.util.ArrayList;
 
@@ -105,7 +105,7 @@ public class CodingCompat implements ClassCompatInterface {
     }
 
     @Override
-    public void launchProjectMaopoaList(Context context, ProjectActivity.ProjectJumpParam param) {
+    public void launchProjectMaopoaList(Context context, ProjectJumpParam param) {
         substance.launchProjectMaopoaList(context, param);
     }
 }

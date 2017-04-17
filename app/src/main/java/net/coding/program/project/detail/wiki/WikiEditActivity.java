@@ -11,9 +11,9 @@ import net.coding.program.event.WikiEvent;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.param.TopicData;
 import net.coding.program.project.detail.EditPreviewMarkdown;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.project.detail.TopicPreviewFragment;
 import net.coding.program.third.EmojiFilter;
@@ -34,7 +34,7 @@ import rx.schedulers.Schedulers;
 public class WikiEditActivity extends BackActivity implements EditPreviewMarkdown {
 
     @Extra
-    ProjectActivity.ProjectJumpParam projectParam;
+    ProjectJumpParam projectParam;
 
     @Extra
     Wiki wiki;
@@ -125,7 +125,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
         map.put("order", String.valueOf(wiki.order));
 
         Network.getRetrofit(this)
-                .postWiki(projectParam.mUser, projectParam.mProject, map)
+                .postWiki(projectParam.user, projectParam.project, map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Wiki>(this) {

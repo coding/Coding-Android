@@ -25,7 +25,7 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
 
@@ -233,7 +233,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
 
         if (type == ProjectFragment.Type.Main || type == ProjectFragment.Type.Create) {
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.project_path);
+            ProjectJumpParam param = new ProjectJumpParam(item.project_path);
             ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
         } else {
             Intent intent = new Intent();

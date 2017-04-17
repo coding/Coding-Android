@@ -9,9 +9,9 @@ import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.EnterpriseMyPushReceiver;
 import net.coding.program.common.StartActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoActivity_;
 import net.coding.program.user.EnterpriseAddMemberActivity_;
 import net.coding.program.user.EnterpriseLoginActivity_;
@@ -119,7 +119,7 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     }
 
     @Override
-    public void launchProjectMaopoaList(Context context, ProjectActivity.ProjectJumpParam param) {
+    public void launchProjectMaopoaList(Context context, ProjectJumpParam param) {
         EnterpriseProjectMaopaoActivity_.intent(context)
                 .jumpParam(param)
                 .start();

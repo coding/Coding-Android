@@ -19,7 +19,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -96,7 +96,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
 
         if (type == ProjectFragment.Type.Main) {
             item.getOwner().global_key = item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.getOwner().global_key,
+            ProjectJumpParam param = new ProjectJumpParam(item.getOwner().global_key,
                     item.name);
             ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
         } else {

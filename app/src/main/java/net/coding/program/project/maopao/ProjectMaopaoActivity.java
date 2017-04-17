@@ -18,7 +18,7 @@ import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -46,7 +46,7 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     ProjectObject projectObject;
 
     @Extra
-    ProjectActivity.ProjectJumpParam jumpParam;
+    ProjectJumpParam jumpParam;
 
     @ViewById
     ListView listView;
@@ -115,7 +115,7 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
         if (projectObject != null) {
             initList();
         } else {
-            String mProjectUrl = String.format(FileUrlActivity.getHostProject(), jumpParam.mUser, jumpParam.mProject);
+            String mProjectUrl = String.format(FileUrlActivity.getHostProject(), jumpParam.user, jumpParam.project);
             getNetwork(mProjectUrl, TAG_PROJECT);
         }
     }

@@ -11,13 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.FileUrlActivity;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.wiki.WikiMainActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,12 +28,9 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_project_parent)
 public class ProjectActivity extends BackActivity implements NetworkCallback {
@@ -69,7 +66,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         if (mJumpParam != null) {
-            urlProject = String.format(FileUrlActivity.getHostProject(), mJumpParam.mUser, mJumpParam.mProject);
+            urlProject = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
             //setActionBarTitle(mJumpParam.mProject);
 
             networkImpl = new NetworkImpl(this, this);
@@ -156,44 +153,4 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
     }
 
-    public static class ProjectJumpParam implements Serializable {
-        public String mProject = "";
-        public String mUser = "";
-
-        public ProjectJumpParam(String mUser, String mProject) {
-            this.mUser = mUser;
-            this.mProject = mProject;
-        }
-
-        public ProjectJumpParam(String path) {
-            path = MyApp.transformEnterpriseUri(path);
-            String[] regexs = new String[]{
-                    "^/u/(.*?)/p/(.*?)(?:/git)?$",
-                    "^/user/(.*)/project/(.*)$",
-                    "^/t/(.*?)/p/(.*?)(?:/git)?$",
-                    "^/team/(.*)/p/(.*)$"
-            };
-            for (String item : regexs) {
-                if (isMatch(path, item)) {
-                    return;
-                }
-            }
-        }
-
-        private boolean isMatch(String path, String regex) {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(path);
-            if (matcher.find()) {
-                this.mUser = matcher.group(1);
-                this.mProject = matcher.group(2);
-                return true;
-            }
-
-            return false;
-        }
-
-        public String toPath() {
-            return String.format("/user/%s/project/%s", mUser, mProject);
-        }
-    }
 }

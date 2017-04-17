@@ -23,6 +23,7 @@ import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.GitFileInfoObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.AttachmentsActivity_;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
@@ -30,7 +31,6 @@ import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
 import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 import net.coding.program.project.detail.GitViewActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
@@ -133,7 +133,7 @@ public class URLSpanNoUnderline extends URLSpan {
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             intent.setClass(context, ProjectActivity_.class);
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(
+            ProjectJumpParam param = new ProjectJumpParam(
                     matcher.group(1), matcher.group(2)
             );
             intent.putExtra("mJumpParam", param);
@@ -166,7 +166,7 @@ public class URLSpanNoUnderline extends URLSpan {
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
             intent.setClass(context, ProjectHomeActivity_.class);
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(
+            ProjectJumpParam param = new ProjectJumpParam(
                     matcher.group(1), matcher.group(2)
             );
             intent.putExtra("mJumpParam", param);
@@ -208,7 +208,7 @@ public class URLSpanNoUnderline extends URLSpan {
         pattern = Pattern.compile(projectMaopaoList);
         matcher = pattern.matcher(uriString);
         if (matcher.find()) {
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(matcher.group(1), matcher.group(2));
+            ProjectJumpParam param = new ProjectJumpParam(matcher.group(1), matcher.group(2));
             CodingCompat.instance().launchProjectMaopoaList(context, param);
             return true;
         }

@@ -93,7 +93,7 @@ public class LocalFileListActivity extends BackActivity {
 ////                            .mProjectObjectId(mProjectObjectId)
 ////                            .mAttachmentFolderObject(mAttachmentFolderObject)
 ////                            .mAttachmentFileObject(data)
-////                            .mProject(mProject)
+////                            .mProject(project)
 ////                            .startForResult(FILE_DELETE_CODE);
 //
 //

@@ -15,7 +15,7 @@ import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
-import net.coding.program.project.detail.ProjectActivity;
+import net.coding.program.param.ProjectJumpParam;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
 public class WikiHistoryDetailActivity extends BackActivity {
 
     @Extra
-    ProjectActivity.ProjectJumpParam project;
+    ProjectJumpParam project;
 
     @Extra
     Wiki wiki;
@@ -64,7 +64,7 @@ public class WikiHistoryDetailActivity extends BackActivity {
 
     private void onRefresh() {
         Network.getRetrofit(this)
-                .getWikiDetail(project.mUser, project.mProject, wiki.iid, version)
+                .getWikiDetail(project.user, project.project, wiki.iid, version)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Wiki>(this) {
@@ -98,7 +98,7 @@ public class WikiHistoryDetailActivity extends BackActivity {
 
     private void rollbackWiki() {
         Network.getRetrofit(this)
-                .rollbackWiki(project.mUser, project.mProject, wiki.iid, version)
+                .rollbackWiki(project.user, project.project, wiki.iid, version)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<WikiHistory>(this) {
