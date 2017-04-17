@@ -1,7 +1,6 @@
 package net.coding.program.project.detail.wiki;
 
 import android.support.annotation.NonNull;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import net.coding.program.R;
@@ -16,9 +15,7 @@ import net.coding.program.param.TopicData;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.TopicEditFragment;
-import net.coding.program.project.detail.TopicEditFragment_;
 import net.coding.program.project.detail.TopicPreviewFragment;
-import net.coding.program.project.detail.TopicPreviewFragment_;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -59,25 +56,11 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
         modifyData.title = wiki.title;
         modifyData.content = wiki.content;
 
-        editFragment = TopicEditFragment_.builder().build();
-        previewFragment = TopicPreviewFragment_.builder().build();
+        editFragment = WikiEditFragment_.builder().build();
+        previewFragment = WikiPreviewFragment_.builder().build();
 
         switchEdit();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_save_text, menu);
-//        menuSave = menu.findItem(R.id.action_save);
-//        menuSave.setEnabled(false);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-//    @OptionsItem(R.id.action_save)
-//    void actionSave() {
-//        exit();
-//    }
 
     @Click(R.id.editWiki)
     void editWiki() {
