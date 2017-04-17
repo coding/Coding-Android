@@ -819,7 +819,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".project.detail.wiki.WikiHistoryActivity_"
-            android:label="@string/empty"
+            android:label="@string/title_activity_history"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.wiki.WikiHistoryDetailActivity_"

@@ -1,6 +1,7 @@
 package net.coding.program.project.detail.wiki;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.orhanobut.logger.Logger;
@@ -8,6 +9,8 @@ import com.orhanobut.logger.Logger;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
+import net.coding.program.event.EventRefresh;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
@@ -19,6 +22,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,14 +44,27 @@ public class WikiHistoryDetailActivity extends BackActivity {
     @ViewById
     WebView webView;
 
+    @ViewById
+    View wikiHeader;
+
+    @ViewById
+    View rollbackLayout;
+
+    ActivityWikiDetailHeaderBinding headerBinding = null;
+
     @AfterViews
     void initWikiHistoryDetailActivity() {
+        if (wiki.lastVersion == version) {
+            rollbackLayout.setVisibility(View.GONE);
+        }
+
+        headerBinding = ActivityWikiDetailHeaderBinding.bind(wikiHeader);
         onRefresh();
     }
 
     private void onRefresh() {
         Network.getRetrofit(this)
-                .getWikiDetail(project.mUser, project.mProject, wiki.iid, wiki.lastVersion)
+                .getWikiDetail(project.mUser, project.mProject, wiki.iid, version)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Wiki>(this) {
@@ -56,6 +73,7 @@ public class WikiHistoryDetailActivity extends BackActivity {
                         super.onSuccess(data);
 
                         wikiDetail = data;
+                        headerBinding.setWiki(data);
                         displayWebviewContent(data.html);
                         Logger.d(data.html);
                     }
@@ -88,6 +106,9 @@ public class WikiHistoryDetailActivity extends BackActivity {
                     public void onSuccess(WikiHistory data) {
                         super.onSuccess(data);
                         showProgressBar(false);
+
+                        EventBus.getDefault().post(new EventRefresh(true));
+                        finish();
                     }
 
                     @Override

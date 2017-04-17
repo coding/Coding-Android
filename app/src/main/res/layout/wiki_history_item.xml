@@ -50,6 +50,7 @@
         android:layout_below="@id/user"
         android:id="@+id/bottomDivide"
         android:layout_marginLeft="-15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="-15dp"
         style="@style/DivideSectionBottom5" />
 

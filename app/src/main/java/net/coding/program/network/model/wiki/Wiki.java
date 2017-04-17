@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import net.coding.program.model.UserObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -13,6 +14,8 @@ import java.util.List;
  */
 
 public class Wiki implements Serializable {
+
+    static final SimpleDateFormat timeFormat = new SimpleDateFormat("MM/dd hh:mm");
 
     private static final long serialVersionUID = 3620166483694974192L;
 
@@ -94,5 +97,10 @@ public class Wiki implements Serializable {
         this.parentIid = wiki.parentIid;
         this.path = wiki.path;
         this.order = wiki.order;
+    }
+
+    public String getTitleTip() {
+        String time = timeFormat.format(updatedAt);
+        return String.format("%s   更新于 %s   当前版本 %s", editor.name, time, currentVersion);
     }
 }

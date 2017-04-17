@@ -29,6 +29,11 @@ android {
     dexOptions {
         javaMaxHeapSize "2g"
     }
+
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
 //        useLibrary 'org.apache.http.legacy'
         renderscriptTargetApi 19
