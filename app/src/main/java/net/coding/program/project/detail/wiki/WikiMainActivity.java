@@ -266,7 +266,7 @@ public class WikiMainActivity extends BackActivity {
                         super.onSuccess(data);
 
                         selectWiki = data;
-                        displayWebviewContent(data.html);
+                        displayWebviewContent(selectWiki.html);
                         Logger.d(data.html);
                     }
 
@@ -292,9 +292,11 @@ public class WikiMainActivity extends BackActivity {
     }
 
     void displayWebviewContent(String html) {
-        getContent(html);
-        Global.setWebViewContent(webView, wikiContent);
+//        getContent(html);
+//        Global.setWebViewContent(webView, wikiContent);
+        Global.setWebViewContent(webView, "markdown.html", html);
         BlankViewDisplay.setBlank(html.length(), WikiMainActivity.this, true, blankLayout, v -> onRefrush());
+
     }
 
     private void addTreeNode(TreeNode node, List<Wiki> wikis) {
