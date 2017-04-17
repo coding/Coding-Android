@@ -83,6 +83,16 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
     }
 
     @Override
+    public void onBackPressed() {
+        if (editFragment.isContentModify()) {
+            showDialog("", "确定放弃此次编辑？", (dialog, which) -> finish());
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
     public void switchPreview() {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
     }
