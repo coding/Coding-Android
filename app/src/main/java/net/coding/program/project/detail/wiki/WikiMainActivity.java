@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -32,6 +30,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +43,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_wiki_main)
+@OptionsMenu(R.menu.main_wiki)
 public class WikiMainActivity extends BackActivity {
 
     @Extra
@@ -68,7 +68,6 @@ public class WikiMainActivity extends BackActivity {
     NodeHolder selectNode = null;
     TreeNode firstTreeNode = null;
 
-    MenuItem deleteAction;
     private TreeNode treeRoot;
 
     Wiki selectWiki;
@@ -94,13 +93,6 @@ public class WikiMainActivity extends BackActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_wiki, menu);
-//        deleteAction = menu.findItem(R.id.action_delete);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -218,9 +210,7 @@ public class WikiMainActivity extends BackActivity {
                     @Override
                     public void onSuccess(Boolean data) {
                         super.onSuccess(data);
-
                         showProgressBar(false);
-
                         onRefrush();
                     }
 

@@ -18,7 +18,7 @@ public class TestActivity extends BackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        findViewById(R.id.button).setOnClickListener(v -> click1());
+        findViewById(R.id.button).setOnClickListener(v -> click2());
 
         click2();
     }
