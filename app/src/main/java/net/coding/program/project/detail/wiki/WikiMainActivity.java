@@ -72,6 +72,8 @@ public class WikiMainActivity extends BackActivity {
     MenuItem deleteAction;
     private TreeNode treeRoot;
 
+    Wiki selectWiki;
+
     @AfterViews
     void initWikiMainActivity() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -171,7 +173,10 @@ public class WikiMainActivity extends BackActivity {
 
     @Click(R.id.clickHistory)
     void onClickHistory() {
-
+        WikiHistoryActivity_.intent(this)
+                .jumpParam(project.generateJumpParam())
+                .wiki(selectWiki)
+                .start();
     }
 
     private void onRefrush() {
@@ -249,10 +254,10 @@ public class WikiMainActivity extends BackActivity {
     }
 
     private void loadContent() {
-        Wiki selectWiki = selectNode.getNodeValue();
+        Wiki wiki = selectNode.getNodeValue();
 
         Network.getRetrofit(this)
-                .getWikiDetail(project.owner_user_name, project.name, selectWiki.iid, selectWiki.lastVersion)
+                .getWikiDetail(project.owner_user_name, project.name, wiki.iid, wiki.lastVersion)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Wiki>(this) {
@@ -260,17 +265,14 @@ public class WikiMainActivity extends BackActivity {
                     public void onSuccess(Wiki data) {
                         super.onSuccess(data);
 
+                        selectWiki = data;
                         displayWebviewContent(data.html);
-
                         Logger.d(data.html);
-
-
                     }
 
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
                         super.onFail(errorCode, error);
-
                         BlankViewDisplay.setBlank(0, WikiMainActivity.this, false, blankLayout, v -> onRefrush());
                     }
                 });

@@ -809,12 +809,22 @@
             android:name=".project.detail.wiki.WikiMainActivity_"
             android:label="@string/empty"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar" />
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.wiki.WikiEditActivity_"
             android:label="@string/empty"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar" />
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".project.detail.wiki.WikiHistoryActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.wiki.WikiHistoryDetailActivity_"
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

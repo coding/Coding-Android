@@ -2,6 +2,7 @@ package net.coding.program.network;
 
 import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.wiki.Wiki;
+import net.coding.program.network.model.wiki.WikiHistory;
 
 import java.util.List;
 import java.util.Map;
@@ -31,4 +32,13 @@ public interface CodingRequest {
     @GET("user/{user}/project/{project}/wiki/{id}")
     Observable<HttpResult<Wiki>> getWikiDetail(@Path("user") String user, @Path("project") String project,
                                                      @Path("id") int id, @Query("version") int version);
+
+    @GET("user/{user}/project/{project}/wiki/{id}/histories")
+    Observable<HttpResult<List<WikiHistory>>> getWikiHistory(@Path("user") String user, @Path("project") String project,
+                                                             @Path("id") int id);
+
+    @FormUrlEncoded
+    @POST("user/{user}/project/{project}/wiki/{id}/history")
+    Observable<HttpResult<WikiHistory>> rollbackWiki(@Path("user") String user, @Path("project") String project,
+                                                             @Path("id") int id, @Query("version") int version);
 }
