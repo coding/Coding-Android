@@ -52,6 +52,7 @@ import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
+import net.coding.program.param.MessageParse;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -246,7 +247,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
                                 postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
-                                Global.MessageParse mp = ContentArea.parseVoice(myMessage.extra);
+                                MessageParse mp = ContentArea.parseVoice(myMessage.extra);
                                 postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
                             }
                             myMessage.myStyle = MyMessage.STYLE_SENDING;
@@ -375,7 +376,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
         listView.setOnItemLongClickListener((parent, view, ppp, id) -> {
             final Message.MessageObject msg = mData.get((int) id);
-            final Global.MessageParse msgParse = HtmlContent.parseMessage(msg.content);
+            final MessageParse msgParse = HtmlContent.parseMessage(msg.content);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this);
             if (msgParse.text.isEmpty()) {
@@ -441,7 +442,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             deleteNetwork(url, hostDeleteMessage, msg.getId());
         }
         if (msg.extra != null && msg.extra.startsWith("[voice]{") && msg.extra.endsWith("}[voice]")) {
-            Global.MessageParse mp = ContentArea.parseVoice(msg.extra);
+            MessageParse mp = ContentArea.parseVoice(msg.extra);
             if (mp.voiceUrl != null) {
                 File f = new File(Global.sVoiceDir + File.separator + mp.voiceUrl.substring(mp.voiceUrl.lastIndexOf('/') + 1));
                 f.delete();

@@ -45,6 +45,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.IconTextView;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.Maopao;
+import net.coding.program.param.MessageParse;
 
 public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
@@ -146,7 +147,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             this.name = mMaopaoObject.owner.name + "的冒泡";
             this.link = mMaopaoObject.getMobileLink();
 
-            Global.MessageParse parse = HtmlContent.parseMessage(mMaopaoObject.content);
+            MessageParse parse = HtmlContent.parseMessage(mMaopaoObject.content);
             this.des = HtmlContent.parseToShareText(parse.text);
             if (parse.uris.size() > 0) {
                 this.img = parse.uris.get(0);

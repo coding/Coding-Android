@@ -13,6 +13,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.param.MessageParse;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -52,7 +53,7 @@ public class ContentAreaMuchImages extends ContentAreaBase {
     public void setDataContent(String s, Object contentObject) {
         String data = s;
 
-        Global.MessageParse maopaoData = HtmlContent.parseMessage(data);
+        MessageParse maopaoData = HtmlContent.parseMessage(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);

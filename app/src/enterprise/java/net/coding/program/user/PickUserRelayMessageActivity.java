@@ -3,10 +3,10 @@ package net.coding.program.user;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.model.UserObject;
+import net.coding.program.param.MessageParse;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -29,7 +29,7 @@ public class PickUserRelayMessageActivity extends PickUserActivity {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             UserObject user = (UserObject) parent.getItemAtPosition(position);
             showDialog("转发", "转发给" + user.name, (dialog, which) -> {
-                Global.MessageParse messageParse = HtmlContent.parseMessage(relayString);
+                MessageParse messageParse = HtmlContent.parseMessage(relayString);
                 RequestParams params = new RequestParams();
                 String text = messageParse.text;
                 for (String url : messageParse.uris) {

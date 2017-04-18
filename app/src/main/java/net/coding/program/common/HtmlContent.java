@@ -1,5 +1,7 @@
 package net.coding.program.common;
 
+import net.coding.program.param.MessageParse;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,13 +30,13 @@ public class HtmlContent {
         return s != null && s.contains("<span class=");
     }
 
-    public static Global.MessageParse parseMessage(String s) {
-        Global.MessageParse parse = createMessageParse(s, REGX_PHOTO_OLD);
+    public static MessageParse parseMessage(String s) {
+        MessageParse parse = createMessageParse(s, REGX_PHOTO_OLD);
         if (parse.uris.size() > 0) {
             return parse;
         }
 
-        Global.MessageParse parseIOS = createMessageParse(s, REGX_PHOTO_IOS);
+        MessageParse parseIOS = createMessageParse(s, REGX_PHOTO_IOS);
         if (parseIOS.uris.size() > 0) {
             return parseIOS;
         }
@@ -54,8 +56,8 @@ public class HtmlContent {
         return parseToText(s);
     }
 
-    public static Global.MessageParse parseReplacePhoto(String s) {
-        Global.MessageParse parse = new Global.MessageParse();
+    public static MessageParse parseReplacePhoto(String s) {
+        MessageParse parse = new MessageParse();
 
         String replaceImage = s.replaceAll(HtmlContent.REGX_PHOTO, REPLACE_PHOTO);
 
@@ -112,8 +114,8 @@ public class HtmlContent {
                 .replaceAll("<(.*?)>", "");
     }
 
-    private static Global.MessageParse createMessageParse(String s, String regx) {
-        Global.MessageParse parse = new Global.MessageParse();
+    private static MessageParse createMessageParse(String s, String regx) {
+        MessageParse parse = new MessageParse();
 
         // emoji 有时候会是类似于 image 的形式
         String emojiSrc = "<a href=\"https://coding.net/static/emojis/(.*?)\" target=\"_blank\" class=\"bubble-markdown-image-link\" rel=\"nofollow\"><img class=\"emotion emoji bubble-markdown-image\" src=\"(.*?)\" title=\"(.*?)\"></a>";

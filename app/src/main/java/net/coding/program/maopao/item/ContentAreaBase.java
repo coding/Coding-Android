@@ -13,6 +13,7 @@ import net.coding.program.common.util.PhoneUtil;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.TaskObject;
+import net.coding.program.param.MessageParse;
 
 /**
  * Created by chaochen on 14/12/22.
@@ -49,7 +50,7 @@ public class ContentAreaBase {
             contentString = commit.getTitle();
         }
 
-        Global.MessageParse maopaoData = HtmlContent.parseReplacePhoto(contentString);
+        MessageParse maopaoData = HtmlContent.parseReplacePhoto(contentString);
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
         } else {

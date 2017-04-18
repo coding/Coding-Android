@@ -12,6 +12,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.BaseComment;
+import net.coding.program.param.MessageParse;
 
 /**
  * Created by chaochen on 14-10-27.
@@ -39,7 +40,7 @@ public class HtmlCommentHolder extends BaseCommentHolder {
         super.setContent(comment);
 
         String contentString = comment.content;
-        Global.MessageParse parse = HtmlContent.parseMessage(contentString);
+        MessageParse parse = HtmlContent.parseMessage(contentString);
         content.setText(Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
         content.setTag(comment);
         content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, parse.text);

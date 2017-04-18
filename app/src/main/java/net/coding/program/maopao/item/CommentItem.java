@@ -11,6 +11,7 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Maopao;
+import net.coding.program.param.MessageParse;
 
 /**
  * Created by chaochen on 15/1/14.
@@ -40,7 +41,7 @@ class CommentItem {
 
         name.setText(commentData.owner.name);
         time.setText(Global.dayToNow(commentData.created_at));
-        Global.MessageParse parse = HtmlContent.parseMessage(commentData.content);
+        MessageParse parse = HtmlContent.parseMessage(commentData.content);
         comment.setText(Global.changeHyperlinkColor(parse.text, imageGetter, tagHandler));
     }
 

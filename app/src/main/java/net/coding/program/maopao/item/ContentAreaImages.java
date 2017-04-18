@@ -29,8 +29,8 @@ import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Maopao;
+import net.coding.program.param.MessageParse;
 
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +41,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/3/31.
@@ -117,9 +119,9 @@ public class ContentAreaImages extends ContentAreaBase {
     }
 
     //[voice]{'id':1,'voiceUrl':'/sd/voice/a.amr','voiceDuration':10,'played':1}[voice]
-    public static Global.MessageParse parseVoice(String s) {
+    public static MessageParse parseVoice(String s) {
         String str = s.substring(7, s.length() - 7);
-        Global.MessageParse mp = new Global.MessageParse();
+        MessageParse mp = new MessageParse();
         mp.text = "";
         try {
             JSONObject jo = new JSONObject(str);
@@ -135,7 +137,7 @@ public class ContentAreaImages extends ContentAreaBase {
     }
 
     private void setDataContent(String data, Object contentObject) {
-        Global.MessageParse maopaoData = HtmlContent.parseMessage(data);
+        MessageParse maopaoData = HtmlContent.parseMessage(data);
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
 
@@ -270,7 +272,7 @@ public class ContentAreaImages extends ContentAreaBase {
 
     // 用来设置message的
     public void setData(String data) {
-        final Global.MessageParse maopaoData = data.startsWith("[voice]{") && data.endsWith("}[voice]") ? parseVoice(data) : HtmlContent.parseMessage(data);
+        final MessageParse maopaoData = data.startsWith("[voice]{") && data.endsWith("}[voice]") ? parseVoice(data) : HtmlContent.parseMessage(data);
         LinearLayout.LayoutParams lp_voiceLayout = (LinearLayout.LayoutParams) voiceLayout.getLayoutParams();
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);

@@ -63,7 +63,6 @@ import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -237,7 +236,6 @@ public class Global {
     }
 
     public static void syncCookie(Context context) {
-
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         List<Cookie> cookies = cookieStore.getCookies();
 
@@ -806,7 +804,6 @@ public class Global {
             size /= mod;
             i++;
         }
-        //return Math.round(size) + units[i];
         return df.format(size) + " " + units[i];
     }
 
@@ -829,24 +826,6 @@ public class Global {
         }
 
         activity.startActivity(intent);
-    }
-
-    public static class MessageParse {
-        public String text = "";
-        public ArrayList<String> uris = new ArrayList<>();
-        public boolean isVoice;
-        public String voiceUrl;
-        public int voiceDuration;
-        public int played;
-        public int id;
-
-        public String toString() {
-            String s = "text " + text + "\n";
-            for (int i = 0; i < uris.size(); ++i) {
-                s += uris.get(i) + "\n";
-            }
-            return s;
-        }
     }
 
     public static View.OnClickListener clickJumpWebView = v -> {

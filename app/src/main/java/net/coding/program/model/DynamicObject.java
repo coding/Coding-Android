@@ -13,6 +13,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.param.MessageParse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -903,7 +904,7 @@ public class DynamicObject {
         public Spanned content(MyImageGetter imageGetter) {
             String contentString = comment_content;
 
-            Global.MessageParse parse = HtmlContent.parseMessage(contentString);
+            MessageParse parse = HtmlContent.parseMessage(contentString);
             return (Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
 
 

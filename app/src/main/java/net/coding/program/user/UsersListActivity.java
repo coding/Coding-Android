@@ -32,6 +32,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.project.ProjectServiceInfo;
+import net.coding.program.param.MessageParse;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 
@@ -193,7 +194,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 final UserObject user = (UserObject) parent.getItemAtPosition(position);
                 showDialog("转发", "转发给" + user.name, (dialog, which) -> {
-                    Global.MessageParse messageParse = HtmlContent.parseMessage(relayString);
+                    MessageParse messageParse = HtmlContent.parseMessage(relayString);
                     RequestParams params = new RequestParams();
                     String text = messageParse.text;
                     for (String url : messageParse.uris) {

@@ -51,6 +51,7 @@ import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.param.MessageParse;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicAddActivity;
@@ -743,7 +744,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void setDescription() {
-        Global.MessageParse parseData = HtmlContent.parseReplacePhoto(descriptionDataNew.description);
+        MessageParse parseData = HtmlContent.parseReplacePhoto(descriptionDataNew.description);
         description.setText(Html.fromHtml(parseData.text, myImageGetter, Global.tagHandler));
     }
 

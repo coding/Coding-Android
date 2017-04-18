@@ -144,8 +144,9 @@ public class MyAsyncHttpClient {
             if (domain.startsWith(".")) {
                 domain = domain.substring(1, domain.length());
             }
-            if (eachCookie.getName().toLowerCase().equals("sid") && host.endsWith(domain)) {
-                return String.format("%s=%s;", eachCookie.getName(), eachCookie.getValue());
+            String cookieName = eachCookie.getName();
+            if ((cookieName.equalsIgnoreCase("sid") || cookieName.equalsIgnoreCase("eid")) && host.endsWith(domain)) {
+                return String.format("%s=%s;", cookieName, eachCookie.getValue());
             }
         }
 
