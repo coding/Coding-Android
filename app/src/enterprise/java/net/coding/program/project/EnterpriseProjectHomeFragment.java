@@ -8,12 +8,7 @@ import net.coding.program.project.detail.ProjectFunction;
 
 import org.androidannotations.annotations.EFragment;
 
-/**
- * Created by chenchao on 2017/1/3.
- */
-
 @EFragment(R.layout.enterprise_fragment_project)
-//@OptionsMenu(R.menu.menu_fragment_project_home)
 public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
 
     @Override
