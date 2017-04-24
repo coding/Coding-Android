@@ -9,9 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
@@ -273,27 +270,15 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
     class LoadingAnimation {
 
-        ImageView loadingLogo;
-        ImageView loadingRound;
         View v;
-        private Animation loadingLogoAnimation;
-        private Animation loadingRoundAnimation;
 
         public LoadingAnimation() {
-            v = getActivity().getLayoutInflater().inflate(R.layout.common_loading, null);
-            this.loadingLogo = (ImageView) v.findViewById(R.id.loading_logo);
-            this.loadingRound = (ImageView) v.findViewById(R.id.loading_round);
-
-            loadingLogoAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.loading_alpha);
-            loadingRoundAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.loading_rotate);
+            v = getActivity().getLayoutInflater().inflate(R.layout.loading_view, null);
 
             ((ViewGroup) getView()).addView(v);
         }
 
         public void startAnimation() {
-            loadingRoundAnimation.setStartTime(500L);//不然会跳帧
-            loadingRound.setAnimation(loadingRoundAnimation);
-            loadingLogo.startAnimation(loadingLogoAnimation);
         }
 
         public void destory() {

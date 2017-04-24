@@ -22,12 +22,11 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
                 ProjectFunction.dynamic,
                 ProjectFunction.task,
                 ProjectFunction.document,
+                ProjectFunction.wiki,
                 ProjectFunction.code,
                 ProjectFunction.member,
                 ProjectFunction.readme,
                 ProjectFunction.merge,
-                ProjectFunction.wiki
-
         };
     }
 

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -66,21 +65,14 @@ public class DialogUtil {
      *
      * @param activity
      * @param popupWindow
-     * @param title
      */
-    public static void showProgressDialog(Activity activity, LoadingPopupWindow popupWindow, String title) {
+    public static void showProgressDialog(Activity activity, LoadingPopupWindow popupWindow) {
         if ((activity == null || activity.isFinishing()) || (popupWindow == null)) {
             return;
         }
 
         final LoadingPopupWindow tmpPopupWindow = popupWindow;
         View popupView = popupWindow.getContentView();
-        if (popupView != null) {
-            TextView tvTitlename = (TextView) popupView.findViewById(R.id.tv_titlename);
-            if (tvTitlename != null && !title.isEmpty()) {
-                tvTitlename.setText(title);
-            }
-        }
 
         if (popupWindow != null && !popupWindow.isShowing()) {
             final View rootView1 = ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
@@ -133,26 +125,11 @@ public class DialogUtil {
 
     public static class LoadingPopupWindow extends PopupWindow {
 
-        ImageView loadingLogo;
-        ImageView loadingRound;
-
         public LoadingPopupWindow(Activity activity) {
-            super(activity.getLayoutInflater().inflate(R.layout.common_loading, null), RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, false);
-            this.loadingLogo = (ImageView) getContentView().findViewById(R.id.loading_logo);
-            this.loadingRound = (ImageView) getContentView().findViewById(R.id.loading_round);
-
-            if (loadingLogoAnimation == null) {
-                loadingLogoAnimation = AnimationUtils.loadAnimation(activity, R.anim.loading_alpha);
-            }
-            if (loadingRoundAnimation == null) {
-                loadingRoundAnimation = AnimationUtils.loadAnimation(activity, R.anim.loading_rotate);
-            }
+            super(activity.getLayoutInflater().inflate(R.layout.loading_view, null), RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, false);
         }
 
         public void startAnimation() {
-            loadingRoundAnimation.setStartTime(500L);//不然会跳帧
-            loadingRound.setAnimation(loadingRoundAnimation);
-            loadingLogo.startAnimation(loadingLogoAnimation);
         }
     }
 

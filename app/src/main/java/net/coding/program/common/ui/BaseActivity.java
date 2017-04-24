@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -58,6 +57,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         listView.addFooterView(listViewFooter, null, false);
     }
 
+    // 每个列表第一列前留空白，最好保留，设计师总是变来变去。
     protected void listViewAddHeaderSection(ListView listView) {
 //        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
 //        listView.addHeaderView(listViewHeader, null, false);
@@ -305,7 +305,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
             builder.setNeutralButton(neutralButton, clickNeutral);
         }
 
-        AlertDialog dialog = builder.show();
+        builder.show();
     }
 
     public void showButtomToast(String msg) {
@@ -351,19 +351,13 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     public void initDialogLoading() {
         if (mDialogProgressPopWindow == null) {
-            PopupWindow.OnDismissListener onDismissListener = new PopupWindow.OnDismissListener() {
-                public void onDismiss() {
-                    hideProgressDialog();
-                }
-            };
-
-            mDialogProgressPopWindow = DialogUtil.initProgressDialog(this, onDismissListener);
+            mDialogProgressPopWindow = DialogUtil.initProgressDialog(this, this::hideProgressDialog);
         }
     }
 
     public void showDialogLoading() {
         initDialogLoading();
-        DialogUtil.showProgressDialog(this, mDialogProgressPopWindow, "");
+        DialogUtil.showProgressDialog(this, mDialogProgressPopWindow);
     }
 
     public void hideProgressDialog() {
