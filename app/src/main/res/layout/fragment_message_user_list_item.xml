@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_selector"
@@ -7,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
+        android:layout_width="@dimen/notify_main_icon_width"
+        android:layout_height="@dimen/notify_main_icon_width"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_15"
@@ -23,10 +24,9 @@
         android:layout_toLeftOf="@+id/time"
         android:layout_toRightOf="@+id/icon"
         android:layout_toStartOf="@+id/time"
-        android:singleLine="true"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/font_2" />
+        android:lines="1"
+        android:textColor="@color/font_2"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/time"
@@ -37,9 +37,9 @@
         android:layout_alignTop="@+id/name"
         android:layout_marginRight="15dp"
         android:layout_marginTop="12dp"
-        android:singleLine="true"
-        android:text="New Text"
-        android:textColor="@color/font_9" />
+        android:lines="1"
+        android:textColor="@color/font_9"
+        tools:text="3分钟前" />
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
@@ -65,9 +65,7 @@
         android:layout_toStartOf="@+id/badge"
         android:ellipsize="end"
         android:lines="1"
-        android:maxLines="1"
         android:scrollHorizontally="true"
-        android:singleLine="false"
         android:text="Medium Text"
         android:textColor="@color/font_9"
         android:textSize="16sp" />
