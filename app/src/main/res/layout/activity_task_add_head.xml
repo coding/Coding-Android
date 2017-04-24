@@ -76,6 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_project"
+        app:taskIconSize="33dp"
         app:taskText1="项目名"
         app:taskText2="未指定"
         app:taskTopLine="false" />
@@ -85,9 +86,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_user"
+        app:taskIconSize="33dp"
         app:taskText1="执行者"
         app:taskText2="cc" />
-
 
     <net.coding.program.task.add.TaskAttrItem
         android:id="@+id/layoutPriovity"
@@ -125,8 +126,8 @@
         android:id="@+id/layoutRefResourceParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <include layout="@layout/divide_middle_15" />
 
