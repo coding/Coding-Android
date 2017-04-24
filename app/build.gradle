@@ -36,7 +36,9 @@ android {
 
     defaultConfig {
 //        useLibrary 'org.apache.http.legacy'
-        renderscriptTargetApi 19
+        renderscriptTargetApi 18
+        renderscriptSupportModeEnabled true
+
         multiDexEnabled true
         minSdkVersion 15
         // todo 注意检查 coding 和企业版用的是不一样的版本号
@@ -169,6 +171,7 @@ dependencies {
 
     // 仿 apple 的 segmentied control
     compile 'info.hoang8f:android-segmented:1.0.6'
+
 }
 
 repositories {
@@ -178,6 +181,20 @@ repositories {
 }
 dependencies {
     compile(name: 'checknetwork', ext: 'aar')
+}
+
+// 高斯模糊 start --------------------------------------------------------------------------
+repositories {
+    maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+}
+
+dependencies {
+    compile 'com.fivehundredpx:blurringview:1.0.0'
+}
+// 高斯模糊 end   --------------------------------------------------------------------------
+
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:+'
 }
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:+'

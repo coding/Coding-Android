@@ -20,4 +20,6 @@
     <string name="enterprise_head">企业头像</string>
     <string name="person_address">个性域名</string>
 
+    <string name="guide_0_content">Coding Enterprise 是 CODING 专为企业打造的软件开发协作平台，让企业更好地管理项目成员，便捷而深入地把握开发进度，让开发流程更高效。</string>
+
 </resources>

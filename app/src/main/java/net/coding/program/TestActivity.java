@@ -6,6 +6,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.wiki.WikiMainActivity_;
 
@@ -18,10 +19,19 @@ public class TestActivity extends BackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        findViewById(R.id.button).setOnClickListener(v -> click2());
+        findViewById(R.id.button).setOnClickListener(v -> click());
 
-        click2();
+        click();
     }
+    private void click() {
+       openGuide();
+    }
+
+    private void openGuide() {
+        CodingCompat.instance().launchGuideActivity(this);
+    }
+
+
     private void click1() {
     }
 

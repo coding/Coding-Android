@@ -120,15 +120,13 @@
             android:name="UMENG_CHANNEL"
             android:value="Channel" />
 
-
-
-        <activity android:name=".TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.main" />
-                <category android:name="android.intent.category.launcher" />
-            </intent-filter>
-        </activity>
-
+        <!--<activity android:name=".TestActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.main" />-->
+<!---->
+                <!--<category android:name="android.intent.category.launcher" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
             android:name=".setting.EnterpriseNameActivity_"
             android:screenOrientation="portrait"
@@ -886,11 +884,17 @@
             android:name=".setting.EnterpriseSettingActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".setting.order.OrderMainActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_manage_order_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".guide.EnterpriseGuideActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:theme="@style/AppThemeNoActionbar"
+            android:label="@string/empty"
             android:screenOrientation="portrait" />
     </application>
 

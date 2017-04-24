@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.EnterpriseMyPushReceiver;
 import net.coding.program.common.StartActivity;
+import net.coding.program.guide.EnterpriseGuideActivity_;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.EnterpriseProjectFragment_;
@@ -48,7 +49,7 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
     public Class getGuideActivity() {
-        return EnterpriseLoginActivity_.class;
+        return EnterpriseGuideActivity_.class;
     }
 
     @Override
@@ -123,5 +124,10 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
         EnterpriseProjectMaopaoActivity_.intent(context)
                 .jumpParam(param)
                 .start();
+    }
+
+    @Override
+    public void launchGuideActivity(Context context) {
+        EnterpriseGuideActivity_.intent(context).start();
     }
 }

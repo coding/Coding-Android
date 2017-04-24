@@ -108,5 +108,10 @@ public class CodingCompat implements ClassCompatInterface {
     public void launchProjectMaopoaList(Context context, ProjectJumpParam param) {
         substance.launchProjectMaopoaList(context, param);
     }
+
+    @Override
+    public void launchGuideActivity(Context context) {
+        substance.launchGuideActivity(context);
+    }
 }
 

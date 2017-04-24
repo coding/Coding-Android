@@ -57,6 +57,14 @@ public class IndicatorView extends FrameLayout {
         setSelect(pickPos);
     }
 
+    public void setPointStyle(boolean light) {
+        int bg = light ? R.drawable.guide_point_6dp_light : R.drawable.guide_point_6dp_dark;
+        int count = layout.getChildCount();
+        for (int i = 0; i < count; ++i) {
+            layout.getChildAt(i).setBackgroundResource(bg);
+        }
+    }
+
     public void setSelect(int pos) {
         if (pos == mSelect) {
             return;
