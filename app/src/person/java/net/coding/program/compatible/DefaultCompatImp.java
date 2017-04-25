@@ -11,6 +11,7 @@ import net.coding.program.MainActivity_;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
@@ -135,7 +136,7 @@ public class DefaultCompatImp implements ClassCompatInterface {
     }
 
     @Override
-    public void launchProjectMaopoaList(Context context, ProjectActivity.ProjectJumpParam param) {
+    public void launchProjectMaopoaList(Context context, ProjectJumpParam param) {
         // coding 可以直接跳转到详情，不需要实现这个
     }
 }

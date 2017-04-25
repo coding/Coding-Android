@@ -125,9 +125,4 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
                 .jumpParam(param)
                 .start();
     }
-
-    @Override
-    public void launchGuideActivity(Context context) {
-        EnterpriseGuideActivity_.intent(context).start();
-    }
 }

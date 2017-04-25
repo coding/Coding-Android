@@ -174,6 +174,18 @@ dependencies {
 
 }
 
+// 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compile 'com.github.cpiz:BubbleView:1.0.2'
+}
+// 新功能提示，使用弹出框的样式 end ----------------------------------------------------------------
+
 repositories {
     flatDir {
         dirs 'libs'

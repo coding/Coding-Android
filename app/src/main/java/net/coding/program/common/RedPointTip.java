@@ -25,6 +25,12 @@ public class RedPointTip {
         edit.commit();
     }
 
+    public static void markNoUsed(Context ctx, Type type) {
+        SharedPreferences.Editor edit = ctx.getSharedPreferences(SP_TIP_RED_POINT, Context.MODE_PRIVATE).edit();
+        edit.putBoolean(type.name(), false);
+        edit.commit();
+    }
+
     public static int getLastVersion(Context ctx) {
         SharedPreferences sp = ctx.getSharedPreferences(SP_TIP_RED_POINT, Context.MODE_PRIVATE);
         return sp.getInt(KEY_APP_LAST_VER, 0);
@@ -49,7 +55,11 @@ public class RedPointTip {
         if (lastVersion == 0 && !AccountInfo.isLogin(context)) { // 全新安装后第一次打开
             setLastVersion(context, versionCode);
             for (Type item : Type.values()) {
-                markUsed(context, item);
+
+                if (item != Type.WikiHistory200 &&
+                        item != Type.WikiHistory200) {
+                    markUsed(context, item);
+                }
             }
 
         } else if (lastVersion < versionCode) { // 升级安装后第一次打开
@@ -73,7 +83,10 @@ public class RedPointTip {
         Voice320,
         File320,
         Merge320,
-        MergeFile320
+        MergeFile320,
+
+        WikiTree200,
+        WikiHistory200
     }
 
 }

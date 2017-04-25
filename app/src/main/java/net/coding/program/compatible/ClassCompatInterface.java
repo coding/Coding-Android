@@ -49,5 +49,4 @@ public interface ClassCompatInterface {
 
     void launchProjectMaopoaList(Context context, ProjectJumpParam param);
 
-    void launchGuideActivity(Context context);
 }

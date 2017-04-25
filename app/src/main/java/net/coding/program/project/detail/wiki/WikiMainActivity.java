@@ -1,21 +1,31 @@
 package net.coding.program.project.detail.wiki;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-import com.orhanobut.logger.Logger;
+import com.cpiz.android.bubbleview.BubblePopupWindow;
+import com.cpiz.android.bubbleview.BubbleStyle;
+import com.cpiz.android.bubbleview.BubbleTextView;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.event.EventRefresh;
@@ -29,7 +39,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,7 +52,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_wiki_main)
-@OptionsMenu(R.menu.main_wiki)
 public class WikiMainActivity extends BackActivity {
 
     @Extra
@@ -63,6 +72,14 @@ public class WikiMainActivity extends BackActivity {
     @ViewById
     WebView webView;
 
+    @ViewById
+    View bottomBarLayout;
+
+    @ViewById
+    Toolbar toolbar;
+
+    MenuItem actionMore;
+
     ActivityWikiDetailHeaderBinding headerBinding;
 
     List<Wiki> dataList = new ArrayList<>();
@@ -76,17 +93,87 @@ public class WikiMainActivity extends BackActivity {
     NodeHolder selectNode = null;
     Wiki selectWiki;
 
+    BubblePopupWindow bubbleWindowTree = null;
+    BubblePopupWindow bubbleWindowHistory = null;
+
+
     @AfterViews
     void initWikiMainActivity() {
         useToolbar();
-
         setActionBarTitle(project.name);
+
+        oldToolbarFlags = ((AppBarLayout.LayoutParams) toolbar.getLayoutParams()).getScrollFlags();
 
         headerBinding = ActivityWikiDetailHeaderBinding.bind(findViewById(R.id.wikiHeader));
 
         onRefrush();
 
         Global.initWebView(webView);
+
+        popGuide0();
+    }
+
+    @UiThread(delay = 3000)
+    void popGuide0() {
+        if (dataList.isEmpty()) {
+            return;
+        }
+
+        if (RedPointTip.show(this, RedPointTip.Type.WikiTree200)) {
+             bubbleWindowTree = popGuide(RedPointTip.Type.WikiTree200, "这里可查看页面目录", R.id.clickPopDrawer, v -> popGuide1());
+        } else {
+            popGuide1();
+        }
+    }
+
+    void popGuide1() {
+        if (dataList.isEmpty()) {
+            return;
+        }
+
+        if (RedPointTip.show(this, RedPointTip.Type.WikiHistory200)) {
+            bubbleWindowHistory = popGuide(RedPointTip.Type.WikiHistory200, "这里可查看历史版本", R.id.clickHistory, null);
+        }
+    }
+
+    private BubblePopupWindow popGuide(RedPointTip.Type type, String text, int target, View.OnClickListener click) {
+        View rootView = getLayoutInflater().inflate(R.layout.guide_bubble_view, null);
+        BubbleTextView bubbleView = (BubbleTextView) rootView;
+        bubbleView.setText(text);
+
+        BubblePopupWindow bubbleWindow = new BubblePopupWindow(rootView, bubbleView);
+        bubbleWindow.setCancelOnTouchOutside(false);
+        bubbleWindow.showArrowTo(findViewById(target), BubbleStyle.ArrowDirection.Down);
+
+        bubbleView.setOnClickListener(v -> {
+            hideGuide(type, bubbleWindow, v.getContext());
+            if (click != null) click.onClick(v);
+        });
+
+        disableToolbarScroll(true);
+
+        return bubbleWindow;
+    }
+
+    private void hideGuide(RedPointTip.Type type, BubblePopupWindow bubbleWindow, Context context) {
+        if (bubbleWindow != null) {
+            if (bubbleWindow.isShowing()) {
+                bubbleWindow.dismiss();
+            }
+        }
+
+        RedPointTip.markUsed(context, type);
+
+        disableToolbarScroll(!(selectWiki != null && !TextUtils.isEmpty(selectWiki.content)));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_wiki, menu);
+        actionMore = menu.findItem(R.id.action_more);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -111,52 +198,43 @@ public class WikiMainActivity extends BackActivity {
         selectNode(node);
     }
 
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onEventUpdateSingle(WikiEvent event) {
-//        if (event.action == EventAction.modify) {
-//            updateTreeData(treeRoot, event.wiki);
-//        }
-//    }
-
-//    private boolean updateTreeData(TreeNode node, Wiki data) {
-//        Wiki value = (Wiki) node.getValue();
-//        if (value != null && value.id == data.id) {
-//            value.update(data);
-//            NodeHolder h = (NodeHolder) node.getViewHolder();
-//            h.notifyDataSetChanged();
-//            selectNode(h);
-//            return true;
-//        } else {
-//            for (TreeNode t : node.getChildren()) {
-//                if (updateTreeData(t, data)) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
     private void buildTree() {
-        firstTreeNode = null;
+        if (dataList.size() > 0) {
+            firstTreeNode = null;
 
-        treeRoot = TreeNode.root();
-        addTreeNode(treeRoot, dataList);
+            treeRoot = TreeNode.root();
+            addTreeNode(treeRoot, dataList);
 
-        treeViewBuilder = new AndroidTreeView(this, treeRoot);
-        treeViewBuilder.setDefaultViewHolder(NodeHolder.class);
+            treeViewBuilder = new AndroidTreeView(this, treeRoot);
+            treeViewBuilder.setDefaultViewHolder(NodeHolder.class);
 
-        treeView = treeViewBuilder.getView();
-        drawerLayout.addView(treeView);
+            treeView = treeViewBuilder.getView();
+            drawerLayout.addView(treeView);
 
-        selectNode((NodeHolder) firstTreeNode.getViewHolder());
+            selectNode((NodeHolder) firstTreeNode.getViewHolder());
 
-        treeViewBuilder.expandAll();
+            treeViewBuilder.expandAll();
+            bottomBarLayout.setVisibility(View.VISIBLE);
+            disableToolbarScroll(false);
+            actionMore.setVisible(true);
+        } else {
+            BlankViewDisplay.setBlank(0, WikiMainActivity.this, true, blankLayout, v -> onRefrush());
+            bottomBarLayout.setVisibility(View.GONE);
+            disableToolbarScroll(true);
+            actionMore.setVisible(false);
+        }
+    }
+
+    int oldToolbarFlags = 0;
+
+    private void disableToolbarScroll(boolean disable) {
+        AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        lp.setScrollFlags(disable ? 0 : oldToolbarFlags);
+        toolbar.setLayoutParams(lp);
     }
 
     @Click(R.id.clickEdit)
     void onClickEdit() {
-//        EventBus.getDefault().post(new EventRefresh(true));
         WikiEditActivity_.intent(this)
                 .projectParam(project.generateJumpParam())
                 .wiki(selectWiki)
@@ -165,11 +243,18 @@ public class WikiMainActivity extends BackActivity {
 
     @Click(R.id.clickPopDrawer)
     void onClickPopDrawer() {
+        hideGuide(RedPointTip.Type.WikiTree200, bubbleWindowTree, this);
+        bubbleWindowTree = null;
+        popGuide1();
+
         drawerLayoutRoot.openDrawer(GravityCompat.START);
     }
 
     @Click(R.id.clickHistory)
     void onClickHistory() {
+        hideGuide(RedPointTip.Type.WikiHistory200, bubbleWindowHistory, this);
+        bubbleWindowHistory = null;
+
         WikiHistoryActivity_.intent(this)
                 .jumpParam(project.generateJumpParam())
                 .wiki(selectWiki)
@@ -264,7 +349,8 @@ public class WikiMainActivity extends BackActivity {
 
                         selectWiki = data;
                         displayWebviewContent(selectWiki.html);
-                        Logger.d(data.html);
+
+                        disableToolbarScroll(TextUtils.isEmpty(data.content));
                     }
 
                     @Override

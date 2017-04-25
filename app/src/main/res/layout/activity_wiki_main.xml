@@ -25,6 +25,7 @@
 
                 <android.support.v7.widget.Toolbar
                     app:layout_scrollFlags="scroll|enterAlways|snap"
+                    android:id="@+id/toolbar"
                     style="@style/Toolbar" />
 
             </android.support.design.widget.AppBarLayout>
@@ -62,6 +63,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:id="@+id/bottomBarLayout"
                 android:layout_gravity="bottom"
                 android:background="@color/bottom_white"
                 app:layout_behavior="net.coding.program.project.detail.wiki.BottomBarBehavior">

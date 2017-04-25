@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cpiz.android.bubbleview.BubbleTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="16sp"
+    android:padding="10dp"
+    android:textColor="@color/white"
+    android:id="@+id/bubbleTextView"
+    tools:text="这里可查看页面目录"
+    app:bb_arrowDirection="Down"
+    app:bb_arrowPosDelta="70dp"
+    app:bb_arrowPosPolicy="SelfBegin"
+    app:bb_fillColor="@color/font_green"
+    app:bb_cornerRadius="4dp"
+    tools:visibility="visible"
+    tools:showIn="@layout/activity_wiki_main" />

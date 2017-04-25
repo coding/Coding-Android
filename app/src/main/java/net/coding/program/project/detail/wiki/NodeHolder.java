@@ -48,9 +48,13 @@ public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
             iconWidth = 22;
         }
 
-        int level = node.getLevel();
+        // 应设计师要求，多于 4 级的显示为 4 级
+        int indentationLevel = node.getLevel();
+        if (indentationLevel > 4) {
+            indentationLevel = 4;
+        }
 
-        int leftSpace = (level - 1) * 30 + 20 + iconWidth;
+        int leftSpace = (indentationLevel - 1) * 30 + 20 + iconWidth;
         int leftSpacePx = Global.dpToPx(leftSpace);
 
         ViewGroup.MarginLayoutParams iconLP = (ViewGroup.MarginLayoutParams) iconLayout.getLayoutParams();
