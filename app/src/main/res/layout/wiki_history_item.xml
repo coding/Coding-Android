@@ -41,13 +41,13 @@
         style="@style/OrderRight" />
 
     <TextView
-        android:id="@+id/user"
+        android:id="@+id/submitMessage"
         android:layout_alignBaseline="@id/orderUser"
         android:layout_marginLeft="100dp"
         style="@style/OrderRight" />
 
     <View
-        android:layout_below="@id/user"
+        android:layout_below="@id/orderUser"
         android:id="@+id/bottomDivide"
         android:layout_marginLeft="-15dp"
         android:layout_marginTop="15dp"

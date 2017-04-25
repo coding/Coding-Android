@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -125,7 +126,14 @@ public class WikiHistoryActivity extends BackActivity {
             holder.title.setText(data.getVersion());
             holder.style.setText(data.getTime());
             holder.id.setText(data.getEditorName());
-            holder.user.setText(data.getMsg());
+            String msg = data.getMsg();
+            if (TextUtils.isEmpty(msg)) {
+                msg = "未填写";
+                holder.user.setTextColor(0xFF999999);
+            } else {
+                holder.user.setTextColor(0xFF323A45);
+            }
+            holder.user.setText(msg);
 
             if (position == source.size() - 1) {
                 holder.nextTopDivide.setVisibility(View.GONE);
@@ -170,7 +178,7 @@ public class WikiHistoryActivity extends BackActivity {
             orderUser = (TextView) view.findViewById(R.id.orderUser);
             orderTime = (TextView) view.findViewById(R.id.orderTime);
             id = (TextView) view.findViewById(R.id.id);
-            user = (TextView) view.findViewById(R.id.user);
+            user = (TextView) view.findViewById(R.id.submitMessage);
             nextTopDivide = view.findViewById(R.id.nextTopDivide);
             rootLayout.setOnClickListener(click);
         }

@@ -89,9 +89,6 @@ public class OrderMainActivity extends BackActivity {
         @Override
         public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
             Logger.d("offset " + verticalOffset);
-//            if (verticalOffset >= 0) {
-//               j
-//            }
             swipeRefreshLayout.setEnabled(verticalOffset >= 0);
         }
     };
@@ -102,8 +99,6 @@ public class OrderMainActivity extends BackActivity {
                 getResources().getDrawable(R.drawable.delete_edit_login_black), CodingColor.fontYellow));
 
         initHeader();
-
-//        swipeRefreshLayout.setEnabled(false);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.green);
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -209,7 +204,6 @@ public class OrderMainActivity extends BackActivity {
         } else {
             titles = new String[]{MyDetailPagerAdapter.TITLE_EMPTY};
         }
-
 
         MyDetailPagerAdapter adpter = new MyDetailPagerAdapter(this, getSupportFragmentManager(), titles);
         viewPager.setAdapter(adpter);
