@@ -54,7 +54,12 @@ public class EnterpriseAccountActivity extends BackActivity {
 
     @AfterViews
     void initEnterpriseAccountActivity() {
-        initToolbar();
+        useToolbar();
+        setActionBarTitle("");
+        if (Build.VERSION.SDK_INT >= 21) {
+            getSupportActionBar().setElevation(0);
+        }
+
         updateUI();
 
         loadDataFromNetwork();
@@ -113,15 +118,6 @@ public class EnterpriseAccountActivity extends BackActivity {
     private void updateUI() {
         ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), companyIcon, ImageLoadTool.options);
         companyName.setText(EnterpriseInfo.instance().getName());
-    }
-
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
-        if (Build.VERSION.SDK_INT >= 21) {
-            getSupportActionBar().setElevation(0);
-        }
     }
 
     @Click

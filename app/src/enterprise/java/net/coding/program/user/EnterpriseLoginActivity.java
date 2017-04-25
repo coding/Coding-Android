@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -27,7 +25,6 @@ import com.tencent.android.tpush.XGPushManager;
 import net.coding.program.EnterpriseApp;
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.R;
-import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.enter.SimpleTextWatcher;
@@ -36,7 +33,6 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginEditTextNew;
 import net.coding.program.compatible.CodingCompat;
@@ -50,7 +46,6 @@ import net.coding.program.model.EnterpriseDetail;
 import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.UserIdentity;
 import net.coding.program.model.UserObject;
-import net.coding.program.third.FastBlur;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -75,14 +70,11 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     private static final int RESULT_CLOSE_2FA = 1;
 
-    public static final String EXTRA_BACKGROUND = "background";
     private final String CLOSE_2FA_TIP = "关闭两步验证";
     private String TAG_HOST_NEED_CAPTCHA = "TAG_HOST_NEED_CAPTCHA";
-    final float radius = 8;
-    final double scaleFactor = 16;
     private final String TAG_LOGIN = "TAG_LOGIN";
 
-    final private int RESULT_CLOSE = 100;
+    private static final int RESULT_CLOSE = 100;
 
     @Extra
     Uri background;
@@ -109,7 +101,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @ViewById
     TextView loginFail;
 
+    // 快速点击 5 次弹出对话框进入 staging 环境
     private int clickIconCount = 0;
+    private long lastClickTime = 0;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
@@ -121,13 +115,16 @@ public class EnterpriseLoginActivity extends BaseActivity {
             .considerExifParams(true)
             .displayer(new FadeInBitmapDisplayer(300))
             .build();
+
     View androidContent;
+
     TextWatcher textWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
             upateLoginButton();
         }
     };
+
     private String globalKey = "";
 
     @Override
@@ -140,13 +137,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     @AfterViews
     void initEnterpriseLoginActivity() {
-//        needCaptcha();
-        Drawable back = getResources().getDrawable(R.drawable.ic_arrow_back);
-        backButton.setImageDrawable(Global.tintDrawable(back, (CodingColor.fontGreen)));
-//        Drawable back = getResources().getDrawable(R.drawable.ic_notify);
-//        backButton.setImageDrawable(back);
-//        backButton.setImageResource(R.drawable.ic_notify);
-
         editName.addTextChangedListener(textWatcher);
         editPassword.addTextChangedListener(textWatcher);
         editValifyMain.addTextChangedListener(textWatcher);
@@ -156,9 +146,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         String lastLoginName = AccountInfo.loadLastLoginName(this);
         if (!lastLoginName.isEmpty()) {
-//            editName.setDisableAuto(true);
             editName.setText(lastLoginName);
-//            editName.setDisableAuto(false);
             editPassword.requestFocus();
         }
 
@@ -169,16 +157,12 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
         editValifyMain.setOnFocusChangeListener(createEditLineFocus(valifyLineMain));
-
     }
 
     @Click
     void backButton() {
         onBackPressed();
     }
-
-    private int clickCount = 0;
-    private long lastClickTime = 0;
 
     @Click
     void toolbarTitle() {
@@ -220,48 +204,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
                     .setNegativeButton(R.string.action_cancel, null)
                     .show();
         }
-    }
-
-    private BitmapDrawable createBlur(int bgId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), bgId, options);
-        int height = options.outHeight;
-        int width = options.outWidth;
-
-        options.outHeight = (int) (height / scaleFactor);
-        options.outWidth = (int) (width / scaleFactor);
-        options.inSampleSize = (int) (scaleFactor + 0.5);
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inMutable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.entrance1, options);
-        Bitmap blurBitmap = FastBlur.doBlur(bitmap, (int) radius, true);
-
-        return new BitmapDrawable(getResources(), blurBitmap);
-    }
-
-    private BitmapDrawable createBlur(Uri uri) {
-        String path = FileUtil.getPath(this, uri);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-        int height = options.outHeight;
-        int width = options.outWidth;
-
-        options.outHeight = (int) (height / scaleFactor);
-        options.outWidth = (int) (width / scaleFactor);
-        options.inSampleSize = (int) (scaleFactor + 0.5);
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inMutable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-
-        Bitmap blurBitmap = FastBlur.doBlur(bitmap, (int) radius, true);
-
-        return new BitmapDrawable(getResources(), blurBitmap);
     }
 
     @Click

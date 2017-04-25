@@ -17,9 +17,8 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_gravity="left|center_vertical"
-            android:scaleType="center"
-            android:tint="@color/font_green" />
-
+            android:src="@drawable/ic_menu_back"
+            android:scaleType="center" />
 
         <TextView
             android:id="@+id/login2faMenu"

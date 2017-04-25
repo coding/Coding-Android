@@ -52,19 +52,14 @@
         <item name="android:divider">@drawable/divide_line</item>
 
         <item name="android:textColorPrimary">@color/font_green</item>
-        <!--<item name="android:actionBarStyle">@style/AAActionbar</item>-->
-        <!--<item name="actionBarStyle">@style/AAActionbar</item>-->
-
-        <!--<item name="actionBarStyle">@style/Theme.MyApp.ActionBar</item>-->
-        <!--<item name="android:actionBarStyle">@style/Theme.MyApp.ActionBar</item>-->
-
-        <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
         <item name="android:actionMenuTextColor">@color/font_6</item>
 
         <item name="colorPrimary">@drawable/color_primary</item>
         <item name="actionMenuTextColor">@color/font_green</item>
+        
+        <item name="navigationIcon">@drawable/ic_menu_back</item>
     </style>
 
     <!--没有icon的actionbar -->
