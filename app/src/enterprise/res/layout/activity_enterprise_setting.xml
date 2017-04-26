@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/list_font_disable"
+            android:textColor="@color/font_4"
             tools:text="Coding.coding.net"/>
 
     </LinearLayout>

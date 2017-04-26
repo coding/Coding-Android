@@ -1,5 +1,7 @@
 package net.coding.program.model.payed;
 
+import net.coding.program.common.CodingColor;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -43,7 +45,7 @@ public class Order implements Serializable {
                 break;
             case "closed":
                 statusString =  "关闭";
-                statusColor = 0xFFA9B3BE;
+                statusColor = CodingColor.font4;
                 break;
             default: // success
                 statusString = "成功";

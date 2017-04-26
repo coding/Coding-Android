@@ -9,13 +9,13 @@
     <color name="font_1">#323A45</color>
     <color name="font_2">#425063</color>
     <color name="font_3">#76808E</color>
+    <color name="font_4">#A9B3BE</color>
 
     <!--待修改颜色-->
     <drawable name="divide">#F2F4F6</drawable>
 
     <color name="font_green">#ff3bbd79</color>
 
-    <color name="font_4">#A9B3BE</color>
 
 
     <color name="font_yellow">#FFAE9651</color>
@@ -32,8 +32,6 @@
     <!--<drawable name="divide">#F2F4F6</drawable>-->
     <!--<color name="stand_bg">#ffffff</color>-->
     <!--<color name="divide_line">#D8DDE4</color>-->
-
-    <!--<color name="font_Dark_4”>#A9B3BE</color>-->
 
     <!--<color name="font_green">#2EBE76</color>-->
     <!--<color name="font_yellow">#F3C033</color>-->
@@ -81,7 +79,6 @@
     <color name="task_list_head">#ffe4e4e4</color>
     <color name="divide">#F2F4F6</color>
 
-    <color name="list_font_disable">#FFA9B3BE</color>
     <color name="list_font_title">#FF1E2D42</color>
     <color name="list_font_enable">@color/font_2</color>
 
