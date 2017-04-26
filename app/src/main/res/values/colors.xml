@@ -6,6 +6,14 @@
     <color name="black">#ff000000</color>
 
     <!--修改过的颜色-->
+    <color name="color_primary">#F2FFFFFF</color>
+    <color name="color_primary_dark">#494E57</color>
+    <color name="text_color_primary">@color/font_green</color>
+    <color name="windowBackground">@color/divide</color>
+
+    <color name="bottomColorPrimary">#CCFFFFFF</color>
+    <color name="color_bottom_bar">#F2FFFFFF</color>
+
     <color name="divide">#F2F4F6</color>
     <color name="divide_line">#D8DDE4</color>
 
@@ -33,17 +41,15 @@
     <color name="layout_yellow_font">#836E32</color>
 
     <color name="emoji_line">@color/divide_line</color>
+
+     <!--对话框背景色-->
+    <color name="popDialogBg">#99000000</color>
+
     <!--待修改颜色-->
 
     <!--结束-->
 
     <drawable name="line_gray">#ffc7cacc</drawable>
-
-    <drawable name="color_primary">#FFF8F8F8</drawable>
-    <drawable name="color_primary_dark">#494E57</drawable>
-    <color name="color_primary">#FFF8F8F8</color>
-    <color name="color_primary_dark">#494E57</color>
-    <color name="color_bottom_bar">#F8F8F8</color>
 
     <color name="button_disable">#ffc6c6c6</color>
 
@@ -95,8 +101,6 @@
     <color name="color_FDF2CB">#FDF2CB</color>
     <color name="color_FAFAFA">#FAFAFA</color>
     <color name="color_32BE77">#32BE77</color>
-
-    <color name="popDialogBg">#99000000</color>
 
     <color name="addjob_radio_text_gray">#ffcccccc</color>
     <color name="addjob_text_blue">#ff30A8E1</color>

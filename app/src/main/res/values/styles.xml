@@ -40,12 +40,15 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:windowBackground">@color/windowBackground</item>
+
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
-        <item name="android:windowBackground">@color/stand_bg</item>
+
+
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
@@ -56,7 +59,7 @@
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
         <item name="android:actionMenuTextColor">@color/font_2</item>
 
-        <item name="colorPrimary">@drawable/color_primary</item>
+        <item name="colorPrimary">@color/color_primary</item>
         <item name="actionMenuTextColor">@color/font_green</item>
         
         <item name="navigationIcon">@drawable/ic_menu_back</item>
@@ -74,22 +77,8 @@
 
     <!--主窗口的theme-->
     <style name="ActionbarSpannerTheme1" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>-->
-        <!--<item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>-->
-        <!--<item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>-->
-        <!--<item name="android:windowBackground">@color/stand_bg</item>-->
-        <!--<item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>-->
-        <!--<item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>-->
-        <!--<item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>-->
-        <!--<item name="android:actionModeBackground">@drawable/gray_drawable</item>-->
-        <!--<item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>-->
-        <!--<item name="android:windowActionModeOverlay">true</item>-->
-
-        <!--<item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>-->
-        <!--<item name="android:actionMenuTextColor">@color/white</item>-->
-
-        <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
 
         <item name="android:divider">@color/divide_line</item>
 
@@ -98,13 +87,15 @@
         <item name="actionMenuTextColor">@color/font_green</item>
 
         <item name="color">@color/white</item>
-        <item name="android:windowBackground">@color/stand_bg</item>
+
+        <item name="android:windowBackground">@color/windowBackground</item>
+
         <item name="popupMenuStyle">@style/MyApp.PopupMenu</item>
 
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
@@ -124,12 +115,17 @@
     </style>
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
+        <item name="android:colorPrimary">@color/color_primary</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
-        <item name="android:windowBackground">@color/white</item>
+
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
@@ -141,42 +137,41 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
-        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
-        <item name="android:textColorPrimary">@color/font_green</item>
         <item name="android:actionMenuTextColor">@color/font_2</item>
-        <item name="colorPrimary">@drawable/color_primary</item>
         <item name="actionMenuTextColor">@color/font_green</item>
+    </style>
+
+
+    <style name="ThemeProject" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/windowBackground</item>
+
+        <item name="android:textColorPrimary">@color/font_green</item>
+        <item name="android:colorControlNormal">@color/font_green</item>
+
+        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
+        <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="icon">@android:color/transparent</item>
+
+        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
+
+        <!--<item name="android:background">@drawable/gray_drawable</item>-->
+
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+
     </style>
 
     <!--商城界面主题-->
     <style name="ThemeMall" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@drawable/color_primary</item>
+        <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/white</item>
-    </style>
-
-    <style name="ThemeProject" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorPrimary">@color/font_green</item>
-        <item name="android:colorControlNormal">@color/font_green</item>
-
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
-        <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
-        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
-        <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
-        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-
-        <item name="android:icon">@android:color/transparent</item>
-        <item name="icon">@android:color/transparent</item>
-
-        <item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>
-        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>
-
-        <!--<item name="android:background">@drawable/gray_drawable</item>-->
-
-        <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
-
     </style>
 
     <!--弹出菜单字体颜色-->

@@ -34,10 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
-            android:background="#88f8f8f8"
+            android:background="@color/bottomColorPrimary"
             app:bb_activeTabColor="@color/font_green"
             app:bb_inActiveTabColor="@color/font_2"
-            app:bb_showShadow="true"
             app:bb_tabXmlResource="@xml/bottombar_tabs"
             app:bb_titleTextAppearance="@style/BottomTabTitle" />
 
