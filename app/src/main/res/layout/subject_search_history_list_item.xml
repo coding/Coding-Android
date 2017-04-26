@@ -22,7 +22,7 @@
             android:singleLine="true"
             android:layout_centerVertical="true"
             android:text="一台一台"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
 
         <ImageView

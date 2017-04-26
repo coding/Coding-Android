@@ -10,7 +10,7 @@
         style="@style/OrderLeft"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
-        android:textColor="#FF323A45"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <View

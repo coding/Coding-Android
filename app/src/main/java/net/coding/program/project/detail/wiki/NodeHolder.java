@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.unnamed.b.atv.model.TreeNode;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.network.model.wiki.Wiki;
 
@@ -109,7 +110,7 @@ public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
             tView.expandNode(mNode);
             title.setTextColor(0xFF2EBE76);
         } else {
-            title.setTextColor(mNode.getLevel() == 1 ? 0xFF272C33 : 0xFF323A45);
+            title.setTextColor(mNode.getLevel() == 1 ? 0xFF272C33 : CodingColor.font1);
         }
     }
 }

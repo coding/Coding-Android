@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="个性后缀"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="18sp" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="邮箱"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:id="@+id/emailTitle"
             android:textSize="18sp" />
 
@@ -89,7 +89,7 @@
             android:layout_marginRight="12dp"
             android:text="手机号码"
 
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:id="@+id/phoneTitle"
             android:textSize="18sp" />
 
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改密码"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:drawablePadding="5dp"
             android:textSize="18sp" />
 

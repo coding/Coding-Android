@@ -24,7 +24,7 @@
         android:lineSpacingExtra="2dp"
         android:singleLine="true"
         android:text="中秋首页改版"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <include

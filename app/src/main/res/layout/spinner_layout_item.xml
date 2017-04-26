@@ -21,7 +21,7 @@
         android:layout_toRightOf="@id/icon"
         android:singleLine="true"
         android:text="项目任务"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="14sp" />
 
 </LinearLayout><!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content">--><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">--><!--<CheckedTextView--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@drawable/spinner_layout_item_bg"--><!--android:id="@+id/bg"--><!--/>--><!--<ImageView--><!--android:id="@+id/icon"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="13dp"--><!--android:layout_marginLeft="30dp"--><!--android:layout_marginTop="13dp"--><!--android:src="@drawable/ic_spinner_task" />-->

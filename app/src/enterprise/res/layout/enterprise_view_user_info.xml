@@ -42,7 +42,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="17sp"
                 tools:text="阿朔" />
 
@@ -319,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="0"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="17sp" />
 
                 <TextView
@@ -354,7 +354,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="0"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="17sp" />
 
                 <TextView
@@ -389,7 +389,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="0"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="17sp" />
 
                 <TextView

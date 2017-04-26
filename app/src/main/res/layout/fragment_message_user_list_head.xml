@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="\@我的 "
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <com.readystatesoftware.viewbadger.BadgeView
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="评论"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <com.readystatesoftware.viewbadger.BadgeView
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="系统通知"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <com.readystatesoftware.viewbadger.BadgeView

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/maopao_spinner"
                 android:text="我的项目"
-                android:textColor="@color/text_color_primary" />
+                android:textColor="@color/font_1" />
 
         </android.support.v7.widget.Toolbar>
 

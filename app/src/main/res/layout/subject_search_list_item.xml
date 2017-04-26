@@ -35,7 +35,7 @@
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:singleLine="false"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/padding_12"
                 android:text="蝈蝈已"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="12sp" />
 
             <TextView

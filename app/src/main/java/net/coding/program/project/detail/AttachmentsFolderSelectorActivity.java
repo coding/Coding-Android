@@ -20,6 +20,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
@@ -101,7 +102,7 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
             if (data.name.equals(STRING_OUT_FOLDER)) {
                 holder.name.setTextColor(0xFFAAB1B9);
             } else {
-                holder.name.setTextColor(0xFF222222);
+                holder.name.setTextColor(CodingColor.font1);
             }
 
             if (data.file_id.equals("0")) {

@@ -46,7 +46,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -126,7 +126,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textColorHint="#a3a3a3"
                 android:textSize="16sp" />
         </LinearLayout>

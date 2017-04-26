@@ -123,7 +123,7 @@
             android:layout_height="?attr/actionBarSize"
             android:gravity="center"
             android:text="目录"
-            android:textColor="#FF323A45"
+            android:textColor="@color/font_1"
             android:textSize="18sp" />
 
         <View style="@style/TreeDivideLine" />

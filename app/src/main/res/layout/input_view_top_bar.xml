@@ -75,7 +75,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:maxLines="4"
-                    android:textColor="@color/font_2" />
+                    android:textColor="@color/font_1" />
 
                 <CheckBox
                     android:id="@+id/popEmoji"

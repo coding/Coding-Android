@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         tools:text="红色"
         android:textSize="16sp" />
 

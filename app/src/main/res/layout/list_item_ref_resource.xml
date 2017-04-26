@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp"
             tools:text="任务标题" />
     </LinearLayout>

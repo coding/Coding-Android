@@ -23,7 +23,7 @@
         android:layout_marginLeft="63dp"
         android:layout_weight="1"
         android:text="项目名"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <TextView

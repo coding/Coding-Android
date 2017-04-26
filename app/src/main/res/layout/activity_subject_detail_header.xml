@@ -22,7 +22,7 @@
                 android:layout_centerVertical="true"
                 android:paddingTop="5dp"
                 android:text="热门参与者"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="14sp" />
 
             <TextView

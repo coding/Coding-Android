@@ -69,7 +69,7 @@
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
-        <item name="android:textColorSecondary">@color/text_color_primary</item>
+        <item name="android:textColorSecondary">@color/font_1</item>
     </style>
 
     <!--主窗口的theme-->
@@ -181,7 +181,7 @@
 
     <!--弹出菜单字体颜色-->
     <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
     </style>
 
     <!--<style name="MyGreenSpinner" parent="android:style/Widget.Holo.Light.Spinner">-->
@@ -312,7 +312,7 @@
     <style name="TextTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -431,7 +431,7 @@
 
     <style name="BottomTabTitle">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
     </style>
 
     <style name="TextViewFilterTag">
@@ -444,7 +444,7 @@
         <item name="android:paddingLeft">20dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:paddingTop">15dp</item>
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
     </style>
 
     <style name="FilterDialog" parent="@android:style/Theme.Dialog">
@@ -528,17 +528,17 @@
 
     <style name="OrderRight" parent="OrderLeft">
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:textColor">#FF323A45</item>
+        <item name="android:textColor">@color/font_1</item>
     </style>
 
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColorPrimary">#323A45</item>
+        <item name="android:textColorPrimary">@color/font_1</item>
         <item name="colorAccent">#2EBE76</item>
     </style>
 
     <style name="NumberPick" parent="Theme.AppCompat.Light">
-        <item name="android:textColorPrimary">#323A45</item>
-        <item name="colorControlNormal">#323A45</item>
+        <item name="android:textColorPrimary">@color/font_1</item>
+        <item name="colorControlNormal">@color/font_1</item>
     </style>
 
     <style name="Toolbar">

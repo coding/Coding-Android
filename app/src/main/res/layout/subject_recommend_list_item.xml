@@ -15,7 +15,7 @@
         android:gravity="center_vertical"
         android:text="一台一台"
         android:lines="1"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <View style="@style/DivideLine_15" />

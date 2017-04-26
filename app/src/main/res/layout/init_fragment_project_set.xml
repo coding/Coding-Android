@@ -40,7 +40,7 @@
             android:singleLine="true"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -61,7 +61,7 @@
         android:lines="5"
         android:maxLines="5"
         android:padding="14dp"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <include layout="@layout/divide_middle_15" />

@@ -77,7 +77,7 @@
                 android:singleLine="false"
                 android:text="去"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="15sp" />
 
             <FrameLayout

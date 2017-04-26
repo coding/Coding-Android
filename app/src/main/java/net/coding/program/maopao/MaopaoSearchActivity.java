@@ -216,7 +216,7 @@ public class MaopaoSearchActivity extends BackActivity {
                     textView.setTextColor(getResources().getColor(R.color.merge_green));
                 } else {
                     textView.setBackgroundResource(R.drawable.round_gray_corner);
-                    textView.setTextColor(getResources().getColor(R.color.font_2));
+                    textView.setTextColor(getResources().getColor(R.color.font_1));
                 }
                 mSearchHotLayout.addView(itemView);
                 if (i > 4)

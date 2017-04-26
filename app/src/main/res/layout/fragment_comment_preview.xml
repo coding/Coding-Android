@@ -11,7 +11,7 @@
         android:textSize="20sp"
         android:text="Medium Text"
         android:id="@+id/title"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:maxLines="2"
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginTop="12dp"

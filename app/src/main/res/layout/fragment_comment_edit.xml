@@ -15,7 +15,7 @@
         android:hint="讨论标题"
         android:singleLine="true"
         android:text="我我问"
-        android:textColor="@color/font_2" />
+        android:textColor="@color/font_1" />
 
     <View
         android:visibility="gone"

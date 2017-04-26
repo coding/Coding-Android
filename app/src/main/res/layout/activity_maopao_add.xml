@@ -30,7 +30,7 @@
                 android:paddingLeft="@dimen/padding_15"
                 android:paddingRight="@dimen/padding_15"
                 android:paddingTop="14dp"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="14sp" />
 
             <RelativeLayout
@@ -109,7 +109,7 @@
             android:paddingRight="12dp"
             android:singleLine="true"
             android:text=""
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textColorHint="@color/font_9"
             android:textSize="15sp" />
 

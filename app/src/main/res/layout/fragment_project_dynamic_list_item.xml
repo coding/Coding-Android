@@ -32,7 +32,7 @@
             android:ellipsize="end"
             android:maxLines="@integer/dynamic_title_max_lines"
             android:text="22222 Text"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <TextView

@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/content_pressed_selector"
                 android:text="this is contentasdfasdfasdfasdfasdfasdfasdfasdfasdfas"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
         </LinearLayout>
 

@@ -9,6 +9,7 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.umeng.UmengEvent;
@@ -128,9 +129,9 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         int[][] titlesColors = new int[][]{
-                new int[]{0xff222222, 0xffffffff},
-                new int[]{0xff222222, 0xffffffff},
-                new int[]{0xff222222, 0xff222222},
+                new int[]{CodingColor.font1, CodingColor.fontWhite},
+                new int[]{CodingColor.font1, CodingColor.fontWhite},
+                new int[]{CodingColor.font1, CodingColor.font1},
         };
 
         int[][] icons = new int[][]{

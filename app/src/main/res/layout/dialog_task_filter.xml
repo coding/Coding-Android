@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="@string/reset"
-                android:textColor="@color/font_2"/>
+                android:textColor="@color/font_1"/>
 
         </RelativeLayout>
 
@@ -52,7 +52,7 @@
                     android:padding="15dp"
                     android:tag="name"
                     android:text="@string/title_activity_filter_tasks"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="18sp"/>
 
 
@@ -95,7 +95,7 @@
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
                             android:singleLine="true"
-                            android:textColor="@color/font_2"
+                            android:textColor="@color/font_1"
                             android:textColorHint="@color/font_9"
                             android:textSize="15sp"/>
 

@@ -33,7 +33,7 @@
             android:background="@null"
             android:hint="项目名称"
             android:singleLine="true"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -54,7 +54,7 @@
         android:lines="5"
         android:maxLines="5"
         android:padding="14dp"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <include layout="@layout/divide_middle_15" />
@@ -80,7 +80,7 @@
             android:layout_centerVertical="true"
             android:text="启用README.md文件初始化项目"
             android:textSize="@dimen/project_icon_text"
-            android:textColor="@color/font_2" />
+            android:textColor="@color/font_1" />
 
         <CheckBox
             android:id="@+id/generateReadme"

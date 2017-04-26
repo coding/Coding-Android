@@ -122,7 +122,7 @@ public class TaskFilterFragment extends LoadingFragment {
             };
         }
 
-        int font2 = getResources().getColor(R.color.font_2);
+        int font2 = getResources().getColor(R.color.font_1);
         int green = getResources().getColor(R.color.font_green);
         for (int i = 0; i < filterItem.length; i++) {
             TextView status = (TextView) getActivity().findViewById(filterItem[i]);

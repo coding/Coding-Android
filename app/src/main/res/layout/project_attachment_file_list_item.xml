@@ -80,7 +80,7 @@
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:text="Medium Text"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="17sp" />
 
             <TextView
@@ -164,7 +164,7 @@
             android:layout_toRightOf="@id/icon_layout"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="17sp" />
 
         <TextView

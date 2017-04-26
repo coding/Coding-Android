@@ -19,7 +19,7 @@ public class CodingColor {
         divideLine = r.getColor(R.color.divide_line);
 
         fontWhite = r.getColor(R.color.font_white);
-        font1 = r.getColor(R.color.font_2);
+        font1 = r.getColor(R.color.font_1);
         font2 = r.getColor(R.color.font_6);
         font3 = r.getColor(R.color.font_9);
         font4 = r.getColor(R.color.font_a);

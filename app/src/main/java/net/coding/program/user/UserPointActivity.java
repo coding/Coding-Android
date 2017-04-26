@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.DataAdapter;
@@ -96,7 +97,7 @@ public class UserPointActivity extends BackActivity {
         }
 
         public void bind(PointObject data) {
-            usage.setText(Global.changeHyperlinkColor(data.getUsage(), 0xFF222222));
+            usage.setText(Global.changeHyperlinkColor(data.getUsage(), CodingColor.font1));
             double points_change = data.getPoints_change();
             String changeForamt;
             int textColor;

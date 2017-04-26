@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14dp"
             android:text="#"
-            android:textColor="@color/font_2" />
+            android:textColor="@color/font_1" />
 
         <EditText
             android:layout_width="0dp"
@@ -43,7 +43,7 @@
             android:digits="1234567890abedefABCDEF"
             android:maxLength="6"
             android:maxLines="1"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp"
             android:id="@+id/inputColor"
             tools:text="3BBD79" />

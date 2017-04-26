@@ -30,7 +30,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="#我最爱的变成语言#"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                     android:text="#我最爱的变成语言#"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textColorLink="@color/font_green"
                     android:textSize="15sp" />
 

@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="给 Coding 好评"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:text="检查更新"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="18sp" />
 
         </RelativeLayout>

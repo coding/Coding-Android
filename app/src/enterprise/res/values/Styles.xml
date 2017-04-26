@@ -2,9 +2,9 @@
 <resources>
     <style name="AccountTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#323A45</item>
-        <item name="colorPrimaryDark">#323A45</item>
-        <item name="colorAccent">#323A45</item>
+        <item name="colorPrimary">@color/font_1</item>
+        <item name="colorPrimaryDark">@color/font_1</item>
+        <item name="colorAccent">@color/font_1</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>

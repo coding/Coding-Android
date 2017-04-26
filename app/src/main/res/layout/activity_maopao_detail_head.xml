@@ -40,7 +40,7 @@
                 android:layout_weight="1"
                 android:text="wwww"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <TextView
@@ -68,7 +68,7 @@
             android:lineSpacingMultiplier="1.1"
             android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
     </LinearLayout>
 

@@ -2,6 +2,8 @@ package net.coding.program.model;
 
 import android.graphics.Color;
 
+import net.coding.program.common.CodingColor;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,11 +26,11 @@ public class TopicLabelObject implements Serializable {
         id = json.optInt("id");
         name = json.optString("name", "");
         count = json.optInt("count", 0);
-        String colorString = json.optString("color", "#222222");
+        String colorString = json.optString("color", "");
         try {
             color = Color.parseColor(colorString);
-        } catch (IllegalArgumentException e){
-            color = 0xff222222;
+        } catch (Exception e){
+            color = CodingColor.font1;
         }
     }
 

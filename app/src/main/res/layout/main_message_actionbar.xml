@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="我的"
             android:lines="1"
-            android:textColor="@color/text_color_primary" />
+            android:textColor="@color/font_1" />
 
     </android.support.v7.widget.Toolbar>
 

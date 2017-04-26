@@ -37,7 +37,7 @@
             android:lineSpacingMultiplier="1.1"
             tools:text="内容很多"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
 
     </LinearLayout>

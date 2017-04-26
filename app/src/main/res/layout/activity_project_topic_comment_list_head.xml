@@ -19,7 +19,7 @@
         android:layout_marginTop="12dp"
         android:maxLines="2"
         android:text="Medium Text"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="20sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -50,7 +50,7 @@
         android:layout_alignBottom="@+id/icon"
         android:layout_marginBottom="1dp"
         android:layout_toRightOf="@+id/time"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="13sp"
         tools:text="#179" />
 

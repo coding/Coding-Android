@@ -57,7 +57,7 @@
                     android:id="@+id/topWarn"
                     style="@style/BaseListText"
                     android:layout_marginTop="15dp"
-                    android:textColor="#FF323A45"
+                    android:textColor="@color/font_1"
                     android:textSize="17sp"
                     tools:text="您的服务已过期，请订购后使用" />
 
@@ -65,7 +65,7 @@
                     android:id="@+id/balanceTitle"
                     style="@style/BaseListText"
                     android:layout_marginTop="15dp"
-                    android:textColor="#FF323A45"
+                    android:textColor="@color/font_1"
                     android:textSize="14sp"
                     tools:text="已透支金额（元）" />
 

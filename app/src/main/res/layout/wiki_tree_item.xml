@@ -27,7 +27,7 @@
         android:gravity="center_vertical|left"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iconLayout"
-        android:textColor="#323A45"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <View

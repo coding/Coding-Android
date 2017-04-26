@@ -13,6 +13,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.network.HttpObserver;
@@ -129,9 +130,9 @@ public class WikiHistoryActivity extends BackActivity {
             String msg = data.getMsg();
             if (TextUtils.isEmpty(msg)) {
                 msg = "未填写";
-                holder.user.setTextColor(0xFF999999);
+                holder.user.setTextColor(CodingColor.font3);
             } else {
-                holder.user.setTextColor(0xFF323A45);
+                holder.user.setTextColor(CodingColor.font1);
             }
             holder.user.setText(msg);
 

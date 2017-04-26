@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +17,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.ui.BackActivity;
@@ -179,7 +179,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                     String thirdLink = title.substring(lastStart, last);
 
                     holder.detailLayout.setVisibility(View.VISIBLE);
-                    holder.detail.setText(Global.changeHyperlinkColor(thirdLink, 0xFF222222));
+                    holder.detail.setText(Global.changeHyperlinkColor(thirdLink, CodingColor.font1));
 
                     StringBuilder b = new StringBuilder(title);
                     b.replace(lastStart, last, "");
@@ -219,7 +219,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                     if (pair != null) {
                         holder.icon.setImageResource(pair.first);
                         holder.icon.setBackgroundColor(pair.second);
-                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, 0xFF222222));
+                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, CodingColor.font1));
                     }
                 }
             } else if (data.target_type.equals("Tweet")) {
@@ -232,7 +232,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
                     if (pair != null) {
                         holder.icon.setImageResource(pair.first);
                         holder.icon.setBackgroundColor(pair.second);
-                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, 0xFF222222));
+                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, CodingColor.font1));
                     }
                 }
             } else if (data.target_type.equals("User") && titleString.endsWith("重置了你的账号密码。")) {

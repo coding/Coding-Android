@@ -35,7 +35,7 @@
             android:focusable="false"
             android:gravity="center_vertical"
             android:text=".coding.net"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="17sp" />
 
     </LinearLayout>

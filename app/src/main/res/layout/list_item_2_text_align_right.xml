@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
         android:text="性别"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <TextView

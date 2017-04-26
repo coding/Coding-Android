@@ -27,7 +27,7 @@
         android:layout_toRightOf="@id/icon"
         android:lines="1"
         tools:text="CodingAndroid"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <TextView

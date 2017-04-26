@@ -25,6 +25,6 @@
         android:gravity="left"
         android:text="项目名只允许字母、数字或者下划线（_）、中划线（-），必须以字母或者数字开头，且不能以.git结尾"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/font_2" />
+        android:textColor="@color/font_1" />
 
 </LinearLayout>

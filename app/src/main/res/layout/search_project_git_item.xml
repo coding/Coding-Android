@@ -16,5 +16,5 @@
         android:ellipsize="start"
         android:text="很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长"
         android:textSize="14sp"
-        android:textColor="@color/font_2"/>
+        android:textColor="@color/font_1"/>
 </LinearLayout>

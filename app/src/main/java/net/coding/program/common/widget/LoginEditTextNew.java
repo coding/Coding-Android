@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 
 /**
  * Created by chenchao on 15/12/17.
@@ -18,7 +19,7 @@ public class LoginEditTextNew extends LoginEditText {
         super(context, attrs);
 
         setOnEditFocusChange(((v, hasFocus) -> {
-            topLine.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
+            topLine.setBackgroundColor(hasFocus ? CodingColor.font1 : 0xFFD8DDE4);
         }));
 
         if (editText instanceof LoginAutoCompleteEdit) {

@@ -42,7 +42,7 @@
             android:drawablePadding="8dp"
             android:padding="7dp"
             android:text="置顶话题"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="14sp" />
 
         <View
@@ -76,7 +76,7 @@
             android:layout_weight="1"
             android:text="wwww"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <TextView
@@ -114,7 +114,7 @@
         android:singleLine="false"
         android:text="去"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <FrameLayout

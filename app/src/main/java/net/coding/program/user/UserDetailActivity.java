@@ -197,12 +197,12 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         if (!isMe) {
             if (mUserObject.follow && mUserObject.followed) {
                 tv_follow_state.setText("相关关注");
-                tv_follow_state.setTextColor(getResources().getColor(R.color.color_323A45));
+                tv_follow_state.setTextColor(getResources().getColor(R.color.font_1));
                 rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state3, 0, 0, 0);
             } else if (!mUserObject.follow && mUserObject.followed) {
                 tv_follow_state.setText("已关注");
-                tv_follow_state.setTextColor(getResources().getColor(R.color.color_323A45));
+                tv_follow_state.setTextColor(getResources().getColor(R.color.font_1));
                 rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state2, 0, 0, 0);
             } else {
@@ -233,7 +233,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
 
     public static SpannableString createSpan(Context context, String s) {
         SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_2));
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_1));
 
         itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

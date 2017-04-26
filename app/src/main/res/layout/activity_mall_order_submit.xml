@@ -57,7 +57,7 @@
                             android:scrollHorizontally="true"
                             android:text="titletitletitletitletitletitletitletitletitletitletitletitletitle"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/font_2"
+                            android:textColor="@color/font_1"
                             android:textSize="16sp" />
 
                         <TextView
@@ -149,7 +149,7 @@
                 android:paddingBottom="18dp"
                 android:text="收货人 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <EditText
@@ -178,7 +178,7 @@
                 android:paddingTop="18dp"
                 android:text="详细地址 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
 
@@ -227,7 +227,7 @@
                 android:paddingTop="18dp"
                 android:text="联系电话 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <EditText
@@ -256,7 +256,7 @@
                 android:paddingTop="18dp"
                 android:text="备注"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <EditText
@@ -286,7 +286,7 @@
                 android:paddingTop="18dp"
                 android:text="选项 *"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
 

@@ -9,7 +9,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         style="@style/OrderLeft"
-        android:textColor="#323A45"
+        android:textColor="@color/font_1"
         android:text="充值订单" />
 
     <View

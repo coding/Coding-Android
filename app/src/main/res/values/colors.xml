@@ -6,12 +6,13 @@
     <color name="stand_bg">@color/white</color>
     <color name="font_blank">@color/white</color>
 
+    <color name="font_1">#323A45</color>
+
     <!--待修改颜色-->
     <drawable name="divide">#F2F4F6</drawable>
 
     <color name="font_green">#ff3bbd79</color>
 
-    <color name="font_2">#222222</color>
     <color name="font_6">#666666</color>
     <color name="font_9">#999999</color>
     <color name="font_a">#A9B3BE</color>
@@ -31,10 +32,8 @@
     <color name="gray">#FF323A45</color>
 
     <drawable name="color_primary">#FFF8F8F8</drawable>
-    <drawable name="text_color_primary">#222222</drawable>
     <drawable name="color_primary_dark">#494E57</drawable>
     <color name="color_primary">#FFF8F8F8</color>
-    <color name="text_color_primary">#222222</color>
     <color name="color_primary_dark">#494E57</color>
     <color name="color_bottom_bar">#F8F8F8</color>
 
@@ -110,7 +109,6 @@
     <color name="color_3BBD79">#3BBD79</color>
     <color name="color_2EBE76">#2EBE76</color>
     <color name="color_E5E5E5">#e5e5e5</color>
-    <color name="color_323A45">#323A45</color>
     <color name="color_hint">#686D75</color>
 
     <color name="color_000000">#000000</color>

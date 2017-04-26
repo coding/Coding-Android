@@ -32,7 +32,7 @@
             android:lines="1"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <include
@@ -61,7 +61,7 @@
             android:lines="1"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             tools:text="#2245"
             android:textSize="12sp" />
 

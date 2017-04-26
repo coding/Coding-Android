@@ -54,7 +54,7 @@ public class DropdownButton extends RelativeLayout {
             bottomLine.setVisibility(VISIBLE);
         } else {
             icon = getResources().getDrawable(R.drawable.ic_dropdown_normal);
-            textView.setTextColor(getResources().getColor(R.color.font_2));
+            textView.setTextColor(getResources().getColor(R.color.font_1));
             bottomLine.setVisibility(GONE);
         }
         textView.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null);

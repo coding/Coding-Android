@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="消息"
                 android:lines="1"
-                android:textColor="@color/text_color_primary" />
+                android:textColor="@color/font_1" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -63,7 +63,7 @@
                 android:layout_alignTop="@id/userIcon"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/userIcon"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp"
                 tools:text="Man" />
 
@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="20sp" />
 
                 <TextView
@@ -155,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="20sp" />
 
                 <TextView

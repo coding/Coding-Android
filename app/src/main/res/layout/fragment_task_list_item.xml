@@ -40,7 +40,7 @@
         android:maxLines="2"
         android:phoneNumber="false"
         android:text="      江龙减法看东方看a东皇反抗a双簧反抗a荒废"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <View

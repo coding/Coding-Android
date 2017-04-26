@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="Medium Text"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="17sp"
                 android:layout_weight="1" />
 

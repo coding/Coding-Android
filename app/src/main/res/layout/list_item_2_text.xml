@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:gravity="left"
         android:singleLine="true"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:scrollHorizontally="true"
         android:focusable="true"
         android:focusableInTouchMode="true"

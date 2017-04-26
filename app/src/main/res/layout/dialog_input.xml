@@ -17,6 +17,6 @@
         android:ems="10"
         android:hint=""
         android:background="@drawable/edit"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:id="@+id/value" />
 </LinearLayout>
