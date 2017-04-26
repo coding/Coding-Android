@@ -4,25 +4,25 @@
     <color name="divide_line">#D8DDE4</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="stand_bg">@color/white</color>
-    <color name="font_blank">@color/white</color>
 
     <color name="font_1">#323A45</color>
     <color name="font_2">#425063</color>
     <color name="font_3">#76808E</color>
     <color name="font_4">#A9B3BE</color>
 
+    <color name="font_white">#ffffffff</color>
+    <color name="font_white_hint">#7fffffff</color>
+
+    <color name="font_green">#2EBE76</color>
+    <color name="font_pink">#F75288</color>
     <!--待修改颜色-->
     <drawable name="divide">#F2F4F6</drawable>
-
-    <color name="font_green">#ff3bbd79</color>
-
-
 
     <color name="font_yellow">#FFAE9651</color>
     <color name="font_bg_yellow">#FFFAF7D4</color>
 
     <color name="font_orange">#FFF78636</color>
-    <color name="font_red">#FFF56061</color>
+    <color name="font_red">#F56061</color>
     <color name="font_blue">#ff2FAEEA</color>
 
     <!--结束-->
@@ -33,11 +33,8 @@
     <!--<color name="stand_bg">#ffffff</color>-->
     <!--<color name="divide_line">#D8DDE4</color>-->
 
-    <!--<color name="font_green">#2EBE76</color>-->
     <!--<color name="font_yellow">#F3C033</color>-->
     <!--<color name="font_orange">#F68435</color>-->
-    <!--<color name="font_red">#F56061</color>-->
-    <!--<color name="font_Pink">#F75288</color>-->
     <!--<color name="font_blue">#5BA2FF</color>-->
 
     <!--待修改色值 end -->
@@ -69,12 +66,8 @@
 
     <color name="gray_dark">#f0f0f0</color>
 
-    <drawable name="font_green">#ff3bbd79</drawable>
     <color name="font_black_0">#000000</color>
     <color name="font_black_content_disabled">#ffcacaca</color>
-
-    <color name="font_white">#ffffffff</color>
-    <color name="white_disable">#7fffffff</color>
 
     <color name="task_list_head">#ffe4e4e4</color>
     <color name="divide">#F2F4F6</color>
@@ -92,7 +85,6 @@
 
     <!-- user info tags -->
     <color name="user_info_tags_bg_1">#EBEBEB</color>
-    <color name="user_info_tags_bg_2">#3BBD79</color>
     <!-- user info tags end -->
     <color name="commom_loading_font">#28303B</color>
 
@@ -107,7 +99,6 @@
     <color name="init_common_bg">#e5e5e5</color>
 
     <color name="merge_red">#fff34a4a</color>
-    <color name="merge_green">#ff3BBD79</color>
 
     <color name="merge_id">#ff4e90bf</color>
 
@@ -117,7 +108,6 @@
     <color name="possible_result_points">#c0ffff00</color>
     <color name="font_black_e">@color/divide</color>
     <color name="color_F6F6F6">#f6f6f6</color>
-    <color name="color_3BBD79">#3BBD79</color>
     <color name="color_2EBE76">#2EBE76</color>
     <color name="color_E5E5E5">#e5e5e5</color>
     <color name="color_hint">#686D75</color>

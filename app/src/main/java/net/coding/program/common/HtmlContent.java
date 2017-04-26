@@ -158,7 +158,7 @@ public class HtmlContent {
     }
 
     public static String createUserHtml(String globalKey, String name) {
-        final String format = "<font color='#3bbd79'><a href=\"/u/%s\">%s</a></font>";
+        final String format = "<font color='" + CodingColor.fontGreenString + "'><a href=\"/u/%s\">%s</a></font>";
         return String.format(format, globalKey, name);
     }
 }

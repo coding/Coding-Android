@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BaseActivity;
@@ -206,7 +207,7 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
 
                 TextView tv = (TextView) listItemView.findViewById(R.id.code);
                 if (phase >= 0.1) {
-                    tv.setTextColor(0xff3bbd79);
+                    tv.setTextColor(CodingColor.fontGreen);
                 } else {
                     tv.setTextColor(0xffe15957);
                 }

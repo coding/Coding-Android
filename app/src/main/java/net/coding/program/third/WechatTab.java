@@ -194,9 +194,9 @@ public class WechatTab extends HorizontalScrollView {
         setTextSize((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 16, dm));
         // 设置Tab Indicator的颜色
-        setIndicatorColor(Color.parseColor("#3bbd79"));
+        setIndicatorColor(CodingColor.fontGreen);
         // 设置选中Tab文字的颜色 (这是我自定义的一个方法)
-        setSelectedTextColor(Color.parseColor("#3bbd79"));
+        setSelectedTextColor(CodingColor.fontGreen);
         // 取消点击Tab时的背景色
         setTabBackground(0);
     }

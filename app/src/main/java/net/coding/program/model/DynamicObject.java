@@ -1,6 +1,5 @@
 package net.coding.program.model;
 
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -933,7 +932,7 @@ public class DynamicObject {
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#3BBD79"));
+            ForegroundColorSpan span = new ForegroundColorSpan(CodingColor.fontGreen);
             SpannableString string = new SpannableString("点击查看评论详情");
             string.setSpan(span, 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return string;

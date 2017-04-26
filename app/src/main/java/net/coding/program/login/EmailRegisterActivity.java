@@ -2,7 +2,6 @@ package net.coding.program.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -67,7 +66,7 @@ public class EmailRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, emailEdit,
                 passwordEdit, captchaEdit);
 
-        textClause.setText(Html.fromHtml(PhoneRegisterActivity.REGIST_TIP));
+        textClause.setText(PhoneRegisterActivity.REGIST_TIP);
 
         needShowCaptch();
     }

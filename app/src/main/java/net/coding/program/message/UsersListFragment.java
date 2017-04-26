@@ -3,7 +3,6 @@ package net.coding.program.message;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +118,14 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             iconfromNetwork(holder.icon, user.friend.avatar);
             holder.title.setText(user.friend.name);
             boolean isUnPlayedVoiceMessage = !user.sender.isMe() && user.played == 0 && user.file != null && user.file.endsWith(".amr");
-            holder.content.setText(isUnPlayedVoiceMessage ? Html.fromHtml("<font color='#3bbd79'>" + user.content + "</font>") : Global.recentMessage(user.content, myImageGetter, Global.tagHandler));
+
+            CharSequence contentString;
+            if (isUnPlayedVoiceMessage) {
+                contentString = Global.createGreenHtml("", user.content, "");
+            } else {
+                contentString = Global.recentMessage(user.content, myImageGetter, Global.tagHandler);
+            }
+            holder.content.setText(contentString);
             holder.time.setText(Global.dayToNow(user.created_at, false));
 
             if (user.unreadCount > 0) {

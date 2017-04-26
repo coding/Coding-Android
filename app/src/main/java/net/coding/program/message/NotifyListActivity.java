@@ -76,7 +76,7 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         sHashMap.put("TweetComment", new Pair<>(R.drawable.ic_notify_tweet_comment, 0xFFFB8638));
         sHashMap.put("TweetLike", new Pair<>(R.drawable.ic_notify_tweet_like, 0xFFFF5847));
         sHashMap.put("MergeRequestBean", new Pair<>(R.drawable.ic_notify_merge_request_bean, 0xFF4E74B7));
-        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, 0xFF3BBD79));
+        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, CodingColor.fontGreen));
         sHashMap.put("User", new Pair<>(R.drawable.ic_notify_user, 0xFF496AB3));
         sHashMap.put("TaskComment", new Pair<>(R.drawable.ic_notify_task_comment, 0xFF379FD3));
         sHashMap.put("CommitLineNote", new Pair<>(R.drawable.ic_notify_commit_line_note, DEFAULT_BG));

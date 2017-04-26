@@ -28,6 +28,13 @@ public class CodingColor {
         fon2String = Global.colorToString(font2);
         fon3String = Global.colorToString(font3);
         fon4String = Global.colorToString(font4);
+
+        fontRed = r.getColor(R.color.font_red);
+        fontBlue = r.getColor(R.color.font_blue);
+        fontPink = r.getColor(R.color.font_pink);
+        fontOrange = r.getColor(R.color.font_orange);
+
+        fontGreenString = Global.colorToString(fontGreen);
     }
 
     public static int fontGreen;
@@ -39,6 +46,13 @@ public class CodingColor {
     public static int font2;
     public static int font3;
     public static int font4;
+
+    public static int fontRed;
+    public static int fontOrange;
+    public static int fontBlue;
+    public static int fontPink;
+
+    public static String fontGreenString;
 
     public static String fon1String;
     public static String fon2String;

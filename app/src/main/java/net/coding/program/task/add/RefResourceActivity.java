@@ -2,7 +2,6 @@ package net.coding.program.task.add;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -131,8 +130,7 @@ public class RefResourceActivity extends BackActivity {
             }
             holder.icon.setImageResource(iconId);
 
-            String format = "<font color=\"#3bbd79\">#%d</font>  %s";
-            holder.title.setText(Html.fromHtml(String.format(format, data.code, data.title)));
+            holder.title.setText(Global.createGreenHtml("", "#" + data.code, data.title));
 
             return convertView;
         }

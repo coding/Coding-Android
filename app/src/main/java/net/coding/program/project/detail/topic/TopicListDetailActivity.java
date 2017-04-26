@@ -2,7 +2,7 @@ package net.coding.program.project.detail.topic;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -286,9 +286,8 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         TextView topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
         topicTitleTextView.setText(topicObject.title);
 
-        final String format = "<font color='#3bbd79'>%s</font> 发布于%s";
-        String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
-        ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
+        Spanned timeString = Global.createGreenHtml("",  topicObject.owner.name, " 发布于" + Global.dayToNow(topicObject.updated_at));
+        ((TextView) mListHead.findViewById(R.id.time)).setText(timeString);
 
         ((TextView) mListHead.findViewById(R.id.referenceId)).setText(topicObject.getRefId());
 
@@ -578,7 +577,8 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         public WatchHelp(View headView) {
             emptyWatchLayout = (View) headView.findViewById(R.id.emptyWatchLayout);
             TextView emptyWatchAdd = (TextView) headView.findViewById(R.id.emptyWatchAdd);
-            emptyWatchAdd.setText(Html.fromHtml("尚未添加任何关注者, <font color='#3bbd79'>去添加</font>"));
+            emptyWatchAdd.setText(Global.createGreenHtml("尚未添加任何关注者, ", "去添加", ""));
+
             emptyWatchAdd.setOnClickListener(clickAddWatch);
 
             watchUsersLayout = (View) headView.findViewById(R.id.watchUsersLayout);

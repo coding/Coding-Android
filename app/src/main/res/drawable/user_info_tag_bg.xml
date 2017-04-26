@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
-        <color android:color="@color/user_info_tags_bg_2" />
+        <color android:color="@color/font_green" />
     </item>
     <item android:state_checked="true">
-        <color android:color="@color/user_info_tags_bg_2" />
+        <color android:color="@color/font_green" />
     </item>
     <item>
         <color android:color="@color/user_info_tags_bg_1" />

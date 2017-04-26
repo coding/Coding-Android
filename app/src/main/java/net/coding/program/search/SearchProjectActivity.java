@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
@@ -157,7 +158,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         tabs.setTextSize((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 16, dm));
         // 设置Tab Indicator的颜色
-        tabs.setIndicatorColor(Color.parseColor("#3bbd79"));
+        tabs.setIndicatorColor(CodingColor.fontGreen);
 
         // 取消点击Tab时的背景色
         tabs.setTabBackground(0);

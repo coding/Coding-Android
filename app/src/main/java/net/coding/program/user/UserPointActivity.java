@@ -103,7 +103,7 @@ public class UserPointActivity extends BackActivity {
             int textColor;
             if (data.isIncome()) {
                 changeForamt = String.format("+%.2f", points_change);
-                textColor = 0xff3bbd79;
+                textColor = CodingColor.fontGreen;
             } else {
                 changeForamt = String.format("-%.2f", points_change);
                 textColor = 0xfffb8638;

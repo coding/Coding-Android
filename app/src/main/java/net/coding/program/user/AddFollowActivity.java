@@ -138,7 +138,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 maxUserCount.setTextColor(CodingColor.font2);
             } else {
                 maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
-                maxUserCount.setTextColor(0xfff34a4a);
+                maxUserCount.setTextColor(R.color.font_red);
             }
         } else {
             maxUserCount.setVisibility(View.GONE);

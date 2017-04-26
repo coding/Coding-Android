@@ -213,7 +213,7 @@ public class MaopaoSearchActivity extends BackActivity {
                 textView.setOnClickListener(mHotTweetClickListener);
                 if (i == 0) {
                     textView.setBackgroundResource(R.drawable.round_green_corner);
-                    textView.setTextColor(getResources().getColor(R.color.merge_green));
+                    textView.setTextColor(getResources().getColor(R.color.font_green));
                 } else {
                     textView.setBackgroundResource(R.drawable.round_gray_corner);
                     textView.setTextColor(getResources().getColor(R.color.font_1));

@@ -96,7 +96,7 @@
                             android:inputType="textEmailAddress"
                             android:lines="1"
                             android:textColor="@color/font_white"
-                            android:textColorHint="@color/white_disable"
+                            android:textColorHint="@color/font_white_hint"
                             android:textCursorDrawable="@null"
                             android:textSize="18sp"
                             app:darkness="true" />
@@ -113,7 +113,7 @@
                             android:maxLines="1"
                             android:singleLine="true"
                             android:textColor="@color/font_white"
-                            android:textColorHint="@color/white_disable"
+                            android:textColorHint="@color/font_white_hint"
                             android:textCursorDrawable="@null"
                             android:textSize="18sp"
                             app:dark="true" />
@@ -133,7 +133,7 @@
                                 android:hint="验证码"
                                 android:singleLine="true"
                                 android:textColor="@color/font_white"
-                                android:textColorHint="@color/white_disable"
+                                android:textColorHint="@color/font_white_hint"
                                 android:textCursorDrawable="@null"
                                 android:textSize="18sp" />
 
@@ -177,7 +177,7 @@
                             android:maxLines="1"
                             android:singleLine="true"
                             android:textColor="@color/font_white"
-                            android:textColorHint="@color/white_disable"
+                            android:textColorHint="@color/font_white_hint"
                             android:textCursorDrawable="@null"
                             android:textSize="18sp"
                             app:dark="true" />

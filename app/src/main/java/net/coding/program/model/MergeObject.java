@@ -210,7 +210,7 @@ public class MergeObject implements Serializable {
                 color = "#E84D60";
                 return "已拒绝";
             case STYLE_CANMERGE:
-                color = "#3BBD79";
+                color = CodingColor.fontGreenString;
                 return "可合并";
             case STYLE_CANNOTMERGE:
                 color = "#B17EDD";

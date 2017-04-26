@@ -392,10 +392,10 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
                     if (!mData.get(position).isPin()) {
                         projectActionUtil.getTxtSetting().setText("设为常用");
                         projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.white));
-                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_3BBD79));
+                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.font_green));
                     } else {
                         projectActionUtil.getTxtSetting().setText("取消常用");
-                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.color_3BBD79));
+                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.font_green));
                         projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_E5E5E5));
                     }
                 }

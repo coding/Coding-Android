@@ -492,7 +492,7 @@ public class MergeDetailActivity extends BackActivity {
         };
         String action = "";
         final int[] styleColors = new int[]{
-                0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xffac8cd3, CodingColor.font2
+                CodingColor.fontGreen, 0xfffb3b30, CodingColor.fontGreen, 0xffac8cd3, CodingColor.font2
         };
 
         for (int i = 0; i < styles.length; ++i) {
@@ -522,7 +522,7 @@ public class MergeDetailActivity extends BackActivity {
             int color;
             int iconRes;
             if (mMerge.isMergeAccept()) {
-                color = R.color.merge_green;
+                color = R.color.font_green;
                 iconRes = R.drawable.ic_listitem_merge_accept;
             } else {
                 color = R.color.merge_red;

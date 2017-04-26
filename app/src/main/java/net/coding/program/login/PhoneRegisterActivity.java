@@ -1,7 +1,6 @@
 package net.coding.program.login;
 
 import android.app.Activity;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -35,7 +34,7 @@ public class PhoneRegisterActivity extends BackActivity {
 
     private static final int RESULT_PICK_COUNTRY = 10;
 
-    public static String REGIST_TIP = "注册 Coding 账号表示您已同意<font color=\"#3bbd79\">《Coding 服务条款》</font>";
+    public static CharSequence REGIST_TIP = Global.createGreenHtml("注册 Coding 账号表示您已同意", "《Coding 服务条款》", "");
 
     @ViewById
     LoginEditText globalKeyEdit, phoneEdit, passwordEdit, phoneCodeEdit, captchaEdit;
@@ -71,7 +70,7 @@ public class PhoneRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, phoneEdit,
                 passwordEdit, phoneCodeEdit, captchaEdit);
 
-            textClause.setText(Html.fromHtml(REGIST_TIP));
+            textClause.setText(REGIST_TIP);
 
         sendCode.setEditPhone(phoneEdit);
         sendCode.setType(ValidePhoneView.Type.register);

@@ -45,8 +45,7 @@
             android:maxLines="1"
             android:textColor="@color/font_1"
             android:textSize="16sp"
-            android:id="@+id/inputColor"
-            tools:text="3BBD79" />
+            android:id="@+id/inputColor" />
 
         <ImageView
             android:layout_width="55dp"

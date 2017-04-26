@@ -150,6 +150,10 @@ public class Global {
         return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
     }
 
+    public static Spanned createGreenHtml(String begin, String middle, String end) {
+        return createColorHtml(begin, middle, end, CodingColor.fontGreen);
+    }
+
 //    public static String getAppPackage(Context context) {
 //        try {
 //            return context.getPackageName();
@@ -389,12 +393,12 @@ public class Global {
     }
 
     public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        return changeHyperlinkColor(content, imageGetter, tagHandler, 0xFF3BBD79);
+        return changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
     }
 
 
     public static Spannable changeHyperlinkColorMaopao(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, AssetManager assetManager) {
-        Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, 0xFF3BBD79);
+        Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
         return spannToGif(s, assetManager);
     }
 
