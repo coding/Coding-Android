@@ -22,7 +22,7 @@
         android:layout_toRightOf="@+id/personImg"
         android:singleLine="true"
         android:text="222"
-        android:textColor="@color/color_000000"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <TextView

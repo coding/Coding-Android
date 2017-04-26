@@ -22,7 +22,7 @@
             android:id="@+id/iconTxt"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@color/font_black"
+            android:background="@color/black"
             android:gravity="center"
             android:text="apk"
             android:textColor="@color/white"

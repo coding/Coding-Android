@@ -41,7 +41,7 @@ public class Order implements Serializable {
         switch (status.toLowerCase()) {
             case "pending":
                 statusString = "等待支付";
-                statusColor = 0xFFF78636;
+                statusColor = CodingColor.fontOrange;
                 break;
             case "closed":
                 statusString =  "关闭";
@@ -49,7 +49,7 @@ public class Order implements Serializable {
                 break;
             default: // success
                 statusString = "成功";
-                statusColor = 0xFF2EBE76;
+                statusColor = CodingColor.fontGreen;
                 break;
         }
     }

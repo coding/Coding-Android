@@ -31,7 +31,7 @@
                     android:id="@+id/topTip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/font_bg_yellow"
+                    android:background="@color/layout_yellow_bg"
                     android:minHeight="44dp">
 
                     <ImageView

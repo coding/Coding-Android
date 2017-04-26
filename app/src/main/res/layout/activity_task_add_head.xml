@@ -139,13 +139,6 @@
             app:taskText1="关联资源"
             app:taskText2="1个资源" />
     </LinearLayout>
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="20dp"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_below="@+id/linearlayout1"-->
-    <!--android:background="@color/task_list_head" />-->
 
     <include
         android:id="@+id/line2_comment_off"

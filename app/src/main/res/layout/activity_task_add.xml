@@ -9,12 +9,6 @@
         android:background="@color/divide"
         android:orientation="vertical">
 
-        <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:background="@color/task_list_head"-->
-        <!--android:layout_weight="1">-->
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -18,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom">
 
-            <View
-                style="@style/DivideLine"/>
+            <View style="@style/DivideLine" />
 
             <TextView
                 android:id="@+id/tv_reset"
@@ -29,7 +27,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="@string/reset"
-                android:textColor="@color/font_1"/>
+                android:textColor="@color/font_1" />
 
         </RelativeLayout>
 
@@ -42,7 +40,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_f8f8f8">
+                android:background="@color/stand_bg">
 
                 <TextView
                     style="@style/TextTitle"
@@ -53,17 +51,14 @@
                     android:tag="name"
                     android:text="@string/title_activity_filter_tasks"
                     android:textColor="@color/font_1"
-                    android:textSize="18sp"/>
-
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
             <View
+                style="@style/DivideLine"
                 android:id="@+id/actionBarCompShadow"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/actionbar_shadow"/>
+                android:layout_alignParentBottom="true" />
 
             <ScrollView
                 android:id="@+id/sv_main"
@@ -97,28 +92,27 @@
                             android:singleLine="true"
                             android:textColor="@color/font_1"
                             android:textColorHint="@color/font_3"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp" />
 
                     </com.flyco.roundview.RoundRelativeLayout>
 
-                    <View style="@style/DivideLine"/>
+                    <View style="@style/DivideLine" />
 
                     <TextView
                         android:id="@+id/tv_task_doing"
                         style="@style/TextViewFilterTag"
 
                         android:drawableRight="@drawable/ic_task_status_list_check"
-                        android:text="进行中"/>
+                        android:text="进行中" />
 
                     <TextView
                         android:id="@+id/tv_task_done"
                         style="@style/TextViewFilterTag"
-                        android:text="已完成"/>
+                        android:text="已完成" />
 
                     <View
                         style="@style/DivideLine"
-                        android:layout_marginLeft="20dp"
-                        />
+                        android:layout_marginLeft="20dp" />
 
                     <LinearLayout
                         android:id="@+id/ll_labels"

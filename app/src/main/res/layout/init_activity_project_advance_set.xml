@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/init_common_bg"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/init_advance_header_bg"
+        android:background="@color/layout_yellow_bg"
         android:orientation="vertical"
         android:padding="14dp">
 
@@ -24,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="此操作无法恢复！"
-            android:textColor="@color/init_advance_text_red"
+            android:textColor="@color/font_red"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -36,7 +35,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
         android:text="删 除 项 目"
-        android:textColor="@color/init_advance_text_red"
+        android:textColor="@color/font_red"
         android:textSize="18sp" />
 
     <View

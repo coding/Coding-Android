@@ -26,7 +26,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="成功完成手机验证 !"
-        android:textColor="@color/font_black_0"
+        android:textColor="@color/font_black"
         android:textSize="18sp" />
 
     <TextView

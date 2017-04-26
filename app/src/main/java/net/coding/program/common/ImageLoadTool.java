@@ -44,9 +44,9 @@ public class ImageLoadTool {
             .build();
     public static DisplayImageOptions bannerOptions = new DisplayImageOptions
             .Builder()
-            .showImageOnLoading(R.drawable.divide)
-            .showImageForEmptyUri(R.drawable.divide)
-            .showImageOnFail(R.drawable.divide)
+            .showImageOnLoading(R.drawable.ic_default_image)
+            .showImageForEmptyUri(R.drawable.ic_default_image)
+            .showImageOnFail(R.drawable.ic_default_image)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)

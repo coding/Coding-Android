@@ -1,44 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+
+    <!-- 基本颜色 -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#ff000000</color>
+
     <!--修改过的颜色-->
+    <color name="divide">#F2F4F6</color>
     <color name="divide_line">#D8DDE4</color>
+
     <color name="transparent">@android:color/transparent</color>
     <color name="stand_bg">@color/white</color>
 
+    <color name="font_black">@color/black</color>
     <color name="font_1">#323A45</color>
     <color name="font_2">#425063</color>
     <color name="font_3">#76808E</color>
     <color name="font_4">#A9B3BE</color>
 
-    <color name="font_white">#ffffffff</color>
+    <color name="font_white">@color/white</color>
     <color name="font_white_hint">#7fffffff</color>
 
     <color name="font_green">#2EBE76</color>
     <color name="font_pink">#F75288</color>
-    <!--待修改颜色-->
-    <drawable name="divide">#F2F4F6</drawable>
-
-    <color name="font_yellow">#FFAE9651</color>
-    <color name="font_bg_yellow">#FFFAF7D4</color>
-
-    <color name="font_orange">#FFF78636</color>
+    <color name="font_orange">#F68435</color>
     <color name="font_red">#F56061</color>
-    <color name="font_blue">#ff2FAEEA</color>
+    <color name="font_blue">#5BA2FF</color>
+
+    <color name="font_yellow">#F3C033</color>
+
+    <color name="layout_yellow_bg">#FAF8D4</color>
+    <color name="layout_yellow_font">#836E32</color>
+
+    <color name="emoji_line">@color/divide_line</color>
+    <!--待修改颜色-->
 
     <!--结束-->
-
-    <!--待修改色值 start -->
-
-    <!--<drawable name="divide">#F2F4F6</drawable>-->
-    <!--<color name="stand_bg">#ffffff</color>-->
-    <!--<color name="divide_line">#D8DDE4</color>-->
-
-    <!--<color name="font_yellow">#F3C033</color>-->
-    <!--<color name="font_orange">#F68435</color>-->
-    <!--<color name="font_blue">#5BA2FF</color>-->
-
-    <!--待修改色值 end -->
-
 
     <drawable name="line_gray">#ffc7cacc</drawable>
 
@@ -51,14 +48,10 @@
     <color name="button_disable">#ffc6c6c6</color>
 
     <color name="background_tab_pressed">#ffffff</color>
-    <color name="white">#ffffffff</color>
     <color name="bottom_white">#e6ffffff</color>
     <color name="white_pressed">#ffd5d5d5</color>
     <color name="white_pressed1">#ffdfdfdf</color>
     <drawable name="white">#ffffffff</drawable>
-    <color name="font_black">#010101</color>
-    <drawable name="black">#ff000000</drawable>
-    <color name="black">#ff000000</color>
 
     <color name="file_downloaded">#ffe9f5f0</color>
 
@@ -66,11 +59,7 @@
 
     <color name="gray_dark">#f0f0f0</color>
 
-    <color name="font_black_0">#000000</color>
     <color name="font_black_content_disabled">#ffcacaca</color>
-
-    <color name="task_list_head">#ffe4e4e4</color>
-    <color name="divide">#F2F4F6</color>
 
     <color name="list_font_title">#FF1E2D42</color>
     <color name="list_font_enable">@color/font_2</color>
@@ -91,17 +80,6 @@
     <color name="attachment_btn_layout">#E2E2E2</color>
     <color name="attachment_btn_color">#A5A5A5</color>
 
-    <color name="emoji_line">#ffcbc9ca</color>
-
-    <color name="init_light_gray">#e2e2e2</color>
-    <color name="init_advance_header_bg">#f7f3d6</color>
-    <color name="init_advance_text_red">#f34a4a</color>
-    <color name="init_common_bg">#e5e5e5</color>
-
-    <color name="merge_red">#fff34a4a</color>
-
-    <color name="merge_id">#ff4e90bf</color>
-
     <!--二维码扫描界面-->
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>
@@ -112,10 +90,6 @@
     <color name="color_E5E5E5">#e5e5e5</color>
     <color name="color_hint">#686D75</color>
 
-    <color name="color_000000">#000000</color>
-    <color name="color_4E90BF">#4E90BF</color>
-    <color name="color_EEEEEE">@color/divide</color>
-    <color name="color_28303B">#28303B</color>
     <color name="color_f8f8f8">#f8f8f8</color>
     <color name="color_B5B5B5">#B5B5B5</color>
     <color name="color_FDF2CB">#FDF2CB</color>

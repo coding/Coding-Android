@@ -35,6 +35,7 @@ public class CodingColor {
         fontOrange = r.getColor(R.color.font_orange);
 
         fontGreenString = Global.colorToString(fontGreen);
+        fontOrangeString = Global.colorToString(fontOrange);
     }
 
     public static int fontGreen;
@@ -53,6 +54,7 @@ public class CodingColor {
     public static int fontPink;
 
     public static String fontGreenString;
+    public static String fontOrangeString;
 
     public static String fon1String;
     public static String fon2String;

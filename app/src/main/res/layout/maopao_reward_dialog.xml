@@ -37,7 +37,7 @@
         android:layout_marginBottom="25dp"
         android:layout_marginTop="25dp"
         android:text="打赏给该用户 0.01 码币"
-        android:textColor="@color/font_black_0"
+        android:textColor="@color/font_black"
         android:textSize="18sp" />
 
     <LinearLayout

@@ -525,7 +525,7 @@ public class MergeDetailActivity extends BackActivity {
                 color = R.color.font_green;
                 iconRes = R.drawable.ic_listitem_merge_accept;
             } else {
-                color = R.color.merge_red;
+                color = R.color.font_red;
                 iconRes = R.drawable.ic_listitem_merge_refuse;
             }
             head.findViewById(R.id.mergeIcon0).setBackgroundResource(color);

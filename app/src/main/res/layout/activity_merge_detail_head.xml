@@ -70,7 +70,7 @@
             android:id="@+id/mergeIcon0"
             android:layout_width="3dp"
             android:layout_height="match_parent"
-            android:background="@color/merge_red" />
+            android:background="@color/font_red" />
 
         <View
             android:id="@+id/mergeIcon1"

@@ -27,7 +27,7 @@
         android:gravity="left"
         android:text="这是一个危险的操作，请提供登录密码确认"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/init_advance_text_red" />
+        android:textColor="@color/font_red" />
 
     <EditText
         android:id="@+id/edit1"

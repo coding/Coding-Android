@@ -5,11 +5,6 @@
     tools:context="net.coding.program.project.detail.AttachmentsPicDetailActivity"
     android:background="@android:color/black">
 
-    <!--<ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView"/>-->
-
     <net.coding.program.PhotoViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"

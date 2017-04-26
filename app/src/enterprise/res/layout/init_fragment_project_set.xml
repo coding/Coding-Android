@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/round_icon_path"
             android:padding="1dp"
-            android:src="@color/font_black_0" />
+            android:src="@color/font_black" />
 
         <View
             android:id="@+id/iconPrivate"
