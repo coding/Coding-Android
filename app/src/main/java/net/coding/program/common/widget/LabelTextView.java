@@ -3,8 +3,8 @@ package net.coding.program.common.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
@@ -13,7 +13,7 @@ import net.coding.program.common.CodingColor;
  * Created by chenchao on 15/7/21.
  * 标签控件
  */
-public class LabelTextView extends TextView {
+public class LabelTextView extends AppCompatTextView {
 
     public LabelTextView(Context context, AttributeSet attrs) {
         super(context, attrs);

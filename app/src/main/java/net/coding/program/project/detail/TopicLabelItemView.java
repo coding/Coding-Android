@@ -17,11 +17,14 @@ import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Neutra on 2015/4/25.
+ * 标签管理页的 item
  */
 @EViewGroup(R.layout.activity_topic_label_item)
 public class TopicLabelItemView extends RelativeLayout implements Checkable {
+
     @ViewById
     LabelTextView textView;
+
     @ViewById
     ImageView icon;
 

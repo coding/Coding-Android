@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
@@ -116,6 +117,8 @@ public class MyApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CodingColor.init(this);
 
         AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
         String host = customHost.getHost();
