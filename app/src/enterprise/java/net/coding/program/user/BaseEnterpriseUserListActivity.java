@@ -66,9 +66,7 @@ public abstract class BaseEnterpriseUserListActivity extends BackActivity {
 
         Collections.sort(allListData);
         listData.addAll(allListData);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

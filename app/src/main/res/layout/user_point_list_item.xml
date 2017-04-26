@@ -62,6 +62,6 @@
             tools:text="0.03" />
     </LinearLayout>
 
-    <include layout="@layout/divide_1" />
+    <include layout="@layout/divide_line_1" />
 
 </LinearLayout>

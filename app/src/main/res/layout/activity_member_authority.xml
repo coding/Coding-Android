@@ -10,11 +10,11 @@
 
     <include layout="@layout/divide_top_15" />
     <include layout="@layout/dropdown_tab_list_item" android:id="@+id/projectManager" />
-    <include layout="@layout/divide_1" android:id="@+id/managerDivide" />
+    <include layout="@layout/divide_line_1" android:id="@+id/managerDivide" />
     <include layout="@layout/dropdown_tab_list_item" android:id="@+id/projectMember"/>
-    <include layout="@layout/divide_1" />
+    <include layout="@layout/divide_line_1" />
     <include layout="@layout/dropdown_tab_list_item" android:id="@+id/projectMemberLimited"/>
-    <include layout="@layout/divide_1" />
+    <include layout="@layout/divide_line_1" />
     <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

@@ -18,29 +18,26 @@
     <color name="font_yellow">#FFAE9651</color>
     <color name="font_bg_yellow">#FFFAF7D4</color>
 
-
     <color name="font_orange">#FFF78636</color>
     <color name="font_red">#FFF56061</color>
     <color name="font_blue">#ff2FAEEA</color>
 
-
     <!--分割线-->
 
 
+    <drawable name="line_gray">#ffc7cacc</drawable>
+    <color name="gray">#FF323A45</color>
 
-    <item name="gray" type="color">#FF323A45</item>
-    <item name="color_primary" type="drawable">#FFF8F8F8</item>
-    <item name="text_color_primary" type="drawable">#222222</item>
-    <item name="color_primary_dark" type="drawable">#494E57</item>
-    <item name="color_primary" type="color">#FFF8F8F8</item>
-    <item name="text_color_primary" type="color">#222222</item>
-    <item name="color_primary_dark" type="color">#494E57</item>
-    <item name="color_bottom_bar" type="color">#F8F8F8</item>
+    <drawable name="color_primary">#FFF8F8F8</drawable>
+    <drawable name="text_color_primary">#222222</drawable>
+    <drawable name="color_primary_dark">#494E57</drawable>
+    <color name="color_primary">#FFF8F8F8</color>
+    <color name="text_color_primary">#222222</color>
+    <color name="color_primary_dark">#494E57</color>
+    <color name="color_bottom_bar">#F8F8F8</color>
 
-    <item name="button_disable" type="color">#ffc6c6c6</item>
+    <color name="button_disable">#ffc6c6c6</color>
 
-    <item name="line_green" type="drawable">#ff3bbd79</item>
-    <item name="line_gray" type="drawable">#ffc7cacc</item>
     <color name="background_tab_pressed">#ffffff</color>
     <color name="white">#ffffffff</color>
     <color name="bottom_white">#e6ffffff</color>
@@ -63,7 +60,7 @@
     <color name="tab_font_no_active">#76808E</color>
 
     <color name="font_white">#ffffffff</color>
-    <color name="font_white_disable">#7fffffff</color>
+    <color name="white_disable">#7fffffff</color>
 
     <color name="task_list_head">#ffe4e4e4</color>
     <color name="divide">#F2F4F6</color>
@@ -71,8 +68,6 @@
     <color name="list_font_disable">#FFA9B3BE</color>
     <color name="list_font_title">#FF1E2D42</color>
     <color name="list_font_enable">#FF425063</color>
-
-    <drawable name="divide_line">#D8DDE4</drawable>
 
     <color name="divide_line_e2">#ffe2e2e2</color>
     <color name="divide_line_81">#ff818181</color>

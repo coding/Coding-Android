@@ -50,7 +50,7 @@
                 android:textColor="@drawable/merge_button_color" />
         </RadioGroup>
 
-        <include layout="@layout/divide_1" />
+        <include layout="@layout/divide_line_1" />
 
     </FrameLayout>
 

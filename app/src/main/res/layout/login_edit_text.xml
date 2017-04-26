@@ -30,6 +30,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divide_1" android:id="@+id/topLine" />
+    <include layout="@layout/divide_line_1" android:id="@+id/topLine" />
 
 </RelativeLayout>

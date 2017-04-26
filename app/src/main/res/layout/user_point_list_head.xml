@@ -27,7 +27,7 @@
         android:textColor="@color/font_9"
         android:textSize="12sp" />
 
-    <include layout="@layout/divide_1" />
+    <include layout="@layout/divide_line_1" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemShop"

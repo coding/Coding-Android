@@ -63,7 +63,7 @@
         android:id="@+id/item"
         layout="@layout/init_common_item" />
 
-    <include layout="@layout/divide_1" />
+    <include layout="@layout/divide_line_1" />
 
     <RelativeLayout
         android:id="@+id/pushSetting"

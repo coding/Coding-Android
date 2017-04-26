@@ -167,7 +167,7 @@
                 android:textSize="15sp" />
 
             <include
-                layout="@layout/divide_1"
+                layout="@layout/divide_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
 
@@ -197,7 +197,7 @@
                 android:textSize="15sp" />
 
             <include
-                layout="@layout/divide_1"
+                layout="@layout/divide_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
 
@@ -216,7 +216,7 @@
                 android:textSize="15sp" />
 
             <include
-                layout="@layout/divide_1"
+                layout="@layout/divide_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
 
@@ -245,7 +245,7 @@
                 android:textSize="15sp" />
 
             <include
-                layout="@layout/divide_1"
+                layout="@layout/divide_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
 
@@ -273,7 +273,7 @@
                 android:textSize="15sp" />
 
             <include
-                layout="@layout/divide_1"
+                layout="@layout/divide_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
 
@@ -306,7 +306,7 @@
 
             <include
                 android:id="@+id/mall_order_divide_options"
-                layout="@layout/divide_1"
+                layout="@layout/divide_line_1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp" />
 

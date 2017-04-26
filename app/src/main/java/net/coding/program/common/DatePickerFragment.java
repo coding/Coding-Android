@@ -135,7 +135,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             if (pf.getName().equals("mSelectionDivider")) {
                 pf.setAccessible(true);
                 try {
-                    pf.set(spindle, getResources().getDrawable(R.drawable.line_green));
+                    pf.set(spindle, getResources().getColor(R.color.font_green));
                 } catch (Exception e) {
                     Global.errorLog(e);
                 }

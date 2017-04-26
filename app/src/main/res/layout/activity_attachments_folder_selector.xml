@@ -21,7 +21,7 @@
         android:background="@color/divide"
         android:orientation="vertical">
 
-        <include layout="@layout/divideline_e2" />
+        <include layout="@layout/divideline_2" />
 
         <LinearLayout
             android:layout_width="fill_parent"

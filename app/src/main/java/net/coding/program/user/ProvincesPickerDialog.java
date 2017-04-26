@@ -241,7 +241,7 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
             if (pf.getName().equals("mSelectionDivider")) {
                 pf.setAccessible(true);
                 try {
-                    pf.set(spindle, getContext().getResources().getDrawable(R.drawable.line_green));
+                    pf.set(spindle, getContext().getResources().getColor(R.color.font_green));
                 } catch (IllegalArgumentException e) {
                     e.printStackTrace();
                 } catch (Resources.NotFoundException e) {

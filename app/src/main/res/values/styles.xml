@@ -49,7 +49,7 @@
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
-        <item name="android:divider">@drawable/divide_line</item>
+        <item name="android:divider">@color/divide_line</item>
 
         <item name="android:textColorPrimary">@color/font_green</item>
 
@@ -91,7 +91,7 @@
         <item name="colorPrimary">@drawable/color_primary</item>
         <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
 
-        <item name="android:divider">@drawable/divide_line</item>
+        <item name="android:divider">@color/divide_line</item>
 
 
         <item name="android:textColorPrimary">@color/font_green</item>

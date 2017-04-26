@@ -71,7 +71,7 @@
                     </LinearLayout>
 
                     <include
-                        layout="@layout/divide_1"
+                        layout="@layout/divide_line_1"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/padding_15"
@@ -86,7 +86,7 @@
                         app:topLine="false" />
 
                     <include
-                        layout="@layout/divide_1"
+                        layout="@layout/divide_line_1"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="@dimen/padding_15"

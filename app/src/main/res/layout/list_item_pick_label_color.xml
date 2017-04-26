@@ -37,6 +37,6 @@
         android:src="@drawable/ic_task_status_list_check"
         android:id="@+id/picked"/>
 
-    <include layout="@layout/divide_1" android:id="@+id/topLine" />
+    <include layout="@layout/divide_line_1" android:id="@+id/topLine" />
 
 </RelativeLayout>

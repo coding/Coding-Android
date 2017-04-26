@@ -34,7 +34,7 @@
             android:textColor="@color/font_6"
             android:textSize="16sp" />
 
-        <include layout="@layout/divideline_e2" />
+        <include layout="@layout/divideline_2" />
     </FrameLayout>
 
 </LinearLayout>

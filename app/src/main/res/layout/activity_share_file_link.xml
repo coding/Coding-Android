@@ -55,7 +55,7 @@
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
 
-        <include layout="@layout/divide_1" />
+        <include layout="@layout/divide_line_1" />
 
         <TextView
             android:id="@+id/linkContent"
