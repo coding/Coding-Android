@@ -40,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 
 import java.util.Locale;
 
@@ -75,7 +76,7 @@ public class WechatTab extends HorizontalScrollView {
     private Paint rectPaint;
     private Paint dividerPaint;
 
-    private int indicatorColor = 0xFF666666;
+    private int indicatorColor = CodingColor.font2;
     private int underlineColor = 0x1A000000;
     private int dividerColor = 0x1A000000;
 
@@ -92,8 +93,8 @@ public class WechatTab extends HorizontalScrollView {
     private int mMyUnderlinePadding = 12;
 
     private int tabTextSize = 12;
-    private int tabTextColor = 0xFF666666;
-    private int selectedTabTextColor = 0xFF666666;
+    private int tabTextColor = CodingColor.font2;
+    private int selectedTabTextColor = CodingColor.font2;
     private Typeface tabTypeface = null;
     private int tabTypefaceStyle = Typeface.NORMAL;
 

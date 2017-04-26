@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:text="这里一个项目都没有赶快行动起来"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <Button
@@ -51,7 +51,7 @@
             android:layout_width="140dp"
             android:layout_height="40dp"
             android:layout_marginTop="251dp"
-            android:background="@color/color_enterprise_button"
+            android:background="@color/font_2"
             android:text="+  创建项目"
             android:textColor="@color/white"
             android:textSize="15sp" />

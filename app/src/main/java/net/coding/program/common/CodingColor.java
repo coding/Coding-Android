@@ -20,9 +20,9 @@ public class CodingColor {
 
         fontWhite = r.getColor(R.color.font_white);
         font1 = r.getColor(R.color.font_1);
-        font2 = r.getColor(R.color.font_6);
-        font3 = r.getColor(R.color.font_9);
-        font4 = r.getColor(R.color.font_a);
+        font2 = r.getColor(R.color.font_2);
+        font3 = r.getColor(R.color.font_3);
+        font4 = r.getColor(R.color.font_4);
     }
 
     public static int fontGreen;

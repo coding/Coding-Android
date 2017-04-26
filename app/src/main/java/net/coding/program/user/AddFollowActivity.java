@@ -24,6 +24,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BackActivity;
@@ -134,7 +135,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             int count = serviceInfo.maxmember - serviceInfo.member;
             if (count > 0) {
                 maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
-                maxUserCount.setTextColor(0xff666666);
+                maxUserCount.setTextColor(CodingColor.font2);
             } else {
                 maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
                 maxUserCount.setTextColor(0xfff34a4a);

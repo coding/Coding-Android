@@ -13,7 +13,7 @@
         android:layout_height="48dp"
         android:background="@color/divide"
         android:gravity="center"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="14sp"
         tools:text="你还可以添加 4 个项目成员" />
 

@@ -63,7 +63,7 @@
                 android:drawableLeft="@drawable/subject_search_item_clock"
                 android:drawablePadding="4dp"
                 android:text="1小时前"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:text="13"
-                    android:textColor="@color/font_9" />
+                    android:textColor="@color/font_3" />
             </LinearLayout>
 
             <TextView
@@ -95,7 +95,7 @@
                 android:drawableLeft="@drawable/subject_search_item_like"
                 android:drawablePadding="4dp"
                 android:text="9"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
 
@@ -107,7 +107,7 @@
                 android:drawableLeft="@drawable/subject_search_item_comment"
                 android:drawablePadding="4dp"
                 android:text="9"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
         </LinearLayout>

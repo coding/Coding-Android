@@ -31,7 +31,7 @@
             android:drawablePadding="@dimen/project_action_icon_text"
             android:gravity="center"
             android:text="删除"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <include layout="@layout/divideline_2" />

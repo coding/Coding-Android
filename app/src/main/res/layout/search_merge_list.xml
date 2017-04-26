@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="asdj"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <ImageView
@@ -110,7 +110,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="6dp"
             android:text="2"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
         <TextView
             android:id="@+id/bottomStatus"
@@ -119,7 +119,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:text="拒绝"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
     </LinearLayout>
 </RelativeLayout>

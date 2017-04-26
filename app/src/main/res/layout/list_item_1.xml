@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="@string/no_pick"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="16sp"
             android:visibility="gone" />
 

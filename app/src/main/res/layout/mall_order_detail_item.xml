@@ -139,14 +139,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收货人："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_receiver_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张三"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
 
@@ -162,14 +162,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="联系电话："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_receiver_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12345678901"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
 
@@ -185,14 +185,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="状态："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="已发货"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
 
@@ -208,14 +208,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="快递："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_express"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="中通 0000000"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
 
@@ -231,14 +231,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="时间："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2015-11-11 11：:1"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
 
@@ -254,14 +254,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="备注："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="要 XL 的"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
 
@@ -278,14 +278,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收货地址："
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
             <TextView
                 android:id="@+id/order_addr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="广东 深圳"
-                android:textColor="@color/font_6" />
+                android:textColor="@color/font_2" />
 
         </LinearLayout>
     </LinearLayout>

@@ -52,7 +52,7 @@
                 android:layout_marginLeft="@dimen/padding_12"
                 android:layout_toRightOf="@id/icon"
                 android:text="1小时前"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -108,7 +108,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="来自 iPhone 6"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="13sp" />
 
         <RelativeLayout
@@ -142,7 +142,7 @@
                 android:gravity="center"
                 android:src="@drawable/checkbox_comment"
                 android:visibility="invisible"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="17" />
 
@@ -157,7 +157,7 @@
                 android:paddingLeft="9dp"
                 android:visibility="invisible"
                 android:text="0"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="55" />
 
@@ -171,7 +171,7 @@
                 android:drawableLeft="@drawable/maopao_extra_reward"
                 android:drawablePadding="9dp"
                 android:gravity="center"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="2" />
 

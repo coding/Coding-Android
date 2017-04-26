@@ -88,7 +88,7 @@
             android:layout_marginLeft="@dimen/padding_12"
             android:layout_toRightOf="@id/icon"
             android:text="1小时前"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <ImageView
@@ -217,7 +217,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="来自 iPhone 6"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="13sp" />
 
         <RelativeLayout
@@ -256,7 +256,7 @@
                 android:paddingLeft="9dp"
 
                 android:textSize="14sp"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:text="0"
                 tools:text="55"
                 android:button="@drawable/checkbox_good"
@@ -271,7 +271,7 @@
                 android:id="@+id/rewardCount"
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:gravity="center"
                 tools:text="2"/>
 

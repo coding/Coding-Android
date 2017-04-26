@@ -27,7 +27,7 @@
             android:ems="10"
             android:hint="输入企业名称"
             android:inputType="text"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textColorHint="#38000000"
             android:textSize="16sp" />
     </FrameLayout>

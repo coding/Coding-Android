@@ -16,7 +16,7 @@
         android:paddingLeft="@dimen/padding_12"
         android:singleLine="true"
         android:text="一台一台"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="14sp" />
 
 </LinearLayout>

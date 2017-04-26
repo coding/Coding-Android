@@ -50,7 +50,7 @@
         android:layout_below="@id/layoutContent"
         android:layout_marginTop="10dp"
         android:text="超级小胖纸"
-        android:textColor="@color/font_6"
+        android:textColor="@color/font_2"
         android:textSize="12sp" />
 
     <TextView
@@ -64,7 +64,7 @@
         android:drawablePadding="5dp"
 
         android:text="3分钟前"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
 </RelativeLayout>

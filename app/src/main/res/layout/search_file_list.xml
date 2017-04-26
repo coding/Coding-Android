@@ -38,7 +38,7 @@
         android:layout_marginLeft="15dp"
         android:singleLine="true"
         android:layout_marginRight="20dp"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
     <TextView
         android:id="@+id/txtContent"
@@ -51,6 +51,6 @@
         android:layout_marginLeft="15dp"
         android:singleLine="true"
         android:layout_marginRight="20dp"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 </RelativeLayout>

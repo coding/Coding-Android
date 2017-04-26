@@ -43,7 +43,7 @@
             android:layout_marginBottom="5dp"
             android:singleLine="true"
             android:text="cc"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="15sp" />
 
     </RelativeLayout>

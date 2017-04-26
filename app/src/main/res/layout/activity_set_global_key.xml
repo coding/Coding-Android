@@ -20,7 +20,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="您还未设置过用户名(个性后缀)\n 设置后才能正常登录!"
             android:gravity="center_vertical|center_horizontal"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:lineSpacingExtra="3dp"
             android:textSize="14sp"
             />

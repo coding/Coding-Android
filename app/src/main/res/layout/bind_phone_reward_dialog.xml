@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
-        android:textColor="@color/font_6"
+        android:textColor="@color/font_2"
         android:visibility="visible"
         android:text="获得 0.1 MB 的奖励"
         tools:visibility="visible" />

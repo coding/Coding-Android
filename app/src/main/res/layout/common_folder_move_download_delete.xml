@@ -24,7 +24,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="下载"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
         </FrameLayout>
 
@@ -47,7 +47,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="移动"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
         </FrameLayout>
@@ -71,7 +71,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="删除"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
         </FrameLayout>
     </LinearLayout>

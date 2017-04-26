@@ -80,7 +80,7 @@
                 android:singleLine="true"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="14sp"
                 android:visibility="gone" />
 

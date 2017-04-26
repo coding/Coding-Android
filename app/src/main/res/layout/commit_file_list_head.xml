@@ -37,7 +37,7 @@
             android:layout_marginRight="@dimen/padding_15"
             android:layout_toRightOf="@+id/icon"
             android:text="chenchao"
-            android:textColor="@color/font_6" />
+            android:textColor="@color/font_2" />
 
         <TextView
             android:id="@+id/time"
@@ -47,7 +47,7 @@
             android:layout_marginBottom="1dp"
             android:layout_toRightOf="@+id/name"
             android:text="Small Text"
-            android:textColor="@color/font_9" />
+            android:textColor="@color/font_3" />
 
         <TextView
             android:id="@+id/mergeId"

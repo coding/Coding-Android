@@ -107,7 +107,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             if (item.getOptionName().isEmpty()) {
                 titleString = item.getName();
             } else {
-                String titleFormat = "%s <font color=#666666><small>%s</small></font>";
+                String titleFormat = "%s <font color=#425063><small>%s</small></font>";
                 titleString = String.format(titleFormat, item.getName(), item.getOptionName());
             }
             holder.goodTitle.setText(Html.fromHtml(titleString));

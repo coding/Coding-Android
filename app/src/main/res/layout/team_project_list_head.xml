@@ -17,7 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/padding_15"
         android:text="Medium Text"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="13sp" />
 
     <View

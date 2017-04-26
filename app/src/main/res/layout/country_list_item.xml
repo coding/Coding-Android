@@ -52,7 +52,7 @@
         <TextView
             android:id="@+id/countryPhone"
             android:layout_width="wrap_content"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />

@@ -23,6 +23,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
@@ -491,7 +492,7 @@ public class MergeDetailActivity extends BackActivity {
         };
         String action = "";
         final int[] styleColors = new int[]{
-                0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xffac8cd3, 0xff666666
+                0xff3bbd79, 0xfffb3b30, 0xff3bbd79, 0xffac8cd3, CodingColor.font2
         };
 
         for (int i = 0; i < styles.length; ++i) {
@@ -849,7 +850,7 @@ public class MergeDetailActivity extends BackActivity {
             View arrow = reviewers.findViewById(R.id.arrow);
             if (role == 1) {
                 tv.setText("添加");
-                tv.setTextColor(getResources().getColor(R.color.font_9));
+                tv.setTextColor(getResources().getColor(R.color.font_3));
                 tv.setCompoundDrawables(null, null, null, null);
                 arrow.setVisibility(View.VISIBLE);
             } else if (role == 3) {

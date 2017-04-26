@@ -39,7 +39,7 @@
         android:gravity="start"
         android:hint="输入评论"
         android:minHeight="600dp"
-        android:textColor="@color/font_6" />
+        android:textColor="@color/font_2" />
 
     <View
         android:layout_width="match_parent"

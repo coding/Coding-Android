@@ -27,7 +27,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="新建文件夹"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
         </FrameLayout>
@@ -53,7 +53,7 @@
                 android:drawablePadding="@dimen/project_action_icon_text"
                 android:gravity="center"
                 android:text="上传文件"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
         </FrameLayout>

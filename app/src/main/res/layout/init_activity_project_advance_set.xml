@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="删除项目将会连同其相关的所有数据（包括 issues ,pull requests, 动态等在内）一起删除"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <TextView

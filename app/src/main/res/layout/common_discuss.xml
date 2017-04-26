@@ -10,6 +10,6 @@
     android:gravity="left"
     android:singleLine="true"
     android:text="333"
-    android:textColor="@color/font_9"
+    android:textColor="@color/font_3"
     android:textSize="12sp"
     tools:showIn="@layout/fragment_task_list_item" />

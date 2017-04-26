@@ -54,7 +54,7 @@
                     android:layout_below="@id/subject_list_item_content"
                     android:layout_marginTop="@dimen/padding_12"
                     android:text="213人参与"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
             </RelativeLayout>

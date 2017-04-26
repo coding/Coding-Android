@@ -50,7 +50,7 @@
                 android:layout_alignBottom="@id/userIcon"
                 android:layout_marginBottom="3dp"
                 android:layout_toRightOf="@id/userIcon"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="13sp"
                 tools:text="个性后缀" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:text="项目"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:text="团队"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -181,7 +181,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="13sp"
             android:text="企业账户管理中心" />
 

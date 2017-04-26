@@ -34,7 +34,7 @@
             android:ellipsize="end"
             android:gravity="right"
             android:text="男"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="16sp" />
 
     </RelativeLayout>
@@ -55,7 +55,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="16sp"
         tools:text="男" />
 

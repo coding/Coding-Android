@@ -52,7 +52,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="Medium Text"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <RelativeLayout
@@ -70,7 +70,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="下载中...(0.0KB/135KB)"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
             <LinearLayout

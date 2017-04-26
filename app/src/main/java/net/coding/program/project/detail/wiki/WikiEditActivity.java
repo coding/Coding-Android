@@ -3,6 +3,7 @@ package net.coding.program.project.detail.wiki;
 import android.support.annotation.NonNull;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.event.EventRefresh;
@@ -47,7 +48,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
         useToolbar();
 
         SegmentedGroup segmented = (SegmentedGroup) findViewById(R.id.segmented);
-        segmented.setTintColor(0xFF425063);
+        segmented.setTintColor(CodingColor.font2);
 
         modifyData.title = wiki.title;
         modifyData.content = wiki.content;

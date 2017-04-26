@@ -59,7 +59,7 @@
             android:layout_marginTop="7dp"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_9" />
+            android:textColor="@color/font_3" />
 
         <View
             android:id="@+id/iconPrivate"

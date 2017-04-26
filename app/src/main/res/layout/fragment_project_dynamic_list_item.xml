@@ -42,7 +42,7 @@
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="3dp"
             android:text="1111"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:maxLines="3"
             android:ellipsize="end"
             android:textSize="14sp" />
@@ -61,7 +61,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/ic_clock"
             android:drawablePadding="2dp"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="11sp"
             tools:text="09:12" />
 

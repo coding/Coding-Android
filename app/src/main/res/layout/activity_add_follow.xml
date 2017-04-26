@@ -12,7 +12,7 @@
         android:layout_height="48dp"
         android:gravity="center"
         android:background="@color/stand_bg"
-        android:textColor="@color/font_6"
+        android:textColor="@color/font_2"
         android:textSize="14sp"
         tools:text="你还可以添加 4 个项目成员" />
 
@@ -60,7 +60,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="1"
                     android:text="我的关注"
-                    android:textColor="@color/font_6"
+                    android:textColor="@color/font_2"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -92,7 +92,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="1"
                     android:text="我的粉丝"
-                    android:textColor="@color/font_6"
+                    android:textColor="@color/font_2"
                     android:textSize="16sp" />
 
             </LinearLayout>

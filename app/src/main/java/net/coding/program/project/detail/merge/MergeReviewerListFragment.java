@@ -185,7 +185,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                         holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_green));
                     } else {
                         holder.reviewerStatus.setText("未评审");
-                        holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_9));
+                        holder.reviewerStatus.setTextColor(getResources().getColor(R.color.font_3));
                         holder.invitee.setVisibility(View.GONE);
                     }
                 }

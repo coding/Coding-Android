@@ -54,7 +54,7 @@
         <item name="android:textColorPrimary">@color/font_green</item>
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-        <item name="android:actionMenuTextColor">@color/font_6</item>
+        <item name="android:actionMenuTextColor">@color/font_2</item>
 
         <item name="colorPrimary">@drawable/color_primary</item>
         <item name="actionMenuTextColor">@color/font_green</item>
@@ -143,7 +143,7 @@
 
         <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
         <item name="android:textColorPrimary">@color/font_green</item>
-        <item name="android:actionMenuTextColor">@color/font_6</item>
+        <item name="android:actionMenuTextColor">@color/font_2</item>
         <item name="colorPrimary">@drawable/color_primary</item>
         <item name="actionMenuTextColor">@color/font_green</item>
     </style>
@@ -285,7 +285,7 @@
     <style name="SingleLineEditText" parent="@android:style/Widget.EditText">
         <item name="android:textCursorDrawable">@drawable/edittext_cursor</item>
         <item name="android:background">@null</item>
-        <item name="android:textColor">@color/font_6</item>
+        <item name="android:textColor">@color/font_2</item>
         <item name="android:textColorHint">@color/addjob_radio_text_gray</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -401,7 +401,7 @@
         <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:drawablePadding">9dp</item>
         <item name="android:drawableLeft">@drawable/maopao_extra_comment</item>
     </style>
@@ -416,7 +416,7 @@
 
     <style name="TopicWatchCount">
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -426,7 +426,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:drawablePadding">3dp</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
     </style>
 
     <style name="BottomTabTitle">
@@ -472,7 +472,7 @@
         <item name="android:drawablePadding">7dp</item>
         <item name="android:textSize">13sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
@@ -480,7 +480,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -504,7 +504,7 @@
         <item name="android:layout_marginTop">25dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:gravity">center</item>
-        <item name="rv_backgroundColor">@color/color_enterprise_button</item>
+        <item name="rv_backgroundColor">@color/font_2</item>
         <item name="android:textSize">15sp</item>
         <item name="rv_cornerRadius">4dp</item>
     </style>

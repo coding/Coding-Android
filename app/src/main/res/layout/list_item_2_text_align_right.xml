@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:gravity="right"
         android:text="男"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="16sp" />
 
 </RelativeLayout>

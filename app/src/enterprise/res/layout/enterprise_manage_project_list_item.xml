@@ -41,7 +41,7 @@
         android:layout_toRightOf="@id/icon"
         android:lines="1"
         tools:text="15 人"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
 </RelativeLayout>

@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text=""
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp"
                 tools:text="0 MB" />
 

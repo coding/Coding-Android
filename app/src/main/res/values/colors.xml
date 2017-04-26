@@ -7,15 +7,15 @@
     <color name="font_blank">@color/white</color>
 
     <color name="font_1">#323A45</color>
+    <color name="font_2">#425063</color>
 
     <!--待修改颜色-->
     <drawable name="divide">#F2F4F6</drawable>
 
     <color name="font_green">#ff3bbd79</color>
 
-    <color name="font_6">#666666</color>
-    <color name="font_9">#999999</color>
-    <color name="font_a">#A9B3BE</color>
+    <color name="font_3">#999999</color>
+    <color name="font_4">#A9B3BE</color>
 
 
     <color name="font_yellow">#FFAE9651</color>
@@ -27,9 +27,24 @@
 
     <!--结束-->
 
+    <!--待修改色值 start -->
+    <!--<drawable name="divide">#F2F4F6</drawable>-->
+    <!--<color name="stand_bg">#ffffff</color>-->
+    <!--<color name="divide_line">#D8DDE4</color>-->
+
+    <!--<color name="font_Dark_3”>#76808E</color>-->
+    <!--<color name="font_Dark_3”>#A9B3BE</color>-->
+
+    <!--<color name="font_green">#2EBE76</color>-->
+    <!--<color name="font_yellow">#F3C033</color>-->
+    <!--<color name="font_orange">#F68435</color>-->
+    <!--<color name="font_red">#F56061</color>-->
+    <!--<color name="font_Pink">#F75288</color>-->
+    <!--<color name="font_blue">#5BA2FF</color>-->
+    <!--待修改色值 end -->
+
 
     <drawable name="line_gray">#ffc7cacc</drawable>
-    <color name="gray">#FF323A45</color>
 
     <drawable name="color_primary">#FFF8F8F8</drawable>
     <drawable name="color_primary_dark">#494E57</drawable>
@@ -68,7 +83,7 @@
 
     <color name="list_font_disable">#FFA9B3BE</color>
     <color name="list_font_title">#FF1E2D42</color>
-    <color name="list_font_enable">#FF425063</color>
+    <color name="list_font_enable">@color/font_2</color>
 
     <color name="stand_tab_bg">#ffffff</color>
     <color name="bg_fa">#e2e2e2</color>
@@ -104,7 +119,7 @@
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="possible_result_points">#c0ffff00</color>
-    <color name="font_black_e" >@color/divide</color>
+    <color name="font_black_e">@color/divide</color>
     <color name="color_F6F6F6">#f6f6f6</color>
     <color name="color_3BBD79">#3BBD79</color>
     <color name="color_2EBE76">#2EBE76</color>
@@ -118,12 +133,10 @@
     <color name="color_f8f8f8">#f8f8f8</color>
     <color name="color_B5B5B5">#B5B5B5</color>
     <color name="color_FDF2CB">#FDF2CB</color>
-    <color name="color_FAFAFA">#FAFAFA </color>
+    <color name="color_FAFAFA">#FAFAFA</color>
     <color name="color_32BE77">#32BE77</color>
 
     <color name="popDialogBg">#99000000</color>
-
-    <color name="color_enterprise_button">#FF425063</color>
 
     <color name="addjob_radio_text_gray">#ffcccccc</color>
     <color name="addjob_text_blue">#ff30A8E1</color>

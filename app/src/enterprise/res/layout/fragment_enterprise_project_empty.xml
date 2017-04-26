@@ -34,7 +34,7 @@
             android:layout_marginTop="22dp"
             android:lineSpacingMultiplier="1.5"
             android:text="这里一个项目都没有，赶快行动起来"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <Button
@@ -44,7 +44,7 @@
             android:layout_below="@+id/tv_none"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="21dp"
-            android:background="@color/color_enterprise_button"
+            android:background="@color/font_2"
             android:text="+  创建项目"
             android:textColor="@color/white"
             android:textSize="15sp" />

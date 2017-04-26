@@ -39,7 +39,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/icon"
         android:lines="1"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp"
         tools:text="15 人" />
 

@@ -42,7 +42,7 @@
         android:layout_toRightOf="@id/icon"
         android:singleLine="true"
         android:text="Medium Text"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
     <TextView
@@ -59,6 +59,6 @@
         android:drawablePadding="6dp"
         android:singleLine="true"
         android:text="Medium Text"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 </RelativeLayout>

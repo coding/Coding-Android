@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF425063"
+        android:background="@color/font_2"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -26,7 +26,7 @@
         android:layout_height="180dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:background="#FF425063">
+        android:background="@color/font_2">
 
         <net.coding.program.common.widget.CircleImageView
             android:id="@+id/companyIcon"
@@ -79,7 +79,7 @@
             android:layout_toRightOf="@id/icon"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="13sp"
             tools:text="15天" />
 

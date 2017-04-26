@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp"
             android:text="项目" />
 
@@ -47,7 +47,7 @@
             android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="14sp"
             tools:text="10" />
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp"
             android:text="成员" />
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             tools:text="10" />
     </LinearLayout>
 

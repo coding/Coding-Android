@@ -124,7 +124,7 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
         iconPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconPadding, dm);
 
-        tabTextColor = getColor(net.coding.program.R.color.font_6);
+        tabTextColor = getColor(net.coding.program.R.color.font_2);
 
         // get system attrs (android:textSize and android:textColor)
 

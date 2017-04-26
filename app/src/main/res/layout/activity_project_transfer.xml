@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="注意： 项目转让后，你将不再是“项目所有者”，你将失去某些管理权限（如添加成员、开启演示、删除项目等）。同时，项目转让后，项目的git 仓库访问路径会发生变化，例如：用户 Coding 将项目转给用户 Demo 后， git 仓库访问路径将由 https://git.coding.net/coding/test.git 变成 https://git.coding.net/demo/test.git"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="chenchao陈超"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="16sp" />
 
         <ImageView

@@ -45,7 +45,7 @@
             android:id="@+id/content"
             android:lineSpacingExtra="2dp"
             android:textSize="12sp"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             tools:text="这是 Coding 产品设计部使用团队，专门用于管理产品设计相关项目。 "
             android:layout_height="wrap_content" />
 

@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             tools:text="邮箱"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="18sp" />
 
     </RelativeLayout>
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="未绑定"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_list_right_arr"
             android:textSize="18sp" />
@@ -100,7 +100,7 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_list_right_arr"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="18sp"
             android:text="未绑定" />
 

@@ -70,7 +70,7 @@
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:text="搜索项目名称或创建人的用户名\n都可以进行项目搜索哦！"
-            android:textColor="@color/font_9" />
+            android:textColor="@color/font_3" />
 
     </LinearLayout>
 

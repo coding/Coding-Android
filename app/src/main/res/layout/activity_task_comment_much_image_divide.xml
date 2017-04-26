@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="超级小胖纸"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
                 <TextView
@@ -123,7 +123,7 @@
                     android:drawableLeft="@drawable/ic_clock"
                     android:drawablePadding="5dp"
                     android:text="3分钟前"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
                 <TextView

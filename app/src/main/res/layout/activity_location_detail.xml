@@ -43,7 +43,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:text="位置"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="15sp" />
 
         <TextView

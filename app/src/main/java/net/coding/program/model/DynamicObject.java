@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
@@ -30,9 +31,9 @@ import java.util.HashMap;
  */
 public class DynamicObject {
 
-    static final String BLACK_HTML = "<font color='#666666'>%s</font>";
-    static final int BLACK_COLOR = 0XFF666666;
-    static final int BLACK_COLOR_9 = 0XFF999999;
+    static final String BLACK_HTML = "<font color='#425063'>%s</font>";
+    static final int BLACK_COLOR = CodingColor.font2;
+    static final int BLACK_COLOR_9 = CodingColor.font3;
 
     private static String createLink(String name, String link) {
         name = name.replaceAll("<a (?:.*?)>(.*?)</a>", "$1");

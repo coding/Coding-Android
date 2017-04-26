@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="恢复至该版本"
-            android:textColor="#FF425063"
+            android:textColor="@color/font_2"
             android:textSize="15sp" />
 
         <View style="@style/DivideLine" />

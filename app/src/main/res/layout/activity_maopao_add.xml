@@ -110,7 +110,7 @@
             android:singleLine="true"
             android:text=""
             android:textColor="@color/font_1"
-            android:textColorHint="@color/font_9"
+            android:textColorHint="@color/font_3"
             android:textSize="15sp" />
 
         <LinearLayout
