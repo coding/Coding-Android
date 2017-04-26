@@ -40,7 +40,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="@dimen/padding_12"
                 android:text="创建"
-                android:textColor="@color/green"
+                android:textColor="@color/font_green"
                 android:textSize="16sp" />
         </LinearLayout>
 

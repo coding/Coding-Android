@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -275,7 +274,6 @@ public class CountryPickActivity extends BackActivity {
 //                return 1;
 //            }
 
-            Log.d("", "dddddd " + section);
             String tagetLetter;
             if (section == 0) {
                 tagetLetter = TOP_SECTION;

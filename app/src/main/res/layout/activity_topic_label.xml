@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/padding_15"
                 android:layout_weight="1"
-                android:background="@drawable/transparent"
+                android:background="@null"
                 android:ellipsize="end"
                 android:hint="新增标签"
                 android:layout_marginLeft="14dp"
@@ -55,7 +55,7 @@
                 android:layout_height="30.7dp"
                 android:background="@drawable/topic_label_add_btn_bg"
                 android:gravity="center"
-                android:textColor="@color/green"
+                android:textColor="@color/font_green"
                 android:textSize="12sp" />
 
         </LinearLayout>

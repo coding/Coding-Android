@@ -32,7 +32,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="16dp"
-        fab:fab_colorNormal="@color/green" />
+        fab:fab_colorNormal="@color/font_green" />
 
     <include
         android:id="@+id/blankLayout"

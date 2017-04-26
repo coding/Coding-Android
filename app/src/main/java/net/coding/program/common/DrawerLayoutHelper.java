@@ -57,7 +57,7 @@ public class DrawerLayoutHelper {
         this.mFilterModel = filterModel;
         this.showLabelCount = false;
         font2 = mContext.getResources().getColor(R.color.font_2);
-        green = mContext.getResources().getColor(R.color.green);
+        green = mContext.getResources().getColor(R.color.font_green);
 
         this.drawerLayout = drawerLayout;
         this.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

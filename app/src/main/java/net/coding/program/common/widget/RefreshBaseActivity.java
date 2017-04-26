@@ -34,7 +34,7 @@ public abstract class RefreshBaseActivity extends BackActivity implements SwipeR
     protected final void initRefreshBaseActivity() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
     }
 
     protected final void disableRefreshing() {

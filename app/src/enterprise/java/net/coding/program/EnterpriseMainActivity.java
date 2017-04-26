@@ -27,8 +27,7 @@ public class EnterpriseMainActivity extends MainActivity {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_ENTERPRSE)) {
-            if (code == 0) {
-
+            if (code == 0) { // 服务过期了
                 EnterpriseDetail enterpriseDetail = new EnterpriseDetail(respanse.optJSONObject("data"));
                 if (enterpriseDetail.isLocked()) {
                     String title = "服务已暂停";
@@ -40,7 +39,7 @@ public class EnterpriseMainActivity extends MainActivity {
                             .show();
                 }
             } else {
-
+                // do nothing
             }
         } else {
             super.parseJson(code, respanse, tag, pos, data);

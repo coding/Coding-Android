@@ -7,6 +7,8 @@ import android.text.Layout;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.UnderlineSpan;
 
+import net.coding.program.common.CodingColor;
+
 /**
  * Created by chaochen on 15/1/12.
  */
@@ -18,7 +20,7 @@ public class GrayQuoteSpan extends UnderlineSpan implements LeadingMarginSpan {
 
     public GrayQuoteSpan() {
         super();
-        mColor = 0xffdddddd;
+        mColor = CodingColor.divideLine;
     }
 
     public GrayQuoteSpan(int color) {

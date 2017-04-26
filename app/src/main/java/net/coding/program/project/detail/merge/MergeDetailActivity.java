@@ -854,7 +854,7 @@ public class MergeDetailActivity extends BackActivity {
                 arrow.setVisibility(View.VISIBLE);
             } else if (role == 3) {
                 tv.setText("撤消 +1 ");
-                tv.setTextColor(getResources().getColor(R.color.green));
+                tv.setTextColor(getResources().getColor(R.color.font_green));
                 tv.setCompoundDrawables(null, null, null, null);
                 arrow.setVisibility(View.GONE);
             } else if (role == 2) {
@@ -863,7 +863,7 @@ public class MergeDetailActivity extends BackActivity {
                 up.setBounds(0, 0, up.getMinimumWidth(), up.getMinimumHeight());
                 tv.setCompoundDrawables(up, null, null, null);
                 arrow.setVisibility(View.GONE);
-                tv.setTextColor(getResources().getColor(R.color.green));
+                tv.setTextColor(getResources().getColor(R.color.font_green));
             }
             tv.setGravity(Gravity.CENTER);
         } else {

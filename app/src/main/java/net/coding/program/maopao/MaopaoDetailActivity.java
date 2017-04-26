@@ -210,7 +210,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         }
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         loadDataFromNetwork();
     }
 

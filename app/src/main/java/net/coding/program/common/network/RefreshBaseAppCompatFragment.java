@@ -26,7 +26,7 @@ public abstract class RefreshBaseAppCompatFragment extends BaseFragment implemen
     protected final void initRefreshLayout() {
         swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
     }
 
     protected final void disableRefreshing() {

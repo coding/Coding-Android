@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:cacheColorHint="@color/transparent"
             android:clipToPadding="false"
-            android:divider="@color/color_DDDDDD"
+            android:divider="@color/divide_line"
             android:footerDividersEnabled="false"
             android:dividerHeight="0.5dp"
             android:drawSelectorOnTop="true"

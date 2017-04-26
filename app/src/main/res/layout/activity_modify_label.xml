@@ -34,7 +34,7 @@
             android:layout_marginLeft="14dp"
             android:layout_marginRight="12dp"
             android:layout_weight="1"
-            android:background="@drawable/transparent"
+            android:background="@null"
             android:ellipsize="end"
             android:hint="标签名"
             android:maxLines="1"

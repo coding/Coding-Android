@@ -100,7 +100,7 @@ public class OrderMainActivity extends BackActivity {
 
         initHeader();
 
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             String host = String.format("%s/enterprise/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
             getNetwork(host, TAG_INFO);

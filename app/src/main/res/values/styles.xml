@@ -2,12 +2,12 @@
     <!-- 背景设为透明，用于启动和登录页面-->
     <!--<style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar">-->
     <style name="TranslateThemeFull" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="TranslateTheme" parent="ActionbarNoIcon">
-        <item name="android:windowBackground">@drawable/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="MyApp.PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
@@ -155,8 +155,8 @@
     </style>
 
     <style name="ThemeProject" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:colorControlNormal">@color/green</item>
+        <item name="android:textColorPrimary">@color/font_green</item>
+        <item name="android:colorControlNormal">@color/font_green</item>
 
         <item name="android:windowBackground">@color/white</item>
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>

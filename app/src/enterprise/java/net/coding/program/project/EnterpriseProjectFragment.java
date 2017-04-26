@@ -102,7 +102,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
                 R.layout.fragment_enterprise_project_empty);
 
         listView.setDefaultOnRefreshListener(() -> onRefresh());
-        listView.mSwipeRefreshLayout.setColorSchemeResources(R.color.green);
+        listView.mSwipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         listView.setOnLoadMoreListener((itemsCount, maxLastVisiblePosition) -> loadMore());
 
 

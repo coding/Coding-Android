@@ -40,6 +40,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_float_button_add"
         fab:fab_colorNormal="@color/font_green"
-        fab:fab_colorPressed="@color/font_green_1" />
+        fab:fab_colorPressed="@color/font_green" />
 
 </RelativeLayout>

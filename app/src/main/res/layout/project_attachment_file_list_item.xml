@@ -179,7 +179,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="查看"
-            android:textColor="@color/green"
+            android:textColor="@color/font_green"
             android:visibility="gone" />
 
         <RelativeLayout

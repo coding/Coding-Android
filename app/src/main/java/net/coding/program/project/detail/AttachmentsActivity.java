@@ -523,7 +523,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             loadMore();
         });
 
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
 
         setActionBarTitle(mAttachmentFolderObject.name);
 

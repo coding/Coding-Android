@@ -123,7 +123,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     @AfterViews
     protected final void initTopicListDetailActivity() {
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         mFootUpdate.init(listView, mInflater, this);
 
         showDialogLoading();
