@@ -111,6 +111,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:design:$supportVersion"
+    compile "com.android.support:percent:$supportVersion"
 
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'

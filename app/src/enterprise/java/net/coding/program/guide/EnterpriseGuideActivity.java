@@ -125,7 +125,7 @@ public class EnterpriseGuideActivity extends AppCompatActivity {
         setPoint(ball1, width);
         setPoint(ball2, width);
 
-        int halfWidth = width / 2;
+        int halfWidth = width / 4;
 
         ObjectAnimator ballAnimator = ObjectAnimator.ofFloat(ball0, "translationX", 0, halfWidth, 0, -halfWidth, 0).setDuration(20 * 1000);
         ballAnimator.setRepeatCount(ObjectAnimator.INFINITE);

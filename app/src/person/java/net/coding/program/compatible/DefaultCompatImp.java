@@ -15,7 +15,6 @@ import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.MyDetailActivity_;

@@ -7,15 +7,17 @@
     android:background="@color/white"
     tools:context="net.coding.program.guide.EnterpriseGuideActivity">
 
-    <RelativeLayout
+    <android.support.percent.PercentRelativeLayout
         android:id="@+id/pager1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/gifView"
-            android:layout_width="230dp"
-            android:layout_height="195dp"
+            android:layout_width="0dp"
+            app:layout_widthPercent="64%"
+            app:layout_aspectRatio="118%"
+            android:layout_height="0dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp" />
 
@@ -40,7 +42,7 @@
             android:textColor="#FF425063"
             android:textSize="17sp" />
 
-    </RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
 
     <RelativeLayout
         android:id="@+id/pager0"
@@ -97,13 +99,13 @@
             android:id="@+id/page0Title0"
             android:layout_width="match_parent"
             android:layout_height="47.5dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
             android:layout_marginTop="80dp"
             android:gravity="left|center_vertical"
             android:text="欢迎来到"
             android:textColor="#FF425063"
-            android:textSize="30sp" />
+            android:textSize="@dimen/guide_0_title" />
 
         <TextView
             android:id="@+id/page0Title1"
@@ -115,7 +117,7 @@
             android:gravity="left|center_vertical"
             android:text="Coding Enterprise"
             android:textColor="@color/font_green"
-            android:textSize="30sp" />
+            android:textSize="@dimen/guide_0_title" />
 
         <TextView
             android:layout_width="match_parent"
@@ -126,7 +128,8 @@
             android:layout_marginTop="40dp"
             android:text="Coding Enterprise 是 CODING 专为企业打造的软件开发协作平台，让企业更好地管理项目成员，便捷而深入地把握开发进度，让开发流程更高效。"
             android:textColor="#FF425063"
-            android:textSize="15sp" />
+            android:lineSpacingExtra="@dimen/guide_0_content_line_space"
+            android:textSize="@dimen/guide_0_content" />
 
     </RelativeLayout>
 
