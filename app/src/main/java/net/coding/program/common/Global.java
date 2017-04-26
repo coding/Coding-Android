@@ -138,8 +138,12 @@ public class Global {
     }
 
     public static Spanned createColorHtml(String begin, String middle, String end, int color) {
-        String colorString = String.format("#%06X", 0xFFFFFF & color);
+        String colorString = colorToString(color);
         return createColorHtml(begin, middle, end, colorString);
+    }
+
+    public static String colorToString(int color) {
+        return String.format("#%06X", 0xFFFFFF & color);
     }
 
     public static Spanned createColorHtml(String begin, String middle, String end, String color) {
@@ -403,7 +407,7 @@ public class Global {
         String parse = HtmlContent.parseToText(content);
 
         Spannable s = (Spannable) Html.fromHtml(parse, imageGetter, null);
-        return getCustomSpannable(0xff999999, s);
+        return getCustomSpannable(CodingColor.font3, s);
     }
 
     static public void cropImageUri(StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {

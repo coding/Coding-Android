@@ -82,7 +82,7 @@
                     style="@style/BaseListText"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="10dp"
-                    android:textColor="#FF76808E"
+                    android:textColor="@color/font_2"
                     android:textSize="14sp"
                     tools:text="过期时间 2017 年 2月 25 日，已超时使用 2 天。" />
 

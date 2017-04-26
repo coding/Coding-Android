@@ -8,7 +8,7 @@
     android:layout_centerVertical="true"
     android:padding="5dp"
     android:text="已关注"
-    android:textColor="@color/tab_font_no_active"
+    android:textColor="@color/font_2"
     android:textSize="12sp"
     app:rv_backgroundColor="@color/divide"
     app:rv_cornerRadius="2dp"

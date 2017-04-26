@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.UserObject;
@@ -220,7 +221,7 @@ public class BaseUsersArea {
             lp.leftMargin = imageMargin;
             lp.rightMargin = imageMargin;
             textView.setBackgroundResource(R.drawable.ic_bg_good_count);
-            textView.setTextColor(0xffffffff);
+            textView.setTextColor(CodingColor.fontWhite);
             textView.setVisibility(View.GONE);
             textView.setOnClickListener(onClickLikeUsrs);
 

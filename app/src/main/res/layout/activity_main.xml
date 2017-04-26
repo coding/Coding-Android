@@ -36,7 +36,7 @@
             android:layout_alignParentBottom="true"
             android:background="#88f8f8f8"
             app:bb_activeTabColor="@color/font_green"
-            app:bb_inActiveTabColor="@color/tab_font_no_active"
+            app:bb_inActiveTabColor="@color/font_2"
             app:bb_showShadow="true"
             app:bb_tabXmlResource="@xml/bottombar_tabs"
             app:bb_titleTextAppearance="@style/BottomTabTitle" />

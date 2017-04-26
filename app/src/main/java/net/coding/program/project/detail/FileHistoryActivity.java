@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
@@ -364,10 +365,10 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             }
 
             if (position == 0) {
-                holder.icon_txt.setTextColor(0xffffffff);
+                holder.icon_txt.setTextColor(CodingColor.fontWhite);
                 holder.icon_txt.setBackgroundResource(R.drawable.round_rect_file_history_orange);
             } else {
-                holder.icon_txt.setTextColor(0xff808080);
+                holder.icon_txt.setTextColor(CodingColor.font3);
                 holder.icon_txt.setBackgroundResource(R.drawable.round_rect_file_history_gray);
             }
 

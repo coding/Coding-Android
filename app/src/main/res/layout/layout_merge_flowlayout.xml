@@ -21,7 +21,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="merge_request"
-        android:textColor="@color/merge_gray" />
+        android:textColor="@color/font_3" />
 
     <View
         android:layout_width="13dp"
@@ -41,7 +41,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="master"
-        android:textColor="@color/merge_gray" />
+        android:textColor="@color/font_3" />
 </org.apmem.tools.layouts.FlowLayout>
 
     

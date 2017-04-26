@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/padding_12"
                                 android:text="您的帐户开启了两步验证，请输入动态验证码登录"
-                                android:textColor="#FF76808E" />
+                                android:textColor="@color/font_2" />
 
                             <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/edit2FA"

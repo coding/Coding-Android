@@ -4,6 +4,7 @@ import android.text.Spannable;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 
 import org.json.JSONArray;
@@ -215,10 +216,10 @@ public class MergeObject implements Serializable {
                 color = "#B17EDD";
                 return "不可自动合并";
             case STYLE_CANNEL:
-                color = "#999999";
+                color = CodingColor.fon3String;
                 return "已取消";
             default:
-                color = "#999999";
+                color = CodingColor.fon3String;
                 return "已取消";
         }
     }

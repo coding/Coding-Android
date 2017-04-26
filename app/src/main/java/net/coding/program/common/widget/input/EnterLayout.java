@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
@@ -248,10 +249,10 @@ public abstract class EnterLayout implements InputAction {
 
         if (sendButtonEnable()) {
             sendText.setBackgroundResource(R.drawable.edit_send_green);
-            sendText.setTextColor(0xffffffff);
+            sendText.setTextColor(CodingColor.fontWhite);
         } else {
             sendText.setBackgroundResource(R.drawable.edit_send);
-            sendText.setTextColor(0xff999999);
+            sendText.setTextColor(CodingColor.font3);
         }
     }
 

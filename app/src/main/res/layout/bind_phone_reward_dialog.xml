@@ -65,11 +65,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="知道了"
-            android:textColor="#76808E"
+            android:textColor="@color/font_2"
             android:textSize="18sp"
             app:rv_cornerRadius="4dp"
             app:rv_strokeColor="@color/divide_line"
-
             app:rv_strokeWidth="1dp" />
 
 

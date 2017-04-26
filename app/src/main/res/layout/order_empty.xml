@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
         android:text="还没有订购记录～"
-        android:textColor="#FF76808E"
+        android:textColor="@color/font_2"
         android:textSize="15sp" />
 
 </RelativeLayout>

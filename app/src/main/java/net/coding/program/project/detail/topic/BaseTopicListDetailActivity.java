@@ -18,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
@@ -365,10 +366,10 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             voteView.setText(String.format("+%s", comment.upvotecounts));
             if (findVoteOwnerWithMe(comment.upVoteUsers) == null) {
                 voteView.setBackgroundResource(R.drawable.shape_vote_no);
-                voteView.setTextColor(0xff999999);
+                voteView.setTextColor(CodingColor.font3);
             } else {
                 voteView.setBackgroundResource(R.drawable.shape_vote);
-                voteView.setTextColor(0xffffffff);
+                voteView.setTextColor(CodingColor.fontWhite);
             }
             voteView.setTag(comment);
 

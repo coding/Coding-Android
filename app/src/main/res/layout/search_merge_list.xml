@@ -36,7 +36,7 @@
         android:gravity="center"
         android:text="merss"
         android:singleLine="true"
-        android:textColor="@color/merge_gray"
+        android:textColor="@color/font_3"
         android:textSize="14sp" />
 
     <View
@@ -61,7 +61,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="merss"
-        android:textColor="@color/merge_gray"
+        android:textColor="@color/font_3"
         android:textSize="14sp" />
 
     <!--<TextView-->

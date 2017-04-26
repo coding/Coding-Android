@@ -34,7 +34,7 @@
             android:layout_below="@id/wikiTitle"
             android:layout_marginTop="10dp"
             android:text="@{wiki.titleTip}"
-            android:textColor="#FF76808E"
+            android:textColor="@color/font_2"
             android:textSize="12sp" />
 
         <View
