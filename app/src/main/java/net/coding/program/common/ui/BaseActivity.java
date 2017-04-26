@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
@@ -64,7 +65,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     }
 
     protected View.OnFocusChangeListener createEditLineFocus(View line) {
-        return (v, hasFocus) -> line.setBackgroundColor(hasFocus ? 0xFF323A45 : 0xFFD8DDE4);
+        return (v, hasFocus) -> line.setBackgroundColor(hasFocus ? 0xFF323A45 : CodingColor.divideLine);
     }
 
     /**

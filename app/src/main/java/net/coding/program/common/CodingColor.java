@@ -17,9 +17,21 @@ public class CodingColor {
         fontGreen = r.getColor(R.color.font_green);
         fontYellow = r.getColor(R.color.font_yellow);
         divideLine = r.getColor(R.color.divide_line);
+
+        fontWhite = r.getColor(R.color.font_white);
+        font1 = r.getColor(R.color.font_2);
+        font2 = r.getColor(R.color.font_6);
+        font3 = r.getColor(R.color.font_9);
+        font4 = r.getColor(R.color.font_a);
     }
 
     public static int fontGreen;
     public static int fontYellow;
     public static int divideLine;
+
+    public static int fontWhite;
+    public static int font1;
+    public static int font2;
+    public static int font3;
+    public static int font4;
 }

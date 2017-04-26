@@ -1,20 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <!--修改过的颜色-->
-    <color name="transparent">#00000000</color>
-
-    <drawable name="divide">#F2F4F6</drawable>
-
-    <color name="stand_bg">#ffffff</color>
-
     <color name="divide_line">#D8DDE4</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="stand_bg">@color/white</color>
+    <color name="font_blank">@color/white</color>
+
+    <!--待修改颜色-->
+    <drawable name="divide">#F2F4F6</drawable>
 
     <color name="font_green">#ff3bbd79</color>
 
     <color name="font_2">#222222</color>
     <color name="font_6">#666666</color>
     <color name="font_9">#999999</color>
-    <color name="font_blank">#76808E</color>
+    <color name="font_a">#A9B3BE</color>
+
+
     <color name="font_yellow">#FFAE9651</color>
     <color name="font_bg_yellow">#FFFAF7D4</color>
 
@@ -22,7 +24,7 @@
     <color name="font_red">#FFF56061</color>
     <color name="font_blue">#ff2FAEEA</color>
 
-    <!--分割线-->
+    <!--结束-->
 
 
     <drawable name="line_gray">#ffc7cacc</drawable>
@@ -69,12 +71,8 @@
     <color name="list_font_title">#FF1E2D42</color>
     <color name="list_font_enable">#FF425063</color>
 
-    <color name="divide_line_e2">#ffe2e2e2</color>
-    <color name="divide_line_81">#ff818181</color>
-    <color name="search_divide_color">#e3e3e3</color>
-
     <color name="stand_tab_bg">#ffffff</color>
-    <color name="bg_fa">#fafafa</color>
+    <color name="bg_fa">#e2e2e2</color>
 
     <color name="spinner_black">#ff313743</color>
     <color name="spinner_divider">#ff252b37</color>

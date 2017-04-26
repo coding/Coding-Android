@@ -15,10 +15,7 @@
         android:textSize="15sp" />
 
     <View
+        style="@style/DivideLine_15"
         android:id="@+id/subject_search_hot_footer_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="@dimen/padding_12"
-        android:visibility="gone"
-        android:background="@color/search_divide_color" />
+        android:visibility="gone" />
 </LinearLayout>

@@ -113,10 +113,6 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="@dimen/padding_12"
-        android:background="@color/search_divide_color" />
+    <View style="@style/DivideLine15LeftRight" />
+
 </LinearLayout>

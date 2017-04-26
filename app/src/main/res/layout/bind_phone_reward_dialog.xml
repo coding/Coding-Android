@@ -68,7 +68,7 @@
             android:textColor="#76808E"
             android:textSize="18sp"
             app:rv_cornerRadius="4dp"
-            app:rv_strokeColor="#D8DDE4"
+            app:rv_strokeColor="@color/divide_line"
 
             app:rv_strokeWidth="1dp" />
 
