@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_project"
-        app:taskIconSize="33dp"
+        app:taskIconUser="true"
         app:taskText1="项目名"
         app:taskText2="未指定"
         app:taskTopLine="false" />
@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_user"
-        app:taskIconSize="33dp"
+        app:taskIconUser="true"
         app:taskText1="执行者"
         app:taskText2="cc" />
 

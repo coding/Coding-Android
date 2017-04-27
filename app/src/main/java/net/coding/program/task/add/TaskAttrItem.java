@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,8 +25,6 @@ public class TaskAttrItem extends FrameLayout {
 
         inflate(context, R.layout.task_attr_item, this);
 
-        mIcon = (ImageView) findViewById(R.id.circleIcon);
-
         mTextView1 = (TextView) findViewById(R.id.text1);
         mTextView2 = (TextView) findViewById(R.id.text2);
 
@@ -35,12 +32,15 @@ public class TaskAttrItem extends FrameLayout {
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TaskAttrItem);
 
-        int iconWidth = array.getDimensionPixelOffset(R.styleable.TaskAttrItem_taskIconSize, 0);
-        if (iconWidth > 0) {
-            ViewGroup.LayoutParams lp = mIcon.getLayoutParams();
-            lp.width = iconWidth;
-            lp.height = iconWidth;
-            mIcon.setLayoutParams(lp);
+        boolean showUser = array.getBoolean(R.styleable.TaskAttrItem_taskIconUser, false);
+        ImageView user = (ImageView) findViewById(R.id.userIcon);
+        ImageView normal = (ImageView) findViewById(R.id.circleIcon);
+        if (showUser) {
+            normal.setVisibility(GONE);
+            mIcon = user;
+        } else {
+            user.setVisibility(GONE);
+            mIcon = normal;
         }
 
         String text1 = array.getString(R.styleable.TaskAttrItem_taskText1);

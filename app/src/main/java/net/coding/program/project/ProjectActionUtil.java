@@ -66,7 +66,7 @@ public class ProjectActionUtil extends PopupWindow implements View.OnClickListen
 
     public void show(View parentView, int postion) {
         this.pos = postion;
-        showAsDropDown(parentView, -DensityUtil.dip2px(mContext, 24), -DensityUtil.dip2px(mContext, 107));
+        showAsDropDown(parentView, -DensityUtil.dip2px(mContext, 24), -DensityUtil.dip2px(mContext, 110));
     }
 
     @Override

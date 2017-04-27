@@ -4,7 +4,7 @@
     android:layout_height="105dp"
     android:text="设为常用"
     android:minWidth="120dp"
-    android:minHeight="105dp"
+    android:minHeight="110dp"
     android:gravity="center"
     android:id="@+id/txtSetting"
     android:textColor="@color/white"

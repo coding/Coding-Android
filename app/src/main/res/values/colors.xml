@@ -7,12 +7,12 @@
 
     <!--修改过的颜色-->
     <!--actionbar 的底色不能有透明度-->
-    <color name="color_primary">#FFFFFF</color>
+    <color name="color_primary">#FDFDFD</color>
     <color name="color_primary_dark">#494E57</color>
     <color name="text_color_primary">@color/font_green</color>
     <color name="windowBackground">@color/divide</color>
 
-    <color name="bottomColorPrimary">#CCFFFFFF</color>
+    <color name="bottomColorPrimary">#FDFDFD</color>
     <color name="color_bottom_bar">#F2FFFFFF</color>
 
     <color name="divide">#F2F4F6</color>
