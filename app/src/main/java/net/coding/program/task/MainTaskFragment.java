@@ -57,18 +57,4 @@ public class MainTaskFragment extends TaskFragment {
             }
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-//        View filterButton = getView().findViewById(R.id.action_filter);
-//        if (filterButton != null) {
-//            filterButton.setVisibility(View.INVISIBLE);
-//        }
-
-
-    }
-
 }

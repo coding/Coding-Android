@@ -6,7 +6,8 @@
     <color name="black">#ff000000</color>
 
     <!--修改过的颜色-->
-    <color name="color_primary">#F2FFFFFF</color>
+    <!--actionbar 的底色不能有透明度-->
+    <color name="color_primary">#FFFFFF</color>
     <color name="color_primary_dark">#494E57</color>
     <color name="text_color_primary">@color/font_green</color>
     <color name="windowBackground">@color/divide</color>

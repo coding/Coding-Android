@@ -48,6 +48,7 @@ import net.coding.program.common.ImageLoadTool;
 
 import java.util.Locale;
 
+
 public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
     // @formatter:off

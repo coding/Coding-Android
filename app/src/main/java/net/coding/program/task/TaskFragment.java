@@ -61,8 +61,8 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     protected MyPagerSlidingTabStrip tabs;
     @ViewById(R.id.pagerTaskFragment)
     protected ViewPager pager;
-    @ViewById
-    protected View actionDivideLine;
+//    @ViewById
+//    protected View actionDivideLine;
 
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mAllData = new ArrayList<>();
@@ -99,7 +99,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         });
 
         tabs.setVisibility(View.INVISIBLE);
-        actionDivideLine.setVisibility(View.INVISIBLE);
+//        actionDivideLine.setVisibility(View.INVISIBLE);
 
         initFilterViews();
         showLoading(true);
@@ -186,7 +186,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
                 jsonToData(jsonArray);
 
                 tabs.setVisibility(View.VISIBLE);
-                actionDivideLine.setVisibility(View.VISIBLE);
+//                actionDivideLine.setVisibility(View.VISIBLE);
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
                 hideActionBarShadow();

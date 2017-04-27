@@ -3,7 +3,7 @@ package net.coding.program;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ListView;
 
 import net.coding.program.common.Global;
 
@@ -43,7 +43,10 @@ public class FootUpdate {
     }
 
     private void init(Object listView, LayoutInflater inflater, final LoadMore loadMore, String callMethod) {
-        ViewGroup parent = (ViewGroup) listView;
+        ListView parent = null;
+        if (listView instanceof ListView) {
+            parent = (ListView) listView;
+        }
         View v = inflater.inflate(R.layout.listview_foot, parent, false);
 
         // 为了防止触发listview的onListItemClick事件
