@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View xmlns:tools="http://schemas.android.com/tools"
+    style="@style/DivideSectionBottom5"
+    tools:showIn="@layout/divide_10_top_bottom" />

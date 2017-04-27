@@ -269,11 +269,10 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         badgeComment.setVisibility(View.INVISIBLE);
         badgeSystem = (BadgeView) listHeader.findViewById(R.id.badgeSystem);
         badgeSystem.setVisibility(View.INVISIBLE);
-
         listView.addHeaderView(listHeader, null, false);
 
-        View footer = mInflater.inflate(R.layout.main_list_bottom_space, listView, false);
-        listView.addFooterView(footer);
+        View footer = mInflater.inflate(R.layout.divide_bottom, listView, false);
+        listView.addFooterView(footer, null, false);
     }
 
     private void startNotifyListActivity(int type) {
