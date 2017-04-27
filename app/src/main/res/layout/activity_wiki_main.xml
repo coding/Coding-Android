@@ -21,31 +21,34 @@
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/actionbar_shade"
+                app:elevation="@dimen/actionbar_shade">
 
                 <android.support.v7.widget.Toolbar
-                    app:layout_scrollFlags="scroll|enterAlways|snap"
                     android:id="@+id/toolbar"
-                    style="@style/Toolbar" />
+                    style="@style/Toolbar"
+                    app:layout_scrollFlags="scroll|enterAlways|snap" />
 
             </android.support.design.widget.AppBarLayout>
 
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/contentFrame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/stand_bg"
                     android:orientation="vertical">
 
                     <include layout="@layout/activity_wiki_detail_header" />
 
                     <WebView
                         android:id="@+id/webView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="?attr/actionBarSize"
                         android:layout_marginLeft="10dp"
@@ -61,9 +64,9 @@
                 android:layout_height="match_parent" />
 
             <FrameLayout
+                android:id="@+id/bottomBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:id="@+id/bottomBarLayout"
                 android:layout_gravity="bottom"
                 android:background="@color/bottom_white"
                 app:layout_behavior="net.coding.program.project.detail.wiki.BottomBarBehavior">
@@ -99,8 +102,7 @@
 
                 </LinearLayout>
 
-                <View
-                    style="@style/DivideLine" />
+                <View style="@style/DivideLine" />
 
             </FrameLayout>
 

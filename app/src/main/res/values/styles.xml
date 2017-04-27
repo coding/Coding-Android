@@ -492,6 +492,12 @@
         <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
     </style>
 
+    <style name="TextTabBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/stand_tab_bg</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

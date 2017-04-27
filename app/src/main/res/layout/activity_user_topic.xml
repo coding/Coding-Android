@@ -7,9 +7,7 @@
 
     <net.coding.program.third.WechatTab
         android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dip"
-        android:background="@android:color/transparent" />
+        style="@style/TextTabBar" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pagerFragmentProgram"

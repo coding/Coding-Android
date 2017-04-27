@@ -13,8 +13,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.melnykov.fab.FloatingActionButton;
-
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -38,7 +36,6 @@ import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.third.MyPagerSlidingTabStrip;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OnActivityResult;
@@ -68,9 +65,9 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @ViewById(R.id.pagerProjectTask)
     ViewPager pager;
     @ViewById
-    View blankLayout, actionDivideLine;
-    @ViewById
-    FloatingActionButton floatButton;
+    View blankLayout;
+//    @ViewById
+//    FloatingActionButton floatButton;
 
     ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<>();
     ArrayList<TaskObject.Members> mMembersAll = new ArrayList<>();
@@ -221,7 +218,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
                 tabs.setViewPager(pager);
                 tabs.setVisibility(View.VISIBLE);
-                actionDivideLine.setVisibility(View.VISIBLE);
+//                actionDivideLine.setVisibility(View.VISIBLE);
             } else {
                 showErrorMsg(code, respanse);
 
@@ -337,7 +334,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                     adapter.notifyDataSetChanged();
                     tabs.setViewPager(pager);
                     tabs.setVisibility(View.VISIBLE);
-                    actionDivideLine.setVisibility(View.VISIBLE);
+//                    actionDivideLine.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -354,7 +351,11 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         }
     }
 
-    @Click
+    @OptionsItem(R.id.action_add)
+    void actionAdd() {
+        floatButton();
+    }
+
     public final void floatButton() {
         TaskObject.Members member = adapter.getItemData(pager.getCurrentItem());
 

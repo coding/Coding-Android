@@ -7,15 +7,11 @@
     android:orientation="vertical"
     tools:context=".project.detail.ProjectTaskFragment">
 
-    <View
-        style="@style/DivideLine"
-        android:id="@+id/actionDivideLine" />
-
     <net.coding.program.third.MyPagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="77dip"
-        android:background="@color/stand_bg" />
+        android:layout_height="71dip"
+        android:background="@color/color_primary" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,16 +22,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/floatButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="24dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_float_button_add"
-            fab:fab_colorNormal="@color/font_green"
-            fab:fab_colorPressed="@color/font_green" />
+        <!--<com.melnykov.fab.FloatingActionButton-->
+            <!--android:id="@+id/floatButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|right"-->
+            <!--android:layout_marginBottom="24dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:src="@drawable/ic_float_button_add"-->
+            <!--fab:fab_colorNormal="@color/font_green"-->
+            <!--fab:fab_colorPressed="@color/font_green" />-->
 
     </FrameLayout>
 

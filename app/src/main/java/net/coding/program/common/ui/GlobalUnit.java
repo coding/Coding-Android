@@ -1,6 +1,8 @@
 package net.coding.program.common.ui;
 
-import net.coding.program.common.Global;
+import android.content.Context;
+
+import net.coding.program.R;
 
 /**
  * Created by chenchao on 16/9/22.
@@ -9,8 +11,8 @@ import net.coding.program.common.Global;
 
 public class GlobalUnit {
 
-    public static void init() {
-        ACTIONBAR_SHADOW = Global.dpToPx(2);
+    public static void init(Context context) {
+        ACTIONBAR_SHADOW = context.getResources().getDimensionPixelSize(R.dimen.actionbar_shade);
     }
 
     public static int ACTIONBAR_SHADOW;

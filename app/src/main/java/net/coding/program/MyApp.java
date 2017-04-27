@@ -154,7 +154,7 @@ public class MyApp extends MultiDexApplication {
         sUnread = new Unread();
 
         RedPointTip.init(this);
-        GlobalUnit.init();
+        GlobalUnit.init(this);
     }
 
     private void loadBaiduMap() {

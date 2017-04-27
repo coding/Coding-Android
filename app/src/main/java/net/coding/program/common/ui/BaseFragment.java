@@ -127,7 +127,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     }
 
     protected void setActionBarShadow(int dp) {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         if (actionBar != null) {
             actionBar.setElevation(Global.dpToPx(dp));
         }

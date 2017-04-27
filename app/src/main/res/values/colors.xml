@@ -71,7 +71,7 @@
     <color name="list_font_title">#FF1E2D42</color>
     <color name="list_font_enable">@color/font_2</color>
 
-    <color name="stand_tab_bg">#ffffff</color>
+    <color name="stand_tab_bg">@color/color_primary</color>
     <color name="bg_fa">#e2e2e2</color>
 
     <color name="spinner_black">#ff313743</color>

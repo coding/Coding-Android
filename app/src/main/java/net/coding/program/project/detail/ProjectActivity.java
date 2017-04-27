@@ -65,6 +65,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+//            appbar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
+//        }
+
         if (mJumpParam != null) {
             urlProject = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
             //setActionBarTitle(mJumpParam.mProject);
@@ -114,8 +119,13 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         try {
             if (mJumpType == ProjectFunction.task) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+//                    appbar.setElevation(0);
+//                }
             } else {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                toolbarProjectTitle.setBackgroundResource(0);
             }
 
             Class fragmentClass = mJumpType.fragment;
@@ -132,11 +142,6 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             mFragments.add(new WeakReference(fragment));
 
             toolbarProjectTitle.setText(mJumpType.title);
-
-            if (mJumpType != ProjectFunction.task) {
-                toolbarProjectTitle.setBackgroundResource(0);
-            }
-
 
         } catch (Exception e) {
             Global.errorLog(e);
