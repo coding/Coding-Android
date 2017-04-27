@@ -20,6 +20,7 @@ import com.melnykov.fab.FloatingActionButton;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -512,6 +513,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
             final TaskObject.SingleTask data = (TaskObject.SingleTask) getItem(position);
             holder.mTitle.setText("      " + data.content);
+            holder.mTitle.setTextColor(data.isDone() ? CodingColor.font4 : CodingColor.font1);
 
             holder.mRefId.setText(data.getNumber());
             holder.mName.setText(data.creator.name);
@@ -528,11 +530,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             final int pos = position;
 
             holder.mCheckBox.setOnCheckedChangeListener(null);
-            if (data.status == 1) {
-                holder.mCheckBox.setChecked(false);
-            } else {
-                holder.mCheckBox.setChecked(true);
-            }
+            holder.mCheckBox.setChecked(data.isDone());
 
             holder.mTaskDes.setVisibility(data.has_description ? View.VISIBLE : View.INVISIBLE);
 
@@ -556,11 +554,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
 
             int[] taskColors = new int[]{
-                    0xfff49f31,
-                    0xff97ba66,
-                    0xfff24b4b,
-                    0xffb2c6d0,
-                    0xffc7c8c7
+                    0xFFF68435,
+                    0xFFA1CF64,
+                    0xFFF56061,
+                    0xFF59A2FF,
+                    0xFFA9B3BE
             };
 
             if (data.deadline.isEmpty()) {

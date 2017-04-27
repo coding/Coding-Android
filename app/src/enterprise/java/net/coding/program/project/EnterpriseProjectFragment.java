@@ -79,7 +79,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     ProjectAdapter projectAdapter;
 
-
     private Comparator<ProjectObject> comparator = (lhs, rhs) -> {
         if (lhs.isPin() && !rhs.isPin()) {
             return -1;
@@ -97,7 +96,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(manager);
         RecyclerViewSpace space = new RecyclerViewSpace(getActivity());
-        space.setBottomSpace(56);
         listView.addItemDecoration(space);
         listView.setEmptyView(R.layout.fragment_enterprise_project_empty,
                 R.layout.fragment_enterprise_project_empty);

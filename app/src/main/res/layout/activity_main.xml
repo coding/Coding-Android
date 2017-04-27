@@ -8,41 +8,35 @@
     tools:context=".MainActivity">
 
     <!-- Your normal content view -->
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent" >
 
+        <!-- battomBar 的阴影是 4 dp -->
         <FrameLayout
-            android:id="@+id/frameLayout"
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="52dp" />
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <!--actionbar 的阴影，用在4.4上面-->
+        <include layout="@layout/actionbar_shadow" />
 
-            <!--actionbar 的阴影，用在4.4上面-->
-            <include layout="@layout/actionbar_shadow" />
+        <!--<View style="@style/DivideLine" />-->
 
-            <!--<View style="@style/DivideLine" />-->
-
-            <com.roughike.bottombar.BottomBar
-                android:id="@+id/bottomBar"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
-                android:background="@color/bottomColorPrimary"
-                app:bb_activeTabColor="@color/font_green"
-                app:bb_inActiveTabColor="@color/font_3"
-                app:bb_showShadow="true"
-                app:bb_tabXmlResource="@xml/bottombar_tabs"
-                app:bb_titleTextAppearance="@style/BottomTabTitle" />
-        </FrameLayout>
-
-    </LinearLayout>
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/bottomColorPrimary"
+            app:bb_activeTabColor="@color/font_green"
+            app:bb_inActiveTabColor="@color/font_3"
+            app:bb_showShadow="true"
+            app:bb_tabXmlResource="@xml/bottombar_tabs"
+            app:bb_titleTextAppearance="@style/BottomTabTitle" />
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,8 +8,7 @@
     android:drawableLeft="@drawable/ic_task_comment"
     android:drawablePadding="5dp"
     android:gravity="left"
-    android:singleLine="true"
+    android:lines="1"
     android:text="333"
     android:textColor="@color/font_3"
-    android:textSize="12sp"
-    tools:showIn="@layout/fragment_task_list_item" />
+    android:textSize="12sp" />
