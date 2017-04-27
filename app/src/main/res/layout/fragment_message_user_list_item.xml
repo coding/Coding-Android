@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/list_item_selector"
-    android:minHeight="66dp">
+    android:layout_height="70dp"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -12,8 +12,7 @@
         android:layout_height="@dimen/notify_main_icon_width"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginRight="@dimen/padding_15"
-        android:layout_marginTop="10dp" />
+        android:layout_marginRight="@dimen/padding_15" />
 
     <TextView
         android:id="@+id/title"
@@ -26,7 +25,7 @@
         android:layout_toStartOf="@+id/time"
         android:lines="1"
         android:textColor="@color/font_1"
-        android:textSize="16sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/time"
@@ -38,6 +37,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="12dp"
         android:lines="1"
+        android:textSize="12sp"
         android:textColor="@color/font_3"
         tools:text="3分钟前" />
 
@@ -59,16 +59,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/title"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/title"
-        android:layout_below="@+id/title"
+        android:layout_marginBottom="10dp"
         android:layout_toLeftOf="@+id/badge"
         android:layout_toStartOf="@+id/badge"
         android:ellipsize="end"
         android:lines="1"
         android:scrollHorizontally="true"
-        android:text="Medium Text"
         android:textColor="@color/font_3"
-        android:textSize="16sp" />
+        android:textSize="15sp"
+        tools:text="[语音]" />
 
     <View
         style="@style/DivideLine"

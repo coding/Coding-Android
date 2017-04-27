@@ -72,10 +72,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     BadgeView badgeAt;
     BadgeView badgeComment;
 
-    //    private void postMarkReaded(String globalKey) {
-//        String url = String.format(HOST_MARK_MESSAGE, globalKey);
-//        postNetwork(url, new RequestParams(), HOST_MARK_MESSAGE, -1, globalKey);
-//    }
     BadgeView badgeSystem;
     boolean mUpdateAll = false;
 
@@ -275,6 +271,9 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         badgeSystem.setVisibility(View.INVISIBLE);
 
         listView.addHeaderView(listHeader, null, false);
+
+        View footer = mInflater.inflate(R.layout.main_list_bottom_space, listView, false);
+        listView.addFooterView(footer);
     }
 
     private void startNotifyListActivity(int type) {
