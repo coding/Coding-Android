@@ -18,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/userLayout"
             android:layout_width="match_parent"
-            android:layout_height="86dp"
+            android:layout_height="90dp"
             android:background="@color/stand_bg"
             android:foreground="?attr/selectableItemBackground">
 
@@ -37,10 +37,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/userIcon"
-                android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/userIcon"
                 android:textColor="@color/font_1"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 tools:text="Man" />
 
             <TextView
@@ -48,10 +47,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/userIcon"
-                android:layout_marginBottom="3dp"
                 android:layout_toRightOf="@id/userIcon"
                 android:textColor="@color/font_2"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 tools:text="个性后缀" />
 
         </RelativeLayout>
