@@ -3,10 +3,10 @@
 
     <corners android:radius="2dp" />
 
-    <solid android:color="#ffe5e5e5" />
+    <solid android:color="@color/divide" />
 
     <stroke
         android:width="0.5dp"
-        android:color="#ffc5c5c5" />
+        android:color="@color/divide_line" />
 
 </shape>

@@ -33,7 +33,7 @@
             android:layout_gravity="bottom"
             android:background="@color/bottomColorPrimary"
             app:bb_activeTabColor="@color/font_green"
-            app:bb_inActiveTabColor="@color/font_3"
+            app:bb_inActiveTabColor="@color/font_4"
             app:bb_showShadow="true"
             app:bb_tabXmlResource="@xml/bottombar_tabs"
             app:bb_titleTextAppearance="@style/BottomTabTitle" />
