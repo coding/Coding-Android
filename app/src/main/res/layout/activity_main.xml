@@ -24,21 +24,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <!--actionbar 的阴影，用在4.4上面-->
             <include layout="@layout/actionbar_shadow" />
+
+            <!--<View style="@style/DivideLine" />-->
+
+            <com.roughike.bottombar.BottomBar
+                android:id="@+id/bottomBar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                android:background="@color/bottomColorPrimary"
+                app:bb_activeTabColor="@color/font_green"
+                app:bb_inActiveTabColor="@color/font_3"
+                app:bb_showShadow="true"
+                app:bb_tabXmlResource="@xml/bottombar_tabs"
+                app:bb_titleTextAppearance="@style/BottomTabTitle" />
         </FrameLayout>
-
-        <!--<View style="@style/DivideLine" />-->
-
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/bottomColorPrimary"
-            app:bb_activeTabColor="@color/font_green"
-            app:bb_inActiveTabColor="@color/font_2"
-            app:bb_tabXmlResource="@xml/bottombar_tabs"
-            app:bb_titleTextAppearance="@style/BottomTabTitle" />
 
     </LinearLayout>
 

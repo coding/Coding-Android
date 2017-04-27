@@ -19,31 +19,11 @@
         <item name="android:windowBackground">@color/popDialogBg</item>
     </style>
 
-    <!--<item name="actionBarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item-->
-    <style name="CommonActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:elevation">2dp</item>
-        <item name="elevation">2dp</item>
-    </style>
-
-    <style name="AAActionbar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:elevation">2dp</item>
-        <item name="elevation">2dp</item>
-    </style>
-
-    <style name="Theme.MyApp.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <!-- remove shadow below action bar -->
-        <!-- <item name="android:elevation">0dp</item> -->
-        <!-- Support library compatibility -->
-        <item name="elevation">2dp</item>
-        <item name="android:elevation">2dp</item>
-    </style>
-
-    <!-- Base application theme. -->
+    <!-- base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:windowBackground">@color/windowBackground</item>
 
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
-
 
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
@@ -65,12 +45,6 @@
         <item name="navigationIcon">@drawable/ic_menu_back</item>
     </style>
 
-    <!--没有icon的actionbar -->
-    <style name="NoIconActionbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:icon">@android:color/transparent</item>
-        <item name="icon">@android:color/transparent</item>
-    </style>
-
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
         <item name="android:textColorSecondary">@color/font_1</item>
     </style>
@@ -82,12 +56,10 @@
 
         <item name="android:divider">@color/divide_line</item>
 
-
         <item name="android:textColorPrimary">@color/font_green</item>
         <item name="actionMenuTextColor">@color/font_green</item>
 
         <item name="color">@color/white</item>
-
         <item name="android:windowBackground">@color/windowBackground</item>
 
         <item name="popupMenuStyle">@style/MyApp.PopupMenu</item>
@@ -102,23 +74,13 @@
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-
-
-        <!--抽屉导航的旋转箭头-->
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
-    </style>
-
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
     </style>
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
 
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
 
@@ -168,12 +130,6 @@
 
     </style>
 
-    <!--商城界面主题-->
-    <style name="ThemeMall" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/white</item>
-    </style>
-
     <!--弹出菜单字体颜色-->
     <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@color/font_1</item>
@@ -218,15 +174,6 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/font_green</item>
     </style>
-
-    <!--<style name="WidgetHoloNumberPicker" parent="@android:style/Widget.Holo.NumberPicker">
-        <item name="internalLayout">@android:layout/number_picker</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:fadingEdge">vertical</item>
-        <item name="android:fadingEdgeLength">50dip</item>
-
-        <item name="selectionDivider">@drawable/line_green</item>
-    </style>-->
 
     <style name="AttachmentUploadInfo">
         <item name="android:textColor">@color/white</item>
@@ -426,7 +373,7 @@
 
     <style name="BottomTabTitle">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/font_1</item>
+        <item name="android:textColor">@color/font_3</item>
     </style>
 
     <style name="TextViewFilterTag">

@@ -42,7 +42,7 @@ android {
         multiDexEnabled true
         minSdkVersion 15
         // todo 注意检查 coding 和企业版用的是不一样的版本号
-        targetSdkVersion 23
+        targetSdkVersion 21
 
         javaCompileOptions {
             annotationProcessorOptions {
