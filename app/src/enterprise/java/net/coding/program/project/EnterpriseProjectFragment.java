@@ -1,6 +1,5 @@
 package net.coding.program.project;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -93,23 +92,19 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @AfterViews
     void initEnterpriseProjectFramgent() {
-        setToolbar("我的项目", R.id.enterpriseProjectToolbar);
+        setToolbar("项目首页", R.id.enterpriseProjectToolbar);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(manager);
-        listView.addItemDecoration(new RecyclerViewSpace(getActivity()));
+        RecyclerViewSpace space = new RecyclerViewSpace(getActivity());
+        space.setBottomSpace(56);
+        listView.addItemDecoration(space);
         listView.setEmptyView(R.layout.fragment_enterprise_project_empty,
                 R.layout.fragment_enterprise_project_empty);
 
         listView.setDefaultOnRefreshListener(() -> onRefresh());
         listView.mSwipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         listView.setOnLoadMoreListener((itemsCount, maxLastVisiblePosition) -> loadMore());
-
-
-//       上拉加载更多
-//        mFootUpdate.initToRecycler(listView, mInflater, this);
-//        mFootUpdate.showLoading();
-//        listView.setLoadMoreView(mFootUpdate.getView());
 
         allListData.clear();
         listData.clear();
@@ -354,9 +349,8 @@ public class EnterpriseProjectFragment extends BaseFragment {
             holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
             String ownerName = item.owner_user_name;
 
-            holder.name2.setVisibility(View.VISIBLE);
-            holder.name2.setText(item.name);
-            holder.name.setVisibility(View.INVISIBLE);
+            holder.name.setVisibility(View.VISIBLE);
+            holder.name.setText(item.name);
 
             holder.desc.setText(item.getDescription());
             setClickEvent(holder.fLayoutAction, position);
@@ -402,9 +396,8 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     public static class ProjectHolder extends UltimateRecyclerviewViewHolder {
 
-        public TextView name;
         public ImageView image;
-        public TextView name2;
+        public TextView name;
         public TextView desc;
         public BadgeView badge;
         public ImageView privatePin;
@@ -418,13 +411,12 @@ public class EnterpriseProjectFragment extends BaseFragment {
         public ProjectHolder(View view) {
             super(view);
             rootLayout = view;
-            name = (TextView) view.findViewById(R.id.name);
             image = (ImageView) view.findViewById(R.id.icon);
             badge = (BadgeView) view.findViewById(R.id.badge);
             fLayoutAction = view.findViewById(R.id.flayoutAction);
             desc = (TextView) view.findViewById(R.id.txtDesc);
             privatePin = (ImageView) view.findViewById(R.id.privatePin);
-            name2 = (TextView) view.findViewById(R.id.name2);
+            name = (TextView) view.findViewById(R.id.name);
         }
     }
 }

@@ -17,6 +17,7 @@ public class BaseRecyclerViewSpace extends RecyclerView.ItemDecoration {
 
     public final int DIVIDE_COLOR;
     public final int DIVIDE_LINE_COLOR;
+    public final int ITEM_BG;
 
     protected final int topSpace;
     protected final int lineSpace;
@@ -28,6 +29,7 @@ public class BaseRecyclerViewSpace extends RecyclerView.ItemDecoration {
     protected Drawable shadowTop;
     protected Drawable shadowBottom;
     protected Paint paintDivide;
+    protected Paint paintBg;
 
     public BaseRecyclerViewSpace(Context context) {
         Resources resources = context.getResources();
@@ -38,15 +40,23 @@ public class BaseRecyclerViewSpace extends RecyclerView.ItemDecoration {
 
         DIVIDE_COLOR = resources.getColor(R.color.divide);
         DIVIDE_LINE_COLOR = resources.getColor(R.color.divide_line);
+        ITEM_BG = resources.getColor(R.color.stand_bg);
 
         paintDivideLine = new Paint();
         paintDivideLine.setColor(DIVIDE_LINE_COLOR);
 
         paintDivide = new Paint();
         paintDivide.setColor(DIVIDE_COLOR);
+        paintBg = new Paint();
+        paintBg.setColor(ITEM_BG);
 
         shadowTop = resources.getDrawable(R.mipmap.shadow_top);
         shadowBottom = resources.getDrawable(R.mipmap.shadow_bottom);
         shadowHigh = Global.dpToPx(5);
+    }
+
+    public void setBottomSpace(int dp) {
+        bottomSpace = Global.dpToPx(dp);
+
     }
 }

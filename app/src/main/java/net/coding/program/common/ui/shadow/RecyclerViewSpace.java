@@ -10,6 +10,7 @@ import net.coding.program.common.Global;
 
 /**
  * Created by chenchao on 16/3/4.
+ * 普通的分割线，左边默认空 15dp
  */
 public class RecyclerViewSpace extends BaseRecyclerViewSpace {
 
@@ -62,7 +63,10 @@ public class RecyclerViewSpace extends BaseRecyclerViewSpace {
                 shadowBottom.setBounds(rectShadow);
                 shadowBottom.draw(c);
             } else {
-                Rect rectDivideLine = new Rect(view.getLeft(), view.getBottom(), view.getRight(), view.getBottom() + lineSpace);
+                Rect rectDivideLine = new Rect(view.getLeft(), view.getBottom(), view.getLeft() + leftSapce, view.getBottom() + lineSpace);
+                c.drawRect(rectDivideLine, paintBg);
+                rectDivideLine.left = rectDivideLine.right;
+                rectDivideLine.right = view.getRight();
                 c.drawRect(rectDivideLine, paintDivideLine);
             }
 
