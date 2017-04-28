@@ -134,4 +134,5 @@
 
     <dimen name="actionbar_shade">4dp</dimen>
     <dimen name="image_tab_height">71dp</dimen>
+    <dimen name="main_container_merge_bottom">52dp</dimen>
 </resources>

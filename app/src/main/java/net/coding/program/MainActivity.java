@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.roughike.bottombar.BottomBar;
 import com.tencent.android.tpush.XGPushManager;
@@ -44,6 +46,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.DimensionPixelSizeRes;
+import org.androidannotations.annotations.res.DimensionRes;
 import org.androidannotations.annotations.res.StringArrayRes;
 import org.androidannotations.api.builder.FragmentBuilder;
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +69,12 @@ public class MainActivity extends BaseActivity {
 
     @ViewById
     BottomBar bottomBar;
+
+    @ViewById
+    ViewGroup container;
+
+    @DimensionPixelSizeRes(R.dimen.main_container_merge_bottom)
+    int bottomMerge;
 
     private static boolean sNeedWarnEmailNoValidLogin = false;
 
@@ -96,7 +106,7 @@ public class MainActivity extends BaseActivity {
             if (heightDiff > headerHeight) {
                 if (!mKeyboardUp) {
                     mKeyboardUp = true;
-                    bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
+                    showBottomBar(!mKeyboardUp);
                 }
             } else {
                 if (mKeyboardUp) {
@@ -110,7 +120,7 @@ public class MainActivity extends BaseActivity {
 
     private void setBottomBar() {
         bottomBar.postDelayed(() -> {
-            bottomBar.setVisibility(mKeyboardUp ? View.GONE : View.VISIBLE);
+            showBottomBar(!mKeyboardUp);
         }, 300);
     }
 
@@ -435,11 +445,15 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventBottomBar(EventShowBottom showBottom) {
-        if (showBottom.showBottom) {
-            bottomBar.setVisibility(View.VISIBLE);
-        } else {
-            bottomBar.setVisibility(View.GONE);
-        }
+        showBottomBar(showBottom.showBottom);
+    }
+
+    private void showBottomBar(boolean show) {
+        bottomBar.setVisibility(show ? View.VISIBLE : View.GONE);
+
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) container.getLayoutParams();
+        lp.bottomMargin = show ? bottomMerge : 0;
+        container.setLayoutParams(lp);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

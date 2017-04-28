@@ -75,6 +75,7 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
+        <!--<item name="navigationIcon">@drawable/ic_menu_back</item>-->
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
@@ -107,6 +108,8 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
+        <item name="navigationIcon">@drawable/ic_menu_back</item>
+
         <item name="android:actionMenuTextColor">@color/font_2</item>
         <item name="actionMenuTextColor">@color/font_green</item>
     </style>
@@ -133,6 +136,7 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
+        <item name="navigationIcon">@drawable/ic_menu_back</item>
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
 
@@ -323,7 +327,6 @@
     </style>
 
     <style name="TreeDivideLine" parent="DivideLine">
-        <item name="android:background">#FFD8D8D8</item>
     </style>
 
     <style name="LoginBottomLine" parent="@android:style/TextAppearance.Medium">

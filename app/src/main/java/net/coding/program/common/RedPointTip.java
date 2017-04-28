@@ -55,13 +55,11 @@ public class RedPointTip {
         if (lastVersion == 0 && !AccountInfo.isLogin(context)) { // 全新安装后第一次打开
             setLastVersion(context, versionCode);
             for (Type item : Type.values()) {
-
                 if (item != Type.WikiHistory200 &&
-                        item != Type.WikiHistory200) {
+                        item != Type.WikiTree200) {
                     markUsed(context, item);
                 }
             }
-
         } else if (lastVersion < versionCode) { // 升级安装后第一次打开
             setLastVersion(context, versionCode);
         }

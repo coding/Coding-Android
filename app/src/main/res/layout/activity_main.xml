@@ -18,7 +18,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="52dp" />
+            android:layout_marginBottom="@dimen/main_container_merge_bottom" />
 
         <!--actionbar 的阴影，用在4.4上面-->
         <include layout="@layout/actionbar_shadow" />
