@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
@@ -17,7 +16,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
@@ -103,7 +101,6 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
 //        tabs.setVisibility(View.INVISIBLE);
 //        actionDivideLine.setVisibility(View.INVISIBLE);
-        ViewCompat.setElevation(tabs, GlobalUnit.ACTIONBAR_SHADOW);
 
         initFilterViews();
         showLoading(true);

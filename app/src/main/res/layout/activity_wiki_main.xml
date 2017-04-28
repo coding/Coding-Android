@@ -17,10 +17,10 @@
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
+            android:background="@color/stand_bg"
             android:layout_height="match_parent">
 
-            <android.support.design.widget.AppBarLayout
-                style="@style/AppBarLayout">
+            <android.support.design.widget.AppBarLayout style="@style/AppBarLayout">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -38,7 +38,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/stand_bg"
                     android:orientation="vertical">
 
                     <include layout="@layout/activity_wiki_detail_header" />

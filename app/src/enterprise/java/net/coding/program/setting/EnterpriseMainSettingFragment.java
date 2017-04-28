@@ -29,6 +29,7 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
 
     @AfterViews
     void initEnterpriseMainSettingFragment() {
+        setToolbar("我的", R.id.toolbar);
         int visible = View.GONE;
         if (EnterpriseInfo.instance().canManagerEnterprise()) {
             visible = View.VISIBLE;
