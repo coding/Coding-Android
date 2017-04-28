@@ -11,9 +11,9 @@ import net.coding.program.R;
 
 public class GlobalUnit {
 
+    public static int ACTIONBAR_SHADOW;
+
     public static void init(Context context) {
         ACTIONBAR_SHADOW = context.getResources().getDimensionPixelSize(R.dimen.actionbar_shade);
     }
-
-    public static int ACTIONBAR_SHADOW;
 }

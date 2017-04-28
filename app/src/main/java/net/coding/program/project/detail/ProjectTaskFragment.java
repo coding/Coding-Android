@@ -66,8 +66,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     ViewPager pager;
     @ViewById
     View blankLayout;
-//    @ViewById
-//    FloatingActionButton floatButton;
 
     ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<>();
     ArrayList<TaskObject.Members> mMembersAll = new ArrayList<>();
