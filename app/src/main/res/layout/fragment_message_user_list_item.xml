@@ -42,15 +42,12 @@
         tools:text="3分钟前" />
 
     <com.readystatesoftware.viewbadger.BadgeView
+        style="@style/RedPointTxt"
         android:id="@+id/badge"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/time"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="15dp"
-        android:background="@drawable/ic_notify_txt"
-        android:gravity="center"
         android:visibility="invisible" />
 
     <!--...只能针对文字，表情图片是没有的，singleLine=false-->

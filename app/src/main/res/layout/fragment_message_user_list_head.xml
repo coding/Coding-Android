@@ -32,12 +32,9 @@
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badgeAt"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            style="@style/RedPointTxt"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_notify_txt"
-            android:gravity="center"
             android:visibility="invisible" />
 
     </LinearLayout>
@@ -73,13 +70,9 @@
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badgeComment"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            style="@style/RedPointTxt"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_notify_txt"
-            android:gravity="center"
-
             android:visibility="invisible" />
 
     </LinearLayout>
@@ -115,12 +108,9 @@
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badgeSystem"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            style="@style/RedPointTxt"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="15dp"
-            android:background="@drawable/ic_notify_txt"
-            android:gravity="center"
             android:visibility="invisible" />
 
     </LinearLayout>

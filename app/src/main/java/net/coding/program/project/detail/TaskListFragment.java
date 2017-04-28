@@ -496,7 +496,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 holder.mCheckBox = (CheckBox) convertView.findViewById(R.id.checkbox);
                 holder.mTitle = (TextView) convertView.findViewById(R.id.title);
                 holder.mDeadline = (TextView) convertView.findViewById(R.id.deadline);
-                holder.mDeadline.setBackgroundResource(R.drawable.task_list_item_deadline_background);
+                holder.mDeadline.setBackgroundResource(R.drawable.task_list_item_deadline_background2);
                 holder.mName = (TextView) convertView.findViewById(R.id.name);
                 holder.mTime = (TextView) convertView.findViewById(R.id.time);
                 holder.mDiscuss = (TextView) convertView.findViewById(R.id.discuss);

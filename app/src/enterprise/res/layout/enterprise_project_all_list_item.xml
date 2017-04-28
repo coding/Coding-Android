@@ -29,14 +29,11 @@
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
         android:layout_alignRight="@id/icon"
         android:layout_alignTop="@id/icon"
         android:layout_marginRight="-12dp"
         android:layout_marginTop="-9dp"
-        android:background="@drawable/ic_notify_txt"
-        android:gravity="center" />
+        style="@style/RedPointTxt" />
 
     <TextView
         android:id="@+id/name"

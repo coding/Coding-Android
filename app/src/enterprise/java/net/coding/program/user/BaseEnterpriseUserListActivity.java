@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -76,15 +75,6 @@ public abstract class BaseEnterpriseUserListActivity extends BackActivity {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setIcon(R.drawable.ic_menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-            ImageView v = (ImageView) searchView.findViewById(searchImgId);
-            v.setImageResource(R.drawable.ic_menu_search);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

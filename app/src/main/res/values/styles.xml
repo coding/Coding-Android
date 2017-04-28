@@ -43,6 +43,8 @@
         <item name="actionMenuTextColor">@color/font_green</item>
         
         <item name="navigationIcon">@drawable/ic_menu_back</item>
+
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
@@ -74,6 +76,12 @@
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+    </style>
+
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
+        <item name="searchIcon">@drawable/ic_menu_search</item>
     </style>
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -520,6 +528,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/color_primary</item>
         <item name="android:stateListAnimator">@animator/appbar_elevation</item>
+    </style>
+
+    <style name="RedPointTxt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_notify_txt</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!--正则替换工具-->

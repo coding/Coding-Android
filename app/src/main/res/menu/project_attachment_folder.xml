@@ -9,7 +9,7 @@
     <!--ic_menu_new_folder-->
     <item
         android:id="@+id/action_more"
-        android:icon="@drawable/ic_action_overflow"
+        android:icon="@drawable/ic_menu_more"
         android:title="@string/action_more"
         app:showAsAction="always">
         <menu>

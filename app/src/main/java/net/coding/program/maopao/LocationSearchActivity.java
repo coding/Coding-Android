@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,7 +16,6 @@ import com.baidu.mapapi.model.LatLng;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.item.LocationItem;
 import net.coding.program.model.LocationObject;
@@ -169,13 +167,6 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
     private void initActionView(MenuItem searchItem) {
         if (searchView != null) return;
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-            ImageView v = (ImageView) searchView.findViewById(searchImgId);
-            v.setImageResource(R.drawable.ic_menu_search);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
