@@ -8,10 +8,7 @@
     <android.support.design.widget.AppBarLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/appbarProjectLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        tools:showIn="@layout/fragment_main_project">
+        style="@style/AppBarLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/mainProjectToolbar"

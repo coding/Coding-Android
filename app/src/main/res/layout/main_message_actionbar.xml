@@ -3,11 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settingAppbarLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    tools:showIn="@layout/fragment_main_project">
+    tools:showIn="@layout/fragment_main_project"
+    style="@style/AppBarLayout">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

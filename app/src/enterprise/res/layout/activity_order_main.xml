@@ -14,10 +14,7 @@
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/stand_bg"
-            app:elevation="0dp">
+            style="@style/AppBarLayout">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"

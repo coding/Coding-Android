@@ -10,11 +10,7 @@
     <android.support.design.widget.AppBarLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/appbarSettingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        tools:showIn="@layout/fragment_main_project">
-        <!--app:elevation="@dimen/actionbar_shade"-->
+        style="@style/AppBarLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/mainSettingToolbar"
