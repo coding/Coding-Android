@@ -11,7 +11,9 @@
         android:id="@+id/appbar"
         style="@style/AppBarLayout">
 
-        <android.support.v7.widget.Toolbar style="@style/Toolbar">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Toolbar">
 
             <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/segmented"
