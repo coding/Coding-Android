@@ -6,35 +6,44 @@
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.wiki.WikiEditActivity">
 
-    <android.support.v7.widget.Toolbar style="@style/Toolbar">
 
-        <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/segmented"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            segmentedgroup:sc_border_width="1dp"
-            segmentedgroup:sc_corner_radius="4dp">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+        <!--app:elevation="@dimen/actionbar_shade"-->
 
-            <RadioButton
-                android:id="@+id/editWiki"
-                style="@style/RadioButton"
-                android:layout_width="76dp"
-                android:layout_height="29dp"
-                android:checked="true"
-                android:text="编辑" />
+        <android.support.v7.widget.Toolbar style="@style/Toolbar">
 
-            <RadioButton
-                android:id="@+id/previewWiki"
-                style="@style/RadioButton"
-                android:layout_width="76dp"
-                android:layout_height="29dp"
-                android:text="预览" />
+            <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/segmented"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                segmentedgroup:sc_border_width="1dp"
+                segmentedgroup:sc_corner_radius="4dp">
 
-        </info.hoang8f.android.segmented.SegmentedGroup>
+                <RadioButton
+                    android:id="@+id/editWiki"
+                    style="@style/RadioButton"
+                    android:layout_width="76dp"
+                    android:layout_height="29dp"
+                    android:checked="true"
+                    android:text="编辑" />
 
-    </android.support.v7.widget.Toolbar>
+                <RadioButton
+                    android:id="@+id/previewWiki"
+                    style="@style/RadioButton"
+                    android:layout_width="76dp"
+                    android:layout_height="29dp"
+                    android:text="预览" />
+
+            </info.hoang8f.android.segmented.SegmentedGroup>
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/container"

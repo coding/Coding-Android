@@ -1,7 +1,9 @@
 package net.coding.program.project.detail;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -119,10 +121,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         try {
             if (mJumpType == ProjectFunction.task) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
-//                    appbar.setElevation(0);
-//                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+                    appbar.setElevation(0);
+                }
+                hideActionbarShade();
             } else {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 toolbarProjectTitle.setBackgroundResource(0);

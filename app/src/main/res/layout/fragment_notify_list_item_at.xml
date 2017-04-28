@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/list_item_space_width"
     android:paddingRight="@dimen/list_item_space_width"
     android:layout_height="wrap_content"
+    android:background="@color/stand_bg"
     tools:context="net.coding.program.message.NotifyListActivity">
 
     <com.readystatesoftware.viewbadger.BadgeView

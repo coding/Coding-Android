@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         tools:showIn="@layout/fragment_main_project">
+        <!--app:elevation="@dimen/actionbar_shade"-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/mainSettingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 

@@ -509,6 +509,12 @@
         <item name="android:paddingRight">10dp</item>
     </style>
 
+    <style name="ImageTab">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/image_tab_height</item>
+        <item name="android:background">@color/color_primary</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

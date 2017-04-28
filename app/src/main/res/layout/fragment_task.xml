@@ -19,9 +19,7 @@
 
         <net.coding.program.third.MyPagerSlidingTabStrip
             android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="71dp"
-            android:background="@color/color_primary" />
+            style="@style/ImageTab" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pagerTaskFragment"
