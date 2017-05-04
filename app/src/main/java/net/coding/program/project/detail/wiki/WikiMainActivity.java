@@ -377,7 +377,7 @@ public class WikiMainActivity extends BackActivity {
     void displayWebviewContent(String html) {
 //        getContent(html);
 //        Global.setWebViewContent(webView, wikiContent);
-        Global.setWebViewContent(webView, "markdown.html", html);
+        Global.setWebViewContent(webView, "wiki.html", html);
         BlankViewDisplay.setBlank(html.length(), WikiMainActivity.this, true, blankLayout, v -> onRefrush());
         headerBinding.setWiki(selectWiki);
 

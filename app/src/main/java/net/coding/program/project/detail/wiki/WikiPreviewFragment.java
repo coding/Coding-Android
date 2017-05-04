@@ -1,6 +1,7 @@
 package net.coding.program.project.detail.wiki;
 
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import net.coding.program.R;
@@ -15,5 +16,11 @@ public class WikiPreviewFragment extends TopicPreviewFragment {
     @AfterViews
     void initWikiPreviewFragment() {
         labelBar.setVisibility(View.GONE);
+    }
+
+    @NonNull
+    @Override
+    protected String getWebViewTempate() {
+        return "wiki.html";
     }
 }

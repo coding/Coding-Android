@@ -1,5 +1,6 @@
 package net.coding.program.project.detail;
 
+import android.support.annotation.NonNull;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -50,12 +51,17 @@ public class TopicPreviewFragment extends BaseFragment {
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
                 String html = response.optString("data", "");
-                Global.setWebViewContent(content, "markdown.html", html);
+                Global.setWebViewContent(content, getWebViewTempate(), html);
             }
         };
 
         mdToHtml(data.content);
 
+    }
+
+    @NonNull
+    protected String getWebViewTempate() {
+        return "markdown.html";
     }
 
     public void updateLabels(List<TopicLabelObject> labels) {
