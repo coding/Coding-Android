@@ -75,11 +75,6 @@
     <declare-styleable name="EnterLayoutAnimSupportContainer">
         <attr name="isAdjustResize" format="boolean"/>
     </declare-styleable>
-    <!-- 圆形图片 -->
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-    </declare-styleable>
 
     <declare-styleable name="LoginEditText">
         <attr name="topLine" format="boolean" />

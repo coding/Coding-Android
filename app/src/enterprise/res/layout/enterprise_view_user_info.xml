@@ -19,8 +19,8 @@
             android:layout_width="77dp"
             android:layout_height="77dp"
             android:layout_centerVertical="true"
-            app:border_width="0.5dp"
-            app:border_color="@color/divide_line"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="@color/divide_line"
             android:layout_marginLeft="15dp" />
 
         <LinearLayout

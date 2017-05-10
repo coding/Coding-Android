@@ -20,8 +20,8 @@
             android:layout_height="77dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            app:border_color="@color/divide_line"
-            app:border_width="0.5dp" />
+            app:civ_border_color="@color/divide_line"
+            app:civ_border_width="0.5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

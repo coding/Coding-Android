@@ -47,6 +47,7 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.widget.input.MainInputView;
+import net.coding.program.event.EventRefrushMaopao;
 import net.coding.program.event.EventShowBottom;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
@@ -61,6 +62,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -145,6 +148,24 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRefresh(EventRefrushMaopao notify) {
+        listView.setRefreshing(true);
+        onRefresh();
     }
 
     View baseLoadinggView;

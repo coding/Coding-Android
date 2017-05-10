@@ -13,7 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
-import net.coding.program.common.widget.CircleImageView;
 import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.UserObject;
 import net.coding.program.search.HoloUtils;
@@ -21,8 +20,11 @@ import net.coding.program.search.HoloUtils;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Vernon on 15/11/30.
+ *
  */
 public class SearchUserAdapter extends BaseAdapter {
     private List<UserObject> mData;

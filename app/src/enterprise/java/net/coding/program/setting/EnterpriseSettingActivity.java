@@ -17,7 +17,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.common.widget.CircleImageView;
 import net.coding.program.model.EnterpriseDetail;
 import net.coding.program.model.EnterpriseInfo;
 

@@ -24,8 +24,8 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_default_user"
         android:id="@+id/userIcon"
-        app:border_color="#FFCCCCCC"
-        app:border_width="0.4dp" />
+        app:civ_border_color="#FFCCCCCC"
+        app:civ_border_width="0.4dp" />
 
     <TextView
         android:id="@+id/title"

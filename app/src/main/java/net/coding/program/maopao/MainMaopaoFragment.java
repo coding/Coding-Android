@@ -13,11 +13,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.event.EventRefrushMaopao;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.greenrobot.eventbus.EventBus;
 
 @EFragment(R.layout.fragment_main_maopao)
 public class MainMaopaoFragment extends Fragment {
@@ -73,6 +76,19 @@ public class MainMaopaoFragment extends Fragment {
             }
         });
 
+    }
+
+    long lastClick = 0;
+
+    @Click
+    void maoPaoToolbar() {
+        long now = System.currentTimeMillis();
+        if (now - lastClick < 500) {
+            EventBus.getDefault().post(new EventRefrushMaopao());
+            lastClick = 0;
+        } else {
+            lastClick = now;
+        }
     }
 
     class MaopaoTypeAdapter extends BaseAdapter {

@@ -14,7 +14,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.widget.CircleImageView;
 import net.coding.program.model.EnterpriseAccount;
 import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.setting.order.OrderMainActivity_;

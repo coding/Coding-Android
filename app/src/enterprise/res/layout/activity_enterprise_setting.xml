@@ -29,12 +29,12 @@
             android:textColor="@color/list_font_title"
             android:text="@string/enterprise_head"/>
 
-        <net.coding.program.common.widget.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/enterpriseHead"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:border_width="0.5dp"
-            app:border_color="@color/divide_line"
+            app:civ_border_width="0.5dp"
+            app:civ_border_color="@color/divide_line"
             android:src="@drawable/ic_loading_logo"/>
 
     </LinearLayout>

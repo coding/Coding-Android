@@ -119,7 +119,7 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
-    compile 'de.hdodenhof:circleimageview:1.3.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.rampo.updatechecker:library:2.1.4'
     compile 'com.daimajia.swipelayout:library:1.1.7@aar'
     compile 'com.umeng.analytics:analytics:latest.integration'
@@ -172,6 +172,9 @@ dependencies {
 
     // 仿 apple 的 segmentied control
     compile 'info.hoang8f:android-segmented:1.0.6'
+
+    // 圆形头像
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
 
 }
 

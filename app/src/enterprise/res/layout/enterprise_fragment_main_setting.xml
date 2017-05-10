@@ -21,14 +21,14 @@
             android:background="@color/stand_bg"
             android:foreground="?attr/selectableItemBackground">
 
-            <net.coding.program.common.widget.CircleImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                app:border_width="0.5dp"
-                app:border_color="@color/divide_line"
+                app:civ_border_width="0.5dp"
+                app:civ_border_color="@color/divide_line"
                 android:layout_marginRight="15dp" />
 
             <TextView

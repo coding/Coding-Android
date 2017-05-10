@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,9 +42,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/subject_list_item_name"
                     android:layout_marginTop="@dimen/padding_12"
-                    android:text="#我最爱的变成语言#"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="#我最爱的变成语言#"
                     android:textColor="@color/font_1"
                     android:textColorLink="@color/font_green"
                     android:textSize="15sp" />

@@ -28,7 +28,7 @@
         android:gravity="center_horizontal"
         android:background="@color/font_2">
 
-        <net.coding.program.common.widget.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/companyIcon"
             android:layout_marginTop="15dp"
             android:layout_width="75dp"

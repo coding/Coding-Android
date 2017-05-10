@@ -5,7 +5,7 @@
     android:background="@color/color_F6F6F6"
     android:orientation="vertical">
 
-    <net.coding.program.common.widget.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iconTask"
         android:layout_width="43.5dp"
         android:layout_height="43.5dp"
